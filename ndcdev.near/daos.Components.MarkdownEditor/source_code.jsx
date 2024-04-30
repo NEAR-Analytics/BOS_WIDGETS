@@ -8,14 +8,8 @@ const AutoComplete = styled.div`
     ::before {
       background: none;
     }
-    background: linear-gradient(
-      258deg,
-      rgba(162, 195, 254, 0.25) 0%,
-      rgba(225, 197, 252, 0.25) 28.72%,
-      rgba(241, 220, 210, 0.25) 100%
-    );
+    background: white;
     border-radius: 10px;
-    padding: 5px;
   }
 `;
 const [text, setText] = useState(element.value);
@@ -30,7 +24,7 @@ function handleTextChange(value) {
     .filter((word) => word.startsWith("@"))
     .map((mention) => mention.slice(1));
   const newMentiones = allMentiones.filter(
-    (item) => !mentionsArray.includes(item),
+    (item) => !mentionsArray.includes(item)
   );
 
   setText(value);
