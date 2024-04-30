@@ -1,5 +1,5 @@
 return {
-  contractName: "v1.backup-dao.near",
+  contractName: "v3.test-dao.near",
   prodContractName: "v3.test-dao.near",
   assets: {
     logoWhite:
