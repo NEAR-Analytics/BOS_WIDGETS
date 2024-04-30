@@ -338,7 +338,7 @@ return (
       <Empty>
         <div>No positions were found</div>
         <div className="link">
-          <a className="link-text" href={dappLink}>
+          <a className="link-text" href={dappLink} target="_blank">
             Create new position on Thruster
           </a>
           <svg
