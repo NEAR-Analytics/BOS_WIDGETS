@@ -8,6 +8,13 @@ const OTOKEN_ABI = [
   },
   {
     inputs: [],
+    name: "totalSupply",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "exchangeRateCurrent",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
@@ -116,6 +123,24 @@ const ERC20_ABI = [
     type: "function",
   },
 ];
+const SPACE_ABI = [
+  {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "compSupplySpeeds",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "account", type: "address" }],
+    name: "getAssetsIn",
+    outputs: [
+      { internalType: "contract OToken[]", name: "", type: "address[]" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+];
 
 const {
   multicallAddress,
@@ -163,7 +188,7 @@ useEffect(() => {
 
   const formatedData = (key) => {
     console.log(`${name}-${key}`, count);
-    if (count < 10) return;
+    if (count < 13) return;
     count = 0;
     oTokensLength = Object.values(markets).length;
 
@@ -451,19 +476,7 @@ useEffect(() => {
   const getCollateralStatus = () => {
     const contract = new ethers.Contract(
       spaceAddress,
-      [
-        {
-          inputs: [
-            { internalType: "address", name: "account", type: "address" },
-          ],
-          name: "getAssetsIn",
-          outputs: [
-            { internalType: "contract OToken[]", name: "", type: "address[]" },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-      ],
+      SPACE_ABI,
       Ethers.provider()
     );
     contract
@@ -632,6 +645,114 @@ useEffect(() => {
         console.log("totalReserves_error:", err);
       });
   };
+  const getCompSpeed = () => {
+    const calls = oTokens.map((oToken) => ({
+      address: spaceAddress,
+      name: "compSupplySpeeds",
+      params: [oToken.address],
+    }));
+    multicall({
+      abi: SPACE_ABI,
+      calls,
+      options: {},
+      multicallAddress,
+      provider: Ethers.provider(),
+    })
+      .then((res) => {
+        console.log("getCompSpeed_res:", res, _cTokensData);
+        oTokens.forEach((oToken, index) => {
+          if (_cTokensData[oToken.address]) {
+            _cTokensData[oToken.address] = {
+              ..._cTokensData[oToken.address],
+              compSupplySpeed: res[index],
+            };
+          } else {
+            _cTokensData[oToken.address] = {
+              ...oToken,
+              compSupplySpeed: res[index],
+            };
+          }
+        });
+        count++;
+        formatedData("oTokens data");
+      })
+      .catch((err) => {
+        console.log("getCompSpeed_error:", err);
+      });
+  };
+  const getOTokenBalance = () => {
+    const calls = oTokens.map((oToken) => ({
+      address: oToken.address,
+      name: "balanceOf",
+      params: [account],
+    }));
+    multicall({
+      abi: ERC20_ABI,
+      calls,
+      options: {},
+      multicallAddress,
+      provider: Ethers.provider(),
+    })
+      .then((res) => {
+        console.log("getOTokenBalance_res:", res, _cTokensData);
+        oTokens.forEach((oToken, index) => {
+          if (_cTokensData[oToken.address]) {
+            _cTokensData[oToken.address] = {
+              ..._cTokensData[oToken.address],
+              oTokenBalance: res[index],
+              // ? formatUnits(res[index], oToken.decimals)
+              // : 0,
+            };
+          } else {
+            _cTokensData[oToken.address] = {
+              ...oToken,
+              oTokenBalance: res[index],
+              // ? formatUnits(res[index], oToken.decimals)
+              // : 0,
+            };
+          }
+        });
+        count++;
+        formatedData("oTokens data");
+      })
+      .catch((err) => {
+        console.log("getOTokenBalance_error", err);
+      });
+  };
+  const getOTokenTotalSupply = () => {
+    const calls = oTokens.map((oToken) => ({
+      address: oToken.address,
+      name: "totalSupply",
+    }));
+    multicall({
+      abi: OTOKEN_ABI,
+      calls,
+      options: {},
+      multicallAddress,
+      provider: Ethers.provider(),
+    })
+      .then((res) => {
+        console.log("getOTokenTotalSupply_res:", res, _cTokensData);
+        oTokens.forEach((oToken, index) => {
+          if (_cTokensData[oToken.address]) {
+            _cTokensData[oToken.address] = {
+              ..._cTokensData[oToken.address],
+              oTokenTotalSupply: res[index],
+            };
+          } else {
+            _cTokensData[oToken.address] = {
+              ...oToken,
+              oTokenTotalSupply: res[index],
+            };
+          }
+        });
+        count++;
+        formatedData("oTokens data");
+      })
+      .catch((err) => {
+        console.log("getOTokenTotalSupply_error", err);
+      });
+  };
   getUnderlyPrice();
   // getOTokenLiquidity();
   getWalletBalance();
@@ -644,4 +765,7 @@ useEffect(() => {
   getPoolCash();
   getTotalBorrows();
   getTotalReserves();
+  getCompSpeed();
+  getOTokenBalance();
+  getOTokenTotalSupply();
 }, [update, account, orbitTab]);
