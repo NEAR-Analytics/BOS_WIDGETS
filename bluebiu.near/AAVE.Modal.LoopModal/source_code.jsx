@@ -456,8 +456,8 @@ function depositErc20(amount) {
 
 const maxValue =
   symbol === config.nativeCurrency.symbol
-    ? Big(balance).minus(MIN_ETH_GAS_FEE).toFixed(decimals)
-    : Big(balance).toFixed(decimals);
+    ? Big(balance).minus(MIN_ETH_GAS_FEE).toFixed(6)
+    : Big(balance).toFixed(6);
 
 function debounce(fn, wait) {
   let timer = state.timer;
@@ -540,19 +540,19 @@ function getTokenAllowance(userAddress) {
         "tokenAllowance--",
         _allowance?.toString(),
         decimals,
-        Number(amount),
-        Number(allowanceAmount) < Number(amount)
+        Number(state.amount),
+        Number(allowanceAmount) < Number(state.amount)
       );
       if (!_allowance) return false;
       const allowanceAmount = _allowance;
 
-      if (Number(allowanceAmount) < Number(amount)) {
+      if (Number(allowanceAmount) < Number(state.amount)) {
         new ethers.Contract(
           data.underlyingAsset,
           config.erc20Abi.body,
           Ethers.provider().getSigner()
         )
-          .approve(config.LoopDelegateeAddress, amount)
+          .approve(config.LoopDelegateeAddress, state.amount)
           .then((tx) => {
             tx.wait()
               .then((res) => {
@@ -729,7 +729,19 @@ function loop(userAddress) {
               }
             })
             .catch(() => State.update({ loading: false }));
+        })
+        .catch((err) => {
+          console.log("CATCH:", err);
+          State.update({
+            loading: false,
+          });
         });
+    })
+    .catch((err) => {
+      console.log("CATCH:", err);
+      State.update({
+        loading: false,
+      });
     });
 }
 
@@ -739,9 +751,13 @@ function handleLoop() {
   });
 
   if (data.symbol === "ETH") {
-    getAccount().then((userAddress) => {
-      loop(userAddress);
-    });
+    getAccount()
+      .then((userAddress) => {
+        loop(userAddress);
+      })
+      .catch((err) => {
+        console.log("handleLoop_error:", err);
+      });
   } else {
     getAccount().then((userAddress) => {
       getTokenAllowance(userAddress)
