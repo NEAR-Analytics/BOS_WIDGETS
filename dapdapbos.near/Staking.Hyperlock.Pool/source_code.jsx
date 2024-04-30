@@ -34,33 +34,6 @@ const GridItem = styled.div`
   padding-left: 24px;
 `;
 
-const InfoPanel = styled.div`
-  width: 610px;
-  margin: 0 auto;
-`;
-const InfoPanelTitle = styled.div`
-  font-size: var(--fz-16);
-  font-weight: 500;
-  color: var(--white);
-  margin-bottom: 14px;
-`;
-const InfoPanelList = styled.div`
-  font-size: var(--fz-14);
-  font-weight: 400;
-  margin-bottom: 16px;
-  display: flex;
-  justify-content: space-between;
-  .list-key {
-    color: var(--purple);
-  }
-  .list-value {
-    color: var(--white);
-    flex-grow: 1;
-    text-align: right;
-    text-decoration: underline;
-  }
-`;
-
 // tabs begin
 const TabListWrap = styled.div`
   border-right: 1px solid var(--bg-2);
@@ -231,15 +204,6 @@ return (
                 Withdraw
               </div>
             </Tabs.Trigger>
-            <Tabs.Trigger value="INFO_TAB" asChild>
-              <div
-                className={`tab-head-item ${
-                  state.currentTab === "INFO_TAB" ? "active" : ""
-                }`}
-              >
-                Info
-              </div>
-            </Tabs.Trigger>
           </TabListWrap>
         </TabsList>
         <Tabs.Content value="STAKE_TAB">
@@ -275,22 +239,6 @@ return (
               from: "withdraw",
             }}
           />
-        </Tabs.Content>
-        <Tabs.Content value="INFO_TAB">
-          <InfoPanel>
-            <InfoPanelTitle>Contract</InfoPanelTitle>
-            <InfoPanelList>
-              <span className="list-key">Lp contract address: </span>
-
-              <a
-                className="list-value"
-                target="_blank"
-                href={`${currentChain.blockExplorers}/address/${data.id}`}
-              >
-                {data.id}
-              </a>
-            </InfoPanelList>
-          </InfoPanel>
         </Tabs.Content>
       </Tabs.Root>
     </AccordionContent>
