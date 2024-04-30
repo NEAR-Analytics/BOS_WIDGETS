@@ -156,8 +156,11 @@ const startTimer = () => {
 };
 
 useEffect(() => {
-  startTimer();
-}, []);
+useEffect(() => {
+  if (timerStarted) {
+    startTimer();
+  }
+}, [timerStarted]);
 
 useEffect(() => {
   const mazeRows = 11;
