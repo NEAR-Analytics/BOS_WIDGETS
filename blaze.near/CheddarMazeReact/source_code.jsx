@@ -373,7 +373,7 @@ const renderMazeCells = () => {
 };
 
 return (
-  <div style={{ maxWidth: `${mazeData[0].length * 40}px`, margin: "0 auto" }}>
+  <div style={{ maxWidth: "100%", margin: "0 auto" }}>
     <div style={{ display: "flex", justifyContent: "space-between" }}>
       <div>Score: {score}</div>
       <div>
@@ -396,12 +396,19 @@ return (
         border: "1px solid black",
         padding: "0px",
         position: "relative",
-        width: `${mazeData[0].length * 40}px`, // Adjusting width dynamically
+        width: "100%", // Set width to 100% for responsiveness
+        maxWidth: `${mazeData[0].length * 40}px`, // Limit maximum width
+        overflow: "auto", // Enable horizontal scrolling if needed
       }}
       tabIndex="0"
-      onKeyDown={handleKeyPress}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
+      onTouchStart={(e) => {
+        handleTouchStart(e);
+        handleKeyPress(e); // Handle touch start and key press for mobile movement
+      }}
+      onTouchMove={(e) => {
+        handleTouchMove(e);
+        handleKeyPress(e); // Handle touch move and key press for mobile movement
+      }}
       onTouchEnd={handleTouchEnd}
     >
       {renderMazeCells()}
