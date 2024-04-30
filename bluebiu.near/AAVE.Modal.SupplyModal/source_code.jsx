@@ -577,7 +577,9 @@ const changeValue = (value) => {
     value = "0";
   }
   if (isValid(value)) {
-    const amountInUSD = Big(value).mul(prices[symbol]).toFixed(2, ROUND_DOWN);
+    const amountInUSD = Big(value)
+      .mul(prices[symbol] || 1)
+      .toFixed(2, ROUND_DOWN);
     State.update({
       amountInUSD,
     });
