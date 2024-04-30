@@ -363,23 +363,26 @@ const handleContainerClick = () => {
   startTimerOnTap(); // Start the timer when the user clicks on the maze container
 };
 
+let mazeContainerRef = null;
+
 const handleTouchStart = (event) => {
-  setNotification(`Touch (${event})`);
   const touch = event.touches[0];
+  const offsetX = mazeContainerRef.offsetLeft;
+  const offsetY = mazeContainerRef.offsetTop;
+  const cellWidth = isMobile() ? 30 : 40; // Adjusted cell size for mobile devices
+  const cellX = Math.floor((touch.clientX - offsetX) / cellWidth);
+  const cellY = Math.floor((touch.clientY - offsetY) / cellWidth);
+
   setInitialTouch({ x: touch.clientX, y: touch.clientY });
-  //setNotification(`Touch started at (${touch.clientX}, ${touch.clientY})`);
   startTimerOnTap(); // Start the timer when the user taps on the maze container
 };
 
 const handleTouchMove = (event) => {
-  alert(initialTouch);
-  if (!initialTouch) return;
-  event.preventDefault(); // Prevent scrolling on touch devices
-
+  if (!mazeContainerRef) return;
   const touch = event.touches[0];
+  const offsetX = mazeContainerRef.offsetLeft;
+  const offsetY = mazeContainerRef.offsetTop;
   const cellWidth = isMobile() ? 30 : 40; // Adjusted cell size for mobile devices
-  const offsetX = mazeContainerRef.current.getBoundingClientRect().left;
-  const offsetY = mazeContainerRef.current.getBoundingClientRect().top;
   const cellX = Math.floor((touch.clientX - offsetX) / cellWidth);
   const cellY = Math.floor((touch.clientY - offsetY) / cellWidth);
 
@@ -400,7 +403,6 @@ const handleTouchMove = (event) => {
 };
 
 const handleTouchEnd = () => {
-  alert("Touch ended"); // Add this line for debugging
   setInitialTouch(null);
 };
 
@@ -423,7 +425,9 @@ return (
       </div>
     )}
     <div
+      ref={(ref) => (mazeContainerRef = ref)}
       className="maze-container"
+      ref={mazeContainerRef}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
