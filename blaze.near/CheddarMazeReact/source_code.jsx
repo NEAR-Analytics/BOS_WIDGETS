@@ -227,6 +227,11 @@ const handleKeyPress = (event) => {
   movePlayer(newX, newY);
 };
 
+const handleTouchStart = (event) => {
+  const touch = event.touches[0];
+  setInitialTouch({ x: touch.clientX, y: touch.clientY });
+};
+
 const handleTouchMove = (event) => {
   if (!initialTouch) return;
   const touch = event.touches[0];
@@ -242,11 +247,6 @@ const handleTouchMove = (event) => {
   );
 
   movePlayer(cellX, cellY);
-};
-
-const handleTouchStart = (event) => {
-  const touch = event.touches[0];
-  setInitialTouch({ x: touch.clientX, y: touch.clientY });
 };
 
 const handleTouchEnd = () => {
@@ -395,6 +395,9 @@ return (
     )}
     <div
       className="maze-container"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
       style={{
         display: "grid",
         gridTemplateColumns: `repeat(${mazeData[0].length}, ${cellSize}px)`, // Adjusted cell size
