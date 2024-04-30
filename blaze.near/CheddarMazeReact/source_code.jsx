@@ -282,7 +282,7 @@ const checkForEvents = (cell) => {
       setEnemyCooldown(false);
     }, cooldownPeriod);
 
-    if (chance < 0.33) {
+    if (chance < 0.2) {
       console.log("enemy won");
       setScore(0); // Set score to zero
       gameOver("Enemy won! Game Over!", cell);
@@ -373,14 +373,8 @@ const renderMazeCells = () => {
 };
 
 return (
-  <div>
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        maxWidth: `${mazeData[0].length * 40}px`, // Adjusting max width dynamically
-      }}
-    >
+  <div style={{ maxWidth: `${mazeData[0].length * 40}px`, margin: "0 auto" }}>
+    <div style={{ display: "flex", justifyContent: "space-between" }}>
       <div>Score: {score}</div>
       <div>
         Time: {remainingMinutes}m {remainingSeconds}s
@@ -406,9 +400,9 @@ return (
       }}
       tabIndex="0"
       onKeyDown={handleKeyPress}
-      onTouchStart={handleTouchStart} // Attach touch start handler here
-      onTouchMove={handleTouchMove} // Attach touch move handler here
-      onTouchEnd={handleTouchEnd} // Attach touch end handler here
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
       {renderMazeCells()}
     </div>
