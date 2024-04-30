@@ -94,7 +94,8 @@ State.init({
   checkedVault: null,
   smartContractAddress: "",
   isCreatedAccount: false,
-  showDialog: false
+  showDialog: false,
+  createSubAccountLoading: false
 })
 const {
   checkedVault,
@@ -171,6 +172,9 @@ function handleRefresh() {
   handleGetSubAccount()
 }
 function handleCreateSubAccount() {
+  State.update({
+    createSubAccountLoading: true
+  })
   const abi = [{
     "inputs": [],
     "name": "createAccount",
@@ -193,7 +197,15 @@ function handleCreateSubAccount() {
     .createAccount()
     .then(tx => tx.wait())
     .then(() => {
+      State.update({
+        createSubAccountLoading: false
+      })
       handleRefresh()
+    })
+    .catch(error => {
+      State.update({
+        createSubAccountLoading: false
+      })
     });
 }
 function handleOpenWrap() {
@@ -318,6 +330,7 @@ return (
             smartContractAddress,
             SYMBOL_ADDRESS,
             LENDING_POOL_ADDRESS,
+            createSubAccountLoading,
             onCreateSubAccount: handleCreateSubAccount,
             onOpenWrap: handleOpenWrap
           }}
