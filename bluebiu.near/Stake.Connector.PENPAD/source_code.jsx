@@ -159,6 +159,7 @@ const sender = Ethers.send("eth_requestAccounts", [])[0];
 const {
   toast,
   prices,
+  chainId,
   dexConfig,
   connectProps,
   multicall,
@@ -252,9 +253,8 @@ function handleStake() {
     )
     .then(tx => tx.wait())
     .then((result) => {
-      const { status, transactionHash } = result;
+      const { transactionHash } = result;
       toast?.dismiss(toastId);
-      if (status !== 1) throw new Error("");
       State.update({
         stakeLoading: false
       })
@@ -267,6 +267,7 @@ function handleStake() {
       handleQueryData()
 
     }).catch(error => {
+      console.log('error', error)
       State.update({
         stakeLoading: false
       })
@@ -332,15 +333,15 @@ function handleQueryData() {
     provider: Ethers.provider(),
   }).then(firstResult => {
     const [maxTotalValueLockedResult, userStakeAmountsResult] = firstResult
-    console.log('=firstResult', firstResult)
+    const totalStaked = maxTotalValueLockedResult ? ethers.utils.formatUnits(maxTotalValueLockedResult[0]) : 0
+    const yourStaked = userStakeAmountsResult ? ethers.utils.formatUnits(userStakeAmountsResult[0]) : 0
+
+    console.log('=yourStaked', yourStaked)
     const promiseArray = []
-    promiseArray.push(promiseFetchQuery("http://penpad.io/api/pub/dapdap/staked/participated/user"))
-    promiseArray.push(promiseFetchQuery("http://penpad.io/api/pub/dapdap/point/user/" + sender))
+    promiseArray.push(promiseFetchQuery("https://penpad.io/api/pub/dapdap/staked/participated/user"))
+    promiseArray.push(promiseFetchQuery("https://penpad.io/api/pub/dapdap/point/user/" + sender))
     Promise.all(promiseArray)
       .then(secondResult => {
-        console.log('=secondResult', secondResult)
-        const totalStaked = maxTotalValueLockedResult ? ethers.utils.formatUnits(maxTotalValueLockedResult[0]) : 0
-        const yourStaked = userStakeAmountsResult ? ethers.utils.formatUnits(userStakeAmountsResult[0]) : 0
         State.update({
           data: {
             totalStaked,
@@ -428,7 +429,7 @@ return (
         <StyledPenpadMiddleBottom>
           <StyledPenpadColumn>
             <StyledPenpadLabel>You Staked ETH</StyledPenpadLabel>
-            <StyledPenpadValue>0 ETH</StyledPenpadValue>
+            <StyledPenpadValue>{state.data?.yourStaked} ETH</StyledPenpadValue>
           </StyledPenpadColumn>
           <StyledPenpadColumn>
             <StyledPenpadLabel>Your Points</StyledPenpadLabel>
@@ -458,10 +459,10 @@ return (
           <StyledPenpadButton disabled>
             <Widget src={"bluebiu.near/widget/Liquidity.Bridge.Loading"} />
           </StyledPenpadButton>
-        ) : state.stakeAmount > 0 ? (
-          <StyledPenpadButton onClick={handleStake}>Stake ETH</StyledPenpadButton>
-        ) : (
+        ) : Big(state?.stakeAmount ? state?.stakeAmount : 0).lt(0.05) ? (
           <StyledPenpadButton disabled>Stake ETH</StyledPenpadButton>
+        ) : (
+          <StyledPenpadButton onClick={handleStake}>Stake ETH</StyledPenpadButton>
         )
       }
     </StyledPenpadBottom>
