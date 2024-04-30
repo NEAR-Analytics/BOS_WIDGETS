@@ -3,7 +3,7 @@ const { selectedDao, section, key, daoContent, setDaoContent } = props;
 const [link, setLink] = useState("");
 
 return (
-  <div className="w-100 d-flex flex-column bg-light p-4 rounded">
+  <div className="w-100 d-flex flex-column">
     <div className="form-element">
       <label className="form-label">Description</label>
       <Widget
