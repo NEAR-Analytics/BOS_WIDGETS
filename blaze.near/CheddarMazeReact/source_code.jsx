@@ -235,11 +235,6 @@ const handleKeyPress = (event) => {
   movePlayer(newX, newY);
 };
 
-const handleTouchStart = (event) => {
-  const touch = event.touches[0];
-  setInitialTouch({ x: touch.clientX, y: touch.clientY });
-};
-
 const handleTouchMove = (event) => {
   if (!initialTouch) return;
   event.preventDefault(); // Prevent scrolling on touch devices
