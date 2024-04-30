@@ -11,6 +11,7 @@ const {
   calcHealthFactor,
   theme,
   addAction,
+  prices,
 } = props;
 
 if (!data) {
@@ -29,7 +30,7 @@ function isValid(a) {
 const {
   symbol,
   balance,
-  prices,
+
   supplyAPY,
   usageAsCollateralEnabled,
   decimals,
