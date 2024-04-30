@@ -13,7 +13,7 @@ const {
 
 const StyledContainer = styled.div`
   display: flex;
-  flex-grow: wrap;
+  flex-wrap: wrap;
   gap: 20px;
   padding: 0px 20px 20px;
   min-height: 172px;
@@ -50,7 +50,7 @@ const StyledEmpty = styled.div`
 
 return (
   <StyledContainer>
-    {tokens?.map((token) => (
+    {[...tokens, ...tokens, ...tokens, ...tokens]?.map((token) => (
       <Widget
         src="dapdapbos.near/widget/Staking.Hyperlock.TokenCard"
         props={{
