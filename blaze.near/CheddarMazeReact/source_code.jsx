@@ -240,6 +240,7 @@ const handleKeyPress = (event) => {
 
 const handleTouchMove = (event) => {
   if (!initialTouch) return;
+  console.log("Touch Started"); // Add this line for debugging
   event.preventDefault(); // Prevent scrolling on touch devices
   const touch = event.touches[0];
 
@@ -263,6 +264,7 @@ const handleTouchMove = (event) => {
 };
 
 const handleTouchEnd = () => {
+  alert("Touch ended"); // Add this line for debugging
   setInitialTouch(null);
 };
 
