@@ -73,18 +73,18 @@ if (!context.accountId) {
   );
 }
 const [target, setTarget] = useState("root.near");
-const poke = () => {
+const poke = (accountId) => {
   Social.set(
     {
       index: {
         graph: JSON.stringify({
           key: "poke",
           value: {
-            accountId: target,
+            accountId: accountId,
           },
         }),
         notify: JSON.stringify({
-          key: target,
+          key: accountId,
           value: {
             type: "poke",
           },
@@ -116,7 +116,7 @@ return (
     </Header>
     <div>
       <TargetContainer>
-        <PokeTarget onClick={poke}>
+        <PokeTarget onClick={() => poke(target)}>
           <Widget
             src="mob.near/widget/ProfileImage"
             props={{
