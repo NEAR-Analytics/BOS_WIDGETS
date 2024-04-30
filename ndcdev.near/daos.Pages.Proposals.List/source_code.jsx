@@ -15,14 +15,14 @@ if (dao_id) {
 
   if (!dao) <Widget src="flashui.near/widget/Loading" />;
 
-  items = Near.view(contractName, "get_dao_posts", {
+  items = Near.view(contractName, "get_all_posts", {
     dao_id: dao.id,
     page: 0,
     limit: 100,
   });
 
   if (dao.owners.includes(context.accountId)) {
-    const inReviewItems = Near.view(contractName, "get_dao_posts", {
+    const inReviewItems = Near.view(contractName, "get_all_posts", {
       dao_id: dao.id,
       page: 0,
       limit: 100,
@@ -84,6 +84,26 @@ const TableHeaderCell = styled.div`
   padding: 0 0 0 10px;
   display: flex;
   flex: ${(props) => props.flex || 1};
+
+  .selected-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 16px;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 600;
+
+    i {
+      color: #b0afb1;
+    }
+
+    &.dao {
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
+    }
+  }
 `;
 
 const Mobile = styled.div`
@@ -146,11 +166,10 @@ const FiltersContainer = styled.div`
   padding: 64px 16px 48px 16px;
   flex-direction: column;
   align-items: center;
-  gap: 32px;
   flex-shrink: 0;
   border-radius: 14px 14px 0px 0px;
   background: var(--Primary-Base-White, #FFF);
-  box-shadow: 0px -305px 85px 0px rgba(0, 0, 0, 0.00), 0px -195px 78px 0px rgba(0, 0, 0, 0.00), 0px -110px 66px 0px rgba(0, 0, 0, 0.01), 0px -49px 49px 0px rgba(0, 0, 0, 0.01), 0px -12px 27px 0px rgba(0, 0, 0, 0.02);
+  box-shadow: 0px -305px 85px 0px rgba(0, 0, 0, 0.03), 0px -195px 78px 0px rgba(0, 0, 0, 0.03), 0px -110px 66px 0px rgba(0, 0, 0, 0.01), 0px -49px 49px 0px rgba(0, 0, 0, 0.01), 0px -12px 27px 0px rgba(0, 0, 0, 0.02);
 `;
 
 const HeaderFilter = styled.div`
@@ -198,6 +217,12 @@ const FilterEntry = styled.div`
   }
 `;
 
+const SortContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`
+
 const [filteredDao, useFilteredDao] = useState(false);
 const [filteredStatus, useFilteredStatus] = useState(false);
 
@@ -227,22 +252,39 @@ const statuses = [
   { key: "Closed", value: "Closed" },
 ];
 
+const [sortOrders, setSortOrders] = useState({});
+
+const sortData = (entity, field) => {
+  const isAsc = sortOrders[entity][field] !== "ASC";
+  const newSortOrder = isAsc ? "ASC" : "DESC";
+
+  const sortedItems = [...preparedItems].sort((a, b) => {
+    if (a[entity][field] === b[entity][field]) return 0;
+    return (isAsc ? a[entity][field] > b[entity][field] : a[entity][field] < b[entity][field]) ? 1 : -1;
+  });
+
+  setPreparedItems(sortedItems);
+  setSortOrders({ ...sortOrders, [entity]: {[field]: newSortOrder }});
+};
+
+useEffect(() => {
 setPreparedItems(
   items
     .sort((a, b) => b.created_at - a.created_at)
     .filter((item) => {
       if (filteredDao) {
-        return item.dao_id === daos[filteredDao].id;
+        return item.post.dao_id === daos[filteredDao].id;
       }
       return item;
     })
     .filter((item) => {
       if (filteredStatus) {
-        return item.status === statuses[filteredStatus].value;
+        return item.post.status === statuses[filteredStatus].value;
       }
       return item;
-    })
+    }),
 );
+},[filteredDao, filteredStatus])
 
 const [showMobileFilter, setShowMobileFilter] = useState(false);
 const [showMobileDaoFilter, setShowMobileDaoFilter] = useState(false);
@@ -259,8 +301,15 @@ return (
     <Table>
       <TableHeader>
         <TableHeaderCell>
-          <div className="d-flex justify-content-between">
+          <SortContainer>
             <div>Status</div>
+            <div className="selected-container">
+              <i
+                role="button"
+                className="ph ph-caret-up-down fs-5"
+                onClick={() => sortData('post',"status")}
+              />
+            </div>
             {/* <Select value={filteredStatus} onChange={handleFilterStatusChange}>
               <option value="all">All</option>
               {statuses.map((status, index) => (
@@ -269,10 +318,10 @@ return (
                 </option>
               ))}
             </Select> */}
-          </div>
+          </SortContainer>
         </TableHeaderCell>
-        <TableHeaderCell flex={3}>
-          <div className="d-flex justify-content-between">
+        <TableHeaderCell flex={2}>
+          <SortContainer>
             <div>DAO</div>
             {/* <Select value={filteredDao} onChange={handleFilterDaoChange}>
               <option value="all">All</option>
@@ -282,10 +331,36 @@ return (
                 </option>
               ))}
             </Select> */}
+             <div className="selected-container">
+              <i
+                role="button"
+                className="ph ph-caret-up-down fs-5"
+                onClick={() => sortData('dao',"title")}
+              />
+            </div>
+          </SortContainer>
+        </TableHeaderCell>
+        <TableHeaderCell>
+          Created
+          <div className="selected-container">
+            <i
+              role="button"
+              className="ph ph-caret-up-down fs-5"
+              onClick={() => sortData('post',"created_at")}
+            />
           </div>
         </TableHeaderCell>
-        <TableHeaderCell flex={2}> Modified </TableHeaderCell>
-        <TableHeaderCell flex={5.5}>Proposals states</TableHeaderCell>
+        <TableHeaderCell>
+          Modified
+          <div className="selected-container">
+            <i
+              role="button"
+              className="ph ph-caret-up-down fs-5"
+              onClick={() => sortData("post","author_id")}
+            />
+          </div>
+        </TableHeaderCell>
+        <TableHeaderCell flex={3.2}>Proposals states</TableHeaderCell>
         <TableHeaderCell></TableHeaderCell>
         <TableHeaderCell></TableHeaderCell>
       </TableHeader>
@@ -296,10 +371,10 @@ return (
         </div>
       ) : (
         preparedItems.map((row, index) => (
-          <div key={row.title}>
+          <div key={row.post.title}>
             <Widget
               src="ndcdev.near/widget/daos.Components.Post"
-              props={{ item: row, index, type, rowId: row.id }}
+              props={{ item: row.post, index, type, rowId: row.post.id, dao: row.dao }}
             />
           </div>
         ))
@@ -342,7 +417,9 @@ return (
                     <FilterEntry
                       key={index}
                       selected={index === filteredDao}
-                      onClick={() => useFilteredDao(filteredDao === index ? false : index )}
+                      onClick={() =>
+                        useFilteredDao(filteredDao === index ? false : index)
+                      }
                     >
                       <div className="dao-container">
                         <img className="dao-img" src={dao.logo_url} />
@@ -373,7 +450,11 @@ return (
                     <FilterEntry
                       key={index}
                       selected={index === filteredStatus}
-                      onClick={() => useFilteredStatus( filteredStatus === index ? false : index )}
+                      onClick={() =>
+                        useFilteredStatus(
+                          filteredStatus === index ? false : index
+                        )
+                      }
                     >
                       {status.value}
                     </FilterEntry>
@@ -388,15 +469,16 @@ return (
           </div>
         ) : (
           preparedItems.map((row, index) => (
-            <div key={row.title}>
+            <div key={row.post.title}>
               <Widget
                 src="ndcdev.near/widget/daos.Components.Post"
                 props={{
-                  item: row,
+                  item: row.post,
                   index,
                   type,
-                  rowId: row.id,
+                  rowId: row.post.id,
                   isMobile: true,
+                  dao: row.dao
                 }}
               />
             </div>
