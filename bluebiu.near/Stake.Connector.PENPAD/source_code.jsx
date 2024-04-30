@@ -154,7 +154,6 @@ const StyledPenpadButton = styled.button`
   }
 `
 const PROXY_ADDRESS = "0x8F53fA7928305Fd4f78c12BA9d9DE6B2420A2188"
-
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 const {
   toast,
@@ -170,6 +169,9 @@ const {
   onSwitchChain,
   switchingChain
 } = props
+const {
+  PROXY_ADDRESS
+} = dexConfig
 if (!sender) {
   return (
     <Widget
@@ -253,7 +255,7 @@ function handleStake() {
     )
     .then(tx => tx.wait())
     .then((result) => {
-      const { transactionHash } = result;
+      const { status, transactionHash } = result;
       toast?.dismiss(toastId);
       State.update({
         stakeLoading: false
@@ -264,8 +266,21 @@ function handleStake() {
         tx: transactionHash,
         chainId,
       });
-      handleQueryData()
-
+      if (status === 1) {
+        addAction?.({
+          type: "Staking",
+          action: "Stake",
+          token: {
+            symbol: "ETH"
+          },
+          amount: state.stakeAmount,
+          template: "Penpad",
+          add: true,
+          status,
+          transactionHash,
+        });
+        handleQueryData()
+      }
     }).catch(error => {
       console.log('error', error)
       State.update({
