@@ -16,18 +16,14 @@ const groupId = props.groupId ?? content.groupId;
 const indexKey = props.indexKey;
 const permissions = props.permissions;
 const fullPostLink = props.fullPostLink;
-
 const notifyAccountId = accountId;
 const item = {
   type: "social",
   path: `${accountId}/post/main`,
   blockHeight,
 };
-
 const [edit, setEdit] = useState(false);
-
 const modifications = Social.index("modify", item, { limit: 1, order: "desc" });
-
 if (modifications.length) {
   const modification = modifications[0].value;
   if (modification.type === "edit") {
@@ -37,16 +33,13 @@ if (modifications.length) {
     return <></>;
   }
 }
-
 const link =
   props.link ??
   props.fullPostLink ??
   `/mob.near/widget/MainPage.N.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
-
 const Wrapper = styled.div`
   margin: 0 -12px;
   line-height: normal;
-
   .post {
     position: relative;
     padding: 12px;
@@ -71,7 +64,6 @@ const Wrapper = styled.div`
         font-size: 15px !important;
       }
     }
-
     h1,
     h2,
     h3,
@@ -101,11 +93,9 @@ const Wrapper = styled.div`
     th {
       min-width: 5em;
     }
-
     .table > :not(caption) > * > * {
       padding: 0.3rem;
     }
-
     &:hover {
       background-color: rgba(0, 0, 0, 0.03);
       .expand-post {
@@ -116,12 +106,10 @@ const Wrapper = styled.div`
         );
       }
     }
-
     .post-header {
       margin: 4px 0;
     }
   }
-
   .post:not(:last-child):before {
     content: "";
     position: absolute;
@@ -132,7 +120,6 @@ const Wrapper = styled.div`
     background-color: #ddd;
     z-index: -1;
   }
-
   .post:not(:first-child):after {
     content: "";
     position: absolute;
@@ -143,7 +130,6 @@ const Wrapper = styled.div`
     background-color: #ddd;
     z-index: -1;
   }
-
   .left {
     margin-right: 12px;
     min-width: 60px;
@@ -155,23 +141,19 @@ const Wrapper = styled.div`
     flex-grow: 1;
     min-width: 0;
   }
-
   .buttons-placeholder {
     padding-bottom: 10px;
   }
-
   .buttons {
     margin-top: 10px;
     margin-bottom: 6px;
     column-gap: 4px;
     color: #888;
   }
-
   .reposted {
     padding-top: 30px;
   }
 `;
-
 const Content = () => {
   if (edit) {
     return (
@@ -202,7 +184,6 @@ const Content = () => {
     );
   }
 };
-
 return (
   <Wrapper
     style={
