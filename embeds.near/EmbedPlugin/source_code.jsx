@@ -1,9 +1,7 @@
 const { accountId, name, type, metadata, plugin } = props;
-
 const installedEmbeds = JSON.parse(
   Social.get(`${accountId}/settings/every/embed`, "final") || "null"
 );
-
 if (plugin) {
   return (
     <div
@@ -73,16 +71,13 @@ if (plugin) {
 const data = JSON.parse(
   Social.get(`${accountId}/plugin/embed/${name}`, "final") || "null"
 );
-
 if (!data) {
   return <p>Loading... {`${accountId}/plugin/embed/${name}`}</p>;
 }
-
 // Use metadata.name if it exists, otherwise use the passed name
 const displayName = metadata.name || name;
 const defaultImage =
   "https://ipfs.near.social/ipfs/bafkreihi3qh72njb3ejg7t2mbxuho2vk447kzkvpjtmulsb2njd6m2cfgi";
-
 return (
   <div
     className="card"
@@ -104,7 +99,6 @@ return (
         backgroundPosition: "center",
       }}
     />
-
     <div className="card-body">
       <Link
         to={`/${accountId}/plugin/embed/${name}`}
