@@ -677,6 +677,18 @@ function handleQueryVaultOverview() {
     "type": "function"
   }, {
     "inputs": [],
+    "name": "getTotalBaseDeposit",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }, {
+    "inputs": [],
     "name": "getMaxDepositPerAccount",
     "outputs": [
       {
@@ -689,17 +701,14 @@ function handleQueryVaultOverview() {
     "type": "function"
   }]
 
-  // const contract = new ethers.Contract(
-  //   ethers.utils.getAddress(checkedVault.strategyAddress),
-  //   abi,
-  //   Ethers.provider()
-  // );
-  // contract.getTotalDepositCap().then((result) => {
-  //   console.log("=result", result)
-  // });
+
   calls.push({
     address: checkedVault.strategyAddress,
     name: "getTotalDepositCap",
+  })
+  calls.push({
+    address: checkedVault.strategyAddress,
+    name: "getTotalBaseDeposit",
   })
   calls.push({
     address: checkedVault.strategyAddress,
@@ -713,14 +722,14 @@ function handleQueryVaultOverview() {
     multicallAddress,
     provider: Ethers.provider(),
   }).then(result => {
-    const [totalDepositCap, maxDepositPerAccount] = result
-    console.log("=totalDepositCap", Big(totalDepositCap).toString())
-    State.update({
-      vaultOverview: {
-        totalDepositCap: Big(totalDepositCap).div(Big(10).pow(18)).toFixed(2),
-        maxDepositPerAccount: Big(maxDepositPerAccount).div(Big(10).pow(18)).toFixed(2)
-      }
-    })
+    console.log("=result", result)
+    // const [totalDepositCapResult, getTotalBaseDepositResult, maxDepositPerAccountResult] = result
+    // State.update({
+    //   vaultOverview: {
+    //     totalDepositCap: Big(totalDepositCapResult).div(Big(10).pow(18)).toFixed(2),
+    //     maxDepositPerAccount: Big(maxDepositPerAccountResult).div(Big(10).pow(18)).toFixed(2)
+    //   }
+    // })
   })
 }
 function handleGetDepositData(firstNumber, secondNumber) {
@@ -1062,10 +1071,10 @@ function handleWithdraw() {
     });
 }
 function handleExplore() {
-  windowOpen("https://blastexplorer.io/address/0xFE8FA9F973E1DB10578ED14ace06e9D29875Ff1A", "_blank")
+  windowOpen("https://blastexplorer.io/address/" + checkedVault.vaultAddress, "_blank")
 }
 function handleChart() {
-  windowOpen("https://dexscreener.com/blast/0xFE8FA9F973E1DB10578ED14ace06e9D29875Ff1A", "_blank")
+  windowOpen("https://dexscreener.com/blast/" + checkedVault.vaultAddress, "_blank")
 }
 
 function handleSlippageChange(amount) {
@@ -1087,6 +1096,7 @@ function handleMax() {
 }
 function handleRefresh() {
   handleQueryPositionOverview()
+  // handleQueryVaultOverview()
   handleQueryDepositBalance()
 }
 
@@ -1119,7 +1129,11 @@ return (
             <StyledVaultName>{checkedVault.name}</StyledVaultName>
             <StyledVaultDesc>This vault manages a single ERC721 LP position in the WETH/weETH V3 pool (0.05%). The LP position is staked in Hyperlock to earn Hyperlock Points and Thruster Points.</StyledVaultDesc>
           </StyledVaultInfo>
-          <StyledVaultViewButton>View Blastscan</StyledVaultViewButton>
+          <StyledVaultViewButton
+            onClick={() => {
+              windowOpen("https://blastexplorer.io/address/" + checkedVault.strategyAddress, "_blank")
+            }}
+          >View Blastscan</StyledVaultViewButton>
 
         </StyledVaultTop>
         <StyledVaultBottom>
@@ -1426,16 +1440,22 @@ return (
           </StyledOverviewList>
         </StyledVaultOverview>
         <StyledOverviewButtonContainer>
-          <StyledOverviewButton onClick={handleExplore}>Explore
-            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
-              <path d="M1 12L12 1M12 1H3M12 1V9.5" stroke="white" />
-            </svg>
-          </StyledOverviewButton>
-          <StyledOverviewButton onClick={handleChart}>Chart
-            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
-              <path d="M1 12L12 1M12 1H3M12 1V9.5" stroke="white" />
-            </svg>
-          </StyledOverviewButton>
+          {
+            checkedVault.vaultAddress && (
+              <>
+                <StyledOverviewButton onClick={handleExplore}>Explore
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
+                    <path d="M1 12L12 1M12 1H3M12 1V9.5" stroke="white" />
+                  </svg>
+                </StyledOverviewButton>
+                <StyledOverviewButton onClick={handleChart}>Chart
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
+                    <path d="M1 12L12 1M12 1H3M12 1V9.5" stroke="white" />
+                  </svg>
+                </StyledOverviewButton>
+              </>
+            )
+          }
         </StyledOverviewButtonContainer>
       </StyledOverviewContainer>
     </StyledContainerBottom>
