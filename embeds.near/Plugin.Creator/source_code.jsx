@@ -1,53 +1,43 @@
 /**
- * TODO: This should be more generalized. 
+ * TODO: This should be more generalized.
  * Currently only supports embed plugins
  */
 const Wrapper = styled.div`
   max-width: 400px;
   margin: 0 auto;
 `;
-
 const TabContent = styled.div`
   margin-top: 1rem;
 `;
-
 const Form = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
   width: 100%;
 `;
-
 const Label = styled.label`
   font-weight: bold;
 `;
-
 const Input = styled.input`
   padding: 5px;
 `;
-
 const Select = styled.select`
   padding: 8px;
 `;
-
 const FormGroup = styled.div`
   display: flex;
   flex-direction: column;
 `;
-
 const [name, setName] = useState("");
 const [description, setDescription] = useState("");
 const [widgetSrc, setWidgetSrc] = useState("");
 const [embedSrc, setEmbedSrc] = useState("");
 const [activeTab, setActiveTab] = useState("data");
-
 function generateUID() {
   const maxHex = 0xffffffff;
   const randomNumber = Math.floor(Math.random() * maxHex);
-  return randomNumber.toString(16).padStart(8, '0');
+  return randomNumber.toString(16).padStart(8, "0");
 }
-
-
 const handleCreate = () => {
   Social.set({
     plugin: {
@@ -64,7 +54,6 @@ const handleCreate = () => {
     },
   });
 };
-
 return (
   <Wrapper>
     <h3>create embed plugin</h3>
@@ -86,7 +75,6 @@ return (
         </a>
       </li>
     </ul>
-
     <TabContent>
       {activeTab === "data" && (
         <Form>
