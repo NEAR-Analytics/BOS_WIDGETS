@@ -155,7 +155,7 @@ const startTimer = () => {
   setTimerId(id);
 };
 
-useEffect(() => {
+// Define a new useEffect hook that starts the timer when timerStarted state changes
 useEffect(() => {
   if (timerStarted) {
     startTimer();
