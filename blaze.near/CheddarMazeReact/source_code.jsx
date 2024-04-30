@@ -365,6 +365,7 @@ const handleContainerClick = () => {
 const handleTouchStart = (event) => {
   const touch = event.touches[0];
   setInitialTouch({ x: touch.clientX, y: touch.clientY });
+  alert(initialTouch);
   startTimerOnTap(); // Start the timer when the user taps on the maze container
 };
 
