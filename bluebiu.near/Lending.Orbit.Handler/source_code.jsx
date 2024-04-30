@@ -182,7 +182,7 @@ useEffect(() => {
 
   const createTx = (gas) => {
     const _gas = gas ? Big(gas.toString()).mul(1.2).toFixed(0) : 4000000;
-    console.log(111111, method, params);
+
     contract.populateTransaction[method](...params, {
       ...options,
       gasLimit: 4000000,
