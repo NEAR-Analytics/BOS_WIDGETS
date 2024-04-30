@@ -358,7 +358,7 @@ return (
         </StyledInfo>
         <div>
           <Widget
-            src="bluebiu.near/widget/Lending.MarketInput"
+            src="bluebiu.near/widget/Lending.Orbit.MarketInput"
             props={{
               icon: data.underlyingToken?.icon,
               symbol: data.underlyingToken?.symbol,
@@ -372,7 +372,7 @@ return (
               price: underlyingPrice,
               amount: state.amount,
               onChange: (val) => {
-                onAmountChange(Big(val).toFixed(4, 0));
+                onAmountChange(val);
               },
             }}
           />
