@@ -227,7 +227,7 @@ return (
           <Widget
             src="dapdapbos.near/widget/Staking.Hyperlock.PoolTab"
             props={{
-              tokens: unStakedTokens,
+              tokens: stakedTokens,
               token0: data.token0,
               token1: data.token1,
               price0: data.token0.price,
