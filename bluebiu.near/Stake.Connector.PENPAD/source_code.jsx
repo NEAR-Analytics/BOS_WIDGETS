@@ -153,13 +153,13 @@ const StyledPenpadButton = styled.button`
     opacity: 0.3;
   }
 `
-const PROXY_ADDRESS = "0x8F53fA7928305Fd4f78c12BA9d9DE6B2420A2188"
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 const {
   toast,
   prices,
   chainId,
   dexConfig,
+  addAction,
   connectProps,
   multicall,
   multicallAddress,
