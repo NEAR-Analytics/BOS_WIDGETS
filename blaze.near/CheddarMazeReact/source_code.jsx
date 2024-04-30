@@ -371,26 +371,26 @@ const handleTouchStart = (event) => {
 const handleTouchMove = (event) => {
   if (!initialTouch) return;
   event.preventDefault(); // Prevent scrolling on touch devices
-  const touch = event.touches[0];
 
-  // Calculate the position of the touched cell
+  const touch = event.touches[0];
   const cellWidth = isMobile() ? 30 : 40; // Adjusted cell size for mobile devices
   const offsetX = mazeContainerRef.current.getBoundingClientRect().left;
   const offsetY = mazeContainerRef.current.getBoundingClientRect().top;
   const cellX = Math.floor((touch.clientX - offsetX) / cellWidth);
   const cellY = Math.floor((touch.clientY - offsetY) / cellWidth);
 
-  // Highlight the path cell being dragged over
+  // Update maze data with dragged over cell
   const newMazeData = mazeData.map((row, rowIndex) =>
-    row.map((cell, colIndex) => ({
-      ...cell,
-      isDraggedOver: rowIndex === cellY && colIndex === cellX,
-    }))
+    row.map((cell, colIndex) => {
+      if (rowIndex === cellY && colIndex === cellX) {
+        return { ...cell, isDraggedOver: true };
+      } else {
+        return { ...cell, isDraggedOver: false }; // Optionally reset others
+      }
+    })
   );
-  setMazeData(newMazeData);
 
-  // Update the initial touch to prevent continuous movement
-  setInitialTouch({ x: touch.clientX, y: touch.clientY });
+  setMazeData(newMazeData);
 };
 
 const handleTouchEnd = () => {
