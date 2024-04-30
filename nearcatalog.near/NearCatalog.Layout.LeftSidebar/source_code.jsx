@@ -12,12 +12,12 @@ return (
                 </div>
 
                 <div class="offcanvas-body aside-container">
-                    <Widget src={`${props.componentPath}.Layout.LeftMenu`}
+                    {/* <Widget src={`${props.componentPath}.Layout.LeftMenu`}
                         props={{
                             indexPath,
                             cat
                         }}
-                    />
+                    /> */}
                 </div>
             </div>
             {/* offcanvas menu */}
@@ -27,11 +27,11 @@ return (
             <div className="aside-container">
                 <div className="container">
                     <div id="sidebar-menu-lg">
-                        <Widget src={`${props.componentPath}.Layout.LeftMenu`}
+                        {/* <Widget src={`${props.componentPath}.Layout.LeftMenu`}
                             props={{
                                 indexPath,
                                 cat
-                            }} />
+                            }} /> */}
                     </div>
                 </div>
             </div>
