@@ -364,6 +364,7 @@ const handleContainerClick = () => {
 };
 
 const handleTouchStart = (event) => {
+  setNotification(`Touch (${touch})`);
   const touch = event.touches[0];
   setInitialTouch({ x: touch.clientX, y: touch.clientY });
   setNotification(`Touch started at (${touch.clientX}, ${touch.clientY})`);
