@@ -622,7 +622,9 @@ function doStake(_amount) {
         addAction?.({
           type: "Staking",
           action: "Stake",
-          token: symbolList[symbolIndex],
+          token: {
+            symbol: symbolList[symbolIndex]
+          },
           amount: stakedAmount,
           template: "BlastOff",
           add: true,
