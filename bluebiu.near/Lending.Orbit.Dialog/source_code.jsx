@@ -634,7 +634,12 @@ return (
                         className="mx_5"
                       />
                     </div>
-                    <Value>${Big(state.borrowBalance).toFixed(2)}</Value>
+                    <Value>
+                      $
+                      {Big(state.borrowBalance).lte(0)
+                        ? 0
+                        : Big(state.borrowBalance).toFixed(2)}
+                    </Value>
                   </>
                 )}
               </ValuesWrapper>
