@@ -194,6 +194,7 @@ const {
   toast,
   sender,
   chainId,
+  addAction,
   SYMBOL_ADDRESS,
   onCloseWrap,
 } = props
@@ -282,8 +283,9 @@ function handleWrap() {
     .toFixed(0)
   contract.deposit({ value: _amount })
     .then(result => {
-      const { transactionHash } = result;
+      const { status, transactionHash } = result;
       toast?.dismiss(toastId);
+      if (status !== 1) throw new Error("");
       State.update({
         wrapLoading: false
       })
@@ -293,10 +295,22 @@ function handleWrap() {
         tx: transactionHash,
         chainId,
       });
-      handleRefresh()
+      if (status === 1) {
+        addAction?.({
+          type: "Yield",
+          action: "Wrap",
+          token0: "ETH",
+          token1: "WETH",
+          amount: state?.wrapAmount,
+          template: "Juice",
+          add: true,
+          status,
+          transactionHash,
+        });
+        handleRefresh()
+      }
     })
     .catch(error => {
-      console.log('=error', error)
       State.update({
         wrapLoading: false
       })
@@ -340,7 +354,7 @@ function handleUnwrap() {
     .then(result => {
       const { status, transactionHash } = result;
       toast?.dismiss(toastId);
-      // if (status !== 1) throw new Error("");
+      if (status !== 1) throw new Error("");
       State.update({
         unwrapLoading: false
       })
@@ -350,7 +364,20 @@ function handleUnwrap() {
         tx: transactionHash,
         chainId,
       });
-      handleRefresh()
+      if (status === 1) {
+        addAction?.({
+          type: "Yield",
+          action: "Unwrap",
+          token0: "WETH",
+          token1: "ETH",
+          amount: state?.unwrapAmount,
+          template: "Juice",
+          add: false,
+          status,
+          transactionHash,
+        });
+        handleRefresh()
+      }
     })
     .catch(error => {
       console.log('=err0r', error)
