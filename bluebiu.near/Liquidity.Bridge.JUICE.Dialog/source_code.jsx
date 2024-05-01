@@ -282,9 +282,11 @@ function handleWrap() {
     .mul(Big(10).pow(18))
     .toFixed(0)
   contract.deposit({ value: _amount })
+    .then(tx => tx.wait())
     .then(result => {
       const { status, transactionHash } = result;
       toast?.dismiss(toastId);
+      if (status !== 1) throw new Error("");
       State.update({
         wrapLoading: false
       })
@@ -349,10 +351,11 @@ function handleUnwrap() {
     .mul(Big(10).pow(18))
     .toFixed(0)
   contract.withdraw(_amount)
+    .then(tx => tx.wait())
     .then(result => {
       const { status, transactionHash } = result;
       toast?.dismiss(toastId);
-      // if (status !== 1) throw new Error("");
+      if (status !== 1) throw new Error("");
       State.update({
         unwrapLoading: false
       })
@@ -370,7 +373,7 @@ function handleUnwrap() {
         amount: state?.unwrapAmount,
         template: "Juice",
         add: false,
-        status,
+        status: 1,
         transactionHash,
       });
       handleRefresh()
