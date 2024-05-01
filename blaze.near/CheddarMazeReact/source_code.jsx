@@ -22,54 +22,61 @@ const [timerStarted, setTimerStarted] = useState(false);
 const [notification, setNotification] = useState("");
 
 const gameOver = (message, cell) => {
-  const hasCheese = cell.hasCheese;
-  const hasEnemy = cell.hasEnemy;
+  const enemyWon = cell.enemyWon;
 
   setCheeseCooldown(false);
   setEnemyCooldown(false);
   setGameOverMessage(message);
   setGameOverFlag(true);
-  stopTimer();
-  if (hasCheese || hasEnemy) {
+  if (enemyWon || remainingTime === 0) {
     setScore(0);
   }
+  stopTimer();
 };
 
 const startTimer = () => {
-  const id = setInterval(() => {
-    setRemainingTime((time) => {
-      if (time === 1) {
-        clearInterval(id);
-        gameOver("Time's up! Game Over!");
-      }
-      return time - 1;
-    });
-  }, 1000);
-  setTimerId(id);
+  if (timerId === null && timerStarted) {
+    const id = setInterval(() => {
+      setRemainingTime((prevTime) => {
+        if (prevTime === 1) {
+          clearInterval(id);
+          gameOver("Time's up! Game Over!");
+          return prevTime;
+        }
+        return prevTime - 1;
+      });
+    }, 1000);
+    setTimerId(id);
+  }
 };
 
-// Define a new useEffect hook that starts the timer when timerStarted state changes
+// Define a new useEffect hook to manage the timer
 useEffect(() => {
-  if (timerStarted) {
-    startTimer();
+  let intervalId;
+  if (timerStarted && !gameOverFlag) {
+    intervalId = setInterval(() => {
+      setRemainingTime((prevTime) => {
+        if (prevTime === 1) {
+          clearInterval(intervalId);
+          gameOver("Time's up! Game Over!");
+          return prevTime;
+        }
+        return prevTime - 1;
+      });
+    }, 1000);
   } else {
-    // Clear the timer when timerStarted is false
-    clearInterval(timerId);
+    clearInterval(intervalId);
   }
-}, [timerStarted]); // Add timerId as a dependency
 
-// Update remainingTime, remainingMinutes, and remainingSeconds whenever remainingTime changes
+  return () => clearInterval(intervalId); // Cleanup function to clear interval on unmount or when timer conditions change
+}, [timerStarted, gameOverFlag]);
+
 useEffect(() => {
   const minutes = Math.floor(remainingTime / 60);
   const seconds = remainingTime % 60;
   setRemainingMinutes(minutes);
   setRemainingSeconds(seconds);
 }, [remainingTime]);
-
-// Update remainingMinutes and remainingSeconds whenever timeLimitInSeconds changes
-useEffect(() => {
-  setRemainingTime(timeLimitInSeconds);
-}, [timeLimitInSeconds]);
 
 const startTimerOnTap = () => {
   if (!timerStarted) {
@@ -131,7 +138,7 @@ const generateMazeData = (rows, cols) => {
       hasCheese: false,
       hasEnemy: false,
       hasExit: false,
-      hasEnemyWon: false,
+      enemyWon: false,
     }))
   );
 
@@ -221,8 +228,8 @@ useEffect(() => {
 useEffect(() => {
   if (remainingTime === 0) {
     gameOver(
-      "Time's up! Game Over!"
-      //mazeData[playerPosition.y][playerPosition.x]
+      "Time's up! Game Over!",
+      mazeData[playerPosition.y][playerPosition.x]
     );
     stopTimer();
   }
@@ -280,7 +287,7 @@ const checkForEvents = (cell) => {
       setEnemyCooldown(false);
     }, cooldownPeriod);
 
-    if (chance < 0.2) {
+    if (true) {
       console.log("enemy won");
       const newMazeData = mazeData.map((row, rowIndex) =>
         row.map((mazeCell, colIndex) => {
@@ -299,7 +306,7 @@ const checkForEvents = (cell) => {
       setMazeData(newMazeData);
       setScore(0); // Set score to zero
       gameOver("Enemy won! Game Over!", cell);
-      return; // Exit the function after triggering game over
+      stopTimer();
     } else {
       console.log("enemy defeated...");
     }
