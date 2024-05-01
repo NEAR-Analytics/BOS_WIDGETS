@@ -96,7 +96,7 @@ useEffect(() => {
   setEnemyCooldown(true);
   setTimeout(() => {
     setEnemyCooldown(false);
-  }, 5500); // Delay for 10 seconds
+  }, 3000); // Delay for 5.5 seconds
 }, []);
 
 const restartGame = () => {
@@ -148,20 +148,20 @@ const generateMazeData = (rows, cols) => {
 
   switch (startEdge) {
     case 0: // Top edge
-      x = Math.floor(Math.random() * (cols - 2)) + 1;
+      x = Math.floor(Math.random() * (cols - 6)) + 3;
       y = 0;
       break;
     case 1: // Right edge
       x = cols - 1;
-      y = Math.floor(Math.random() * (rows - 2)) + 1;
+      y = Math.floor(Math.random() * (rows - 6)) + 3;
       break;
     case 2: // Bottom edge
-      x = Math.floor(Math.random() * (cols - 2)) + 1;
+      x = Math.floor(Math.random() * (cols - 6)) + 3;
       y = rows - 1;
       break;
     case 3: // Left edge
       x = 0;
-      y = Math.floor(Math.random() * (rows - 2)) + 1;
+      y = Math.floor(Math.random() * (rows - 6)) + 3;
       break;
   }
 
