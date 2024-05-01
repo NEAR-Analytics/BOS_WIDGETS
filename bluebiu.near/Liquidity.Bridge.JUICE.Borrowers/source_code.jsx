@@ -407,6 +407,7 @@ function handleCheckApprove(amount) {
     contract
       .allowance(sender, PROXY_ADDRESS)
       .then((allowance) => {
+        console.log('===allowance', allowance)
         State.update({
           depositApproved: !new Big(allowance.toString()).lt(_amount)
         })
@@ -457,9 +458,64 @@ function handleInAmountChange(amount) {
     [keyArray[categoryIndex]]: amount
   })
 
+
   if (categoryIndex === 0 || categoryIndex === 3) {
     handleCheckApprove(amount)
   }
+  // if (categoryIndex === 1) {
+  //   const abi = [{
+  //     "inputs": [
+  //       {
+  //         "internalType": "uint256",
+  //         "name": "shares",
+  //         "type": "uint256"
+  //       },
+  //       {
+  //         "internalType": "address",
+  //         "name": "receiver",
+  //         "type": "address"
+  //       }
+  //     ],
+  //     "name": "withdraw",
+  //     "outputs": [
+  //       {
+  //         "internalType": "uint256",
+  //         "name": "updatedAssets",
+  //         "type": "uint256"
+  //       },
+  //       {
+  //         "internalType": "uint256",
+  //         "name": "updatedShares",
+  //         "type": "uint256"
+  //       }
+  //     ],
+  //     "stateMutability": "nonpayable",
+  //     "type": "function"
+  //   }]
+  //   const contract = new ethers.Contract(
+  //     ethers.utils.getAddress(PROXY_ADDRESS),
+  //     abi,
+  //     Ethers.provider().getSigner()
+  //   );
+  //   const _amount = Big(amount)
+  //     .mul(Big(10).pow(18))
+  //     .toFixed(0);
+  //   getShares(_amount)
+  //     .then((sharesResult) => {
+  //       const shares = sharesResult[1]
+  //       contract
+  //         .callStatic
+  //         .withdraw(
+  //           shares,
+  //           sender,
+  //         )
+  //         .then((result) => {
+  //           console.log('===result', result)
+  //         }).catch(error => {
+
+  //         });
+  //     })
+  // }
 }
 function doApprove(amount, APPROVE_ADDRESS, onSuccess, onError) {
   const toastId = toast?.loading({
@@ -658,6 +714,43 @@ function handleDeposit() {
       });
     });
 }
+function getShares(_amount) {
+  return new Promise((resolve, reject) => {
+    const abi = [{
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "assets",
+          "type": "uint256"
+        }
+      ],
+      "name": "previewDeposit",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "updatedAssets",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "shares",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }]
+    const contract = new ethers.Contract(
+      ethers.utils.getAddress(PROXY_ADDRESS),
+      abi,
+      Ethers.provider().getSigner()
+    )
+    contract.previewDeposit(_amount)
+      .then(resolve)
+      .catch(reject)
+  })
+
+}
 function handleWithdraw() {
   State.update({
     withdrawLoading: true
@@ -693,29 +786,6 @@ function handleWithdraw() {
     ],
     "stateMutability": "nonpayable",
     "type": "function"
-  }, {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "assets",
-        "type": "uint256"
-      }
-    ],
-    "name": "previewDeposit",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "updatedAssets",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "shares",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
   }]
   const contract = new ethers.Contract(
     ethers.utils.getAddress(PROXY_ADDRESS),
@@ -725,55 +795,54 @@ function handleWithdraw() {
   const _amount = Big(state?.inWithdrawAmount)
     .mul(Big(10).pow(18))
     .toFixed(0);
-  contract.previewDeposit(_amount)
-    .then(sharesResult => {
-      const shares = sharesResult[1]
-      contract
-        .withdraw(
-          shares,
-          sender,
-        )
-        .then(tx => tx.wait())
-        .then((result) => {
-          const { status, transactionHash } = result;
-          toast?.dismiss(toastId);
-          if (status !== 1) throw new Error("");
-          State.update({
-            inWithdrawAmount: "",
-            withdrawLoading: false
-          })
-          toast?.success({
-            title: "Withdraw Successfully!",
-            text: `Withdraw ${state.inWithdrawAmount} WETH`,
-            tx: transactionHash,
-            chainId,
-          });
-          if (status === 1) {
-            addAction?.({
-              type: "Yield",
-              action: "Withdraw",
-              token0: "WETH",
-              amount: state?.inWithdrawAmount,
-              template: "Juice",
-              add: false,
-              status,
-              transactionHash,
-            });
-            handleRefresh()
-          }
-        }).catch(error => {
-          console.log('=error', error)
-          State.update({
-            withdrawLoading: false
-          })
-          toast?.fail({
-            title: "Withdraw Failed!",
-            text: error?.message?.includes("user rejected transaction")
-              ? "User rejected transaction"
-              : `Withdraw ${state.inWithdrawAmount} WETH`,
-          });
+  getShares(_amount).then(sharesResult => {
+    const shares = sharesResult[1]
+    contract
+      .withdraw(
+        shares,
+        sender,
+      )
+      .then(tx => tx.wait())
+      .then((result) => {
+        const { status, transactionHash } = result;
+        toast?.dismiss(toastId);
+        if (status !== 1) throw new Error("");
+        State.update({
+          inWithdrawAmount: "",
+          withdrawLoading: false
+        })
+        toast?.success({
+          title: "Withdraw Successfully!",
+          text: `Withdraw ${state.inWithdrawAmount} WETH`,
+          tx: transactionHash,
+          chainId,
         });
-    })
+        if (status === 1) {
+          addAction?.({
+            type: "Yield",
+            action: "Withdraw",
+            token0: "WETH",
+            amount: state?.inWithdrawAmount,
+            template: "Juice",
+            add: false,
+            status,
+            transactionHash,
+          });
+          handleRefresh()
+        }
+      }).catch(error => {
+        console.log('=error', error)
+        State.update({
+          withdrawLoading: false
+        })
+        toast?.fail({
+          title: "Withdraw Failed!",
+          text: error?.message?.includes("user rejected transaction")
+            ? "User rejected transaction"
+            : `Withdraw ${state.inWithdrawAmount} WETH`,
+        });
+      });
+  })
 }
 function handleBorrow() {
   State.update({
@@ -1080,7 +1149,6 @@ function handleGetBalances() {
     multicallAddress,
     provider: Ethers.provider(),
   }).then(result => {
-    console.log('=result', result)
     const [
       balanceOfResult,
       getAccountHealthResult,
@@ -1423,7 +1491,7 @@ function handleClaim() {
     .mul(Big(10).pow(18))
     .toFixed(0);
   const toastId = toast?.loading({
-    title: `Claim ${Big(state.pnl).toFixed(2)}`,
+    title: `Claim ${Big(state.pnl).toString()}`,
   });
   contract.claim(_amount)
     .then(result => {
@@ -1434,7 +1502,7 @@ function handleClaim() {
       })
       toast?.success({
         title: "Claim Successfully!",
-        text: `Claim ${Big(state.pnl).toFixed(2)}`,
+        text: `Claim ${Big(state.pnl).toString()}`,
         tx: transactionHash,
         chainId,
       });
@@ -1454,11 +1522,8 @@ function handleClaim() {
 }
 function handleMax() {
   const outArray = ["deposit", "withdraw", "borrow", "repay"]
-  const balance = state.balances[outArray[categoryIndex]]
-  // if (categoryIndex === 3) {
-  // } else {
+  const balance = state?.balances[outArray[categoryIndex]] ?? 0
   handleInAmountChange(Big(balance).eq(Big(10).pow(-18)) ? 0 : balance)
-  // }
 }
 function handleRefresh() {
   handleGetBalances()
