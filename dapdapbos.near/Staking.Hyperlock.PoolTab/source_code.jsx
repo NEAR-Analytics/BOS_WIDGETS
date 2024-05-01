@@ -50,7 +50,7 @@ const StyledEmpty = styled.div`
 
 return (
   <StyledContainer>
-    {[...tokens, ...tokens, ...tokens, ...tokens]?.map((token) => (
+    {tokens?.map((token) => (
       <Widget
         src="dapdapbos.near/widget/Staking.Hyperlock.TokenCard"
         props={{
