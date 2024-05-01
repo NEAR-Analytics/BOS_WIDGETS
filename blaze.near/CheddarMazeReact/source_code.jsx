@@ -20,7 +20,6 @@ const [notification, setNotification] = useState("");
 const gameOver = (message, cell) => {
   const hasCheese = cell.hasCheese;
   const hasEnemy = cell.hasEnemy;
-  const hasExit = cell.hasExit;
 
   setCheeseCooldown(false);
   setEnemyCooldown(false);
@@ -49,15 +48,15 @@ useEffect(() => {
   setEnemyCooldown(true);
   setTimeout(() => {
     setEnemyCooldown(false);
-  }, 10000); // Delay for 10 seconds
+  }, 5500); // Delay for 10 seconds
 }, []);
 
 const restartGame = () => {
   clearInterval(timerId);
   setScore(0);
-  setTimeLimitInSeconds(120); // Set the time limit to 120 seconds (twice the original time)
-  setRemainingTime(120); // Set the remaining time to match the new time limit
-  setPlayerPosition({ x: 1, y: 1 });
+  setTimeLimitInSeconds(120);
+  setRemainingTime(120);
+  setPlayerPosition({ x: 1, y: 1 }); // Reset player position to default (1, 1)
   setCheeseCooldown(false);
   setEnemyCooldown(true);
   setMoves(0);
@@ -66,15 +65,20 @@ const restartGame = () => {
 
   // Regenerate maze data
   const mazeRows = 11;
-  const mazeCols = 9; // Updated width to 9 columns
+  const mazeCols = 9;
   const newMazeData = generateMazeData(mazeRows, mazeCols);
+
+  // Find a valid starting position for the player
   let playerStartX = Math.floor(Math.random() * (mazeCols - 2)) + 1;
   let playerStartY = Math.floor(Math.random() * (mazeRows - 2)) + 1;
   while (!newMazeData[playerStartY][playerStartX].isPath) {
     playerStartX = Math.floor(Math.random() * (mazeCols - 2)) + 1;
     playerStartY = Math.floor(Math.random() * (mazeRows - 2)) + 1;
   }
+
+  // Set the maze data with the new maze and player's starting position
   setMazeData(newMazeData);
+  setPlayerPosition({ x: playerStartX, y: playerStartY });
 
   startTimer(); // Start the timer again after resetting the game
 };
@@ -87,12 +91,33 @@ const generateMazeData = (rows, cols) => {
       hasCheese: false,
       hasEnemy: false,
       hasExit: false,
+      hasEnemyWon: false,
     }))
   );
 
-  // Creating a simple connected path maze
-  let x = 1,
-    y = 1;
+  // Choose a random starting position on the outer border
+  const startEdge = Math.floor(Math.random() * 4); // 0: top, 1: right, 2: bottom, 3: left
+  let x, y;
+
+  switch (startEdge) {
+    case 0: // Top edge
+      x = Math.floor(Math.random() * (cols - 2)) + 1;
+      y = 0;
+      break;
+    case 1: // Right edge
+      x = cols - 1;
+      y = Math.floor(Math.random() * (rows - 2)) + 1;
+      break;
+    case 2: // Bottom edge
+      x = Math.floor(Math.random() * (cols - 2)) + 1;
+      y = rows - 1;
+      break;
+    case 3: // Left edge
+      x = 0;
+      y = Math.floor(Math.random() * (rows - 2)) + 1;
+      break;
+  }
+
   maze[y][x].isPath = true;
   const stack = [[x, y]];
 
@@ -110,10 +135,10 @@ const generateMazeData = (rows, cols) => {
       const nx = cx + 2 * dx,
         ny = cy + 2 * dy;
       if (
-        nx > 0 &&
-        nx < cols - 1 &&
-        ny > 0 &&
-        ny < rows - 1 &&
+        nx >= 0 &&
+        nx < cols &&
+        ny >= 0 &&
+        ny < rows &&
         !maze[ny][nx].isPath
       ) {
         directions.push([nx, ny, cx + dx, cy + dy]);
@@ -125,11 +150,6 @@ const generateMazeData = (rows, cols) => {
         directions[Math.floor(Math.random() * directions.length)];
       maze[ny][nx].isPath = true;
       maze[py][px].isPath = true;
-
-      // Initialize hasCheese and hasEnemy properties
-      maze[ny][nx].hasCheese = false;
-      maze[ny][nx].hasEnemy = false;
-
       stack.push([nx, ny]);
     } else {
       stack.pop();
@@ -138,29 +158,6 @@ const generateMazeData = (rows, cols) => {
 
   return maze;
 };
-
-const startTimer = () => {
-  const id = setInterval(() => {
-    setRemainingTime((time) => {
-      if (time === 1) {
-        clearInterval(id);
-        gameOver(
-          "Time's up! Game Over!"
-          //mazeData[playerPosition.y][playerPosition.x]
-        );
-      }
-      return time - 1;
-    });
-  }, 1000);
-  setTimerId(id);
-};
-
-// Define a new useEffect hook that starts the timer when timerStarted state changes
-useEffect(() => {
-  if (timerStarted) {
-    startTimer();
-  }
-}, [timerStarted]);
 
 useEffect(() => {
   const mazeRows = 11;
@@ -189,6 +186,29 @@ useEffect(() => {
     );
   }
 }, [remainingTime]);
+
+const startTimer = () => {
+  const id = setInterval(() => {
+    setRemainingTime((time) => {
+      if (time === 1) {
+        clearInterval(id);
+        gameOver(
+          "Time's up! Game Over!"
+          //mazeData[playerPosition.y][playerPosition.x]
+        );
+      }
+      return time - 1;
+    });
+  }, 1000);
+  setTimerId(id);
+};
+
+// Define a new useEffect hook that starts the timer when timerStarted state changes
+useEffect(() => {
+  if (timerStarted) {
+    startTimer();
+  }
+}, [timerStarted]);
 
 const handleKeyPress = (event) => {
   if (gameOverFlag) return; // If game over, prevent further movement
@@ -244,6 +264,21 @@ const checkForEvents = (cell) => {
 
     if (chance < 0.2) {
       console.log("enemy won");
+      const newMazeData = mazeData.map((row, rowIndex) =>
+        row.map((mazeCell, colIndex) => {
+          const isPlayerPosition =
+            rowIndex === playerPosition.y && colIndex === playerPosition.x;
+          if (isPlayerPosition) {
+            return {
+              ...mazeCell,
+              enemyWon: true, // Update enemyWon flag
+              isActive: false, // Update isActive flag
+            };
+          }
+          return mazeCell;
+        })
+      );
+      setMazeData(newMazeData);
       setScore(0); // Set score to zero
       gameOver("Enemy won! Game Over!", cell);
       return; // Exit the function after triggering game over
@@ -302,34 +337,38 @@ const renderMazeCells = () => {
       const hasCheese = cell.hasCheese;
       const hasEnemy = cell.hasEnemy;
       const hasExit = cell.hasExit;
+      const enemyWon = cell.enemyWon; // New flag to check if the enemy won
 
       // Generate a unique id for each cell
       const cellId = `cell-${rowIndex}-${colIndex}`;
 
+      const cellStyle = {
+        width: "40px",
+        height: "40px",
+        fontSize: "20px",
+        border: "thin solid #ccc",
+        textAlign: "center",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: isPath ? "yellow" : "",
+        color: isActive ? "gray" : "",
+      };
+
       return (
         <div
           key={cellId}
-          id={cellId} // Set the id attribute
+          id={cellId}
           className={`maze-cell ${isPath ? "path" : ""} ${
             isActive ? "active" : ""
           }`}
-          style={{
-            width: "40px",
-            height: "40px",
-            fontSize: "20px",
-            border: "thin solid #ccc",
-            textAlign: "center",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: isPath ? "yellow" : "",
-            color: isActive ? "gray" : "",
-          }}
+          style={cellStyle}
         >
           {hasCheese ? "🧀" : ""}
           {hasEnemy ? "🦹‍♂️" : ""}
           {hasExit ? "🚪" : ""}
           {isActive && !hasCheese && !hasEnemy && !hasExit ? "🐭" : ""}
+          {enemyWon ? "💢" : ""} {/* Render the angry emoji if enemy won */}
         </div>
       );
     })
@@ -362,9 +401,16 @@ const movePlayer = (newX, newY) => {
   // Reset isActive for the previous player position
   newMazeData[playerPosition.y][playerPosition.x].isActive = false;
 
+  // Update player position state
   setPlayerPosition({ x: newX, y: newY });
+
+  // Update mazeData state
   setMazeData(newMazeData);
+
+  // Check for events at the new player position
   checkForEvents(newMazeData[newY][newX]);
+
+  // Increment moves count
   setMoves(moves + 1);
 };
 
@@ -532,7 +578,7 @@ return (
       <li>Navigate with Arrows or Tap</li>
       <li>Collect Cheddar🧀</li>
       <li>Battle Cartel to protect your Bag</li>
-      <li>Find Hidden Door🚪 to Win!</li>
+      <li>Find the Hidden Door🚪 to Win!</li>
     </ol>
   </div>
 );
