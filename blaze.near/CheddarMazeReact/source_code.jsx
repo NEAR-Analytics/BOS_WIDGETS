@@ -20,6 +20,7 @@ const [playerStartX, setPlayerStartX] = useState(0);
 const [playerStartY, setPlayerStartY] = useState(0);
 const [timerStarted, setTimerStarted] = useState(false);
 const [notification, setNotification] = useState("");
+const [luckyColor] = useState(Math.random() < 0.1 ? "#9d67ef" : "Gold");
 
 const gameOver = (message, cell) => {
   const enemyWon = cell.enemyWon;
@@ -287,7 +288,7 @@ const checkForEvents = (cell) => {
       setEnemyCooldown(false);
     }, cooldownPeriod);
 
-    if (true) {
+    if (chance < 0.2) {
       console.log("enemy won");
       const newMazeData = mazeData.map((row, rowIndex) =>
         row.map((mazeCell, colIndex) => {
@@ -372,13 +373,28 @@ const renderMazeCells = () => {
         width: "40px",
         height: "40px",
         fontSize: "20px",
-        border: "thin solid #ccc",
+        border: isPath ? "thin solid #ececec" : "",
         textAlign: "center",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: isPath ? "yellow" : "",
+        backgroundColor: isPath ? luckyColor : "",
         color: isActive ? "gray" : "",
+        backgroundImage: isActive
+          ? "url('https://ipfs.near.social/ipfs/bafkreiejk6zjvhxevdatofxpznf4fedluwuavptaryvbixie6bcz4u5goe')"
+          : "",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        position: "relative", // Ensure the position is set to relative
+      };
+
+      const emojiStyle = {
+        position: "absolute",
+        top: "50%", // Center the emoji vertically
+        left: "50%", // Center the emoji horizontally
+        transform: "translate(-50%, -50%)", // Translate the emoji to center it
+        zIndex: 1,
       };
 
       return (
@@ -390,10 +406,9 @@ const renderMazeCells = () => {
           }`}
           style={cellStyle}
         >
-          {hasCheese ? "🧀" : ""}
-          {hasEnemy ? "🦹‍♂️" : ""}
+          {hasCheese && !isActive ? <div style={emojiStyle}>🧀</div> : ""}
+          {hasEnemy && !isActive ? <div style={emojiStyle}>🦹‍♂️</div> : ""}
           {hasExit ? "🚪" : ""}
-          {isActive && !hasCheese && !hasEnemy && !hasExit ? "🐭" : ""}
           {enemyWon ? "💢" : ""} {/* Render the angry emoji if enemy won */}
         </div>
       );
@@ -551,9 +566,20 @@ const handleContainerRef = (event) => {
 
 return (
   <div
-    style={{ maxWidth: `${mazeData[0].length * cellSize}px`, margin: "0 auto" }}
+    style={{
+      maxWidth: `${mazeData[0].length * cellSize}px`,
+      margin: "0 auto",
+      padding: "0",
+      border: "1px solid #000",
+    }}
   >
-    <div style={{ display: "flex", justifyContent: "space-between" }}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        padding: "0.5rem",
+      }}
+    >
       <div>Score: {score}</div>
       <div>
         Time: {remainingMinutes}m {remainingSeconds}s
@@ -589,7 +615,6 @@ return (
         gridTemplateColumns: `repeat(${mazeData[0].length}, ${cellSize}px)`, // Adjusted cell size
         gridTemplateRows: `repeat(${mazeData.length}, ${cellSize}px)`, // Adjusted cell size
         gap: "0px",
-        border: "1px solid black",
         padding: "0px",
         position: "relative",
         width: `${mazeData[0].length * cellSize}px`, // Adjusted width
