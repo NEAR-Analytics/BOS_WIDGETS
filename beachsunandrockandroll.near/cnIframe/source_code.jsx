@@ -2,13 +2,10 @@ const srcDoc = `
 <script type="module"> 
     import mxcn from "https://cdn.jsdelivr.net/npm/mxcn@2.0.0/+esm"
     
-    window.top.postMessage("loaded", "*");
     window.addEventListener("message", ({ data }) => {
         try {
             event.source.postMessage(mxcn(data.className), "*");
-        } catch (e) {
-            // ignore
-        }
+        } catch (e) {}
     }, false);
 </script>
 `;
