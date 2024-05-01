@@ -122,6 +122,7 @@ const StyledAccessButton = styled.div`
 const {
   vaults,
   prices,
+  addAction,
   onCheckedVaultChange
 } = props
 function renderPointValue(point) {
