@@ -8,8 +8,12 @@ const [enemyCooldown, setEnemyCooldown] = useState(false);
 const [moves, setMoves] = useState(0);
 const [gameOverFlag, setGameOverFlag] = useState(false);
 const [remainingTime, setRemainingTime] = useState(timeLimitInSeconds);
-const remainingMinutes = Math.floor(remainingTime / 60);
-const remainingSeconds = remainingTime % 60;
+const [remainingMinutes, setRemainingMinutes] = useState(
+  Math.floor(timeLimitInSeconds / 60)
+);
+const [remainingSeconds, setRemainingSeconds] = useState(
+  timeLimitInSeconds % 60
+);
 const [gameOverMessage, setGameOverMessage] = useState("");
 const [initialTouch, setInitialTouch] = useState(null);
 const [playerStartX, setPlayerStartX] = useState(0);
@@ -31,15 +35,51 @@ const gameOver = (message, cell) => {
   }
 };
 
+const startTimer = () => {
+  const id = setInterval(() => {
+    setRemainingTime((time) => {
+      if (time === 1) {
+        clearInterval(id);
+        gameOver("Time's up! Game Over!");
+      }
+      return time - 1;
+    });
+  }, 1000);
+  setTimerId(id);
+};
+
+// Define a new useEffect hook that starts the timer when timerStarted state changes
+useEffect(() => {
+  if (timerStarted) {
+    startTimer();
+  } else {
+    // Clear the timer when timerStarted is false
+    clearInterval(timerId);
+  }
+}, [timerStarted]); // Add timerId as a dependency
+
+// Update remainingTime, remainingMinutes, and remainingSeconds whenever remainingTime changes
+useEffect(() => {
+  const minutes = Math.floor(remainingTime / 60);
+  const seconds = remainingTime % 60;
+  setRemainingMinutes(minutes);
+  setRemainingSeconds(seconds);
+}, [remainingTime]);
+
+// Update remainingMinutes and remainingSeconds whenever timeLimitInSeconds changes
+useEffect(() => {
+  setRemainingTime(timeLimitInSeconds);
+}, [timeLimitInSeconds]);
+
 const startTimerOnTap = () => {
   if (!timerStarted) {
-    startTimer();
-    setTimerStarted(true);
+    setTimerStarted(true); // Set timerStarted to true to start the timer
   }
 };
 
 const stopTimer = () => {
   clearInterval(timerId);
+  setTimerStarted(false); // Set timerStarted to false to stop the timer
   setTimerId(null);
 };
 
@@ -187,29 +227,6 @@ useEffect(() => {
   }
 }, [remainingTime]);
 
-const startTimer = () => {
-  const id = setInterval(() => {
-    setRemainingTime((time) => {
-      if (time === 1) {
-        clearInterval(id);
-        gameOver(
-          "Time's up! Game Over!"
-          //mazeData[playerPosition.y][playerPosition.x]
-        );
-      }
-      return time - 1;
-    });
-  }, 1000);
-  setTimerId(id);
-};
-
-// Define a new useEffect hook that starts the timer when timerStarted state changes
-useEffect(() => {
-  if (timerStarted) {
-    startTimer();
-  }
-}, [timerStarted]);
-
 const handleKeyPress = (event) => {
   if (gameOverFlag) return; // If game over, prevent further movement
 
@@ -324,7 +341,8 @@ const checkForEvents = (cell) => {
       })
     );
     setMazeData(newMazeData);
-    gameOver("Congratulations! You reached the end of the maze!", cell);
+    gameOver("Congrats! You found the Hidden Door.", cell);
+    stopTimer();
   }
 };
 
@@ -465,6 +483,11 @@ const handleClick = (event) => {
 
   // Move the player along the calculated path
   moveAlongPath(path);
+
+  // Stop the timer if the exit is found
+  if (mazeData[newY][newX].hasExit) {
+    stopTimer();
+  }
 };
 
 // Function to calculate the path from the current position to the target position
