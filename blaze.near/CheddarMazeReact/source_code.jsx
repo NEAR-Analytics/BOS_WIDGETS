@@ -104,7 +104,6 @@ const restartGame = () => {
   setScore(0);
   setTimeLimitInSeconds(120);
   setRemainingTime(120);
-  setPlayerPosition({ x: 1, y: 1 }); // Reset player position to default (1, 1)
   setCheeseCooldown(false);
   setEnemyCooldown(true);
   setMoves(0);
@@ -112,8 +111,8 @@ const restartGame = () => {
   setGameOverMessage("");
 
   // Regenerate maze data
-  const mazeRows = 11;
-  const mazeCols = 9;
+  const mazeRows = 15; // Updated number of rows
+  const mazeCols = 11;
   const newMazeData = generateMazeData(mazeRows, mazeCols);
 
   // Find a valid starting position for the player
@@ -175,13 +174,13 @@ const generateMazeData = (rows, cols) => {
 
     // Check all possible directions
     [
-      [1, 0],
-      [-1, 0],
-      [0, 1],
-      [0, -1],
+      [2, 0], // Increase step to 2 for wider paths
+      [-2, 0], // Increase step to 2 for wider paths
+      [0, 2], // Increase step to 2 for wider paths
+      [0, -2], // Increase step to 2 for wider paths
     ].forEach(([dx, dy]) => {
-      const nx = cx + 2 * dx,
-        ny = cy + 2 * dy;
+      const nx = cx + dx,
+        ny = cy + dy;
       if (
         nx >= 0 &&
         nx < cols &&
@@ -189,7 +188,7 @@ const generateMazeData = (rows, cols) => {
         ny < rows &&
         !maze[ny][nx].isPath
       ) {
-        directions.push([nx, ny, cx + dx, cy + dy]);
+        directions.push([nx, ny, cx + dx / 2, cy + dy / 2]); // Adjust coordinates for wider paths
       }
     });
 
@@ -208,8 +207,8 @@ const generateMazeData = (rows, cols) => {
 };
 
 useEffect(() => {
-  const mazeRows = 11;
-  const mazeCols = 9; // Updated width to 9 columns
+  const mazeRows = 15; // Increased by 2
+  const mazeCols = 11; // Keeping the same width
   const newMazeData = generateMazeData(mazeRows, mazeCols);
   let startX = Math.floor(Math.random() * (mazeCols - 2)) + 1;
   let startY = Math.floor(Math.random() * (mazeRows - 2)) + 1;
@@ -271,7 +270,7 @@ const checkForEvents = (cell) => {
   if (cell.isPath && !enemyCooldown && !cell.hasCheese && !cell.hasEnemy) {
     console.log("enemy encountered");
     const chance = Math.random();
-    if (chance < 0.7) {
+    if (chance < 0.9) {
       // 80% chance of encounter
       const newMazeData = mazeData.map((row, rowIndex) =>
         row.map((mazeCell, colIndex) => {
@@ -289,7 +288,7 @@ const checkForEvents = (cell) => {
         setEnemyCooldown(false);
       }, cooldownPeriod);
 
-      if (Math.random() < 0.05) {
+      if (Math.random() < 0.1) {
         console.log("enemy won");
         const newMazeData = mazeData.map((row, rowIndex) =>
           row.map((mazeCell, colIndex) => {
@@ -317,7 +316,7 @@ const checkForEvents = (cell) => {
 
   if (cell.isPath && !cheeseCooldown && !cell.hasCheese && !cell.hasEnemy) {
     // Generate cheese only if the cell does not already have an enemy
-    if (Math.random() < 0.15) {
+    if (Math.random() < 0.1) {
       // 1% chance of winning cheese
       console.log("cheese");
       const newMazeData = mazeData.map((row, rowIndex) =>
