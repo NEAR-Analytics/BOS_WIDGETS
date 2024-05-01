@@ -1,5 +1,5 @@
 const { Tailwind } = VM.require("beachsunandrockandroll.near/widget/preflight");
-// const { Button } = VM.require("beachsunandrockandroll.near/widget/buttonv2");
+const { Button } = VM.require("beachsunandrockandroll.near/widget/button");
 const { Input } = VM.require("beachsunandrockandroll.near/widget/input");
 const { Label } = VM.require("beachsunandrockandroll.near/widget/label");
 const {
@@ -20,6 +20,25 @@ const [buttonCancel, setButtonCancel] = useState("");
 const [buttonDeploy, setButtonDeploy] = useState("");
 const [card, setCard] = useState("");
 const [cardFooter, setCardFooter] = useState("");
+
+if (["", "loaded"].includes(buttonCancel))
+  return (
+    <Widget
+      src="beachsunandrockandroll.near/widget/buttonIframe"
+      props={{
+        output: setButtonCancel,
+        variant: "outline",
+      }}
+    />
+  );
+
+if (["", "loaded"].includes(buttonDeploy))
+  return (
+    <Widget
+      src="beachsunandrockandroll.near/widget/buttonIframe"
+      props={{ output: setButtonDeploy }}
+    />
+  );
 
 if (["", "loaded"].includes(card))
   return (
@@ -42,42 +61,6 @@ if (["", "loaded"].includes(cardFooter))
       }}
     />
   );
-
-const Cn = ({ output, val, ...props }) => (
-  <Widget
-    src="beachsunandrockandroll.near/widget/buttonIframe"
-    props={{ output, ...props }}
-  />
-);
-
-const Button = ({
-  className,
-  children,
-  variant,
-  size,
-  cnb,
-  setCnButton,
-  ...props
-}) => {
-  console.log(cnb);
-  if (["", "loaded"].includes(cnb))
-    return (
-      <Widget
-        src="beachsunandrockandroll.near/widget/buttonIframe"
-        props={{
-          output: setCnButton,
-          variant,
-          size,
-        }}
-      />
-    );
-
-  return (
-    <button className={cnb} ref="forwardedRef" {...props}>
-      {children}
-    </button>
-  );
-};
 
 return (
   <Tailwind>
@@ -112,16 +95,8 @@ return (
           </div>
         </CardContent>
         <CardFooter className={cardFooter}>
-          <Button
-            variant="outline"
-            setCnButton={setButtonCancel}
-            cnb={buttonCancel}
-          >
-            Cancel
-          </Button>
-          <Button cnb={buttonDeploy} setCnButton={setButtonDeploy}>
-            Deploy
-          </Button>
+          <Button className={buttonCancel}>Cancel</Button>
+          <Button className={buttonDeploy}>Deploy</Button>
         </CardFooter>
       </Card>
     </div>
