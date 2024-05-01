@@ -585,7 +585,7 @@ const handleContainerRef = (event) => {
 return (
   <div
     style={{
-      maxWidth: `${mazeData[0].length * cellSize + 10}px`,
+      maxWidth: `${mazeData[0].length * cellSize + 5}px`,
       margin: "0 auto",
       padding: "5px",
       border: "1px solid #000",
