@@ -24,12 +24,13 @@ const [luckyColor] = useState(Math.random() < 0.1 ? "#9d67ef" : "Gold");
 
 const gameOver = (message, cell) => {
   const enemyWon = cell.enemyWon;
+  const cartelWon = cell.cartelWon;
 
   setCheeseCooldown(false);
   setEnemyCooldown(false);
   setGameOverMessage(message);
   setGameOverFlag(true);
-  if (enemyWon || remainingTime === 0) {
+  if (enemyWon || cartelWon || remainingTime === 0) {
     setScore(0);
   }
   stopTimer();
@@ -139,6 +140,7 @@ const generateMazeData = (rows, cols) => {
       hasEnemy: false,
       hasExit: false,
       enemyWon: false,
+      cartelWon: false,
     }))
   );
 
@@ -269,9 +271,10 @@ const checkForEvents = (cell) => {
 
   if (cell.isPath && !enemyCooldown && !cell.hasCheese && !cell.hasEnemy) {
     console.log("enemy encountered");
+
     const chance = Math.random();
     if (chance < 0.9) {
-      // 80% chance of encounter
+      // 90% chance of encounter
       const newMazeData = mazeData.map((row, rowIndex) =>
         row.map((mazeCell, colIndex) => {
           if (rowIndex === playerPosition.y && colIndex === playerPosition.x) {
@@ -309,6 +312,29 @@ const checkForEvents = (cell) => {
         gameOver("Enemy won! Game Over!", cell);
         stopTimer();
       }
+
+      if (Math.random() < 0.5) {
+        // 1% chance of hitting the "cartel" event
+        console.log("Hit the cartel!");
+        const newMazeData = mazeData.map((row, rowIndex) =>
+          row.map((mazeCell, colIndex) => {
+            const isPlayerPosition =
+              rowIndex === playerPosition.y && colIndex === playerPosition.x;
+            if (isPlayerPosition) {
+              return {
+                ...mazeCell,
+                cartelWon: true, // Update enemyWon flag
+                isActive: false, // Update isActive flag
+              };
+            }
+            setMazeData(newMazeData);
+            setScore(0); // Set score to zero
+            return mazeCell;
+          })
+        );
+        gameOver("You ran into the cartel! Game Over!", cell);
+        stopTimer();
+      }
     } else {
       console.log("enemy defeated...");
     }
@@ -316,7 +342,7 @@ const checkForEvents = (cell) => {
 
   if (cell.isPath && !cheeseCooldown && !cell.hasCheese && !cell.hasEnemy) {
     // Generate cheese only if the cell does not already have an enemy
-    if (Math.random() < 0.1) {
+    if (Math.random() < 0.055) {
       // 1% chance of winning cheese
       console.log("cheese");
       const newMazeData = mazeData.map((row, rowIndex) =>
@@ -341,7 +367,7 @@ const checkForEvents = (cell) => {
   const navigatedCells = moves;
   const percentNavigated = (navigatedCells / totalCells) * 100;
 
-  if (percentNavigated >= 80 && Math.random() < 0.2) {
+  if (percentNavigated >= 99 && Math.random() < 0.2) {
     const newMazeData = mazeData.map((row, rowIndex) =>
       row.map((mazeCell, colIndex) => {
         if (rowIndex === playerPosition.y && colIndex === playerPosition.x) {
@@ -378,6 +404,7 @@ const renderMazeCells = () => {
       const hasEnemy = cell.hasEnemy;
       const hasExit = cell.hasExit;
       const enemyWon = cell.enemyWon; // New flag to check if the enemy won
+      const cartelWon = cell.cartelWon;
 
       // Generate a unique id for each cell
       const cellId = `cell-${rowIndex}-${colIndex}`;
@@ -428,6 +455,7 @@ const renderMazeCells = () => {
             {hasEnemy && !isActive ? <div style={emojiStyle}>🦹‍♂️</div> : ""}
             {hasExit ? "🚪" : ""}
             {enemyWon ? "💢" : ""} {/* Render the angry emoji if enemy won */}
+            {cartelWon ? "🤮" : ""} {/* Render the angry emoji if enemy won */}
           </div>
         </div>
       );
