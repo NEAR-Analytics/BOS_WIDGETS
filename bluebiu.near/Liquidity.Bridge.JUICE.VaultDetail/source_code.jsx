@@ -564,6 +564,7 @@ State.init({
   slippageError: false,
   showSlippage: false,
   depositBalance: "",
+  withdrawBalance: "",
   depositData: "",
   inDepositAmount: "",
   outDepositAmount: "",
@@ -615,34 +616,10 @@ function handleQueryPositionOverview() {
     ],
     "stateMutability": "view",
     "type": "function"
-  }, {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "owner",
-        "type": "address"
-      }
-    ],
-    "name": "balanceOf",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "result",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
   }]
   calls.push({
     address: checkedVault.strategyAddress,
     name: "getPositionValue",
-    params: [smartContractAddress]
-  })
-  console.log('=checkedVault.strategyAddress', checkedVault.strategyAddress)
-  calls.push({
-    address: checkedVault.strategyAddress,
-    name: "balanceOf",
     params: [smartContractAddress]
   })
   multicall({
@@ -656,7 +633,6 @@ function handleQueryPositionOverview() {
     State.update({
       positionOverview: {
         positionValue: Big(positionValueResult ? ethers.utils.formatUnits(positionValueResult[0]) : 0).toFixed(6),
-        balanceOf: Big(isNotEmptyArray(balanceOfResult) ? ethers.utils.formatUnits(balanceOfResult[0]) : 0).toString()
       }
     })
 
@@ -881,7 +857,7 @@ function handleInAmountChange(amount) {
   }
 
 }
-function handleQueryDepositBalance() {
+function handleQueryDepositBalance(callback) {
   const abi = [{
     "inputs": [
       {
@@ -909,9 +885,46 @@ function handleQueryDepositBalance() {
   contract
     .balanceOf(smartContractAddress)
     .then(result => {
+      const balance = Big(result ? ethers.utils.formatUnits(result) : 0).toString()
       State.update({
-        depositBalance: Big(result ? ethers.utils.formatUnits(result) : 0).toString()
+        depositBalance: balance
       })
+      callback && callback(balance)
+    })
+}
+function handleQueryWithdrawBalance(callback) {
+  const abi = [{
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      }
+    ],
+    "name": "balanceOf",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "result",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }]
+  const contract = new ethers.Contract(
+    ethers.utils.getAddress(checkedVault.strategyAddress),
+    abi,
+    Ethers.provider()
+  );
+  contract
+    .balanceOf(smartContractAddress)
+    .then(result => {
+      const balance = Big(result ? ethers.utils.formatUnits(result) : 0).toString()
+      State.update({
+        withdrawBalance: balance
+      })
+      callback && callback(balance)
     })
 }
 function getShares(_amount) {
@@ -1157,8 +1170,12 @@ function handleGetSlippageOutAmount(amount, slippageAmount) {
   return Number(slippageOutAmount) > 0 ? slippageOutAmount : "0.000000"
 }
 function handleMax() {
-  const balance = state.isDeposit ? state.depositBalance : state.positionOverview?.balanceOf
-  handleInAmountChange(Big(balance).eq(Big(10).pow(-18)) ? 0 : balance)
+  const handleQueryBalance = state.isDeposit ? handleQueryDepositBalance : handleQueryWithdrawBalance
+  handleQueryBalance(balance => {
+    console.log('-balance', balance)
+    handleInAmountChange(Big(balance).eq(Big(10).pow(-18)) ? 0 : balance)
+  })
+
 }
 function handleAuto() {
   handleSlippageChange(0.5)
@@ -1167,7 +1184,15 @@ function handleRefresh() {
   handleQueryPositionOverview()
   // handleQueryVaultOverview()
   handleQueryDepositBalance()
+  handleQueryWithdrawBalance()
 }
+useEffect(() => {
+  if (state.isDeposit) {
+    handleQueryDepositBalance()
+  } else {
+    handleQueryWithdrawBalance()
+  }
+}, [state.isDeposit])
 
 useEffect(() => {
   if (checkedVault) {
@@ -1284,7 +1309,7 @@ return (
                   <StyledDepositOrWithdrawInputTop>
                     <StyledDepositOrWithdrawInputTopType>Withdraw</StyledDepositOrWithdrawInputTopType>
                     <StyledDepositOrWithdrawInputTopBalance>
-                      Available: <span onClick={handleMax}>{Big(state.positionOverview?.balanceOf).toFixed(6)}</span>
+                      Available: <span onClick={handleMax}>{Big(state?.withdrawBalance).toFixed(6)}</span>
                     </StyledDepositOrWithdrawInputTopBalance>
                   </StyledDepositOrWithdrawInputTop>
                   <StyledDepositOrWithdrawInputBottom>
@@ -1481,7 +1506,7 @@ return (
             </StyledOverview>
             <StyledOverview>
               <StyledOverviewLabel>Available LP Poistion</StyledOverviewLabel>
-              <StyledOverviewValue>{state.positionOverview?.balanceOf}</StyledOverviewValue>
+              <StyledOverviewValue>{state?.withdrawBalance}</StyledOverviewValue>
             </StyledOverview>
           </StyledOverviewList>
         </StyledPostionOverview>
