@@ -42,6 +42,7 @@ const startTimer = () => {
         clearInterval(id);
         gameOver("Time's up! Game Over!");
       }
+      return time - 1;
     });
   }, 1000);
   setTimerId(id);
@@ -220,9 +221,10 @@ useEffect(() => {
 useEffect(() => {
   if (remainingTime === 0) {
     gameOver(
-      "Time's up! Game Over!",
-      mazeData[playerPosition.y][playerPosition.x]
+      "Time's up! Game Over!"
+      //mazeData[playerPosition.y][playerPosition.x]
     );
+    stopTimer();
   }
 }, [remainingTime]);
 
@@ -341,6 +343,7 @@ const checkForEvents = (cell) => {
     );
     setMazeData(newMazeData);
     gameOver("Congrats! You found the Hidden Door.", cell);
+    stopTimer();
   }
 };
 
