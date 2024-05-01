@@ -55,6 +55,7 @@ const {
   multicall,
   multicallAddress,
   windowOpen,
+  addAction,
   dexConfig,
   connectProps,
   isChainSupported,
@@ -276,6 +277,7 @@ return (
             toast,
             sender,
             chainId,
+            addAction,
             windowOpen,
             isCreatedAccount,
             multicall,
@@ -323,6 +325,7 @@ return (
             toast,
             sender,
             ICON_MAP,
+            addAction,
             isCreatedAccount,
             multicall,
             multicallAddress,
@@ -362,6 +365,7 @@ return (
             toast,
             sender,
             chainId,
+            addAction,
             SYMBOL_ADDRESS,
             onCloseWrap: handleCloseWrap
           }}
