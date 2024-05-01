@@ -181,27 +181,6 @@ useEffect(() => {
   setMazeData(newMazeData);
 }, []);
 
-const movePlayer = (newX, newY) => {
-  if (!mazeData[newY][newX].isPath) {
-    return; // Player cannot move to non-path cells
-  }
-
-  const newMazeData = mazeData.map((row, rowIndex) =>
-    row.map((cell, colIndex) => ({
-      ...cell,
-      isActive: rowIndex === newY && colIndex === newX,
-    }))
-  );
-
-  // Reset isActive for the previous player position
-  newMazeData[playerPosition.y][playerPosition.x].isActive = false;
-
-  setPlayerPosition({ x: newX, y: newY });
-  setMazeData(newMazeData);
-  checkForEvents(newMazeData[newY][newX]);
-  setMoves(moves + 1);
-};
-
 useEffect(() => {
   if (remainingTime === 0) {
     gameOver(
@@ -368,77 +347,122 @@ const handleContainerClick = () => {
   startTimerOnTap(); // Start the timer when the user clicks on the maze container
 };
 
-const handleTouchStart = (event) => {
-  if (!mazeContainerRef) return;
+const movePlayer = (newX, newY) => {
+  if (!mazeData[newY][newX].isPath) {
+    return; // Player cannot move to non-path cells
+  }
+
+  const newMazeData = mazeData.map((row, rowIndex) =>
+    row.map((cell, colIndex) => ({
+      ...cell,
+      isActive: rowIndex === newY && colIndex === newX,
+    }))
+  );
+
+  // Reset isActive for the previous player position
+  newMazeData[playerPosition.y][playerPosition.x].isActive = false;
+
+  setPlayerPosition({ x: newX, y: newY });
+  setMazeData(newMazeData);
+  checkForEvents(newMazeData[newY][newX]);
+  setMoves(moves + 1);
+};
+
+let isMouseDown = false;
+let lastCellX = null;
+let lastCellY = null;
+
+const handleMouseDown = (event) => {
+  isMouseDown = true;
+  handleMouseMove(event);
+};
+
+const handleMouseMove = (event) => {
+  if (!mazeContainerRef || !isMouseDown) return;
 
   const cellWidth = isMobile() ? 30 : 40; // Adjusted cell size for mobile devices
 
   // Extract cell coordinates from the id attribute
   const id = event.target.id;
   const [_, y, x] = id.split("-");
-  let newX = parseInt(x);
-  let newY = parseInt(y);
+  const newX = parseInt(x);
+  const newY = parseInt(y);
 
-  //   console.log("New X:", newX);
-  //   console.log("New Y:", newY);
-  //   console.log("Player Position:", playerPosition);
-
-  // Check if the new position is valid before moving the player
-  if (
-    newX >= 0 &&
-    newX < mazeData[0].length &&
-    newY >= 0 &&
-    newY < mazeData.length
-  ) {
-    console.log("FT valid data");
-    if (newX !== playerPosition.x || newY !== playerPosition.y) {
-      console.log("FT move player");
-      movePlayer(newX, newY);
-    }
-  }
-
-  setInitialTouch({ x: newX, y: newY });
+  // Update last cell coordinates
+  lastCellX = newX;
+  lastCellY = newY;
 };
 
-const handleTouchMove = (event) => {
-  if (!mazeContainerRef) return;
-  console.log("touchmove");
+const handleMouseUp = () => {
+  isMouseDown = false;
+  lastCellX = null;
+  lastCellY = null;
+};
 
-  //const touch = event.touches[0];
-  const cellWidth = isMobile() ? 30 : 40; // Adjusted cell size for mobile devices
+const handleClick = (event) => {
+  if (!mazeContainerRef) return;
 
   // Extract cell coordinates from the id attribute
   const id = event.target.id;
   const [_, y, x] = id.split("-");
-  let newX = parseInt(x);
-  let newY = parseInt(y);
+  const newX = parseInt(x);
+  const newY = parseInt(y);
 
-  console.log("New X:", newX);
-  console.log("New Y:", newY);
-  console.log("Player Position:", playerPosition);
+  console.log(`Clicked on cell (${newX}, ${newY})`);
 
-  // Check if the new position is valid before moving the player
+  // Save the current player position as the starting cell
+  const startX = playerPosition.x;
+  const startY = playerPosition.y;
 
-  console.log(mazeData[0].length);
+  // Calculate the path from the current position to the clicked cell
+  const path = calculatePath(startX, startY, newX, newY);
 
-  if (
-    newX >= 0 &&
-    newX < mazeData[0].length &&
-    newY >= 0 &&
-    newY < mazeData.length
-  ) {
-    console.log("new position valid");
-    if (newX !== playerPosition.x || newY !== playerPosition.y) {
-      console.log("move player");
-      movePlayer(newX, newY);
-    }
-  }
-
-  setInitialTouch({ x: touch.clientX, y: touch.clientY });
+  // Move the player along the calculated path
+  moveAlongPath(path);
 };
 
-const handleTouchEnd = () => {
-  setInitialTouch(null);
+// Function to calculate the path from the current position to the target position
+const calculatePath = (currentX, currentY, targetX, targetY) => {
+  console.log(
+    `Calculating path from (${currentX}, ${currentY}) to (${targetX}, ${targetY})`
+  );
+  const path = [];
+
+  let deltaX = Math.sign(targetX - currentX);
+  let deltaY = Math.sign(targetY - currentY);
+
+  let x = currentX;
+  let y = currentY;
+
+  console.log("Delta X:", deltaX);
+  console.log("Delta Y:", deltaY);
+
+  // Ensure that both x and y are not equal to their respective target values
+  while (x !== targetX || y !== targetY) {
+    path.push([x, y]);
+
+    // Move along the x-axis towards the target
+    if (x !== targetX) x += deltaX;
+
+    // Move along the y-axis towards the target
+    if (y !== targetY) y += deltaY;
+  }
+
+  // Add the target position to the path
+  path.push([targetX, targetY]);
+
+  console.log("Calculated path:", path);
+
+  return path;
+};
+
+// Function to move the player along the calculated path
+const moveAlongPath = (path) => {
+  console.log("Moving along path:", path);
+  path.forEach(([x, y]) => {
+    console.log(`Moving to cell (${x}, ${y})`);
+    movePlayer(x, y);
+  });
 };
 
 const cellSize = isMobile() ? 30 : 40; // Adjust cell size for mobile devices
@@ -468,19 +492,20 @@ return (
       className="maze-container"
       onTouchStart={(e) => {
         handleContainerRef(e);
-        handleTouchStart(e);
+        handleMouseDown(e);
       }}
       onTouchMove={(e) => {
         handleContainerRef(e);
-        handleTouchMove(e);
+        handleMouseMove(e);
       }}
       onTouchEnd={(e) => {
         handleContainerRef(e);
-        handleTouchEnd(e);
+        handleMouseUp(e);
       }}
       onClick={(e) => {
         handleContainerRef(e);
         handleContainerClick();
+        handleClick(e);
       }}
       style={{
         display: "grid",
