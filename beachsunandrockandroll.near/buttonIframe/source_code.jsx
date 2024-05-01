@@ -1,14 +1,16 @@
+const { baseButton, variantDefault, sizeDefault } = VM.require("beachsunandrockandroll.near/widget/buttonv2");
+
 const srcDoc = `
 <script type="module"> 
     import mxcn from "https://cdn.jsdelivr.net/npm/mxcn@2.0.0/+esm"
     import {cva} from 'https://cdn.jsdelivr.net/npm/class-variance-authority@0.7.0/+esm'
     
     const buttonVariants = cva(
-      "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+      ${baseButton},
       {
         variants: {
           variant: {
-            default: "bg-uin-primary text-primary-foreground hover:opacity-90",
+            default: ${variantDefault},
             destructive:
               "bg-destructive text-destructive-foreground hover:opacity-90",
             outline:
@@ -19,7 +21,7 @@ const srcDoc = `
             link: "text-primary underline-offset-4 hover:underline",
           },
           size: {
-            default: "h-10 px-4 py-2",
+            default: ${sizeDefault},
             sm: "h-9 rounded-md px-3",
             lg: "h-11 rounded-md px-8",
             icon: "h-10 w-10",
