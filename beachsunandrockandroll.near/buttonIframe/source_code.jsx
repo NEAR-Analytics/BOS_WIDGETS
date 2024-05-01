@@ -32,13 +32,10 @@ const srcDoc = `
       }
     )
 
-    window.top.postMessage("loaded", "*");
     window.addEventListener("message", ({ data }) => {
         try {
             event.source.postMessage(mxcn(buttonVariants(data)), "*");
-        } catch (e) {
-            // ignore
-        }
+        } catch (e) {}
     }, false);
 </script>
 `;
