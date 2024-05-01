@@ -42,7 +42,6 @@ const startTimer = () => {
         clearInterval(id);
         gameOver("Time's up! Game Over!");
       }
-      return time - 1;
     });
   }, 1000);
   setTimerId(id);
@@ -224,6 +223,7 @@ useEffect(() => {
       "Time's up! Game Over!"
       //mazeData[playerPosition.y][playerPosition.x]
     );
+    stopTimer();
   }
 }, [remainingTime]);
 
@@ -298,6 +298,7 @@ const checkForEvents = (cell) => {
       setMazeData(newMazeData);
       setScore(0); // Set score to zero
       gameOver("Enemy won! Game Over!", cell);
+      stopTimer();
       return; // Exit the function after triggering game over
     } else {
       console.log("enemy defeated...");
