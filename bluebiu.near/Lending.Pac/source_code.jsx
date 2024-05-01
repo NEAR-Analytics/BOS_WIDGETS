@@ -255,16 +255,15 @@ function formatHealthFactor(hf) {
   }
 }
 
-function calcHealthFactor(type, symbol, amount) {
-  // console.log(
-  //   "calcHealthFactor",
-  //   type,
-  //   symbol,
-  //   amount,
-  //   isValid(state.yourTotalCollateral),
-  //   isValid(state.yourTotalBorrow),
-  //   isValid(amount)
-  // );
+function calcHealthFactor(type, symbol, amount, leverage) {
+  console.log(
+    "calcHealthFactor",
+    type,
+    symbol,
+    amount,
+    leverage,
+    prices[symbol] || 1
+  );
   try {
     if (
       // !isValid(state.yourTotalCollateral) ||
@@ -296,6 +295,16 @@ function calcHealthFactor(type, symbol, amount) {
     }
     if (type === "REPAY") {
       totalBorrows = Big(state.yourTotalBorrow).minus(assetsUSD);
+    }
+    if (type === "LOOP") {
+      totalCollateral = Big(state.yourTotalCollateral).plus(
+        Big(prices[symbol] || 1).times(Big(amount).times(Big(leverage)))
+      );
+      totalBorrows = Big(state.yourTotalBorrow).plus(
+        Big(prices[symbol] || 1).times(
+          Big(amount).times(Big(leverage)).minus(Big(amount))
+        )
+      );
     }
     if (totalBorrows.eq(0)) return "∞";
 
