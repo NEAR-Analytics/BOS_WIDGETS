@@ -140,7 +140,6 @@ const generateMazeData = (rows, cols) => {
       hasEnemy: false,
       hasExit: false,
       enemyWon: false,
-      cartelWon: false,
     }))
   );
 
@@ -274,7 +273,7 @@ const checkForEvents = (cell) => {
 
     const chance = Math.random();
     if (chance < 0.9) {
-      // 90% chance of encounter
+      // 80% chance of encounter
       const newMazeData = mazeData.map((row, rowIndex) =>
         row.map((mazeCell, colIndex) => {
           if (rowIndex === playerPosition.y && colIndex === playerPosition.x) {
