@@ -271,43 +271,45 @@ const checkForEvents = (cell) => {
   if (cell.isPath && !enemyCooldown && !cell.hasCheese && !cell.hasEnemy) {
     console.log("enemy encountered");
     const chance = Math.random();
-
-    const newMazeData = mazeData.map((row, rowIndex) =>
-      row.map((mazeCell, colIndex) => {
-        if (rowIndex === playerPosition.y && colIndex === playerPosition.x) {
-          return { ...mazeCell, hasEnemy: true };
-        }
-        return mazeCell;
-      })
-    );
-
-    setMazeData(newMazeData);
-    setEnemyCooldown(true);
-    const cooldownPeriod = Math.floor(Math.random() * 5000) + 10000;
-    setTimeout(() => {
-      setEnemyCooldown(false);
-    }, cooldownPeriod);
-
-    if (chance < 0.2) {
-      console.log("enemy won");
+    if (chance < 0.7) {
+      // 80% chance of encounter
       const newMazeData = mazeData.map((row, rowIndex) =>
         row.map((mazeCell, colIndex) => {
-          const isPlayerPosition =
-            rowIndex === playerPosition.y && colIndex === playerPosition.x;
-          if (isPlayerPosition) {
-            return {
-              ...mazeCell,
-              enemyWon: true, // Update enemyWon flag
-              isActive: false, // Update isActive flag
-            };
+          if (rowIndex === playerPosition.y && colIndex === playerPosition.x) {
+            return { ...mazeCell, hasEnemy: true };
           }
           return mazeCell;
         })
       );
+
       setMazeData(newMazeData);
-      setScore(0); // Set score to zero
-      gameOver("Enemy won! Game Over!", cell);
-      stopTimer();
+      setEnemyCooldown(true);
+      const cooldownPeriod = Math.floor(Math.random() * 5000) + 10000;
+      setTimeout(() => {
+        setEnemyCooldown(false);
+      }, cooldownPeriod);
+
+      if (Math.random() < 0.05) {
+        console.log("enemy won");
+        const newMazeData = mazeData.map((row, rowIndex) =>
+          row.map((mazeCell, colIndex) => {
+            const isPlayerPosition =
+              rowIndex === playerPosition.y && colIndex === playerPosition.x;
+            if (isPlayerPosition) {
+              return {
+                ...mazeCell,
+                enemyWon: true, // Update enemyWon flag
+                isActive: false, // Update isActive flag
+              };
+            }
+            return mazeCell;
+          })
+        );
+        setMazeData(newMazeData);
+        setScore(0); // Set score to zero
+        gameOver("Enemy won! Game Over!", cell);
+        stopTimer();
+      }
     } else {
       console.log("enemy defeated...");
     }
@@ -315,7 +317,7 @@ const checkForEvents = (cell) => {
 
   if (cell.isPath && !cheeseCooldown && !cell.hasCheese && !cell.hasEnemy) {
     // Generate cheese only if the cell does not already have an enemy
-    if (Math.random() < 0.1) {
+    if (Math.random() < 0.15) {
       // 1% chance of winning cheese
       console.log("cheese");
       const newMazeData = mazeData.map((row, rowIndex) =>
@@ -340,7 +342,7 @@ const checkForEvents = (cell) => {
   const navigatedCells = moves;
   const percentNavigated = (navigatedCells / totalCells) * 100;
 
-  if (percentNavigated >= 75 && Math.random() < 0.5) {
+  if (percentNavigated >= 80 && Math.random() < 0.2) {
     const newMazeData = mazeData.map((row, rowIndex) =>
       row.map((mazeCell, colIndex) => {
         if (rowIndex === playerPosition.y && colIndex === playerPosition.x) {
