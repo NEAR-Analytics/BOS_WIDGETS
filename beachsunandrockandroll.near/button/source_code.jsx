@@ -6,11 +6,11 @@ const variantDefault =
 
 const sizeDefault = "h-10 px-4 py-2";
 
-const buttonClassname = `${baseButton} ${variantDefault} ${sizeDefault}`;
+const buttonClassnameDefault = `${baseButton} ${variantDefault} ${sizeDefault}`;
 
 const Button = ({ className, children, ...props }) => (
   <button
-    className={className ?? buttonClassname}
+    className={className ?? buttonClassnameDefault}
     ref="forwardedRef"
     {...props}
   >
@@ -18,4 +18,10 @@ const Button = ({ className, children, ...props }) => (
   </button>
 );
 
-return { Button, baseButton, variantDefault, sizeDefault };
+return {
+  Button,
+  baseButton,
+  variantDefault,
+  sizeDefault,
+  buttonClassnameDefault,
+};
