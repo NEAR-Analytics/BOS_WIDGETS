@@ -577,6 +577,7 @@ const {
   sender,
   chainId,
   windowOpen,
+  addAction,
   isCreatedAccount,
   ICON_MAP,
   PROXY_ADDRESS,
@@ -979,7 +980,20 @@ function handleDeposit() {
         chainId,
       });
 
-      handleRefresh()
+      if (status === 1) {
+        addAction?.({
+          type: "Yield",
+          action: "Deposit",
+          token0: checkedVault.token0,
+          token1: checkedVault.token1,
+          amount: state?.inDepositAmount,
+          template: "Juice",
+          add: true,
+          status,
+          transactionHash,
+        });
+        handleRefresh()
+      }
     }).catch(error => {
       console.log('=error', error)
       State.update({
@@ -1057,7 +1071,20 @@ function handleWithdraw() {
         tx: transactionHash,
         chainId,
       });
-      handleRefresh()
+      if (status === 1) {
+        addAction?.({
+          type: "Yield",
+          action: "Withdraw",
+          token0: checkedVault.token1,
+          token1: checkedVault.token0,
+          amount: state?.inWithdrawAmount,
+          template: "Juice",
+          add: false,
+          status,
+          transactionHash,
+        });
+        handleRefresh()
+      }
     }).catch(error => {
       State.update({
         withdrawLoading: false
