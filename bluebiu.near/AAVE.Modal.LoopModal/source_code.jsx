@@ -473,7 +473,7 @@ function debounce(fn, wait) {
 const updateNewHealthFactor = debounce(() => {
   State.update({ newHealthFactor: "-" });
   const newHealthFactor = formatHealthFactor(
-    calcHealthFactor("SUPPLY", symbol, state.amount)
+    calcHealthFactor("LOOP", symbol, state.amount, state.leverage)
   );
   console.log(
     "supply updateNewHealthFactor",
@@ -515,6 +515,7 @@ const onSliderChange = (_value) => {
     leverage: _value,
     pointsRewards: (_value[0] * 1.5).toFixed(2),
   });
+  updateNewHealthFactor();
 };
 
 function getAccount() {
@@ -914,7 +915,8 @@ return (
                           {`${Big(state.amount || 0)
                             .times(Big(state.leverage))
                             .minus(Big(state.amount || 0))
-                            .times(0.000001)
+                            .times(prices[symbol] || 1)
+                            .times(0.0001)
                             .toFixed(6)} `}
                           )
                         </GreenTexture>
