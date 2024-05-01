@@ -1,5 +1,5 @@
 const { Tailwind } = VM.require("beachsunandrockandroll.near/widget/preflight");
-const { Button } = VM.require("beachsunandrockandroll.near/widget/buttonv2");
+// const { Button } = VM.require("beachsunandrockandroll.near/widget/buttonv2");
 const { Input } = VM.require("beachsunandrockandroll.near/widget/input");
 const { Label } = VM.require("beachsunandrockandroll.near/widget/label");
 const {
@@ -43,6 +43,42 @@ if (["", "loaded"].includes(cardFooter))
     />
   );
 
+const Cn = ({ output, val, ...props }) => (
+  <Widget
+    src="beachsunandrockandroll.near/widget/buttonIframe"
+    props={{ output, ...props }}
+  />
+);
+
+const Button = ({
+  className,
+  children,
+  variant,
+  size,
+  cnb,
+  setCnButton,
+  ...props
+}) => {
+  console.log(cnb);
+  if (["", "loaded"].includes(cnb))
+    return (
+      <Widget
+        src="beachsunandrockandroll.near/widget/buttonIframe"
+        props={{
+          output: setCnButton,
+          variant,
+          size,
+        }}
+      />
+    );
+
+  return (
+    <button className={cnb} ref="forwardedRef" {...props}>
+      {children}
+    </button>
+  );
+};
+
 return (
   <Tailwind>
     <div className="flex max-w-lg px-10 mx-auto w-max pt-10">
@@ -79,11 +115,11 @@ return (
           <Button
             variant="outline"
             setCnButton={setButtonCancel}
-            cnButton={buttonCancel}
+            cnb={buttonCancel}
           >
             Cancel
           </Button>
-          <Button cnButton={buttonDeploy} setCnButton={setButtonDeploy}>
+          <Button cnb={buttonDeploy} setCnButton={setButtonDeploy}>
             Deploy
           </Button>
         </CardFooter>
