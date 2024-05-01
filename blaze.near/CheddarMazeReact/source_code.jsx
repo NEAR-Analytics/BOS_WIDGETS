@@ -527,5 +527,12 @@ return (
         {/* Display the notification message here */}
       </div>
     </div>
+    <ol>
+      <li>Click or Tap to Start</li>
+      <li>Navigate with Arrows or Tap</li>
+      <li>Collect Cheddar🧀</li>
+      <li>Battle Cartel to protect your Bag</li>
+      <li>Find Hidden Door🚪 to Win!</li>
+    </ol>
   </div>
 );
