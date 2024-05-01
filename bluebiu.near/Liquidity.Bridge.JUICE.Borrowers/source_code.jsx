@@ -325,7 +325,7 @@ State.init({
   repayApproved: true,
   repayApproving: false,
   // depositApp
-
+  withRevert: false,
   balances: {
     deposit: 0,
     withdraw: 0,
@@ -335,7 +335,7 @@ State.init({
     secondRepay: 0,
   },
   pnl: 0,
-  borrowLeverage: ''
+  borrowLeverage: '',
 })
 const {
   categoryList,
@@ -407,7 +407,6 @@ function handleCheckApprove(amount) {
     contract
       .allowance(sender, PROXY_ADDRESS)
       .then((allowance) => {
-        console.log('===allowance', allowance)
         State.update({
           depositApproved: !new Big(allowance.toString()).lt(_amount)
         })
@@ -462,60 +461,66 @@ function handleInAmountChange(amount) {
   if (categoryIndex === 0 || categoryIndex === 3) {
     handleCheckApprove(amount)
   }
-  // if (categoryIndex === 1) {
-  //   const abi = [{
-  //     "inputs": [
-  //       {
-  //         "internalType": "uint256",
-  //         "name": "shares",
-  //         "type": "uint256"
-  //       },
-  //       {
-  //         "internalType": "address",
-  //         "name": "receiver",
-  //         "type": "address"
-  //       }
-  //     ],
-  //     "name": "withdraw",
-  //     "outputs": [
-  //       {
-  //         "internalType": "uint256",
-  //         "name": "updatedAssets",
-  //         "type": "uint256"
-  //       },
-  //       {
-  //         "internalType": "uint256",
-  //         "name": "updatedShares",
-  //         "type": "uint256"
-  //       }
-  //     ],
-  //     "stateMutability": "nonpayable",
-  //     "type": "function"
-  //   }]
-  //   const contract = new ethers.Contract(
-  //     ethers.utils.getAddress(PROXY_ADDRESS),
-  //     abi,
-  //     Ethers.provider().getSigner()
-  //   );
-  //   const _amount = Big(amount)
-  //     .mul(Big(10).pow(18))
-  //     .toFixed(0);
-  //   getShares(_amount)
-  //     .then((sharesResult) => {
-  //       const shares = sharesResult[1]
-  //       contract
-  //         .callStatic
-  //         .withdraw(
-  //           shares,
-  //           sender,
-  //         )
-  //         .then((result) => {
-  //           console.log('===result', result)
-  //         }).catch(error => {
-
-  //         });
-  //     })
-  // }
+  if (categoryIndex === 1) {
+    const abi = [{
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "shares",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "receiver",
+          "type": "address"
+        }
+      ],
+      "name": "withdraw",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "updatedAssets",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "updatedShares",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }]
+    const contract = new ethers.Contract(
+      ethers.utils.getAddress(PROXY_ADDRESS),
+      abi,
+      Ethers.provider().getSigner()
+    );
+    const _amount = Big(amount)
+      .mul(Big(10).pow(18))
+      .toFixed(0);
+    getShares(_amount)
+      .then((sharesResult) => {
+        const shares = sharesResult[1]
+        contract
+          .callStatic
+          .withdraw(
+            shares,
+            sender,
+          )
+          .then((result) => {
+            console.log('===result', result)
+            State.update({
+              withRevert: false
+            })
+          }).catch((error) => {
+            console.log('===error', error)
+            State.update({
+              withRevert: true
+            })
+          });
+      })
+  }
 }
 function doApprove(amount, APPROVE_ADDRESS, onSuccess, onError) {
   const toastId = toast?.loading({
@@ -1010,7 +1015,12 @@ function handleRepay() {
       });
     });
 }
-function handleGetBalances() {
+// function handleGetCurrentBalance(balances) {
+//   const key = ["deposit", "withdraw", "borrow", "repay"][categoryIndex]
+//   return balances[key]
+// }
+// function handleGetDeposit
+function handleGetBalances(callback) {
   const calls = []
   const abi = [{
     "inputs": [
@@ -1155,17 +1165,25 @@ function handleGetBalances() {
       getTotalCollateralValueResult,
       getDebtAmountResult
     ] = result
+    const deposit = Big(isNotEmptyArray(balanceOfResult) ? ethers.utils.formatUnits(balanceOfResult[0]) : 0).toString()
+    const withdraw = Big(isNotEmptyArray(getAccountHealthResult) && getAccountHealthResult[0][1] ? ethers.utils.formatUnits(getAccountHealthResult[0][1]) : 0).toString()
     const borrow = Big(isNotEmptyArray(getTotalCollateralValueResult) ? ethers.utils.formatUnits(getTotalCollateralValueResult[0]) : 0).times(2.97).minus(isNotEmptyArray(getDebtAmountResult) ? ethers.utils.formatUnits(getDebtAmountResult[0]) : 0).toString()
+    const firstRepay = Big(isNotEmptyArray(balanceOfResult) ? ethers.utils.formatUnits(balanceOfResult[0]) : 0).toString()
+    const secondRepay = Big(isNotEmptyArray(getDebtAmountResult) ? ethers.utils.formatUnits(getDebtAmountResult[0]) : 0).toString()
+    const repay = Big(secondRepay).gt(state?.accountOverview?.firstBalance ?? 0)
+      ? state.accountOverview?.firstBalance : secondRepay
+    const balances = {
+      deposit,
+      withdraw,
+      borrow: Big(borrow).gt(0) ? borrow : 0,
+      repay,
+      firstRepay,
+      secondRepay
+    }
     State.update({
-      balances: {
-        deposit: Big(isNotEmptyArray(balanceOfResult) ? ethers.utils.formatUnits(balanceOfResult[0]) : 0).toString(),
-        withdraw: Big(isNotEmptyArray(getAccountHealthResult) && getAccountHealthResult[0][1] ? ethers.utils.formatUnits(getAccountHealthResult[0][1]) : 0).toString(),
-        borrow: Big(borrow).gt(0) ? borrow : 0,
-        // repay: 0,
-        firstRepay: Big(isNotEmptyArray(balanceOfResult) ? ethers.utils.formatUnits(balanceOfResult[0]) : 0).toString(),
-        secondRepay: Big(isNotEmptyArray(getDebtAmountResult) ? ethers.utils.formatUnits(getDebtAmountResult[0]) : 0).toString()
-      }
+      balances
     })
+    callback && callback([deposit, withdraw, borrow, repay][categoryIndex])
   })
 }
 function handleGetAccountOverview() {
@@ -1394,6 +1412,7 @@ function doQueryPnl(x, y) {
   );
   contract.zeroFloorSub(x, y)
     .then(result => {
+      console.log('=ethers.utils.formatUnits(result)', ethers.utils.formatUnits(result))
       State.update({
         pnl: ethers.utils.formatUnits(result)
       })
@@ -1521,9 +1540,9 @@ function handleClaim() {
     })
 }
 function handleMax() {
-  const outArray = ["deposit", "withdraw", "borrow", "repay"]
-  const balance = state?.balances[outArray[categoryIndex]] ?? 0
-  handleInAmountChange(Big(balance).eq(Big(10).pow(-18)) ? 0 : balance)
+  handleGetBalances(balance => {
+    handleInAmountChange(Big(balance).eq(Big(10).pow(-18)) ? 0 : balance)
+  })
 }
 function handleRefresh() {
   handleGetBalances()
@@ -1531,13 +1550,8 @@ function handleRefresh() {
   handleQueryPnl()
 }
 useEffect(() => {
-  const balances = state.balances
-  balances.repay = Big(state.balances?.secondRepay).gt(state?.accountOverview?.firstBalance ?? 0)
-    ? state.accountOverview?.firstBalance : state.balances?.secondRepay
-  State.update({
-    balances
-  })
-}, [state.balances.secondRepay, state.accountOverview?.firstBalance])
+  handleGetBalances()
+}, [categoryIndex])
 useEffect(() => {
   const [totalCollateralValue, totalBorrowed] = state.leverage
   if (totalBorrowed && totalCollateralValue) {
@@ -1667,7 +1681,7 @@ return (
                         <StyledOperationButton disabled>
                           <Widget src={"bluebiu.near/widget/Liquidity.Bridge.Loading"} />
                         </StyledOperationButton>
-                      ) : state.inWithdrawAmount > 0 ? (
+                      ) : state.inWithdrawAmount > 0 && !state.withRevert ? (
                         <StyledOperationButton onClick={handleWithdraw}>Withdraw</StyledOperationButton>
                       ) : (
                         <StyledOperationButton disabled>Withdraw</StyledOperationButton>
@@ -1841,7 +1855,7 @@ return (
         </StyledOverview>
         <StyledOverview>
           <StyledOverviewLabel>PnL</StyledOverviewLabel>
-          <StyledOverviewValue>{Big(state.pnl).toFixed(2)}</StyledOverviewValue>
+          <StyledOverviewValue>{Big(state.pnl).toFixed(4)}</StyledOverviewValue>
         </StyledOverview>
       </StyledOverviewList>
       <StyledOverviewButtonContainer>
