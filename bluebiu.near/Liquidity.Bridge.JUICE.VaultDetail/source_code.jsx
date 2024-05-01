@@ -497,7 +497,7 @@ const StyledMaxSlippageAutoButton = styled.div`
   border-radius: 8px;
   border: 1px solid #454968;
   background: #313447;
-
+  cursor: pointer;
   color: #979ABE;
   font-family: Gantari;
   font-size: 14px;
@@ -914,6 +914,43 @@ function handleQueryDepositBalance() {
       })
     })
 }
+function getShares(_amount) {
+  return new Promise((resolve, reject) => {
+    const abi = [{
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "assets",
+          "type": "uint256"
+        }
+      ],
+      "name": "previewDeposit",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "updatedAssets",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "shares",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }]
+    const contract = new ethers.Contract(
+      ethers.utils.getAddress(PROXY_ADDRESS),
+      abi,
+      Ethers.provider().getSigner()
+    )
+    contract.previewDeposit(_amount)
+      .then(resolve)
+      .catch(reject)
+  })
+
+}
 function handleDeposit() {
   State.update({
     depositLoading: true
@@ -955,6 +992,7 @@ function handleDeposit() {
     abi,
     Ethers.provider().getSigner()
   );
+
   const _amount = Big(state?.inDepositAmount)
     .mul(Big(10).pow(18))
     .toFixed(0);
@@ -1051,51 +1089,55 @@ function handleWithdraw() {
   const _amount = Big(state?.inWithdrawAmount)
     .mul(Big(10).pow(18))
     .toFixed(0);
-  contract
-    .strategyWithdraw(
-      checkedVault.strategyAddress,
-      _amount,
-      "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-    )
-    .then(tx => tx.wait())
-    .then((result) => {
-      const { status, transactionHash } = result;
-      toast?.dismiss(toastId);
-      if (status !== 1) throw new Error("");
-      State.update({
-        withdrawLoading: false
-      })
-      toast?.success({
-        title: "Withdraw Successfully!",
-        text: `Withdraw ${state.inWithdrawAmount} ${checkedVault.token0}`,
-        tx: transactionHash,
-        chainId,
-      });
-      if (status === 1) {
-        addAction?.({
-          type: "Yield",
-          action: "Withdraw",
-          token0: checkedVault.token1,
-          token1: checkedVault.token0,
-          amount: state?.inWithdrawAmount,
-          template: "Juice",
-          add: false,
-          status,
-          transactionHash,
+  getShares(_amount).then(sharesResult => {
+    const shares = sharesResult[1]
+    contract
+      .strategyWithdraw(
+        checkedVault.strategyAddress,
+        shares,
+        "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      )
+      .then(tx => tx.wait())
+      .then((result) => {
+        const { status, transactionHash } = result;
+        toast?.dismiss(toastId);
+        if (status !== 1) throw new Error("");
+        State.update({
+          withdrawLoading: false
+        })
+        toast?.success({
+          title: "Withdraw Successfully!",
+          text: `Withdraw ${state.inWithdrawAmount} ${checkedVault.token0}`,
+          tx: transactionHash,
+          chainId,
         });
-        handleRefresh()
-      }
-    }).catch(error => {
-      State.update({
-        withdrawLoading: false
-      })
-      toast?.fail({
-        title: "Withdraw Failed!",
-        text: error?.message?.includes("user rejected transaction")
-          ? "User rejected transaction"
-          : `Withdraw ${state.inWithdrawAmount} ${checkedVault.token0}`,
+        if (status === 1) {
+          addAction?.({
+            type: "Yield",
+            action: "Withdraw",
+            token0: checkedVault.token1,
+            token1: checkedVault.token0,
+            amount: state?.inWithdrawAmount,
+            template: "Juice",
+            add: false,
+            status,
+            transactionHash,
+          });
+          handleRefresh()
+        }
+      }).catch(error => {
+        State.update({
+          withdrawLoading: false
+        })
+        toast?.fail({
+          title: "Withdraw Failed!",
+          text: error?.message?.includes("user rejected transaction")
+            ? "User rejected transaction"
+            : `Withdraw ${state.inWithdrawAmount} ${checkedVault.token0}`,
+        });
       });
-    });
+  })
+
 }
 function handleExplore() {
   windowOpen("https://blastexplorer.io/address/" + checkedVault.vaultAddress, "_blank")
@@ -1118,9 +1160,12 @@ function handleMax() {
   const balance = state.isDeposit ? state.depositBalance : state.positionOverview?.balanceOf
   handleInAmountChange(Big(balance).eq(Big(10).pow(-18)) ? 0 : balance)
 }
+function handleAuto() {
+  handleSlippageChange(0.5)
+}
 function handleRefresh() {
   handleQueryPositionOverview()
-  handleQueryVaultOverview()
+  // handleQueryVaultOverview()
   handleQueryDepositBalance()
 }
 
@@ -1290,7 +1335,7 @@ return (
                           <StyledMaxSlippageContainer>
                             <StyledMaxSlippageTop>Max. Slippage</StyledMaxSlippageTop>
                             <StyledMaxSlippageBottom>
-                              <StyledMaxSlippageAutoButton>Auto</StyledMaxSlippageAutoButton>
+                              <StyledMaxSlippageAutoButton onClick={handleAuto}>Auto</StyledMaxSlippageAutoButton>
                               <StyledMaxSlippageInputContainer className={state.slippageError ? "error" : ""}>
                                 <StyledMaxSlippageInput type="number" value={state.inSlippageAmount} onChange={event => handleSlippageChange(event.target.value)} />
                                 <StyledMaxSlippagePercentage>%</StyledMaxSlippagePercentage>
@@ -1389,7 +1434,7 @@ return (
                           <StyledMaxSlippageContainer>
                             <StyledMaxSlippageTop>Max. Slippage</StyledMaxSlippageTop>
                             <StyledMaxSlippageBottom>
-                              <StyledMaxSlippageAutoButton>Auto</StyledMaxSlippageAutoButton>
+                              <StyledMaxSlippageAutoButton onClick={handleAuto}>Auto</StyledMaxSlippageAutoButton>
                               <StyledMaxSlippageInputContainer className={state.slippageError ? "error" : ""}>
                                 <StyledMaxSlippageInput type="number" value={state.inSlippageAmount} onChange={event => handleSlippageChange(event.target.value)} />
                                 <StyledMaxSlippagePercentage>%</StyledMaxSlippagePercentage>
