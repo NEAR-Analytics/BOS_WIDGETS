@@ -1088,11 +1088,8 @@ function handleGetSlippageOutAmount(amount, slippageAmount) {
   return Number(slippageOutAmount) > 0 ? slippageOutAmount : "0.000000"
 }
 function handleMax() {
-  if (state.isDeposit) {
-    handleInAmountChange(state.depositBalance)
-  } else {
-    handleInAmountChange(state.positionOverview?.balanceOf)
-  }
+  const balance = state.isDeposit ? state.depositBalance : state.positionOverview?.balanceOf
+  handleInAmountChange(Big(balance).eq(Big(10).pow(-18)) ? 0 : balance)
 }
 function handleRefresh() {
   handleQueryPositionOverview()
