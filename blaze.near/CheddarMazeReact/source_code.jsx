@@ -149,20 +149,20 @@ const generateMazeData = (rows, cols) => {
 
   switch (startEdge) {
     case 0: // Top edge
-      x = Math.floor(Math.random() * (cols - 6)) + 3;
+      x = Math.floor(Math.random() * (cols - 2)) + 1;
       y = 0;
       break;
     case 1: // Right edge
       x = cols - 1;
-      y = Math.floor(Math.random() * (rows - 6)) + 3;
+      y = Math.floor(Math.random() * (rows - 2)) + 1;
       break;
     case 2: // Bottom edge
-      x = Math.floor(Math.random() * (cols - 6)) + 3;
+      x = Math.floor(Math.random() * (cols - 2)) + 1;
       y = rows - 1;
       break;
     case 3: // Left edge
       x = 0;
-      y = Math.floor(Math.random() * (rows - 6)) + 3;
+      y = Math.floor(Math.random() * (rows - 2)) + 1;
       break;
   }
 
@@ -208,8 +208,8 @@ const generateMazeData = (rows, cols) => {
 };
 
 useEffect(() => {
-  const mazeRows = 15; // Increased by 2
-  const mazeCols = 11; // Keeping the same width
+  const mazeRows = 11;
+  const mazeCols = 9; // Updated width to 9 columns
   const newMazeData = generateMazeData(mazeRows, mazeCols);
   let startX = Math.floor(Math.random() * (mazeCols - 2)) + 1;
   let startY = Math.floor(Math.random() * (mazeRows - 2)) + 1;
