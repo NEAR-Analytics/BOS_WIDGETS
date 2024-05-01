@@ -238,37 +238,6 @@ const handleKeyPress = (event) => {
   movePlayer(newX, newY);
 };
 
-const handleTouchMove = (event) => {
-  if (!initialTouch) return;
-  console.log("Touch Started"); // Add this line for debugging
-  event.preventDefault(); // Prevent scrolling on touch devices
-  const touch = event.touches[0];
-
-  // Calculate the difference between initial touch and current touch
-  const deltaX = touch.clientX - initialTouch.x;
-  const deltaY = touch.clientY - initialTouch.y;
-
-  setNotification(`Dragging over cell (${cellX}, ${cellY})`);
-
-  // Calculate the position of the touched cell
-  const cellWidth = isMobile() ? 30 : 40; // Adjusted cell size for mobile devices
-  const offsetX = mazeContainerRef.current.getBoundingClientRect().left;
-  const offsetY = mazeContainerRef.current.getBoundingClientRect().top;
-  const cellX = Math.floor((touch.clientX - offsetX) / cellWidth);
-  const cellY = Math.floor((touch.clientY - offsetY) / cellWidth);
-
-  // Only move the player if the touch has moved sufficiently far from the initial touch
-  // This prevents small touch movements from triggering player movement
-  if (Math.abs(deltaX) >= cellWidth || Math.abs(deltaY) >= cellWidth) {
-    movePlayer(cellX, cellY);
-    setInitialTouch(null); // Reset initial touch to prevent continuous movement
-  }
-};
-
-const handleTouchEnd = () => {
-  setInitialTouch(null);
-};
-
 const checkForEvents = (cell) => {
   if (!cell.isPath) {
     return; // Exit the function if the cell is not a path cell
@@ -391,14 +360,51 @@ const isMobile = () => {
   );
 };
 
+const handleContainerClick = () => {
+  startTimerOnTap(); // Start the timer when the user clicks on the maze container
+};
+
+let mazeContainerRef = null;
+
 const handleTouchStart = (event) => {
   const touch = event.touches[0];
+  const offsetX = mazeContainerRef.offsetLeft;
+  const offsetY = mazeContainerRef.offsetTop;
+  const cellWidth = isMobile() ? 30 : 40; // Adjusted cell size for mobile devices
+  const cellX = Math.floor((touch.clientX - offsetX) / cellWidth);
+  const cellY = Math.floor((touch.clientY - offsetY) / cellWidth);
+
   setInitialTouch({ x: touch.clientX, y: touch.clientY });
   startTimerOnTap(); // Start the timer when the user taps on the maze container
 };
 
-const handleContainerClick = () => {
-  startTimerOnTap(); // Start the timer when the user clicks on the maze container
+const handleTouchMove = (event) => {
+  if (!mazeContainerRef) return;
+  const touch = event.touches[0];
+  const offsetX = mazeContainerRef.offsetLeft;
+  const offsetY = mazeContainerRef.offsetTop;
+  const cellWidth = isMobile() ? 30 : 40; // Adjusted cell size for mobile devices
+  const cellX = Math.floor((touch.clientX - offsetX) / cellWidth);
+  const cellY = Math.floor((touch.clientY - offsetY) / cellWidth);
+
+  setNotification(`Dragging over cell (${cellX}, ${cellY})`);
+
+  // Update maze data with dragged over cell
+  const newMazeData = mazeData.map((row, rowIndex) =>
+    row.map((cell, colIndex) => {
+      if (rowIndex === cellY && colIndex === cellX) {
+        return { ...cell, isDraggedOver: true };
+      } else {
+        return { ...cell, isDraggedOver: false }; // Optionally reset others
+      }
+    })
+  );
+
+  setMazeData(newMazeData);
+};
+
+const handleTouchEnd = () => {
+  setInitialTouch(null);
 };
 
 const cellSize = isMobile() ? 30 : 40; // Adjust cell size for mobile devices
@@ -420,7 +426,9 @@ return (
       </div>
     )}
     <div
+      ref={(ref) => (mazeContainerRef = ref)}
       className="maze-container"
+      ref={mazeContainerRef}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
