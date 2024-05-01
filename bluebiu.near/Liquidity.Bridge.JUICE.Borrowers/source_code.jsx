@@ -330,10 +330,12 @@ State.init({
     deposit: 0,
     withdraw: 0,
     borrow: 0,
+    repay: 0,
     firstRepay: 0,
     secondRepay: 0,
   },
-  pnl: 0
+  pnl: 0,
+  borrowLeverage: ''
 })
 const {
   categoryList,
@@ -360,10 +362,12 @@ const {
 const isDepositInSufficient = Number(state?.inDepositAmount ?? 0) > Number(state?.balances.deposit ?? 0)
 const isWithdrawInSufficient = Number(state?.inWithdrawAmount ?? 0) > Number(state?.balances.withdraw ?? 0)
 const isBorrowInSufficient = Number(state?.inBorrowAmount ?? 0) > Number(state?.balances.borrow ?? 0)
-const isRepayInSufficient = Number(state?.inRepayAmount ?? 0) > Number(state?.balances.secondRepay ?? 0)
-
+const isRepayInSufficient = Number(state?.inRepayAmount ?? 0) > Number(state?.balances.repay ?? 0)
 function isNotEmptyArray(value) {
   return value && value[0]
+}
+function getValue(value) {
+  return value ? value : 0
 }
 function handleCheckApprove(amount) {
   const _amount = Big(amount)
@@ -420,11 +424,16 @@ function handleCheckApprove(amount) {
           repayApproved: !new Big(allowance.toString()).lt(_amount)
         })
       })
+    // State.update({
+    //   repayApproved: Big(state.accountOverview?.firstBalance ?? 0).gt(amount)
+    // })
   }
 }
 function handleInAmountChange(amount) {
   const keyArray = ["inDepositAmount", "inWithdrawAmount", "inBorrowAmount", "inRepayAmount"]
-  console.log('=Number(amount)', Number(amount))
+  if (Number(amount) < 0) {
+    return
+  }
   if (Number(amount) === 0) {
     State.update({
       [keyArray[categoryIndex]]: amount,
@@ -607,9 +616,6 @@ function handleDeposit() {
     .deposit(
       _amount,
       sender,
-      {
-        gasLimit: 5000000
-      }
     )
     .then(tx => tx.wait())
     .then((result) => {
@@ -628,7 +634,6 @@ function handleDeposit() {
       });
       handleRefresh()
     }).catch(error => {
-      console.log('=error', error)
       State.update({
         depositLoading: false
       })
@@ -675,6 +680,29 @@ function handleWithdraw() {
     ],
     "stateMutability": "nonpayable",
     "type": "function"
+  }, {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "assets",
+        "type": "uint256"
+      }
+    ],
+    "name": "previewDeposit",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "updatedAssets",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "shares",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
   }]
   const contract = new ethers.Contract(
     ethers.utils.getAddress(PROXY_ADDRESS),
@@ -684,42 +712,43 @@ function handleWithdraw() {
   const _amount = Big(state?.inWithdrawAmount)
     .mul(Big(10).pow(18))
     .toFixed(0);
-  contract
-    .withdraw(
-      _amount,
-      sender,
-      {
-        gasLimit: 5000000
-      }
-    )
-    .then(tx => tx.wait())
-    .then((result) => {
-      const { status, transactionHash } = result;
-      toast?.dismiss(toastId);
-      if (status !== 1) throw new Error("");
-      State.update({
-        inWithdrawAmount: "",
-        withdrawLoading: false
-      })
-      toast?.success({
-        title: "Withdraw Successfully!",
-        text: `Withdraw ${state.inWithdrawAmount} WETH`,
-        tx: transactionHash,
-        chainId,
-      });
-      handleRefresh()
-    }).catch(error => {
-      console.log('=error', error)
-      State.update({
-        withdrawLoading: false
-      })
-      toast?.fail({
-        title: "Withdraw Failed!",
-        text: error?.message?.includes("user rejected transaction")
-          ? "User rejected transaction"
-          : `Withdraw ${state.inWithdrawAmount} WETH`,
-      });
-    });
+  contract.previewDeposit(_amount)
+    .then(sharesResult => {
+      const shares = sharesResult[1]
+      contract
+        .withdraw(
+          shares,
+          sender,
+        )
+        .then(tx => tx.wait())
+        .then((result) => {
+          const { status, transactionHash } = result;
+          toast?.dismiss(toastId);
+          if (status !== 1) throw new Error("");
+          State.update({
+            inWithdrawAmount: "",
+            withdrawLoading: false
+          })
+          toast?.success({
+            title: "Withdraw Successfully!",
+            text: `Withdraw ${state.inWithdrawAmount} WETH`,
+            tx: transactionHash,
+            chainId,
+          });
+          handleRefresh()
+        }).catch(error => {
+          console.log('=error', error)
+          State.update({
+            withdrawLoading: false
+          })
+          toast?.fail({
+            title: "Withdraw Failed!",
+            text: error?.message?.includes("user rejected transaction")
+              ? "User rejected transaction"
+              : `Withdraw ${state.inWithdrawAmount} WETH`,
+          });
+        });
+    })
 }
 function handleBorrow() {
   State.update({
@@ -752,15 +781,13 @@ function handleBorrow() {
     abi,
     Ethers.provider().getSigner()
   );
+
   const _amount = Big(state?.inBorrowAmount)
     .mul(Big(10).pow(18))
     .toFixed(0);
   contract
     .borrow(
       _amount,
-      {
-        gasLimit: 5000000
-      }
     )
     .then(tx => tx.wait())
     .then((result) => {
@@ -832,12 +859,9 @@ function handleRepay() {
   const _amount = Big(state?.inRepayAmount)
     .mul(Big(10).pow(18))
     .toFixed(0);
-  const contractMethod = Big(state.inRepayAmount).eq(state.balances.secondRepay) ? "repayFrom" : "repay"
+  const contractMethod = "repay"
   contract[contractMethod](
     _amount,
-    {
-      gasLimit: 5000000
-    }
   )
     .then(tx => tx.wait())
     .then((result) => {
@@ -1014,12 +1038,13 @@ function handleGetBalances() {
       getTotalCollateralValueResult,
       getDebtAmountResult
     ] = result
-
+    const borrow = Big(isNotEmptyArray(getTotalCollateralValueResult) ? ethers.utils.formatUnits(getTotalCollateralValueResult[0]) : 0).times(2.97).minus(isNotEmptyArray(getDebtAmountResult) ? ethers.utils.formatUnits(getDebtAmountResult[0]) : 0).toString()
     State.update({
       balances: {
         deposit: Big(isNotEmptyArray(balanceOfResult) ? ethers.utils.formatUnits(balanceOfResult[0]) : 0).toString(),
         withdraw: Big(isNotEmptyArray(getAccountHealthResult) && getAccountHealthResult[0][1] ? ethers.utils.formatUnits(getAccountHealthResult[0][1]) : 0).toString(),
-        borrow: Big(isNotEmptyArray(getTotalCollateralValueResult) ? ethers.utils.formatUnits(getTotalCollateralValueResult[0]) : 0).times(2.97).minus(isNotEmptyArray(getDebtAmountResult) ? ethers.utils.formatUnits(getDebtAmountResult[0]) : 0).toString(),
+        borrow: Big(borrow).gt(0) ? borrow : 0,
+        // repay: 0,
         firstRepay: Big(isNotEmptyArray(balanceOfResult) ? ethers.utils.formatUnits(balanceOfResult[0]) : 0).toString(),
         secondRepay: Big(isNotEmptyArray(getDebtAmountResult) ? ethers.utils.formatUnits(getDebtAmountResult[0]) : 0).toString()
       }
@@ -1203,14 +1228,17 @@ function handleGetAccountOverview() {
     ] = result
     const [A1, A2, A3] = isNotEmptyArray(getAccountHealthResult) ? getAccountHealthResult[0] : [1, 0, 0]
     State.update({
+      leverage: [
+        isNotEmptyArray(getTotalCollateralValueResult) ? ethers.utils.formatUnits(getTotalCollateralValueResult[0]) : 0,
+        isNotEmptyArray(getDebtAmountResult) ? ethers.utils.formatUnits(getDebtAmountResult[0]) : 0
+      ],
       accountOverview: {
-        borrowLeverage: "",
         balanceOfAssets: Big(isNotEmptyArray(balanceOfAssetsResult) ? ethers.utils.formatUnits(balanceOfAssetsResult[0]) : 0).toFixed(4),
         debtAmount: Big(isNotEmptyArray(getDebtAmountResult) ? ethers.utils.formatUnits(getDebtAmountResult[0]) : 0).toFixed(4),
         totalCollateralValue: Big(isNotEmptyArray(getTotalCollateralValueResult) ? ethers.utils.formatUnits(getTotalCollateralValueResult[0]) : 0).times(2.97).minus(isNotEmptyArray(getDebtAmountResult) ? ethers.utils.formatUnits(getDebtAmountResult[0]) : 0).toFixed(4),
         accountHealth: Big(A1).gt(0) ? (Big(Big(A2).plus(A3)).div(A1).times(100).toFixed(2) + "%") : "N/A",
-        firstBalance: Big(isNotEmptyArray(firstBalanceResult) ? ethers.utils.formatUnits(firstBalanceResult[0]) : 0).toFixed(4),
-        secondBalance: Big(isNotEmptyArray(secondBalanceResult) ? ethers.utils.formatUnits(secondBalanceResult[0]) : 0).toFixed(4),
+        firstBalance: Big(isNotEmptyArray(firstBalanceResult) ? ethers.utils.formatUnits(firstBalanceResult[0]) : 0).toString(),
+        secondBalance: Big(isNotEmptyArray(secondBalanceResult) ? ethers.utils.formatUnits(secondBalanceResult[0]) : 0).toString(),
       }
     })
   })
@@ -1314,9 +1342,10 @@ function handleQueryPnl() {
     provider: Ethers.provider(),
   }).then(result => {
     const [getTotalAccountValueResult, getDebtAmountResult] = result
-    if (isNotEmptyArray(getTotalAccountValueResult) && isNotEmptyArray(getDebtAmountResult)) {
-      doQueryPnl(getTotalAccountValueResult[0], getDebtAmountResult[0])
-    }
+    doQueryPnl(
+      isNotEmptyArray(getTotalAccountValueResult) ? getTotalAccountValueResult[0] : 0,
+      isNotEmptyArray(getDebtAmountResult) ? getDebtAmountResult[0] : 0
+    )
   })
 }
 function handleClaim() {
@@ -1375,15 +1404,44 @@ function handleClaim() {
     })
 }
 function handleMax() {
-  const outArray = ["deposit", "withdraw", "borrow", "secondRepay"]
+  const outArray = ["deposit", "withdraw", "borrow", "repay"]
   const balance = state.balances[outArray[categoryIndex]]
-  handleInAmountChange(balance)
+  // if (categoryIndex === 3) {
+  // } else {
+  handleInAmountChange(Big(balance).eq(Big(10).pow(-18)) ? 0 : balance)
+  // }
 }
 function handleRefresh() {
   handleGetBalances()
   handleGetAccountOverview()
   handleQueryPnl()
 }
+useEffect(() => {
+  const balances = state.balances
+  balances.repay = Big(state.balances?.secondRepay).gt(state?.accountOverview?.firstBalance ?? 0)
+    ? state.accountOverview?.firstBalance : state.balances?.secondRepay
+  State.update({
+    balances
+  })
+}, [state.balances.secondRepay, state.accountOverview?.firstBalance])
+useEffect(() => {
+  const [totalCollateralValue, totalBorrowed] = state.leverage
+  if (totalBorrowed && totalCollateralValue) {
+    if (categoryIndex < 3) {
+      State.update({
+        borrowLeverage: Big(Big(totalBorrowed).plus(state?.inBorrowAmount ? state?.inBorrowAmount : 0)).div(totalCollateralValue).times(100).toFixed(2) + '%'
+      })
+    } else {
+      State.update({
+        borrowLeverage: Big(Big(totalBorrowed).minus(state?.inBorrowAmount ? state?.inBorrowAmount : 0)).div(totalCollateralValue).times(100).toFixed(2) + '%'
+      })
+    }
+  } else {
+    State.update({
+      borrowLeverage: '0.00%'
+    })
+  }
+}, [state.categoryIndex, state.leverage, state.inBorrowAmount, state.inRepayAmount])
 useEffect(() => {
   handleRefresh()
 }, [])
@@ -1433,7 +1491,7 @@ return (
                     <StyledDepositMessageList>
                       <StyledDepositMessage>
                         <StyledDepositMessageLabel>Borrow Leverage</StyledDepositMessageLabel>
-                        <StyledDepositMessageValue>0.00%</StyledDepositMessageValue>
+                        <StyledDepositMessageValue>{state.borrowLeverage}</StyledDepositMessageValue>
                       </StyledDepositMessage>
                       <StyledDepositMessage>
                         <StyledDepositMessageLabel>New Margin Health Factor</StyledDepositMessageLabel>
@@ -1465,7 +1523,7 @@ return (
                       <StyledDepositInputTop>
                         <StyledDepositInputTopType>Withdraw</StyledDepositInputTopType>
                         <StyledDepositInputTopBalance>
-                          Balance: <span onClick={handleMax}>{Big(state.balances?.withdraw).toFixed(4)}</span>
+                          Available: <span onClick={handleMax}>{Big(state.balances?.withdraw).toFixed(4)}</span>
                         </StyledDepositInputTopBalance>
                       </StyledDepositInputTop>
                       <StyledDepositInputBottom>
@@ -1481,7 +1539,7 @@ return (
                     <StyledDepositMessageList>
                       <StyledDepositMessage>
                         <StyledDepositMessageLabel>Borrow Leverage</StyledDepositMessageLabel>
-                        <StyledDepositMessageValue>0.00%</StyledDepositMessageValue>
+                        <StyledDepositMessageValue>{state.borrowLeverage}</StyledDepositMessageValue>
                       </StyledDepositMessage>
                       <StyledDepositMessage>
                         <StyledDepositMessageLabel>New Margin Health Factor</StyledDepositMessageLabel>
@@ -1511,7 +1569,7 @@ return (
                       <StyledDepositInputTop>
                         <StyledDepositInputTopType>Borrow</StyledDepositInputTopType>
                         <StyledDepositInputTopBalance>
-                          Remaining: <span onClick={handleMax}>{Big(state.balances?.borrow).toFixed(4)}</span>
+                          Available: <span onClick={handleMax}>{Big(state.balances?.borrow).toFixed(4)}</span>
                         </StyledDepositInputTopBalance>
                       </StyledDepositInputTop>
                       <StyledDepositInputBottom>
@@ -1527,7 +1585,7 @@ return (
                     <StyledDepositMessageList>
                       <StyledDepositMessage>
                         <StyledDepositMessageLabel>Available in Lending Pool</StyledDepositMessageLabel>
-                        <StyledDepositMessageValue>{state.accountOverview?.secondBalance}</StyledDepositMessageValue>
+                        <StyledDepositMessageValue>{Big(state?.accountOverview?.secondBalance ?? 0).toFixed(4)}</StyledDepositMessageValue>
                       </StyledDepositMessage>
                       <StyledDepositMessage>
                         <StyledDepositMessageLabel>Variable Borrow Rate</StyledDepositMessageLabel>
@@ -1535,7 +1593,7 @@ return (
                       </StyledDepositMessage>
                       <StyledDepositMessage>
                         <StyledDepositMessageLabel>Borrow Leverage</StyledDepositMessageLabel>
-                        <StyledDepositMessageValue>0.00%</StyledDepositMessageValue>
+                        <StyledDepositMessageValue>{state.borrowLeverage}</StyledDepositMessageValue>
                       </StyledDepositMessage>
                       <StyledDepositMessage>
                         <StyledDepositMessageLabel>New Margin Health Factor</StyledDepositMessageLabel>
@@ -1565,8 +1623,7 @@ return (
                       <StyledDepositInputTop>
                         <StyledDepositInputTopType>Repay</StyledDepositInputTopType>
                         <StyledDepositInputTopBalance>
-                          Balance: <span onClick={handleMax}>{Big(state.balances?.firstRepay ?? 0).plus(state.balances?.secondRepay ?? 0).toFixed(4)}</span>
-                          Max
+                          Available: <span onClick={handleMax}>{Big(state.balances?.firstRepay ?? 0).plus(state.balances?.repay ?? 0).toFixed(4)}</span>
                         </StyledDepositInputTopBalance>
                       </StyledDepositInputTop>
                       <StyledDepositInputBottom>
@@ -1582,7 +1639,7 @@ return (
                     <StyledDepositMessageList>
                       <StyledDepositMessage>
                         <StyledDepositMessageLabel>Borrow Leverage</StyledDepositMessageLabel>
-                        <StyledDepositMessageValue>0.00%</StyledDepositMessageValue>
+                        <StyledDepositMessageValue>{state.borrowLeverage}</StyledDepositMessageValue>
                       </StyledDepositMessage>
                       <StyledDepositMessage>
                         <StyledDepositMessageLabel>New Margin Health Factor</StyledDepositMessageLabel>
@@ -1654,7 +1711,7 @@ return (
         </StyledOverview>
         <StyledOverview>
           <StyledOverviewLabel>Remaining WETH to borrow</StyledOverviewLabel>
-          <StyledOverviewValue>{state.accountOverview?.totalCollateralValue}</StyledOverviewValue>
+          <StyledOverviewValue>{Big(state.balances?.borrow).toFixed(4)}</StyledOverviewValue>
         </StyledOverview>
         <StyledOverview>
           <StyledOverviewLabel>Margin Health Factor</StyledOverviewLabel>
@@ -1666,7 +1723,7 @@ return (
         </StyledOverview>
         <StyledOverview>
           <StyledOverviewLabel>Total WETH Balance</StyledOverviewLabel>
-          <StyledOverviewValue>{state.accountOverview?.firstBalance}</StyledOverviewValue>
+          <StyledOverviewValue>{Big(state?.accountOverview?.firstBalance ?? 0).toFixed(4)}</StyledOverviewValue>
         </StyledOverview>
         <StyledOverview>
           <StyledOverviewLabel>PnL</StyledOverviewLabel>
