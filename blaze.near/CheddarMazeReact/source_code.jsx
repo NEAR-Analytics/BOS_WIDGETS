@@ -387,20 +387,18 @@ const handleTouchMove = (event) => {
   const cellX = Math.floor((touch.clientX - offsetX) / cellWidth);
   const cellY = Math.floor((touch.clientY - offsetY) / cellWidth);
 
-  setNotification(`Dragging over cell (${cellX}, ${cellY})`);
+  const newX = cellX;
+  const newY = cellY;
 
-  // Update maze data with dragged over cell
-  const newMazeData = mazeData.map((row, rowIndex) =>
-    row.map((cell, colIndex) => {
-      if (rowIndex === cellY && colIndex === cellX) {
-        return { ...cell, isDraggedOver: true };
-      } else {
-        return { ...cell, isDraggedOver: false }; // Optionally reset others
-      }
-    })
-  );
-
-  setMazeData(newMazeData);
+  // Check if the new position is valid before moving the player
+  if (
+    newX >= 0 &&
+    newX < mazeData[0].length &&
+    newY >= 0 &&
+    newY < mazeData.length
+  ) {
+    movePlayer(newX, newY);
+  }
 };
 
 const handleTouchEnd = () => {
