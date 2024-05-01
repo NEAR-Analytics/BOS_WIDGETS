@@ -355,6 +355,18 @@ const checkForEvents = (cell) => {
   }
 };
 
+const containerStyle = {
+  display: "grid",
+  gridTemplateColumns: `repeat(${mazeData[0].length}, ${cellSize}px)`,
+  gridTemplateRows: `repeat(${mazeData.length}, ${cellSize}px)`,
+  gap: "0px",
+  padding: "0px", // Adjusted padding
+  position: "relative",
+  width: `${mazeData[0].length * cellSize}px`, // Removed extra padding from the width
+  outline: "none", // Hide outline when the container is focused
+  border: "none", // Remove border
+};
+
 const renderMazeCells = () => {
   return mazeData.map((row, rowIndex) =>
     row.map((cell, colIndex) => {
@@ -399,17 +411,23 @@ const renderMazeCells = () => {
 
       return (
         <div
-          key={cellId}
-          id={cellId}
-          className={`maze-cell ${isPath ? "path" : ""} ${
-            isActive ? "active" : ""
-          }`}
-          style={cellStyle}
+          className="maze-container"
+          style={containerStyle}
+          tabIndex="0" // Add tabIndex to make the container focusable
         >
-          {hasCheese && !isActive ? <div style={emojiStyle}>🧀</div> : ""}
-          {hasEnemy && !isActive ? <div style={emojiStyle}>🦹‍♂️</div> : ""}
-          {hasExit ? "🚪" : ""}
-          {enemyWon ? "💢" : ""} {/* Render the angry emoji if enemy won */}
+          <div
+            key={cellId}
+            id={cellId}
+            className={`maze-cell ${isPath ? "path" : ""} ${
+              isActive ? "active" : ""
+            }`}
+            style={cellStyle}
+          >
+            {hasCheese && !isActive ? <div style={emojiStyle}>🧀</div> : ""}
+            {hasEnemy && !isActive ? <div style={emojiStyle}>🦹‍♂️</div> : ""}
+            {hasExit ? "🚪" : ""}
+            {enemyWon ? "💢" : ""} {/* Render the angry emoji if enemy won */}
+          </div>
         </div>
       );
     })
@@ -567,9 +585,9 @@ const handleContainerRef = (event) => {
 return (
   <div
     style={{
-      maxWidth: `${mazeData[0].length * cellSize}px`,
+      maxWidth: `${mazeData[0].length * cellSize + 10}px`,
       margin: "0 auto",
-      padding: "0",
+      padding: "5px",
       border: "1px solid #000",
     }}
   >
@@ -587,8 +605,8 @@ return (
     </div>
     {gameOverMessage && (
       <div>
-        <p style={{ color: "red" }}>{gameOverMessage}</p>
         <button onClick={restartGame}>Restart Game</button>
+        <p style={{ color: "red" }}>{gameOverMessage}</p>
       </div>
     )}
     <div
