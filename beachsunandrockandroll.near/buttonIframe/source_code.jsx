@@ -1,4 +1,4 @@
-const { baseButton, variantDefault, sizeDefault } = VM.require("beachsunandrockandroll.near/widget/buttonv2");
+const { baseButton, variantDefault, sizeDefault } = VM.require("beachsunandrockandroll.near/widget/button");
 
 const srcDoc = `
 <script type="module"> 
