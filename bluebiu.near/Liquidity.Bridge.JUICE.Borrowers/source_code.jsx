@@ -345,6 +345,7 @@ const {
 const {
   toast,
   sender,
+  addAction,
   multicall,
   multicallAddress,
   // checkedVault,
@@ -632,7 +633,19 @@ function handleDeposit() {
         tx: transactionHash,
         chainId,
       });
-      handleRefresh()
+      if (status === 1) {
+        addAction?.({
+          type: "Yield",
+          action: "Deposit",
+          token0: "WETH",
+          amount: state?.inDepositAmount,
+          template: "Juice",
+          add: true,
+          status,
+          transactionHash,
+        });
+        handleRefresh()
+      }
     }).catch(error => {
       State.update({
         depositLoading: false
@@ -735,7 +748,19 @@ function handleWithdraw() {
             tx: transactionHash,
             chainId,
           });
-          handleRefresh()
+          if (status === 1) {
+            addAction?.({
+              type: "Yield",
+              action: "Withdraw",
+              token0: "WETH",
+              amount: state?.inWithdrawAmount,
+              template: "Juice",
+              add: false,
+              status,
+              transactionHash,
+            });
+            handleRefresh()
+          }
         }).catch(error => {
           console.log('=error', error)
           State.update({
@@ -804,7 +829,19 @@ function handleBorrow() {
         tx: transactionHash,
         chainId,
       });
-      handleRefresh()
+      if (status === 1) {
+        addAction?.({
+          type: "Yield",
+          action: "Borrow",
+          token0: "WETH",
+          amount: state?.inBorrowAmount,
+          template: "Juice",
+          add: true,
+          status,
+          transactionHash,
+        });
+        handleRefresh()
+      }
     }).catch(error => {
       console.log('=error', error)
       State.update({
@@ -878,7 +915,19 @@ function handleRepay() {
         tx: transactionHash,
         chainId,
       });
-      handleRefresh()
+      if (status === 1) {
+        addAction?.({
+          type: "Yield",
+          action: "Repay",
+          token0: "WETH",
+          amount: state?.inRepayAmount,
+          template: "Juice",
+          add: false,
+          status,
+          transactionHash,
+        });
+        handleRefresh()
+      }
     }).catch(error => {
       console.log('=error', error)
       State.update({
