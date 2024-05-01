@@ -1,7 +1,21 @@
+const baseButton =
+  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50";
+
+const variantDefault =
+  "bg-uin-primary text-primary-foreground hover:opacity-90";
+
+const sizeDefault = "h-10 px-4 py-2";
+
+const buttonClassname = `${baseButton} ${variantDefault} ${sizeDefault}`;
+
 const Button = ({ className, children, ...props }) => (
-  <button className={className} ref="forwardedRef" {...props}>
+  <button
+    className={className ?? buttonClassname}
+    ref="forwardedRef"
+    {...props}
+  >
     {children}
   </button>
 );
 
-return { Button };
+return { Button, baseButton, variantDefault, sizeDefault };
