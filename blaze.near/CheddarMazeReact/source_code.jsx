@@ -220,10 +220,9 @@ useEffect(() => {
 useEffect(() => {
   if (remainingTime === 0) {
     gameOver(
-      "Time's up! Game Over!"
-      //mazeData[playerPosition.y][playerPosition.x]
+      "Time's up! Game Over!",
+      mazeData[playerPosition.y][playerPosition.x]
     );
-    stopTimer();
   }
 }, [remainingTime]);
 
