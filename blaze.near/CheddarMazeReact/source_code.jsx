@@ -145,8 +145,8 @@ const startTimer = () => {
       if (time === 1) {
         clearInterval(id);
         gameOver(
-          "Time's up! Game Over!",
-          mazeData[playerPosition.y][playerPosition.x]
+          "Time's up! Game Over!"
+          //mazeData[playerPosition.y][playerPosition.x]
         );
       }
       return time - 1;
@@ -205,8 +205,8 @@ const movePlayer = (newX, newY) => {
 useEffect(() => {
   if (remainingTime === 0) {
     gameOver(
-      "Time's up! Game Over!",
-      mazeData[playerPosition.y][playerPosition.x]
+      "Time's up! Game Over!"
+      //mazeData[playerPosition.y][playerPosition.x]
     );
   }
 }, [remainingTime]);
@@ -368,81 +368,69 @@ const handleContainerClick = () => {
   startTimerOnTap(); // Start the timer when the user clicks on the maze container
 };
 
-const handleTouch = (event) => {
-  if (event.touches.length !== 1) {
-    return; // Ignore multi-touch events
-  }
+const handleTouchStart = (event) => {
+  if (!mazeContainerRef) return;
 
-  const touch = event.touches[0];
   const cellWidth = isMobile() ? 30 : 40; // Adjusted cell size for mobile devices
-  const cellX = Math.floor(touch.clientX / cellWidth);
-  const cellY = Math.floor(touch.clientY / cellWidth);
 
-  console.log("cellX:", cellX);
-  console.log("cellY:", cellY);
+  // Extract cell coordinates from the id attribute
+  const id = event.target.id;
+  const [_, y, x] = id.split("-");
+  let newX = parseInt(x);
+  let newY = parseInt(y);
 
-  if (initialTouch === null) {
-    setInitialTouch({ x: touch.clientX, y: touch.clientY });
-    startTimerOnTap(); // Start the timer when the user taps on the maze container
-  } else {
-    const newX = cellX;
-    const newY = cellY;
+  //   console.log("New X:", newX);
+  //   console.log("New Y:", newY);
+  //   console.log("Player Position:", playerPosition);
 
-    // Check if the new position is valid before moving the player
-    if (
-      newX >= 0 &&
-      newX < mazeData[0].length &&
-      newY >= 0 &&
-      newY < mazeData.length
-    ) {
-      if (newX !== playerPosition.x || newY !== playerPosition.y) {
-        movePlayer(newX, newY);
-      }
+  // Check if the new position is valid before moving the player
+  if (
+    newX >= 0 &&
+    newX < mazeData[0].length &&
+    newY >= 0 &&
+    newY < mazeData.length
+  ) {
+    console.log("FT valid data");
+    if (newX !== playerPosition.x || newY !== playerPosition.y) {
+      console.log("FT move player");
+      movePlayer(newX, newY);
     }
   }
+
+  setInitialTouch({ x: newX, y: newY });
 };
 
 const handleTouchMove = (event) => {
   if (!mazeContainerRef) return;
   console.log("touchmove");
 
-  const touch = event.touches[0];
+  //const touch = event.touches[0];
   const cellWidth = isMobile() ? 30 : 40; // Adjusted cell size for mobile devices
-  const cellX = Math.floor(touch.clientX / cellWidth);
-  const cellY = Math.floor(touch.clientY / cellWidth);
+
+  // Extract cell coordinates from the id attribute
+  const id = event.target.id;
+  const [_, y, x] = id.split("-");
+  let newX = parseInt(x);
+  let newY = parseInt(y);
+
+  console.log("New X:", newX);
+  console.log("New Y:", newY);
+  console.log("Player Position:", playerPosition);
 
   // Check if the new position is valid before moving the player
+
+  console.log(mazeData[0].length);
+
   if (
-    cellX >= 0 &&
-    cellX < mazeData[0].length &&
-    cellY >= 0 &&
-    cellY < mazeData.length
+    newX >= 0 &&
+    newX < mazeData[0].length &&
+    newY >= 0 &&
+    newY < mazeData.length
   ) {
-    if (cellX !== playerPosition.x || cellY !== playerPosition.y) {
-      movePlayer(cellX, cellY);
-    }
-  }
-
-  setInitialTouch({ x: touch.clientX, y: touch.clientY });
-};
-
-const handleTouchStart = (event) => {
-  if (!mazeContainerRef) return;
-
-  const touch = event.touches[0];
-  const cellWidth = isMobile() ? 30 : 40; // Adjusted cell size for mobile devices
-  const cellX = Math.floor(touch.clientX / cellWidth);
-  const cellY = Math.floor(touch.clientY / cellWidth);
-
-  // Check if the new position is valid before moving the player
-  if (
-    cellX >= 0 &&
-    cellX < mazeData[0].length &&
-    cellY >= 0 &&
-    cellY < mazeData.length
-  ) {
-    if (cellX !== playerPosition.x || cellY !== playerPosition.y) {
-      movePlayer(cellX, cellY);
+    console.log("new position valid");
+    if (newX !== playerPosition.x || newY !== playerPosition.y) {
+      console.log("move player");
+      movePlayer(newX, newY);
     }
   }
 
