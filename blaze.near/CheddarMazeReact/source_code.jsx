@@ -297,7 +297,6 @@ const checkForEvents = (cell) => {
       setMazeData(newMazeData);
       setScore(0); // Set score to zero
       gameOver("Enemy won! Game Over!", cell);
-      stopTimer();
       return; // Exit the function after triggering game over
     } else {
       console.log("enemy defeated...");
@@ -342,7 +341,6 @@ const checkForEvents = (cell) => {
     );
     setMazeData(newMazeData);
     gameOver("Congrats! You found the Hidden Door.", cell);
-    stopTimer();
   }
 };
 
