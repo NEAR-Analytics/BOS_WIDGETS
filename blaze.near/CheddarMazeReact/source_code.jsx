@@ -315,7 +315,7 @@ const checkForEvents = (cell) => {
 
   if (cell.isPath && !cheeseCooldown && !cell.hasCheese && !cell.hasEnemy) {
     // Generate cheese only if the cell does not already have an enemy
-    if (Math.random() < 0.01) {
+    if (Math.random() < 0.1) {
       // 1% chance of winning cheese
       console.log("cheese");
       const newMazeData = mazeData.map((row, rowIndex) =>
