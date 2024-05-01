@@ -22,10 +22,9 @@ const gameOver = (message, cell) => {
   const hasEnemy = cell.hasEnemy;
   const hasExit = cell.hasExit;
 
-  console.log(message);
   setCheeseCooldown(false);
   setEnemyCooldown(false);
-  setNotification(message); // Show message on screen
+  setGameOverMessage(message);
   setGameOverFlag(true);
   stopTimer();
   if (hasCheese || hasEnemy) {
@@ -449,8 +448,10 @@ return (
       onTouchEnd={handleTouchEnd}
     >
       {renderMazeCells()}
+
       <div className="notification-bar">
-        {notification} {/* Display the notification message here */}
+        <p style={{ color: "red" }}>{notification}</p>{" "}
+        {/* Display the notification message here */}
       </div>
     </div>
   </div>
