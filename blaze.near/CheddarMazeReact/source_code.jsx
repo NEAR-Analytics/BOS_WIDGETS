@@ -327,14 +327,13 @@ const checkForEvents = (cell) => {
             return {
               ...mazeCell,
               cartelWon: true, // Update enemyWon flag
-              isActive: false, // Update isActive flag
             };
           }
-          setMazeData(newMazeData);
-          setScore(0); // Set score to zero
           return mazeCell;
         })
       );
+      setMazeData(newMazeData);
+      setScore(0); // Set score to zero
       gameOver("You ran into the cartel! Game Over!", cell);
       stopTimer();
     } else {
