@@ -177,7 +177,7 @@ const handleOpen = () => {
 return (
   <Select onClick={() => !multiple && handleOpen()} noBorder={noBorder}>
     <div className={containerClass}>
-      <div className="selected" onClick={handleOpen}>
+      <div className="selected w-100" onClick={handleOpen}>
         {isTooltipVisible && (
           <Widget
             src={`ndcdev.near/widget/dashboard.Components.Tooltip`}
