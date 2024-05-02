@@ -1,135 +1,259 @@
-const events = props.events || [];
-const dateToView = props.date || new Date();
+const [input, setInput] = useState("");
 
-const srcData = `
-<!DOCTYPE html>
-<html>
-  <head>
-    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css' rel='stylesheet'>
-    <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar/index.global.js'></script>
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const calendarEl = document.getElementById('calendar')
-        const calendar = new FullCalendar.Calendar(calendarEl, {
-          titleFormat: { year: 'numeric', month: 'long', },
-          themeSystem: 'bootstrap5',
-          initialView: 'dayGridMonth',
-          editable: true,
-          firstDay: 1,
-          buttonText: {
-            month: "Month",
-            list: "List",
-          },
-          customButtons: {
-            filterBy: {
-              text: 'Filter by',
-              click: function(e) {
-                e.preventDefault();
-                window.parent.postMessage(JSON.stringify({ handler: "filter"}), '*');
-              }
-            },
-            addEvent: {
-              text: '',
-              click: function(e) {
-                e.preventDefault();
-                window.parent.postMessage(JSON.stringify({ handler: "add-event"}), '*');
-              }
-            },
-            customButton: {
-              text: 'Custom Button',
-              click: function(e) {
-                e.preventDefault();
-                window.parent.postMessage(JSON.stringify({ handler: "custom-button"}), '*');
-              }
-            }
-          },
-          expandRows: true,
-          headerToolbar: {
-            start: 'title prev,next dayGridMonth list', // will normally be on the left. if RTL, will be on the right
-            center: '',
-            end: 'filterBy addEvent customButton' 
-          },
-          navLinks: true,
-          events: ${JSON.stringify(events)},
-          eventClick: function(info) {
-            info.jsEvent.preventDefault(); // don't let the browser navigate
-            window.parent.postMessage(JSON.stringify({ handler: "event-click", data: info.event }), '*');
-          },
-          viewDidMount: function () {
-            var addEvent = document.querySelector('.fc-addEvent-button');
-            addEvent.innerHTML = 'Add Event <i class="bi bi-plus-circle-fill" style="color: white; margin-left: 2px;"></i>';
-          }
-        })
-        calendar.render()
-        calendar.gotoDate(new Date(${JSON.stringify(dateToView)}))
-      })
-    </script>
-    <style>
-      /* Add custom styles here */
-      body {
-        background: linear-gradient(180deg, white);
-        margin: 0;
-        padding: 0;
-        height: 100vh;
-        overflow: hidden;
-      }
-      .footer-img {
-        position: absolute;
-        bottom: 10px;
-        left: 10px;
-        width: 100px; /* Adjust size as needed */
-        height: auto;
-      }
-    </style>
-  </head>
-  <body>
-    <div id='calendar'></div>
-    <!-- Add the image in the footer -->
-    <img class="footer-img" src="https://pbs.twimg.com/profile_images/1536928258268090369/hR61y1ae_400x400.jpg" alt="Footer Image">
-    <div id='calendar'></div>
-  </body>
-</html>
-`;
+const handleButtonClick = (value) => {
+  setInput((prevInput) => prevInput + value);
+};
 
-return (
-  <>
-    <iframe
-      srcDoc={srcData}
-      onMessage={(data) => {
-        const dataObj = JSON.parse(data);
-        switch (dataObj.handler) {
-          case "filter": {
-            if (props.handleFilter) {
-              props.handleFilter();
-            }
-            break;
-          }
-          case "add-event": {
-            if (props.handleAddEvent) {
-              props.handleAddEvent();
-            }
-            break;
-          }
-          case "event-click": {
-            if (props.handleEventClick) {
-              props.handleEventClick(dataObj.data);
-            }
-            break;
-          }
-          case "custom-button": {
-            if (props.handleCustomButton) {
-              props.handleCustomButton();
-            }
-            break;
+const handleClear = () => {
+  setInput("");
+};
+
+const handleCalculate = () => {
+  try {
+    const result = calculate(input);
+    setInput(result);
+  } catch (error) {
+    setInput("Error");
+  }
+};
+
+const calculate = (expression) => {
+  const operators = ["+", "-", "*", "/"];
+  const tokens = expression.split(/(\+|-|\*|\/)/).map((token) => token.trim());
+  let stack = [];
+  let currentOperator = null;
+
+  for (const token of tokens) {
+    if (operators.includes(token)) {
+      currentOperator = token;
+    } else {
+      const num = parseFloat(token);
+      if (!isNaN(num)) {
+        if (currentOperator === null) {
+          stack.push(num);
+        } else {
+          if (currentOperator === "+") {
+            stack.push(num);
+          } else if (currentOperator === "-") {
+            stack.push(-num);
+          } else if (currentOperator === "*") {
+            const prevNum = stack.pop();
+            stack.push(prevNum * num);
+          } else if (currentOperator === "/") {
+            const prevNum = stack.pop();
+            stack.push(prevNum / num);
           }
         }
-      }}
-      style={{
-        height: "100vh",
-        width: "100%",
-        border: "none", // Optional: Remove iframe border
-      }}
-    />
-  </>
+      }
+    }
+  }
+  return stack.reduce((acc, num) => acc + num, 0).toString();
+};
+
+const styles = {
+  calculatorStyle: {
+    width: "400px", // Reduced size of the calculator
+    margin: "0 auto",
+    padding: "20px",
+    border: "2px solid #ccc",
+    borderRadius: "10px",
+    boxShadow: "0 0 15px rgba(0, 0, 0, 0.1)",
+    background: "linear-gradient(180deg, #4caf50, #fff)", // Green to white gradient
+    fontFamily: "Arial, sans-serif",
+    textAlign: "center", // Center align the calculator content
+  },
+  displayStyle: {
+    fontSize: "2em", // Reduced font size of the display
+    textAlign: "right",
+    padding: "20px", // Reduced padding
+    border: "1px solid #ccc",
+    borderRadius: "10px",
+    marginBottom: "20px",
+    backgroundColor: "rgba(0, 128, 0, 0.3)", // Green with 70% transparency
+    color: "#333",
+    fontWeight: "bold", // Bold text
+    width: "100%", // Set width to 100%
+    boxSizing: "border-box", // Include padding and border in width calculation
+  },
+  buttonRow: {
+    display: "flex",
+    justifyContent: "center", // Center align buttons horizontally
+    marginBottom: "10px",
+  },
+  buttonStyle: {
+    flex: "1",
+    fontSize: "1.5em",
+    padding: "15px 0",
+    margin: "5px",
+    backgroundColor: "#ff0000",
+    color: "#333",
+    border: "5px solid #ccc",
+    borderRadius: "40%", // Set border radius to 50% for perfect circle
+    cursor: "pointer",
+    transition: "background-color 0.3s ease",
+    fontWeight: "bold",
+    width: "80px",
+  },
+
+  buttonStyleRed: {
+    backgroundColor: "#800080",
+    color: "#fff",
+  },
+  buttonStyleOrange: {
+    backgroundColor: "#ff9800",
+    color: "#fff",
+  },
+  buttonStyleGreen: {
+    backgroundColor: "#4caf50",
+    color: "#fff",
+  },
+  buttonStyleBlue: {
+    backgroundColor: "#008000",
+    color: "#fff",
+  },
+  heading: {
+    fontSize: "1.8em", // Adjusted font size of the heading
+    color: "#333",
+    marginBottom: "20px",
+  },
+  footer: {
+    textAlign: "left", // Left align footer text
+    color: "#777",
+    fontSize: "0.9em",
+    fontStyle: "italic",
+    marginTop: "20px", // Added margin top
+  },
+};
+
+return (
+  <div style={styles.calculatorStyle}>
+    <div style={{ marginTop: "0px", textAlign: "right" }}>
+      <img
+        src="https://shard.dog/v3/images/nearindia.jpg"
+        alt="Near India"
+        style={{ maxWidth: "40px", maxHeight: "40px" }}
+      />
+    </div>
+    <h1 style={styles.heading}>
+      <strong>CALCULATOR</strong>
+    </h1>
+    <div style={styles.displayStyle}>{input}</div>
+    <div>
+      <div style={styles.buttonRow}>
+        <button
+          style={{ ...styles.buttonStyle, ...styles.buttonStyleRed }}
+          onClick={handleClear}
+        >
+          C
+        </button>
+        <button
+          style={styles.buttonStyle}
+          onClick={() => handleButtonClick("/")}
+        >
+          /
+        </button>
+      </div>
+      <div style={styles.buttonRow}>
+        <button
+          style={styles.buttonStyle}
+          onClick={() => handleButtonClick("7")}
+        >
+          7
+        </button>
+        <button
+          style={styles.buttonStyle}
+          onClick={() => handleButtonClick("8")}
+        >
+          8
+        </button>
+        <button
+          style={styles.buttonStyle}
+          onClick={() => handleButtonClick("9")}
+        >
+          9
+        </button>
+        <button
+          style={styles.buttonStyle}
+          onClick={() => handleButtonClick("+")}
+        >
+          +
+        </button>
+      </div>
+      <div style={styles.buttonRow}>
+        <button
+          style={styles.buttonStyle}
+          onClick={() => handleButtonClick("4")}
+        >
+          4
+        </button>
+        <button
+          style={styles.buttonStyle}
+          onClick={() => handleButtonClick("5")}
+        >
+          5
+        </button>
+        <button
+          style={styles.buttonStyle}
+          onClick={() => handleButtonClick("6")}
+        >
+          6
+        </button>
+        <button
+          style={styles.buttonStyle}
+          onClick={() => handleButtonClick("-")}
+        >
+          -
+        </button>
+      </div>
+      <div style={styles.buttonRow}>
+        <button
+          style={styles.buttonStyle}
+          onClick={() => handleButtonClick("1")}
+        >
+          1
+        </button>
+        <button
+          style={styles.buttonStyle}
+          onClick={() => handleButtonClick("2")}
+        >
+          2
+        </button>
+        <button
+          style={styles.buttonStyle}
+          onClick={() => handleButtonClick("3")}
+        >
+          3
+        </button>
+        <button
+          style={styles.buttonStyle}
+          onClick={() => handleButtonClick("*")}
+        >
+          *
+        </button>
+      </div>
+      <div style={styles.buttonRow}>
+        <button
+          style={styles.buttonStyle}
+          onClick={() => handleButtonClick("0")}
+        >
+          0
+        </button>
+        <button
+          style={styles.buttonStyle}
+          onClick={() => handleButtonClick(".")}
+        >
+          .
+        </button>
+        <button
+          style={{ ...styles.buttonStyle, ...styles.buttonStyleBlue }}
+          onClick={handleCalculate}
+        >
+          =
+        </button>
+      </div>
+      <p style={{ textAlign: "right" }}>
+        <strong>parven8.near</strong>{" "}
+      </p>
+    </div>
+  </div>
 );
