@@ -15,20 +15,6 @@ State.init({
   data: undefined,
 });
 
-const SupplyButton = ({ data }) => (
-  <Widget
-    src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
-    props={{
-      config,
-      children: "Supply",
-      onClick: () => {
-        State.update({ data });
-        setShowSupplyModal(true);
-      },
-    }}
-  />
-);
-
 return (
   <>
     <Widget
@@ -96,7 +82,6 @@ return (
                         />
                       )}
                     </div>,
-                    <SupplyButton data={row} />,
                   ]),
                 }}
               />
@@ -201,23 +186,5 @@ return (
           ),
       }}
     />
-    {showSupplyModal && (
-      <Widget
-        src={`${config.ownerId}/widget/AAVE.Modal.SupplyModal`}
-        props={{
-          config,
-          onRequestClose: () => setShowSupplyModal(false),
-          data: {
-            ...state.data,
-            healthFactor,
-          },
-          onActionSuccess,
-          chainId,
-          depositETHGas,
-          depositERC20Gas,
-          formatHealthFactor,
-        }}
-      />
-    )}
   </>
 );
