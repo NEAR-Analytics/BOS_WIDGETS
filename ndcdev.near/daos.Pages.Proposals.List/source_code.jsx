@@ -301,13 +301,11 @@ return (
     <Table>
       <TableHeader>
         <TableHeaderCell>
-          <SortContainer>
+          <SortContainer role="button"  onClick={() => sortData('post',"status")}>
             <div>Status</div>
             <div className="selected-container">
               <i
-                role="button"
                 className="ph ph-caret-up-down fs-5"
-                onClick={() => sortData('post',"status")}
               />
             </div>
             {/* <Select value={filteredStatus} onChange={handleFilterStatusChange}>
@@ -321,7 +319,7 @@ return (
           </SortContainer>
         </TableHeaderCell>
         <TableHeaderCell flex={2}>
-          <SortContainer>
+          <SortContainer  role="button"  onClick={() => sortData('dao',"title")}>
             <div>DAO</div>
             {/* <Select value={filteredDao} onChange={handleFilterDaoChange}>
               <option value="all">All</option>
@@ -333,30 +331,28 @@ return (
             </Select> */}
              <div className="selected-container">
               <i
-                role="button"
                 className="ph ph-caret-up-down fs-5"
-                onClick={() => sortData('dao',"title")}
               />
             </div>
           </SortContainer>
         </TableHeaderCell>
-        <TableHeaderCell>
+        <TableHeaderCell role="button" onClick={() => sortData('post',"created_at")}>
           Created
           <div className="selected-container">
             <i
-              role="button"
+              
               className="ph ph-caret-up-down fs-5"
-              onClick={() => sortData('post',"created_at")}
+              
             />
           </div>
         </TableHeaderCell>
-        <TableHeaderCell>
+        <TableHeaderCell role="button" onClick={() => sortData("post","author_id")}>
           Modified
           <div className="selected-container">
             <i
-              role="button"
+              
               className="ph ph-caret-up-down fs-5"
-              onClick={() => sortData("post","author_id")}
+              
             />
           </div>
         </TableHeaderCell>
