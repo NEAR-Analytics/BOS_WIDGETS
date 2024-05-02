@@ -169,7 +169,6 @@ return (
                                   ],
                                 }}
                               />,
-                              <SupplyButton data={row} />,
                             ],
                           }}
                         />,
