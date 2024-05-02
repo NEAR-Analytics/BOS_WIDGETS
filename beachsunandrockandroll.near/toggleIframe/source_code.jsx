@@ -1,4 +1,4 @@
-const { baseToogle, variantDefault, sizeDefault } = VM.require(
+const { baseToggle, variantDefault, sizeDefault } = VM.require(
   "beachsunandrockandroll.near/widget/toggle"
 );
 
@@ -8,7 +8,7 @@ const srcDoc = `
     import {cva} from 'https://cdn.jsdelivr.net/npm/class-variance-authority@0.7.0/+esm'
     
     const toggleVariants = cva(
-      "${baseToogle}",
+      "${baseToggle}",
       {
         variants: {
           variant: {
