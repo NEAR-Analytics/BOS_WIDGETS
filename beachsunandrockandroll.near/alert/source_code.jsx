@@ -85,6 +85,7 @@ return {
   Alert,
   AlertTitle,
   AlertDescription,
+  AlertConf,
   alertTitleClassname,
   alertDescriptionClassname,
 };
