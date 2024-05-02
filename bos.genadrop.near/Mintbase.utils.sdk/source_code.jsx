@@ -23,6 +23,9 @@ const { getCombinedStoreData } = VM.require(
 const { getStoreNFTs } = VM.require(
   "bos.genadrop.near/widget/Mintbase.utils.get_store_nfts"
 );
+const { getActivityByContract } = VM.require(
+  "bos.genadrop.near/widget/Mintbase.utils.get_activity_by_contract"
+);
 // Configuration (replace with your actual values or define them globally)
 const factoryAddress = mainnet ? "mintbase1.near" : "mintspace2.testnet";
 const MARKET_ADDRESS = {
@@ -251,4 +254,5 @@ return {
   getOffersToAccount,
   getOpenOffersByAccount,
   getCombinedStoreData,
+  getActivityByContract,
 };
