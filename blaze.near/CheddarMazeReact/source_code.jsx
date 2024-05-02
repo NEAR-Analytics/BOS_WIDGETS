@@ -25,6 +25,51 @@ const [selectedColorSet, setSelectedColorSet] = useState(null);
 const [backgroundImage, setBackgroundImage] = useState("");
 const [rarity, setRarity] = useState("");
 const [won, setWon] = useState(false);
+const [touchStart, setTouchStart] = useState({ x: null, y: null });
+const [touchEnd, setTouchEnd] = useState({ x: null, y: null });
+
+const handleTouchStart = (e) => {
+  const touchDownX = e.touches[0].clientX;
+  const touchDownY = e.touches[0].clientY;
+
+  setTouchStart({ x: touchDownX, y: touchDownY });
+};
+
+const handleTouchMove = (e) => {
+  const touchMoveX = e.touches[0].clientX;
+  const touchMoveY = e.touches[0].clientY;
+
+  setTouchEnd({ x: touchMoveX, y: touchMoveY });
+};
+
+const handleTouchEnd = () => {
+  if (touchStart.x === null || touchStart.y === null) return;
+
+  const deltaX = touchEnd.x - touchStart.x;
+  const deltaY = touchEnd.y - touchStart.y;
+  const absDeltaX = Math.abs(deltaX);
+  const absDeltaY = Math.abs(deltaY);
+
+  if (absDeltaX > absDeltaY) {
+    // Horizontal movement
+    if (deltaX > 0) {
+      movePlayerDirection("right");
+    } else {
+      movePlayerDirection("left");
+    }
+  } else {
+    // Vertical movement
+    if (deltaY > 0) {
+      movePlayerDirection("down");
+    } else {
+      movePlayerDirection("up");
+    }
+  }
+
+  // Reset touch coordinates after handling
+  setTouchStart({ x: null, y: null });
+  setTouchEnd({ x: null, y: null });
+};
 
 // Function to select a random color set, background image, and rarity
 const selectRandomColorSet = () => {
@@ -675,6 +720,48 @@ const handleContainerRef = (event) => {
   mazeContainerRef = event.target;
 };
 
+const ControlPad = ({ movePlayerDirection }) => {
+  return (
+    <div
+      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+    >
+      <button onClick={() => movePlayerDirection("up")}>Up</button>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <button onClick={() => movePlayerDirection("left")}>Left</button>
+        <button onClick={() => movePlayerDirection("down")}>Down</button>
+        <button onClick={() => movePlayerDirection("right")}>Right</button>
+      </div>
+    </div>
+  );
+};
+
+const movePlayerDirection = (direction) => {
+  if (gameOverFlag) return;
+
+  let newX = playerPosition.x;
+  let newY = playerPosition.y;
+
+  switch (direction) {
+    case "up":
+      newY--;
+      break;
+    case "down":
+      newY++;
+      break;
+    case "left":
+      newX--;
+      break;
+    case "right":
+      newX++;
+      break;
+    default:
+      return;
+  }
+
+  setDirection(direction);
+  movePlayer(newX, newY);
+};
+
 return (
   <div
     style={{
@@ -749,6 +836,17 @@ return (
     >
       {renderMazeCells(pathColor)}
     </div>
+    <div
+      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+    >
+      <button onClick={() => movePlayerDirection("up")}>Up</button>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <button onClick={() => movePlayerDirection("left")}>Left</button>
+        <button onClick={() => movePlayerDirection("down")}>Down</button>
+        <button onClick={() => movePlayerDirection("right")}>Right</button>
+      </div>
+    </div>
+
     <div
       style={{ backgroundColor: "rgba(255, 255, 255, 0.9)", padding: "10px" }}
     >
