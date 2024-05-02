@@ -50,7 +50,7 @@ const Container = styled.div`
   }
 
   .green-btn {
-    background-color: #03ba16 !important;
+    background-color: #04a46e !important;
     border: none;
     color: white;
 
@@ -130,14 +130,9 @@ const FeedItem = ({ proposal, index }) => {
             <div className="d-flex gap-2 align-items-center flex-wrap w-100">
               <div className="h6 mb-0 text-black">{proposal.name}</div>
               <Widget
-                src={
-                  "events-committee.near/widget/devhub.entity.proposal.MultiSelectLabelsDropdown"
-                }
+                src={"events-committee.near/widget/devhub.entity.proposal.CategoryTag"}
                 props={{
-                  selected: proposal.labels,
-                  onChange: () => {},
-                  disabled: true,
-                  hideDropdown: true,
+                  category: proposal.category,
                 }}
               />
             </div>
@@ -230,7 +225,6 @@ const FeedPage = () => {
       ts
       timeline
       views
-      labels
     }
     ${queryName}_aggregate(
       order_by: {proposal_id: desc}
@@ -423,7 +417,7 @@ const FeedPage = () => {
     <Container className="w-100 py-4 px-2 d-flex flex-column gap-3">
       <div className="d-flex justify-content-between flex-wrap gap-2 align-items-center">
         <Heading>
-          Proposals
+          Events Committee Proposals
           <span className="text-muted text-normal">
             ({state.aggregatedCount ?? state.data.length}){" "}
           </span>
@@ -501,7 +495,7 @@ const FeedPage = () => {
                     <div>
                       <i class="bi bi-plus-circle-fill"></i>
                     </div>
-                    Submit Proposal
+                    New Proposal
                   </div>
                 ),
                 classNames: { root: "green-btn" },
@@ -523,21 +517,46 @@ const FeedPage = () => {
                   </div>
                   <div>
                     <span className="fw-bold">
-                      Welcome to the
-                      {/* <a
+                      Welcome to
+                      <a
                         href="https://near.social/devhub.near/widget/app?page=community&handle=developer-dao&tab=overview"
                         target="_blank"
                         rel="noopener noreferrer"
-                      > */}
-                      Events Committee Proposal Feed!
-                      {/* </a> */}
+                      >
+                        DevDAO’s New Proposal Feed!
+                      </a>
                     </span>
-                    This dedicated space makes it easy to submit and track
-                    funding proposals from the Events Committee, the cross-team
-                    organization responsible for hosting and sponsoring
-                    developer-focused events. You are welcome to respond to any
-                    RFPs that are accepting submissions or submit an independent
-                    proposal.
+                    This dedicated space replaces the
+                    <a
+                      href="https://near.org/devhub.near/widget/app?page=feed"
+                      className="text-decoration-underline no-space"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      old activity feed
+                    </a>
+                    , making it easier to submit and track funding requests from
+                    DevDAO, the primary organization behind DevHub. To submit a
+                    formal proposal, click New Proposal. See our{" "}
+                    <a
+                      href="https://near.org/devhub.near/widget/app?page=community&handle=developer-dao&tab=funding"
+                      className="text-decoration-underline no-space"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      guidelines
+                    </a>
+                    for details. For discussions and brainstorming, please
+                    utilize the relevant{" "}
+                    <a
+                      href="https://near.org/devhub.near/widget/app?page=communities"
+                      className="text-decoration-underline no-space"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      communities
+                    </a>
+                    .
                   </div>
                 </p>
               </div>
