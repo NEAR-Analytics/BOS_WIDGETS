@@ -463,11 +463,11 @@ const renderMazeCells = () => {
 
       const backgroundImageTransform = isActive
         ? direction === "up"
-          ? upTransform
+          ? `rotate(-90deg)`
           : direction === "down"
-          ? downTransform
+          ? `rotate(90deg)`
           : direction === "left"
-          ? leftTransform // Apply leftTransform when facing left
+          ? `scaleX(-1)` // Apply leftTransform when facing left
           : ""
         : "";
 
@@ -480,8 +480,8 @@ const renderMazeCells = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: isPath ? pathColor : selectedColorSet.nonPathColor, // Set the cell background color
-        color: isActive ? "#FFFFFF" : selectedColorSet.textColor, // Set the text color
+        backgroundColor: isPath ? pathColor : selectedColorSet.nonPathColor,
+        color: isActive ? "#FFFFFF" : selectedColorSet.textColor,
         backgroundImage: isActive
           ? `url('https://lh3.googleusercontent.com/d/114_RLl18MAzX035svMyvNJpE3ArfLNCF=w500')`
           : "",
@@ -491,6 +491,9 @@ const renderMazeCells = () => {
         backgroundSize: "70%",
         position: "relative",
         transform: backgroundImageTransform,
+        WebkitTransform: backgroundImageTransform, // for Safari and older iOS browsers
+        MozTransform: backgroundImageTransform, // for older Firefox versions
+        msTransform: backgroundImageTransform, // for Internet Explorer (not needed in Edge)
       };
 
       const emojiStyle = {
@@ -684,6 +687,7 @@ return (
       backgroundImage: backgroundImage,
     }}
   >
+    <h3>Cheddar MAzE</h3>
     <div
       style={{
         display: "flex",
