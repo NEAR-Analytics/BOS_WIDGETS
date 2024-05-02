@@ -94,7 +94,7 @@ const filterDAO = (value) => {
     newSelection = isCurrentSelectionFull ? [] : all;
   } else if (selectedDAOs.includes(value)) {
     newSelection = selectedDAOs.filter(
-      (daoId) => daoId !== value && daoId !== defaultDAOOption
+      (daoId) => daoId !== value && daoId !== defaultDAOOption,
     );
   } else {
     newSelection = [...selectedDAOs, value];
@@ -143,11 +143,11 @@ useEffect(() => {
           [FILTER_IDS.acquisitionCost]: 0,
           [FILTER_IDS.socialEngagement]: 0,
         };
-      })
+      }),
     );
 
   setFilteredData(
-    dataSet.filter((d) => filtredDAOs.map((dd) => dd.title).includes(d.title))
+    dataSet.filter((d) => filtredDAOs.map((dd) => dd.title).includes(d.title)),
   );
 }, [selectedDAOs]);
 
@@ -163,8 +163,8 @@ useEffect(() => {
 const sortData = (field, asc) =>
   setFilteredData(
     filteredData.sort((a, b) =>
-      asc ? b[field] - a[field] : a[field] - b[field]
-    )
+      asc ? b[field] - a[field] : a[field] - b[field],
+    ),
   );
 
 const SortingRow = ({ title, field }) => (
