@@ -5,12 +5,12 @@ const variantDefault = "bg-transparent";
 
 const sizeDefault = "h-9 px-3";
 
-const toggleClassname = `${baseToggle} ${variantDefault} ${sizeDefault}`;
+const toggleClassnameDefault = `${baseToggle} ${variantDefault} ${sizeDefault}`;
 
 const ToggleRoot = ({ className, children, ...props }) => (
   <Toggle.Root
     ref="forwardedRef"
-    className={className ?? toggleClassname}
+    className={className ?? toggleClassnameDefault}
     {...props}
   >
     {children}
@@ -22,5 +22,5 @@ return {
   baseToggle,
   variantDefault,
   sizeDefault,
-  toggleClassname,
+  toggleClassnameDefault,
 };
