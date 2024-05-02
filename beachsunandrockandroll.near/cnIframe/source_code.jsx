@@ -1,4 +1,6 @@
 const ClassnameConf = ({ className, output }) => {
+  const [res, setRes] = useState("");
+
   const srcDoc = `
     <script type="module"> 
       import clsx from 'https://cdn.jsdelivr.net/npm/clsx@2.1.1/+esm'
