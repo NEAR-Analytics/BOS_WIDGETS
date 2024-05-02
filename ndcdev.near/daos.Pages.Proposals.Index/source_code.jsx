@@ -23,7 +23,7 @@ return (
       showMoreDefault: post.id,
       showCommentsDefault: true,
       disabeleOpenReportLInk: true,
-      dao
+      dao,
     }}
   />
 );
