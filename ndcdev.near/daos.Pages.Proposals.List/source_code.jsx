@@ -221,7 +221,7 @@ const SortContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
-`
+`;
 
 const [filteredDao, useFilteredDao] = useState(false);
 const [filteredStatus, useFilteredStatus] = useState(false);
@@ -260,31 +260,37 @@ const sortData = (entity, field) => {
 
   const sortedItems = [...preparedItems].sort((a, b) => {
     if (a[entity][field] === b[entity][field]) return 0;
-    return (isAsc ? a[entity][field] > b[entity][field] : a[entity][field] < b[entity][field]) ? 1 : -1;
+    return (
+      isAsc
+        ? a[entity][field] > b[entity][field]
+        : a[entity][field] < b[entity][field]
+    )
+      ? 1
+      : -1;
   });
 
   setPreparedItems(sortedItems);
-  setSortOrders({ ...sortOrders, [entity]: {[field]: newSortOrder }});
+  setSortOrders({ ...sortOrders, [entity]: { [field]: newSortOrder } });
 };
 
 useEffect(() => {
-setPreparedItems(
-  items
-    .sort((a, b) => b.created_at - a.created_at)
-    .filter((item) => {
-      if (filteredDao) {
-        return item.post.dao_id === daos[filteredDao].id;
-      }
-      return item;
-    })
-    .filter((item) => {
-      if (filteredStatus) {
-        return item.post.status === statuses[filteredStatus].value;
-      }
-      return item;
-    }),
-);
-},[filteredDao, filteredStatus])
+  setPreparedItems(
+    items
+      .sort((a, b) => b.created_at - a.created_at)
+      .filter((item) => {
+        if (filteredDao) {
+          return item.post.dao_id === daos[filteredDao].id;
+        }
+        return item;
+      })
+      .filter((item) => {
+        if (filteredStatus) {
+          return item.post.status === statuses[filteredStatus].value;
+        }
+        return item;
+      }),
+  );
+}, [filteredDao, filteredStatus]);
 
 const [showMobileFilter, setShowMobileFilter] = useState(false);
 const [showMobileDaoFilter, setShowMobileDaoFilter] = useState(false);
@@ -301,12 +307,13 @@ return (
     <Table>
       <TableHeader>
         <TableHeaderCell>
-          <SortContainer role="button"  onClick={() => sortData('post',"status")}>
+          <SortContainer
+            role="button"
+            onClick={() => sortData("post", "status")}
+          >
             <div>Status</div>
             <div className="selected-container">
-              <i
-                className="ph ph-caret-up-down fs-5"
-              />
+              <i className="ph ph-caret-up-down fs-5" />
             </div>
             {/* <Select value={filteredStatus} onChange={handleFilterStatusChange}>
               <option value="all">All</option>
@@ -319,7 +326,7 @@ return (
           </SortContainer>
         </TableHeaderCell>
         <TableHeaderCell flex={2}>
-          <SortContainer  role="button"  onClick={() => sortData('dao',"title")}>
+          <SortContainer role="button" onClick={() => sortData("dao", "title")}>
             <div>DAO</div>
             {/* <Select value={filteredDao} onChange={handleFilterDaoChange}>
               <option value="all">All</option>
@@ -329,31 +336,27 @@ return (
                 </option>
               ))}
             </Select> */}
-             <div className="selected-container">
-              <i
-                className="ph ph-caret-up-down fs-5"
-              />
+            <div className="selected-container">
+              <i className="ph ph-caret-up-down fs-5" />
             </div>
           </SortContainer>
         </TableHeaderCell>
-        <TableHeaderCell role="button" onClick={() => sortData('post',"created_at")}>
+        <TableHeaderCell
+          role="button"
+          onClick={() => sortData("post", "created_at")}
+        >
           Created
           <div className="selected-container">
-            <i
-              
-              className="ph ph-caret-up-down fs-5"
-              
-            />
+            <i className="ph ph-caret-up-down fs-5" />
           </div>
         </TableHeaderCell>
-        <TableHeaderCell role="button" onClick={() => sortData("post","author_id")}>
+        <TableHeaderCell
+          role="button"
+          onClick={() => sortData("post", "author_id")}
+        >
           Modified
           <div className="selected-container">
-            <i
-              
-              className="ph ph-caret-up-down fs-5"
-              
-            />
+            <i className="ph ph-caret-up-down fs-5" />
           </div>
         </TableHeaderCell>
         <TableHeaderCell flex={3.2}>Proposals states</TableHeaderCell>
@@ -370,7 +373,13 @@ return (
           <div key={row.post.title}>
             <Widget
               src="ndcdev.near/widget/daos.Components.Post"
-              props={{ item: row.post, index, type, rowId: row.post.id, dao: row.dao }}
+              props={{
+                item: row.post,
+                index,
+                type,
+                rowId: row.post.id,
+                dao: row.dao,
+              }}
             />
           </div>
         ))
@@ -448,7 +457,7 @@ return (
                       selected={index === filteredStatus}
                       onClick={() =>
                         useFilteredStatus(
-                          filteredStatus === index ? false : index
+                          filteredStatus === index ? false : index,
                         )
                       }
                     >
@@ -474,7 +483,7 @@ return (
                   type,
                   rowId: row.post.id,
                   isMobile: true,
-                  dao: row.dao
+                  dao: row.dao,
                 }}
               />
             </div>
