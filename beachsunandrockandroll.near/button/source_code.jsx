@@ -9,9 +9,10 @@ const sizeDefault = "h-10 px-4 py-2";
 const ButtonConf = ({ output, className, variant, size }) => {
   const srcDoc = `
     <script type="module"> 
-        import mxcn from "https://cdn.jsdelivr.net/npm/mxcn@2.0.0/+esm"
-        import {cva} from 'https://cdn.jsdelivr.net/npm/class-variance-authority@0.7.0/+esm'
-        
+        import clsx from 'https://cdn.jsdelivr.net/npm/clsx@2.1.1/+esm'
+        import { twMerge } from 'https://cdn.jsdelivr.net/npm/tailwind-merge@2.3.0/+esm'
+        import { cva } from 'https://cdn.jsdelivr.net/npm/class-variance-authority@0.7.0/+esm'
+      
         const buttonVariants = cva(
           "${baseButton}",
           {
@@ -43,7 +44,7 @@ const ButtonConf = ({ output, className, variant, size }) => {
 
         window.addEventListener("message", ({ data }) => {
             try {
-                event.source.postMessage(mxcn(buttonVariants(data)), "*");
+               event.source.postMessage(twMerge(clsx(buttonVariants(data))), "*");
             } catch (e) {}
         }, false);
     </script>
