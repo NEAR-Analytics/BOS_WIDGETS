@@ -50,7 +50,7 @@ const Container = styled.div`
   }
 
   .green-btn {
-    background-color: #03ba16 !important;
+    background-color: #04a46e !important;
     border: none;
     color: white;
 
@@ -130,14 +130,9 @@ const FeedItem = ({ proposal, index }) => {
             <div className="d-flex gap-2 align-items-center flex-wrap w-100">
               <div className="h6 mb-0 text-black">{proposal.name}</div>
               <Widget
-                src={
-                  "events-committee.near/widget/devhub.entity.proposal.MultiSelectLabelsDropdown"
-                }
+                src={"events-committee.near/widget/devhub.entity.proposal.CategoryTag"}
                 props={{
-                  selected: proposal.labels,
-                  onChange: () => {},
-                  disabled: true,
-                  hideDropdown: true,
+                  category: proposal.category,
                 }}
               />
             </div>
@@ -207,12 +202,12 @@ const FeedPage = () => {
     input: "",
     loading: false,
     loadingMore: false,
-    aggregatedCount: null,
+    aggregatedCount: 0,
     currentlyDisplaying: 0,
   });
 
   const queryName =
-    "thomasguntenaar_near_events_committee_proposals_2_proposals_with_latest_snapshot";
+    "thomasguntenaar_near_events_committee_proposals_proposals_with_latest_snapshot";
   const query = `query GetLatestSnapshot($offset: Int = 0, $limit: Int = 10, $where: ${queryName}_bool_exp = {}) {
     ${queryName}(
       offset: $offset
@@ -230,7 +225,6 @@ const FeedPage = () => {
       ts
       timeline
       views
-      labels
     }
     ${queryName}_aggregate(
       order_by: {proposal_id: desc}
@@ -272,9 +266,8 @@ const FeedPage = () => {
       where = { author_id: { _eq: state.author }, ...where };
     }
 
-    // TODO - category -> labels
     if (state.category) {
-      where = { labels: { _contains: state.category }, ...where };
+      where = { category: { _eq: state.category }, ...where };
     }
 
     if (state.stage) {
@@ -327,10 +320,10 @@ const FeedPage = () => {
         if (result.body.data) {
           const data =
             result.body.data
-              .thomasguntenaar_near_events_committee_proposals_2_proposals_with_latest_snapshot;
+              .thomasguntenaar_near_events_committee_proposals_proposals_with_latest_snapshot;
           const totalResult =
             result.body.data
-              .thomasguntenaar_near_events_committee_proposals_2_proposals_with_latest_snapshot_aggregate;
+              .thomasguntenaar_near_events_committee_proposals_proposals_with_latest_snapshot_aggregate;
           State.update({ aggregatedCount: totalResult.aggregate.count });
           // Parse timeline
           fetchBlockHeights(data, offset);
@@ -424,7 +417,7 @@ const FeedPage = () => {
     <Container className="w-100 py-4 px-2 d-flex flex-column gap-3">
       <div className="d-flex justify-content-between flex-wrap gap-2 align-items-center">
         <Heading>
-          Proposals
+          Events Committee Proposals
           <span className="text-muted text-normal">
             ({state.aggregatedCount ?? state.data.length}){" "}
           </span>
@@ -502,7 +495,7 @@ const FeedPage = () => {
                     <div>
                       <i class="bi bi-plus-circle-fill"></i>
                     </div>
-                    Submit Proposal
+                    New Proposal
                   </div>
                 ),
                 classNames: { root: "green-btn" },
@@ -512,7 +505,7 @@ const FeedPage = () => {
         </div>
       </div>
       <div style={{ minHeight: "50vh" }}>
-        {state.aggregatedCount === null ? (
+        {!Array.isArray(state.data) ? (
           loader
         ) : (
           <div className="card no-border rounded-0 mt-4 py-3 full-width-div">
@@ -524,26 +517,51 @@ const FeedPage = () => {
                   </div>
                   <div>
                     <span className="fw-bold">
-                      Welcome to the
-                      {/* <a
+                      Welcome to
+                      <a
                         href="https://near.social/devhub.near/widget/app?page=community&handle=developer-dao&tab=overview"
                         target="_blank"
                         rel="noopener noreferrer"
-                      > */}
-                      Events Committee Proposal Feed!
-                      {/* </a> */}
+                      >
+                        DevDAO’s New Proposal Feed!
+                      </a>
                     </span>
-                    This dedicated space makes it easy to submit and track
-                    funding proposals from the Events Committee, the cross-team
-                    organization responsible for hosting and sponsoring
-                    developer-focused events. You are welcome to respond to any
-                    RFPs that are accepting submissions or submit an independent
-                    proposal.
+                    This dedicated space replaces the
+                    <a
+                      href="https://near.org/devhub.near/widget/app?page=feed"
+                      className="text-decoration-underline no-space"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      old activity feed
+                    </a>
+                    , making it easier to submit and track funding requests from
+                    DevDAO, the primary organization behind DevHub. To submit a
+                    formal proposal, click New Proposal. See our{" "}
+                    <a
+                      href="https://near.org/devhub.near/widget/app?page=community&handle=developer-dao&tab=funding"
+                      className="text-decoration-underline no-space"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      guidelines
+                    </a>
+                    for details. For discussions and brainstorming, please
+                    utilize the relevant{" "}
+                    <a
+                      href="https://near.org/devhub.near/widget/app?page=communities"
+                      className="text-decoration-underline no-space"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      communities
+                    </a>
+                    .
                   </div>
                 </p>
               </div>
               <div className="mt-4 border rounded-2">
-                {state.data.length > 0 || state.aggregatedCount === 0 ? (
+                {state.data.length > 0 ? (
                   <InfiniteScroll
                     pageStart={0}
                     loadMore={makeMoreItems}
