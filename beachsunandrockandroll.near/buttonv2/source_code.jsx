@@ -1,4 +1,4 @@
-const btnIframe = ({ output, ...props }) => (
+const BtnIframe = ({ output, ...props }) => (
   <Widget
     src="beachsunandrockandroll.near/widget/buttonIframe"
     props={{ output, ...props }}
@@ -30,5 +30,5 @@ return {
   variantDefault,
   sizeDefault,
   buttonClassnameDefault,
-  btnIframe
+  btnIframe,
 };
