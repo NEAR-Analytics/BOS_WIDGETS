@@ -163,16 +163,16 @@ return (
         </li>
       </ul>
       <div class="tab-content" id="myTabContent">
-        <div
+        {/* <div
           class="tab-pane fade show active"
           id="home"
           role="tabpanel"
           aria-labelledby="home-tab"
         >
           <Widget src="events-committee.near/widget/devhub.page.admin.homepageTab" />
-        </div>
+        </div> */}
         <div
-          class="tab-pane fade"
+          class="tab-pane fade show active"
           id="profile"
           role="tabpanel"
           aria-labelledby="profile-tab"
