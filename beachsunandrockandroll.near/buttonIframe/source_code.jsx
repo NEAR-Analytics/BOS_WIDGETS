@@ -8,11 +8,11 @@ const srcDoc = `
     import {cva} from 'https://cdn.jsdelivr.net/npm/class-variance-authority@0.7.0/+esm'
     
     const buttonVariants = cva(
-      ${baseButton},
+      "${baseButton}",
       {
         variants: {
           variant: {
-            default: ${variantDefault},
+            default: "${variantDefault}",
             destructive:
               "bg-destructive text-destructive-foreground hover:opacity-90",
             outline:
@@ -23,7 +23,7 @@ const srcDoc = `
             link: "text-primary underline-offset-4 hover:underline",
           },
           size: {
-            default: ${sizeDefault},
+            default: "${sizeDefault}",
             sm: "h-9 rounded-md px-3",
             lg: "h-11 rounded-md px-8",
             icon: "h-10 w-10",
