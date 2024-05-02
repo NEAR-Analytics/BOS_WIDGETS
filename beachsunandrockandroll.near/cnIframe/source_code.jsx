@@ -1,5 +1,5 @@
-const ClassnameConf = ({ className, output }) => {
   const [res, setRes] = useState("");
+const ClassnameConf = ({ className, output }) => {
 
   const srcDoc = `
     <script type="module"> 
