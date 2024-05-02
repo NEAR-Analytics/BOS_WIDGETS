@@ -1,44 +1,84 @@
 const { Tailwind } = VM.require("beachsunandrockandroll.near/widget/preflight");
-
-// const { Button } = VM.require("beachsunandrockandroll.near/widget/button");
-const { Button, BtnIframe } = VM.require(
-  "beachsunandrockandroll.near/widget/buttonv2"
+const { Button, ButtonConf } = VM.require(
+  "beachsunandrockandroll.near/widget/button"
 );
+const { Input } = VM.require("beachsunandrockandroll.near/widget/input");
+const { Label } = VM.require("beachsunandrockandroll.near/widget/label");
+const { ClassnameConf } = VM.require(
+  "beachsunandrockandroll.near/widget/cnIframe"
+);
+const {
+  Card,
+  CardHeader,
+  CardFooter,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  cardClassname,
+  cardFooterClassname,
+} = VM.require("beachsunandrockandroll.near/widget/card");
 
-if(BtnIframe == undefined) return ""
-
-const [buttonOutline, setButtonOutline] = useState("");
-const [buttonDestructive, setButtonDestructive] = useState("");
-const [buttonSecondary, setButtonSecondary] = useState("");
-const [buttonGhost, setButtonGhost] = useState("");
-const [buttonLink, setButtonLink] = useState("");
-
-if (buttonOutline === "")
-  return <BtnIframe output={setButtonOutline} variant="outline" />;
-
-if (buttonDestructive === "")
-  return <BtnIframe output={setButtonDestructive} variant="destructive" />;
-
-if (buttonSecondary === "")
-  return <BtnIframe output={setButtonSecondary} variant="secondary" />;
-
-if (buttonGhost === "")
-  return <BtnIframe output={setButtonGhost} variant="ghost" />;
-
-if (buttonLink === "")
-  return <BtnIframe output={setButtonLink} variant="link" />;
+const { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } =
+  VM.require("beachsunandrockandroll.near/widget/select");
 
 if (Tailwind == undefined) return "";
+if (ButtonConf == undefined) return "";
+if (ClassnameConf == undefined) return "";
+
+const [buttonCancel, setButtonCancel] = useState("");
+const [card, setCard] = useState("");
+const [cardFooter, setCardFooter] = useState("");
+
+if (buttonCancel === "")
+  return <ButtonConf output={setButtonCancel} variant="outline" />;
+
+if (card === "") {
+  let className = `${cardClassname} max-w-lg sm:w-96`;
+  return <ClassnameConf output={setCard} className={className} />;
+}
+
+if (cardFooter === "") {
+  let className = `${cardFooterClassname} flex justify-between`;
+  return <ClassnameConf output={setCardFooter} className={className} />;
+}
 
 return (
   <Tailwind>
-    <div className="flex mx-auto w-max pt-10">
-      <Button>Button</Button>
-      <Button className={buttonOutline}>Outline</Button>
-      <Button className={buttonDestructive}>Destructive</Button>
-      <Button className={buttonSecondary}>Secondary</Button>
-      <Button className={buttonGhost}>Ghost</Button>
-      <Button className={buttonLink}>Link</Button>
+    <div className="flex max-w-lg px-10 mx-auto w-max pt-10">
+      <Card className={card}>
+        <CardHeader>
+          <CardTitle>Create project</CardTitle>
+          <CardDescription>
+            Deploy your new project in one-click.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid w-full items-center gap-4">
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="name">Name</Label>
+              <Input id="name" placeholder="Name of your project" />
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="framework">Framework</Label>
+              <Select>
+                <SelectTrigger id="framework">
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent position="popper">
+                  <SelectItem value="next">Next.js</SelectItem>
+                  <SelectItem value="sveltekit">SvelteKit</SelectItem>
+                  <SelectItem value="astro">Astro</SelectItem>
+                  <SelectItem value="nuxt">Nuxt.js</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </CardContent>
+        <CardFooter className={cardFooter}>
+          <Button className={buttonCancel}>Cancel</Button>
+          <Button>Deploy</Button>
+        </CardFooter>
+      </Card>
     </div>
   </Tailwind>
 );
