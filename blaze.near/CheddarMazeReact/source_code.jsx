@@ -22,6 +22,51 @@ const [timerStarted, setTimerStarted] = useState(false);
 const [notification, setNotification] = useState("");
 const [luckyColor] = useState(Math.random() < 0.1 ? "#9d67ef" : "Gold");
 const [direction, setDirection] = useState("right");
+const [selectedColorSet, setSelectedColorSet] = useState(null);
+const [backgroundImage, setBackgroundImage] = useState("");
+const [rarity, setRarity] = useState("");
+
+// Function to select a random color set, background image, and rarity
+const selectRandomColorSet = () => {
+  const colorSets = [
+    {
+      backgroundColor: "#F0F0F0",
+      pathColor: "#9d67ef",
+      nonPathColor: "white",
+      textColor: "#000000",
+      rarity: "common",
+      backgroundImage:
+        "url('	https://cheddar.farm/newFarmBackground.c6905a5e.png')",
+    },
+    {
+      backgroundColor: "#E0E0E0",
+      pathColor: "gold",
+      nonPathColor: "white",
+      textColor: "#333333",
+      rarity: "rare",
+      backgroundImage:
+        "url('https://ipfs.near.social/ipfs/bafkreihpddbzbioe7kctes25rr52klcs5we4pocwiwbmwldqf4acdarpcm')",
+    },
+    // Add more color sets as needed
+  ];
+
+  return colorSets[Math.floor(Math.random() * colorSets.length)];
+};
+
+// Set the selected color set, background image, and rarity once at the start of the game
+useEffect(() => {
+  const randomColorSet = selectRandomColorSet();
+  setSelectedColorSet(randomColorSet);
+  setBackgroundImage(randomColorSet.backgroundImage);
+  setRarity(randomColorSet.rarity);
+}, []);
+
+// Initialize path color from the selected color set
+const pathColor = selectedColorSet ? selectedColorSet.pathColor : "";
+const backgroundImageStyle = {
+  backgroundImage: backgroundImage,
+  backgroundSize: "cover",
+};
 
 const gameOver = (message, cell) => {
   const enemyWon = cell.enemyWon;
@@ -432,8 +477,8 @@ const renderMazeCells = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: isPath ? luckyColor : "",
-        color: isActive ? "gray" : "",
+        backgroundColor: isPath ? pathColor : selectedColorSet.nonPathColor, // Set the cell background color
+        color: isActive ? "#FFFFFF" : selectedColorSet.textColor, // Set the text color
         backgroundImage: isActive
           ? `url('https://lh3.googleusercontent.com/d/114_RLl18MAzX035svMyvNJpE3ArfLNCF=w500')`
           : "",
@@ -461,7 +506,7 @@ const renderMazeCells = () => {
             className={`maze-cell ${isPath ? "path" : ""} ${
               isActive ? "active" : ""
             }`}
-            style={cellStyle}
+            style={{ ...cellStyle }}
           >
             {hasCheese && !isActive ? <div style={emojiStyle}>🧀</div> : ""}
             {hasEnemy && !isActive ? <div style={emojiStyle}>🦹‍♂️</div> : ""}
@@ -630,6 +675,9 @@ return (
       margin: "0 auto",
       padding: "5px",
       border: "1px solid #000",
+      backgroundColor: backgroundColor, // Set the background color
+      color: selectedColorSet.textColor, // Set the text color
+      backgroundImage: backgroundImage,
     }}
   >
     <div
@@ -677,12 +725,13 @@ return (
         padding: "0px",
         position: "relative",
         width: `${mazeData[0].length * cellSize}px`, // Adjusted width
+        backgroundImage: `url(${backgroundImage})`, // Set the background image
+        backgroundSize: "cover",
       }}
       tabIndex="0"
       onKeyDown={handleKeyPress}
     >
-      {renderMazeCells()}
-
+      {renderMazeCells(pathColor)}
       <div className="notification-bar">
         <p style={{ color: "red" }}>{notification}</p>{" "}
         {/* Display the notification message here */}
