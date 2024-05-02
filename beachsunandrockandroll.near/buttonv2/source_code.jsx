@@ -30,5 +30,5 @@ return {
   variantDefault,
   sizeDefault,
   buttonClassnameDefault,
-  btnIframe,
+  BtnIframe,
 };
