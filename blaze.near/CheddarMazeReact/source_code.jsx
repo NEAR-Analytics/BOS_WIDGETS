@@ -19,12 +19,12 @@ const [initialTouch, setInitialTouch] = useState(null);
 const [playerStartX, setPlayerStartX] = useState(0);
 const [playerStartY, setPlayerStartY] = useState(0);
 const [timerStarted, setTimerStarted] = useState(false);
-const [notification, setNotification] = useState("");
 const [luckyColor] = useState(Math.random() < 0.1 ? "#9d67ef" : "Gold");
 const [direction, setDirection] = useState("right");
 const [selectedColorSet, setSelectedColorSet] = useState(null);
 const [backgroundImage, setBackgroundImage] = useState("");
 const [rarity, setRarity] = useState("");
+const [won, setWon] = useState(false);
 
 // Function to select a random color set, background image, and rarity
 const selectRandomColorSet = () => {
@@ -155,11 +155,12 @@ const restartGame = () => {
   setEnemyCooldown(true);
   setMoves(0);
   setGameOverFlag(false);
+  setWon(false);
   setGameOverMessage("");
 
   // Regenerate maze data
-  const mazeRows = 15; // Updated number of rows
-  const mazeCols = 11;
+  const mazeRows = 11;
+  const mazeCols = 9;
   const newMazeData = generateMazeData(mazeRows, mazeCols);
 
   // Find a valid starting position for the player
@@ -454,6 +455,7 @@ const renderMazeCells = () => {
       const hasCheese = cell.hasCheese;
       const hasEnemy = cell.hasEnemy;
       const hasExit = cell.hasExit;
+      won;
       const enemyWon = cell.enemyWon;
       const cartelWon = cell.cartelWon;
 
@@ -614,6 +616,7 @@ const handleClick = (event) => {
 
   // Stop the timer if the exit is found
   if (mazeData[newY][newX].hasExit) {
+    setWon(true);
     stopTimer();
   }
 };
@@ -696,9 +699,11 @@ return (
     </div>
 
     {gameOverMessage ? (
-      <div>
+      <div
+        style={{ backgroundColor: "rgba(255, 255, 255, 0.8)", padding: "10px" }}
+      >
         <button onClick={restartGame}>Restart Game</button>
-        <p style={{ color: "red" }}>{gameOverMessage}</p>
+        <p style={{ color: won ? "green" : "red" }}>{gameOverMessage}</p>
       </div>
     ) : (
       <>
@@ -739,10 +744,6 @@ return (
       onKeyDown={handleKeyPress}
     >
       {renderMazeCells(pathColor)}
-      <div className="notification-bar">
-        <p style={{ color: "red" }}>{notification}</p>{" "}
-        {/* Display the notification message here */}
-      </div>
     </div>
     <div
       style={{ backgroundColor: "rgba(255, 255, 255, 0.9)", padding: "10px" }}
