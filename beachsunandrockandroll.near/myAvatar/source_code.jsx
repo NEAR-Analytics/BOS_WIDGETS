@@ -1,25 +1,38 @@
 const { Tailwind } = VM.require("beachsunandrockandroll.near/widget/preflight");
 
-const { Badge } = VM.require("beachsunandrockandroll.near/widget/badge");
+// const { Button } = VM.require("beachsunandrockandroll.near/widget/button");
+const { Button, BtnIframe } = VM.require(
+  "beachsunandrockandroll.near/widget/buttonv2"
+);
 
-State.init({
-  cnBadge: "",
-});
+const [buttonOutline, setButtonOutline] = useState("");
+const [buttonDestructive, setButtonDestructive] = useState("");
 
-if (["", "loaded"].includes(state.cnBadge))
+if (buttonOutline === "")
   return (
-    <Widget
-      src="beachsunandrockandroll.near/widget/badgeIframe"
-      props={{
-        output: (cnBadge) => State.update({ cnBadge }),
-      }}
+    <BtnIframe
+      output={setButtonOutline}
+      variant="outline"
     />
   );
+
+if (buttonDestructive === "")
+  return (
+    <BtnIframe
+      output={setButtonDestructive}
+      variant="destructive"
+      className="text-green-400 rounded-xl"
+    />
+  );
+
+if (Tailwind == undefined) return "";
 
 return (
   <Tailwind>
     <div className="flex mx-auto w-max pt-10">
-      <Badge className={state.cnBadge}>Badge</Badge>
+      <Button>Button</Button>
+      <Button className={buttonOutline}>Outline</Button>
+      <Button className={buttonDestructive}>Destructive</Button>
     </div>
   </Tailwind>
 );
