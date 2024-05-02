@@ -10,7 +10,7 @@ const {
   rowId,
   id,
   disabeleOpenReportLInk,
-  dao
+  dao,
 } = props;
 const GAS = "200000000000000";
 const DEPOSIT = 10000000000000000000000;
@@ -23,7 +23,6 @@ const [showMore, setShowMore] = useState(null);
 const [showComments, setShowComments] = useState(showCommentsDefault);
 const [selectedHistoryId, setSelectedHistoryId] = useState(0);
 const accountId = context.accountId;
-
 
 if (!dao || !itemState) return <Widget src="flashui.near/widget/Loading" />;
 
@@ -911,9 +910,7 @@ return (
             </TableCell>
             <TableCell flex={0.5}>
               <div className="info">
-              {new Date(
-                      itemState.created_at / 1000000,
-                    ).toLocaleDateString()}
+                {new Date(itemState.created_at / 1000000).toLocaleDateString()}
               </div>
             </TableCell>
             <TableCell flex={0.5}>
