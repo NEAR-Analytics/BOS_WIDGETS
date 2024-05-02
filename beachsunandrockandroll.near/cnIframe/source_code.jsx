@@ -1,11 +1,12 @@
 const ClassnameConf = ({ className, output }) => {
   const srcDoc = `
     <script type="module"> 
-      import mxcn from "https://cdn.jsdelivr.net/npm/mxcn@2.0.0/+esm"
+      import clsx from 'https://cdn.jsdelivr.net/npm/clsx@2.1.1/+esm'
+      import { twMerge } from 'https://cdn.jsdelivr.net/npm/tailwind-merge@2.3.0/+esm'
         
       window.addEventListener("message", ({ data }) => {
         try {
-          event.source.postMessage(mxcn(data.className), "*");
+          event.source.postMessage(twMerge(clsx(data.className)), "*");
         } catch (e) {}
       }, false);
     </script>
