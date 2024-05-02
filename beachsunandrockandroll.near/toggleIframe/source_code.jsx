@@ -5,7 +5,7 @@ const { baseToggle, variantDefault, sizeDefault } = VM.require(
 const srcDoc = `
 <script type="module"> 
     import mxcn from "https://cdn.jsdelivr.net/npm/mxcn@2.0.0/+esm"
-    import {cva} from 'https://cdn.jsdelivr.net/npm/class-variance-authority@0.7.0/+esm'
+    import { cva } from 'https://cdn.jsdelivr.net/npm/class-variance-authority@0.7.0/+esm'
     
     const toggleVariants = cva(
       "${baseToggle}",
@@ -32,9 +32,7 @@ const srcDoc = `
     window.addEventListener("message", ({ data }) => {
         try {
             event.source.postMessage(mxcn(toggleVariants(data)), "*");
-        } catch (e) {
-            // ignore
-        }
+        } catch (e) {}
     }, false);
 </script>
 `;
