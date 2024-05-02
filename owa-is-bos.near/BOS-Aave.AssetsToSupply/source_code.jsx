@@ -23,6 +23,7 @@ return (
         config,
         style: {
           marginTop: "16px",
+          color: "white",
         },
         title: "Assets to supply",
         body:
