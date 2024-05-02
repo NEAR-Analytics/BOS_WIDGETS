@@ -3,6 +3,47 @@ const baseAlert =
 
 const variantDefault = "bg-background text-foreground";
 
+const AlertConf = ({ className, variant, output }) => {
+  const srcDoc = `
+    <script type="module"> 
+      import clsx from 'https://cdn.jsdelivr.net/npm/clsx@2.1.1/+esm'
+      import { twMerge } from 'https://cdn.jsdelivr.net/npm/tailwind-merge@2.3.0/+esm'
+      import { cva } from 'https://cdn.jsdelivr.net/npm/class-variance-authority@0.7.0/+esm'
+      
+      const alertVariants = cva(
+        "${baseAlert}",
+        {
+          variants: {
+            variant: {
+              default: "${variantDefault}",
+              destructive:
+                "border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive",
+            },
+          },
+          defaultVariants: {
+            variant: "default",
+          },
+        }
+      )
+
+      window.addEventListener("message", ({ data }) => {
+        try {
+            event.source.postMessage(twMerge(clsx(alertVariants(data))), "*");
+          } catch (e) {}
+      }, false);
+    </script>
+  `;
+
+  return (
+    <iframe
+      className="d-none"
+      srcDoc={srcDoc}
+      message={{ className, variant }}
+      onMessage={output}
+    />
+  );
+};
+
 const alertClassnameDefault = `${baseAlert} ${variantDefault}`;
 
 const Alert = ({ className, children, ...props }) => (
@@ -46,7 +87,4 @@ return {
   AlertDescription,
   alertTitleClassname,
   alertDescriptionClassname,
-  baseAlert,
-  variantDefault,
-  alertClassnameDefault,
 };
