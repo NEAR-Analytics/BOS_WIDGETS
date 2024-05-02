@@ -1,7 +1,12 @@
 const { Tailwind } = VM.require("beachsunandrockandroll.near/widget/preflight");
-const { Button } = VM.require("beachsunandrockandroll.near/widget/button");
+const { Button, ButtonConf } = VM.require(
+  "beachsunandrockandroll.near/widget/button"
+);
 const { Input } = VM.require("beachsunandrockandroll.near/widget/input");
 const { Label } = VM.require("beachsunandrockandroll.near/widget/label");
+const { ClassnameConf } = VM.require(
+  "beachsunandrockandroll.near/widget/cnIframe"
+);
 const {
   Card,
   CardHeader,
@@ -12,55 +17,29 @@ const {
   cardClassname,
   cardFooterClassname,
 } = VM.require("beachsunandrockandroll.near/widget/card");
-
 const { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } =
   VM.require("beachsunandrockandroll.near/widget/select");
 
+if (Tailwind == undefined) return "";
+if (ButtonConf == undefined) return "";
+if (ClassnameConf == undefined) return "";
+
 const [buttonCancel, setButtonCancel] = useState("");
-const [buttonDeploy, setButtonDeploy] = useState("");
 const [card, setCard] = useState("");
 const [cardFooter, setCardFooter] = useState("");
 
-if (["", "loaded"].includes(buttonCancel))
-  return (
-    <Widget
-      src="beachsunandrockandroll.near/widget/buttonIframe"
-      props={{
-        output: setButtonCancel,
-        variant: "outline",
-      }}
-    />
-  );
+if (buttonCancel === "")
+  return <ButtonConf output={setButtonCancel} variant="outline" />;
 
-if (["", "loaded"].includes(buttonDeploy))
-  return (
-    <Widget
-      src="beachsunandrockandroll.near/widget/buttonIframe"
-      props={{ output: setButtonDeploy }}
-    />
-  );
+if (card === "") {
+  let className = `${cardClassname} max-w-lg sm:w-96`;
+  return <ClassnameConf output={setCard} className={className} />;
+}
 
-if (["", "loaded"].includes(card))
-  return (
-    <Widget
-      src="beachsunandrockandroll.near/widget/cnIframe"
-      props={{
-        output: setCard,
-        className: `${cardClassname} max-w-lg sm:w-96`,
-      }}
-    />
-  );
-
-if (["", "loaded"].includes(cardFooter))
-  return (
-    <Widget
-      src="beachsunandrockandroll.near/widget/cnIframe"
-      props={{
-        output: setCardFooter,
-        className: `${cardFooterClassname} flex justify-between`,
-      }}
-    />
-  );
+if (cardFooter === "") {
+  let className = `${cardFooterClassname} flex justify-between`;
+  return <ClassnameConf output={setCardFooter} className={className} />;
+}
 
 return (
   <Tailwind>
@@ -96,7 +75,7 @@ return (
         </CardContent>
         <CardFooter className={cardFooter}>
           <Button className={buttonCancel}>Cancel</Button>
-          <Button className={buttonDeploy}>Deploy</Button>
+          <Button>Deploy</Button>
         </CardFooter>
       </Card>
     </div>
