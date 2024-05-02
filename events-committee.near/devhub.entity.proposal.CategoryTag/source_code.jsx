@@ -1,22 +1,20 @@
 const category = props.category;
-const getClassNameByCategory = (category) => {
+const getClassNameByCategory = () => {
   switch (category) {
-    case "Bounty":
+    case "DevDAO Operations":
       return "purple";
-    case "Bounty booster":
+    case "DevDAO Platform":
       return "yellow";
-    case "Event sponsorship":
+    case "Decentralized DevRel":
       return "cyan";
-    case "Events team":
+    case "Universities & Bootcamps":
       return "mustard";
-    case "Hackathon":
+    case "Engagement & Awareness":
       return "red";
-    case "Hackbox":
+    case "Events & Hackathons":
       return "green";
-    case "Meetup":
+    case "Tooling & Infrastructure":
       return "pink";
-    case "Travel expenses":
-      return "grey";
     default:
       return "grey";
   }
