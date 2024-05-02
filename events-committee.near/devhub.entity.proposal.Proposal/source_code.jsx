@@ -166,7 +166,7 @@ const Container = styled.div`
   }
 
   .green-btn {
-    background-color: #03ba16 !important;
+    background-color: #04a46e !important;
     border: none;
     color: white;
 
@@ -499,7 +499,7 @@ const editProposal = ({ timeline }) => {
     requested_sponsor: snapshot.requested_sponsor,
     timeline: timeline,
   };
-  const args = { labels: snapshot.labels, body: body, id: proposal.id };
+  const args = { labels: [], body: body, id: proposal.id };
 
   Near.call([
     {
@@ -805,13 +805,11 @@ return (
                     <div>
                       <Widget
                         src={
-                          "events-committee.near/widget/devhub.entity.proposal.MultiSelectLabelsDropdown"
+                          "events-committee.near/widget/devhub.entity.proposal.CategoryDropdown"
                         }
                         props={{
-                          selected: snapshot.labels,
-                          onChange: () => {},
+                          selectedValue: snapshot.category,
                           disabled: true,
-                          hideDropdown: true,
                         }}
                       />
                     </div>
@@ -948,6 +946,17 @@ return (
                       accountId === authorId,
                   }}
                 />
+              </SidePanelItem>
+              <SidePanelItem title="Requested Sponsor">
+                {snapshot.requested_sponsor && (
+                  <Widget
+                    src="near/widget/AccountProfile"
+                    props={{
+                      accountId: snapshot.requested_sponsor,
+                      noOverlay: true,
+                    }}
+                  />
+                )}
               </SidePanelItem>
               <SidePanelItem title="Supervisor">
                 {snapshot.supervisor ? (
