@@ -5,6 +5,8 @@ const { Button, BtnIframe } = VM.require(
   "beachsunandrockandroll.near/widget/buttonv2"
 );
 
+if(BtnIframe == undefined) return ""
+
 const [buttonOutline, setButtonOutline] = useState("");
 const [buttonDestructive, setButtonDestructive] = useState("");
 const [buttonSecondary, setButtonSecondary] = useState("");
