@@ -1,15 +1,19 @@
+const { baseBadge, variantDefault } = VM.require(
+  "beachsunandrockandroll.near/widget/badge"
+);
+
 const srcDoc = `
 <script type="module"> 
     import mxcn from "https://cdn.jsdelivr.net/npm/mxcn@2.0.0/+esm"
     import {cva} from 'https://cdn.jsdelivr.net/npm/class-variance-authority@0.7.0/+esm'
     
     const badgeVariants = cva(
-      "inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+      "${baseBadge}",
       {
         variants: {
           variant: {
             default:
-              "border-transparent bg-uin-primary text-primary-foreground shadow hover:opacity-80",
+              "${variantDefault}",
             secondary:
               "border-transparent bg-secondary text-secondary-foreground hover:opacity-80",
             destructive:
@@ -23,13 +27,10 @@ const srcDoc = `
       }
     )
 
-    window.top.postMessage("loaded", "*");
     window.addEventListener("message", ({ data }) => {
         try {
             event.source.postMessage(mxcn(badgeVariants(data)), "*");
-        } catch (e) {
-            // ignore
-        }
+        } catch (e) {}
     }, false);
 </script>
 `;
