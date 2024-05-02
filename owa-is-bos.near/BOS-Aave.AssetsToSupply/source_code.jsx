@@ -22,10 +22,8 @@ return (
       props={{
         config,
         style: {
-          marginTop: "16px",
           color: "white",
         },
-        title: "Assets to supply",
         body:
           !assetsToSupply || assetsToSupply.length === 0 ? (
             <Widget
