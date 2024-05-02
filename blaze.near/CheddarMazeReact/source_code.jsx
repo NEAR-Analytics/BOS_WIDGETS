@@ -21,6 +21,7 @@ const [playerStartY, setPlayerStartY] = useState(0);
 const [timerStarted, setTimerStarted] = useState(false);
 const [notification, setNotification] = useState("");
 const [luckyColor] = useState(Math.random() < 0.1 ? "#9d67ef" : "Gold");
+const [direction, setDirection] = useState("right");
 
 const gameOver = (message, cell) => {
   const enemyWon = cell.enemyWon;
@@ -246,15 +247,19 @@ const handleKeyPress = (event) => {
   switch (key) {
     case "ArrowUp":
       newY--;
+      setDirection("up"); // Update direction when moving up
       break;
     case "ArrowDown":
       newY++;
+      setDirection("down"); // Update direction when moving down
       break;
     case "ArrowLeft":
       newX--;
+      setDirection("left"); // Update direction when moving left
       break;
     case "ArrowRight":
       newX++;
+      setDirection("right"); // Update direction when moving right
       break;
     default:
       return;
@@ -311,29 +316,27 @@ const checkForEvents = (cell) => {
         gameOver("Enemy won! Game Over!", cell);
         stopTimer();
       }
-
-      if (Math.random() < 0.5) {
-        // 1% chance of hitting the "cartel" event
-        console.log("Hit the cartel!");
-        const newMazeData = mazeData.map((row, rowIndex) =>
-          row.map((mazeCell, colIndex) => {
-            const isPlayerPosition =
-              rowIndex === playerPosition.y && colIndex === playerPosition.x;
-            if (isPlayerPosition) {
-              return {
-                ...mazeCell,
-                cartelWon: true, // Update enemyWon flag
-                isActive: false, // Update isActive flag
-              };
-            }
-            setMazeData(newMazeData);
-            setScore(0); // Set score to zero
-            return mazeCell;
-          })
-        );
-        gameOver("You ran into the cartel! Game Over!", cell);
-        stopTimer();
-      }
+    } else if (true) {
+      // 1% chance of hitting the "cartel" event
+      console.log("Hit the cartel!");
+      const newMazeData = mazeData.map((row, rowIndex) =>
+        row.map((mazeCell, colIndex) => {
+          const isPlayerPosition =
+            rowIndex === playerPosition.y && colIndex === playerPosition.x;
+          if (isPlayerPosition) {
+            return {
+              ...mazeCell,
+              cartelWon: true, // Update enemyWon flag
+              isActive: false, // Update isActive flag
+            };
+          }
+          setMazeData(newMazeData);
+          setScore(0); // Set score to zero
+          return mazeCell;
+        })
+      );
+      gameOver("You ran into the cartel! Game Over!", cell);
+      stopTimer();
     } else {
       console.log("enemy defeated...");
     }
@@ -394,6 +397,10 @@ const containerStyle = {
 };
 
 const renderMazeCells = () => {
+  const upTransform = "rotate(-90deg)";
+  const downTransform = "rotate(90deg)";
+  const leftTransform = "scaleX(-1)";
+
   return mazeData.map((row, rowIndex) =>
     row.map((cell, colIndex) => {
       const isActive =
@@ -402,11 +409,20 @@ const renderMazeCells = () => {
       const hasCheese = cell.hasCheese;
       const hasEnemy = cell.hasEnemy;
       const hasExit = cell.hasExit;
-      const enemyWon = cell.enemyWon; // New flag to check if the enemy won
+      const enemyWon = cell.enemyWon;
       const cartelWon = cell.cartelWon;
 
-      // Generate a unique id for each cell
       const cellId = `cell-${rowIndex}-${colIndex}`;
+
+      const backgroundImageTransform = isActive
+        ? direction === "up"
+          ? upTransform
+          : direction === "down"
+          ? downTransform
+          : direction === "left"
+          ? leftTransform // Apply leftTransform when facing left
+          : ""
+        : "";
 
       const cellStyle = {
         width: "40px",
@@ -420,28 +436,26 @@ const renderMazeCells = () => {
         backgroundColor: isPath ? luckyColor : "",
         color: isActive ? "gray" : "",
         backgroundImage: isActive
-          ? "url('https://ipfs.near.social/ipfs/bafkreiejk6zjvhxevdatofxpznf4fedluwuavptaryvbixie6bcz4u5goe')"
+          ? `url('https://lh3.googleusercontent.com/d/114_RLl18MAzX035svMyvNJpE3ArfLNCF=w500')`
           : "",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
-        position: "relative", // Ensure the position is set to relative
+        backgroundSize: "70%",
+        position: "relative",
+        transform: backgroundImageTransform,
       };
 
       const emojiStyle = {
         position: "absolute",
-        top: "50%", // Center the emoji vertically
-        left: "50%", // Center the emoji horizontally
-        transform: "translate(-50%, -50%)", // Translate the emoji to center it
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
         zIndex: 1,
       };
 
       return (
-        <div
-          className="maze-container"
-          style={containerStyle}
-          tabIndex="0" // Add tabIndex to make the container focusable
-        >
+        <div className="maze-container" style={containerStyle} tabIndex="0">
           <div
             key={cellId}
             id={cellId}
@@ -453,8 +467,8 @@ const renderMazeCells = () => {
             {hasCheese && !isActive ? <div style={emojiStyle}>🧀</div> : ""}
             {hasEnemy && !isActive ? <div style={emojiStyle}>🦹‍♂️</div> : ""}
             {hasExit ? "🚪" : ""}
-            {enemyWon ? "💢" : ""} {/* Render the angry emoji if enemy won */}
-            {cartelWon ? "🤮" : ""} {/* Render the angry emoji if enemy won */}
+            {enemyWon ? "💢" : ""}
+            {cartelWon ? "🤮" : ""}
           </div>
         </div>
       );
