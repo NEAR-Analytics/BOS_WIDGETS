@@ -64,12 +64,14 @@ const [logoUrl, setLogoUrl] = useState("");
 const [bannerUrl, setBannerUrl] = useState("");
 const [accounts, setAccounts] = useState("");
 const [owners, setOwners] = useState("");
-const [verticals, setVerticals] = useState("");
+const [verticals, setVerticals] = useState([]);
 const [metadata, setMetadata] = useState({});
+const [verticalsOpen, setVerticalsOpen] = useState(false);
 
 const projects = Near.view(contractName, "get_dao_communities", {
   dao_list: [selectedDao.id],
 });
+const allVerticals = Near.view(contractName, "get_all_verticals", {});
 
 useEffect(() => {
   if (projects && daoProjects.length === 0) setDAOProjects(projects);
@@ -93,7 +95,7 @@ const handleSave = () => {
       accounts: accounts.length > 0 ? accounts.split(",") : [],
     },
     owners: owners.length > 0 ? owners.split(",") : [],
-    verticals: verticals.length > 0 ? verticals.split(",") : [],
+    verticals,
     metadata,
   });
 };
@@ -106,7 +108,7 @@ const handleReset = () => {
   setBannerUrl("");
   setAccounts("");
   setOwners("");
-  setVerticals("");
+  setVerticals([]);
   setMetadata({});
   setEditedProjectId(false);
 };
@@ -119,7 +121,7 @@ const handleEdit = () => {
     logo_url: logoUrl,
     banner_url: bannerUrl,
     owners: owners.split(","),
-    verticals: verticals.split(","),
+    verticals,
     accounts: accounts.split(","),
     metadata,
   });
@@ -169,7 +171,7 @@ return (
                   setLogoUrl(project.logo_url);
                   setBannerUrl(project.banner_url);
                   setOwners(project.owners.join(","));
-                  setVerticals(project.verticals.join(","));
+                  setVerticals(project.verticals);
                   setMetadata(project.metadata);
                   setEditedProjectId(project.id);
                 }}
@@ -239,14 +241,28 @@ return (
           />
         </div>
         <div>
-          <label className="form-label">Verticals (separated by coma)</label>
+          <label className="form-label">Verticals</label>
 
-          <input
-            className="form-control"
-            placeholder="Verticals (separated by coma)"
-            type="text"
-            value={verticals}
-            onChange={(e) => setVerticals(e.target.value)}
+          <Widget
+            src={`ndcdev.near/widget/dashboard.Components.Select`}
+            props={{
+              id: "verticals",
+              text:
+                verticals.length > 0
+                  ? verticals.join(", ")
+                  : "Select Verticals",
+              options: allVerticals,
+              values: verticals,
+              defaultValue: "",
+              multiple: true,
+              filterIsOpen: verticalsOpen,
+              onFilterClick: () => setVerticalsOpen(!verticalsOpen),
+              onChange: (value) => setVerticals([value, ...verticals]),
+              onClear: () => setVerticals([]),
+              isTooltipVisible: false,
+              containerClass:
+                "form-control d-flex w-100 justify-content-between",
+            }}
           />
         </div>
         <div>
