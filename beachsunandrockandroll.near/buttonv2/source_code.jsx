@@ -1,4 +1,4 @@
-const BtnIframe = ({ output, ...props }) => (
+const BtnIframe = ({ output, children, ...props }) => (
   <Widget
     src="beachsunandrockandroll.near/widget/buttonIframe"
     props={{ output, ...props }}
