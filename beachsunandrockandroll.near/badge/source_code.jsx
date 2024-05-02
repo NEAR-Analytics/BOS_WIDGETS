@@ -4,7 +4,7 @@ const baseBadge =
 const variantDefault =
   "border-transparent bg-uin-primary text-primary-foreground shadow hover:opacity-80";
 
-const BadgeConf = ({ className, output }) => {
+const BadgeConf = ({ className, variant, output }) => {
   const srcDoc = `
     <script type="module">
       import clsx from 'https://cdn.jsdelivr.net/npm/clsx@2.1.1/+esm'
