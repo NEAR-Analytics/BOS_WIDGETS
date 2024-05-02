@@ -434,6 +434,7 @@ const containerStyle = {
   gridTemplateRows: `repeat(${mazeData.length}, ${cellSize}px)`,
   gap: "0px",
   padding: "0px", // Adjusted padding
+  margin: "0",
   position: "relative",
   width: `${mazeData[0].length * cellSize}px`, // Removed extra padding from the width
   outline: "none", // Hide outline when the container is focused
@@ -673,7 +674,7 @@ return (
     style={{
       maxWidth: `${mazeData[0].length * cellSize + 5}px`,
       margin: "0 auto",
-      padding: "5px",
+      padding: "0",
       border: "1px solid #000",
       backgroundColor: backgroundColor, // Set the background color
       color: selectedColorSet.textColor, // Set the text color
@@ -684,19 +685,25 @@ return (
       style={{
         display: "flex",
         justifyContent: "space-between",
-        padding: "0.5rem",
+        padding: "0 10px", // Adjust padding to add space on left and right
+        marginTop: "1rem",
       }}
     >
-      <div>Score: {score}</div>
-      <div>
+      <div style={{ fontWeight: "bold" }}>Score: {score}</div>
+      <div style={{ fontWeight: "bold" }}>
         Time: {remainingMinutes}m {remainingSeconds}s
       </div>
     </div>
-    {gameOverMessage && (
+
+    {gameOverMessage ? (
       <div>
         <button onClick={restartGame}>Restart Game</button>
         <p style={{ color: "red" }}>{gameOverMessage}</p>
       </div>
+    ) : (
+      <>
+        <br />
+      </>
     )}
     <div
       className="maze-container"
@@ -737,12 +744,16 @@ return (
         {/* Display the notification message here */}
       </div>
     </div>
-    <ol>
-      <li>Click or Tap to Start</li>
-      <li>Navigate with Arrows or Tap</li>
-      <li>Collect Cheddar🧀</li>
-      <li>Battle Cartel to protect your Bag</li>
-      <li>Find the Hidden Door🚪 to Win!</li>
-    </ol>
+    <div
+      style={{ backgroundColor: "rgba(255, 255, 255, 0.9)", padding: "10px" }}
+    >
+      <ol>
+        <li>Click or Tap to Start</li>
+        <li>Navigate with Arrows or Tap</li>
+        <li>Collect Cheddar🧀</li>
+        <li>Battle Cartel to protect your Bag</li>
+        <li>Find the Hidden Door🚪 to Win!</li>
+      </ol>
+    </div>
   </div>
 );
