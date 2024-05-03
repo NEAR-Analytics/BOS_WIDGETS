@@ -8,10 +8,6 @@
  * @param {Function} [t] - A function for internationalization (i18n) provided by the next-translate package.
  * @param {string} [id] - The token identifier passed as a string
  * @param {string} [tid] - The Non-Fungible token identifier passed as a string
- * @param {number} [currentPage] - The current page number being displayed. (Optional)
- *                                 Example: If provided, currentPage=3 will display the third page of blocks.
- * @param {function} [setPage] - A function used to set the current page. (Optional)
- *                               Example: setPage={handlePageChange} where handlePageChange is a function to update the page.
  * @param {string} ownerId - The identifier of the owner of the component.
  */
 
@@ -197,13 +193,16 @@ function MainComponent({ network, t, id, tid, ownerId }) {
     VM.require(`${ownerId}/widget/includes.Utils.libs`);
   const [isLoading, setIsLoading] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [txns, setTxns] = useState({});
+  const [txns, setTxns] = useState(undefined);
   const [showAge, setShowAge] = useState(true);
   const errorMessage = ' No token transfers found!';
   const [address, setAddress] = useState('');
 
   const config = getConfig && getConfig(network);
+
+  const apiUrl = `${config?.backendUrl}nfts/${id}/tokens/${tid}/txns?`;
+  const [url, setUrl] = useState(apiUrl);
+  const [cursor, setCursor] = useState(undefined);
 
   useEffect(() => {
     function fetchTotalTokens() {
@@ -232,36 +231,36 @@ function MainComponent({ network, t, id, tid, ownerId }) {
         .finally(() => {});
     }
 
-    function fetchTokens(page) {
+    function fetchTokens() {
       setIsLoading(true);
-      asyncFetch(
-        `${config?.backendUrl}nfts/${id}/tokens/${tid}/txns?page=${currentPage}&per_page=25`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+      asyncFetch(`${url}per_page=25`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      )
+      })
         .then(
           (data
 
 
 
 
+
 ) => {
             const resp = data?.body?.txns;
+            let cursor = data?.body?.cursor;
             if (data.status === 200) {
+              setCursor(cursor);
               if (Array.isArray(resp) && resp.length > 0) {
-                setTxns((prevData) => ({ ...prevData, [page]: resp || [] }));
+                setTxns(resp);
               } else if (resp.length === 0) {
-                setTxns({});
+                setTxns(undefined);
               }
               setIsLoading(false);
             } else {
               handleRateLimit(
                 data,
-                () => fetchTokens(page),
+                () => fetchTokens(),
                 () => setIsLoading(false),
               );
             }
@@ -272,11 +271,11 @@ function MainComponent({ network, t, id, tid, ownerId }) {
     }
     if (config?.backendUrl) {
       fetchTotalTokens();
-      fetchTokens(currentPage);
+      fetchTokens();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [config?.backendUrl, currentPage, id, tid]);
+  }, [config?.backendUrl, id, tid, url]);
 
   const toggleShowAge = () => setShowAge((s) => !s);
 
@@ -666,14 +665,6 @@ function MainComponent({ network, t, id, tid, ownerId }) {
     },
   ];
 
-  const setPage = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  useEffect(() => {
-    setCurrentPage(currentPage);
-  }, [currentPage]);
-
   return (
     <>
       {isLoading ? (
@@ -684,7 +675,8 @@ function MainComponent({ network, t, id, tid, ownerId }) {
         <div className={`flex flex-col lg:flex-row pt-4`}>
           <div className="flex flex-col">
             <p className="leading-7 px-6 text-sm mb-4 text-nearblue-600 dark:text-neargray-10">
-              {Object.keys(txns).length > 0 &&
+              {txns &&
+                txns.length > 0 &&
                 `A total of ${
                   localFormat && localFormat(totalCount.toString())
                 }${' '}
@@ -697,14 +689,15 @@ function MainComponent({ network, t, id, tid, ownerId }) {
         src={`${ownerId}/widget/bos-components.components.Shared.Table`}
         props={{
           columns: columns,
-          data: txns[currentPage],
+          data: txns,
           isLoading: isLoading,
-          isPagination: true,
           count: totalCount,
-          page: currentPage,
           limit: 25,
-          pageLimit: 200,
-          setPage: setPage,
+          cursorPagination: true,
+          cursor: cursor,
+          apiUrl: apiUrl,
+          setUrl: setUrl,
+          ownerId: ownerId,
           Error: (
             <ErrorMessage
               icons={<FaInbox />}
