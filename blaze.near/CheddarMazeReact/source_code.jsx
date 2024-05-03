@@ -488,9 +488,13 @@ const containerStyle = {
 };
 
 const renderMazeCells = () => {
-  const upTransform = "rotate(-90deg)";
-  const downTransform = "rotate(90deg)";
-  const leftTransform = "scaleX(-1)";
+  const containerStyle = {
+    width: "100%",
+    height: "100%",
+    display: "grid",
+    gridTemplateColumns: `repeat(${mazeData[0].length}, 40px)`, // Assuming each cell is 40px
+    gridTemplateRows: `repeat(${mazeData.length}, 40px)`, // Assuming each cell is 40px
+  };
 
   return mazeData.map((row, rowIndex) =>
     row.map((cell, colIndex) => {
@@ -500,7 +504,6 @@ const renderMazeCells = () => {
       const hasCheese = cell.hasCheese;
       const hasEnemy = cell.hasEnemy;
       const hasExit = cell.hasExit;
-      won;
       const enemyWon = cell.enemyWon;
       const cartelWon = cell.cartelWon;
 
