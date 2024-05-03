@@ -171,6 +171,7 @@ const changePage = (page) => {
     sidebar: false,
   });
   Storage.set("page", page);
+  console.log("Rst----123123", Storage.get("airdropData"));
   Storage.set("airdropData", {});
 };
 
