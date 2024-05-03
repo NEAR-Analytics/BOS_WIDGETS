@@ -135,7 +135,7 @@ useEffect(() => {
       `chainId=${inputCurrency.chainId}&fromAmount=${amount}&fromTokenAddress=${
         path[0]
       }&toTokenAddress=${path[1]}&rpc=${rpc}&slippage=${
-        slippage || 0.5
+        slippage * 100 || 0.5
       }&userAddr=${account}`
     );
     asyncFetch(`/dapdap/dodo/swap?params=${params}`)
