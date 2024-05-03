@@ -1,11 +1,67 @@
 const { Button } = VM.require("buildhub.near/widget/components") || {
   Button: () => <></>,
 };
+const theme = props.theme || (Storage.get("event_theme") ?? "dark");
 const { fetchThings } = VM.require(
   "buildhub.near/widget/lib.everything-sdk"
 ) || {
   fetchThings: () => {},
 };
+const HeaderLeft = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-basis: 0px;
+  flex-grow: 1;
+  ${theme === "light" &&
+  `
+    color: black;
+  `}
+`;
+const HeaderCenter = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-basis: 0px;
+  flex-grow: 1;
+  ${theme === "light" &&
+  `
+    button {
+      color: black;
+      
+    }
+    button.active{
+      background: white;
+      border: 1px solid #cdcdcd;
+      color: black;
+      &:hover {
+        background: #cdcdcd !important;
+      }
+    }
+  `}
+`;
+const HeaderRight = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-basis: 0px;
+  flex-grow: 1;
+  ${theme === "light" &&
+  `
+    button {
+      color: black;
+      
+    }
+    button.filter-button{
+      background: white;
+      border: 1px solid #cdcdcd;
+      color: black;
+      &:hover {
+        background: #cdcdcd !important;
+      }
+    }
+  `}
+`;
 const StyledToolbar = styled.div`
   display: flex;
   align-items: center;
@@ -30,6 +86,10 @@ const StyledToolbar = styled.div`
     flex-direction: column;
     gap: 1rem;
   }
+  ${theme === "light" &&
+  `
+    background: white;
+  `}
 `;
 // implement event fetching and filtering
 const [selectedView, setSelectedView] = useState("month");
@@ -51,39 +111,76 @@ const handleMonthChange = (change) => {
 const Toolbar = () => {
   return (
     <StyledToolbar>
-      <div className="section gap-3">
-        <span>{dateString}</span>
-        <button className="date-changer" onClick={() => handleMonthChange(-1)}>
-          <i className="bi bi-chevron-left"></i>
-        </button>
-        <button className="date-changer" onClick={() => handleMonthChange(1)}>
-          <i className="bi bi-chevron-right"></i>
-        </button>
-      </div>
-      <div className="section gap-1 justify-content-center">
-        <Button
-          variant={selectedView === "month" ? "secondary" : "outline"}
-          onClick={() => setSelectedView("month")}
-        >
-          Month
-        </Button>
-        <Button
-          variant={selectedView === "list" ? "secondary" : "outline"}
-          onClick={() => setSelectedView("list")}
-        >
-          List
-        </Button>
-      </div>
-      <div className="section justify-content-end" style={{ gap: 10 }}>
-        <Button variant="outline" onClick={() => setShowFilterModal(true)}>
-          Filter By
-        </Button>
-        {context.accountId && (
-          <Button variant="primary" onClick={() => setShowCreateModal(true)}>
-            Add Event
+      <HeaderLeft>
+        <div className="section gap-3">
+          <span>{dateString}</span>
+          <button
+            className="date-changer"
+            onClick={() => handleMonthChange(-1)}
+          >
+            <i className="bi bi-chevron-left"></i>
+          </button>
+          <button className="date-changer" onClick={() => handleMonthChange(1)}>
+            <i className="bi bi-chevron-right"></i>
+          </button>
+          {(!props.theme || props.hideThemeSwitcher) && (
+            <button
+              className="date-changer"
+              style={{
+                border: `1px solid ${
+                  theme === "light" ? "#cdcdcd" : "rgba(255, 255, 255, 0.2)"
+                }`,
+                padding: "4px 12px",
+                widht: "32px",
+                height: "32px",
+                borderRadius: "8px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              onClick={() =>
+                Storage.set("event_theme", theme === "light" ? "dark" : "light")
+              }
+            >
+              <i className={theme === "light" ? "bi bi-moon" : "bi bi-sun"}></i>
+            </button>
+          )}
+        </div>
+      </HeaderLeft>
+      <HeaderCenter>
+        <div className="section gap-1 justify-content-center">
+          <Button
+            className={selectedView === "month" ? "active" : ""}
+            variant={selectedView === "month" ? "secondary" : "outline"}
+            onClick={() => setSelectedView("month")}
+          >
+            Month
           </Button>
-        )}
-      </div>
+          <Button
+            className={selectedView === "list" ? "active" : ""}
+            variant={selectedView === "list" ? "secondary" : "outline"}
+            onClick={() => setSelectedView("list")}
+          >
+            List
+          </Button>
+        </div>
+      </HeaderCenter>
+      <HeaderRight>
+        <div className="section justify-content-end" style={{ gap: 10 }}>
+          <Button
+            className="filter-button"
+            variant="outline"
+            onClick={() => setShowFilterModal(true)}
+          >
+            Filter By
+          </Button>
+          {context.accountId && (
+            <Button variant="primary" onClick={() => setShowCreateModal(true)}>
+              Add Event
+            </Button>
+          )}
+        </div>
+      </HeaderRight>
     </StyledToolbar>
   );
 };
@@ -177,6 +274,7 @@ const CurrentView = () => {
           currentDate,
           events,
           setSelectedView,
+          theme: theme,
         }}
       />
     );
@@ -188,12 +286,22 @@ const CurrentView = () => {
       props={{
         currentDate,
         events,
+        theme: theme,
       }}
     />
   );
 };
 const Container = styled.div`
   background: var(--bg-1, #000000);
+  ${theme === "light" &&
+  `
+    background: white;
+  `}
+  /* Typeahead Fix */
+  .rbt-token-removeable {
+    background: #007bff;
+    color: #fff;
+  }
 `;
 return (
   <Container className="mb-3 mx-3">
@@ -205,6 +313,7 @@ return (
         toggleModal: toggleCreateModal,
         app,
         thing,
+        bootstrapTheme: theme,
       }}
     />
     <Widget
@@ -215,6 +324,7 @@ return (
         toggleModal: toggleFilterModal,
         filters: filters,
         setFilters: setFilters,
+        bootstrapTheme: theme,
       }}
     />
     <Toolbar />
