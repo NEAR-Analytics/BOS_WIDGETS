@@ -55,7 +55,7 @@ function Router({ active, routes }) {
       <Widget
         src={src}
         props={{
-          currentPath: `/buildcommons.near/widget/app?page=${page}`,
+          currentPath: `/buildcommons.near/widget/Index?page=${page}`,
           page: tab,
           ...passProps,
           ...defaultProps,
