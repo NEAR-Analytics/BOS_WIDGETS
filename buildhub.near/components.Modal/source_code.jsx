@@ -2,6 +2,7 @@ const { Button } = VM.require("buildhub.near/widget/components.Button") || {
   Button: () => <></>,
 };
 const toggle = props.toggle ?? <Button variant="primary">Open Modal</Button>;
+const theme = props.theme;
 const Overlay = styled.div`
   position: fixed;
   top: 0;
@@ -21,9 +22,10 @@ const Content = styled.div`
   max-width: 1000px;
   padding: 24px;
   outline: none !important;
-  background: var(--modal-background-color, #000);
+  //  background: var(--modal-background-color, #000);
+  background: ${(props) => (props.theme === "light" ? "#fff" : "#000")};
   border-radius: 16px;
-  color: var(--modal-text-color, #fff);
+  color: ${(props) => (props.theme === "light" ? "#000" : "#fff")};
   @media screen and (max-width: 768px) {
     width: 100%;
     max-width: 100%;
@@ -45,6 +47,11 @@ const CloseContainer = styled.div`
 `;
 const Icon = styled.i`
   font-size: 24px;
+  ${(props) =>
+    props.theme === "light" &&
+    `
+  color: black;
+  `}
 `;
 const avoidDefaultBehavior = (e) => {
   e.preventDefault();
@@ -60,6 +67,7 @@ function Modal({
   key,
   hideCloseBtn,
   disableOutsideClick,
+  theme,
 }) {
   return (
     <Dialog.Root key={key} open={open} onOpenChange={onOpenChange}>
@@ -73,14 +81,18 @@ function Modal({
             onPointerDownOutside={disableOutsideClick && avoidDefaultBehavior}
             onInteractOutside={disableOutsideClick && avoidDefaultBehavior}
           >
-            <Content>
+            <Content theme={theme}>
               <div className="d-flex align-items-center justify-content-between pb-4">
                 <h5 className="w-100">{title}</h5>
                 {!hideCloseBtn && (
                   <Dialog.Close asChild>
                     <CloseContainer>
-                      <Button variant="outline" type="icon">
-                        <Icon className="bi bi-x" />
+                      <Button
+                        className="close-icon"
+                        variant="outline"
+                        type="icon"
+                      >
+                        <Icon theme={theme} className="bi bi-x" />
                       </Button>
                     </CloseContainer>
                   </Dialog.Close>
