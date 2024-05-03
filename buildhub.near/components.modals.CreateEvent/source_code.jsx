@@ -13,6 +13,7 @@ return (
     title={"Create Event"}
     onOpenChange={toggleModal}
     toggle={toggle}
+    theme={bootstrapTheme}
   >
     <Widget
       src="buildhub.near/widget/components.modals.event.Form"
