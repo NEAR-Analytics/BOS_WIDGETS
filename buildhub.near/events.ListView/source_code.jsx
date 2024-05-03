@@ -4,6 +4,7 @@ const { Button, Hashtag } = VM.require("buildhub.near/widget/components") || {
 };
 const events = props.events ?? [];
 const currentDate = props.currentDate;
+const theme = props.theme;
 if (!events || !currentDate) {
   return "";
 }
@@ -138,6 +139,20 @@ const EventsContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
+  ${props.theme === "light" &&
+  `
+  button {
+    background: white;
+    color: black;
+    border: 1px solid #cdcdcd;
+    :hover {
+      background: #ededed !important;
+    }
+  }
+  p {
+    color: black !important;
+  }
+  `}
 `;
 const StyledEvent = styled.div`
   border-radius: 16px;
@@ -175,6 +190,19 @@ const StyledEvent = styled.div`
       border-radius: 8px;
     }
   }
+  ${props.theme === "light" &&
+  `
+  background: white;
+  color: black;
+  border: 1px solid #cdcdcd;
+  button.join-now-btn{
+    background: #eca227;
+    border: none;
+    &:hover{
+      background: #e49b48 !important;
+    }
+  }
+  `}
 `;
 const formatStartTime = (time) => {
   const date = new Date(time);
@@ -209,6 +237,13 @@ const EventGroup = ({ date }) => {
       flex-direction: column;
       gap: 24px;
     }
+    ${props.theme === "light" &&
+    `
+    span.event-date{
+      --text-color: black;
+      --white-50: #0d0d0d;
+    }
+    `}
   `;
   return (
     <Container>
@@ -218,6 +253,7 @@ const EventGroup = ({ date }) => {
             .split(" ")
             .map((it, i) => (
               <span
+                className="event-date"
                 style={{
                   fontSize: i === 0 ? "24px" : "16px",
                   color:
@@ -330,6 +366,7 @@ const EventGroup = ({ date }) => {
                 </div>
                 <div className="d-flex align-items-center gap-3">
                   <Button
+                    className="join-now-btn"
                     noLink={true}
                     href={`${event?.url}`}
                     target="_blank"
@@ -369,7 +406,10 @@ const PastEvents = () => {
 const [showPastEvents, setShowPastEvents] = useState(false);
 return (
   <EventsContainer>
-    <Button onClick={() => setShowPastEvents((prev) => !prev)}>
+    <Button
+      className="event-button"
+      onClick={() => setShowPastEvents((prev) => !prev)}
+    >
       {showPastEvents ? "Hide" : "Show"} Past Events
     </Button>
     {showPastEvents && <PastEvents />}
