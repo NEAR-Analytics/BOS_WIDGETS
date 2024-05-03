@@ -586,8 +586,27 @@ const handleContainerClick = () => {
 };
 
 const movePlayer = (newX, newY) => {
+  // Check if the new position is within the bounds of the maze
+  if (
+    newX < 0 ||
+    newX >= mazeData[0].length ||
+    newY < 0 ||
+    newY >= mazeData.length
+  ) {
+    return; // Ignore movement if outside maze bounds
+  }
+
   if (!mazeData[newY][newX].isPath) {
     return; // Player cannot move to non-path cells
+  }
+
+  const newCell = mazeData[newY][newX];
+  setMoves((moves) => moves + 1);
+
+  // Check if the new cell is the exit cell
+  if (newCell.isExit) {
+    setWon(true);
+    gameOver("Congratulations! You found the exit!");
   }
 
   const newMazeData = mazeData.map((row, rowIndex) =>
