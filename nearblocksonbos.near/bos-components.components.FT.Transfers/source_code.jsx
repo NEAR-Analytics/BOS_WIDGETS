@@ -234,24 +234,19 @@ function MainComponent({
   const [showAge, setShowAge] = useState(true);
   const [txnLoading, setTxnLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const initialPage = 1;
-  const [currentPage, setCurrentPage] = useState(initialPage);
   const [totalCount, setTotalCount] = useState(0);
   const errorMessage = t ? t('txns:noTxns') : 'No transactions found!';
-  const [txns, setTxns] = useState({});
+  const [txns, setTxns] = useState(undefined);
   const [address, setAddress] = useState('');
 
   const config = getConfig && getConfig(network);
 
+  const apiUrl = `${config?.backendUrl}fts/${id}/txns?`;
+
+  const [url, setUrl] = useState(apiUrl);
+  const [cursor, setCursor] = useState(undefined);
+
   const toggleShowAge = () => setShowAge((s) => !s);
-
-  const setPage = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  useEffect(() => {
-    setCurrentPage(currentPage);
-  }, [currentPage]);
 
   useEffect(() => {
     function fetchTotalTxns(qs) {
@@ -283,33 +278,39 @@ function MainComponent({
         .finally(() => {});
     }
 
-    function fetchTxnsData(page, qs) {
+    function fetchTxnsData(qs) {
       const queryParams = qs ? qs + '&' : '';
       setIsLoading(true);
-      asyncFetch(
-        `${config?.backendUrl}fts/${id}/txns?${queryParams}page=${page}&per_page=25`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+      asyncFetch(`${url}${queryParams}per_page=25`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      )
-        .then((data) => {
-          const resp = data?.body?.txns;
-          if (data.status === 200 && Array.isArray(resp)) {
-            if (resp.length > 0) {
-              setTxns((prevData) => ({ ...prevData, [page]: resp || [] }));
+      })
+        .then(
+          (data
+
+
+) => {
+            const resp = data?.body?.txns;
+            let cursor = data?.body?.cursor;
+            if (data.status === 200 && Array.isArray(resp)) {
+              setCursor(cursor);
+              if (resp.length > 0) {
+                setTxns(resp);
+              } else if (resp.length === 0) {
+                setTxns(undefined);
+              }
+              setIsLoading(false);
+            } else {
+              handleRateLimit(
+                data,
+                () => fetchTxnsData(qs),
+                () => setIsLoading(false),
+              );
             }
-            setIsLoading(false);
-          } else {
-            handleRateLimit(
-              data,
-              () => fetchTxnsData(page, qs),
-              () => setIsLoading(false),
-            );
-          }
-        })
+          },
+        )
         .catch(() => {});
     }
 
@@ -327,10 +328,10 @@ function MainComponent({
     }
     if (config?.backendUrl) {
       fetchTotalTxns(urlString);
-      fetchTxnsData(currentPage, urlString);
+      fetchTxnsData(urlString);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [config?.backendUrl, currentPage, id, filters]);
+  }, [config?.backendUrl, id, filters, url]);
 
   const onHandleMouseOver = (e, id) => {
     e.preventDefault();
@@ -352,7 +353,7 @@ function MainComponent({
         </>
       ),
       tdClassName:
-        'pl-5 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
+        'pl-5 py-3 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
     },
     {
       header: <span>{t ? t('hash') : 'HASH'}</span>,
@@ -386,7 +387,7 @@ function MainComponent({
       ),
       tdClassName: 'px-5 py-4 text-sm text-nearblue-600 dark:text-neargray-10',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
+        'px-5 py-3 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
     },
     {
       header: <span>BLOCK</span>,
@@ -406,7 +407,7 @@ function MainComponent({
         </>
       ),
       tdClassName:
-        'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10 font-medium',
+        'px-5 py-3 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10 font-medium',
       thClassName:
         'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
     },
@@ -434,7 +435,7 @@ function MainComponent({
         </>
       ),
       tdClassName:
-        'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
+        'px-5 py-3 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
       thClassName:
         'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
     },
@@ -529,7 +530,7 @@ function MainComponent({
         );
       },
       tdClassName:
-        'px-5 py-4 text-sm text-nearblue-600 dark:text-neargray-10 font-medium',
+        'px-5 py-3 text-sm text-nearblue-600 dark:text-neargray-10 font-medium',
       thClassName:
         'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
     },
@@ -639,7 +640,7 @@ function MainComponent({
         );
       },
       tdClassName:
-        'px-5 py-4 text-sm text-nearblue-600 dark:text-neargray-10 font-medium',
+        'px-5 py-3 text-sm text-nearblue-600 dark:text-neargray-10 font-medium',
       thClassName:
         'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
     },
@@ -660,7 +661,7 @@ function MainComponent({
         </>
       ),
       tdClassName:
-        'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
+        'px-5 py-3 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
       thClassName:
         'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
     },
@@ -734,7 +735,7 @@ function MainComponent({
         </span>
       ),
       tdClassName:
-        'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
+        'px-5 py-3 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
     },
   ];
 
@@ -748,13 +749,13 @@ function MainComponent({
         <div className={`flex flex-col lg:flex-row pt-4`}>
           <div className="flex flex-col">
             <p className="leading-7 px-6 text-sm mb-4 text-nearblue-600 dark:text-neargray-10">
-              {Object.keys(txns).length > 0 &&
+              {txns &&
+                txns.length > 0 &&
                 `A total of ${
                   localFormat && localFormat(totalCount.toString())
                 } transactions found`}
             </p>
           </div>
-
           {filters &&
             Object.keys(filters).filter((key) => key !== 'tab').length > 0 && (
               <div className="mb-4 lg:ml-auto  px-6">
@@ -786,14 +787,15 @@ function MainComponent({
         src={`${ownerId}/widget/bos-components.components.Shared.Table`}
         props={{
           columns: columns,
-          data: txns[currentPage],
+          data: txns,
           isLoading: isLoading,
-          isPagination: true,
           count: totalCount,
-          page: currentPage,
           limit: 25,
-          pageLimit: 200,
-          setPage: setPage,
+          cursorPagination: true,
+          cursor: cursor,
+          apiUrl: apiUrl,
+          setUrl: setUrl,
+          ownerId: ownerId,
           Error: (
             <ErrorMessage
               icons={<FaInbox />}
