@@ -171,6 +171,7 @@ const changePage = (page) => {
     sidebar: false,
   });
   Storage.set("page", page);
+  Storage.set("airdropData", {});
 };
 
 const openSidebar = (value) => {
