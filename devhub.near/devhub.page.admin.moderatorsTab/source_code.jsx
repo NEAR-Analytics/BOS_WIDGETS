@@ -55,14 +55,18 @@ return (
       {editModerators ? (
         <>
           <Widget
-            src="devhub.near/widget/devhub.page.admin.AccountsEditor"
+            src="devhub.near/widget/devhub.components.molecule.ListEditor"
             props={{
               data: {
                 maxLength: 100,
                 placeholder: "member.near",
+                prefix: "member",
                 list: moderators,
               },
               setList: setModerators,
+              // Could add a check to see if it is an valid account id.
+              validate: (newItem) => true,
+              invalidate: () => null,
             }}
           />
           <div
