@@ -11,13 +11,8 @@ const [remainingTime, setRemainingTime] = useState(timeLimitInSeconds);
 const [remainingMinutes, setRemainingMinutes] = useState(0);
 const [remainingSeconds, setRemainingSeconds] = useState(0);
 const [gameOverMessage, setGameOverMessage] = useState("");
-const [initialTouch, setInitialTouch] = useState(null);
-const [playerStartX, setPlayerStartX] = useState(0);
 const [playerStartY, setPlayerStartY] = useState(0);
 const [timerStarted, setTimerStarted] = useState(false);
-const [luckyColor, setLuckyColor] = useState(
-  Math.random() < 0.1 ? "#9d67ef" : "Gold"
-);
 const [direction, setDirection] = useState("right");
 const [selectedColorSet, setSelectedColorSet] = useState(null);
 const [backgroundImage, setBackgroundImage] = useState("");
@@ -44,11 +39,8 @@ const Maze = ({
   gameOverMessage,
   startTimerOnTap,
   handleKeyPress,
-  handleContainerClick,
-  handleTouchStart,
-  handleTouchEnd,
-  handleMouseDown,
-  handleMouseUp,
+  handleTouchMove,
+  handleMouseClick,
   restartGame,
 }) => {
   const pathColor = selectedColorSet ? selectedColorSet.pathColor : "";
@@ -89,6 +81,26 @@ const Maze = ({
     },
     playerCell: {
       backgroundColor: "yellow",
+      backgroundImage:
+        "url('https://lh3.googleusercontent.com/d/114_RLl18MAzX035svMyvNJpE3ArfLNCF=w500')",
+      backgroundSize: "cover",
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "center",
+      position: "relative",
+      backgroundSize: "70%",
+      transition: "background-image 0.3s ease-in-out",
+    },
+    playerMoveUp: {
+      transform: "rotate(-90deg)",
+    },
+    playerMoveDown: {
+      transform: "rotate(90deg)",
+    },
+    playerMoveLeft: {
+      transform: "scaleX(-1)",
+    },
+    playerMoveRight: {
+      transform: "rotate(0deg)",
     },
     debugInfo: {
       display: "none", // Hide debug info by default
@@ -106,32 +118,39 @@ const Maze = ({
   };
 
   // Render the maze cells
+  // Function to render the maze cells
   const renderMaze = () => {
     return mazeData.map((row, rowIndex) => (
       <div key={rowIndex} style={styles.mazeRow}>
         {row.map((cell, colIndex) => (
           <div
             key={colIndex}
+            id={`cell-${rowIndex}-${colIndex}`}
             style={{
               ...styles.mazeCell,
               backgroundColor: cell.isPath
-                ? pathColor
+                ? "#9d67ef"
                 : cell.hasEnemy
                 ? "red"
                 : cell.hasCheese
                 ? "orange"
                 : "black",
             }}
+            onClick={handleMouseClick}
           >
             {cell.hasCheese && "🧀"}
             {cell.hasEnemy && "👾"}
-            {cell.enemyWon && "💢"}
-            {cell.cartelWon && "🤮"}
             {playerPosition.x === colIndex && playerPosition.y === rowIndex && (
               <div
+                className={`player-icon ${direction}`} // Apply dynamic CSS class based on the direction
                 style={{
                   ...styles.mazeCell,
                   ...styles.playerCell,
+                  ...styles[
+                    `playerMove${
+                      direction.charAt(0).toUpperCase() + direction.slice(1)
+                    }`
+                  ], // Applying the direction style dynamically
                   backgroundImage: `url('https://lh3.googleusercontent.com/d/114_RLl18MAzX035svMyvNJpE3ArfLNCF=w500')`,
                   backgroundSize: "cover",
                   backgroundRepeat: "no-repeat",
@@ -148,33 +167,14 @@ const Maze = ({
   };
 
   return (
-    <div
-      style={{
-        ...styles.gameContainer,
-        backgroundColor: selectedColorSet
-          ? selectedColorSet.backgroundColor
-          : "#FFFFFF",
-      }}
-    >
-      <h1
-        style={{
-          color: selectedColorSet ? selectedColorSet.textColor : "black",
-        }}
-      >
-        Cheese Maze Game
-      </h1>
+    <div style={styles.gameContainer}>
+      <h1>Cheese Maze Game</h1>
       <div
-        style={{
-          ...styles.mazeContainer,
-          ...backgroundImageStyle,
-        }}
+        style={styles.mazeContainer}
         tabIndex="0"
         onKeyDown={handleKeyPress}
-        onClick={handleContainerClick}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
-        onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
+        onTouchMove={handleTouchMove}
+        onClick={handleMouseClick}
       >
         {renderMaze()}
       </div>
@@ -604,65 +604,212 @@ const handleKeyPress = (event) => {
   movePlayer(newX, newY);
 };
 
-// Function to handle container click events
+const isMobile = () => {
+  const userAgent = navigator.userAgent;
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    userAgent
+  );
+};
+
 const handleContainerClick = () => {
   startTimerOnTap(); // Start the timer when the user clicks on the maze container
 };
 
-// Function to handle touch start events
-const handleTouchStart = (event) => {
-  setInitialTouch({ x: event.touches[0].clientX, y: event.touches[0].clientY });
-  setTouchStart({ x: event.touches[0].clientX, y: event.touches[0].clientY });
+let isMouseDown = false;
+let lastCellX = null;
+let lastCellY = null;
+
+const handleMouseDown = (event) => {
+  isMouseDown = true;
+  handleMouseMove(event);
 };
 
-// Function to handle touch end events
-const handleTouchEnd = (event) => {
-  const deltaX = event.changedTouches[0].clientX - initialTouch.x;
-  const deltaY = event.changedTouches[0].clientY - initialTouch.y;
+const handleMouseMove = (event) => {
+  if (!mazeContainerRef || !isMouseDown) return;
 
-  if (Math.abs(deltaX) > Math.abs(deltaY)) {
-    if (deltaX > 0) {
-      handleKeyPress({ key: "ArrowRight" });
-    } else {
-      handleKeyPress({ key: "ArrowLeft" });
-    }
-  } else {
-    if (deltaY > 0) {
-      handleKeyPress({ key: "ArrowDown" });
-    } else {
-      handleKeyPress({ key: "ArrowUp" });
-    }
+  const cellWidth = isMobile() ? 30 : 40; // Adjusted cell size for mobile devices
+
+  // Extract cell coordinates from the id attribute
+  const id = event.target.id;
+  const [_, y, x] = id.split("-");
+  const newX = parseInt(x);
+  const newY = parseInt(y);
+
+  // Update last cell coordinates
+  lastCellX = newX;
+  lastCellY = newY;
+};
+
+const handleMouseClick = (event) => {
+  if (gameOverFlag) return; // If game over, prevent further movement
+
+  // Extract cell coordinates from the id attribute
+  const id = event.target.id;
+  const [_, y, x] = id.split("-");
+  const newX = parseInt(x);
+  const newY = parseInt(y);
+
+  // Calculate the direction based on the clicked cell's position relative to the player's current position
+  let newDirection = direction; // Initialize newDirection with the current direction
+  if (newY < playerPosition.y) {
+    newDirection = "up";
+  } else if (newY > playerPosition.y) {
+    newDirection = "down";
+  } else if (newX < playerPosition.x) {
+    newDirection = "left";
+  } else if (newX > playerPosition.x) {
+    newDirection = "right";
   }
 
-  setTouchEnd({
-    x: event.changedTouches[0].clientX,
-    y: event.changedTouches[0].clientY,
+  // Update the direction state
+  setDirection(newDirection);
+
+  // Call movePlayer to move the player to the clicked cell
+  movePlayer(newX, newY);
+};
+
+// Function to calculate the path from the current position to the target position
+const calculatePath = (currentX, currentY, targetX, targetY) => {
+  console.log(
+    `Calculating path from (${currentX}, ${currentY}) to (${targetX}, ${targetY})`
+  );
+  const path = [];
+
+  let deltaX = Math.sign(targetX - currentX);
+  let deltaY = Math.sign(targetY - currentY);
+
+  let x = currentX;
+  let y = currentY;
+
+  console.log("Delta X:", deltaX);
+  console.log("Delta Y:", deltaY);
+
+  // Ensure that both x and y are not equal to their respective target values
+  while (x !== targetX || y !== targetY) {
+    path.push([x, y]);
+
+    // Move along the x-axis towards the target
+    if (x !== targetX) x += deltaX;
+
+    // Move along the y-axis towards the target
+    if (y !== targetY) y += deltaY;
+  }
+
+  // Add the target position to the path
+  path.push([targetX, targetY]);
+
+  console.log("Calculated path:", path);
+
+  return path;
+};
+
+// Function to move the player along the calculated path
+const moveAlongPath = (path) => {
+  console.log("Moving along path:", path);
+  path.forEach(([x, y]) => {
+    console.log(`Moving to cell (${x}, ${y})`);
+    movePlayer(x, y);
   });
 };
 
-const handleMouseDown = (event) => {
-  setTouchStart({ x: event.clientX, y: event.clientY });
+const cellSize = isMobile() ? 30 : 40; // Adjust cell size for mobile devices
+let mazeContainerRef = null;
+
+const handleContainerRef = (event) => {
+  mazeContainerRef = event.target;
 };
 
-const handleMouseUp = (event) => {
-  const deltaX = event.clientX - touchStart.x;
-  const deltaY = event.clientY - touchStart.y;
+// Function to extract cell coordinates from the id attribute
+const getCellCoordinates = (id) => {
+  const [_, y, x] = id.split("-");
+  return { newX: parseInt(x), newY: parseInt(y) };
+};
+
+const handleTouchMove = (event) => {
+  event.preventDefault(); // Prevent default touch move behavior
+
+  if (!mazeContainerRef || !isMouseDown) return;
+
+  const cellWidth = isMobile() ? 30 : 40; // Adjusted cell size for mobile devices
+
+  // Extract cell coordinates from the id attribute
+  const id = event.target.id;
+  const [_, y, x] = id.split("-");
+  const newX = parseInt(x);
+  const newY = parseInt(y);
+
+  // Update last cell coordinates
+  lastCellX = newX;
+  lastCellY = newY;
+
+  // Call movePlayerDirection to move the player based on touch direction
+  const deltaX = newX - touchStart.x;
+  const deltaY = newY - touchStart.y;
+  let direction = "";
 
   if (Math.abs(deltaX) > Math.abs(deltaY)) {
-    if (deltaX > 0) {
-      handleKeyPress({ key: "ArrowRight" });
-    } else {
-      handleKeyPress({ key: "ArrowLeft" });
-    }
+    direction = deltaX > 0 ? "right" : "left";
   } else {
-    if (deltaY > 0) {
-      handleKeyPress({ key: "ArrowDown" });
-    } else {
-      handleKeyPress({ key: "ArrowUp" });
-    }
+    direction = deltaY > 0 ? "down" : "up";
   }
 
-  setTouchEnd({ x: event.clientX, y: event.clientY });
+  movePlayerDirection(direction);
+  // Call handleMove to move the player to the new cell
+  handleMove(newX, newY);
+  setTouchStart(null);
+};
+
+const ControlPad = ({ movePlayerDirection }) => {
+  return (
+    <div
+      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+    >
+      <button onClick={() => movePlayerDirection("up")}>Up</button>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <button onClick={() => movePlayerDirection("left")}>Left</button>
+        <button onClick={() => movePlayerDirection("down")}>Down</button>
+        <button onClick={() => movePlayerDirection("right")}>Right</button>
+      </div>
+    </div>
+  );
+};
+
+// Function to handle directional button inputs
+const movePlayerDirection = (direction) => {
+  if (gameOverFlag) return;
+
+  let newX = playerPosition.x;
+  let newY = playerPosition.y;
+
+  switch (direction) {
+    case "up":
+      newY--;
+      break;
+    case "down":
+      newY++;
+      break;
+    case "left":
+      newX--;
+      break;
+    case "right":
+      newX++;
+      break;
+    default:
+      return;
+  }
+
+  // Call moveAlongPath if you want to animate step by step movement
+  const path = calculatePath(playerPosition.x, playerPosition.y, newX, newY);
+  // Call handleMove to move the player to the new cell
+  handleMove(newX, newY);
+  setDirection(direction); // Optionally update the direction if needed
+};
+
+// Example handler for touch or click events where path calculation is desired
+const handleMove = (event) => {
+  const { newX, newY } = getCellCoordinates(event.target.id);
+  const path = calculatePath(playerPosition.x, playerPosition.y, newX, newY);
+  moveAlongPath(path);
 };
 
 // Function to start the timer
@@ -707,18 +854,15 @@ return (
       mazeData={mazeData}
       playerPosition={playerPosition}
       score={score}
-      timerStarted={timerStarted}
-      remainingMinutes={remainingMinutes}
-      remainingSeconds={remainingSeconds}
+      timerStarted={false}
+      remainingMinutes={Math.floor(remainingTime / 60)}
+      remainingSeconds={remainingTime % 60}
       gameOverFlag={gameOverFlag}
       gameOverMessage={gameOverMessage}
-      startTimerOnTap={startTimerOnTap}
+      startTimerOnTap={startTimer}
       handleKeyPress={handleKeyPress}
-      handleContainerClick={handleContainerClick}
-      handleTouchStart={handleTouchStart}
-      handleTouchEnd={handleTouchEnd}
-      handleMouseDown={handleMouseDown}
-      handleMouseUp={handleMouseUp}
+      handleTouchMove={handleTouchMove}
+      handleMouseClick={handleMouseClick}
       restartGame={restartGame}
     />
   </div>
