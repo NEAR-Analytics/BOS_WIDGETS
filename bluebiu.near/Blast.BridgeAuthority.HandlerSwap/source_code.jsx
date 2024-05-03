@@ -106,6 +106,19 @@ const L2BlastBridgeAbi = [
 ]
 
 const signer = Ethers.provider().getSigner()
+
+function computeGas(params) {
+  return Ethers.provider().getGasPrice().then(gasPrice => {
+    return signer.estimateGas({
+      ...params,
+      gasPrice
+    }).then(res => {
+      return new Big(res.toString()).mul(1.2).toString().split('.')[0]
+    })
+  })
+}
+
+
 const rawAmount = new Big(amount).mul(Math.pow(10, currency.decimals)).toString()
 if (target.id === 81457) {
   let pRes, wethPRes
@@ -122,6 +135,7 @@ if (target.id === 81457) {
 
   // const L1BlastBridgeProxy = '0x3a05E5d33d7Ab3864D53aaEc93c8301C1Fa49115'
   if (currency.isNative || wethPRes) {
+    
     const params = {
       from: account,
       to: routerAddress,
@@ -129,13 +143,23 @@ if (target.id === 81457) {
     }
     if (wethPRes) {
       pRes = wethPRes.then(() => {
-        return signer.sendTransaction(params).then(tx => {
-          return tx.wait()
+        return computeGas(params).then(gasLimit => {
+          return signer.sendTransaction({
+            ...params,
+            gasLimit,
+          }).then(tx => {
+            return tx.wait()
+          })
         })
       })
     } else {
-      pRes = signer.sendTransaction(params).then(tx => {
-        return tx.wait()
+      pRes = computeGas(params).then(gasLimit => {
+        return signer.sendTransaction({
+          ...params,
+          gasLimit,
+        }).then(tx => {
+          return tx.wait()
+        })
       })
     }
     
