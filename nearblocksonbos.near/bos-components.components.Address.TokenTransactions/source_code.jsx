@@ -338,10 +338,9 @@ function MainComponent({
   const [isLoading, setIsLoading] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
   const [showAge, setShowAge] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
   const errorMessage = t ? t('txns:noTxns') : 'No transactions found!';
   const [tokens, setTokens] = useState(
-    {},
+    undefined,
   );
   const [sorting, setSorting] = useState('desc');
   const [address, setAddress] = useState('');
@@ -349,9 +348,10 @@ function MainComponent({
 
   const config = getConfig && getConfig(network);
 
-  const setPage = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+  const apiUrl = `${config?.backendUrl}account/${id}/ft-txns?`;
+
+  const [url, setUrl] = useState(apiUrl);
+  const [cursor, setCursor] = useState(undefined);
 
   useEffect(() => {
     function fetchTotalTokens(qs) {
@@ -383,37 +383,37 @@ function MainComponent({
         .catch(() => {});
     }
 
-    function fetchTokens(qs, sqs, page) {
+    function fetchTokens(qs, sqs) {
       setIsLoading(true);
       const queryParams = qs ? qs + '&' : '';
-      asyncFetch(
-        `${config?.backendUrl}account/${id}/ft-txns?${queryParams}order=${sqs}&page=${page}&per_page=25`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+      asyncFetch(`${url}${queryParams}order=${sqs}&per_page=25`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      )
+      })
         .then(
           (data
 
 
 
 
+
 ) => {
             const resp = data?.body?.txns;
+            let cursor = data?.body?.cursor;
             if (data.status === 200) {
+              setCursor(cursor);
               if (Array.isArray(resp) && resp.length > 0) {
-                setTokens((prevData) => ({ ...prevData, [page]: resp || [] }));
+                setTokens(resp);
               } else if (resp.length === 0) {
-                setTokens({});
+                setTokens(undefined);
               }
               setIsLoading(false);
             } else {
               handleRateLimit(
                 data,
-                () => fetchTokens(qs, sorting, page),
+                () => fetchTokens(qs, sorting),
                 () => setIsLoading(false),
               );
             }
@@ -432,14 +432,14 @@ function MainComponent({
     }
     if (urlString && sorting) {
       fetchTotalTokens(urlString);
-      fetchTokens(urlString, sorting, currentPage);
+      fetchTokens(urlString, sorting);
     } else if (sorting && (!filters || Object.keys(filters).length === 0)) {
       fetchTotalTokens();
-      fetchTokens('', sorting, currentPage);
+      fetchTokens('', sorting);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [config?.backendUrl, id, currentPage, filters, sorting]);
+  }, [config?.backendUrl, id, filters, sorting, url]);
 
   const toggleShowAge = () => setShowAge((s) => !s);
 
@@ -496,7 +496,7 @@ function MainComponent({
         </>
       ),
       tdClassName:
-        'pl-5 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
+        'pl-5 py-3 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
     },
     {
       header: <>{t ? t('txns:hash') : 'TXN HASH'}</>,
@@ -528,7 +528,7 @@ function MainComponent({
           </Tooltip.Provider>
         </span>
       ),
-      tdClassName: 'px-4 py-4 text-sm text-nearblue-600 dark:text-neargray-10',
+      tdClassName: 'px-4 py-3 text-sm text-nearblue-600 dark:text-neargray-10',
       thClassName:
         'px-4 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
     },
@@ -603,7 +603,7 @@ function MainComponent({
         </span>
       ),
       tdClassName:
-        'px-4 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
+        'px-4 py-3 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
     },
     {
       header: <>Affected</>,
@@ -652,7 +652,7 @@ function MainComponent({
         </span>
       ),
       tdClassName:
-        'px-4 py-4 text-sm text-nearblue-600 dark:text-neargray-10 font-medium',
+        'px-4 py-3 text-sm text-nearblue-600 dark:text-neargray-10 font-medium',
       thClassName:
         'px-4 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
     },
@@ -769,7 +769,7 @@ function MainComponent({
         </span>
       ),
       tdClassName:
-        'px-4 py-4 text-sm text-nearblue-600 dark:text-neargray-10  font-medium',
+        'px-4 py-3 text-sm text-nearblue-600 dark:text-neargray-10  font-medium',
     },
     {
       header: <>Quantity</>,
@@ -795,7 +795,7 @@ function MainComponent({
         </span>
       ),
       tdClassName:
-        'px-4 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10  font-medium',
+        'px-4 py-3 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10  font-medium',
       thClassName:
         'px-4 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10  uppercase tracking-wider whitespace-nowrap',
     },
@@ -860,7 +860,7 @@ function MainComponent({
         );
       },
       tdClassName:
-        'px-4 py-4 text-sm text-nearblue-600 dark:text-neargray-10 font-medium',
+        'px-4 py-3 text-sm text-nearblue-600 dark:text-neargray-10 font-medium',
       thClassName:
         'px-4 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider',
     },
@@ -941,7 +941,7 @@ function MainComponent({
         </span>
       ),
       tdClassName:
-        'px-4 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
+        'px-4 py-3 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
       thClassName: 'whitespace-nowrap',
     },
   ];
@@ -956,7 +956,8 @@ function MainComponent({
         <div className={`flex flex-col lg:flex-row pt-4`}>
           <div className="flex flex-col">
             <p className="leading-7 pl-6 text-sm mb-4 text-nearblue-600 dark:text-neargray-10">
-              {Object.keys(tokens).length > 0 &&
+              {tokens &&
+                tokens.length > 0 &&
                 `A total of ${
                   localFormat && localFormat(totalCount.toString())
                 }${' '}
@@ -987,7 +988,7 @@ function MainComponent({
               </div>
             )}
             <span className="text-xs text-nearblue-600 dark:text-neargray-10 self-stretch lg:self-auto px-2">
-              {Object.keys(tokens).length > 0 && (
+              {tokens && tokens.length > 0 && (
                 <button className="hover:no-underline ">
                   <Link
                     href={`/token/exportdata?address=${id}`}
@@ -1008,14 +1009,15 @@ function MainComponent({
         src={`${ownerId}/widget/bos-components.components.Shared.Table`}
         props={{
           columns: columns,
-          data: tokens[currentPage],
+          data: tokens,
           isLoading: isLoading,
-          isPagination: true,
           count: totalCount,
-          page: currentPage,
           limit: 25,
-          pageLimit: 200,
-          setPage: setPage,
+          cursorPagination: true,
+          cursor: cursor,
+          apiUrl: apiUrl,
+          setUrl: setUrl,
+          ownerId: ownerId,
           Error: (
             <ErrorMessage
               icons={<FaInbox />}
