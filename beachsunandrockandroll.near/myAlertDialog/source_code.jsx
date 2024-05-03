@@ -1,104 +1,71 @@
 const { Tailwind } = VM.require("beachsunandrockandroll.near/widget/preflight");
-const { Button } = VM.require("beachsunandrockandroll.near/widget/button");
-const { Input } = VM.require("beachsunandrockandroll.near/widget/input");
-const { Label } = VM.require("beachsunandrockandroll.near/widget/label");
-const {
-  Card,
-  CardHeader,
-  CardFooter,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  cardClassname,
-  cardFooterClassname,
-} = VM.require("beachsunandrockandroll.near/widget/card");
 
-const { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } =
-  VM.require("beachsunandrockandroll.near/widget/select");
+const { Button, ButtonConf } = VM.require(
+  "beachsunandrockandroll.near/widget/button"
+);
+const {
+  AlertDialog,
+  AlertDialogOverlay,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogAction,
+  AlertDialogCancel,
+} = VM.require("beachsunandrockandroll.near/widget/alertDialog");
+
+if (Tailwind == undefined) return "";
+if (ButtonConf == undefined) return "";
 
 const [buttonCancel, setButtonCancel] = useState("");
-const [buttonDeploy, setButtonDeploy] = useState("");
-const [card, setCard] = useState("");
-const [cardFooter, setCardFooter] = useState("");
+const [buttonContinue, setButtonContinue] = useState("");
+const [buttonDialog, setButtonDialog] = useState("");
 
-if (["", "loaded"].includes(buttonCancel))
+if (buttonCancel === "")
   return (
-    <Widget
-      src="beachsunandrockandroll.near/widget/buttonIframe"
-      props={{
-        output: setButtonCancel,
-        variant: "outline",
-      }}
+    <ButtonConf
+      output={setButtonCancel}
+      variant="outline"
+      className="w-full sm:w-fit"
     />
   );
-
-if (["", "loaded"].includes(buttonDeploy))
+if (buttonDialog === "")
+  return <ButtonConf output={setButtonDialog} variant="outline" />;
+if (buttonContinue === "")
   return (
-    <Widget
-      src="beachsunandrockandroll.near/widget/buttonIframe"
-      props={{ output: setButtonDeploy }}
-    />
-  );
-
-if (["", "loaded"].includes(card))
-  return (
-    <Widget
-      src="beachsunandrockandroll.near/widget/cnIframe"
-      props={{
-        output: setCard,
-        className: `${cardClassname} max-w-lg sm:w-96`,
-      }}
-    />
-  );
-
-if (["", "loaded"].includes(cardFooter))
-  return (
-    <Widget
-      src="beachsunandrockandroll.near/widget/cnIframe"
-      props={{
-        output: setCardFooter,
-        className: `${cardFooterClassname} flex justify-between`,
-      }}
+    <ButtonConf
+      output={setButtonContinue}
+      className="w-full sm:w-fit mb-2 sm:mb-0"
     />
   );
 
 return (
   <Tailwind>
-    <div className="flex max-w-lg px-10 mx-auto w-max pt-10">
-      <Card className={card}>
-        <CardHeader>
-          <CardTitle>Create project</CardTitle>
-          <CardDescription>
-            Deploy your new project in one-click.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Name</Label>
-              <Input id="name" placeholder="Name of your project" />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="framework">Framework</Label>
-              <Select>
-                <SelectTrigger id="framework">
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-                <SelectContent position="popper">
-                  <SelectItem value="next">Next.js</SelectItem>
-                  <SelectItem value="sveltekit">SvelteKit</SelectItem>
-                  <SelectItem value="astro">Astro</SelectItem>
-                  <SelectItem value="nuxt">Nuxt.js</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        </CardContent>
-        <CardFooter className={cardFooter}>
-          <Button className={buttonCancel}>Cancel</Button>
-          <Button className={buttonDeploy}>Deploy</Button>
-        </CardFooter>
-      </Card>
+    <div className="flex mx-auto w-max pt-10">
+      <AlertDialog>
+        <AlertDialogTrigger>
+          <Button className={buttonDialog}>Show Dialog</Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete your
+              account and remove your data from our servers.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className={buttonCancel}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction className={buttonContinue}>
+              Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   </Tailwind>
 );
