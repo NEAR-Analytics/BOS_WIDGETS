@@ -199,7 +199,7 @@ function MainComponent({ network, id, ownerId, t }) {
 
   const config = getConfig && getConfig(network);
 
-  const apiUrl = `${config?.backendUrl}nfts/${id}/txns?`;
+  const apiUrl = `nfts/${id}/txns?`;
 
   const [url, setUrl] = useState(apiUrl);
   const [cursor, setCursor] = useState(undefined);
@@ -241,7 +241,7 @@ function MainComponent({ network, id, ownerId, t }) {
     function fetchTxnsData() {
       setIsLoading(true);
 
-      asyncFetch(`${url}order=desc&per_page=25`, {
+      asyncFetch(`${config?.backendUrl}${url}order=desc`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
