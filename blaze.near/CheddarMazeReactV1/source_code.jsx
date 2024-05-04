@@ -46,7 +46,7 @@ const Maze = ({
       alignItems: "center",
       margin: "0 auto",
       padding: "0",
-      maxWidth: `${mazeData[0].length * cellSize + 75}px`,
+      maxWidth: `${mazeData[0].length * cellSize + 25}px`,
       border: "1px solid gold",
       fontFamily: "Bubblegum Sans !important", // Add font-family
       backgroundImage: selectedColorSet.backgroundImage,
@@ -55,26 +55,23 @@ const Maze = ({
     },
     mazeContainer: {
       marginBottom: "10px",
-      border: "2px solid black",
       borderRadius: "5px",
       overflow: "hidden",
       width: "fit-content",
-      border: "1px solid green", // Typo: 'border' instead of 'bordeer'
+      border: `3px solid ${selectedColorSet.pathColor}`,
     },
     mazeRow: {
       display: "flex",
-      border: "1px solid red",
     },
     mazeCell: {
       display: "flex",
       flex: "0 0 auto", // Fix the size of the cell
       width: "40px",
       height: "40px",
-      border: "1px solid green",
+      border: `1px solid ${selectedColorSet.nonPathColor}`,
       justifyContent: "center",
       alignItems: "center",
       fontSize: "24px" /* Adjust the font size of the emojis */,
-      backgroundColor: "white", // Default background color for cells
     },
     playerCell: {
       position: "relative", // Ensure the player is positioned relative to its parent
@@ -145,12 +142,8 @@ const Maze = ({
               style={{
                 ...styles.mazeCell,
                 backgroundColor: cell.isPath
-                  ? "#9d67ef"
-                  : cell.hasEnemy
-                  ? "red"
-                  : cell.hasCheese
-                  ? "orange"
-                  : "black",
+                  ? selectedColorSet.pathColor
+                  : selectedColorSet.backgroundColor,
                 filter: applyBlur ? `blur(${blurRadius}px)` : "none", // Apply blur conditionally
               }}
               onClick={handleMouseClick}
@@ -240,7 +233,7 @@ const Maze = ({
 const selectRandomColorSet = () => {
   const colorSets = [
     {
-      backgroundColor: "#F0F0F0",
+      backgroundColor: "#333333",
       pathColor: "#9d67ef",
       nonPathColor: "white",
       textColor: "#000000",
@@ -249,9 +242,18 @@ const selectRandomColorSet = () => {
         "url('https://cheddar.farm/newFarmBackground.c6905a5e.png')",
     },
     {
-      backgroundColor: "#E0E0E0",
+      backgroundColor: "#333333",
       pathColor: "gold",
       nonPathColor: "white",
+      textColor: "#333333",
+      rarity: "rare",
+      backgroundImage:
+        "url('https://ipfs.near.social/ipfs/bafkreihpddbzbioe7kctes25rr52klcs5we4pocwiwbmwldqf4acdarpcm')",
+    },
+    {
+      backgroundColor: "#20d3fc",
+      pathColor: "#ff00ff",
+      nonPathColor: "#6600ff",
       textColor: "#333333",
       rarity: "rare",
       backgroundImage:
