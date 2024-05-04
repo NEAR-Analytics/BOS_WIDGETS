@@ -80,15 +80,19 @@ const Maze = ({
       backgroundColor: "white", // Default background color for cells
     },
     playerCell: {
-      backgroundColor: "yellow",
+      position: "relative", // Ensure the player is positioned relative to its parent
+      width: "40px",
+      height: "40px",
+      justifyContent: "center",
+      alignItems: "center",
+      fontSize: "24px",
       backgroundImage:
         "url('https://lh3.googleusercontent.com/d/114_RLl18MAzX035svMyvNJpE3ArfLNCF=w500')",
       backgroundSize: "cover",
       backgroundRepeat: "no-repeat",
       backgroundPosition: "center",
-      position: "relative",
       backgroundSize: "70%",
-      transition: "background-image 0.3s ease-in-out",
+      backgroundColor: "transparent",
     },
     playerMoveUp: {
       transform: "rotate(-90deg)",
@@ -101,6 +105,9 @@ const Maze = ({
     },
     playerMoveRight: {
       transform: "rotate(0deg)",
+    },
+    playerActive: {
+      zIndex: 1, // Ensure the active player appears above other elements
     },
     debugInfo: {
       display: "none", // Hide debug info by default
