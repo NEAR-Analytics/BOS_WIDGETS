@@ -23,13 +23,6 @@ const [touchEnd, setTouchEnd] = useState({ x: null, y: null });
 const [lastCellX, setLastCellX] = useState(null);
 const [lastCellY, setLastCellY] = useState(null);
 
-// Initialize path color from the selected color set
-const pathColor = selectedColorSet ? selectedColorSet.pathColor : "";
-const backgroundImageStyle = {
-  backgroundImage: backgroundImage,
-  backgroundSize: "cover",
-};
-
 const Maze = ({
   mazeData,
   playerPosition,
@@ -44,22 +37,24 @@ const Maze = ({
   handleTouchMove,
   handleMouseClick,
   restartGame,
+  selectedColorSet,
 }) => {
-  const pathColor = selectedColorSet ? selectedColorSet.pathColor : "";
-  const backgroundImageStyle = {
-    backgroundImage: backgroundImage,
-    backgroundSize: "cover",
-  };
-
   const styles = {
     gameContainer: {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
+      margin: "0 auto",
+      padding: "0",
+      maxWidth: `${mazeData[0].length * cellSize + 75}px`,
       border: "1px solid gold",
+      fontFamily: "Bubblegum Sans !important", // Add font-family
+      backgroundImage: selectedColorSet.backgroundImage,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
     },
     mazeContainer: {
-      marginBottom: "20px",
+      marginBottom: "10px",
       border: "2px solid black",
       borderRadius: "5px",
       overflow: "hidden",
@@ -88,12 +83,6 @@ const Maze = ({
       justifyContent: "center",
       alignItems: "center",
       fontSize: "24px",
-      backgroundImage:
-        "url('https://lh3.googleusercontent.com/d/114_RLl18MAzX035svMyvNJpE3ArfLNCF=w500')",
-      backgroundSize: "cover",
-      backgroundRepeat: "no-repeat",
-      backgroundPosition: "center",
-      backgroundSize: "70%",
       backgroundColor: "transparent",
     },
     playerMoveUp: {
@@ -106,7 +95,7 @@ const Maze = ({
       transform: "scaleX(-1)",
     },
     playerMoveRight: {
-      transform: "rotate(0deg)",
+      transform: "",
     },
     playerActive: {
       zIndex: 1, // Ensure the active player appears above other elements
@@ -130,9 +119,13 @@ const Maze = ({
   // Function to render the maze cells
   // Function to render the maze cells with blur effect
   const renderMaze = () => {
+    // Check if the game has started for the first time
+    const gameStarted = playerPosition !== null;
+
     // Check if the player position has changed
     const playerMoved =
-      lastCellX !== playerPosition.x || lastCellY !== playerPosition.y;
+      gameStarted &&
+      (lastCellX !== playerPosition.x || lastCellY !== playerPosition.y);
 
     // // Update last player position
     setLastCellX(playerPosition.x);
@@ -179,12 +172,16 @@ const Maze = ({
                           direction.charAt(0).toUpperCase() + direction.slice(1)
                         }`
                       ], // Applying the direction style dynamically
-                      backgroundImage: `url('https://lh3.googleusercontent.com/d/114_RLl18MAzX035svMyvNJpE3ArfLNCF=w500')`,
+
                       backgroundSize: "cover",
                       backgroundRepeat: "no-repeat",
                       backgroundPosition: "center",
                       backgroundSize: "70%",
                       position: "relative",
+                      backgroundImage:
+                        cell.enemyWon || cell.hasCartel || cell.hasExit
+                          ? "none"
+                          : "url('https://lh3.googleusercontent.com/d/114_RLl18MAzX035svMyvNJpE3ArfLNCF=w500')",
                     }}
                   ></div>
                 )}
@@ -196,9 +193,10 @@ const Maze = ({
   };
 
   // Inside the Maze component return statement
+  // Inside the Maze component return statement
   return (
     <div style={styles.gameContainer}>
-      <h1>Cheese Maze Game</h1>
+      <h1>Cheddar Maze</h1>
       <div style={styles.gameInfo}>
         <div>Score: {score}</div>
         <div>
@@ -223,52 +221,19 @@ const Maze = ({
       >
         {renderMaze()}
       </div>
+      <div
+        style={{ backgroundColor: "rgba(255, 255, 255, 0.9)", padding: "10px" }}
+      >
+        <ol>
+          <li>Click or Tap to Start</li>
+          <li>Navigate with Arrows or Tap</li>
+          <li>Collect Cheddar🧀</li>
+          <li>Battle Cartel to protect your Bag</li>
+          <li>Find the Hidden Door🚪 to Win!</li>
+        </ol>
+      </div>
     </div>
   );
-};
-
-const styles = {
-  gameContainer: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    border: "1px solid gold",
-  },
-  mazeContainer: {
-    marginBottom: "20px",
-    border: "2px solid black",
-    borderRadius: "5px",
-    overflow: "hidden",
-    width: "fit-content",
-    border: "1px solid green", // Typo: 'border' instead of 'bordeer'
-  },
-  mazeRow: {
-    display: "flex",
-    border: "1px solid red",
-  },
-  mazeCell: {
-    flex: "0 0 auto", // Fix the size of the cell
-    width: "40px",
-    height: "40px",
-    border: "1px solid green",
-    backgroundColor: "white", // Default background color for cells
-  },
-  playerCell: {
-    backgroundColor: "yellow",
-  },
-  debugInfo: {
-    display: "none", // Hide debug info by default
-  },
-  gameInfo: {
-    display: "flex",
-    justifyContent: "space-between",
-    width: "200px",
-  },
-  gameOver: {
-    fontSize: "24px",
-    fontWeight: "bold",
-    color: "red",
-  },
 };
 
 // Function to select a random color set, background image, and rarity
@@ -297,14 +262,6 @@ const selectRandomColorSet = () => {
 
   return colorSets[Math.floor(Math.random() * colorSets.length)];
 };
-
-// Set the selected color set, background image, and rarity once at the start of the game
-useEffect(() => {
-  const randomColorSet = selectRandomColorSet();
-  setSelectedColorSet(randomColorSet);
-  setBackgroundImage(randomColorSet.backgroundImage);
-  setRarity(randomColorSet.rarity);
-}, []);
 
 // Define a new useEffect hook to manage the timer
 useEffect(() => {
@@ -341,6 +298,24 @@ useEffect(() => {
   };
 }, [timerId]);
 
+const getRandomPathCell = (mazeData) => {
+  const pathCells = [];
+  mazeData.map((row, rowIndex) => {
+    row.map((cell, colIndex) => {
+      if (cell.isPath) {
+        pathCells.push({ x: colIndex, y: rowIndex });
+      }
+    });
+  });
+
+  if (pathCells.length === 0) {
+    console.error("No path cells found!"); // Log an error if no path cells are found
+    return null;
+  }
+
+  return pathCells[Math.floor(Math.random() * pathCells.length)];
+};
+
 // Function to restart the game
 const restartGame = () => {
   clearInterval(timerId);
@@ -370,16 +345,15 @@ const restartGame = () => {
   // Set the maze data with the new maze and player's starting position
   setMazeData(newMazeData);
   setPlayerPosition({ x: playerStartX, y: playerStartY });
+  const playerStartCell = getRandomPathCell();
+  setLastCellX(playerStartCell.x);
+  setLastCellY(playerStartCell.y);
 
   startTimer(); // Start the timer again after resetting the game
 };
 
 // Function to generate maze data
 const generateMazeData = (rows, cols) => {
-  // Initialize lastCellX and lastCellY with initial player position
-  setLastCellX(Math.floor(cols / 2)); // Initial X coordinate
-  setLastCellY(Math.floor(rows / 2)); // Initial Y coordinate
-
   const maze = Array.from({ length: rows }, () =>
     Array.from({ length: cols }, () => ({
       isPath: false,
@@ -388,6 +362,7 @@ const generateMazeData = (rows, cols) => {
       hasEnemy: false,
       hasExit: false,
       enemyWon: false,
+      hasCartel: false,
     }))
   );
 
@@ -462,6 +437,14 @@ useEffect(() => {
   const mazeCols = 9;
   const newMazeData = generateMazeData(mazeRows, mazeCols);
   setMazeData(newMazeData);
+
+  const randomColorSet = selectRandomColorSet();
+  setSelectedColorSet(randomColorSet);
+  setBackgroundImage(randomColorSet.backgroundImage);
+  setRarity(randomColorSet.rarity);
+
+  const playerStartCell = getRandomPathCell(newMazeData);
+  setPlayerPosition({ x: playerStartCell.x, y: playerStartCell.y });
 }, []); // Empty dependency array to run this effect only once on component mount
 
 const movePlayer = (newX, newY) => {
@@ -498,8 +481,9 @@ const movePlayer = (newX, newY) => {
   addArtifacts(newX, newY, newMazeData);
 
   // Set lastCellX and lastCellY to the new player position
-  setLastCellX(newX);
-  setLastCellY(newY);
+  // Update last cell coordinates
+  setLastCellX(playerPosition.x);
+  setLastCellY(playerPosition.y);
 };
 
 const addArtifacts = (newX, newY, newMazeData) => {
@@ -641,8 +625,9 @@ const handleKeyPress = (event) => {
   }
 
   movePlayer(newX, newY);
-  setLastCellX(newX);
-  setLastCellY(newY);
+  // Update last cell coordinates
+  setLastCellX(playerPosition.x);
+  setLastCellY(playerPosition.y);
 };
 
 const isMobile = () => {
@@ -651,6 +636,8 @@ const isMobile = () => {
     userAgent
   );
 };
+
+const cellSize = isMobile() ? 30 : 40;
 
 const handleContainerClick = () => {
   startTimerOnTap(); // Start the timer when the user clicks on the maze container
@@ -730,13 +717,6 @@ const moveAlongPath = (path) => {
   });
 };
 
-const cellSize = isMobile() ? 30 : 40; // Adjust cell size for mobile devices
-let mazeContainerRef = null;
-
-const handleContainerRef = (event) => {
-  mazeContainerRef = event.target;
-};
-
 // Function to extract cell coordinates from the id attribute
 const getCellCoordinates = (id) => {
   const [_, y, x] = id.split("-");
@@ -748,17 +728,11 @@ const handleTouchMove = (event) => {
 
   if (!mazeContainerRef || !isMouseDown) return;
 
-  const cellWidth = isMobile() ? 30 : 40; // Adjusted cell size for mobile devices
-
-  // Extract cell coordinates from the id attribute
-  const id = event.target.id;
-  const [_, y, x] = id.split("-");
-  const newX = parseInt(x);
-  const newY = parseInt(y);
+  const { newX, newY } = getCellCoordinates(event.target.id);
 
   // Update last cell coordinates
-  setLastCellX(newX);
-  setLastCellY(newY);
+  setLastCellX(playerPosition.x);
+  setLastCellY(playerPosition.y);
 
   // Call movePlayerDirection to move the player based on touch direction
   const deltaX = newX - touchStart.x;
@@ -841,11 +815,8 @@ const movePlayerDirection = (direction) => {
       return;
   }
 
-  // Call moveAlongPath if you want to animate step by step movement
-  const path = calculatePath(playerPosition.x, playerPosition.y, newX, newY);
-  // Call handleMove to move the player to the new cell
-  handleMove(newX, newY);
   setDirection(direction); // Optionally update the direction if needed
+  handleMove(newX, newY);
 };
 
 // Example handler for touch or click events where path calculation is desired
@@ -891,22 +862,43 @@ const gameOver = (message) => {
   stopTimer();
 };
 
+const initialized = () => {
+  // Check if all necessary state variables are not null or undefined
+  return (
+    selectedColorSet !== null &&
+    mazeData !== null &&
+    playerPosition !== null &&
+    score !== null &&
+    remainingTime !== null &&
+    gameOverFlag !== null &&
+    gameOverMessage !== null &&
+    startTimer !== null &&
+    handleKeyPress !== null &&
+    handleTouchMove !== null &&
+    handleMouseClick !== null &&
+    restartGame !== null
+  );
+};
+
 return (
   <div>
-    <Maze
-      mazeData={mazeData}
-      playerPosition={playerPosition}
-      score={score}
-      timerStarted={false}
-      remainingMinutes={Math.floor(remainingTime / 60)}
-      remainingSeconds={remainingTime % 60}
-      gameOverFlag={gameOverFlag}
-      gameOverMessage={gameOverMessage}
-      startTimerOnTap={startTimer}
-      handleKeyPress={handleKeyPress}
-      handleTouchMove={handleTouchMove}
-      handleMouseClick={handleMouseClick}
-      restartGame={restartGame}
-    />
+    {initialized() && ( // Replace `condition` with your actual condition
+      <Maze
+        mazeData={mazeData}
+        playerPosition={playerPosition}
+        score={score}
+        timerStarted={false}
+        remainingMinutes={Math.floor(remainingTime / 60)}
+        remainingSeconds={remainingTime % 60}
+        gameOverFlag={gameOverFlag}
+        gameOverMessage={gameOverMessage}
+        startTimerOnTap={startTimer}
+        handleKeyPress={handleKeyPress}
+        handleTouchMove={handleTouchMove}
+        handleMouseClick={handleMouseClick}
+        restartGame={restartGame}
+        selectedColorSet={selectedColorSet}
+      />
+    )}
   </div>
 );
