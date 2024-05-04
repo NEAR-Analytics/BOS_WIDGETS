@@ -71,7 +71,8 @@ const Maze = ({
       border: `1px solid ${selectedColorSet.nonPathColor}`,
       justifyContent: "center",
       alignItems: "center",
-      fontSize: "24px" /* Adjust the font size of the emojis */,
+      fontSize: "24px", // Adjust the font size of the emojis
+      padding: "5px", // Add padding for better visual appearance
     },
     playerCell: {
       position: "relative", // Ensure the player is positioned relative to its parent
@@ -124,7 +125,7 @@ const Maze = ({
       gameStarted &&
       (lastCellX !== playerPosition.x || lastCellY !== playerPosition.y);
 
-    // // Update last player position
+    // Update last player position
     setLastCellX(playerPosition.x);
     setLastCellY(playerPosition.y);
 
@@ -135,6 +136,15 @@ const Maze = ({
             ? calculateBlurRadius(colIndex, rowIndex)
             : 0;
           const applyBlur = blurRadius > 0; // Determine if blur should be applied
+
+          // Define cell content based on cell type
+          let cellContent = "";
+          if (cell.hasCheese) cellContent = "🧀";
+          else if (cell.hasEnemy) cellContent = "👾";
+          else if (cell.hasExit) cellContent = "🚪";
+          else if (cell.hasCartel) cellContent = "🤮";
+          else if (cell.enemyWon) cellContent = "💢";
+
           return (
             <div
               key={colIndex}
@@ -145,14 +155,23 @@ const Maze = ({
                   ? selectedColorSet.pathColor
                   : selectedColorSet.backgroundColor,
                 filter: applyBlur ? `blur(${blurRadius}px)` : "none", // Apply blur conditionally
+                position: "relative", // Ensure relative positioning for absolute positioning of icons
               }}
               onClick={handleMouseClick}
             >
-              {cell.hasCheese ? "🧀" : ""}
-              {cell.hasEnemy ? "👾" : ""}
-              {cell.hasExit ? "🚪" : ""}
-              {cell.hasCartel ? "🤮" : ""}
-              {cell.enemyWon ? "💢" : ""}
+              {/* Dynamic content based on cell */}
+              {cellContent && (
+                <span
+                  role="img"
+                  aria-label={cellContent}
+                  className="static-icon"
+                  style={{ position: "absolute" }}
+                >
+                  {cellContent}
+                </span>
+              )}
+
+              {/* Player icon */}
               {playerPosition.x === colIndex &&
                 playerPosition.y === rowIndex && (
                   <div
@@ -165,12 +184,12 @@ const Maze = ({
                           direction.charAt(0).toUpperCase() + direction.slice(1)
                         }`
                       ], // Applying the direction style dynamically
-
                       backgroundSize: "cover",
                       backgroundRepeat: "no-repeat",
                       backgroundPosition: "center",
                       backgroundSize: "70%",
                       position: "relative",
+                      zIndex: "2", // Ensure player is in the forefront
                       backgroundImage:
                         cell.enemyWon || cell.hasCartel || cell.hasExit
                           ? "none"
