@@ -209,7 +209,7 @@ const ErrorMessage = ({ icons, message, mutedText }) => {
         </span>
       </div>
 
-      <h3 className="h-5 font-bold text-lg text-black dark:text-neargray-10">
+      <h3 className="font-bold text-lg text-black dark:text-neargray-10">
         {message}
       </h3>
 
