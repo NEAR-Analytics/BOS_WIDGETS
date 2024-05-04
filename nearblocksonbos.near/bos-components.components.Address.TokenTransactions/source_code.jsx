@@ -348,7 +348,7 @@ function MainComponent({
 
   const config = getConfig && getConfig(network);
 
-  const apiUrl = `${config?.backendUrl}account/${id}/ft-txns?`;
+  const apiUrl = `account/${id}/ft-txns?`;
 
   const [url, setUrl] = useState(apiUrl);
   const [cursor, setCursor] = useState(undefined);
@@ -386,7 +386,7 @@ function MainComponent({
     function fetchTokens(qs, sqs) {
       setIsLoading(true);
       const queryParams = qs ? qs + '&' : '';
-      asyncFetch(`${url}${queryParams}order=${sqs}&per_page=25`, {
+      asyncFetch(`${config?.backendUrl}${url}${queryParams}order=${sqs}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
