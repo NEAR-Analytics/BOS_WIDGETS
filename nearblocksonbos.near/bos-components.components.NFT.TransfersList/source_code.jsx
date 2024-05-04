@@ -256,7 +256,7 @@ function MainComponent({ network, t, ownerId }) {
   });
   const [timestamp, setTimeStamp] = useState('');
   const config = getConfig && getConfig(network);
-  const apiUrl = `${config?.backendUrl}nfts/txns?`;
+  const apiUrl = `nfts/txns?`;
 
   const [url, setUrl] = useState(apiUrl);
   const [cursor, setCursor] = useState(undefined);
@@ -298,7 +298,7 @@ function MainComponent({ network, t, ownerId }) {
 
     function fetchTokens() {
       setIsLoading(true);
-      asyncFetch(`${url}per_page=25`, {
+      asyncFetch(`${config?.backendUrl}${url}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -844,8 +844,6 @@ function MainComponent({ network, t, ownerId }) {
       thClassName: 'inline-flex whitespace-nowrap',
     },
   ];
-
-  console.log('tokens:', tokens);
 
   return (
     <>
