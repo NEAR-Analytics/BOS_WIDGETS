@@ -101,7 +101,7 @@ function MainComponent(props) {
     {
       link: '/charts/txn-volume',
       text: t ? t('charts:txnVolume.heading') : 'Transaction Volume Chart',
-      image: `/images/charts/tps.svg`,
+      image: `/images/charts/txn-volume.svg`,
       image_dark: `/images/charts/txn-volume_dark.svg`,
       exclude: `${network}` === 'testnet',
     },
@@ -282,7 +282,7 @@ function MainComponent(props) {
             style={{ height: 580 }}
           >
             <p className="leading-7 px-4 text-sm py-4 text-nearblue-600 dark:text-neargray-10 border-b dark:border-black-200">
-              Near Transactions per Second Chart shows the transactions occure
+              Near Transactions per Second Chart shows the transactions occuring
               per second on Near blockchain.
             </p>
             <div className="pl-2 pr-2 py-8 h-full ">
