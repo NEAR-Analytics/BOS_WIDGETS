@@ -241,7 +241,7 @@ function MainComponent({
 
   const config = getConfig && getConfig(network);
 
-  const apiUrl = `${config?.backendUrl}fts/${id}/txns?`;
+  const apiUrl = `fts/${id}/txns?`;
 
   const [url, setUrl] = useState(apiUrl);
   const [cursor, setCursor] = useState(undefined);
@@ -279,9 +279,9 @@ function MainComponent({
     }
 
     function fetchTxnsData(qs) {
-      const queryParams = qs ? qs + '&' : '';
+      const queryParams = qs ? qs : '';
       setIsLoading(true);
-      asyncFetch(`${url}${queryParams}per_page=25`, {
+      asyncFetch(`${config?.backendUrl}${url}${queryParams}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
