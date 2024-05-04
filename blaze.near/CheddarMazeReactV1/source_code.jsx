@@ -162,8 +162,11 @@ const Maze = ({
               }}
               onClick={handleMouseClick}
             >
-              {cell.hasCheese && "🧀"}
-              {cell.hasEnemy && "👾"}
+              {cell.hasCheese ? "🧀" : ""}
+              {cell.hasEnemy ? "👾" : ""}
+              {cell.hasExit ? "🚪" : ""}
+              {cell.hasCartel ? "🤮" : ""}
+              {cell.enemyWon ? "💢" : ""}
               {playerPosition.x === colIndex &&
                 playerPosition.y === rowIndex && (
                   <div
@@ -196,15 +199,6 @@ const Maze = ({
   return (
     <div style={styles.gameContainer}>
       <h1>Cheese Maze Game</h1>
-      <div
-        style={styles.mazeContainer}
-        tabIndex="0"
-        onKeyDown={handleKeyPress}
-        onTouchMove={handleTouchMove}
-        onClick={handleMouseClick}
-      >
-        {renderMaze()}
-      </div>
       <div style={styles.gameInfo}>
         <div>Score: {score}</div>
         <div>
@@ -219,6 +213,16 @@ const Maze = ({
           Restart Game
         </button>
       )}
+
+      <div
+        style={styles.mazeContainer}
+        tabIndex="0"
+        onKeyDown={handleKeyPress}
+        onTouchMove={handleTouchMove}
+        onClick={handleMouseClick}
+      >
+        {renderMaze()}
+      </div>
     </div>
   );
 };
