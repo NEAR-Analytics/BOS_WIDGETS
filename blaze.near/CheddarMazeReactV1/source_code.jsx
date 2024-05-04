@@ -20,6 +20,8 @@ const [rarity, setRarity] = useState("");
 const [won, setWon] = useState(false);
 const [touchStart, setTouchStart] = useState({ x: null, y: null });
 const [touchEnd, setTouchEnd] = useState({ x: null, y: null });
+const [lastCellX, setLastCellX] = useState(null);
+const [lastCellY, setLastCellY] = useState(null);
 
 // Initialize path color from the selected color set
 const pathColor = selectedColorSet ? selectedColorSet.pathColor : "";
@@ -126,53 +128,71 @@ const Maze = ({
 
   // Render the maze cells
   // Function to render the maze cells
+  // Function to render the maze cells with blur effect
   const renderMaze = () => {
+    // Check if the player position has changed
+    const playerMoved =
+      lastCellX !== playerPosition.x || lastCellY !== playerPosition.y;
+
+    // // Update last player position
+    setLastCellX(playerPosition.x);
+    setLastCellY(playerPosition.y);
+
     return mazeData.map((row, rowIndex) => (
       <div key={rowIndex} style={styles.mazeRow}>
-        {row.map((cell, colIndex) => (
-          <div
-            key={colIndex}
-            id={`cell-${rowIndex}-${colIndex}`}
-            style={{
-              ...styles.mazeCell,
-              backgroundColor: cell.isPath
-                ? "#9d67ef"
-                : cell.hasEnemy
-                ? "red"
-                : cell.hasCheese
-                ? "orange"
-                : "black",
-            }}
-            onClick={handleMouseClick}
-          >
-            {cell.hasCheese && "🧀"}
-            {cell.hasEnemy && "👾"}
-            {playerPosition.x === colIndex && playerPosition.y === rowIndex && (
-              <div
-                className={`player-icon ${direction}`} // Apply dynamic CSS class based on the direction
-                style={{
-                  ...styles.mazeCell,
-                  ...styles.playerCell,
-                  ...styles[
-                    `playerMove${
-                      direction.charAt(0).toUpperCase() + direction.slice(1)
-                    }`
-                  ], // Applying the direction style dynamically
-                  backgroundImage: `url('https://lh3.googleusercontent.com/d/114_RLl18MAzX035svMyvNJpE3ArfLNCF=w500')`,
-                  backgroundSize: "cover",
-                  backgroundRepeat: "no-repeat",
-                  backgroundPosition: "center",
-                  backgroundSize: "70%",
-                  position: "relative",
-                }}
-              ></div>
-            )}
-          </div>
-        ))}
+        {row.map((cell, colIndex) => {
+          const blurRadius = playerMoved
+            ? calculateBlurRadius(colIndex, rowIndex)
+            : 0;
+          const applyBlur = blurRadius > 0; // Determine if blur should be applied
+          return (
+            <div
+              key={colIndex}
+              id={`cell-${rowIndex}-${colIndex}`}
+              style={{
+                ...styles.mazeCell,
+                backgroundColor: cell.isPath
+                  ? "#9d67ef"
+                  : cell.hasEnemy
+                  ? "red"
+                  : cell.hasCheese
+                  ? "orange"
+                  : "black",
+                filter: applyBlur ? `blur(${blurRadius}px)` : "none", // Apply blur conditionally
+              }}
+              onClick={handleMouseClick}
+            >
+              {cell.hasCheese && "🧀"}
+              {cell.hasEnemy && "👾"}
+              {playerPosition.x === colIndex &&
+                playerPosition.y === rowIndex && (
+                  <div
+                    className={`player-icon ${direction}`} // Apply dynamic CSS class based on the direction
+                    style={{
+                      ...styles.mazeCell,
+                      ...styles.playerCell,
+                      ...styles[
+                        `playerMove${
+                          direction.charAt(0).toUpperCase() + direction.slice(1)
+                        }`
+                      ], // Applying the direction style dynamically
+                      backgroundImage: `url('https://lh3.googleusercontent.com/d/114_RLl18MAzX035svMyvNJpE3ArfLNCF=w500')`,
+                      backgroundSize: "cover",
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "center",
+                      backgroundSize: "70%",
+                      position: "relative",
+                    }}
+                  ></div>
+                )}
+            </div>
+          );
+        })}
       </div>
     ));
   };
 
+  // Inside the Maze component return statement
   return (
     <div style={styles.gameContainer}>
       <h1>Cheese Maze Game</h1>
@@ -352,6 +372,10 @@ const restartGame = () => {
 
 // Function to generate maze data
 const generateMazeData = (rows, cols) => {
+  // Initialize lastCellX and lastCellY with initial player position
+  setLastCellX(Math.floor(cols / 2)); // Initial X coordinate
+  setLastCellY(Math.floor(rows / 2)); // Initial Y coordinate
+
   const maze = Array.from({ length: rows }, () =>
     Array.from({ length: cols }, () => ({
       isPath: false,
@@ -468,6 +492,10 @@ const movePlayer = (newX, newY) => {
 
   // Periodically add artifacts to the board based on cooldowns and randomness
   addArtifacts(newX, newY, newMazeData);
+
+  // Set lastCellX and lastCellY to the new player position
+  setLastCellX(newX);
+  setLastCellY(newY);
 };
 
 const addArtifacts = (newX, newY, newMazeData) => {
@@ -609,6 +637,8 @@ const handleKeyPress = (event) => {
   }
 
   movePlayer(newX, newY);
+  setLastCellX(newX);
+  setLastCellY(newY);
 };
 
 const isMobile = () => {
@@ -623,29 +653,6 @@ const handleContainerClick = () => {
 };
 
 let isMouseDown = false;
-let lastCellX = null;
-let lastCellY = null;
-
-const handleMouseDown = (event) => {
-  isMouseDown = true;
-  handleMouseMove(event);
-};
-
-const handleMouseMove = (event) => {
-  if (!mazeContainerRef || !isMouseDown) return;
-
-  const cellWidth = isMobile() ? 30 : 40; // Adjusted cell size for mobile devices
-
-  // Extract cell coordinates from the id attribute
-  const id = event.target.id;
-  const [_, y, x] = id.split("-");
-  const newX = parseInt(x);
-  const newY = parseInt(y);
-
-  // Update last cell coordinates
-  lastCellX = newX;
-  lastCellY = newY;
-};
 
 const handleMouseClick = (event) => {
   if (gameOverFlag) return; // If game over, prevent further movement
@@ -746,8 +753,8 @@ const handleTouchMove = (event) => {
   const newY = parseInt(y);
 
   // Update last cell coordinates
-  lastCellX = newX;
-  lastCellY = newY;
+  setLastCellX(newX);
+  setLastCellY(newY);
 
   // Call movePlayerDirection to move the player based on touch direction
   const deltaX = newX - touchStart.x;
@@ -760,10 +767,35 @@ const handleTouchMove = (event) => {
     direction = deltaY > 0 ? "down" : "up";
   }
 
-  movePlayerDirection(direction);
-  // Call handleMove to move the player to the new cell
-  handleMove(newX, newY);
-  setTouchStart(null);
+  // Move the player in the determined direction
+  for (let i = 0; i < Math.abs(cellsMovedX); i++) {
+    movePlayerDirection(direction);
+  }
+
+  for (let i = 0; i < Math.abs(cellsMovedY); i++) {
+    movePlayerDirection(direction);
+  }
+
+  // Update touch start position for next move
+  setTouchStart({ x: touch.clientX, y: touch.clientY });
+};
+
+const calculateBlurRadius = (cellX, cellY) => {
+  // Check if lastCellX and lastCellY are null or undefined
+  if (lastCellX === null || lastCellY === null) {
+    // Initialize lastCellX and lastCellY with initial player position
+    setLastCellX(playerPosition.x);
+    setLastCellY(playerPosition.y);
+  }
+
+  // Calculate distance between current cell and last cell
+  const distance = Math.sqrt(
+    Math.pow(cellX - lastCellX, 2) + Math.pow(cellY - lastCellY, 2)
+  );
+
+  // Define max blur radius and adjust based on distance
+  const maxBlurRadius = 10; // Adjust as needed
+  return Math.min(maxBlurRadius, distance);
 };
 
 const ControlPad = ({ movePlayerDirection }) => {
