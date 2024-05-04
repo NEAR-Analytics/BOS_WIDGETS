@@ -838,7 +838,7 @@ useEffect(() => {
     isUserNadaVerified !== null &&
     !userAllowedGame
   ) {
-    setAllowedGame(parseFloat(cheddarBalance) > 555 && isUserNadaVerified);
+    setAllowedGame(parseFloat(cheddarBalance) >= 555 && isUserNadaVerified);
   }
 }, [cheddarBalance, isUserNadaVerified]);
 
@@ -952,7 +952,7 @@ return (
       <ol>
         <li>
           Minimum balance of 555 Cheddar{" "}
-          {isFulfilled(parseFloat(cheddarBalance) > 555)}
+          {isFulfilled(parseFloat(cheddarBalance) >= 555)}
         </li>
         <li>NADA bot Verified {isFulfilled(isUserNadaVerified)}</li>
       </ol>
