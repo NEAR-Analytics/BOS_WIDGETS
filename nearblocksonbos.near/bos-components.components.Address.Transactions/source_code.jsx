@@ -233,6 +233,30 @@ const FaInbox = () => {
     </svg>
   );
 };/* END_INCLUDE COMPONENT: "includes/icons/FaInbox.jsx" */
+/* INCLUDE COMPONENT: "includes/icons/Question.jsx" */
+/**
+ * @interface Props
+ * @param {string} [className] - The CSS class name(s) for styling purposes.
+ */
+
+
+
+
+
+const Question = (props) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width={16}
+      height={16}
+      {...props}
+    >
+      <path fill="none" d="M0 0h24v24H0z" />
+      <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 100-16 8 8 0 000 16zm-1-5h2v2h-2v-2zm2-1.645V14h-2v-1.5a1 1 0 011-1 1.5 1.5 0 10-1.471-1.794l-1.962-.393A3.501 3.501 0 1113 13.355z" />
+    </svg>
+  );
+};/* END_INCLUDE COMPONENT: "includes/icons/Question.jsx" */
 /* INCLUDE COMPONENT: "includes/icons/SortIcon.jsx" */
 const ArrowUp = (props) => {
   return (
@@ -296,6 +320,7 @@ function MainComponent({
   const [filterValue, setFilterValue] = useState({});
   const errorMessage = t ? t('txns:noTxns') : ' No transactions found!';
   const [address, setAddress] = useState('');
+  const [showAllRows, setShowAllRows] = useState(false);
 
   const config = getConfig && getConfig(network);
 
@@ -422,12 +447,17 @@ function MainComponent({
     }
   };
 
+  const handleToggle = () => {
+    setShowAllRows((prevState) => !prevState);
+  };
+
   const onOrder = () => {
     setSorting((state) => (state === 'asc' ? 'desc' : 'asc'));
   };
 
   const setPage = (pageNumber) => {
     setCurrentPage(pageNumber);
+    setShowAllRows(false);
   };
 
   const onHandleMouseOver = (e, id) => {
@@ -889,6 +919,23 @@ function MainComponent({
     },
   ];
 
+  const uniqueIds = txns[currentPage] !== undefined && [
+    ...new Set(
+      txns[currentPage].map((transaction) => transaction.transaction_hash),
+    ),
+  ];
+
+  const filterTxns = showAllRows
+    ? txns[currentPage]
+    : txns[currentPage] !== undefined &&
+      uniqueIds.map((id) => {
+        const filteredTransactions = txns[currentPage].filter(
+          (transaction) => transaction.transaction_hash === id,
+        );
+        const lastRow = filteredTransactions[filteredTransactions.length - 1];
+        return lastRow;
+      });
+
   return (
     <div className="bg-white dark:bg-black-600 soft-shadow rounded-xl pb-1">
       {isLoading ? (
@@ -932,21 +979,54 @@ function MainComponent({
                 </span>
               </div>
             )}
-            <span className="text-xs text-nearblue-600 dark:text-neargray-10 self-stretch lg:self-auto px-2">
+            <div className="flex items-center">
+              <span className="text-xs text-nearblue-600 dark:text-neargray-10 self-stretch lg:self-auto px-2">
+                {Object.keys(txns).length > 0 && (
+                  <button className="hover:no-underline ">
+                    <Link
+                      href={`/exportdata?address=${id}`}
+                      className="flex items-center text-nearblue-600 dark:text-neargray-10 font-medium py-2 border border-neargray-700 dark:border-black-200 px-4 rounded-md bg-white dark:bg-black-600 hover:bg-neargray-800"
+                    >
+                      <p>CSV Export</p>
+                      <span className="ml-2">
+                        <Download />
+                      </span>
+                    </Link>
+                  </button>
+                )}
+              </span>
               {Object.keys(txns).length > 0 && (
-                <button className="hover:no-underline ">
-                  <Link
-                    href={`/exportdata?address=${id}`}
-                    className="flex items-center text-nearblue-600 dark:text-neargray-10 font-medium py-2 border border-neargray-700 dark:border-black-200 px-4 rounded-md bg-white dark:bg-black-600 hover:bg-neargray-800"
+                <div className="flex items-center">
+                  <Tooltip.Provider>
+                    <Tooltip.Root>
+                      <Tooltip.Trigger asChild>
+                        <Question className="w-4 h-4 fill-current mr-1" />
+                      </Tooltip.Trigger>
+                      <Tooltip.Content
+                        className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
+                        align="start"
+                        side="top"
+                      >
+                        {`Toggle between Receipts Mode and All Receipts. The 'All Receipts' view shows all receipts, while the 'Receipts Mode' view only shows the last receipt of each transaction.`}
+                      </Tooltip.Content>
+                    </Tooltip.Root>
+                  </Tooltip.Provider>
+                  <Switch.Root
+                    className="w-[24px] h-[14px] bg-neargray-50 dark:bg-neargray-600 rounded-full relative data-[state=checked]:bg-teal-800 dark:data-[state=checked]:bg-green-250 outline-none cursor-default"
+                    id="airplane-mode"
+                    style={{
+                      '-webkit-tap-highlight-color': 'rgba(0, 0, 0, 0)',
+                    }}
+                    onCheckedChange={handleToggle}
                   >
-                    <p>CSV Export</p>
-                    <span className="ml-2">
-                      <Download />
-                    </span>
-                  </Link>
-                </button>
+                    <Switch.Thumb className="block w-[10px] h-[10px] bg-neargray-10 dark:bg-neargray-10 rounded-full transition-transform duration-100 translate-x-0.5 will-change-transform data-[state=checked]:translate-x-[13px]" />
+                  </Switch.Root>
+                  <label className="text-nearblue-600 dark:text-neargray-10 text-[15px] leading-none pr-[15px] px-2">
+                    ALL RECEIPTS
+                  </label>
+                </div>
               )}
-            </span>
+            </div>
           </div>
         </div>
       )}
@@ -955,7 +1035,7 @@ function MainComponent({
           src={`${ownerId}/widget/bos-components.components.Shared.Table`}
           props={{
             columns: columns,
-            data: txns[currentPage],
+            data: filterTxns,
             isLoading: isLoading,
             isPagination: true,
             count: totalCount,
