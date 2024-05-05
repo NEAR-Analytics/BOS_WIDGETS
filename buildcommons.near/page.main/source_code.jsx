@@ -61,7 +61,7 @@ const Tagline = styled.h3`
   max-width: 700px;
 
   @media (max-width: 900px) {
-    font-size: 19px;
+    font-size: 18px;
   }
 `;
 
