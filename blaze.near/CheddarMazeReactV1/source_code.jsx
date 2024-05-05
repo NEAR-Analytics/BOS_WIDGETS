@@ -22,6 +22,7 @@ const [touchStart, setTouchStart] = useState({ x: null, y: null });
 const [touchEnd, setTouchEnd] = useState({ x: null, y: null });
 const [lastCellX, setLastCellX] = useState(null);
 const [lastCellY, setLastCellY] = useState(null);
+const [coveredCells, setCoveredCells] = useState(0);
 
 const Maze = ({
   mazeData,
@@ -38,6 +39,7 @@ const Maze = ({
   handleMouseClick,
   restartGame,
   selectedColorSet,
+  hasExit,
 }) => {
   const styles = {
     gameContainer: {
@@ -107,9 +109,9 @@ const Maze = ({
       width: "200px",
     },
     gameOver: {
-      fontSize: "24px",
+      fontSize: "15px",
       fontWeight: "bold",
-      color: "red",
+      color: hasExit ? "green" : "red",
     },
   };
 
@@ -290,7 +292,7 @@ useEffect(() => {
   if (timerStarted && !gameOverFlag) {
     intervalId = setInterval(() => {
       setRemainingTime((prevTime) => {
-        if (prevTime === 1) {
+        if (prevTime === 0) {
           clearInterval(intervalId);
           gameOver("⏰ Time's up! Game Over!");
           return prevTime;
@@ -344,7 +346,7 @@ const restartGame = () => {
   setTimeLimitInSeconds(120);
   setRemainingTime(120);
   setCheeseCooldown(false);
-  setEnemyCooldown(true);
+  setEnemyCooldown(false);
   setMoves(0);
   setGameOverFlag(false);
   setWon(false);
@@ -355,18 +357,11 @@ const restartGame = () => {
   const mazeCols = 9;
   const newMazeData = generateMazeData(mazeRows, mazeCols);
 
-  // Find a valid starting position for the player
-  let playerStartX = Math.floor(Math.random() * (mazeCols - 2)) + 1;
-  let playerStartY = Math.floor(Math.random() * (mazeRows - 2)) + 1;
-  while (!newMazeData[playerStartY][playerStartX].isPath) {
-    playerStartX = Math.floor(Math.random() * (mazeCols - 2)) + 1;
-    playerStartY = Math.floor(Math.random() * (mazeRows - 2)) + 1;
-  }
-
   // Set the maze data with the new maze and player's starting position
   setMazeData(newMazeData);
-  setPlayerPosition({ x: playerStartX, y: playerStartY });
+
   const playerStartCell = getRandomPathCell();
+  setPlayerPosition({ x: playerStartCell.x, y: playerStartCell.y });
   setLastCellX(playerStartCell.x);
   setLastCellY(playerStartCell.y);
 
@@ -497,6 +492,7 @@ const movePlayer = (newX, newY) => {
 
   // Increment moves count
   setMoves(moves + 1);
+  setCoveredCells(coveredCells + 1);
 
   // Periodically add artifacts to the board based on cooldowns and randomness
   addArtifacts(newX, newY, newMazeData);
@@ -593,8 +589,8 @@ const addArtifacts = (newX, newY, newMazeData) => {
       setScore(0);
       gameOver("You ran into the cartel! Game Over!");
       stopTimer();
-    } else if (Math.random() < 0.002) {
-      // 0.2% chance of finding the exit
+    } else if (Math.random() < 0.33 && coveredCells >= 0.9 * totalCells) {
+      // 33% chance of finding the exit when 90% of the maze is covered
       const updatedMazeData = newMazeData.map((row, rowIndex) =>
         row.map((cell, colIndex) => {
           if (rowIndex === newY && colIndex === newX) {
@@ -606,9 +602,6 @@ const addArtifacts = (newX, newY, newMazeData) => {
           return cell;
         })
       );
-      setMazeData(updatedMazeData);
-      gameOver("Congrats! You found the Hidden Door.");
-      stopTimer();
     }
   } else if (newMazeData[newY][newX].hasExit) {
     gameOver("Congrats! You found the Hidden Door.");
@@ -849,20 +842,9 @@ const handleMove = (event) => {
 
 // Function to start the timer
 const startTimer = () => {
-  const id = setInterval(() => {
-    setTimeLimitInSeconds((prevTime) => {
-      if (prevTime === 0) {
-        clearInterval(id);
-        setGameOverFlag(true);
-        setGameOverMessage("Time's up! Game over!");
-        return prevTime;
-      }
-      return prevTime - 1;
-    });
-  }, 1000);
-
-  setTimerId(id);
-  setTimerStarted(true);
+  if (!timerStarted && !gameOverFlag) {
+    setTimerStarted(true);
+  }
 };
 
 const startTimerOnTap = () => {
@@ -919,6 +901,7 @@ return (
         handleMouseClick={handleMouseClick}
         restartGame={restartGame}
         selectedColorSet={selectedColorSet}
+        hasExit={hasExit}
       />
     )}
   </div>
