@@ -107,7 +107,7 @@ const code = `
 
 const run = (data) => {
   const width = 555;
-  const height = 222;
+  const height = 333;
   let dragIsOn = false;
 
   // The force simulation mutates links and nodes, so create a copy
