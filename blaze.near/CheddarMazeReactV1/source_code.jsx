@@ -511,8 +511,8 @@ const addArtifacts = (newX, newY, newMazeData) => {
     !newMazeData[newY][newX].hasEnemy &&
     !newMazeData[newY][newX].hasCheese
   ) {
-    if (!enemyCooldown && Math.random() < 0.5) {
-      // 50% chance of encountering an enemy
+    if (!enemyCooldown && Math.random() < 0.3) {
+      // 30% chance of encountering an enemy
       // Code for adding enemy artifact...
 
       // Add logic for the enemy defeating the player
@@ -591,8 +591,8 @@ const addArtifacts = (newX, newY, newMazeData) => {
       setScore(0);
       gameOver("You ran into the cartel! Game Over!");
       stopTimer();
-    } else if (Math.random() < 0.33 && coveredCells >= 0.9 * totalCells) {
-      // 33% chance of finding the exit when 90% of the maze is covered
+    } else if (Math.random() < 0.33 && coveredCells >= 0.75 * totalCells) {
+      // 33% chance of finding the exit when 75% of the maze is covered
       const updatedMazeData = newMazeData.map((row, rowIndex) =>
         row.map((cell, colIndex) => {
           if (rowIndex === newY && colIndex === newX) {
