@@ -16,8 +16,8 @@ if (
 
 const nearButtonLink =
   props.nearButtonLink || "https://wallet.mintbase.xyz/connect";
-const nearButtonLabel = props.nearButtonLabel || "⋈ NEAR Wallet";
-const web3ButtonLabel = props.web3ButtonLabel || "⬨ Web3Connect";
+const nearButtonLabel = props.nearButtonLabel || "⋈ NEAR ";
+const web3ButtonLabel = props.web3ButtonLabel || "⬨ Ethereum";
 const nearButtonClass = props.nearButtonClass || "m-2 btn btn-outline-dark";
 const web3ButtonClass = props.web3ButtonClass || "m-2 btn btn-outline-dark";
 
