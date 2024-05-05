@@ -1,4 +1,4 @@
-const accountId = props.accountId ?? context.accountId ?? "every.near";
+const accountId = props.accountId ?? context.accountId;
 
 const Wrapper = styled.div`
   display: flex;
@@ -75,20 +75,29 @@ return (
         >
           <b>Social Network States</b>
         </h3>
-        <div className="m-3 d-flex flex-row justify-content-center">
-          <div className="m-1 me-3">
-            <Widget
-              src="buildcommons.near/widget/profile.builder"
-              props={{ accountId: context.accountId ?? "every.near" }}
-            />
+        {accountId ? (
+          <div className="m-3 d-flex flex-row justify-content-center">
+            <div className="m-1 me-3">
+              <Widget
+                src="buildcommons.near/widget/profile.builder"
+                props={{ accountId }}
+              />
+            </div>
+            <div className="m-2 ms-2">
+              <Widget
+                src="buildcommons.near/widget/graph.join"
+                props={{
+                  attestorId: accountId,
+                  accountId: "buildcommons.near",
+                }}
+              />
+            </div>
           </div>
-          <div className="m-2 ms-2">
-            <Widget
-              src="buildcommons.near/widget/graph.join"
-              props={{ attestorId: accountId }}
-            />
+        ) : (
+          <div className="m-3">
+            <Widget src="buildcommons.near/widget/connect" />
           </div>
-        </div>
+        )}
       </div>
       <Widget src="buildcommons.near/widget/SocialGraph" />
     </div>
