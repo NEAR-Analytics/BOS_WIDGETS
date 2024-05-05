@@ -1,14 +1,7 @@
 if (!context.accountId) {
-  return "";
+  return "Debes iniciar sesión";
 }
-const index = props.index || {
-  post: JSON.stringify({
-    key: "main",
-    value: {
-      type: "md",
-    },
-  }),
-};
+
 const composeData = () => {};
 State.init({
   onChange: ({ content }) => {
