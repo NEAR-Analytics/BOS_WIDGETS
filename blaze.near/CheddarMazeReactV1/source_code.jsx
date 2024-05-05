@@ -360,10 +360,11 @@ const restartGame = () => {
   // Set the maze data with the new maze and player's starting position
   setMazeData(newMazeData);
 
-  const playerStartCell = getRandomPathCell();
+  const playerStartCell = getRandomPathCell(newMazeData);
+  console.log(playerStartCell.x + " " + playerStartCell.y);
   setPlayerPosition({ x: playerStartCell.x, y: playerStartCell.y });
-  setLastCellX(playerStartCell.x);
-  setLastCellY(playerStartCell.y);
+  setLastCellX(null);
+  setLastCellY(null);
 
   startTimer(); // Start the timer again after resetting the game
 };
