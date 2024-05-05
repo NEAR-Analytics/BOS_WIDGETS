@@ -14,7 +14,7 @@ if (
     });
 }
 
-const nearButtonLabel = props.nearButtonLabel || "⋈ Get NEAR";
+const nearButtonLabel = props.nearButtonLabel || "⋈ NEARWEEK";
 const web3ButtonLabel = props.web3ButtonLabel || "⬨ Web3Connect";
 const nearButtonClass = props.nearButtonClass || "m-1 btn btn-outline-dark";
 const web3ButtonClass = props.web3ButtonClass || "m-1 btn btn-outline-dark";
