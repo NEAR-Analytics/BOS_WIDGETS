@@ -31,7 +31,7 @@ const H1 = styled.h1`
       position: absolute;
       bottom: -8px;
       right: -10px;
-      width: 23px;
+      width: 50px;
       height: auto;
     }
   }
@@ -51,6 +51,20 @@ const H1 = styled.h1`
   }
 `;
 
+const Tagline = styled.h3`
+  font-family: "Courier", sans-serif;
+  font-size: 30px;
+  line-height: 1;
+  text-align: center;
+  color: #212428;
+  margin: 8px;
+  max-width: 700px;
+
+  @media (max-width: 900px) {
+    font-size: 23px;
+  }
+`;
+
 return (
   <Wrapper>
     <div>
@@ -62,18 +76,15 @@ return (
         Commons
       </H1>
       <div className="d-flex flex-column align-items-center">
-        <h3
+        <Tagline
           className="m-2 mt-3"
           style={{
             textTransform: "uppercase",
             letterSpacing: "0.17em",
-            textAlign: "center",
-            color: "#212428",
-            fontFamily: "Courier, sans-serif",
           }}
         >
           <b>Social Network States</b>
-        </h3>
+        </Tagline>
         {context.accountId ? (
           <div className="m-3 mt-4 d-flex flex-row justify-content-center">
             <div className="m-1 me-3">
