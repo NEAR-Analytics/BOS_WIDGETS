@@ -497,7 +497,7 @@ const movePlayer = (newX, newY) => {
   setCoveredCells(coveredCells + 1);
 
   // Periodically add artifacts to the board based on cooldowns and randomness
-  addArtifacts(newX, newY, newMazeData);
+  addArtifacts(newX, newY, newMazeData, moves);
 
   // Set lastCellX and lastCellY to the new player position
   // Update last cell coordinates
@@ -505,11 +505,12 @@ const movePlayer = (newX, newY) => {
   setLastCellY(playerPosition.y);
 };
 
-const addArtifacts = (newX, newY, newMazeData) => {
+const addArtifacts = (newX, newY, newMazeData, moves) => {
   if (
     !gameOverFlag &&
     !newMazeData[newY][newX].hasEnemy &&
-    !newMazeData[newY][newX].hasCheese
+    !newMazeData[newY][newX].hasCheese &&
+    moves >= 10
   ) {
     if (!enemyCooldown && Math.random() < 0.3) {
       // 30% chance of encountering an enemy
