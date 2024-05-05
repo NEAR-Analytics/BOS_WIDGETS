@@ -1,5 +1,3 @@
-const accountId = props.accountId ?? context.accountId;
-
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -75,20 +73,19 @@ return (
         >
           <b>Social Network States</b>
         </h3>
-        {accountId ? (
+        {context.accountId ? (
           <div className="m-3 mt-4 d-flex flex-row justify-content-center">
             <div className="m-1 me-3">
               <Widget
                 src="buildcommons.near/widget/profile.builder"
-                props={{ accountId }}
+                props={{ accountId: context.accountId }}
               />
             </div>
             <div className="m-2 ms-2">
               <Widget
                 src="buildcommons.near/widget/graph.join"
                 props={{
-                  attestorId: accountId,
-                  accountId: "buildcommons.near",
+                  defaultBuilder: "buildcommons.near",
                 }}
               />
             </div>
