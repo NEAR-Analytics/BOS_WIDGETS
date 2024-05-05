@@ -276,7 +276,7 @@ return (
   <div className="w-100 d-flex align-items-center">
     <iframe
       className="w-100 h-100"
-      style={{ minHeight: "888px" }}
+      style={{ minHeight: "333px" }}
       srcDoc={code}
       message={message}
       onMessage={onMessage}
