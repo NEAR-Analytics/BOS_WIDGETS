@@ -273,10 +273,13 @@ const [onMessage] = useState(() => {
 });
 
 return (
-  <div className="w-100 d-flex align-items-center">
+  <div
+    className="w-100 d-flex justify-content-center"
+    style={{ width: "100%" }}
+  >
     <iframe
       className="w-100 h-100"
-      style={{ minHeight: "333px" }}
+      style={{ minHeight: "333px", maxWidth: "960px", width: "100%" }}
       srcDoc={code}
       message={message}
       onMessage={onMessage}
