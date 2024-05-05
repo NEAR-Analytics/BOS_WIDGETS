@@ -37,7 +37,7 @@ const H1 = styled.h1`
   }
 
   @media (max-width: 900px) {
-    font-size: 50px;
+    font-size: 39px;
 
     span {
       border-radius: 12px;
@@ -72,7 +72,7 @@ return (
             fontFamily: "Courier, sans-serif",
           }}
         >
-          <b>Social Network State Graphs</b>
+          <b>Social Network States</b>
         </h3>
         {context.accountId ? (
           <div className="m-3 mt-4 d-flex flex-row justify-content-center">
