@@ -11,8 +11,8 @@ const Wrapper = styled.div`
 const H1 = styled.h1`
   font-family: "Courier", sans-serif;
   font-style: normal;
-  font-weight: 500;
-  font-size: 64px;
+  font-weight: 555;
+  font-size: 55px;
   line-height: 1;
   text-align: center;
   color: #212428;
@@ -61,7 +61,7 @@ const Tagline = styled.h3`
   max-width: 700px;
 
   @media (max-width: 900px) {
-    font-size: 15px;
+    font-size: 17px;
   }
 `;
 
