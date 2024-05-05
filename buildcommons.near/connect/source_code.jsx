@@ -23,11 +23,11 @@ const web3ButtonClass = props.web3ButtonClass || "m-2 btn btn-outline-dark";
 
 return (
   <>
-    {accountId ? (
+    {!accountId ? (
       ""
     ) : (
-      <div className="d-flex flex-row justify-content-center">
-        <div className="d-flex flex-column align-items-center">
+      <div className="m-2 d-flex flex-row justify-content-center">
+        <div className="m-2 d-flex flex-column align-items-center">
           <a href={nearButtonLink} className={nearButtonClass}>
             {nearButtonLabel}
           </a>
@@ -37,7 +37,7 @@ return (
             src="https://wallet.mintbase.xyz/mintbase-wallet-logo.svg"
           />
         </div>
-        <div className="d-flex flex-column align-items-center">
+        <div className="m-2 d-flex flex-column align-items-center">
           <Web3Connect
             className={web3ButtonClass}
             connectLabel={web3ButtonLabel}
