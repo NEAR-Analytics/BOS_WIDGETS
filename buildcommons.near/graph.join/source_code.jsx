@@ -51,8 +51,8 @@ const attest = () => {
 
 return (
   <button
-    disabled={loading || attested}
-    className={`btn ${attested ? "btn-dark" : "btn-warning"}`}
+    disabled={loading}
+    className={`btn ${attested ? "btn-secondary" : "btn-dark"}`}
     onClick={attest}
     style={{ fontFamily: "Courier, sans-serif" }}
   >
