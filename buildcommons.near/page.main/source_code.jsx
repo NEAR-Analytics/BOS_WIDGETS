@@ -56,11 +56,11 @@ return (
   <Wrapper>
     <div>
       <H1>
-        Build
         <span>
-          Commons
+          Build
           <svg viewBox="0 0 25 23" fill="none" aria-hidden="true"></svg>
         </span>
+        Commons
       </H1>
       <div className="d-flex flex-column align-items-center">
         <h3
@@ -76,7 +76,7 @@ return (
           <b>Social Network States</b>
         </h3>
         {accountId ? (
-          <div className="m-3 d-flex flex-row justify-content-center">
+          <div className="m-3 mt-4 d-flex flex-row justify-content-center">
             <div className="m-1 me-3">
               <Widget
                 src="buildcommons.near/widget/profile.builder"
