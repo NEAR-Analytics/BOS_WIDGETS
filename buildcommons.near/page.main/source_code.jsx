@@ -92,6 +92,5 @@ return (
       </div>
       <Widget src="buildcommons.near/widget/SocialGraph" />
     </div>
-    <Widget src="hack.near/widget/dev.Badge" />
   </Wrapper>
 );
