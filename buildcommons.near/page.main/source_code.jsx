@@ -90,8 +90,8 @@ return (
           </div>
         </div>
       </div>
+      <Widget src="buildcommons.near/widget/SocialGraph" />
     </div>
-    <Widget src="buildcommons.near/widget/SocialGraph" />
     <Widget src="hack.near/widget/dev.Badge" />
   </Wrapper>
 );
