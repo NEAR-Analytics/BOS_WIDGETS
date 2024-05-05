@@ -37,7 +37,7 @@ const H1 = styled.h1`
   }
 
   @media (max-width: 900px) {
-    font-size: 50px;
+    font-size: 39px;
 
     span {
       border-radius: 12px;
@@ -53,7 +53,7 @@ const H1 = styled.h1`
 
 const Tagline = styled.h3`
   font-family: "Courier", sans-serif;
-  font-size: 30px;
+  font-size: 23px;
   line-height: 1;
   text-align: center;
   color: #212428;
@@ -61,7 +61,7 @@ const Tagline = styled.h3`
   max-width: 700px;
 
   @media (max-width: 900px) {
-    font-size: 19px;
+    font-size: 15px;
   }
 `;
 
