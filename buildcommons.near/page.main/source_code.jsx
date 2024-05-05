@@ -85,6 +85,8 @@ return (
               <Widget
                 src="buildcommons.near/widget/graph.join"
                 props={{
+                  attestorId: context.accountId,
+                  accountId: "buildcommons.near",
                   defaultBuilder: "buildcommons.near",
                 }}
               />
