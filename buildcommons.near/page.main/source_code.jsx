@@ -24,7 +24,7 @@ const H1 = styled.h1`
     background: #EDFF00;
     border-radius: 20px;
     position: relative;
-    padding: 0.2em 0.3em 0.1em;
+    padding: 0.1em 0.3em 0.1em;
 
     svg {
       position: absolute;
@@ -61,7 +61,7 @@ return (
         Commons
       </H1>
       <div className="d-flex flex-column align-items-center">
-        <h3
+        <h4
           className="m-2 mt-3"
           style={{
             textTransform: "uppercase",
@@ -72,7 +72,7 @@ return (
           }}
         >
           <b>Social Network States</b>
-        </h3>
+        </h4>
         {context.accountId ? (
           <div className="m-3 mt-4 d-flex flex-row justify-content-center">
             <div className="m-1 me-3">
