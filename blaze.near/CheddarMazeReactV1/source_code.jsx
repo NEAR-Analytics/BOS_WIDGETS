@@ -351,6 +351,7 @@ const restartGame = () => {
   setGameOverFlag(false);
   setWon(false);
   setGameOverMessage("");
+  setDirection("right");
 
   // Regenerate maze data
   const mazeRows = 11;
