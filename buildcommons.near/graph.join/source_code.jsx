@@ -54,7 +54,8 @@ return (
     disabled={loading || attested}
     className={`btn ${attested ? "btn-dark" : "btn-warning"}`}
     onClick={attest}
+    style={{ fontFamily: "Courier, sans-serif" }}
   >
-    {attested ? "JOINED" : "JOIN"}
+    {attested ? "Joined" : "Join"}
   </button>
 );
