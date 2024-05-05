@@ -23,7 +23,7 @@ const web3ButtonClass = props.web3ButtonClass || "m-2 btn btn-outline-dark";
 
 return (
   <>
-    {!accountId ? (
+    {accountId ? (
       ""
     ) : (
       <div className="d-flex flex-row justify-content-center">
