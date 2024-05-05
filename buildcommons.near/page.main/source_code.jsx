@@ -3,10 +3,11 @@ const accountId = props.accountId ?? context.accountId ?? "every.near";
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
   height: 100vh;
   padding: 19px;
-  margin: 23px;
+  margin: auto;
 `;
 
 const H1 = styled.h1`
