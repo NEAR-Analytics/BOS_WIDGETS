@@ -413,21 +413,21 @@ function handleCheckApprove(amount) {
       })
   }
   if (categoryIndex === 3) {
-    const contract = new ethers.Contract(
-      SYMBOL_ADDRESS,
-      abi,
-      Ethers.provider()
-    );
-    contract
-      .allowance(sender, smartContractAddress)
-      .then((allowance) => {
-        State.update({
-          repayApproved: !new Big(allowance.toString()).lt(_amount)
-        })
-      })
-    // State.update({
-    //   repayApproved: Big(state.accountOverview?.firstBalance ?? 0).gt(amount)
-    // })
+    // const contract = new ethers.Contract(
+    //   SYMBOL_ADDRESS,
+    //   abi,
+    //   Ethers.provider()
+    // );
+    // contract
+    //   .allowance(sender, smartContractAddress)
+    //   .then((allowance) => {
+    //     State.update({
+    //       repayApproved: !new Big(allowance.toString()).lt(_amount)
+    //     })
+    //   })
+    State.update({
+      repayApproved: Big(state.accountOverview?.firstBalance ?? 0).gt(amount)
+    })
   }
 }
 function handleInAmountChange(amount) {
@@ -613,7 +613,7 @@ function handleApprove() {
       repayApproving: true
     })
     doApprove(
-      state.inRepayAmount,
+      Big(state.inRepayAmount).times(2).toFixed(),
       smartContractAddress,
       () => {
         State.update({
@@ -971,8 +971,12 @@ function handleRepay() {
     .mul(Big(10).pow(18))
     .toFixed(0);
   const contractMethod = Big(state.balances.repay).gt(state?.accountOverview?.firstBalance ?? 0) ? "repayFrom" : "repay"
+  console.log('=state.balances.repay', state.balances.repay, '=state?.accountOverview?.firstBalance', state?.accountOverview?.firstBalance)
   contract[contractMethod](
     _amount,
+    {
+      gasLimit: 5000000,
+    }
   )
     .then(tx => tx.wait())
     .then((result) => {
