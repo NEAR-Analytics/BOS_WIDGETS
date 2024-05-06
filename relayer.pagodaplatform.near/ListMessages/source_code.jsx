@@ -22,7 +22,7 @@ const addNewMessage = () => {
 };
 
 return (
-  <div class="p-3 bg-black text-white">
+  <div class="p-3 bg-black bg-gradient text-white rounded-5">
     <h3 class="text-center ">Customized By C€S4R</h3>
     <br />
     {context.accountId ? (
@@ -57,14 +57,14 @@ return (
             Listado
           </button>
         </div>
-        <div class="tab-content" id="nav-tabContent">
+        <div class="tab-content " id="nav-tabContent">
           <div
             class="tab-pane fade show active"
             id="nav-message"
             role="tabpanel"
             aria-labelledby="nav-message-tab"
           >
-            <div class="container p-3">
+            <div class="container p-3 ">
               <div class="row">
                 <div class="col">
                   <div class="text-center">
