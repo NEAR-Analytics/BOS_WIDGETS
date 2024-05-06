@@ -332,6 +332,11 @@ return (
   <Wrapper>
     <Card>
       <div>
+        <h5 className="m-0" style={{ fontSize: 18, color: "red" }}>
+          {`Airdrop only works with Mynear Wallet`}
+        </h5>
+      </div>
+      <div>
         <Label>{`Select airdrop token`}</Label>
         <Widget
           props={{
