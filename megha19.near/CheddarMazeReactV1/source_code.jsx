@@ -59,7 +59,8 @@ useEffect(() => {
   ) {
     const balance = Big(cheddarBalance).div(Big(10).pow(24)).toFixed();
     setCheddarBalance(balance);
-    setAllowedGame(parseFloat(balance) >= 555 && isUserNadaVerified);
+    // setAllowedGame(parseFloat(balance) >= 555 && isUserNadaVerified);
+    setAllowedGame(true);
   }
 }, [cheddarBalance, isUserNadaVerified]);
 
