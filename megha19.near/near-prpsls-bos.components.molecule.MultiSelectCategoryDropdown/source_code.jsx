@@ -5,7 +5,7 @@ Homepage: https://github.com/NEAR-DevHub/near-prpsls-bos#readme
 */
 /* INCLUDE: "includes//common.jsx" */
 const REPL_DEVHUB = "devhub.near";
-const REPL_INFRASTRUCTURE_COMMITTEE = "infrastructure-committee.near";
+const REPL_INFRASTRUCTURE_COMMITTEE = "megha19.near";
 const REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT = "truedove38.near";
 const REPL_RPC_URL = "https://rpc.mainnet.near.org";
 const REPL_NEAR = "near";
