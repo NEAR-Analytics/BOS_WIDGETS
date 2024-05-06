@@ -1,4 +1,8 @@
-if (!props.widgets || props.widgets.length === 0) return <></>;
+if (
+  (!props.widgets || props.widgets.length === 0) &&
+  (!props.components || props.components.length === 0)
+)
+  return <></>;
 
 const [waitingAppIdsSet, changeWaitingAppIdsSet] = useState(new Set());
 
@@ -48,7 +52,13 @@ const WidgetBadgeWrapper = styled.div`
 
 const FloatingElementWrapper = ({ component: WrapperComponent, children }) => {
   return WrapperComponent ? (
-    <WrapperComponent context={props.context}>{children}</WrapperComponent>
+    <WrapperComponent
+      context={props.context}
+      attachContextRef={props.attachContextRef}
+      attachInsPointRef={props.attachInsPointRef}
+    >
+      {children}
+    </WrapperComponent>
   ) : (
     children
   );
@@ -114,11 +124,18 @@ return (
           .filter(
             (cmp) => !cmp.target.insteadOf || !cmp.target.insteadOf.linkId
           )
-          .map((Component, i) => (
-            <WidgetWrapper key={i}>
-              <Component context={props.context} />
-            </WidgetWrapper>
-          ))
+          .map((cmp, i) => {
+            const WrapperComponent = cmp.component;
+            return (
+              <WidgetWrapper key={i}>
+                <WrapperComponent
+                  context={props.context}
+                  attachContextRef={props.attachContextRef}
+                  attachInsPointRef={props.attachInsPointRef}
+                />
+              </WidgetWrapper>
+            );
+          })
       : null}
   </Container>
 );
