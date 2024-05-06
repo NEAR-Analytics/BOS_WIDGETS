@@ -1,62 +1,61 @@
 const Css = styled.div`
-overflow-x:hidden;
+  overflow-x:hidden;
 .awesome-trending-content{
-text-align: center;
-}
-.awesome-trending-content .near-item-sm { 
-display: inline-block; 
-float: none; 
+  text-align: center;
+  white-space: nowrap !important;
 }
 
-@media (max-width: 768px) {
-/* Adjust styles for smaller screens */
-font-size: 0.8em;
-gap: 0.5em;
+.awesome-trending-content .near-item-sm { 
+  display: inline-block; 
+  float: none; 
 }
-@media screen and ( max-width : 700px ){
-  .awesome-trending-content{white-space: nowrap !important;} 
-}
-`;
+`
+
 const Marquee = styled.div`
 @keyframes marquee {
-from {
-  transform: translateX(0%);
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
 }
-to {
-  transform: translateX(-100%);
-}
-}
-animation: marquee 15s linear infinite;
+animation: marquee 30s linear infinite;
 margin: 0 auto;
-`
-State.init({
-  trendingProjects: false,
-});
-const router = props.router || "";
-if (props.cat == "trending") return <></>;
-
-asyncFetch(props.indexer + "/projects-by-category?cid=trending").then((res) => {
-  State.update({ trendingProjects: res.body });
-  console.log("Trending: ", res.body);
-});
-
-if (!state.trendingProjects) {
-  return <>
-    <br />
-    🐲🐉🐶😺~
-    <br />
-  </>;
+&:hover{
+  animation-play-state: paused;
 }
-return (
-  <Css>
-    <h3 className="my-3">🔥Trending</h3>
-    <Marquee>
+`
+  State.init({
+    trendingProjects: false,
+  });
+  const router = props.router || "";
+  if (props.cat == "trending") return <></>;
+
+  asyncFetch(props.indexer + "/projects-by-category?cid=trending").then((res) => {
+    State.update({ trendingProjects: res.body });
+    console.log("Trending: ", res.body);
+  });
+
+  if (!state.trendingProjects) {
+    return <>
+      <br />
+      🐲🐉🐶😺~
+      <br />
+    </>;
+  }
+
+  return (
+    <Css>
+      <h3 className="my-3">🔥Trending</h3>
       <div
         className="awesome-trending-content"
         style={{
-          whiteSpace: ["category", "bookmark"].indexOf(router) ? "nowrap" : "",
+          marginLeft:100,
+          width: (Object.keys(state.trendingProjects).length-1)*90
         }}
       >
+      <Marquee>
         {Object.keys(state.trendingProjects).map((e) => {
           let p = state.trendingProjects[e];
           return (
@@ -77,7 +76,7 @@ return (
             </Link>
           );
         })}
+      </Marquee>
       </div>
-    </Marquee>
-  </Css>
-);
+    </Css>
+  );
