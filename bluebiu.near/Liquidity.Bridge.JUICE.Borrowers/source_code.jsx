@@ -1172,10 +1172,10 @@ function handleGetBalances(callback) {
     const deposit = Big(isNotEmptyArray(balanceOfResult) ? ethers.utils.formatUnits(balanceOfResult[0]) : 0).toFixed()
     const withdraw = Big(isNotEmptyArray(getAccountHealthResult) && getAccountHealthResult[0][1] ? ethers.utils.formatUnits(getAccountHealthResult[0][1]) : 0).toFixed()
     const borrow = Big(isNotEmptyArray(getTotalCollateralValueResult) ? ethers.utils.formatUnits(getTotalCollateralValueResult[0]) : 0).times(2.97).minus(isNotEmptyArray(getDebtAmountResult) ? ethers.utils.formatUnits(getDebtAmountResult[0]) : 0).toFixed()
-    const firstRepay = Big(isNotEmptyArray(balanceOfResult) ? ethers.utils.formatUnits(balanceOfResult[0]) : 0).toFixed()
+    // const firstRepay = Big(isNotEmptyArray(balanceOfResult) ? ethers.utils.formatUnits(balanceOfResult[0]) : 0).toFixed()
+    const firstRepay = deposit
     const secondRepay = Big(isNotEmptyArray(getDebtAmountResult) ? ethers.utils.formatUnits(getDebtAmountResult[0]) : 0).toFixed()
     const repay = secondRepay
-    console.log('=secondRepay', secondRepay)
     const balances = {
       deposit,
       withdraw,
@@ -1504,12 +1504,14 @@ function handleClaim() {
     "stateMutability": "payable",
     "type": "function"
   }]
+
   const contract = new ethers.Contract(
     ethers.utils.getAddress(smartContractAddress),
     abi,
     Ethers.provider().getSigner()
   );
-  const _amount = Big(state?.pnl)
+  const temAmount = Big(state.balances.repay).eq(0) ? state?.accountOverview?.firstBalance : state?.pnl
+  const _amount = Big(temAmount)
     .mul(Big(10).pow(18))
     .toFixed(0);
   const toastId = toast?.loading({
@@ -1859,12 +1861,12 @@ return (
         </StyledOverview>
         <StyledOverview>
           <StyledOverviewLabel>PnL</StyledOverviewLabel>
-          <StyledOverviewValue>{Big(state.pnl).toFixed(4)}</StyledOverviewValue>
+          <StyledOverviewValue>{Big(state.pnl).gt(0) ? '' : '-'}{Big(state.pnl).toFixed(4)}</StyledOverviewValue>
         </StyledOverview>
       </StyledOverviewList>
       <StyledOverviewButtonContainer>
         {
-          Big(state.pnl).gt(0) ? (
+          Big(state.pnl).gt(0) && Big(state?.accountOverview?.firstBalance ?? 0).gt(0) ? (
             <StyledOperationButton onClick={handleClaim}>Claim Profit</StyledOperationButton>
           ) : (
             <StyledOperationButton disabled>Claim Profit</StyledOperationButton>
