@@ -209,29 +209,21 @@ State.init({
 });
 
 const TrendingMarquee = (data) => {
-  console.log("trending props:  ", data, "props props", data.props);
+  // console.log("trending props:  ", data, "props props", data.props);
   const props = data.props;
   const Css = styled.div`
   overflow-x:hidden;
 .awesome-trending-content{
   text-align: center;
+  white-space: nowrap !important;
 }
 
 .awesome-trending-content .near-item-sm { 
   display: inline-block; 
   float: none; 
 }
+`
 
-@media (max-width: 768px) {
-  /* Adjust styles for smaller screens */
-  font-size: 0.8em;
-  gap: 0.5em;
-}
-
-@media screen and ( max-width : 700px ){
-    .awesome-trending-content{white-space: nowrap !important;} 
-}
-`;
 const Marquee = styled.div`
 @keyframes marquee {
   from {
@@ -241,10 +233,11 @@ const Marquee = styled.div`
     transform: translateX(-100%);
   }
 }
-
-animation: marquee 15s linear infinite;
+animation: marquee 30s linear infinite;
 margin: 0 auto;
-
+&:hover{
+  animation-play-state: paused;
+}
 `
   State.init({
     trendingProjects: false,
@@ -264,16 +257,18 @@ margin: 0 auto;
       <br />
     </>;
   }
+
   return (
     <Css>
       <h3 className="my-3">🔥Trending</h3>
-      <Marquee>
       <div
         className="awesome-trending-content"
         style={{
-          whiteSpace: ["category", "bookmark"].indexOf(router) ? "nowrap" : "",
+          marginLeft:100,
+          width: (Object.keys(state.trendingProjects).length-1)*90
         }}
       >
+      <Marquee>
         {Object.keys(state.trendingProjects).map((e) => {
           let p = state.trendingProjects[e];
           return (
@@ -294,8 +289,8 @@ margin: 0 auto;
             </Link>
           );
         })}
-      </div>
       </Marquee>
+      </div>
     </Css>
   );
 
