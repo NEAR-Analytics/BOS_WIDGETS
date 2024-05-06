@@ -592,7 +592,7 @@ const {
 } = props
 
 const isDepositInSufficient = Number(state?.inDepositAmount ?? 0) > Number(state?.depositBalance ?? 0)
-const isWithdrawInSufficient = Number(state?.inWithdrawAmount ?? 0) > Number(state?.positionOverview?.balanceOf ?? 0)
+const isWithdrawInSufficient = Number(state?.inWithdrawAmount ?? 0) > Number(state?.withdrawBalance ?? 0)
 function isNotEmptyArray(value) {
   return value && value[0]
 }
@@ -885,7 +885,7 @@ function handleQueryDepositBalance(callback) {
   contract
     .balanceOf(smartContractAddress)
     .then(result => {
-      const balance = Big(result ? ethers.utils.formatUnits(result) : 0).toString()
+      const balance = Big(result ? ethers.utils.formatUnits(result) : 0).toFixed()
       State.update({
         depositBalance: balance
       })
@@ -920,7 +920,7 @@ function handleQueryWithdrawBalance(callback) {
   contract
     .balanceOf(smartContractAddress)
     .then(result => {
-      const balance = Big(result ? ethers.utils.formatUnits(result) : 0).toString()
+      const balance = Big(result ? ethers.utils.formatUnits(result) : 0).toFixed()
       State.update({
         withdrawBalance: balance
       })
