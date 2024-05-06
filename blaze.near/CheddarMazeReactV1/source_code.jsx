@@ -23,6 +23,8 @@ const [touchEnd, setTouchEnd] = useState({ x: null, y: null });
 const [lastCellX, setLastCellX] = useState(null);
 const [lastCellY, setLastCellY] = useState(null);
 const [coveredCells, setCoveredCells] = useState(0);
+const [hasPowerUp, setHasPowerUp] = useState(false);
+const [isPowerUpOn, setIsPowerUpOn] = useState(false);
 
 const Maze = ({
   mazeData,
@@ -40,6 +42,10 @@ const Maze = ({
   restartGame,
   selectedColorSet,
   hasExit,
+  hasPowerUp,
+  handlePowerUpClick,
+  handleBuyClick,
+  isPowerUpOn,
 }) => {
   const styles = {
     gameContainer: {
@@ -60,7 +66,7 @@ const Maze = ({
       borderRadius: "5px",
       overflow: "hidden",
       width: "fit-content",
-      border: `3px solid ${selectedColorSet.pathColor}`,
+      border: `3px solid #8542eb`,
     },
     mazeRow: {
       display: "flex",
@@ -103,15 +109,83 @@ const Maze = ({
     debugInfo: {
       display: "none", // Hide debug info by default
     },
-    gameInfo: {
-      display: "flex",
-      justifyContent: "space-between",
-      width: "200px",
-    },
     gameOver: {
       fontSize: "15px",
       fontWeight: "bold",
       color: hasExit ? "green" : "red",
+    },
+    gameInfo: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center", // Align items in the center
+      width: "100%", // Adjust the width as needed
+      margin: "auto", // Center the game info horizontally
+      marginBottom: "10px",
+    },
+    score: {
+      // Styles for the score
+      flex: "1", // Allow the score to take up remaining space
+      textAlign: "center", // Center align the score
+    },
+    toolbar: {
+      display: "grid",
+      gridTemplateColumns: "1fr",
+      justifyItems: "end",
+      backgroundColor: "#8542eb",
+    },
+    tooltip: {
+      position: "relative",
+      display: "inline-block",
+      textAlign: "right",
+      alignItems: "right",
+      padding: "5px",
+    },
+    powerUpButton: {
+      backgroundColor: isPowerUpOn ? "#007bff" : "#AAB8C2",
+      color: "#ffffff", // Button text color
+      border: "none",
+      borderRadius: "5px",
+      padding: "5px 10px",
+      fontSize: "16px",
+      cursor: "pointer",
+      transition: "background-color 0.3s ease",
+    },
+    tooltipText: {
+      visibility: "hidden",
+      width: "120px",
+      backgroundColor: "#555",
+      color: "#fff",
+      textAlign: "center",
+      borderRadius: "6px",
+      padding: "5px",
+      position: "absolute",
+      zIndex: "1",
+      bottom: "125%",
+      left: "50%",
+      marginLeft: "-60px",
+      opacity: "0",
+      transition: "opacity 0.3s",
+    },
+    time: {
+      flex: "1", // Allow time to take up remaining space
+      textAlign: "center", // Center align the time
+    },
+    buyPowerUp: {
+      flex: "1", // Allow time to take up remaining space
+      textAlign: "center", // Center align the time
+    },
+    buyLink: {
+      color: "yellow",
+      textDecoration: "none",
+    },
+    popup: {
+      position: "absolute",
+      backgroundColor: "#f9f9f9",
+      border: "1px solid #ccc",
+      padding: "10px",
+      zIndex: "1",
+      borderRadius: "5px",
+      display: "none",
     },
   };
 
@@ -212,8 +286,8 @@ const Maze = ({
     <div style={styles.gameContainer}>
       <h1>Cheddar Maze</h1>
       <div style={styles.gameInfo}>
-        <div>Score: {score}</div>
-        <div>
+        <div style={styles.score}>Score: {score}</div>
+        <div style={styles.time}>
           Time:{" "}
           {remainingMinutes < 10 ? "0" + remainingMinutes : remainingMinutes}:
           {remainingSeconds < 10 ? "0" + remainingSeconds : remainingSeconds}
@@ -233,8 +307,33 @@ const Maze = ({
         onTouchMove={handleTouchMove}
         onClick={handleMouseClick}
       >
+        <div style={styles.toolbar}>
+          <div style={styles.tooltip}>
+            <button
+              style={styles.powerUpButton}
+              onClick={handlePowerUpClick}
+              disabled={!hasPowerUp}
+            >
+              ⚡
+            </button>
+            <span style={styles.tooltipText}>
+              Cheddy PowerUp NFT provides in-game features
+            </span>
+            {!hasPowerUp && (
+              <span style={styles.buyPowerUp}>
+                <a href="#" style={styles.buyLink} onClick={handleBuyClick}>
+                  buy
+                </a>
+                <div id="buyPopup" style={styles.popup}>
+                  This is the popup content.
+                </div>
+              </span>
+            )}
+          </div>
+        </div>
         {renderMaze()}
       </div>
+
       <div
         style={{ backgroundColor: "rgba(255, 255, 255, 0.9)", padding: "10px" }}
       >
@@ -248,6 +347,16 @@ const Maze = ({
       </div>
     </div>
   );
+};
+
+const handlePowerUpClick = () => {
+  setIsPowerUpOn(!isPowerUpOn);
+  // Additional logic if needed
+};
+
+const handleBuyClick = () => {
+  const popup = document.getElementById("buyPopup");
+  popup.style.display = "block";
 };
 
 // Function to select a random color set, background image, and rarity
@@ -905,6 +1014,10 @@ return (
         restartGame={restartGame}
         selectedColorSet={selectedColorSet}
         hasExit={hasExit}
+        hasPowerUp={hasPowerUp}
+        handlePowerUpClick={handlePowerUpClick}
+        handleBuyClick={handleBuyClick}
+        isPowerUpOn={isPowerUpOn}
       />
     )}
   </div>
