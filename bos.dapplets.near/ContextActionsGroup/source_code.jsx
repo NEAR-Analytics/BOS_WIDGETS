@@ -1,6 +1,7 @@
 const widgets = props.widgets ?? [];
 const apps = props.apps ?? [];
 const {
+  context,
   isEditMode,
   createUserLink,
   deleteUserLink,
@@ -67,7 +68,7 @@ return (
     <Widget
       loading={<></>}
       src="bos.dapplets.near/widget/LayoutManager.TriggerEar"
-      props={{ show: state.show }}
+      props={{ show: state.show, context }}
     />
     {state.show ? (
       <Widget
