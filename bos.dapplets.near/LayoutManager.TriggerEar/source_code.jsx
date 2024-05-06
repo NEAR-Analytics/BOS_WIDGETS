@@ -1,4 +1,4 @@
-const { show } = props
+const { show, context } = props;
 
 const TriggerEar = styled.div`
   position: absolute;
@@ -16,7 +16,7 @@ const TriggerEar = styled.div`
   box-sizing: border-box;
   z-index: 79;
   transition: all 0.2s;
-`
+`;
 
 const Dots = styled.div`
   display: block;
@@ -47,10 +47,15 @@ const Dots = styled.div`
     background: #fff;
     bottom: 4px;
   }
-`
+`;
 
 return (
-  <TriggerEar style={{ opacity: show ? 0 : 1 }}>
+  <TriggerEar
+    style={{ opacity: show ? 0 : 1 }}
+    data-mweb-context-type="ear-trigger"
+    data-mweb-context-parsed={JSON.stringify({ id: context?.id })}
+  >
     <Dots />
+    <div data-mweb-insertion-point="hidden" style={{ display: "none" }} />
   </TriggerEar>
-)
+);
