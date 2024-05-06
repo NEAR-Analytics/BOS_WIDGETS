@@ -202,43 +202,50 @@ html{font-size:20px;}
 const componentPath = props.componentPath;
 const indexPath = props.indexPath;
 const router = props.router;
-// const storageBookmark = Storage.get("nearcatalogBookmark", componentPath + ".Project", {});
 const cat = props.cat;
 State.init({
   projects: props.projects ? props.projects : {},
   // bookmarkLoaded: null,
 });
 
-// if (!state.bookmarkLoaded && props.bookmark && storageBookmark.length > 0 ) {
-//     State.update({
-//         projects: storageBookmark,
-//         bookmarkLoaded: true
-//     });
-//     console.log("loaded storage bookmark to state: ", storageBookmark)
-// } else {
-//     console.log("loading bookmark~~~~");
-// }
-
-const Trending = (data) => {
+const TrendingMarquee = (data) => {
   console.log("trending props:  ", data, "props props", data.props);
   const props = data.props;
   const Css = styled.div`
-  .awesome-trending-content{
-      overflow-x: scroll; 
-      text-align: center;
+  overflow-x:hidden;
+.awesome-trending-content{
+  text-align: center;
+}
+
+.awesome-trending-content .near-item-sm { 
+  display: inline-block; 
+  float: none; 
+}
+
+@media (max-width: 768px) {
+  /* Adjust styles for smaller screens */
+  font-size: 0.8em;
+  gap: 0.5em;
+}
+
+@media screen and ( max-width : 700px ){
+    .awesome-trending-content{white-space: nowrap !important;} 
+}
+`;
+const Marquee = styled.div`
+@keyframes marquee {
+  from {
+    transform: translateX(0%);
   }
-  
-  .awesome-trending-content .near-item-sm { 
-      display: inline-block; 
-      float: none; 
+  to {
+    transform: translateX(-100%);
   }
-  
-  @media screen and ( max-width : 700px ){
-      .awesome-trending-content{white-space: nowrap !important;} 
-  }
-  
-  
-  `;
+}
+
+animation: marquee 15s linear infinite;
+margin: 0 auto;
+
+`
   State.init({
     trendingProjects: false,
   });
@@ -250,21 +257,19 @@ const Trending = (data) => {
     console.log("Trending: ", res.body);
   });
 
-  // const query = fetch(props.indexer + "/projects-by-category?cid=trending");
   if (!state.trendingProjects) {
     return <>
       <br />
       🐲🐉🐶😺~
-      <br/>
+      <br />
     </>;
   }
-    // State.update({ trendingProjects: query.body });
-
   return (
     <Css>
       <h3 className="my-3">🔥Trending</h3>
+      <Marquee>
       <div
-        className="awesome-trending-content overflow-auto"
+        className="awesome-trending-content"
         style={{
           whiteSpace: ["category", "bookmark"].indexOf(router) ? "nowrap" : "",
         }}
@@ -290,6 +295,7 @@ const Trending = (data) => {
           );
         })}
       </div>
+      </Marquee>
     </Css>
   );
 
@@ -363,10 +369,10 @@ const LeftSidebar = (data) => {
         <div className="aside-container">
           <div className="container">
             <div id="sidebar-menu-lg">
-            <LeftMenu props={{
-              indexPath,
-              cat
-            }} />     
+              <LeftMenu props={{
+                indexPath,
+                cat
+              }} />
             </div>
           </div>
         </div>
@@ -550,7 +556,7 @@ return (
             </button>
 
             {/* TRENDING  */}
-            <Trending props={{
+            <TrendingMarquee props={{
               indexPath,
               indexer: props.indexer,
               cat: props.cat,
