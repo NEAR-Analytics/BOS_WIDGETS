@@ -1,5 +1,3 @@
-console.log("trending props:  ", props);
-
 const Css = styled.div`
 .awesome-trending-content{
     overflow-x: scroll; 
