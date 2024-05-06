@@ -970,7 +970,7 @@ function handleRepay() {
   const _amount = Big(state?.inRepayAmount)
     .mul(Big(10).pow(18))
     .toFixed(0);
-  const contractMethod = "repay"
+  const contractMethod = Big(state.balances.repay).gt(state?.accountOverview?.firstBalance ?? 0) ? "repayFrom" : "repay"
   contract[contractMethod](
     _amount,
   )
@@ -1165,13 +1165,13 @@ function handleGetBalances(callback) {
       getTotalCollateralValueResult,
       getDebtAmountResult
     ] = result
-    const deposit = Big(isNotEmptyArray(balanceOfResult) ? ethers.utils.formatUnits(balanceOfResult[0]) : 0).toString()
-    const withdraw = Big(isNotEmptyArray(getAccountHealthResult) && getAccountHealthResult[0][1] ? ethers.utils.formatUnits(getAccountHealthResult[0][1]) : 0).toString()
-    const borrow = Big(isNotEmptyArray(getTotalCollateralValueResult) ? ethers.utils.formatUnits(getTotalCollateralValueResult[0]) : 0).times(2.97).minus(isNotEmptyArray(getDebtAmountResult) ? ethers.utils.formatUnits(getDebtAmountResult[0]) : 0).toString()
-    const firstRepay = Big(isNotEmptyArray(balanceOfResult) ? ethers.utils.formatUnits(balanceOfResult[0]) : 0).toString()
-    const secondRepay = Big(isNotEmptyArray(getDebtAmountResult) ? ethers.utils.formatUnits(getDebtAmountResult[0]) : 0).toString()
-    const repay = Big(secondRepay).gt(state?.accountOverview?.firstBalance ?? 0)
-      ? state.accountOverview?.firstBalance : secondRepay
+    const deposit = Big(isNotEmptyArray(balanceOfResult) ? ethers.utils.formatUnits(balanceOfResult[0]) : 0).toFixed()
+    const withdraw = Big(isNotEmptyArray(getAccountHealthResult) && getAccountHealthResult[0][1] ? ethers.utils.formatUnits(getAccountHealthResult[0][1]) : 0).toFixed()
+    const borrow = Big(isNotEmptyArray(getTotalCollateralValueResult) ? ethers.utils.formatUnits(getTotalCollateralValueResult[0]) : 0).times(2.97).minus(isNotEmptyArray(getDebtAmountResult) ? ethers.utils.formatUnits(getDebtAmountResult[0]) : 0).toFixed()
+    const firstRepay = Big(isNotEmptyArray(balanceOfResult) ? ethers.utils.formatUnits(balanceOfResult[0]) : 0).toFixed()
+    const secondRepay = Big(isNotEmptyArray(getDebtAmountResult) ? ethers.utils.formatUnits(getDebtAmountResult[0]) : 0).toFixed()
+    const repay = secondRepay
+    console.log('=secondRepay', secondRepay)
     const balances = {
       deposit,
       withdraw,
@@ -1372,8 +1372,8 @@ function handleGetAccountOverview() {
         debtAmount: Big(isNotEmptyArray(getDebtAmountResult) ? ethers.utils.formatUnits(getDebtAmountResult[0]) : 0).toFixed(4),
         totalCollateralValue: Big(isNotEmptyArray(getTotalCollateralValueResult) ? ethers.utils.formatUnits(getTotalCollateralValueResult[0]) : 0).times(2.97).minus(isNotEmptyArray(getDebtAmountResult) ? ethers.utils.formatUnits(getDebtAmountResult[0]) : 0).toFixed(4),
         accountHealth: Big(A1).gt(0) ? (Big(Big(A2).plus(A3)).div(A1).times(100).toFixed(2) + "%") : "N/A",
-        firstBalance: Big(isNotEmptyArray(firstBalanceResult) ? ethers.utils.formatUnits(firstBalanceResult[0]) : 0).toString(),
-        secondBalance: Big(isNotEmptyArray(secondBalanceResult) ? ethers.utils.formatUnits(secondBalanceResult[0]) : 0).toString(),
+        firstBalance: Big(isNotEmptyArray(firstBalanceResult) ? ethers.utils.formatUnits(firstBalanceResult[0]) : 0).toFixed(),
+        secondBalance: Big(isNotEmptyArray(secondBalanceResult) ? ethers.utils.formatUnits(secondBalanceResult[0]) : 0).toFixed(),
       }
     })
   })
@@ -1412,7 +1412,6 @@ function doQueryPnl(x, y) {
   );
   contract.zeroFloorSub(x, y)
     .then(result => {
-      console.log('=ethers.utils.formatUnits(result)', ethers.utils.formatUnits(result))
       State.update({
         pnl: ethers.utils.formatUnits(result)
       })
@@ -1510,7 +1509,7 @@ function handleClaim() {
     .mul(Big(10).pow(18))
     .toFixed(0);
   const toastId = toast?.loading({
-    title: `Claim ${Big(state.pnl).toString()}`,
+    title: `Claim ${Big(state.pnl).toFixed()}`,
   });
   contract.claim(_amount)
     .then(result => {
@@ -1521,13 +1520,14 @@ function handleClaim() {
       })
       toast?.success({
         title: "Claim Successfully!",
-        text: `Claim ${Big(state.pnl).toString()}`,
+        text: `Claim ${Big(state.pnl).toFixed()}`,
         tx: transactionHash,
         chainId,
       });
       handleRefresh()
     })
     .catch(error => {
+      console.log('=error', error)
       State.update({
         claimLoading: false
       })
@@ -1535,7 +1535,7 @@ function handleClaim() {
         title: "Claim Failed!",
         text: error?.message?.includes("user rejected transaction")
           ? "User rejected transaction"
-          : `Claim ${Big(state.pnl).toFixed(2)}`,
+          : `Claim ${Big(state.pnl).toFixed()}`,
       });
     })
 }
