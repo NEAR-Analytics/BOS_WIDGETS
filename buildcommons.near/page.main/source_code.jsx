@@ -1,3 +1,5 @@
+const [accountId, setAccountId] = useState("buildcommons.near");
+
 const [highlightIndex, setHighlightIndex] = useState(null);
 const words = ["Social", "Network", "States", "SN", "NS"];
 
@@ -69,6 +71,14 @@ const Word = styled.span`
   border-radius: 8px;
   transition: background-color 0.3s;
   cursor: pointer;
+
+    @media (max-width: 900px) {
+    font-size: 18px;
+
+    span {
+      border-radius: 5px;
+    }
+  }
 `;
 
 const Space = styled.span`
