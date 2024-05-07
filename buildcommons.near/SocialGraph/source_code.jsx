@@ -266,6 +266,14 @@ window.addEventListener("message", (event) => {
 </script>
 `;
 
+const GraphContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: ${(props) => props.height || "325px"};
+`;
+
 const [onMessage] = useState(() => {
   return (data) => {
     if (data) {
@@ -275,11 +283,17 @@ const [onMessage] = useState(() => {
 });
 
 return (
-  <iframe
-    className="w-100 h-100"
-    style={{ minHeight: "325px", maxWidth: "888px", width: "100%" }}
-    srcDoc={code}
-    message={message}
-    onMessage={onMessage}
-  />
+  <GraphContainer height={height}>
+    <iframe
+      className="w-100 h-100"
+      style={{
+        minHeight: "325px",
+        maxWidth: "888px",
+        width: "100%",
+      }}
+      srcDoc={code}
+      message={message}
+      onMessage={onMessage}
+    />
+  </GraphContainer>
 );
