@@ -53,6 +53,7 @@ return (
     {tokens?.map((token) => (
       <Widget
         src="dapdapbos.near/widget/Staking.Hyperlock.TokenCard"
+        key={token.id + Math.random()}
         props={{
           price0,
           price1,
@@ -72,7 +73,7 @@ return (
           ),
           onCardClick: () => {
             State.update({
-              id: token.id,
+              ...token,
             });
           },
         }}
@@ -104,10 +105,10 @@ return (
                 id: state.id,
                 name,
                 amount0: ethers.utils
-                  .formatUnits(token.token0Amount || 0, token0.decimals)
+                  .formatUnits(state.token0Amount || 0, token0.decimals)
                   .toString(),
                 amount1: ethers.utils
-                  .formatUnits(token.token1Amount || 0, token1.decimals)
+                  .formatUnits(state.token1Amount || 0, token1.decimals)
                   .toString(),
                 token0,
                 token1,
