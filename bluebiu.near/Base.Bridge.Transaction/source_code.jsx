@@ -73,7 +73,6 @@ const getStargateStatus = () => {
   });
   if (getTxStatus) {
     getTxStatus(tx).then(isComplete => {
-      console.log('isComplete:', isComplete)
       if (isComplete) {
         State.update({
           status: "success",
@@ -83,6 +82,7 @@ const getStargateStatus = () => {
       } else {
         State.update({
           loading: false,
+          status: "pending",
         });
       }
       onUpdate();
@@ -111,6 +111,7 @@ const getStargateStatus = () => {
       .catch((e) => {
         State.update({
           loading: false,
+          status: "pending",
         });
       });
   } else {
