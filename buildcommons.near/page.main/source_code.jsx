@@ -139,7 +139,7 @@ return (
     </div>
     <Widget
       src="buildcommons.near/widget/SocialGraph"
-      props={{ height: 333 }}
+      props={{ height: 325 }}
     />
     <div>
       {context.accountId ? (
