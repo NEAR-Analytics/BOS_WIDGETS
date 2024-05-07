@@ -288,7 +288,7 @@ return (
           <StyledInfoContent>
             <StyledInfoTitle>Your info</StyledInfoTitle>
             <StyledInfoItem>
-              <div>Your borrw limit</div>
+              <div>Your borrow limit</div>
               <div className="white">
                 {" "}
                 <Widget
