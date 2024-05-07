@@ -166,11 +166,12 @@ const guideConfig = {
   ],
 }
 
+const [showApp, setShowApp] = useState(true)
 const [chapterCounter, setChapterCounter] = useState(0)
 const [pageCounter, setPageCounter] = useState(0)
 
 const handleClose = () => {
-  console.log('close')
+  setShowApp(false)
 }
 
 const handleChapterDecrement = () => {
@@ -316,6 +317,7 @@ const InfoBoxesWrapper = () => {
           currentPageIndex: pageCounter,
           totalPages: pages.length,
         },
+        onClose: handleClose,
         buttons,
         status: status && {
           type: status[0],
@@ -329,7 +331,7 @@ const InfoBoxesWrapper = () => {
   )
 }
 
-return guideConfig?.chapters[chapterCounter]?.type === 'infobox' ? (
+return showApp ? (guideConfig?.chapters[chapterCounter]?.type === 'infobox' ? (
   <OverlayTriggerWrapper>
     <DappletOverlay>
       <InfoBoxesWrapper />
@@ -346,4 +348,4 @@ return guideConfig?.chapters[chapterCounter]?.type === 'infobox' ? (
     }}
     component={CalloutsWrapper(guideConfig?.chapters[chapterCounter]?.arrowTo)}
   />
-)
+)) : <></>
