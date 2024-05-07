@@ -287,6 +287,9 @@ return (
     <iframe
       className="w-100 h-100"
       style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
         minHeight: "325px",
         maxWidth: "888px",
         width: "100%",
