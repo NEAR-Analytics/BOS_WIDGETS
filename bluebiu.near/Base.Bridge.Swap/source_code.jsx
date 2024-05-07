@@ -89,6 +89,7 @@ const {
   showNetwrokDialog,
   account,
   prices,
+  showFee,
 } = props;
 
 const reverseCurrency = (_currency) => {
@@ -268,6 +269,21 @@ return (
         }}
       />
     </Send>
+    {
+      showFee && <Receive>
+        <Label>Fee</Label>
+        <AmountWrapper>
+          <Amount>
+          {!state.gasCost
+              ? "-"
+              : Big(state.gasCost || 0).lt(0.0001)
+              ? "<0.0001"
+              : Big(state.gasCost).toFixed(4, 0)}{" "}
+            {state.currency?.symbol}
+          </Amount>
+        </AmountWrapper>
+      </Receive>
+    }
     <Receive>
       <Label>Receive</Label>
       <AmountWrapper>
