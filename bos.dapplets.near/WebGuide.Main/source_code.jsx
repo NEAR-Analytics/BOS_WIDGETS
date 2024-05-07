@@ -134,6 +134,7 @@ const guideConfig = {
       contextType: "bos.dapplets.near--DefaultLayoutManager",
       injectTo: "bos.dapplets.near--Tipping.Main",
       arrowTo: "insPoint",
+      if: { context: { not: null } },
       pages: [
         {
           id: "bos.dapplets.near/app/Tipping/2/1",
