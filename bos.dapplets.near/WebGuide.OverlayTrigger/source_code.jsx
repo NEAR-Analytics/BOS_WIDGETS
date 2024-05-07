@@ -136,6 +136,7 @@ const Close = styled.button`
   background: inherit;
   outline: none;
   border: none;
+  cursor: pointer;
 `
 
 const Arrow = styled.button`
@@ -458,9 +459,7 @@ return (
     {typeof props.children === "function" ? (
       props.children
     ) : (
-      <span onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave}>
-        {props.children}
-      </span>
+      <span>{props.children}</span>
     )}
   </OverlayTrigger>
 )
