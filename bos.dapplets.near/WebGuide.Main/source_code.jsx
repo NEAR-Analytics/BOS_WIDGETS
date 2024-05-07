@@ -130,13 +130,10 @@ const guideConfig = {
     {
       id: "bos.dapplets.near/app/Tipping/2",
       type: 'callout',
-      namespace: "bos.dapplets.near/parser/twitter",
-      contextType: "post",
-      injectTo: "southPanel",
-      if: { id: { eq: "1694995344461894022" } },
-      insteadOf: {
-        linkId: "2dec2fe13441c1432d7a881e9cb58659",
-      },
+      namespace: "naive-bos",
+      contextType: "bos.dapplets.near--DefaultLayoutManager",
+      injectTo: "bos.dapplets.near--Tipping.Main",
+      arrowTo: "insPoint",
       pages: [
         {
           id: "bos.dapplets.near/app/Tipping/2/1",
