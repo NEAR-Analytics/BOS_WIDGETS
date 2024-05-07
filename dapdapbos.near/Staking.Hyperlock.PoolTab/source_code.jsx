@@ -98,8 +98,22 @@ return (
             State.update({
               loading: true,
             });
+
             handler({
-              pool: { id: state.id, name },
+              pool: {
+                id: state.id,
+                name,
+                amount0: ethers.utils
+                  .formatUnits(token.token0Amount || 0, token0.decimals)
+                  .toString(),
+                amount1: ethers.utils
+                  .formatUnits(token.token1Amount || 0, token1.decimals)
+                  .toString(),
+                token0,
+                token1,
+                price0,
+                price1,
+              },
               method: from === "stake" ? "safeTransferFrom" : "withdraw",
               onSuccess: () => {
                 State.update({
