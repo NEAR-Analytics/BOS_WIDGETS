@@ -1,83 +1,189 @@
-const { Tailwind } = VM.require("beachsunandrockandroll.near/widget/preflight");
-const { Button, ButtonConf } = VM.require(
-  "beachsunandrockandroll.near/widget/button"
+const { Tailwind } = VM.require("uiisnear.near/widget/tailwind");
+const { Button, ButtonConf } = VM.require("uiisnear.near/widget/button");
+
+const [toastDestructive, setToastDestructive] = useState("");
+
+const baseToast =
+  "group pointer-events-auto relative flex w-full items-center justify-between space-x-2 overflow-hidden rounded-md border p-4 pr-6 shadow-lg transition-all data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=move]:transition-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[swipe=end]:animate-out data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-top-full data-[state=open]:sm:slide-in-from-bottom-full";
+
+const variantDefault = "border bg-background text-foreground";
+
+const ToastConf = ({ className, variant, output }) => {
+  const srcDoc = `
+      <script type="module"> 
+        import clsx from 'https://cdn.jsdelivr.net/npm/clsx@2.1.1/+esm'
+        import { twMerge } from 'https://cdn.jsdelivr.net/npm/tailwind-merge@2.3.0/+esm'
+        import { cva } from 'https://cdn.jsdelivr.net/npm/class-variance-authority@0.7.0/+esm'
+        
+        const toastVariants = cva(
+          "${baseToast}",
+          {
+            variants: {
+              variant: {
+                default: "${variantDefault}",
+                destructive:
+                  "destructive group border-destructive bg-destructive text-destructive-foreground",
+              },
+            },
+            defaultVariants: {
+              variant: "default",
+            },
+          }
+        )
+  
+        window.addEventListener("message", ({ data }) => {
+          try {
+            event.source.postMessage(twMerge(clsx(toastVariants(data))), "*");
+          } catch (e) {}
+        }, false);
+      </script>
+    `;
+
+  return (
+    <iframe
+      className="d-none"
+      srcDoc={srcDoc}
+      message={{ className, variant }}
+      onMessage={output}
+    />
+  );
+};
+
+const ToastProvider = ({ children, ...props }) => (
+  <Toast.Provider ref="forwardedRef" {...props}>
+    {children}
+  </Toast.Provider>
 );
-const { Input } = VM.require("beachsunandrockandroll.near/widget/input");
-const { Label } = VM.require("beachsunandrockandroll.near/widget/label");
-const { ClassnameConf } = VM.require(
-  "beachsunandrockandroll.near/widget/cnIframe"
+
+const toastViewportClassname =
+  "fixed top-0 z-[100] flex max-h-screen w-full flex-col-reverse p-4 sm:bottom-0 sm:right-0 sm:top-auto sm:flex-col md:max-w-[420px]";
+
+const ToastViewport = ({ className, children, ...props }) => (
+  <Toast.Viewport
+    ref="forwardedRef"
+    className={className ?? toastViewportClassname}
+    {...props}
+  >
+    {children}
+  </Toast.Viewport>
 );
-const {
-  Card,
-  CardHeader,
-  CardFooter,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  cardClassname,
-  cardFooterClassname,
-} = VM.require("beachsunandrockandroll.near/widget/card");
-const { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } =
-  VM.require("beachsunandrockandroll.near/widget/select");
+
+const toastClassnameDefault = `${baseToast} ${variantDefault}`;
+
+const ToastRoot = ({ className, children, ...props }) => (
+  <Toast.Root
+    ref="forwardedRef"
+    className={className ?? toastClassnameDefault}
+    {...props}
+  >
+    {children}
+  </Toast.Root>
+);
+
+const toastActionClassname =
+  "inline-flex h-8 shrink-0 items-center justify-center rounded-md border bg-transparent px-3 text-sm font-medium transition-colors hover:bg-secondary focus:outline-none focus:ring-1 focus:ring-ring disabled:pointer-events-none disabled:opacity-50 group-[.destructive]:border-muted/40 group-[.destructive]:hover:border-destructive/30 group-[.destructive]:hover:bg-destructive group-[.destructive]:hover:text-destructive-foreground group-[.destructive]:focus:ring-destructive";
+
+const ToastAction = ({ className, children, ...props }) => (
+  <Toast.Action
+    ref="forwardedRef"
+    className={className ?? toastActionClassname}
+    {...props}
+  >
+    {children}
+  </Toast.Action>
+);
+
+const toastCloseClassname =
+  "absolute right-1 top-1 rounded-md p-1 text-foreground opacity-10 transition-opacity hover:text-foreground focus:opacity-100 focus:outline-none focus:ring-1 group-hover:opacity-100 group-[.destructive]:text-red-300 group-[.destructive]:hover:text-red-50 group-[.destructive]:focus:ring-red-400 group-[.destructive]:focus:ring-offset-red-600";
+
+const ToastClose = ({ className, ...props }) => (
+  <Toast.Close
+    ref="forwardedRef"
+    className={className ?? toastCloseClassname}
+    toast-close=""
+    {...props}
+  >
+    <i class="bi bi-x h-4 w-4"></i>
+  </Toast.Close>
+);
+
+const toastTitleClassname = "text-sm font-semibold [&+div]:text-xs";
+
+const ToastTitle = ({ className, children, ...props }) => (
+  <Toast.Title
+    ref="forwardedRef"
+    className={className ?? toastTitleClassname}
+    {...props}
+  >
+    {children}
+  </Toast.Title>
+);
+
+const toastDescriptionClassname = "text-sm opacity-90";
+
+const ToastDescription = ({ className, children, ...props }) => (
+  <Toast.Description
+    ref="forwardedRef"
+    className={className ?? toastDescriptionClassname}
+    {...props}
+  >
+    {children}
+  </Toast.Description>
+);
+
+const Toaster = ({ toasts, className }) => (
+  <ToastProvider swipeDirection="left">
+    {toasts?.map(({ id, title, description, action, ...props }) => (
+      <ToastRoot key={id} className={className} {...props}>
+        <div className="grid gap-1">
+          {title && <ToastTitle>{title}</ToastTitle>}
+          {description && <ToastDescription>{description}</ToastDescription>}
+        </div>
+        {action}
+        <ToastClose />
+      </ToastRoot>
+    ))}
+    <ToastViewport />
+  </ToastProvider>
+);
+
+const [toasts, setToasts] = useState([]);
+
+const handleOpen = () => {
+  const timer = setTimeout(
+    () => setToasts((t) => [{ ...t, open: false }]),
+    5000
+  );
+  return () => clearTimeout(timer);
+};
 
 if (Tailwind == undefined) return "";
-if (ButtonConf == undefined) return "";
-if (ClassnameConf == undefined) return "";
 
-const [buttonCancel, setButtonCancel] = useState("");
-const [card, setCard] = useState("");
-const [cardFooter, setCardFooter] = useState("");
-
-if (buttonCancel === "")
-  return <ButtonConf output={setButtonCancel} variant="outline" />;
-
-if (card === "") {
-  let className = `${cardClassname} max-w-lg sm:w-96`;
-  return <ClassnameConf output={setCard} className={className} />;
-}
-
-if (cardFooter === "") {
-  let className = `${cardFooterClassname} flex justify-between`;
-  return <ClassnameConf output={setCardFooter} className={className} />;
-}
+if (toastDestructive === "")
+  return <ToastConf output={setToastDestructive} variant="destructive" />;
 
 return (
   <Tailwind>
-    <div className="flex max-w-lg px-10 mx-auto w-max pt-10">
-      <Card className={card}>
-        <CardHeader>
-          <CardTitle>Create project</CardTitle>
-          <CardDescription>
-            Deploy your new project in one-click.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Name</Label>
-              <Input id="name" placeholder="Name of your project" />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="framework">Framework</Label>
-              <Select>
-                <SelectTrigger id="framework">
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-                <SelectContent position="popper">
-                  <SelectItem value="next">Next.js</SelectItem>
-                  <SelectItem value="sveltekit">SvelteKit</SelectItem>
-                  <SelectItem value="astro">Astro</SelectItem>
-                  <SelectItem value="nuxt">Nuxt.js</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        </CardContent>
-        <CardFooter className={cardFooter}>
-          <Button className={buttonCancel}>Cancel</Button>
-          <Button>Deploy</Button>
-        </CardFooter>
-      </Card>
+    <Toaster toasts={toasts} className={toastDestructive} />
+    <div className="flex mx-auto w-max pt-48 h-screen">
+      <Button
+        onClick={() => {
+          setToasts([
+            {
+              title: "Scheduled: Catch up ",
+              description: "Friday, February 10, 2023 at 5:57 PM",
+              open,
+              onOpenChange: setOpen,
+              action: (
+                <ToastAction altText="Goto schedule to undo">Undo</ToastAction>
+              ),
+            },
+          ]);
+          handleOpen();
+        }}
+      >
+        Add to calendar
+      </Button>
     </div>
   </Tailwind>
 );
