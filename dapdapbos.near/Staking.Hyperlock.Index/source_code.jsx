@@ -164,16 +164,10 @@ const TabsList = styled("Tabs.List")`
 
 State.init({
   currentTab: "TAB_POOL",
-  loading: true,
+  loading: false,
   pools: [],
   staked: [],
 });
-
-useEffect(() => {
-  State.update({
-    userDataUpdater: Date.now(),
-  });
-}, []);
 
 const {
   isChainSupported,
@@ -184,6 +178,15 @@ const {
   onSwitchChain,
   switchingChain,
 } = props;
+
+useEffect(() => {
+  if (isChainSupported) {
+    State.update({
+      userDataUpdater: Date.now(),
+      loading: true,
+    });
+  }
+}, [isChainSupported]);
 
 return (
   <Wrapper style={{ ...(dexConfig.theme || {}) }}>
@@ -311,5 +314,16 @@ return (
         },
       }}
     />
+    {!isChainSupported && (
+      <Widget
+        src="bluebiu.near/widget/Swap.ChainWarnigBox"
+        props={{
+          chain: curChain,
+          onSwitchChain: onSwitchChain,
+          switchingChain: switchingChain,
+          theme: dexConfig.theme,
+        }}
+      />
+    )}
   </Wrapper>
 );
