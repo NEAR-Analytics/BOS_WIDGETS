@@ -95,7 +95,7 @@ useEffect(() => {
   setSelectedAccountId(null);
 }, [selectedAccountId]);
 
-let height = props.height || 333;
+let height = props.height || 325;
 
 const code = `
 <!DOCTYPE html>
@@ -108,7 +108,7 @@ const code = `
 <script>
 
 const run = (data) => {
-  const width = 555;
+  const width = 650;
   const height = \`${height}\`;
   let dragIsOn = false;
 
@@ -277,7 +277,7 @@ const [onMessage] = useState(() => {
 return (
   <iframe
     className="w-100 h-100"
-    style={{ minHeight: "333px", maxWidth: "888px", width: "100%" }}
+    style={{ minHeight: "325px", maxWidth: "888px", width: "100%" }}
     srcDoc={code}
     message={message}
     onMessage={onMessage}
