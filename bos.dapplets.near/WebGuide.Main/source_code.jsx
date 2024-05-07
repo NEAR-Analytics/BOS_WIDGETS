@@ -31,7 +31,7 @@ const guideConfig = {
         {
           id: "bos.dapplets.near/gateway/MutableWebExtension/Welcome",
           title: "You’re entering Mutable Web",
-          status: [{ warning: 'Warning message for Page 0' }],
+          status: [{ info: 'You must be logged in to make all features available' }],
           content: "\nMutable Web is a new web3 paradigm that allows anyone to add custom functionality to existing websites and share them within your community— no matter who owns the website.\n\nBecome the co-owner of any website you are using!\n\n### Mutation switch\n\n![](https://raw.githubusercontent.com/dapplets/bos-components/main/assets/onboarding-video-001.webp)\n\nYou can switch between website mutations created by different communities.\n\n[See more examples on our playground](https://twitter.com/MrConCreator)\n",
         },
       ]
@@ -47,9 +47,9 @@ const guideConfig = {
       pages: [
         {
           id: "bos.dapplets.near/gateway/MutableWebExtensionNotch/Notch",
-          title: "it's a mutation switch. Open it.",
-          status: [{ info: 'Click on dropdown box.' }],
-          content: "Aenean adipiscing nulla sollicitudin nibh enim. Nulla id vestibulum proin nullam scelerisque id.",
+          title: "Mutation switch",
+          status: [{ info: 'Click on the dropdown box' }],
+          content: "Mutation switch allows user to choose between applications’ sets.",
         },
       ]
     },
@@ -64,15 +64,15 @@ const guideConfig = {
       pages: [
         {
           id: "bos.dapplets.near/gateway/MutableWebExtensionDropdown/1/1",
-          title: "It's a sandbox story first (1/2)",
+          title: "The list of recently used mutations (1/2)",
           status: [],
-          content: "We are now in a sandbox mutation. Through it, we can suspendisse mattis interdum.",
+          content: "The current mutation is highlighted with a “star” symbol. To add “favorite” status to a mutation on the current page, just click on the star.",
         },
         {
           id: "bos.dapplets.near/gateway/MutableWebExtensionDropdown/1/2",
-          title: "It's a sandbox story first (2/2)",
+          title: "The list of recently used mutations (2/2)",
           status: [],
-          content: "Auctor volutpat nisl quis. Scelerisque morbi eget volutpat aliquet vitae curabitur non.",
+          content: "Now this mutation is active even if a new tab with the current site is open. The “trash” removes the mutation from the “recently used” list.",
         },
       ]
     },
@@ -87,9 +87,9 @@ const guideConfig = {
       pages: [
         {
           id: "bos.dapplets.near/gateway/MutableWebExtensionDropdown/2/1",
-          title: "It's a sandbox story inner",
+          title: "All mutations",
           status: [],
-          content: "We are now in a sandbox mutation. Through it, we can suspendisse mattis interdum auctor volutpat nisl quis. Scelerisque morbi eget volutpat aliquet vitae curabitur non.",
+          content: "This is the list of all mutations.",
         },
       ]
     },
@@ -104,9 +104,9 @@ const guideConfig = {
       pages: [
         {
           id: "bos.dapplets.near/gateway/MutableWebExtensionDropdown/3/1",
-          title: "It's a sandbox story last",
+          title: '"Mutate" button',
           status: [],
-          content: "We are now in a sandbox mutation. Through it, we can suspendisse mattis interdum auctor volutpat nisl quis. Scelerisque morbi eget volutpat aliquet vitae curabitur non.",
+          content: 'The "Mutate" button allows users to create, fork, and edit mutations.',
         },
       ]
     },
@@ -122,8 +122,8 @@ const guideConfig = {
         {
           id: "bos.dapplets.near/app/Tipping/1/1",
           status: [],
-          title: "It's a Tip app",
-          content: "Tortor massa massa placerat pulvinar vestibulum. Dapibus in lacus donec laoreet fringilla massa arcu.",
+          title: "Tipping app",
+          content: "If you want to modestly thank the author of the tweet you like...",
         },
       ],
     },
@@ -141,8 +141,8 @@ const guideConfig = {
         {
           id: "bos.dapplets.near/app/Tipping/2/1",
           status: [],
-          title: "It's a Tip app",
-          content: "Tortor massa massa placerat pulvinar vestibulum. Dapibus in lacus donec laoreet fringilla massa arcu.",
+          title: "Tipping app",
+          content: "... you can send them a tip through our application.",
         },
       ],
     },
@@ -158,8 +158,8 @@ const guideConfig = {
         {
           id: "bos.dapplets.near/mutation/EarTrigger/1",
           status: [],
-          title: "It's an Ear Trigger",
-          content: 'Page 2 content',
+          title: "Apps control panel",
+          content: 'We add the App control panel to every post. By using it the user can add to the right-on post or inside the panel widgets, which expands the browser workflow possibilities.',
         },
       ],
     },
