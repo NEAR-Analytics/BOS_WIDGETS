@@ -96,7 +96,7 @@ useEffect(() => {
 }, [selectedAccountId]);
 
 let height = props.height || 333;
-console.log(window.innerHeight);
+
 const code = `
 <!DOCTYPE html>
 <meta charset="utf-8">
