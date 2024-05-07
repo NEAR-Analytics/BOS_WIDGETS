@@ -174,13 +174,13 @@ return (
                   item.token0Amount || 0,
                   item.token0.decimals
                 )
-              ).toString();
+              );
               const _token1 = Big(
                 ethers.utils.formatUnits(
                   item.token1Amount || 0,
                   item.token1.decimals
                 )
-              ).toString();
+              );
               return (
                 <Widget
                   key={item.id}
@@ -206,8 +206,8 @@ return (
                         pool: {
                           id: item.id,
                           name: pool.name,
-                          amount0: _token0,
-                          amount1: _token1,
+                          amount0: _token0.toString(),
+                          amount1: _token1.toString(),
                           token0: pool.token0,
                           token1: pool.token1,
                           price0: pool.token0.price,
@@ -336,8 +336,8 @@ return (
                         pool: {
                           id: item.id,
                           name: pool.name,
-                          amount0: _token0,
-                          amount1: _token1,
+                          amount0: _token0.toString(),
+                          amount1: _token1.toString(),
                           token0: pool.token0,
                           token1: pool.token1,
                           price0: pool.token0.price,
