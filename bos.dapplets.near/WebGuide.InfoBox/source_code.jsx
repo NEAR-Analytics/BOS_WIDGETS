@@ -22,8 +22,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  width: 630px;
-  height: 690px;
+  width: 546px;
+  height: 738px;
   background: #FFFFFE;
   border: 1px solid #02193A;
   border-radius: 20px;
@@ -286,7 +286,6 @@ const errorIcon = (
   </svg>
 )
 
-
 const Card = styled.div`
   position: relative;
   overflow: auto;
@@ -295,13 +294,13 @@ const Card = styled.div`
   height: 100%;
   flex-direction: column;
   box-sizing: border-box;
-  padding: 10px;
+  padding: 12px 20px;
   gap: 10px;
   border: none;
   border-radius: 20px;
   background: rgba(248, 249, 255, 1);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-
+  overflow-x: hidden;
 
   h3 {
     padding: 8px 0 0;
@@ -358,10 +357,19 @@ const Card = styled.div`
   }
 `
 
+const Footer = styled.div`
+  display: flex;
+  position: relative;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+`
+
 const ContainerCheckbox = styled.div`
   display: flex;
   align-items: flex-end;
-  width: 100%;
+  padding: 20px 20px 20px 0;
 `
 
 const CheckboxInput = styled.input`
@@ -378,23 +386,26 @@ const Label = styled.label`
   line-height: 17.88px;
   color: #7a818b;
   cursor: pointer;
+  width: max-content;
 `
 
 const ActionsGroup = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   gap: 10px;
   align-self: stretch;
+  flex-grow: 1;
 `
 
 const ActionButton = styled.div`
   display: flex;
+  box-sizing: border-box;
+  width: 180px;
   height: 42px;
   padding: 0px 20px;
   justify-content: center;
   align-items: center;
-  flex: 1 0 0;
   border-radius: 90px;
   text-align: center;
   font-size: 14px;
@@ -463,28 +474,41 @@ return (
 
         <Markdown text={content} />
       </Card>
-      {showChecked ? (
-        <ContainerCheckbox>
-          <CheckboxInput
-            type="checkbox"
-            checked={checked}
-            onChange={onDoNotShowChange}
-          />
-          <Label htmlFor="checkbox">Don't show this guide again</Label>
-        </ContainerCheckbox>
-      ) : null}
+      <Footer>
+        {showChecked ? (
+          <ContainerCheckbox>
+            <CheckboxInput
+              type="checkbox"
+              checked={checked}
+              onChange={onDoNotShowChange}
+            />
+            <Label htmlFor="checkbox">Don't show this guide again</Label>
+          </ContainerCheckbox>
+        ) : null}
 
-      <ActionsGroup>
-        {buttons.map((btn, i) => (
+        {buttons?.length > 1 ? (
+          <ActionsGroup>
+            {buttons.map((btn, i) => (
+              <ActionButton
+                key={btn.label}
+                $primary={btn.variant == "primary" ? true : false}
+                onClick={btn.onClick}
+                disabled={btn.disabled}
+              >
+                {btn.label}
+              </ActionButton>
+            ))}
+          </ActionsGroup>
+        ) : buttons?.length === 1 ? (
           <ActionButton
-            $primary={btn.variant == "primary" ? true : false}
-            onClick={btn.onClick}
-            disabled={btn.disabled}
+            $primary={buttons[0].variant == "primary" ? true : false}
+            onClick={buttons[0].onClick}
+            disabled={buttons[0].disabled}
           >
-            {btn.label}
+            {buttons[0].label}
           </ActionButton>
-        ))}
-      </ActionsGroup>
+        ) : <></>}
+      </Footer>
     </Container>
   </InfoBox>
 )
