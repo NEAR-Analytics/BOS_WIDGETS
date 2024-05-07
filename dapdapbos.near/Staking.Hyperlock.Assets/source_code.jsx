@@ -174,13 +174,13 @@ return (
                   item.token0Amount || 0,
                   item.token0.decimals
                 )
-              );
+              ).toString();
               const _token1 = Big(
                 ethers.utils.formatUnits(
                   item.token1Amount || 0,
                   item.token1.decimals
                 )
-              );
+              ).toString();
               return (
                 <Widget
                   key={item.id}
@@ -203,7 +203,16 @@ return (
                         [`deposit-${item.id}`]: true,
                       });
                       handler({
-                        pool: { id: item.id, name: pool.name },
+                        pool: {
+                          id: item.id,
+                          name: pool.name,
+                          amount0: _token0,
+                          amount1: _token1,
+                          token0: pool.token0,
+                          token1: pool.token1,
+                          price0: pool.token0.price,
+                          price1: pool.token1.price,
+                        },
                         method: "safeTransferFrom",
                         onSuccess: () => {
                           State.update({
@@ -235,13 +244,13 @@ return (
                   item.token0Amount || 0,
                   item.token0.decimals
                 )
-              );
+              ).toString();
               const _token1 = Big(
                 ethers.utils.formatUnits(
                   item.token1Amount || 0,
                   item.token1.decimals
                 )
-              );
+              ).toString();
 
               totalDeposit = totalDeposit
                 .add(_token0.mul(pool.token0.price || 0))
@@ -295,7 +304,16 @@ return (
                         [`claim-${item.id}`]: true,
                       });
                       handler({
-                        pool: { id: item.id, name: pool.name },
+                        pool: {
+                          id: item.id,
+                          name: pool.name,
+                          amount0: _token0,
+                          amount1: _token1,
+                          token0: pool.token0,
+                          token1: pool.token1,
+                          price0: pool.token0.price,
+                          price1: pool.token1.price,
+                        },
                         method: "collect",
                         onSuccess: () => {
                           State.update({
@@ -315,7 +333,16 @@ return (
                         [`withdraw-${item.id}`]: true,
                       });
                       handler({
-                        pool: { id: item.id, name: pool.name },
+                        pool: {
+                          id: item.id,
+                          name: pool.name,
+                          amount0: _token0,
+                          amount1: _token1,
+                          token0: pool.token0,
+                          token1: pool.token1,
+                          price0: pool.token0.price,
+                          price1: pool.token1.price,
+                        },
                         method: "withdraw",
                         onSuccess: () => {
                           State.update({
