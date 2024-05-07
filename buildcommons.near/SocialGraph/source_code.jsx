@@ -277,7 +277,7 @@ const [onMessage] = useState(() => {
 return (
   <iframe
     className="w-100 h-100"
-    style={{ minHeight: "100vh", maxWidth: "960px", width: "100%" }}
+    style={{ minHeight: "333px", maxWidth: "888px", width: "100%" }}
     srcDoc={code}
     message={message}
     onMessage={onMessage}
