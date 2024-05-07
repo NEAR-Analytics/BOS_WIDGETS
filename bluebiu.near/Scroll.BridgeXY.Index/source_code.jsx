@@ -73,6 +73,7 @@ return (
         tokens: Tokens,
         amountOutFn: "bluebiu.near/widget/Scroll.BridgeXY.AmountOut",
         handlerSwap: "bluebiu.near/widget/Scroll.BridgeXY.HandlerSwap",
+        showFee: true,
         getTxStatus: (tx) => {
           const BASE_API = 'https://open-api.xy.finance/v1'
           return asyncFetch(`${BASE_API}/crossChainStatus?srcChainId=${tx.fromChainId}&transactionHash=${tx.hash}`)
