@@ -446,6 +446,11 @@ return (
               }
             }
             State.update({ ...updatedParams, loading: false });
+            Storage.privateSet("_token_cacher", {
+              inputCurrency: updatedParams.inputCurrency || state.inputCurrency,
+              outputCurrency:
+                updatedParams.outputCurrency || state.outputCurrency,
+            });
             if (
               state.inputCurrencyAmount &&
               Number(state.inputCurrencyAmount) &&
@@ -474,11 +479,15 @@ return (
           multicallAddress: props.multicallAddress,
           multicall: props.multicall,
           onLoad: (data) => {
-            console.log("amountOutFn", data);
+            const cachedTokens = Storage.privateGet("_token_cacher");
+
             if (
               data.inputCurrencyAmount !== state.inputCurrencyAmount ||
-              data.inputCurrency.address !== state.inputCurrency.address ||
-              data.outputCurrency.address !== state.outputCurrency.address
+              (cachedTokens &&
+                (data.inputCurrency.address !==
+                  cachedTokens.inputCurrency.address ||
+                  data.outputCurrency.address !==
+                    cachedTokens.outputCurrency.address))
             )
               return;
             State.update({
