@@ -103,7 +103,7 @@ const code = `
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v6.js"></script>
 
-<svg id="graph"></svg>
+<svg id="graph" width="100%" height="auto" viewBox="0 0 650 333" preserveAspectRatio="xMidYMid meet" style="display: block; margin: auto;">
 
 <script>
 
