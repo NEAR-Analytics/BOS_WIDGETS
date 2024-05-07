@@ -6,7 +6,7 @@ const Theme = styled.div`
   --spe-text-color: #fff;
 `;
 
-const CHAIN_ID = 534352;
+const CHAIN_ID = 81457;
 const CHAIN_NAME = "Blast";
 const Tokens = [
   {
@@ -74,7 +74,7 @@ return (
         addAction: (params) => {
           props.addAction({
             ...params,
-            template: "XY Bridge",
+            template: "XY Bridge on Blast",
             source: 'dapp'
           })
         }
