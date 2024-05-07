@@ -95,6 +95,8 @@ useEffect(() => {
   setSelectedAccountId(null);
 }, [selectedAccountId]);
 
+let height = props.height || 333;
+console.log(window.innerHeight);
 const code = `
 <!DOCTYPE html>
 <meta charset="utf-8">
@@ -107,7 +109,7 @@ const code = `
 
 const run = (data) => {
   const width = 555;
-  const height = 333;
+  const height = \`${height}\`;
   let dragIsOn = false;
 
   // The force simulation mutates links and nodes, so create a copy
@@ -273,13 +275,11 @@ const [onMessage] = useState(() => {
 });
 
 return (
-  <>
-    <iframe
-      className="w-100 h-100"
-      style={{ minHeight: "333px", maxWidth: "960px", width: "100%" }}
-      srcDoc={code}
-      message={message}
-      onMessage={onMessage}
-    />
-  </>
+  <iframe
+    className="w-100 h-100"
+    style={{ minHeight: "100vh", maxWidth: "960px", width: "100%" }}
+    srcDoc={code}
+    message={message}
+    onMessage={onMessage}
+  />
 );
