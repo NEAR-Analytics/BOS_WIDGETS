@@ -71,7 +71,7 @@ useEffect(() => {
   });
 }, []);
 
-const { tokens, amountOutFn, handlerSwap, handlerClaim, bridgeStorageKey, getTxStatus } = props;
+const { tokens, amountOutFn, handlerSwap, handlerClaim, bridgeStorageKey, getTxStatus, showFee } = props;
 
 const handleStargateTx = ({ hash, amount, price, from, to, currency }) => {
   const txs =  (handlerClaim ? Storage.privateGet(bridgeStorageKey) : Storage.privateGet("stargate_txs")) || {};
@@ -115,6 +115,7 @@ return (
           toast: props.toast,
           account,
           prices,
+          showFee,
           handleStargateTx,
           showNetwrokDialog: (_chainId) => {
             State.update({
