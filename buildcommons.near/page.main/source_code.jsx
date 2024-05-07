@@ -85,7 +85,7 @@ return (
       Commons
     </H1>
     <div
-      className="mt-3"
+      className="mt-3 align-items-center"
       style={{
         display: "flex",
         alignItems: "center",
