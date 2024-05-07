@@ -124,7 +124,10 @@ return (
         States
       </Word>
     </div>
-    <Widget src="buildcommons.near/widget/SocialGraph" />
+    <Widget
+      src="buildcommons.near/widget/SocialGraph"
+      props={{ height: 333 }}
+    />
     <div>
       {context.accountId ? (
         <div className="m-3 mt-4 d-flex flex-row justify-content-center">
