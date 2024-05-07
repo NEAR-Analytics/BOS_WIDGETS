@@ -295,6 +295,9 @@ const StyledClaimButton = styled.div`
   font-weight: 500;
   line-height: normal;
   background: #FFF;
+  &[disabled] {
+     opacity: 0.3;
+  }
   
 `
 const StyledUnstakeButton = styled.div`
@@ -314,6 +317,10 @@ const StyledUnstakeButton = styled.div`
   font-weight: 500;
   line-height: normal;
   border: 1px solid #FFF;
+  &[disabled] {
+    background: #FFF;
+    opacity: 0.3;
+  }
 `
 const {
   toast,
@@ -353,6 +360,9 @@ State.init({
   positionList: [],
   stakeLoading: false,
   stakedAmount: "",
+  unStakeLoading: false,
+  claimLoading: false,
+  checkedPoolId: 0,
 })
 
 const {
@@ -718,6 +728,10 @@ function handleStake() {
 }
 function handleClaim(index) {
   const position = positionList[index]
+  State.update({
+    claimLoading: true,
+    checkedPoolId: position.poolId
+  })
   const toastId = toast?.loading({
     title: `Claim ${position.userStakePosition} ${symbolList[position.poolId]}`,
   });
@@ -752,11 +766,16 @@ function handleClaim(index) {
         tx: transactionHash,
         chainId,
       });
+      State.update({
+        claimLoading: false
+      })
       if (status === 1) {
         addAction?.({
           type: "Staking",
           action: "Claim",
-          token: symbolList[symbolIndex],
+          token: {
+            symbol: symbolList[position.poolId]
+          },
           amount: position.userStakePosition,
           template: "BlastOff",
           add: true,
@@ -766,11 +785,26 @@ function handleClaim(index) {
         handleQueryPositions()
       }
     })
+    .catch(error => {
+      State.update({
+        claimLoading: false
+      })
+      toast?.fail({
+        title: "Claim Failed!",
+        text: error?.message?.includes("user rejected transaction")
+          ? "User rejected transaction"
+          : `Claim ${position.userStakePosition} ${symbolList[position.poolId]}`,
+      });
+    })
 }
 function handleUnstake(index) {
   const position = positionList[index]
+  State.update({
+    unStakeLoading: true,
+    checkedPoolId: position.poolId
+  })
   const toastId = toast?.loading({
-    title: `unstake ${position.userStakePosition} ${symbolList[position.poolId]}`,
+    title: `UnStake ${position.userStakePosition} ${symbolList[position.poolId]}`,
   });
   const abi = [{
     "inputs": [
@@ -797,16 +831,21 @@ function handleUnstake(index) {
       toast?.dismiss(toastId);
       if (status !== 1) throw new Error("");
       toast?.success({
-        title: "unstake Successfully!",
-        text: `unstaked ${position.userStakePosition} ${symbolList[position.poolId]}`,
+        title: "UnStake Successfully!",
+        text: `UnStaked ${position.userStakePosition} ${symbolList[position.poolId]}`,
         tx: transactionHash,
         chainId,
       });
+      State.update({
+        unStakeLoading: false
+      })
       if (status === 1) {
         addAction?.({
           type: "Staking",
           action: "UnStake",
-          token: symbolList[symbolIndex],
+          token: {
+            symbol: symbolList[position.poolId]
+          },
           amount: position.userStakePosition,
           template: "BlastOff",
           add: false,
@@ -816,6 +855,17 @@ function handleUnstake(index) {
         handleQueryPositions()
       }
 
+    })
+    .catch(error => {
+      State.update({
+        unStakeLoading: false
+      })
+      toast?.fail({
+        title: "UnStake Failed!",
+        text: error?.message?.includes("user rejected transaction")
+          ? "User rejected transaction"
+          : `UnStake ${position.userStakePosition} ${symbolList[position.poolId]}`,
+      });
     })
 }
 function handleMax() {
@@ -950,8 +1000,24 @@ return (
                                 key={column.key}
                                 style={{ width: column.width }}
                               >
-                                <StyledClaimButton onClick={() => handleClaim(index)}>Claim Yield</StyledClaimButton>
-                                <StyledUnstakeButton onClick={() => handleUnstake(index)}>Unstake</StyledUnstakeButton>
+                                {
+                                  state.checkedPoolId === position.poolId && state.claimLoading ? (
+                                    <StyledClaimButton disabled>
+                                      <Widget src={"bluebiu.near/widget/Liquidity.Bridge.Loading"} />
+                                    </StyledClaimButton>
+                                  ) : (
+                                    <StyledClaimButton onClick={() => handleClaim(index)}>Claim Yield</StyledClaimButton>
+                                  )
+                                }
+                                {
+                                  state.checkedPoolId === position.poolId && state.unStakeLoading ? (
+                                    <StyledUnstakeButton disabled>
+                                      <Widget src={"bluebiu.near/widget/Liquidity.Bridge.Loading"} />
+                                    </StyledUnstakeButton>
+                                  ) : (
+                                    <StyledUnstakeButton onClick={() => handleUnstake(index)}>Unstake</StyledUnstakeButton>
+                                  )
+                                }
                               </StyledPostionRow>
                             ) : (
                               <StyledPostionColumn
@@ -982,16 +1048,18 @@ return (
         </StyledPositionsContainer>
       )
     }
-    {!isChainSupported && (
-      <Widget
-        src="bluebiu.near/widget/Swap.ChainWarnigBox"
-        props={{
-          chain: curChain,
-          onSwitchChain: onSwitchChain,
-          switchingChain: switchingChain,
-          theme: dexConfig.theme?.button,
-        }}
-      />
-    )}
-  </StyledBlastoff>
+    {
+      !isChainSupported && (
+        <Widget
+          src="bluebiu.near/widget/Swap.ChainWarnigBox"
+          props={{
+            chain: curChain,
+            onSwitchChain: onSwitchChain,
+            switchingChain: switchingChain,
+            theme: dexConfig.theme?.button,
+          }}
+        />
+      )
+    }
+  </StyledBlastoff >
 )
