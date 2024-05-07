@@ -1,7 +1,7 @@
 const widgetProvider = props.widgetProvider;
 const account = props.account || "marketing.sputnik-dao.near";
 const ftList = props.ftList;
-const resPerPage = 10;
+const resPerPage = 5;
 const apiUrl = `https://api.pikespeak.ai/daos/transfers-beneficiaries/${account}`;
 const apiProposalUrl = `https://api.pikespeak.ai/daos/proposal/${account}`;
 const apiPolicyUrl = `https://api.pikespeak.ai/daos/policy`;
@@ -117,19 +117,17 @@ const fetchProposal = (id) => {
 fetchProposal(state.proposalId);
 
 const fetchPolicy = (daos) => {
-  const policy = asyncFetch(apiPolicyUrl + `?daos=${daos}`, {
+  const policy = fetch(apiPolicyUrl + `?daos=${daos}`, {
     mode: "cors",
     headers: {
       "x-api-key": publicApiKey,
     },
-  }).then(({ err, body, ok }) => {
-    if (ok) {
-      State.update({
-        council: body.state.policy.roles.find(
-          (r) => r.name === "Council" || r.name === "council"
-        ).kind,
-      });
-    }
+  })
+
+  policy.body && State.update({
+    council: policy.body.state.policy.roles.find(
+        (r) => r.name === "Council" || r.name === "council"
+    ).kind,
   });
 };
 
@@ -199,8 +197,5 @@ return (
       ""
     )}
     {state.displayedRank.length ? GenericTable : ""}
-    {state.ranking && state.ranking.length === 0 && (
-      <span>No Transfer Proposal Beneficiaries</span>
-    )}
   </div>
 );

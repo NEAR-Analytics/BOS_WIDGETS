@@ -110,7 +110,7 @@ if (!state.isAdminIsFetched) {
       "check_is_investor_admin",
       { investor_id: accountId, account_id: context.accountId },
       "final",
-      false
+      false,
     ).then((isAdmin) => State.update({ isAdmin, isAdminIsFetched: true }));
   }
 }
@@ -121,7 +121,7 @@ if (!state.investorIsFetched) {
     "get_investor",
     { account_id: accountId },
     "final",
-    false
+    false,
   ).then((investor) => State.update({ investor, investorIsFetched: true }));
 }
 

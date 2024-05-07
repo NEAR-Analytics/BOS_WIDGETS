@@ -12,9 +12,9 @@ if (!state.permissionsIsFetched) {
     "get_vendor",
     { account_id: accountId },
     "final",
-    false
+    false,
   ).then(({ permissions }) =>
-    State.update({ permissions, permissionsIsFetched: true })
+    State.update({ permissions, permissionsIsFetched: true }),
   );
 }
 
@@ -30,14 +30,14 @@ if (!state.namesIsFetched) {
       keys: Object.keys(state.permissions).map((key) => `${key}/profile/name`),
     },
     "final",
-    false
+    false,
   ).then((names) => {
     State.update({
       names: new Map(
         Object.keys(names).map((account) => [
           account,
           names[account].profile.name,
-        ])
+        ]),
       ),
       namesIsFetched: true,
     });

@@ -160,7 +160,7 @@ const {
   title,
 } = props;
 
-if (!swapping) return;
+if (!swapping) return "";
 
 const type =
   inputCurrency.address === "native"

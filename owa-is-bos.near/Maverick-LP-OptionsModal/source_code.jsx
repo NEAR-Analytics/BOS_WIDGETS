@@ -375,7 +375,9 @@ return (
             textDecoration: "none",
             lineHeight: "1.0625rem",
             minWidth: "64px",
-            backgroundColor: "rgb(100, 0, 255)",
+            backgroundColor: props.background
+              ? props.background
+              : "rgb(100, 0, 255)",
             borderRadius: "0.625rem",
             textTransform: "capitalize",
             padding: "12px 18px",

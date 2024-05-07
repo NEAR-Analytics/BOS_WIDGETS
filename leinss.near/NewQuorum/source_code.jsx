@@ -4,7 +4,18 @@ State.init({
   expiration: "",
   quorum: 0,
   participants: [],
-});
+
+  contractName: "",
+  expiration: "",
+})
+
+const abi = `[ { "inputs": [ { "internalType": "string", "name": "_documentCid", "type": "string" }, { "internalType": "uint8", "name": "_vote", "type": "uint8" } ], "name": "addVote", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "currentDocumentId", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "string", "name": "", "type": "string" } ], "name": "docCidToVoting", "outputs": [ { "internalType": "uint256", "name": "documentId", "type": "uint256" }, { "internalType": "string", "name": "documentName", "type": "string" }, { "internalType": "address", "name": "owner", "type": "address" }, { "internalType": "string", "name": "documentCid", "type": "string" }, { "internalType": "uint64", "name": "expiration", "type": "uint64" }, { "internalType": "uint256", "name": "quorum", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "name": "docIdToCid", "outputs": [ { "internalType": "string", "name": "", "type": "string" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getAllDocuments", "outputs": [ { "components": [ { "internalType": "uint256", "name": "documentId", "type": "uint256" }, { "internalType": "string", "name": "documentName", "type": "string" }, { "internalType": "address", "name": "owner", "type": "address" }, { "internalType": "string", "name": "documentCid", "type": "string" }, { "internalType": "address[]", "name": "participants", "type": "address[]" }, { "internalType": "uint64", "name": "expiration", "type": "uint64" }, { "internalType": "uint256", "name": "quorum", "type": "uint256" }, { "internalType": "uint8[]", "name": "currentVotes", "type": "uint8[]" } ], "internalType": "struct Calimocho.DocumentVoting[]", "name": "", "type": "tuple[]" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "_owner", "type": "address" } ], "name": "getOwnerDocuments", "outputs": [ { "components": [ { "internalType": "uint256", "name": "documentId", "type": "uint256" }, { "internalType": "string", "name": "documentName", "type": "string" }, { "internalType": "address", "name": "owner", "type": "address" }, { "internalType": "string", "name": "documentCid", "type": "string" }, { "internalType": "address[]", "name": "participants", "type": "address[]" }, { "internalType": "uint64", "name": "expiration", "type": "uint64" }, { "internalType": "uint256", "name": "quorum", "type": "uint256" }, { "internalType": "uint8[]", "name": "currentVotes", "type": "uint8[]" } ], "internalType": "struct Calimocho.DocumentVoting[]", "name": "", "type": "tuple[]" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "", "type": "address" }, { "internalType": "uint256", "name": "", "type": "uint256" } ], "name": "ownerToVotings", "outputs": [ { "internalType": "uint256", "name": "documentId", "type": "uint256" }, { "internalType": "string", "name": "documentName", "type": "string" }, { "internalType": "address", "name": "owner", "type": "address" }, { "internalType": "string", "name": "documentCid", "type": "string" }, { "internalType": "uint64", "name": "expiration", "type": "uint64" }, { "internalType": "uint256", "name": "quorum", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "string", "name": "_documentName", "type": "string" }, { "internalType": "string", "name": "_documentCid", "type": "string" }, { "internalType": "address[]", "name": "_participants", "type": "address[]" }, { "internalType": "uint64", "name": "_expiration", "type": "uint64" }, { "internalType": "uint256", "name": "_quorum", "type": "uint256" } ], "name": "registerDocument", "outputs": [], "stateMutability": "nonpayable", "type": "function" } ]`
+
+const contract = new ethers.Contract(
+  "0x3d2b168d1807f04835d213f386c644b138cb0ee8",
+  abi,
+  Ethers.provider()
+)
 
 const ProjectContainer = styled.div`
   width: 800px;
@@ -20,7 +31,7 @@ const ProjectContainer = styled.div`
     color: white;
     border: none;
   }
-`;
+`
 const Button = styled.div`
   height: 60px;
   width: 100%;
@@ -32,9 +43,9 @@ const Button = styled.div`
 
   a {
     color: #0095b6;
-    font-size: 16px
+    font-size: 16px;
   }
-`;
+`
 
 const uploadFileUpdateState = (body) => {
   asyncFetch("https://ipfs.near.social/add", {
@@ -42,21 +53,42 @@ const uploadFileUpdateState = (body) => {
     headers: { Accept: "application/json" },
     body,
   }).then((res) => {
-    const cid = res.body.cid;
-    console.log("DocumentCid: ", cid);
-    State.update({ documentCid: cid, isUploading: false });
-  });
-};
+    const cid = res.body.cid
+    console.log("DocumentCid: ", cid)
+    State.update({ documentCid: cid, isUploading: false })
+  })
+}
 
 const filesOnChange = (files) => {
   if (files) {
-    State.update({ isUploading: true, documentCid: "" });
-    uploadFileUpdateState(files[0]);
+    State.update({ isUploading: true, documentCid: "" })
+    uploadFileUpdateState(files[0])
   }
-};
+}
+
+const onNameChange = (e) => {
+  state.contractName = e.target.value
+}
+
+const onExpirationChange = (e) => {
+  console.log("expiration: ", e)
+  state.expiration = e.target.value
+}
+
+function getAllDocuments() {
+  contract
+    .getAllDocuments()
+    // .currentDocumentId()
+    .then((docId) => {
+      console.log("DocId: ", docId)
+      console.log("there")
+    })
+    .catch((e) => console.log("Error calling getAllDocuments: ", e.message))
+}
+getAllDocuments()
 
 // Login Check
-const loggedIn = !!context.accountId;
+const loggedIn = !!context.accountId
 
 const Main = (
   <ProjectContainer className="m-2 p-4">
@@ -103,11 +135,15 @@ const Main = (
         </div>
         <div class="p-4">
           <div className="input-group pb-4" hidden={!loggedIn}>
-            <input placeholder="contract name" onChange={onInputChange} />
+            <input placeholder="contract name" onChange={onNameChange} />
           </div>
 
           <div className="input-group pb-4" hidden={!loggedIn}>
-            <input type="date" placeholder="date" onChange={onInputChange} />
+            <input
+              type="date"
+              placeholder="date"
+              onChange={onExpirationChange}
+            />
           </div>
           <div className="input-group pb-4" hidden={!loggedIn}>
             <input placeholder="participants" onChange={onInputChange} />
@@ -182,6 +218,6 @@ const Main = (
       </div>
     </div>
   </ProjectContainer>
-);
+)
 
-return <div>{Main}</div>;
+return <div>{Main}</div>

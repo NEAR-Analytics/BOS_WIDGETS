@@ -1,11 +1,12 @@
-const account = Ethers.send("eth_requestAccounts", [])[0];
 const {
+  currentChainId,
   chainId,
   chainName,
   displayChainName,
   dexs,
   defalutDex,
   connectProps,
+  account,
   ...restProps
 } = props;
 
@@ -20,6 +21,7 @@ if (!account) {
       src="bluebiu.near/widget/Arbitrum.Swap.ConnectButton"
       props={{
         ...CONNECT_PROPS,
+        account,
         isWrongNetwork: false,
       }}
     />
@@ -28,23 +30,16 @@ if (!account) {
 const DEXS = Object.values(dexs || {});
 
 State.init({
-  chainId: -1,
   selectedDex: defalutDex,
 });
 
-Ethers.provider()
-  .getNetwork()
-  .then(({ chainId }) => {
-    State.update({ chainId });
-  })
-  .catch(() => {});
-
-if (state.chainId !== chainId) {
+if (currentChainId !== chainId) {
   return (
     <Widget
       src="bluebiu.near/widget/Arbitrum.Swap.ConnectButton"
       props={{
         ...CONNECT_PROPS,
+        account,
         isWrongNetwork: true,
       }}
     />
@@ -53,7 +48,6 @@ if (state.chainId !== chainId) {
 const Dex = styled.div`
   display: flex;
   justify-content: center;
-  padding-top: 50px;
   @media (max-width: 900px) {
     padding-top: 0px;
     flex-direction: column;
@@ -73,12 +67,16 @@ const Title = styled.div`
     padding-left: 0px;
   }
 `;
-const List = styled.div`
-  width: 250px;
+const ListWrapper = styled.div`
   border-radius: 16px;
-  border: 1px solid var(--border-color);
-  padding: 10px;
-  background-color: #181a27;
+  border: 1px solid #373a53;
+  padding: 10px 4px 10px 10px;
+  background-color: #262836;
+`;
+const List = styled.div`
+  width: 230px;
+  height: 441.5px;
+  overflow-y: auto;
   @media (max-width: 900px) {
     width: 100%;
     display: flex;
@@ -168,33 +166,34 @@ const WidgetWrapper = styled.div`
 return (
   <Dex>
     <Sider>
-      <Title>Chain & Dapp</Title>
-      <List>
-        {DEXS.map((dex) => (
-          <Row
-            key={dex.name}
-            className={state.selectedDex === dex.name ? "active" : ""}
-            onClick={() => {
-              State.update({
-                selectedDex: dex.name,
-                dexProps: dexs[dex.name],
-              });
-            }}
-          >
-            <IconWrapper>
-              <Icon
-                src={dex.logo}
+      <Title>Chain & dApp</Title>
+      <ListWrapper>
+        <List>
+          {DEXS.map((dex) => (
+            <Row
+              key={dex.name}
+              className={state.selectedDex === dex.name ? "active" : ""}
+              onClick={() => {
+                State.update({
+                  selectedDex: dex.name,
+                  dexProps: dexs[dex.name],
+                });
+              }}
+            >
+              <IconWrapper
                 className={state.selectedDex === dex.name ? "active" : ""}
-              />
-            </IconWrapper>
+              >
+                <Icon src={dex.logo} />
+              </IconWrapper>
 
-            <div>
-              <ChainName>{displayChainName}</ChainName>
-              <DexName>{dex.name}</DexName>
-            </div>
-          </Row>
-        ))}
-      </List>
+              <div>
+                <ChainName>{displayChainName}</ChainName>
+                <DexName>{dex.name}</DexName>
+              </div>
+            </Row>
+          ))}
+        </List>
+      </ListWrapper>
     </Sider>
     <WidgetWrapper>
       <Widget
@@ -203,6 +202,7 @@ return (
           title: state.selectedDex,
           dexConfig: dexs[state.selectedDex],
           chainId,
+          account,
           ...restProps,
         }}
       />
