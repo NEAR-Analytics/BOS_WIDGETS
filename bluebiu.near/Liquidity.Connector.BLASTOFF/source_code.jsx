@@ -770,18 +770,18 @@ function handleClaim(index) {
         claimLoading: false
       })
       if (status === 1) {
-        addAction?.({
-          type: "Staking",
-          action: "Claim",
-          token: {
-            symbol: symbolList[position.poolId]
-          },
-          amount: position.userStakePosition,
-          template: "BlastOff",
-          add: true,
-          status,
-          transactionHash,
-        });
+        // addAction?.({
+        //   type: "Staking",
+        //   action: "Claim",
+        //   token: {
+        //     symbol: symbolList[position.poolId]
+        //   },
+        //   amount: position.userStakePosition,
+        //   template: "BlastOff",
+        //   add: true,
+        //   status,
+        //   transactionHash,
+        // });
         handleQueryPositions()
       }
     })
