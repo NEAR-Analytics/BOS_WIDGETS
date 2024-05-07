@@ -153,6 +153,7 @@ const guideConfig = {
       contextType: "ear-trigger",
       injectTo: "hidden",
       if: { id: { eq: "1694995344461894022" } },
+      arrowTo: "context",
       pages: [
         {
           id: "bos.dapplets.near/mutation/EarTrigger/1",
