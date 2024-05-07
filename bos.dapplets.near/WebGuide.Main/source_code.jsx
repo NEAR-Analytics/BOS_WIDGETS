@@ -168,6 +168,10 @@ const guideConfig = {
 const [chapterCounter, setChapterCounter] = useState(0)
 const [pageCounter, setPageCounter] = useState(0)
 
+const handleClose = () => {
+  console.log('close')
+}
+
 const handleChapterDecrement = () => {
   if (chapterCounter !== 0) {
     setChapterCounter((val) => val - 1)
@@ -205,9 +209,32 @@ const CalloutsWrapper = (arrowTo) => ({ children, attachContextRef, attachInsPoi
   const pages = currentChapter?.pages
   const currentPage = pages[pageCounter]
   const status = currentPage?.status.length && Object.entries(currentPage?.status[0])[0] // ToDo: mocked!!!
-  
-  //return context?.id !== currentPage?.if?.id || !currentPage
-    //? children :
+
+  const buttons = []
+  if (chapterCounter || pageCounter) {
+    buttons.push({
+      variant: "secondary",
+      disabled: false,
+      onClick: handleClickPrev,
+      label: "Prev",
+    })
+  }
+  if (chapterCounter === guideConfig?.chapters?.length - 1 && pageCounter === guideConfig?.chapters[chapterCounter]?.pages.length - 1) {
+    buttons.push({
+      variant: "primary",
+      disabled: false,
+      onClick: handleClose,
+      label: "Finish",
+    })
+  } else (
+    buttons.push({
+      variant: "primary",
+      disabled: false,
+      onClick: handleClickNext,
+      label: "Next",
+    })
+  )
+
   return  (
     <Widget
       src="bos.dapplets.near/widget/WebGuide.OverlayTrigger"
@@ -220,20 +247,8 @@ const CalloutsWrapper = (arrowTo) => ({ children, attachContextRef, attachInsPoi
           currentPageIndex: pageCounter,
           totalPages: pages.length,
         },
-        buttons: [
-          {
-            variant: "secondary",
-            disabled: pageCounter === 0,
-            onClick: handleClickPrev,
-            label: "Prev",
-          },
-          {
-            variant: "primary",
-            disabled: pageCounter === pages.length - 1,
-            onClick: handleClickNext,
-            label: "Next",
-          },
-        ],
+        onClose: handleClose,
+        buttons,
         status: status && {
           type: status[0],
           text: status[1],
@@ -264,6 +279,31 @@ const InfoBoxesWrapper = () => {
   const currentPage = pages[pageCounter]
   const status = currentPage?.status.length && Object.entries(currentPage?.status[0])[0] // ToDo: mocked!!!
 
+  const buttons = []
+  if (chapterCounter || pageCounter) {
+    buttons.push({
+      variant: "secondary",
+      disabled: false,
+      onClick: handleClickPrev,
+      label: "Prev",
+    })
+  }
+  if (chapterCounter === guideConfig?.chapters?.length - 1 && pageCounter === guideConfig?.chapters[chapterCounter]?.pages.length - 1) {
+    buttons.push({
+      variant: "primary",
+      disabled: false,
+      onClick: handleClose,
+      label: "Finish",
+    })
+  } else (
+    buttons.push({
+      variant: "primary",
+      disabled: false,
+      onClick: handleClickNext,
+      label: "Next",
+    })
+  )
+
   return (
     <Widget
       src="bos.dapplets.near/widget/WebGuide.InfoBox"
@@ -275,20 +315,7 @@ const InfoBoxesWrapper = () => {
           currentPageIndex: pageCounter,
           totalPages: pages.length,
         },
-        buttons: [
-          {
-            variant: "secondary",
-            disabled: pageCounter === 0,
-            onClick: handleClickPrev,
-            label: "Prev",
-          },
-          {
-            variant: "primary",
-            disabled: pageCounter === pages.length - 1,
-            onClick: handleClickNext,
-            label: "Next",
-          },
-        ],
+        buttons,
         status: status && {
           type: status[0],
           text: status[1],
