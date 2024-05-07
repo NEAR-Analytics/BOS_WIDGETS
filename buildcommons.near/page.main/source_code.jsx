@@ -1,3 +1,6 @@
+const [highlightIndex, setHighlightIndex] = useState(null);
+const words = ["Social", "Network", "States", "SN", "NS"];
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -7,30 +10,6 @@ const Wrapper = styled.div`
   margin: auto;
   background: #fff;
 `;
-
-const Word = styled.span`
-  font-family: "Courier", sans-serif;
-  font-style: bold;
-  font-weight: 555;
-  color: #212428;
-  padding: 0.2em 0.6em;
-  margin: 0 5px;
-  display: inline-block;
-  background-color: ${(props) => (props.highlight ? "#EDFF00" : "transparent")};
-  border-radius: 8px;
-  transition: background-color 0.3s;
-  cursor: pointer;
-`;
-
-const Space = styled.span`
-  width: 12px;
-  height: 23px;
-  display: inline-block;
-  cursor: pointer;
-`;
-
-const [highlightIndex, setHighlightIndex] = useState(null);
-const words = ["Social", "Network", "States", "SN", "NS"];
 
 const H1 = styled.h1`
   font-family: "Courier", sans-serif;
@@ -76,6 +55,27 @@ const H1 = styled.h1`
       }
     }
   }
+`;
+
+const Word = styled.span`
+  font-family: "Courier", sans-serif;
+  font-size: 23px;
+  font-style: bold;
+  font-weight: 555;
+  color: #212428;
+  padding: 0.2em 0.6em;
+  display: inline-block;
+  background-color: ${(props) => (props.highlight ? "#EDFF00" : "transparent")};
+  border-radius: 8px;
+  transition: background-color 0.3s;
+  cursor: pointer;
+`;
+
+const Space = styled.span`
+  width: 19px;
+  height: 30px;
+  display: inline-block;
+  cursor: pointer;
 `;
 
 return (
