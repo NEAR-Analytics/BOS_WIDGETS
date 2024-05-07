@@ -1,6 +1,7 @@
 const { account, dexConfig, addAction, toast, onLoad } = props;
 
 const { positionManagerAddress, targetAddress } = dexConfig;
+
 useEffect(() => {
   const handleAction = ({ pool, method, onSuccess, onError }) => {
     const Contract = new ethers.Contract(
@@ -110,18 +111,24 @@ useEffect(() => {
                     title: `${action} faily!`,
                   });
                 }
-
-                addAction({
-                  type: "Staking",
-                  template: "Hyperlock",
-                  account,
-                  action,
-                  token: {
-                    symbol: pool.name,
-                  },
-                  status,
-                  transactionHash,
-                });
+                if (method !== "collect") {
+                  addAction({
+                    type: "Staking",
+                    template: "Hyperlock",
+                    account,
+                    status,
+                    transactionHash,
+                    extra_data: JSON.stringify({
+                      action,
+                      token0Symbol: pool.token0.symbol,
+                      token1Symbol: pool.token1.symbol,
+                      amount0: pool.amount0.toString(),
+                      amount1: pool.amount1.toString(),
+                      price0: pool.price0,
+                      price1: pool.price1,
+                    }),
+                  });
+                }
               })
               .catch((err) => {
                 toast.dismiss(toastId);
