@@ -384,8 +384,6 @@ const {
   onDoNotShowChange,
 } = props
 
-console.log({props})
-
 const overlay = (
   <CustomTooltip bsPrefix="wg-tooltip">
     <Callout>
