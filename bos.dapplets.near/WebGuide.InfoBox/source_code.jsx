@@ -104,6 +104,7 @@ const Close = styled.button`
   background: inherit;
   outline: none;
   border: none;
+  cursor: pointer;
 `
 
 const Arrow = styled.button`
