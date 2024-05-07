@@ -50,11 +50,13 @@ const H1 = styled.h1`
     position: relative;
     padding: 0.2em 0.3em 0.1em;
     margin: 0.1em;
+    text-align: center;
 
     svg {
       position: absolute;
-      bottom: -8px;
-      right: -10px;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
       width: 50px;
       height: auto;
     }
@@ -65,11 +67,12 @@ const H1 = styled.h1`
 
     span {
       border-radius: 12px;
+
       svg {
-        position: absolute;
-        bottom: -5px;
-        right: -7px;
         width: 18px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
       }
     }
   }
