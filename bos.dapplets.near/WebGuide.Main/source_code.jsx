@@ -87,8 +87,8 @@ const guideConfig = {
       placement: 'right',
       namespace: "mweb",
       contextType: "notch",
-      injectTo: "unused-mutations",
-      if: { id: { eq: "unused-mutations" } },
+      injectTo: "hidden",
+      if: { id: { eq: "unused-mutations-title" } },
       arrowTo: "context",
       pages: [
         {
