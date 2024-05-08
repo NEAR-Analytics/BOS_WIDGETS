@@ -104,17 +104,19 @@ return (
         </WidgetWrapper>
       ))}
 
-    {props.components?.map((cmp, i) => {
-      const WrapperComponent = cmp.component;
-      return (
-        <WidgetWrapper key={i}>
-          <WrapperComponent
-            context={props.context}
-            attachContextRef={props.attachContextRef}
-            attachInsPointRef={props.attachInsPointRef}
-          />
-        </WidgetWrapper>
-      );
-    })}
+    {props.components
+      ? props.components.map((cmp, i) => {
+          const WrapperComponent = cmp.component;
+          return (
+            <WidgetWrapper key={i}>
+              <WrapperComponent
+                context={props.context}
+                attachContextRef={props.attachContextRef}
+                attachInsPointRef={props.attachInsPointRef}
+              />
+            </WidgetWrapper>
+          );
+        })
+      : null}
   </Container>
 );
