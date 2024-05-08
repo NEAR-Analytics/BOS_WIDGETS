@@ -1,4 +1,5 @@
 const [accountId, setAccountId] = useState("buildcommons.near");
+const [attestorId, setAttestorId] = useState(context.accountId || "every.near");
 
 const [highlightIndex, setHighlightIndex] = useState(null);
 const words = ["Social", "Network", "States", "SN", "NS"];
@@ -88,6 +89,15 @@ const Space = styled.span`
   cursor: pointer;
 `;
 
+const handleSpaceClick = () => {
+  console.log("Current context.accountId:", context.accountId);
+  setAccountId(context.accountId || "every.near");
+};
+
+useEffect(() => {
+  console.log("Updated accountId:", accountId);
+}, [accountId]);
+
 return (
   <Wrapper>
     <H1>
@@ -115,6 +125,7 @@ return (
       <Space
         onMouseEnter={() => setHighlightIndex(3)}
         onMouseLeave={() => setHighlightIndex(-1)}
+        onClick={handleSpaceClick}
       />
       <Word
         highlight={
@@ -138,8 +149,12 @@ return (
       </Word>
     </div>
     <Widget
+      key={accountId}
       src="buildcommons.near/widget/SocialGraph"
-      props={{ height: 325 }}
+      props={{
+        accountIds: [`${accountId}`],
+        height: 300,
+      }}
     />
     <div>
       {context.accountId ? (
@@ -154,9 +169,9 @@ return (
             <Widget
               src="buildcommons.near/widget/graph.join"
               props={{
-                attestorId: context.accountId,
-                accountId: "buildcommons.near",
-                defaultBuilder: "buildcommons.near",
+                attestorId,
+                accountId,
+                defaultBuilder,
               }}
             />
           </div>
