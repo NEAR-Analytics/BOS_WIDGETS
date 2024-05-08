@@ -204,7 +204,7 @@ useEffect(() => {
 
   const formatedData = (key) => {
     console.log(`${name}-${key}`, count);
-    if (count < 6) return;
+    if (count < 5) return;
     count = 0;
     oTokensLength = Object.values(markets).length;
     let totalSupplyUsd = Big(0);
@@ -238,34 +238,34 @@ useEffect(() => {
         );
       }
       const distributionApy = [];
-      REWARD_TOKEN.forEach((reward) => {
-        const _reward = _rewards[reward.symbol][market.address];
-        const distributionSupplyApy = Big(_reward.supply)
-          .div(marketSupplyUsd.eq(0) ? 1 : marketSupplyUsd)
-          .plus(1)
-          .pow(365)
-          .minus(1)
-          .mul(100)
-          .toFixed(2);
-        const distributionBorrowApy = Big(_reward.borrow)
-          .div(marketBorrowUsd.eq(0) ? 1 : marketBorrowUsd)
-          .plus(1)
-          .pow(365)
-          .minus(1)
-          .mul(100)
-          .toFixed(2);
+      // REWARD_TOKEN.forEach((reward) => {
+      //   const _reward = _rewards[reward.symbol][market.address];
+      //   const distributionSupplyApy = Big(_reward.supply)
+      //     .div(marketSupplyUsd.eq(0) ? 1 : marketSupplyUsd)
+      //     .plus(1)
+      //     .pow(365)
+      //     .minus(1)
+      //     .mul(100)
+      //     .toFixed(2);
+      //   const distributionBorrowApy = Big(_reward.borrow)
+      //     .div(marketBorrowUsd.eq(0) ? 1 : marketBorrowUsd)
+      //     .plus(1)
+      //     .pow(365)
+      //     .minus(1)
+      //     .mul(100)
+      //     .toFixed(2);
 
-        _reward.totalAccountDistributionApy = totalAccountDistributionApy
-          .plus(distributionSupplyApy)
-          .plus(distributionBorrowApy);
+      //   _reward.totalAccountDistributionApy = totalAccountDistributionApy
+      //     .plus(distributionSupplyApy)
+      //     .plus(distributionBorrowApy);
 
-        distributionApy.push({
-          icon: reward.icon,
-          symbol: reward.symbol,
-          supply: distributionSupplyApy + "%",
-          borrow: distributionBorrowApy + "%",
-        });
-      });
+      //   distributionApy.push({
+      //     icon: reward.icon,
+      //     symbol: reward.symbol,
+      //     supply: distributionSupplyApy + "%",
+      //     borrow: distributionBorrowApy + "%",
+      //   });
+      // });
 
       const supplyApy = Big(market.supplyRatePerTimestamp)
         .mul(60 * 60 * 24)
@@ -297,26 +297,26 @@ useEffect(() => {
       };
     });
     let rewards = [];
-    REWARD_TOKEN.forEach((reward) => {
-      const _reward = _rewards[reward.symbol];
-      if (_reward.reward && Big(_reward.reward || 0).gt(0)) {
-        const dailyRewards = _reward.totalAccountDistributionApy
-          .mul(userTotalSupplyUsd.add(userTotalBorrowUsd))
-          .div(365 * 100)
-          .div(_reward.price);
-        rewards.push({
-          icon: reward.icon,
-          symbol: reward.symbol,
-          dailyRewards: dailyRewards.toString(),
-          price: _reward.price,
-          unclaimed: _reward.reward,
-        });
-      }
-    });
+    // REWARD_TOKEN.forEach((reward) => {
+    //   const _reward = _rewards[reward.symbol];
+    //   if (_reward.reward && Big(_reward.reward || 0).gt(0)) {
+    //     const dailyRewards = _reward.totalAccountDistributionApy
+    //       .mul(userTotalSupplyUsd.add(userTotalBorrowUsd))
+    //       .div(365 * 100)
+    //       .div(_reward.price);
+    //     rewards.push({
+    //       icon: reward.icon,
+    //       symbol: reward.symbol,
+    //       dailyRewards: dailyRewards.toString(),
+    //       price: _reward.price,
+    //       unclaimed: _reward.reward,
+    //     });
+    //   }
+    // });
 
     onLoad({
       markets,
-      rewards,
+      // rewards,
       totalSupplyUsd: totalSupplyUsd.toString(),
       totalBorrowUsd: totalBorrowUsd.toString(),
       userTotalSupplyUsd: userTotalSupplyUsd.toString(),
@@ -588,74 +588,74 @@ useEffect(() => {
       getCTokenData(market);
     });
   };
-  const getRewards = () => {
-    const cTokens = Object.keys(markets);
-    const calls = [];
-    cTokens.forEach((token) => {
-      calls.push({
-        address: rewardDistributorAddress,
-        name: "rewardSupplySpeeds",
-        params: [0, token],
-      });
-      calls.push({
-        address: rewardDistributorAddress,
-        name: "rewardBorrowSpeeds",
-        params: [0, token],
-      });
-      calls.push({
-        address: rewardDistributorAddress,
-        name: "rewardSupplySpeeds",
-        params: [1, token],
-      });
-      calls.push({
-        address: rewardDistributorAddress,
-        name: "rewardBorrowSpeeds",
-        params: [1, token],
-      });
-    });
-    multicall({
-      abi: REWARD_ABI,
-      calls,
-      options: {},
-      multicallAddress,
-      provider: Ethers.provider(),
-    })
-      .then((res) => {
-        cTokens.forEach((cToken, i) => {
-          REWARD_TOKEN.forEach((reward, j) => {
-            if (!_rewards[reward.symbol]) _rewards[reward.symbol] = {};
-            const price = prices[reward].symbol || 1;
-            _rewards[reward.symbol].price = price;
-            const index = i * 4 + j * 2;
-            _rewards[reward.symbol][cToken] = {
-              supply: res[index][0]
-                ? ethers.utils
-                    .formatUnits(item[index][0]._hex, 18)
-                    .mul(price)
-                    .mul(60 * 60 * 24)
-                : "0",
-              borrow: res[index + 1][0]
-                ? ethers.utils
-                    .formatUnits(item[index + 1][0]._hex, 18)
-                    .mul(price)
-                    .mul(60 * 60 * 24)
-                : "0",
-            };
-          });
-        });
-        count++;
-        formatedData("getRewards");
-      })
-      .catch((err) => {
-        console.log("rewards error", err);
-      });
-  };
+  // const getRewards = () => {
+  //   const cTokens = Object.keys(markets);
+  //   const calls = [];
+  //   cTokens.forEach((token) => {
+  //     calls.push({
+  //       address: rewardDistributorAddress,
+  //       name: "rewardSupplySpeeds",
+  //       params: [0, token],
+  //     });
+  //     calls.push({
+  //       address: rewardDistributorAddress,
+  //       name: "rewardBorrowSpeeds",
+  //       params: [0, token],
+  //     });
+  //     calls.push({
+  //       address: rewardDistributorAddress,
+  //       name: "rewardSupplySpeeds",
+  //       params: [1, token],
+  //     });
+  //     calls.push({
+  //       address: rewardDistributorAddress,
+  //       name: "rewardBorrowSpeeds",
+  //       params: [1, token],
+  //     });
+  //   });
+  //   multicall({
+  //     abi: REWARD_ABI,
+  //     calls,
+  //     options: {},
+  //     multicallAddress,
+  //     provider: Ethers.provider(),
+  //   })
+  //     .then((res) => {
+  //       cTokens.forEach((cToken, i) => {
+  //         REWARD_TOKEN.forEach((reward, j) => {
+  //           if (!_rewards[reward.symbol]) _rewards[reward.symbol] = {};
+  //           const price = prices[reward].symbol || 1;
+  //           _rewards[reward.symbol].price = price;
+  //           const index = i * 4 + j * 2;
+  //           _rewards[reward.symbol][cToken] = {
+  //             supply: res[index][0]
+  //               ? ethers.utils
+  //                   .formatUnits(item[index][0]._hex, 18)
+  //                   .mul(price)
+  //                   .mul(60 * 60 * 24)
+  //               : "0",
+  //             borrow: res[index + 1][0]
+  //               ? ethers.utils
+  //                   .formatUnits(item[index + 1][0]._hex, 18)
+  //                   .mul(price)
+  //                   .mul(60 * 60 * 24)
+  //               : "0",
+  //           };
+  //         });
+  //       });
+  //       count++;
+  //       formatedData("getRewards");
+  //     })
+  //     .catch((err) => {
+  //       console.log("rewards error", err);
+  //     });
+  // };
   getUnitrollerData();
   getUnderlyPrice();
   getOTokenLiquidity();
   getWalletBalance();
   getCTokensData();
-  getRewards();
+  // getRewards();
 }, [update, account]);
 
 return "";
