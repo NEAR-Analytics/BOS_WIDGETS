@@ -14,4 +14,4 @@ const CollapsibleContent = ({ children, ...props }) => (
   </Collapsible.CollapsibleContent>
 );
 
-return { CollapsibleRoot, CollapsibleTrigger, CollapsibleContent };
+return { Collapsible: CollapsibleRoot, CollapsibleTrigger, CollapsibleContent };
