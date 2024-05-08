@@ -167,6 +167,11 @@ useEffect(() => {
     getBestTrade,
     debouncedGetBestTrade,
   });
+
+  Storage.privateSet("_token_cacher", {
+    inputCurrency: state.inputCurrency,
+    outputCurrency: state.outputCurrency,
+  });
 }, []);
 
 useEffect(() => {
