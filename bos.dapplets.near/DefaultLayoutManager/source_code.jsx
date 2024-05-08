@@ -104,7 +104,7 @@ return (
         </WidgetWrapper>
       ))}
 
-    {props.components.map((cmp, i) => {
+    {props.components?.map((cmp, i) => {
       const WrapperComponent = cmp.component;
       return (
         <WidgetWrapper key={i}>
