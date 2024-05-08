@@ -15,12 +15,12 @@ const contentMap = {
   ),
   network: (
     <div>
-      <Widget src="buildcommons.near/widget/commons.builders" />
+      <Widget src="hack.near/widget/commons.builders" />
     </div>
   ),
   states: (
     <div>
-      <Widget src="buildcommons.near/widget/commons" />
+      <Widget src="hack.near/widget/commons" />
     </div>
   ),
 };
