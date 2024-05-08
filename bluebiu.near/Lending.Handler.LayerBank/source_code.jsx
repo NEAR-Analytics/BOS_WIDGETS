@@ -43,24 +43,28 @@ const CTOKEN_ABI = [
 
 const UNITROLLER_ABI = [
   {
-    constant: false,
     inputs: [
-      { internalType: "address[]", name: "qiTokens", type: "address[]" },
+      {
+        internalType: "address[]",
+        name: "lTokens",
+        type: "address[]",
+      },
     ],
     name: "enterMarkets",
-    outputs: [{ internalType: "uint256[]", name: "", type: "uint256[]" }],
-    payable: false,
+    outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    constant: false,
     inputs: [
-      { internalType: "address", name: "qiTokenAddress", type: "address" },
+      {
+        internalType: "address",
+        name: "lToken",
+        type: "address",
+      },
     ],
     name: "exitMarket",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    payable: false,
+    outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
@@ -129,7 +133,7 @@ useEffect(() => {
   }
 
   if (isCollateral) {
-    if (!data.config.lendingPoolAddress || !data.underlyingToken) return;
+    if (!data.config.unitrollerAddress || !data.underlyingToken) return;
     const isEnter = data.actionText === "Enable as Collateral";
 
     contract = new ethers.Contract(
@@ -140,7 +144,7 @@ useEffect(() => {
 
     method = isEnter ? "enterMarkets" : "exitMarket";
 
-    params = isEnter ? [[marketAddress]] : [marketAddress];
+    params = isEnter ? [[data.address]] : [data.address];
   }
 
   if (!contract) return;
@@ -165,10 +169,11 @@ useEffect(() => {
 
   contract.estimateGas[method](...params, options)
     .then((gas) => {
+      console.log("estimateGas", gas);
       createTx(gas);
     })
     .catch((err) => {
-      console.log("estimateGas", err);
+      console.log("estimateGasError", err);
       createTx();
     });
 }, [update]);
