@@ -143,7 +143,7 @@ return (
           highlightIndex === 0 ||
           highlightIndex === 3 ||
           activeWord === "social" ||
-          accountId === "buildcommons.near"
+          accountId === context.accountId
         }
         onMouseEnter={() => setHighlightIndex(0)}
         onMouseLeave={() => setHighlightIndex(-1)}
@@ -181,7 +181,7 @@ return (
           highlightIndex === 2 ||
           highlightIndex === 4 ||
           activeWord === "states" ||
-          accountId === context.accountId
+          accountId === "buildcommons.near"
         }
         onMouseEnter={() => setHighlightIndex(2)}
         onMouseLeave={() => setHighlightIndex(-1)}
