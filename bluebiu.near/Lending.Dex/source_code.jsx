@@ -34,7 +34,7 @@ const {
 const { type } = dexConfig;
 
 let tabsArray;
-console.log("===type", type);
+
 if (type === "liquity") {
   tabsArray = [
     { key: "market", label: "Borrow" },
