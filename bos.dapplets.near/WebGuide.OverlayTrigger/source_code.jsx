@@ -123,7 +123,8 @@ const Container = styled.div`
   justify-content: center;
 `
 
-const Navi = styled.button`
+// const Navi = styled.button` // ToDo: for navigation
+const Navi = styled.div`
   padding: 0;
   width: 10px;
   height: 10px;
