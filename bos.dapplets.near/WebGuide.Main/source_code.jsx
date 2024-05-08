@@ -84,7 +84,7 @@ const guideConfig = {
       id: "bos.dapplets.near/gateway/MutableWebExtensionDropdown/2",
       type: 'callout',
       strategy: 'fixed',
-      placement: 'right-start',
+      placement: 'right-end',
       namespace: "mweb",
       contextType: "notch",
       injectTo: "unused-mutations",
