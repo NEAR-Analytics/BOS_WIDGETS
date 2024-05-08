@@ -1,8 +1,29 @@
-const [accountId, setAccountId] = useState("buildcommons.near");
+const [accountId, setAccountId] = useState(null);
 const [attestorId, setAttestorId] = useState(context.accountId || "every.near");
 
 const [highlightIndex, setHighlightIndex] = useState(null);
 const words = ["Social", "Network", "States", "SN", "NS"];
+
+const [activeContent, setActiveContent] = useState(null);
+const [activeWord, setActiveWord] = useState(null);
+
+const contentMap = {
+  social: (
+    <div>
+      <Widget src="buildcommons.near/widget/profile.builder" />
+    </div>
+  ),
+  network: (
+    <div>
+      <Widget src="buildcommons.near/widget/commons.builders" />
+    </div>
+  ),
+  states: (
+    <div>
+      <Widget src="buildcommons.near/widget/commons" />
+    </div>
+  ),
+};
 
 const Wrapper = styled.div`
   display: flex;
@@ -89,14 +110,16 @@ const Space = styled.span`
   cursor: pointer;
 `;
 
-const handleSpaceClick = () => {
-  console.log("Current context.accountId:", context.accountId);
-  setAccountId(context.accountId || "every.near");
+const handleWordClick = (word) => {
+  setActiveWord(word);
+  setActiveContent(contentMap[word]);
 };
 
-useEffect(() => {
-  console.log("Updated accountId:", accountId);
-}, [accountId]);
+const handleSpaceClick = (newAccountId) => {
+  setAccountId(newAccountId);
+  setActiveContent(null);
+  setActiveWord(null);
+};
 
 return (
   <Wrapper>
@@ -116,71 +139,100 @@ return (
       }}
     >
       <Word
-        highlight={highlightIndex === 0 || highlightIndex === 3}
+        highlight={
+          highlightIndex === 0 ||
+          highlightIndex === 3 ||
+          activeWord === "social" ||
+          accountId === "buildcommons.near"
+        }
         onMouseEnter={() => setHighlightIndex(0)}
         onMouseLeave={() => setHighlightIndex(-1)}
+        onClick={() => handleWordClick("social")}
       >
         Social
       </Word>
       <Space
         onMouseEnter={() => setHighlightIndex(3)}
         onMouseLeave={() => setHighlightIndex(-1)}
-        onClick={handleSpaceClick}
+        onClick={() => handleSpaceClick(context.accountId || "hack.near")}
       />
       <Word
         highlight={
-          highlightIndex === 1 || highlightIndex === 3 || highlightIndex === 4
+          highlightIndex === 1 ||
+          highlightIndex === 3 ||
+          highlightIndex === 4 ||
+          activeWord === "network" ||
+          accountId === "buildcommons.near" ||
+          accountId === context.accountId
         }
         onMouseEnter={() => setHighlightIndex(1)}
         onMouseLeave={() => setHighlightIndex(-1)}
+        onClick={() => handleWordClick("network")}
       >
         Network
       </Word>
       <Space
         onMouseEnter={() => setHighlightIndex(4)}
         onMouseLeave={() => setHighlightIndex(-1)}
+        onClick={() => handleSpaceClick("buildcommons.near")}
       />
       <Word
-        highlight={highlightIndex === 2 || highlightIndex === 4}
+        highlight={
+          highlightIndex === 2 ||
+          highlightIndex === 4 ||
+          activeWord === "states" ||
+          accountId === context.accountId
+        }
         onMouseEnter={() => setHighlightIndex(2)}
         onMouseLeave={() => setHighlightIndex(-1)}
+        onClick={() => handleWordClick("states")}
       >
         States
       </Word>
     </div>
-    <Widget
-      key={accountId}
-      src="buildcommons.near/widget/SocialGraph"
-      props={{
-        accountIds: [`${accountId}`],
-        height: 300,
-      }}
-    />
-    <div>
-      {context.accountId ? (
-        <div className="m-3 mt-4 d-flex flex-row justify-content-center">
-          <div className="m-1 me-3">
-            <Widget
-              src="buildcommons.near/widget/profile.builder"
-              props={{ accountId: context.accountId }}
-            />
+    {activeWord ? (
+      contentMap[activeWord]
+    ) : (
+      <>
+        {!context.loading && (
+          <Widget
+            key={accountId}
+            src="buildcommons.near/widget/SocialGraph"
+            props={{
+              accountIds: [`${accountId || "buildcommons.near"}`],
+              height: 300,
+            }}
+          />
+        )}
+        {!context.loading && (
+          <div>
+            {context.accountId ? (
+              <div className="m-3 mt-4 d-flex flex-row justify-content-center">
+                <div className="m-1 me-3">
+                  <Widget
+                    src="buildcommons.near/widget/profile.builder"
+                    props={{ accountId: context.accountId }}
+                  />
+                </div>
+                <div className="m-2 ms-2">
+                  <Widget
+                    src="buildcommons.near/widget/graph.join"
+                    props={{
+                      attestorId,
+                      accountId,
+                      defaultBuilder,
+                    }}
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className="m-3">
+                <Widget src="buildcommons.near/widget/connect" />
+              </div>
+            )}
           </div>
-          <div className="m-2 ms-2">
-            <Widget
-              src="buildcommons.near/widget/graph.join"
-              props={{
-                attestorId,
-                accountId,
-                defaultBuilder,
-              }}
-            />
-          </div>
-        </div>
-      ) : (
-        <div className="m-3">
-          <Widget src="buildcommons.near/widget/connect" />
-        </div>
-      )}
-    </div>
+        )}
+      </>
+    )}
   </Wrapper>
 );
