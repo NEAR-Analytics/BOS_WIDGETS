@@ -113,6 +113,7 @@ const Space = styled.span`
 const handleWordClick = (word) => {
   setActiveWord(word);
   setActiveContent(contentMap[word]);
+  setAccountId(null);
 };
 
 const handleSpaceClick = (newAccountId) => {
