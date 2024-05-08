@@ -133,7 +133,6 @@ const renderAlumniProfileCard = (accountId) => {
 
 return (
   <div>
-    <h3>{alumniGroup.name}</h3>
     {alumniMembers.map((member, index) => (
       <div key={index}>{renderAlumniProfileCard(member)}</div>
     ))}
