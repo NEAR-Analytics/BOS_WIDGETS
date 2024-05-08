@@ -50,92 +50,71 @@ const WidgetBadgeWrapper = styled.div`
   }
 `;
 
-const FloatingElementWrapper = ({ component: WrapperComponent, children }) => {
-  return WrapperComponent ? (
-    <WrapperComponent
-      context={props.context}
-      attachContextRef={props.attachContextRef}
-      attachInsPointRef={props.attachInsPointRef}
-    >
-      {children}
-    </WrapperComponent>
-  ) : (
-    children
-  );
-};
-
 return (
   <Container>
     {props.widgets
       .filter((w) => w.isSuitable === undefined || w.isSuitable === true)
-      .map((widget) => {
-        const WrapperComponent = props.components
-          ? props.components.find(
-              (cmp) => cmp.target.insteadOf?.linkId === widget.linkId
-            )?.component
-          : null;
+      .map((widget) => (
+        <WidgetWrapper key={widget.linkId}>
+          {props.isEditMode ? (
+            <WidgetBadgeWrapper
+              title={
+                widget.linkAuthorId === context.accountId
+                  ? `Remove ${widget.src.split("widget/").pop()} injected by ${
+                      widget.linkAuthorId
+                    } (link ID: ${widget.linkId})`
+                  : "disable in edit mode "
+              }
+              style={{
+                opacity: widget.linkAuthorId === context.accountId ? "1" : "0",
+              }}
+            >
+              {widget.linkAuthorId === context.accountId ? (
+                waitingAppIdsSet.has(widget.linkId) ? (
+                  <span
+                    role="status"
+                    aria-hidden="true"
+                    class="spinner-grow spinner-grow-sm"
+                  />
+                ) : (
+                  <Widget
+                    src="bos.dapplets.near/widget/LayoutManager.DeleteWidgetButton"
+                    props={{
+                      onClick: () => handleRemoveWidget(widget.linkId),
+                    }}
+                  />
+                )
+              ) : null}
+            </WidgetBadgeWrapper>
+          ) : null}
+          <div
+            data-mweb-context-type="injected-widget"
+            data-mweb-context-parsed={JSON.stringify({
+              id: `${props.context.id}/${widget.linkId}`,
+              parentContextId: props.context.id,
+              widgetSrc: widget.src,
+            })}
+          >
+            <Widget src={widget.src} props={widget.props} />
+            <div
+              data-mweb-insertion-point="hidden"
+              style={{ display: "none" }}
+            />
+          </div>
+        </WidgetWrapper>
+      ))}
 
-        return (
-          <WidgetWrapper key={widget.linkId}>
-            {props.isEditMode ? (
-              <WidgetBadgeWrapper
-                title={
-                  widget.linkAuthorId === context.accountId
-                    ? `Remove ${widget.src
-                        .split("widget/")
-                        .pop()} injected by ${widget.linkAuthorId} (link ID: ${
-                        widget.linkId
-                      })`
-                    : "disable in edit mode "
-                }
-                style={{
-                  opacity:
-                    widget.linkAuthorId === context.accountId ? "1" : "0",
-                }}
-              >
-                {widget.linkAuthorId === context.accountId ? (
-                  waitingAppIdsSet.has(widget.linkId) ? (
-                    <span
-                      role="status"
-                      aria-hidden="true"
-                      class="spinner-grow spinner-grow-sm"
-                    />
-                  ) : (
-                    <Widget
-                      src="bos.dapplets.near/widget/LayoutManager.DeleteWidgetButton"
-                      props={{
-                        onClick: () => handleRemoveWidget(widget.linkId),
-                      }}
-                    />
-                  )
-                ) : null}
-              </WidgetBadgeWrapper>
-            ) : null}
-
-            <FloatingElementWrapper component={WrapperComponent}>
-              <Widget src={widget.src} props={widget.props} />
-            </FloatingElementWrapper>
-          </WidgetWrapper>
-        );
-      })}
-
-    {props.components
-      ? props.components
-          .filter(
-            (cmp) => !cmp.target.insteadOf || !cmp.target.insteadOf.linkId
-          )
-          .map((cmp, i) => {
-            const WrapperComponent = cmp.component;
-            return (
-              <WidgetWrapper key={i}>
-                <WrapperComponent
-                  context={props.context}
-                  attachContextRef={props.attachContextRef}
-                  attachInsPointRef={props.attachInsPointRef}
-                />
-              </WidgetWrapper>
-            );
-          })
-      : null}
+    {props.components.map((cmp, i) => {
+      const WrapperComponent = cmp.component;
+      return (
+        <WidgetWrapper key={i}>
+          <WrapperComponent
+            context={props.context}
+            attachContextRef={props.attachContextRef}
+            attachInsPointRef={props.attachInsPointRef}
+          />
+        </WidgetWrapper>
+      );
+    })}
   </Container>
 );
