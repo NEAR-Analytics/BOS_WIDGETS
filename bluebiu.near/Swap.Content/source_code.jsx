@@ -329,6 +329,10 @@ return (
               updateOutputTokenBalance: true,
               loading: false,
             });
+            Storage.privateSet("_token_cacher", {
+              inputCurrency,
+              outputCurrency,
+            });
             if (Big(state.inputCurrencyAmount || 0).gt(0))
               state.debouncedGetBestTrade();
           }}
@@ -450,12 +454,14 @@ return (
                 hasToken = false;
               }
             }
-            State.update({ ...updatedParams, loading: false });
             Storage.privateSet("_token_cacher", {
               inputCurrency: updatedParams.inputCurrency || state.inputCurrency,
               outputCurrency:
                 updatedParams.outputCurrency || state.outputCurrency,
             });
+
+            State.update({ ...updatedParams, loading: false });
+
             if (
               state.inputCurrencyAmount &&
               Number(state.inputCurrencyAmount) &&
