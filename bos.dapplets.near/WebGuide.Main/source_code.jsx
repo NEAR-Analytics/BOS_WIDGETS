@@ -145,9 +145,7 @@ const guideConfig = {
         parentContextId: { eq: "1694995344461894022" },
         widgetSrc: { eq: "bos.dapplets.near/widget/Tipping.Main" },
       },
-      insteadOf: {
-        linkId: "2dec2fe13441c1432d7a881e9cb58659",
-      },
+      arrowTo: "context",
       pages: [
         {
           id: "bos.dapplets.near/app/Tipping/2/1",
