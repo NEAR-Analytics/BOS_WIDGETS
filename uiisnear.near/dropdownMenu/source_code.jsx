@@ -116,17 +116,18 @@ const DropdownMenuRadioItem = ({ className, children, ...props }) => (
   </DropdownMenu.RadioItem>
 );
 
-const dropdownMenuLabelClassname = "px-2 py-1.5 text-sm font-semibold";
+const dropdownMenuLabelClassname = "py-1.5 text-sm font-semibold";
 
-const DropdownMenuLabel = ({ className, children, inset, ...props }) => (
-  <DropdownMenu.Label
-    ref="forwardedRef"
-    className={className ?? dropdownMenuLabelClassname}
-    {...props}
-  >
-    {children}
-  </DropdownMenu.Label>
-);
+const DropdownMenuLabel = ({ className, children, inset, ...props }) => {
+  let cls = className ?? dropdownMenuLabelClassname;
+  cls = inset != undefined && inset ? `${cls} pr-2 pl-8` : `${cls} px-2`;
+
+  return (
+    <DropdownMenu.Label ref="forwardedRef" className={cls} {...props}>
+      {children}
+    </DropdownMenu.Label>
+  );
+};
 
 const dropdownMenuSeparatorClassname = "-mx-1 my-1 h-px bg-muted";
 
