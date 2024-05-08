@@ -5,6 +5,11 @@
 const CustomTooltip = styled("Tooltip")`
   z-index: 9999999; // over the notch
 
+  &[data-popper-reference-hidden="true"] {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
   .tooltip-arrow::before {
     border: none;
     display: inline-block;
@@ -452,8 +457,9 @@ return (
   <OverlayTrigger
     show={true}
     overlay={overlay}
-    placement="auto"
+    placement={props.placement ?? "auto"}
     offset={[0, 20]}
+    popperConfig={{ strategy: props.strategy ?? 'absolute' }}
   >
     {typeof props.children === "function" ? (
       props.children
