@@ -23,7 +23,7 @@ const Container = styled.div`
   flex-direction: column;
   box-sizing: border-box;
   width: 546px;
-  height: 738px;
+  height: 700px;
   background: #FFFFFE;
   border: 1px solid #02193A;
   border-radius: 20px;
@@ -391,7 +391,8 @@ const Label = styled.label`
 
 const ActionsGroup = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  flex-direction: row-reverse;
+  justify-content: space-between;
   align-items: center;
   gap: 10px;
   align-self: stretch;
@@ -485,28 +486,33 @@ return (
             <Label htmlFor="checkbox">Don't show this guide again</Label>
           </ContainerCheckbox>
         ) : null}
-
         {buttons?.length > 1 ? (
           <ActionsGroup>
-            {buttons.map((btn, i) => (
-              <ActionButton
-                key={btn.label}
-                $primary={btn.variant == "primary" ? true : false}
-                onClick={btn.onClick}
-                disabled={btn.disabled}
-              >
-                {btn.label}
-              </ActionButton>
-            ))}
+            <ActionButton
+              $primary={buttons[1].variant == "primary" ? true : false}
+              onClick={buttons[1].onClick}
+              disabled={buttons[1].disabled}
+            >
+              {buttons[1].label}
+            </ActionButton>
+            <ActionButton
+              $primary={buttons[0].variant == "primary" ? true : false}
+              onClick={buttons[0].onClick}
+              disabled={buttons[0].disabled}
+            >
+              {buttons[0].label}
+            </ActionButton>
           </ActionsGroup>
         ) : buttons?.length === 1 ? (
-          <ActionButton
-            $primary={buttons[0].variant == "primary" ? true : false}
-            onClick={buttons[0].onClick}
-            disabled={buttons[0].disabled}
-          >
-            {buttons[0].label}
-          </ActionButton>
+          <ActionsGroup>
+            <ActionButton
+              $primary={buttons[0].variant == "primary" ? true : false}
+              onClick={buttons[0].onClick}
+              disabled={buttons[0].disabled}
+            >
+              {buttons[0].label}
+            </ActionButton>
+          </ActionsGroup>
         ) : <></>}
       </Footer>
     </Container>
