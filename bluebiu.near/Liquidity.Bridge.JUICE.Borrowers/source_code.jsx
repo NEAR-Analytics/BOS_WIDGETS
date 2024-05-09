@@ -1533,7 +1533,6 @@ function handleClaim() {
       handleRefresh()
     })
     .catch(error => {
-      console.log('=error', error)
       State.update({
         claimLoading: false
       })
