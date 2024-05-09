@@ -73,7 +73,7 @@ useEffect(() => {
         for (let i = 0, len = res.length; i < len; i++) {
           const _vesselStatus = res[i] ? "ACTIVE" : "INACTIVE";
           const _vesselDebt =
-            res[i] && res[i][0] ? ethers.utils.formatUnits(res[i][0]._hex) : 0;
+            res[i] && res[i][0] ? ethers.utils.formatUnits(res[i][0]) - 20 : 0;
           markets[tokens[i]].vesselStatus = _vesselStatus;
           markets[tokens[i]].vesselDebt = _vesselDebt;
         }
