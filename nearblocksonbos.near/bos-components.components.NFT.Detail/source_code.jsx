@@ -148,6 +148,28 @@ const TokenImage = ({
     />
   );
 };/* END_INCLUDE COMPONENT: "includes/icons/TokenImage.jsx" */
+/* INCLUDE COMPONENT: "includes/icons/WarningIcon.jsx" */
+/**
+ * @interface Props
+ * @param {string} [className] - The CSS class name(s) for styling purposes.
+ */
+
+
+
+
+const WarningIcon = (props) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 -960 960 960"
+      width={16}
+      height={16}
+      {...props}
+    >
+      <path d="m40-120 440-760 440 760H40Zm138-80h604L480-720 178-200Zm302-40q17 0 28.5-11.5T520-280q0-17-11.5-28.5T480-320q-17 0-28.5 11.5T440-280q0 17 11.5 28.5T480-240Zm-40-120h80v-200h-80v200Zm40-100Z" />
+    </svg>
+  );
+};/* END_INCLUDE COMPONENT: "includes/icons/WarningIcon.jsx" */
 
 
 
@@ -159,13 +181,15 @@ const TokenImage = ({
 
 
 function MainComponent({ network, t, id, tid, ownerId }) {
-  const { getConfig, handleRateLimit, shortenAddress } = VM.require(
+  const { getConfig, handleRateLimit, shortenAddress, fetchData } = VM.require(
     `${ownerId}/widget/includes.Utils.libs`,
   );
 
   const [indices, setIndices] = useState([1, 2]);
   const [token, setToken] = useState({} );
   const [loading, setLoading] = useState(false);
+  const [spamTokens, setSpamTokens] = useState({ blacklist: [] });
+  const [isVisible, setIsVisible] = useState(true);
 
   const config = getConfig && getConfig(network);
 
@@ -196,6 +220,15 @@ function MainComponent({ network, t, id, tid, ownerId }) {
         )
         .catch(() => {});
     }
+    fetchData &&
+      fetchData(
+        'https://raw.githubusercontent.com/Nearblocks/spam-token-list/main/tokens.json',
+        (response) => {
+          const data = JSON.parse(response);
+          setSpamTokens(data);
+        },
+      );
+
     if (config?.backendUrl) {
       fetchToken();
     }
@@ -211,8 +244,47 @@ function MainComponent({ network, t, id, tid, ownerId }) {
     }
   };
 
+  function isTokenSpam(tokenName) {
+    if (spamTokens)
+      for (const spamToken of spamTokens.blacklist) {
+        const cleanedToken = spamToken.replace(/^\*/, '');
+        if (tokenName.endsWith(cleanedToken)) {
+          return true;
+        }
+      }
+    return false;
+  }
+  const handleClose = () => {
+    setIsVisible(false);
+  };
   return (
     <>
+      {isTokenSpam(token.contract || id) && isVisible && (
+        <>
+          <div className="py-2"></div>
+          <div className="w-full flex justify-between text-left border dark:bg-nearyred-500  dark:border-nearyred-400 dark:text-nearyred-300 bg-red-50 border-red-100 text-red-500 text-sm rounded-lg p-4">
+            <p className="items-center">
+              <WarningIcon className="w-5 h-5 fill-current mx-1 inline-flex" />
+              This token is reported to have been spammed to many users. Please
+              exercise caution when interacting with it. Click
+              <a
+                href="https://github.com/Nearblocks/spam-token-list"
+                className="underline mx-0.5"
+                target="_blank"
+              >
+                here
+              </a>
+              for more info.
+            </p>
+            <span
+              className="text-sm text-gray-500 hover:text-gray-800 dark:hover:text-gray-400 cursor-pointer"
+              onClick={handleClose}
+            >
+              X
+            </span>
+          </div>
+        </>
+      )}
       <div className="grid md:grid-cols-12 pt-4 mb-2">
         <div className="md:col-span-5 lg:col-span-4 pt-4">
           <div className="bg-white dark:bg-black-600 dark:border-black-200 border rounded-xl soft-shadow p-3 aspect-square">
