@@ -40,9 +40,9 @@ return (
   <div className="m-1">
     <div className="mb-3">
       <Widget
-        src="mob.near/widget/ProfileSearch"
+        src="hack.near/widget/ProfileSearch"
         props={{
-          limit: 10,
+          limit: 5,
           onChange: ({ result }) => State.update({ profiles: result }),
         }}
       />
