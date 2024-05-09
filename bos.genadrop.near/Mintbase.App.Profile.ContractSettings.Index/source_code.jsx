@@ -93,7 +93,7 @@ const ContractSettings = ({ isDarkModeOn, contractId }) => {
       </Basic>
       <Widget
         src="bos.genadrop.near/widget/Mintbase.App.Profile.ContractSettings.Minters"
-        props={{ isDarkModeOn, contractId }}
+        props={{ isDarkModeOn, contractId, isStoreOwner }}
       />
       <Widget
         src="bos.genadrop.near/widget/Mintbase.App.Profile.ContractSettings.Royalties"
@@ -103,10 +103,12 @@ const ContractSettings = ({ isDarkModeOn, contractId }) => {
         src="bos.genadrop.near/widget/Mintbase.App.Profile.ContractSettings.Revenue"
         props={{ isDarkModeOn }}
       />
-      <Widget
-        src="bos.genadrop.near/widget/Mintbase.App.Profile.ContractSettings.Ownership"
-        props={{ isDarkModeOn, contractId }}
-      />
+      {isStoreOwner && (
+        <Widget
+          src="bos.genadrop.near/widget/Mintbase.App.Profile.ContractSettings.Ownership"
+          props={{ isDarkModeOn, contractId }}
+        />
+      )}
     </SettingsRoot>
   );
 };
