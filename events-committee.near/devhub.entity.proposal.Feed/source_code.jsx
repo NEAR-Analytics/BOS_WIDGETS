@@ -543,7 +543,7 @@ const FeedPage = () => {
                 </p>
               </div>
               <div className="mt-4 border rounded-2">
-                {state.data.length > 0 ? (
+                {state.data.length > 0 || state.aggregatedCount === 0 ? (
                   <InfiniteScroll
                     pageStart={0}
                     loadMore={makeMoreItems}
