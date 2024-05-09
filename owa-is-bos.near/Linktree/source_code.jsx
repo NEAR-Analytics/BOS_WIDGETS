@@ -179,6 +179,12 @@ const Button = styled.button`
     border: 0px;
     color: white;
     width: 120px;
+
+    &:hover{
+      background: #ecedee;
+      color: black;
+      box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    }
 `;
 
 // Rendering of the UI putting into use the styled components in each corresponding section,
