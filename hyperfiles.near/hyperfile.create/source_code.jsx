@@ -75,7 +75,7 @@ const [schemaSrc, setSchemaSrc] = useState(initialSchemaSrc);
 const [availableSchemas, setAvailableSchemas] = useState([]);
 const [isLoading, setIsLoading] = useState(true);
 const [selectedSchema, setSelectedSchema] = useState(
-  props.selectedSchema || "attestations.near/type/isTrue"
+  props.selectedSchema || "hyperfiles.near/schema/isBuilder"
 );
 
 // Creator constants
@@ -90,13 +90,22 @@ const [name, setName] = useState(props.name ?? "");
 const [description, setDescription] = useState(props.description ?? "");
 const [json, setJson] = useState(props.data ?? "");
 
-// Catchall state.data - can probably delete
+// Store input data for schema in state.data
 State.init({
   data,
 });
 
 const handleOnChange = (value) => {
   State.update({ data: { ...state.data, ...value } });
+};
+
+const handleSchemaSrcChange = (newSchemaSrc) => {
+  setSchemaSrc(newSchemaSrc);
+  setSelectedSchema(""); // Reset the selected schema when the source changes
+};
+
+const handleSelectedSchemaChange = (newValue) => {
+  setSelectedSchema(newValue);
 };
 
 // TODO: Import keccak from ethers to hash Hyperfile contents
@@ -203,29 +212,21 @@ return (
             <Widget
               src="hyperfiles.near/widget/schema.select"
               props={{
-                onChange: (newValue) => {
-                  console.log("New Schema:", newValue);
-                  setSchema(newValue); // Update local state
-                },
-                value: selectedSchema,
-                options: {
-                  source: {
-                    schemaPattern: "*/profile/schema/*",
-                  },
-                },
+                onSchemaSrcChange: handleSchemaSrcChange,
+                onSelectedSchemaChange: handleSelectedSchemaChange,
+                selectedSchema: selectedSchema,
               }}
             />
           </FormGroup>
           <FormGroup>
             <Label>Input Your Data</Label>
-
             <FormContainer>
               <Widget
                 src="efiz.near/widget/create"
                 props={{
                   item: {
-                    type: selectedSchema,
-                    value: schema,
+                    type: props.selectedSchema,
+                    value: state.data,
                   },
                   onChange: handleOnChange,
                 }}
