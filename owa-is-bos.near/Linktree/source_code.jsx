@@ -137,8 +137,8 @@ const Text = styled.p`
   text-align: center;
   line-height: 1.5rem;
   color: "#687076" !important;
-  font-weight: "400";
-  font-size: "20px";
+  font-weight: 500;
+  font-size: 20px;
   overflow-wrap: anywhere;
   b {
     font-weight: 700;
