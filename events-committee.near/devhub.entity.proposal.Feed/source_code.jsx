@@ -512,7 +512,7 @@ const FeedPage = () => {
         </div>
       </div>
       <div style={{ minHeight: "50vh" }}>
-        {aggregatedCount === null ? (
+        {state.aggregatedCount === null ? (
           loader
         ) : (
           <div className="card no-border rounded-0 mt-4 py-3 full-width-div">
