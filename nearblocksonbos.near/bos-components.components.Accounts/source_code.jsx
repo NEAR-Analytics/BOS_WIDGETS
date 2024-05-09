@@ -141,6 +141,7 @@ const ArrowDown = (props) => {
 
 
 
+
 const TokenHoldings = (props) => {
   const { dollarFormat, localFormat } = VM.require(
     `${props.ownerId}/widget/includes.Utils.formats`,
@@ -169,9 +170,19 @@ const TokenHoldings = (props) => {
       </select>
     );
   }
-
   const ftAmount = props.ft?.amount ?? 0;
 
+  function isTokenSpam(tokenName) {
+    if (props.spamTokens) {
+      for (const spamToken of props.spamTokens) {
+        const cleanedToken = spamToken.replace(/^\*/, '');
+        if (tokenName.endsWith(cleanedToken)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
   return (
     <Select.Root>
       <Select.Trigger className="w-full h-8 text-sm px-2 rounded border dark:border-black-200 outline-none flex items-center justify-between cursor-pointer">
@@ -236,20 +247,25 @@ const TokenHoldings = (props) => {
                                   : token?.rpcAmount ?? ''}
                               </div>
                             </div>
-                            {token?.ft_meta?.price && (
-                              <div className="text-right">
-                                <div>
-                                  {token?.amountUsd
-                                    ? '$' + dollarFormat(token?.amountUsd)
-                                    : '$' + (token.amountUsd ?? '')}
+
+                            {!isTokenSpam(token?.contract) ? (
+                              token?.ft_meta?.price && (
+                                <div className="text-right">
+                                  <div>
+                                    {token?.amountUsd
+                                      ? '$' + dollarFormat(token?.amountUsd)
+                                      : '$' + (token.amountUsd ?? '')}
+                                  </div>
+                                  <div className="text-gray-400">
+                                    {token?.ft_meta?.price
+                                      ? '@' +
+                                        Big(token?.ft_meta?.price).toString()
+                                      : '@' + (token?.ft_meta?.price ?? '')}
+                                  </div>
                                 </div>
-                                <div className="text-gray-400">
-                                  {token?.ft_meta?.price
-                                    ? '@' +
-                                      Big(token?.ft_meta?.price).toString()
-                                    : '@' + (token?.ft_meta?.price ?? '')}
-                                </div>
-                              </div>
+                              )
+                            ) : (
+                              <div className="text-gray-400">[Spam]</div>
                             )}
                           </a>
                         </Link>
@@ -301,6 +317,9 @@ const TokenHoldings = (props) => {
                                   : nft?.quantity ?? ''}
                               </div>
                             </div>
+                            {isTokenSpam(nft?.contract) && (
+                              <div className="text-gray-400">[Spam]</div>
+                            )}
                           </a>
                         </Link>
                       </div>
@@ -328,6 +347,7 @@ const TokenHoldings = (props) => {
     </Select.Root>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/TokenHoldings.jsx" */
+
 
 
 
@@ -393,6 +413,7 @@ function MainComponent(props) {
     shortenAddress,
     getConfig,
     handleRateLimit,
+    fetchData,
   } = VM.require(`${ownerId}/widget/includes.Utils.libs`);
 
   const { encodeArgs, decodeArgs } = VM.require(
@@ -424,6 +445,7 @@ function MainComponent(props) {
   const [contractInfo, setContractInfo] = useState(
     {} ,
   );
+  const [spamTokens, setSpamTokens] = useState({ blacklist: [] });
 
   const config = getConfig && getConfig(network);
 
@@ -606,6 +628,14 @@ function MainComponent(props) {
         )
         .catch(() => {});
     }
+    fetchData &&
+      fetchData(
+        'https://raw.githubusercontent.com/Nearblocks/spam-token-list/main/tokens.json',
+        (response) => {
+          const data = JSON.parse(response);
+          setSpamTokens(data);
+        },
+      );
     if (config?.backendUrl) {
       fetchStatsData();
       fetchAccountData();
@@ -973,6 +1003,7 @@ function MainComponent(props) {
                     id={id}
                     appUrl={config?.appUrl}
                     ownerId={ownerId}
+                    spamTokens={spamTokens.blacklist}
                   />
                 </div>
               </div>
