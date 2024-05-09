@@ -1,7 +1,8 @@
 // Just fetch the CSS (ideally, only do it once per page instead of doing it in each component)
-const css = fetch("https://floatui.com/tailwind.css").body;
-if (!css) return "";
-const Tailwind = styled.div`${css}`;
+//const css = fetch("https://floatui.com/tailwind.css").body;
+//if (!css) return "";
+//const Tailwind = styled.div`${css}`;
+const Tailwind = VM.require("harmonic1.near/widget/tailwind");
 
 const wasm = VM.require("jass-build.near/widget/trialAccountWasm");
 const contract = "v2.keypom.near";
