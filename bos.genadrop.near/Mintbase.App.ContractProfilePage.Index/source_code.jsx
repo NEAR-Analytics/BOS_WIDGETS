@@ -21,9 +21,9 @@ const actualTabs = {
     { id: 1, title: "_About", hidden: !connectedUserIsMinter },
     // { id: 2, title: "_Mint NFTS" },
     // { id: 3, title: "_User Settings", hidden: !connectedUserIsMinter },
+    { id: 7, title: "Contract Settings" },
     { id: 4, title: "Activity" },
     { id: 5, title: "Analytics" },
-    // { id: 6, title: "Minters" },
   ],
 };
 const hiddenTabs = actualTabs.tabLabels
@@ -260,10 +260,24 @@ const PageContent = () => {
           <h2>About User</h2> <p>Nothing to show yet</p>
         </div>
       );
+    case "contract-settings":
+      return (
+        <Widget
+          src="bos.genadrop.near/widget/Mintbase.App.Profile.ContractSettings.Index"
+          props={{ contractId: accountId, isDarkModeOn }}
+        />
+      );
     case "activity":
       return (
         <Widget
           src={`bos.genadrop.near/widget/Mintbase.App.ContractProfilePage.Activity`}
+          props={{ isDarkModeOn, contract: accountId }}
+        />
+      );
+    case "analytics":
+      return (
+        <Widget
+          src={`bos.genadrop.near/widget/Mintbase.App.ContractProfilePage.Analytics`}
           props={{ isDarkModeOn, contract: accountId }}
         />
       );
