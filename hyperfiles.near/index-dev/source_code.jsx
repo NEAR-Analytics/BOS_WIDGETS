@@ -312,7 +312,7 @@ return (
                   <div className="col">
                     <div className="p-3 border bg-light">
                       <Widget
-                        src="hyperfiles.near/widget/schema.edit"
+                        src="flowscience.near/widget/JSON-Schema.editor"
                         props={{}}
                       />
                     </div>
