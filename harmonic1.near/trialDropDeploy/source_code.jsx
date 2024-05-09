@@ -1,8 +1,8 @@
 // Just fetch the CSS (ideally, only do it once per page instead of doing it in each component)
-//const css = fetch("https://floatui.com/tailwind.css").body;
-//if (!css) return "";
-//const Tailwind = styled.div`${css}`;
-const Tailwind = VM.require("harmonic1.near/widget/tailwind");
+const css = fetch("https://floatui.com/tailwind.css").body;
+if (!css) return "";
+const Tailwind = styled.div`${css}`;
+//const Tailwind = VM.require("harmonic1.near/widget/tailwind");
 
 const wasm = VM.require("jass-build.near/widget/trialAccountWasm");
 const contract = "v2.keypom.near";
@@ -33,9 +33,9 @@ const parseNearAmount = (nearAmount) => {
 
 const [callableContract, setCallableContract] = useState("");
 
-const handleCallableContractChange = (e) => {
-  setCallableContract(e.target.value);
-};
+// const handleCallableContractChange = (e) => {
+//   setCallableContract(e.target.value);
+// };
 
 //const [maxAttachableYoctoPerContract, setMaxAttachableYoctoPerContract] = useState("1");
 //const [callableMethods, setCallableMethods] = useState("*");
@@ -219,8 +219,10 @@ return (
                 <label className="font-medium">Callable Contract</label>
                 <input
                   type="text"
-                  //placeholder="social.near"
-                  onChange={handleCallableContractChange}
+                  placeholder="social.near"
+                  value={callableContract}
+                  //onChange={handleCallableContractChange}
+                  onChange={(e) => setCallableContract(e.target.value)}
                   //required
                   className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-gray-800 shadow-sm rounded-lg"
                 />
