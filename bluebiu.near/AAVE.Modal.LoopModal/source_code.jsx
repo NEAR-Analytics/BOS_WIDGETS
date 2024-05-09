@@ -620,7 +620,7 @@ function getTokenAllowance() {
     });
 }
 
-function loop() {
+function loop(isNative) {
   new ethers.Contract(
     data.variableDebtTokenAddress,
     [
@@ -709,6 +709,14 @@ function loop() {
         data.symbol === "ETH"
           ? "0x0000000000000000000000000000000000000000"
           : data.underlyingAsset;
+      const options = isNative
+        ? {
+            gasLimit: 4000000,
+            value: parseUnits(state.amount, decimals),
+          }
+        : {
+            gasLimit: 4000000,
+          };
       new ethers.Contract(
         config.LoopDelegateeAddress,
         [
@@ -738,9 +746,7 @@ function loop() {
           asset,
           parseUnits(state.amount, decimals),
           borrowAmount,
-          {
-            gasLimit: 4000000,
-          }
+          options
         )
         .then((tx) => {
           tx.wait()
@@ -798,7 +804,7 @@ function handleLoop() {
   });
 
   if (data.symbol === "ETH") {
-    loop();
+    loop(true);
   } else {
     getTokenAllowance()
       .then((step1) => {
