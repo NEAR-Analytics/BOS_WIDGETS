@@ -1,189 +1,90 @@
 const { Tailwind } = VM.require("uiisnear.near/widget/tailwind");
+
 const { Button, ButtonConf } = VM.require("uiisnear.near/widget/button");
-
-const [toastDestructive, setToastDestructive] = useState("");
-
-const baseToast =
-  "group pointer-events-auto relative flex w-full items-center justify-between space-x-2 overflow-hidden rounded-md border p-4 pr-6 shadow-lg transition-all data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=move]:transition-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[swipe=end]:animate-out data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-top-full data-[state=open]:sm:slide-in-from-bottom-full";
-
-const variantDefault = "border bg-background text-foreground";
-
-const ToastConf = ({ className, variant, output }) => {
-  const srcDoc = `
-      <script type="module"> 
-        import clsx from 'https://cdn.jsdelivr.net/npm/clsx@2.1.1/+esm'
-        import { twMerge } from 'https://cdn.jsdelivr.net/npm/tailwind-merge@2.3.0/+esm'
-        import { cva } from 'https://cdn.jsdelivr.net/npm/class-variance-authority@0.7.0/+esm'
-        
-        const toastVariants = cva(
-          "${baseToast}",
-          {
-            variants: {
-              variant: {
-                default: "${variantDefault}",
-                destructive:
-                  "destructive group border-destructive bg-destructive text-destructive-foreground",
-              },
-            },
-            defaultVariants: {
-              variant: "default",
-            },
-          }
-        )
-  
-        window.addEventListener("message", ({ data }) => {
-          try {
-            event.source.postMessage(twMerge(clsx(toastVariants(data))), "*");
-          } catch (e) {}
-        }, false);
-      </script>
-    `;
-
-  return (
-    <iframe
-      className="d-none"
-      srcDoc={srcDoc}
-      message={{ className, variant }}
-      onMessage={output}
-    />
-  );
-};
-
-const ToastProvider = ({ children, ...props }) => (
-  <Toast.Provider ref="forwardedRef" {...props}>
-    {children}
-  </Toast.Provider>
-);
-
-const toastViewportClassname =
-  "fixed top-0 z-[100] flex max-h-screen w-full flex-col-reverse p-4 sm:bottom-0 sm:right-0 sm:top-auto sm:flex-col md:max-w-[420px]";
-
-const ToastViewport = ({ className, children, ...props }) => (
-  <Toast.Viewport
-    ref="forwardedRef"
-    className={className ?? toastViewportClassname}
-    {...props}
-  >
-    {children}
-  </Toast.Viewport>
-);
-
-const toastClassnameDefault = `${baseToast} ${variantDefault}`;
-
-const ToastRoot = ({ className, children, ...props }) => (
-  <Toast.Root
-    ref="forwardedRef"
-    className={className ?? toastClassnameDefault}
-    {...props}
-  >
-    {children}
-  </Toast.Root>
-);
-
-const toastActionClassname =
-  "inline-flex h-8 shrink-0 items-center justify-center rounded-md border bg-transparent px-3 text-sm font-medium transition-colors hover:bg-secondary focus:outline-none focus:ring-1 focus:ring-ring disabled:pointer-events-none disabled:opacity-50 group-[.destructive]:border-muted/40 group-[.destructive]:hover:border-destructive/30 group-[.destructive]:hover:bg-destructive group-[.destructive]:hover:text-destructive-foreground group-[.destructive]:focus:ring-destructive";
-
-const ToastAction = ({ className, children, ...props }) => (
-  <Toast.Action
-    ref="forwardedRef"
-    className={className ?? toastActionClassname}
-    {...props}
-  >
-    {children}
-  </Toast.Action>
-);
-
-const toastCloseClassname =
-  "absolute right-1 top-1 rounded-md p-1 text-foreground opacity-10 transition-opacity hover:text-foreground focus:opacity-100 focus:outline-none focus:ring-1 group-hover:opacity-100 group-[.destructive]:text-red-300 group-[.destructive]:hover:text-red-50 group-[.destructive]:focus:ring-red-400 group-[.destructive]:focus:ring-offset-red-600";
-
-const ToastClose = ({ className, ...props }) => (
-  <Toast.Close
-    ref="forwardedRef"
-    className={className ?? toastCloseClassname}
-    toast-close=""
-    {...props}
-  >
-    <i class="bi bi-x h-4 w-4"></i>
-  </Toast.Close>
-);
-
-const toastTitleClassname = "text-sm font-semibold [&+div]:text-xs";
-
-const ToastTitle = ({ className, children, ...props }) => (
-  <Toast.Title
-    ref="forwardedRef"
-    className={className ?? toastTitleClassname}
-    {...props}
-  >
-    {children}
-  </Toast.Title>
-);
-
-const toastDescriptionClassname = "text-sm opacity-90";
-
-const ToastDescription = ({ className, children, ...props }) => (
-  <Toast.Description
-    ref="forwardedRef"
-    className={className ?? toastDescriptionClassname}
-    {...props}
-  >
-    {children}
-  </Toast.Description>
-);
-
-const Toaster = ({ toasts, className }) => (
-  <ToastProvider swipeDirection="left">
-    {toasts?.map(({ id, title, description, action, ...props }) => (
-      <ToastRoot key={id} className={className} {...props}>
-        <div className="grid gap-1">
-          {title && <ToastTitle>{title}</ToastTitle>}
-          {description && <ToastDescription>{description}</ToastDescription>}
-        </div>
-        {action}
-        <ToastClose />
-      </ToastRoot>
-    ))}
-    <ToastViewport />
-  </ToastProvider>
-);
-
-const [toasts, setToasts] = useState([]);
-
-const handleOpen = () => {
-  const timer = setTimeout(
-    () => setToasts((t) => [{ ...t, open: false }]),
-    5000
-  );
-  return () => clearTimeout(timer);
-};
+const {
+  AlertDialog,
+  AlertDialogOverlay,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogAction,
+  AlertDialogCancel,
+} = VM.require("uiisnear.near/widget/alertDialog");
 
 if (Tailwind == undefined) return "";
+if (ButtonConf == undefined) return "";
 
-if (toastDestructive === "")
-  return <ToastConf output={setToastDestructive} variant="destructive" />;
+const [buttonContinue, setButtonContinue] = useState("");
+const [buttonOutline, setButtonOutline] = useState("");
+
+if (buttonOutline === "")
+  return <ButtonConf output={setButtonOutline} variant="outline" />;
+
+if (buttonContinue === "")
+  return <ButtonConf output={setButtonContinue} className="mb-2 sm:mb-0" />;
+
+const wait = () => new Promise((resolve) => setTimeout(resolve, 4000));
+
+const [open, setOpen] = useState(false);
+const [loading, setLoading] = useState(false);
+
+const Loader = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="mr-2 h-4 w-4 animate-spin"
+  >
+    <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
+  </svg>
+);
 
 return (
   <Tailwind>
-    <Toaster toasts={toasts} className={toastDestructive} />
-    <div className="flex mx-auto w-max pt-48 h-screen">
-      <Button
-        onClick={() => {
-          setToasts([
-            {
-              title: "Scheduled: Catch up ",
-              description: "Friday, February 10, 2023 at 5:57 PM",
-              open,
-              onOpenChange: setOpen,
-              action: (
-                <ToastAction altText="Goto schedule to undo">Undo</ToastAction>
-              ),
-            },
-          ]);
-          handleOpen();
-        }}
-      >
-        Add to calendar
-      </Button>
+    <div className="flex mx-auto w-max pt-10">
+      <AlertDialog open={open} onOpenChange={setOpen}>
+        <AlertDialogTrigger>
+          <Button className={buttonOutline}>Show Dialog</Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete your
+              account and remove your data from our servers.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className={buttonOutline} disabled={loading}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              className={buttonContinue}
+              disabled={loading}
+              onClick={(event) => {
+                setLoading(true);
+                wait().then(() => {
+                  setOpen(false);
+                  setLoading(false);
+                });
+                event.preventDefault();
+              }}
+            >
+              {loading && <Loader />}
+              Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   </Tailwind>
 );
