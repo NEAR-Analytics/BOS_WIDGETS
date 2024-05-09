@@ -1,4 +1,6 @@
 const {
+  account,
+  toast,
   config,
   addAction,
   dexConfig,
@@ -429,6 +431,8 @@ return (
       <Widget
         src={`${config.ownerId}/widget/AAVE.Modal.LoopModal`}
         props={{
+          account,
+          toast,
           config,
           theme,
           // onRequestClose: () => setShowSupplyModal(false),
