@@ -3,10 +3,11 @@ const [t2, setT2] = useState("hade123");
 const [t3, setT3] = useState("anotherValue");
 
 const testdata = Social.get("vinkosa.near/testdata/**");
-setText(testdata.text);
-setT2(testdata.t2);
-setT3(testdata.t3);
-
+useEffect(() => {
+  setText(testdata.text);
+  setT2(testdata.t2);
+  setT3(testdata.t3);
+}, [testdata]);
 const handleSubmit = () => {
   // Handle submission logic here
   console.log("Form submitted!");
