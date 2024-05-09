@@ -16,7 +16,7 @@ const {
   IS_PREON_DAPP,
 } = props;
 const data = Object.values(dexConfig.markets || {});
-console.log("LiquityMarkets:", props);
+// console.log("LiquityMarkets:", props);
 
 const COLUMNS = [
   {
