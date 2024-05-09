@@ -422,7 +422,6 @@ const handleDeposit = () => {
     proxyAbi,
     Ethers.provider().getSigner()
   );
-  console.log(token0Wei.toString(), token1Wei.toString(), sender, ethers.utils.getAddress(vaultAddress))
   proxyContract
     .deposit(token0Wei, token1Wei, sender, ethers.utils.getAddress(vaultAddress), [0, 0, 0, 0])
     .then((tx) => {
@@ -470,7 +469,7 @@ const handleDeposit = () => {
         title: "Deposit Failed!",
         text: error?.message?.includes("user rejected transaction")
           ? "User rejected transaction"
-          : "",
+          : error?.message ?? "",
       });
     });
 };
@@ -543,7 +542,7 @@ const handleWithdraw = () => {
         title: "Withdraw Failed!",
         text: error?.message?.includes("user rejected transaction")
           ? "User rejected transaction"
-          : "",
+          : error?.message ?? "",
       });
     });
 };
@@ -726,7 +725,7 @@ return (
         </Row>
         <StyledButtonList>
           <StyledButton
-            disabled={isWithdrawInsufficient || isLoading || !lpAmount}
+            disabled={isWithdrawInsufficient || isLoading || Number(lpAmount) <= 0}
             onClick={handleWithdraw}
           >
             {isLoading ? (
