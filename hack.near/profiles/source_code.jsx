@@ -4,6 +4,10 @@ const limit = props.limit || 888;
 let buildersObject =
   props.builders || Social.get(`*/graph/commons/${accountId}`, "final");
 
+if (!buildersObject) {
+  return "";
+}
+
 const builders = Object.keys(buildersObject);
 
 const Faces = styled.span`
