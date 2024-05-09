@@ -1,4 +1,4 @@
-const accountId = context.accountId;
+const accountId = props.accountId || context.accountId;
 
 if (!accountId) {
   return "Sign in with NEAR Wallet";
