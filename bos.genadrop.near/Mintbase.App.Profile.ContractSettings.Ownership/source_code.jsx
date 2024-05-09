@@ -41,8 +41,8 @@ const Ownership = ({ isDarkModeOn, contractId }) => {
   const onAccountChange = (e) => {
     setTransferAccountName(e.target.value);
   };
+  const profile = Social.get(`${transferAccountName}/profile/**`, "final");
   const onSign = () => {
-    const profile = Social.get(`${transferAccountName}/profile/**`, "final");
     if (!profile) return setOnError(true);
     setOnError(false);
     transferStoreOwnership(contractId, transferAccountName);
