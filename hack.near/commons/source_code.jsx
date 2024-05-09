@@ -1,3 +1,5 @@
+const [hideInfo, setHideInfo] = useState(false);
+
 const accountId = props.accountId ?? context.accountId ?? "every.near";
 const graphId = props.graphId ?? "commons";
 
@@ -43,24 +45,24 @@ return (
     <div className="m-2">
       <Widget src="hack.near/widget/commons.add" />
     </div>
-    <div>
+    <div className="m-2">
       {builders.map((a) => (
         <div
           key={a}
-          className="d-flex m-2 p-2 justify-content-between align-items-center"
+          className="m-2 d-flex flex-row justify-content-between align-items-center"
         >
-          <div className="d-flex align-items-center">
-            <span className="m-2 me-3">
-              {context.accountId && (
-                <Widget
-                  src="hack.near/widget/attest"
-                  props={{
-                    accountId: a,
-                  }}
-                />
-              )}
+          <div className="m-2 d-flex align-items-center">
+            {context.accountId && (
+              <Widget
+                src="hack.near/widget/attest"
+                props={{
+                  accountId: a,
+                }}
+              />
+            )}
+            <span className="ms-3 m-2">
+              <Widget src="hack.near/widget/profile" props={{ accountId: a }} />
             </span>
-            <Widget src="mob.near/widget/Profile" props={{ accountId: a }} />
           </div>
           <div className="m-2 d-flex align-items-center">
             <Widget src="hack.near/widget/profiles" props={{ accountId: a }} />
