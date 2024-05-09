@@ -1,54 +1,3 @@
-{
-  /*
-            <Label>Source</Label>
-            <Widget
-              src="hyperfiles.near/widget/MetadataEditor"
-              props={{
-                initialMetadata: profile,
-                onChange: (newValue) => {
-                  console.log("New Source:", newValue);
-                  setSource(newValue); // Update local state
-                  State.update({
-                    profile: { ...profile, source: newValue }, // Update external state
-                  });
-                },
-                value: source,
-                options: {
-                  source: {
-                    sourcePattern: "*/ source;
-  /*",
-                    placeholder: "Select a source",
-                  },
-                },
-              }}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label>Schema</Label>
-            <Widget src="hyperfiles.near/widget/schema.array" />
-            <Widget
-              src="hyperfiles.near/widget/MetadataEditor"
-              props={{
-                initialMetadata: profile,
-                onChange: (newValue) => {
-                  console.log("New Schema:", newValue);
-                  setSchema(newValue); // Update local state
-                  State.update({
-                    profile: { ...profile, schema: newValue }, // Update external state
-                  });
-                },
-                value: schema,
-                options: {
-                  source: {
-                    schemaPattern: "*/ schema; /*",
-                    placeholder: "Select a schema",
-                  },
-                },
-              }}
-            />
-            */
-}
-
 const Wrapper = styled.div`
   max-width: 400px;
   margin: 0 auto;
@@ -82,6 +31,11 @@ const FormGroup = styled.div`
   flex-direction: column;
 `;
 
+const FormContainer = styled.div`
+  border: 1px solid #ccc;
+  padding: 20px;
+`;
+
 const Button = styled.button``;
 
 const adapters = [
@@ -97,7 +51,7 @@ const adapters = [
   // },
   {
     title: "IPFS",
-    value: "hyperfiles.near/widget/adapter.ipfs",
+    value: "everycanvas.near/widget/adapter.ipfs",
   },
   {
     title: "GitHub",
@@ -194,41 +148,6 @@ const handleCreate = () => {
   }
 };
 
-function parseAdapter(code) {
-  let match;
-  const functions = [];
-  const functionRegex = /function\s+(\w+)\s*\(([^)]*)\)\s*{([\s\S]*?)\n}/g;
-
-  while ((match = functionRegex.exec(code)) !== null) {
-    const [_, functionName, params, content] = match;
-    functions.push({ functionName, params, content });
-  }
-
-  return functions.map((func, index) => (
-    <FormGroup key={index}>
-      <Label>{func.functionName}</Label>
-      <textarea
-        className="form-control"
-        style={{ width: "100%", height: "100%" }}
-        value={func.content.trim()}
-        disabled
-      />
-    </FormGroup>
-  ));
-}
-
-const [rawAdapter, setRawAdapter] = useState(null);
-
-useEffect(() => {
-  if (adapter) {
-    const module = VM.require(adapter);
-    if (module) {
-      const { source } = module;
-      setRawAdapter(source); // Assuming 'source' contains the raw JS code of the adapter
-    }
-  }
-}, [adapter]);
-
 return (
   <div className="row">
     <div className="col">
@@ -236,7 +155,50 @@ return (
         <Form>
           <h3>Data</h3>
           <FormGroup>
-            <Widget src="hyperfiles.near/widget/schema.select" />
+            <Label>Source</Label>
+            <Widget
+              src="hyperfiles.near/widget/MetadataEditor"
+              props={{
+                initialMetadata: profile,
+                onChange: (newValue) => {
+                  console.log("New Source:", newValue);
+                  setSource(newValue); // Update local state
+                  State.update({
+                    profile: { ...profile, source: newValue }, // Update external state
+                  });
+                },
+                value: source,
+                options: {
+                  source: {
+                    sourcePattern: "*/profile/source/*",
+                    placeholder: "Select a source",
+                  },
+                },
+              }}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label>Schema</Label>
+            <Widget
+              src="hyperfiles.near/widget/MetadataEditor"
+              props={{
+                initialMetadata: profile,
+                onChange: (newValue) => {
+                  console.log("New Schema:", newValue);
+                  setSchema(newValue); // Update local state
+                  State.update({
+                    profile: { ...profile, schema: newValue }, // Update external state
+                  });
+                },
+                value: schema,
+                options: {
+                  source: {
+                    schemaPattern: "*/profile/schema/*",
+                    placeholder: "Select a schema",
+                  },
+                },
+              }}
+            />
           </FormGroup>
           <FormGroup>
             <Label>Raw Data</Label>
@@ -247,6 +209,18 @@ return (
               onChange={(e) => setRawData(e.target.value)}
             />
           </FormGroup>
+          <FormContainer>
+            <Widget
+              src="efiz.near/widget/create"
+              props={{
+                item: {
+                  type: "*/profile/schema/${schema}",
+                  value: schema,
+                },
+                onChange: handleOnChange,
+              }}
+            />
+          </FormContainer>
         </Form>
       </div>
     </div>
@@ -266,10 +240,6 @@ return (
             </Select>
           </FormGroup>
           {rawAdapter && <>{parseAdapter(rawAdapter)}</>}
-
-          {adapter === "hyperfiles.near/widget/adapter.ipfs" && (
-            <Widget src="everycanvas.near/widget/adapter.ipfs"></Widget>
-          )}
           {adapter === "hyperfiles.near/widget/adapter.github" && (
             <Widget
               src="flowscience.near/widget/GitHubSearchSelect"
