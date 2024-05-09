@@ -5,7 +5,7 @@ return (
     props={{
       popup: (
         <Widget
-          src={`${props.src ?? "mob.near/widget/profile.overlay"}`}
+          src={`${props.src ?? "hack.near/widget/profile.overlay"}`}
           props={{ accountId: props.accountId }}
         />
       ),
