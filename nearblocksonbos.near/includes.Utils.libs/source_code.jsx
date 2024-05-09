@@ -92,7 +92,25 @@ function MainComponent() {
       }
     }
   }
-
+  function fetchData(
+    url,
+    callback,
+    options,
+  ) {
+    asyncFetch(url, options)
+      .then((data) => {
+        const resp = data?.body;
+        if (data.status === 200) {
+          callback(resp);
+        } else {
+          handleRateLimit(data, () => fetchData(url, callback, options));
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+        throw error;
+      });
+  }
   function yoctoToNear(yocto, format) {
     const YOCTO_PER_NEAR = Big(10).pow(24).toString();
 
@@ -291,6 +309,7 @@ function MainComponent() {
     convertAmountToReadableString,
     convertTimestampToTime,
     mapFeilds,
+    fetchData,
   };
 }
 
