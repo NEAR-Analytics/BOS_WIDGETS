@@ -33,14 +33,9 @@ const attest = () => {
 
 return (
   <>
-    {accountId === context.accountId ? (
-      <Widget
-        src="hack.near/widget/BuilderHat"
-        props={{ isBuilder: true, color: "black" }}
-      />
-    ) : (
+    {context.accountId && (
       <button
-        disabled={!context.accountId || loading}
+        disabled={loading}
         className={`btn btn-sm ${attested ? "btn-dark" : "btn-outline-dark"}`}
         onClick={attest}
       >
