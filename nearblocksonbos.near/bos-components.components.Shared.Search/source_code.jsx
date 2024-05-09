@@ -283,6 +283,7 @@ function MainComponent({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [config.backendUrl, filter],
   );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedSetKeyword = useCallback(
     debounce
       ? debounce(500, (value) => {
@@ -290,7 +291,6 @@ function MainComponent({
         })
       : (value) => fetchData(value, filter),
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [fetchData],
   );
   // Handle input change
