@@ -207,7 +207,7 @@ const FeedPage = () => {
     input: "",
     loading: false,
     loadingMore: false,
-    aggregatedCount: 0,
+    aggregatedCount: null,
     currentlyDisplaying: 0,
   });
 
@@ -512,7 +512,7 @@ const FeedPage = () => {
         </div>
       </div>
       <div style={{ minHeight: "50vh" }}>
-        {!Array.isArray(state.data) ? (
+        {aggregatedCount === null ? (
           loader
         ) : (
           <div className="card no-border rounded-0 mt-4 py-3 full-width-div">
