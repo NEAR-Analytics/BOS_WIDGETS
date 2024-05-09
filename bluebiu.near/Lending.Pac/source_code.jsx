@@ -1525,6 +1525,8 @@ const body = isChainSupported ? (
         <Widget
           src={`${config.ownerId}/widget/AAVE.Card.Markets`}
           props={{
+            account,
+            toast,
             formatUSD,
             config,
             dexConfig,
