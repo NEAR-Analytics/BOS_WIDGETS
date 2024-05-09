@@ -23,7 +23,7 @@ const [defaultView, setDefaultView] = useState("QUERY") || props.defaultView;
 
 const user = Ethers.send("eth_requestAccounts", [])[0];
 
-//if (!user) return <Web3Connect connectLabel="Connect" />;
+// if (!user) return <Web3Connect connectLabel="Connect" />;
 
 {
   /*
@@ -47,10 +47,9 @@ return (
     <div className="m-2">
       <h1>EAS on BOS</h1>
       <p>
-        Currently only works with{" "}
+        Querying currently only works on
         <a href="https://optimism.easscan.org/">Optimism</a>.
       </p>
-      <Web3Connect connectLabel="Connect" />
       <hr />
     </div>
     <ul className="nav nav-tabs">
@@ -89,10 +88,8 @@ return (
       {activeTab === "Create" && (
         <div>
           <div className="m-2">
-            <h4>Coming soon! Create Attestations & Schemas using EAS!</h4>
+            <p>Coming soon! Create Attestations & Schemas!</p>
             <hr />
-            <h4>Create attestations on Near socialDB:</h4>
-            <Widget src="flowscience.near/widget/attest" />
           </div>
         </div>
       )}
