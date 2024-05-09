@@ -39,60 +39,34 @@ useEffect(() => {
 
 return (
   <div className="m-2 p-1">
-    <div className="m-1">
+    <h5 className="m-2 mb-3">Commons Graph</h5>
+    <div className="m-2">
       <Widget src="hack.near/widget/commons.add" />
     </div>
-    <table style={{ width: "100%" }}>
-      <thead>
-        <tr>
-          <th style={{ padding: "8px" }}>
-            {context.accountId && (
-              <Widget
-                src="hack.near/widget/commons.join"
-                props={{
-                  accountId: "*",
-                  attestorId: accountId,
-                }}
-              />
-            )}
-          </th>
-          {attestors.map((attestor, index) => (
-            <th key={index} style={{ padding: "8px" }}>
-              {attestor}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {matrix.map((row, rowIndex) => (
-          <tr key={rowIndex}>
-            <td style={{ padding: "8px" }}>
-              <b>{builders[rowIndex]}</b>
-            </td>
-            {row.map((cell, cellIndex) => (
-              <td style={{ padding: "8px" }} key={cellIndex}>
-                {accountId !== cell.attestorId ? (
-                  <Widget
-                    src="hack.near/widget/BuilderBadge"
-                    props={{
-                      accountId: cell.builderId,
-                      attestorId: cell.attestorId,
-                    }}
-                  />
-                ) : (
-                  <Widget
-                    src="hack.near/widget/attest"
-                    props={{
-                      accountId: cell.builderId,
-                      attestorId: cell.attestorId,
-                    }}
-                  />
-                )}
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div>
+      {builders.map((a) => (
+        <div
+          key={a}
+          className="d-flex m-2 p-2 justify-content-between align-items-center"
+        >
+          <div className="d-flex align-items-center">
+            <span className="m-2 me-3">
+              {context.accountId && (
+                <Widget
+                  src="hack.near/widget/attest"
+                  props={{
+                    accountId: a,
+                  }}
+                />
+              )}
+            </span>
+            <Widget src="mob.near/widget/Profile" props={{ accountId: a }} />
+          </div>
+          <div className="m-2 d-flex align-items-center">
+            <Widget src="hack.near/widget/profiles" props={{ accountId: a }} />
+          </div>
+        </div>
+      ))}
+    </div>
   </div>
 );
