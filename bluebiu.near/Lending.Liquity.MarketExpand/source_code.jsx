@@ -412,7 +412,9 @@ useEffect(() => {
     if (assetInUSD) {
       borrowTokenBal = assetInUSD
         .minus(20)
-        .minus(assetInUSD.minus(20).mul(0.02))
+        .minus(
+          Big(0.067).mul(Big(state.amount)).mul(price).mul(Big(data["MAX_LTV"]))
+        )
         .toFixed();
     }
 
