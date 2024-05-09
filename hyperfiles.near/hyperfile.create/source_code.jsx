@@ -38,6 +38,7 @@ const FormContainer = styled.div`
 
 const Button = styled.button``;
 
+// Define adapter array before initializing constants below
 const adapters = [
   // these can come from the user (or app) settings
   // {
@@ -67,11 +68,19 @@ const adapters = [
   // },
 ];
 
+// Schema constants
+const initialSchemaSrc = props.schemaSrc || "hyperfiles.near";
+const [newSchemaSrc, setNewSchemaSrc] = useState(initialSchemaSrc);
+const [schemaSrc, setSchemaSrc] = useState(initialSchemaSrc);
+const [availableSchemas, setAvailableSchemas] = useState([]);
+const [isLoading, setIsLoading] = useState(true);
+const [selectedSchema, setSelectedSchema] = useState(
+  props.selectedSchema || "attestations.near/type/isTrue"
+);
+
+// Creator constants
 const defaultAdapter = adapters[0];
-
 const { creatorId } = props;
-
-const [json, setJson] = useState(props.data ?? "");
 const [source, setSource] = useState(props.source ?? "");
 const [adapter, setAdapter] = useState(defaultAdapter.value ?? "");
 const [reference, setReference] = useState(undefined);
@@ -79,7 +88,18 @@ const [filename, setFilename] = useState(props.filename ?? "");
 const [activeTab, setActiveTab] = useState("data");
 const [name, setName] = useState(props.name ?? "");
 const [description, setDescription] = useState(props.description ?? "");
+const [json, setJson] = useState(props.data ?? "");
 
+// Catchall state.data - can probably delete
+State.init({
+  data,
+});
+
+const handleOnChange = (value) => {
+  State.update({ data: { ...state.data, ...value } });
+};
+
+// TODO: Import keccak from ethers to hash Hyperfile contents
 function generateUID() {
   return (
     Math.random().toString(16).slice(2) +
@@ -105,16 +125,16 @@ const handleCreate = () => {
           // which we store in the social contract
           [thingId]: {
             "": JSON.stringify({
-              fileformat: `${props.type}.${source}`,
+              schema: schema,
               source: source,
               adapter: adapter,
               reference: reference,
+              metadata: {
+                name: name,
+                description: description,
+                type: props.type,
+              },
             }),
-            metadata: {
-              name: name,
-              description: description,
-              type: props.type,
-            },
           },
         },
       };
@@ -152,6 +172,7 @@ return (
   <div className="row">
     <div className="col">
       <div className="p-3 border bg-light">
+        {/* Save data source names to user profile */}
         <Form>
           <h3>Data</h3>
           <FormGroup>
@@ -180,47 +201,37 @@ return (
           <FormGroup>
             <Label>Schema</Label>
             <Widget
-              src="hyperfiles.near/widget/MetadataEditor"
+              src="hyperfiles.near/widget/schema.select"
               props={{
-                initialMetadata: profile,
                 onChange: (newValue) => {
                   console.log("New Schema:", newValue);
                   setSchema(newValue); // Update local state
-                  State.update({
-                    profile: { ...profile, schema: newValue }, // Update external state
-                  });
                 },
-                value: schema,
+                value: selectedSchema,
                 options: {
                   source: {
                     schemaPattern: "*/profile/schema/*",
-                    placeholder: "Select a schema",
                   },
                 },
               }}
             />
           </FormGroup>
           <FormGroup>
-            <Label>Raw Data</Label>
-            <textarea
-              className="form-control"
-              style={{ width: "100%", height: "400px" }}
-              value={rawData}
-              onChange={(e) => setRawData(e.target.value)}
-            />
+            <Label>Input Your Data</Label>
+
+            <FormContainer>
+              <Widget
+                src="efiz.near/widget/create"
+                props={{
+                  item: {
+                    type: selectedSchema,
+                    value: schema,
+                  },
+                  onChange: handleOnChange,
+                }}
+              />
+            </FormContainer>
           </FormGroup>
-          <FormContainer>
-            <Widget
-              src="efiz.near/widget/create"
-              props={{
-                item: {
-                  type: "*/profile/schema/${schema}",
-                  value: schema,
-                },
-                onChange: handleOnChange,
-              }}
-            />
-          </FormContainer>
         </Form>
       </div>
     </div>
