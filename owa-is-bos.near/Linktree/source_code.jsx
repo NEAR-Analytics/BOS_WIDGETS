@@ -235,17 +235,6 @@ return (
           </Text>
         </div>
       </div>
-      <Verifications
-        style={{
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        <Widget
-          src="near/widget/ProfilePage.ProfileBadges"
-          props={{ accountId }}
-        />
-      </Verifications>
     </Section>
 
     <Section
