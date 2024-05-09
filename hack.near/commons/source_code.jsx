@@ -60,7 +60,7 @@ return (
                 }}
               />
             )}
-            <span className="ms-3 m-2">
+            <span className="ms-3">
               <Widget src="hack.near/widget/profile" props={{ accountId: a }} />
             </span>
           </div>
