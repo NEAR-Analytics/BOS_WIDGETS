@@ -1,10 +1,26 @@
-// define the HTML and JavaScript code for the canvas element
+State.init({
+  value: "value to update",
+});
 
-const url =
-  "https://drive.google.com/file/d/1Gz8pmtkWzKGGfnzKeCXOUImhwGKkca56/view?usp=sharing";
+console.log(Near.view("nearsocialexamples.near", "get_greeting"));
+
+const testCall = () => {
+  return Near.call("nearsocialexamples.near", "set_greeting", {
+    message: "Hi Near Social",
+  });
+};
+
+const testView = () => {
+  State.update({
+    value: Near.view("nearsocialexamples.near", "get_greeting"),
+  });
+};
 
 return (
   <div>
-    <iframe iframeResizer src={url} />
+    <button onClick={testCall}>test call</button>
+    <button onClick={testView}>test view</button>
+
+    <div>{state.value}</div>
   </div>
 );
