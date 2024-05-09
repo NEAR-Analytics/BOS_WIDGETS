@@ -4,10 +4,7 @@ return (
     src="mob.near/widget/N.Common.OverlayTrigger"
     props={{
       popup: (
-        <Widget
-          src={`${props.src ?? "hack.near/widget/profile.overlay"}`}
-          props={{ accountId: props.accountId }}
-        />
+        <Widget src={`${props.src}`} props={{ accountId: props.accountId }} />
       ),
       ...props,
     }}
