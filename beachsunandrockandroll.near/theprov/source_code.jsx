@@ -23,8 +23,8 @@ const myTheme = {
   radius: "0.5rem",
 };
 
-const ThemeProvider = ({ children }) => (
-  <Tailwind theme={myTheme}>{children}</Tailwind>
+const ThemeProvider = () => (
+  <Tailwind theme={myTheme}>{props.children}</Tailwind>
 );
 
 return { ThemeProvider };
