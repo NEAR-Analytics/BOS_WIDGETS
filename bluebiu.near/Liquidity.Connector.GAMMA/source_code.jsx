@@ -41,7 +41,6 @@ const {
   connectProps,
   prices,
 } = props
-console.log('=multicallAddress', multicallAddress)
 
 const formatFiat = (value) => {
   const number = Number(value).toLocaleString("en", {
@@ -102,7 +101,7 @@ function fetchUserData() {
   asyncFetch(USER_DATA_BASE + `${sender}`).then((res) => {
     if (!res.ok) return;
     State.update({
-      userPositions: res.body[sender],
+      userPositions: res.body[sender.toLocaleLowerCase()],
     });
   });
 };
@@ -133,7 +132,6 @@ function refetch() {
   fetchAllData()
   fetchUserData()
 }
-
 useEffect(() => {
   if (state.dataList) {
     let filterList = []
@@ -305,10 +303,11 @@ const columnList = isDapps ? [{
     const userBalance = userPositions && addresses[data.id] in userPositions
       ? userPositions[addresses[data.id]].balanceUSD
       : undefined;
+
     return (
       <>
         <TdTxt>{Big(userBalance ?? 0).gt(0) ? `${formatFiat(userBalance)}` : "-"}</TdTxt>
-        {Big(data?.liquidity ?? 0).gt(0) && <TdTxt className="gray">{data.liquidity} LP</TdTxt>}
+        {Big(data?.liquidity ?? 0).gt(0) && <TdTxt className="gray">{Big(data?.liquidity ?? 0).lt(0.01) ? '<0.01' : Big(data.liquidity).toFixed(2)} LP</TdTxt>}
         <SvgIcon className={["icon-right", index === state.dataIndex ? "rotate" : ""]}>
           {IconRight}
         </SvgIcon>
