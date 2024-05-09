@@ -26,3 +26,5 @@ const myTheme = {
 const ThemeProvider = ({ children }) => (
   <Tailwind theme={myTheme}>{children}</Tailwind>
 );
+
+return { ThemeProvider };
