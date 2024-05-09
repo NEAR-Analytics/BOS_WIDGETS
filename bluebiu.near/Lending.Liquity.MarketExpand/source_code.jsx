@@ -99,7 +99,7 @@ const StyledInfo = styled.div`
   padding-bottom: 16px;
 `;
 const StyledInfoContent = styled.div`
-  width: 390px;
+  /* width: 390px; */
   .icon {
     width: 16px;
     margin: 0 4px;
@@ -661,7 +661,8 @@ return (
               </StyledInfoItem> */}
               {Big(tokenBal || 0).lt(Big(data.vesselDebt || 0)) ? (
                 <StyledInfoTips>
-                  More GRAI must be acquired in order to close the Vessel.
+                  More {data.BORROW_TOKEN} must be acquired in order to close
+                  the Vessel.
                 </StyledInfoTips>
               ) : null}
 
