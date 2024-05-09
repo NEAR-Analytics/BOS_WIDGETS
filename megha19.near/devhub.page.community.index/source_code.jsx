@@ -1,3 +1,7 @@
+const { normalize } = VM.require("megha19.near/widget/core.lib.stringUtils");
+
+normalize || (normalize = () => {});
+
 const Button = styled.button`
   height: 40px;
   font-size: 14px;
@@ -46,38 +50,22 @@ if (!tab) {
   tab = "Announcements";
 }
 
+tab = normalize(tab);
+
 const [isLinkCopied, setLinkCopied] = useState(false);
 
-const tabs = [
-  {
-    title: "Announcements",
-    view: "megha19.near/widget/devhub.entity.community.Announcements",
-    params: {
-      handle: community.handle,
-    },
-  },
-  {
-    title: "Activity",
-    view: "megha19.near/widget/devhub.entity.community.Activity",
-    params: {
-      handle: community.handle,
-    },
-  },
-  {
-    title: "Teams",
-    view: "megha19.near/widget/devhub.entity.community.Teams",
-    params: {
-      handle: community.handle,
-    },
-  },
-];
+const tabs = [];
 
 (community.addons || []).map((addon) => {
   addon.enabled &&
     tabs.push({
       title: addon.display_name,
       view: "megha19.near/widget/devhub.page.addon",
-      params: { addon },
+      params: {
+        addon,
+        handle: community.handle,
+        transactionHashes: props.transactionHashes,
+      },
     });
 });
 
@@ -92,7 +80,7 @@ const onShareClick = () =>
     )
     .then(setLinkCopied(true));
 
-let currentTab = tabs.find((it) => it.title === tab);
+let currentTab = tabs.find((it) => normalize(it.title) === tab);
 
 const CommunityName = styled.span`
   color: #151515;
@@ -100,6 +88,10 @@ const CommunityName = styled.span`
   font-style: normal;
   font-weight: 700;
   line-height: 100%; /* 48px */
+
+  @media screen and (max-width: 768px) {
+    font-size: 1.5rem;
+  }
 `;
 
 const CommunityDetails = styled.span`
@@ -117,7 +109,7 @@ function trimHttps(url) {
   return url;
 }
 
-// some communties have url as handle (eg: devhub platform) while others has correct handle
+// some communities have url as handle (eg: devhub platform) while others has correct handle
 function checkTelegramHandle(tg) {
   const pattern = /https:\/\/t.me\/(.*)/;
   const includesHttp = tg.match(pattern);
@@ -291,13 +283,13 @@ return (
                     params: {
                       page: "community",
                       handle: community.handle,
-                      tab: title,
+                      tab: normalize(title),
                     },
                   })}
-                  aria-current={tab === title && "page"}
+                  aria-current={tab === normalize(title) && "page"}
                   className={[
                     "d-inline-flex gap-2",
-                    tab === title ? "nav-link active" : "nav-link",
+                    tab === normalize(title) ? "nav-link active" : "nav-link",
                   ].join(" ")}
                 >
                   <span>{title}</span>

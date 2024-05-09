@@ -9,11 +9,6 @@ State.init({
 
 State.update({ selectedBoxes });
 
-const Input = styled.input``;
-const Fieldset = styled.fieldset`
-    display: flex;
-    flex-direction: column;
-`;
 
 const handleChange = (checked, value) => {
   if (checked) {

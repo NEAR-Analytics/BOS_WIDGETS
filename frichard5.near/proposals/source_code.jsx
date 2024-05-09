@@ -1,6 +1,5 @@
-const widgetProvider = props.widgetProvider;
+const {widgetProvider, ftList, parent } = props;
 const account = props.account || "marketing.sputnik-dao.near";
-const ftList = props.ftList;
 const apiUrl = `https://api.pikespeak.ai/daos/proposals`;
 const apiPolicyUrl = `https://api.pikespeak.ai/daos/policy`;
 const publicApiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
@@ -274,18 +273,21 @@ const selectDaos = (daos) => {
     });
 };
 
-const getCouncil = (policy, proposalDaoId) => {
-    const votePermissions = ["*:VoteApprove", "*:VoteReject"];
-    const proposalPolicy = policy.filter((pol) => pol.dao_id === proposalDaoId)
-    if(proposalPolicy.length) {
-        let council = proposalPolicy[0].state.policy.roles.reduce((acc,role) => {
-            if(role.permissions.some((p) => votePermissions.includes(p))) {
-                acc.push(...role.kind)
-            }
-            return acc
-        }, [])
-        return council;
-    }
+const getVoters = () => {
+    let proposalType = state.detailedProposal.proposal_type.toLowerCase();
+    proposalType = proposalType==='functioncall'?'call':proposalType;
+    const proposalPolicy = state.policy.filter((pol) => pol.dao_id === state.detailedProposal.dao_id);
+    return proposalPolicy[0].state.policy.roles.reduce((acc,val) => {
+        const isGroupAllowed = val.permissions.some((p) => {
+            const parsedP = p.toLowerCase().replaceAll('_','');
+            return parsedP.includes(`${proposalType}:voteapprove`)||parsedP.includes(`*:voteapprove`)
+        });
+
+        if(isGroupAllowed) {
+            acc.push(...val.kind);
+        }
+        return acc
+    }, [])
 }
 
 const statusOptions = ["Approved", "Rejected", "InProgress", "Expired"].map(
@@ -430,7 +432,8 @@ const ProposalCard = (
             proposal: state.detailedProposal,
             widgetProvider,
             ftList,
-            council: state.policy && state.detailedProposal.dao_id && getCouncil(state.policy, state.detailedProposal.dao_id),
+            parent,
+            council: state.policy && state.detailedProposal.dao_id && getVoters(),
             voteExpired:
                 state.policy &&
                 state.policy.filter((pol) => pol.dao_id === state.detailedProposal.dao_id)[0].state

@@ -152,25 +152,36 @@ const pairs = [
 
 const Tag = styled.div`
   border-radius: 16px;
-  background: #393B47;
+  background: #393b47;
   display: inline-block;
   padding: 4px 10px;
   font-size: 12px;
 `;
 
 const Container = styled.div`
-  border:1px solid #332C4B;
-  background: #181A27;
+  border: 1px solid #332c4b;
+  background: #181a27;
   border-radius: 16px;
-  overflow: hidden; 
-  padding:10px 0;
-`
+  overflow: hidden;
+  padding: 10px 0;
+
+  @media (max-width: 736px) {
+    border: none;
+    background: none;
+    width: 100%;
+    padding: 0 24px;
+  }
+`;
 const Table = styled.table`
-  font-family: 'Inter';
+  font-family: "Inter";
   color: #fff;
-  width:100%;
+  min-width: 640px;
+  width: 100%;
+
   th {
     padding: 10px;
+    color: #7c7f96;
+    font-weight: 400;
   }
   td {
     padding: 10px 10px;
@@ -181,12 +192,106 @@ const Table = styled.table`
     &:last-of-type {
       border-bottom: none;
     }
-    th:first-child, td:first-child{
-      padding-left:26px;
+    th:first-child,
+    td:first-child {
+      padding-left: 26px;
+    }
+    &.active {
+      background: rgba(53, 55, 73, 0.5);
     }
   }
-  tbody tr:hover{
+
+  @media (max-width: 736px) {
+    width: auto;
+    min-width: auto;
+    max-width: 100%;
+
+    display: block;
+
+    width thead {
+      display: none;
+    }
+
+    tr {
+      display: none;
+    }
+  }
+
+  tbody tr:hover {
     background: rgba(53, 55, 73, 0.5);
+  }
+`;
+
+const MobileListItem = styled.div`
+  border: 1px solid #332c4b;
+  background: linear-gradient(0deg, #181a27, #181a27);
+  border-radius: 10px;
+  color: white;
+  font-size: 16px;
+  padding: 12px 0;
+
+  .pair-title {
+    border-bottom: 1px solid #2e3145;
+
+    padding: 0px 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .type-box {
+      border-radius: 13px;
+      min-width: 61px;
+      height: 26px;
+      padding: 0px 6px;
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 16px;
+      letter-spacing: 0em;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #d9d9d91a;
+    }
+  }
+
+  .info-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+
+    .info-title {
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 18px;
+      letter-spacing: 0em;
+      text-align: left;
+      color: #979abe;
+    }
+
+    .info-value {
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 18px;
+      letter-spacing: 0em;
+      text-align: left;
+      color: #ffffff;
+    }
+  }
+
+  @media (min-width: 736px) {
+    display: none;
+  }
+`;
+
+const MobileList = styled.div`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 12px;
+  @media (min-width: 736px) {
+    display: none;
   }
 `;
 
@@ -208,7 +313,7 @@ const formatPercent = (value) => {
   })}%`;
 };
 
-const { poolsData, userPositions } = props;
+const { poolsData, activePair, userPositions } = props;
 
 const onPairClick = (pair) => {
   const { handlePairClick } = props;
@@ -224,8 +329,8 @@ return (
           <th>Gamma Position</th>
           <th>Strategy</th>
           <th>TVL</th>
-          <th>Balance</th>
           <th>APR</th>
+          <th>Yours</th>
         </tr>
       </thead>
       <tbody>
@@ -238,7 +343,11 @@ return (
                 : undefined;
 
             return (
-              <tr onClick={() => onPairClick(pair)} key={pair.id}>
+              <tr
+                onClick={() => onPairClick(pair)}
+                key={pair.id}
+                className={activePair.id === pair.id ? "active" : ""}
+              >
                 <td>
                   {pair.token0}-{pair.token1}
                 </td>
@@ -246,12 +355,61 @@ return (
                   <Tag>{pair.strategy2 ? pair.strategy2 : pair.strategy}</Tag>
                 </td>
                 <td>{formatFiat(poolData.tvlUSD)}</td>
-                <td>{userBalance ? `${formatFiat(userBalance)}` : "-"}</td>
                 <td>{formatPercent(poolData.returns.weekly.feeApr)}</td>
+
+                <td>{userBalance ? `${formatFiat(userBalance)}` : "-"}</td>
               </tr>
             );
           })}
       </tbody>
     </Table>
-</Container>
+
+    {poolsData && (
+      <MobileList>
+        {pairs.map((pair) => {
+          const poolData = poolsData[addresses[pair.id]];
+          const userBalance =
+            userPositions && addresses[pair.id] in userPositions
+              ? userPositions[addresses[pair.id]].balanceUSD
+              : undefined;
+
+          return (
+            <MobileListItem onClick={() => onPairClick(pair)} key={pair.id}>
+              <div className="pair-title">
+                <div>
+                  {pair.token0}-{pair.token1}
+                </div>
+                <div className="type-box">
+                  {pair.strategy2 ? pair.strategy2 : pair.strategy}
+                </div>
+              </div>
+              <div className="info-line">
+                <div
+                  className="info-title"
+                  style={{
+                    paddingTop: "14px",
+                  }}
+                >
+                  TVL
+                </div>
+                <div className="info-value">{formatFiat(poolData.tvlUSD)}</div>
+              </div>
+              <div className="info-line">
+                <div className="info-title">Balance</div>
+                <div className="info-value">
+                  {userBalance ? `${formatFiat(userBalance)}` : "-"}
+                </div>
+              </div>
+              <div className="info-line">
+                <div className="info-title">APR</div>
+                <div className="info-value">
+                  {formatPercent(poolData.returns.weekly.feeApr)}
+                </div>
+              </div>
+            </MobileListItem>
+          );
+        })}
+      </MobileList>
+    )}
+  </Container>
 );

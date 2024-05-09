@@ -1,4 +1,5 @@
 const Css = styled.div`
+    margin-top:10px;
     .nav-item{
         list-style:none;
     }
@@ -6,6 +7,11 @@ const Css = styled.div`
         margin:0;
     }
 `;
+const navItems = [
+  { t: "🏠Home", l: ``, r: "home" },
+  { t: "🔥Trending", l: `?cat=trending`, r: "trending" },
+  { t: "⭐Bookmark", l: `?bookmark=lfg`, r: "trending" },
+];
 return (
   <Css>
     <div
@@ -22,9 +28,9 @@ return (
       }}
     >
       <div className="container-fluid">
-        <a className="navbar-brand" href={`/${props.componentPath}.App`}>
+        <Link className="navbar-brand" href={`/${props.indexPath}`}>
           📒NEARCatalog{" "}
-        </a>
+        </Link>
 
         <button
           className="navbar-toggler"
@@ -40,38 +46,47 @@ return (
 
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav">
+            {navItems.map((e) => {
+              return (
+                <li className="nav-item">
+                  <Link className="nav-link" href={`/${props.indexPath}` + e.l}>
+                    {e.t}
+                  </Link>
+                </li>
+              );
+            })}
             <li className="nav-item">
-              <a
-                className="nav-link active"
-                aria-current="page"
-                href={`/${props.componentPath}.App`}
-              >
-                🏠Home
-              </a>
-            </li>
-            <li className="nav-item">
-              <a
-                className="nav-link"
-                href={`/${props.componentPath}.App?cat=trending`}
-              >
-                🔥Trending
-              </a>
-            </li>
-            <li className="nav-item">
+              {" "}
               <a
                 className="nav-link"
-                target="_blank"
-                href="https://forms.gle/ASi6xpVAyoPcxghr8"
+                href="https://submit.nearcatalog.xyz/new-project/"
               >
                 📥 Submit project
               </a>
             </li>
           </ul>
-
-          {/* <div class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                </div> */}
+          <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+            <li class="nav-item col-2 col-md-auto">
+              <a
+                class="nav-link p-2"
+                href="https://twitter.com/nearcatalog"
+                target="_blank"
+                title="NEARCatalog on Twitter"
+              >
+                <i class="bi bi-twitter"></i>
+              </a>
+            </li>
+            <li class="nav-item col-2 col-md-auto">
+              <a
+                class="nav-link p-2"
+                href="https://t.me/nearcatalog"
+                target="_blank"
+                title="NEARCatalog on Telegram"
+              >
+                <i class="bi bi-telegram"></i>
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
     </div>

@@ -5,11 +5,29 @@ const {
   setShowSupplyModal,
   onActionSuccess,
   chainId,
+  healthFactor,
+  formatHealthFactor,
+  depositETHGas,
+  depositERC20Gas,
 } = props;
 
 State.init({
   data: undefined,
 });
+
+const SupplyButton = ({ data }) => (
+  <Widget
+    src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
+    props={{
+      config,
+      children: "Supply",
+      onClick: () => {
+        State.update({ data });
+        setShowSupplyModal(true);
+      },
+    }}
+  />
+);
 
 return (
   <>
@@ -62,42 +80,23 @@ return (
                       }}
                     />,
                     <div>
-                      <div>{row.balance}</div>
+                      <div>{Number(row.balance).toFixed(7)}</div>
                       <div>$ {row.balanceInUSD}</div>
                     </div>,
                     `${(Number(row.supplyAPY) * 100).toFixed(2)} %`,
                     <div style={{ paddingLeft: "50px" }}>
-                      {row.isIsolated && "—"}
-                      {!row.isIsolated && (
-                        <>
-                          {row.usageAsCollateralEnabled && (
-                            <img
-                              src={`${config.ipfsPrefix}/bafkreibsy5fzn67veowyalveo6t34rnqvktmok2zutdsp4f5slem3grc3i`}
-                              width={16}
-                              height={16}
-                            />
-                          )}
-                          {!row.usageAsCollateralEnabled && (
-                            <img
-                              src={`${config.ipfsPrefix}/bafkreie5skej6q2tik3qa3yldkep4r465poq33ay55uzp2p6hty2ifhkmq`}
-                              width={16}
-                              height={16}
-                            />
-                          )}
-                        </>
+                      {(row.isIsolated ||
+                        (!row.isIsolated && !row.usageAsCollateralEnabled)) &&
+                        "—"}
+                      {!row.isIsolated && row.usageAsCollateralEnabled && (
+                        <img
+                          src={`${config.ipfsPrefix}/bafkreibsy5fzn67veowyalveo6t34rnqvktmok2zutdsp4f5slem3grc3i`}
+                          width={16}
+                          height={16}
+                        />
                       )}
                     </div>,
-                    <Widget
-                      src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
-                      props={{
-                        config,
-                        children: "Supply",
-                        onClick: () => {
-                          State.update({ data: row });
-                          setShowSupplyModal(true);
-                        },
-                      }}
-                    />,
+                    <SupplyButton data={row} />,
                   ]),
                 }}
               />
@@ -142,7 +141,9 @@ return (
                                         Wallet Balance
                                       </div>
                                       <div className="card-data-value">
-                                        <div>{row.balance}</div>
+                                        <div>
+                                          {Number(row.balance).toFixed(7)}
+                                        </div>
                                         <div>$ {row.balanceInUSD}</div>
                                       </div>
                                     </div>,
@@ -183,17 +184,7 @@ return (
                                   ],
                                 }}
                               />,
-                              <Widget
-                                src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
-                                props={{
-                                  config,
-                                  children: "Supply",
-                                  onClick: () => {
-                                    State.update({ data: row });
-                                    setShowSupplyModal(true);
-                                  },
-                                }}
-                              />,
+                              <SupplyButton data={row} />,
                             ],
                           }}
                         />,
@@ -216,9 +207,15 @@ return (
         props={{
           config,
           onRequestClose: () => setShowSupplyModal(false),
-          data: state.data,
+          data: {
+            ...state.data,
+            healthFactor,
+          },
           onActionSuccess,
           chainId,
+          depositETHGas,
+          depositERC20Gas,
+          formatHealthFactor,
         }}
       />
     )}

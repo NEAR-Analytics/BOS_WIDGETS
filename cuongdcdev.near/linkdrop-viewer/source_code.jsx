@@ -14,7 +14,7 @@ if (!k) {
 const data = JSON.parse(Buffer.from(k, "base64").toString("utf-8"));
 
 const linkClaim =
-  "https://wallet.near.org" + "/linkdrop/v2.keypom.near/" + data.k;
+  "https://app.mynearwallet.com" + "/linkdrop/v2.keypom.near/" + data.k;
 
 State.update({
   qrCodeData: linkClaim,

@@ -10,6 +10,28 @@ const Container = styled.div`
   z-index: 0;
   width: 100%;
 `;
+const ThemeContainer = styled.div`
+  --button-color: rgb(121, 79, 221);
+  --button-text-color: #fff;
+`;
+
+const sender = Ethers.send("eth_requestAccounts", [])[0];
+if (!sender) {
+  return (
+    <ThemeContainer>
+      {" "}
+      <Widget
+        src="bluebiu.near/widget/Arbitrum.Swap.ConnectButton"
+        props={{
+          chainId: 1101,
+          chainName: "Polygon zkEVM",
+          noAccountTips: "Polygon zkEVM-Ethereum Bridge",
+          isWrongNetwork: false,
+        }}
+      />
+    </ThemeContainer>
+  );
+}
 
 const tokens = [
   // eth testnet assets
@@ -169,7 +191,6 @@ const BRIDGE_CONTRACT_ADDRESS = isMainnet
   : "0xF6BEEeBB578e214CA9E23B0e9683454Ff88Ed2A7";
 
 const provider = Ethers.provider();
-const sender = Ethers.send("eth_requestAccounts", [])[0];
 
 const bridgeAbi = [
   {
@@ -198,6 +219,23 @@ useEffect(() => {
     .catch((e) => {});
 }, [sender]);
 
+if (state.chainId !== 1 && state.chainId !== 1101) {
+  return (
+    <ThemeContainer>
+      {" "}
+      <Widget
+        src="bluebiu.near/widget/Arbitrum.Swap.ConnectButton"
+        props={{
+          chainId: 1101,
+          chainName: "Polygon zkEVM",
+          wrongNetworkTips: "To proceed, kindly switch to Polygon zkEVM Chain.",
+          isWrongNetwork: true,
+        }}
+      />
+    </ThemeContainer>
+  );
+}
+
 const bridgeIface = new ethers.utils.Interface(bridgeAbi);
 
 const updateGasLimit = (params) => {
@@ -225,6 +263,7 @@ const updateGasLimit = (params) => {
 
 const handleBridge = (params) => {
   console.log("handleBridge", params);
+  const { amount, token, network, permit } = params;
   const chainNames =
     chainId === 1
       ? ["Ethereum", "Polygon zkEVM"]
@@ -234,7 +273,7 @@ const handleBridge = (params) => {
   const toastId = props.toast?.loading({
     title: toastText,
   });
-  const { amount, token, network, permit } = params;
+
   const networkId = network === "ethereum" ? 1 : 0;
 
   const amountBig = ethers.utils.parseUnits(
@@ -473,7 +512,7 @@ const handlePermit = (params) => {
         [sender, BRIDGE_CONTRACT_ADDRESS, amountBig, MAX_AMOUNT, v, r, s]
       );
       props.toast?.dismiss(toastId);
-      handleBridge({ ...props, permit });
+      handleBridge({ ...props, permit, ...params });
     })
     .catch((err) => {
       props.toast?.dismiss(toastId);
@@ -487,6 +526,8 @@ const handlePermit = (params) => {
 };
 
 const approve = (params) => {
+  console.log("approve params: ", params);
+
   const { token, network, amount } = params;
   if (isContractAllowedToSpendToken) return;
 
@@ -508,11 +549,12 @@ const approve = (params) => {
 const onConfirm = (params) => {
   const { token, network, amount } = params;
   if (token.symbol !== "ETH" && network === "ethereum") {
-    const res = approve();
+    const res = approve(params);
+    console.log("approve res: ", res);
     if (res) {
       res
         .then((tx) => {
-          handlePermit();
+          handlePermit(params);
         })
         .catch((e) => {});
     } else {
@@ -536,21 +578,6 @@ const onUpdateToken = (params) => {
   setNonce(params);
 };
 
-if (!sender) {
-  return (
-    <Widget
-      src="guessme.near/widget/ZKEVMSwap.zkevm-connect"
-      props={{
-        title: "Polygon zkEVM-Ethereum Bridge",
-        src: "https://assets.ref.finance/images/zkevm-bridge.png",
-        imgStyle: {
-          width: "403px",
-          // height: "93px",
-        },
-      }}
-    />
-  );
-}
 if (chainId === undefined) return <div />;
 
 return (
@@ -577,17 +604,6 @@ return (
         src="guessme.near/widget/ZKEVMSwap.zkevm-bridge-transactions"
         props={{ tokens }}
       />
-      {from !== "landing" && (
-        <Widget
-          src="guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
-          props={{
-            add: state.add,
-            onChangeAdd: state.onChangeAdd,
-            hide: state.hide,
-            source: props.source,
-          }}
-        />
-      )}
     </Container>
   </>
 );

@@ -4,7 +4,7 @@ const Admin = "humans-of-near.near";
 const profile = Social.getr(`${accountId}/profile`);
 const widgets = Social.getr(`${accountId}/widget`) ?? {};
 
-const API_URL = props?.API_URL || "http://localhost:3000";
+const API_URL = props?.API_URL || "https://e2e.nearverselabs.com/";
 
 State.init({
   myAvatar: `https://i.near.social/magic/large/https://near.social/magic/img/account/${accountId}`,
@@ -13,6 +13,9 @@ State.init({
   loaded: false,
   error: "",
   loading: false,
+  menu: { text: "All", value: "all" },
+  registered: { NEKO: false, NVRS: false },
+  notification: "",
 });
 
 const columns = [
@@ -29,7 +32,7 @@ const columns = [
     align: "center",
   },
   {
-    title: "Token Deposited",
+    title: "Token Ledger",
     key: "balance",
     width: 25,
     align: "center",
@@ -43,6 +46,37 @@ const columns = [
   },
 ];
 
+const options = [
+  {
+    text: "All",
+    value: "all",
+  },
+  {
+    text: "Winnings",
+    value: "winnings",
+  },
+  {
+    text: "Reward Spent",
+    value: "rewardspent",
+  },
+  {
+    text: "Reward Returned",
+    value: "rewardreturned",
+  },
+  {
+    text: "Campaign Fee",
+    value: "campaignfee",
+  },
+  {
+    text: "Deposit",
+    value: "deposit",
+  },
+  {
+    text: "Withdrawal",
+    value: "withdrawal",
+  },
+];
+
 const Wrapper = styled.div`
   display: flex;
   width: 100%;
@@ -52,6 +86,11 @@ const Wrapper = styled.div`
   flex-direction: column;
   padding: 18px;
   gap: 18px;
+
+  input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
 `;
 
 const WalletComponent = styled.div`
@@ -66,14 +105,14 @@ const WalletComponent = styled.div`
 `;
 
 const TokenComponent = styled.div`
-  display: flex;
+  gap: 20px;
   width: 100%;
-  background: #F3F3F3;
-  flex-direction: column;
+  display: flex;
   padding: 6px 24px;
   border-radius: 8px;
+  background: #F3F3F3;
+  flex-direction: column;
   border: 1px solid var(--light_90, #E6E6E6);
-  gap: 20px;
 `;
 
 const Avatar = styled.img`
@@ -84,32 +123,46 @@ const Avatar = styled.img`
 `;
 
 const Table = styled.table`
+  margin: 0;
   border-radius: 8px;
   background: #F5F1F1;
-  margin: 0;
 `;
 
 const Input = styled.input`
   width: 80px;
 `;
 
-const getTokenData = () => {
-  return asyncFetch(API_URL + `/api/token?accountId=${accountId}`).then(
-    (res) => {
-      if (res.ok) {
-        const { token, history } = res.body;
-        State.update({
-          tokens: token,
-          history,
-          loaded: true,
-          loading: false,
-        });
-      }
-    }
-  );
+const clearNotification = () => {
+  State.update({
+    notification: "",
+  });
 };
 
-if (!state.loaded) getTokenData();
+const getTokenData = (e) => {
+  // State.update({
+  //   loaded: false,
+  // });
+  return asyncFetch(
+    API_URL + `/api/token?accountId=${accountId}&historyType=${e.text}`
+  ).then((res) => {
+    if (res.ok) {
+      const { token, history } = res.body;
+      State.update({
+        history,
+        menu: e,
+        tokens: token,
+        loaded: true,
+        loading: false,
+      });
+    } else {
+      State.update({
+        ...state,
+        loaded: true,
+        error: res.error,
+      });
+    }
+  });
+};
 
 const toFixed = (x) => {
   if (Math.abs(x) < 1.0) {
@@ -132,33 +185,40 @@ const toFixed = (x) => {
 const deposit = async (item) => {
   if (state.loading) return;
 
-  const amount = Number(state[item.id]);
+  const amount = Number(state[item.id] ?? 0);
   let oneTeraGas = 100000000000000;
   let oneNEARInYoctoNEAR = Number(item.yocto_near);
 
   if (!amount || amount <= 0) return;
   if (item.id === "NEAR") {
-    Near.call(
-      item.contract,
-      item.method,
-      Admin,
-      oneTeraGas,
-      amount * oneNEARInYoctoNEAR
-    );
+    setTimeout(() => {
+      Near.call(
+        item.contract,
+        item.method,
+        Admin,
+        `${oneTeraGas}`,
+        `${amount * oneNEARInYoctoNEAR}`
+      );
+    }, 3000);
   } else {
     let amt = toFixed((amount + 0.00001) * oneNEARInYoctoNEAR);
     const data = {
       receiver_id: Admin,
-      amount: amt,
+      amount: `${amt}`,
       memo: "Token transfer",
     };
-    Near.call(item.contract, item.method, data, oneTeraGas, 1);
+    setTimeout(() => {
+      Near.call(item.contract, item.method, data, oneTeraGas, 1);
+    }, 3000);
   }
+  State.update({
+    notification: "Processing. Please refresh page after 1 minute",
+  });
 };
 
 const withdraw = async (item) => {
   if (state.loading) return;
-  const amount = Number(state[item.id]);
+  const amount = Number(state[item.id] ?? 0);
 
   if (!amount || amount <= 0) return;
 
@@ -171,7 +231,11 @@ const withdraw = async (item) => {
     token: item._id,
   };
 
-  State.update({ error: "", loading: true });
+  State.update({
+    error: "",
+    loading: true,
+    notification: "Withdrawal will be processed in 1 minute",
+  });
   asyncFetch(API_URL + `/api/base/withdraw`, {
     method: "POST",
     headers: {
@@ -181,10 +245,14 @@ const withdraw = async (item) => {
   }).then((res) => {
     if (res.ok) {
       const { error, data } = res.body;
-      if (error) State.update({ error, loading: false });
-      else if (data && data === "success") {
+      if (error) {
+        State.update({ ...state, error, loading: false });
+      } else if (data && data === "success") {
         State.update({
+          ...state,
           loaded: false,
+          loading: false,
+          notification: "Withdrawal Success",
         });
       }
     }
@@ -192,9 +260,9 @@ const withdraw = async (item) => {
 };
 
 const registry = async (item) => {
-  if (item.id == "NEAR" || item.token != "0") return;
+  if (item.id == "NEAR" || state.registered[item.id]) return;
   const oneTeraGas = 300000000000000;
-  const oneNEARInYoctoNEAR = 100000000000000000000000;
+  const oneNEARInYoctoNEAR = 10000000000000000000000;
   return Near.call(
     item.contract,
     "storage_deposit",
@@ -206,6 +274,36 @@ const registry = async (item) => {
     oneNEARInYoctoNEAR
   );
 };
+
+const getRegisteredStatus = () => {
+  const isRegisterNEKO = Near.view(
+    "ftv2.nekotoken.near",
+    "storage_balance_of",
+    {
+      account_id: accountId,
+    }
+  );
+  const isRegisterNVRS = Near.view(
+    "rocketbois-reward.near",
+    "storage_balance_of",
+    {
+      account_id: accountId,
+    }
+  );
+  State.update({
+    registered: {
+      NEKO: isRegisterNEKO ? true : false,
+      NVRS: isRegisterNVRS ? true : false,
+    },
+  });
+};
+
+if (!state.loaded) {
+  getRegisteredStatus();
+  getTokenData(state.menu);
+}
+
+if (!state.loaded) return <Widget src={`${Owner}/widget/preload`} />;
 
 return (
   <Wrapper>
@@ -236,7 +334,12 @@ return (
     </div>
     <TokenComponent>
       <Widget src={`${Owner}/widget/TokenBalance`} />
-      <div className="d-flex ">
+      {state.error && (
+        <p className="m-0" style={{ color: "red" }}>
+          {state.error}
+        </p>
+      )}
+      <div className="d-flex overflow-auto">
         <Table
           className={`table table-hover table-striped table-borderless ${props.className}`}
         >
@@ -293,7 +396,6 @@ return (
                                 min="0"
                                 value={state[row.id] ?? ""}
                                 onChange={(e) => {
-                                  if (Number(e.target.value) <= 0) return;
                                   State.update({
                                     [row.id]: e.target.value,
                                   });
@@ -302,6 +404,12 @@ return (
                               <a
                                 href="#"
                                 onClick={() => deposit(row)}
+                                style={{
+                                  color:
+                                    row.id !== "NEAR" &&
+                                    !state.registered[row.id] &&
+                                    "gray",
+                                }}
                                 className="text-decoration-underline"
                               >
                                 {`Deposit`}
@@ -309,7 +417,13 @@ return (
                               <a
                                 href="#"
                                 onClick={() => withdraw(row)}
-                                style={{ color: state.loading && "red" }}
+                                style={{
+                                  color: !state.loading
+                                    ? row.id !== "NEAR" &&
+                                      !state.registered[row.id] &&
+                                      "gray"
+                                    : "red",
+                                }}
                                 className="text-decoration-underline"
                               >
                                 {`Withdraw`}
@@ -319,7 +433,8 @@ return (
                                 onClick={() => registry(row)}
                                 style={{
                                   color:
-                                    (row.id == "NEAR" || row.token != "0") &&
+                                    (row.id == "NEAR" ||
+                                      state.registered[row.id]) &&
                                     "gray",
                                 }}
                                 className="text-decoration-underline"
@@ -341,14 +456,32 @@ return (
       </div>
     </TokenComponent>
 
-    {state.history.length != 0 && (
-      <Widget
-        src={`${Owner}/widget/TxHistory`}
-        props={{
-          API_URL,
-          data: state.history,
-        }}
-      />
+    <Widget
+      src={`${Owner}/widget/TxHistory`}
+      props={{
+        API_URL,
+        options,
+        getTokenData,
+        menu: state.menu,
+        data: state.history,
+      }}
+    />
+    {state.notification && (
+      <div
+        className="d-flex justify-content-end position-absolute"
+        style={{ right: 10 }}
+      >
+        <Widget
+          props={{
+            text: state.notification,
+            type: state.notification.includes("Processing.")
+              ? "info"
+              : "success",
+            clearNotification,
+          }}
+          src={`${Owner}/widget/Alert_2`}
+        />
+      </div>
     )}
   </Wrapper>
 );

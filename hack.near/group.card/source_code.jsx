@@ -1,17 +1,14 @@
-const accountId = props.accountId ?? context.accountId;
-const groupId = props.groupId ?? "f8ad9d1a76259lmdpjnd74e69162a0a014";
+const creatorId = props.creatorId;
+const groupId = props.groupId;
 
-const groupInfo =
-  props.group ?? Social.get(`*/thing/${groupId}/metadata/**`, "final");
+const groupInfo = Social.get(
+  `${creatorId}/thing/${groupId}/metadata/**`,
+  "final"
+);
 
 if (!groupInfo) {
   return "group details not found";
 }
-
-const groupKey = Object.keys(groupInfo)[0];
-
-const tags = Object.keys(groupInfo[groupKey].thing[groupId].metadata.tags);
-const groupUrl = `/hack.near/widget/Group?groupId=${groupId}`;
 
 const canJoin = props.canJoin ?? true;
 
@@ -24,7 +21,8 @@ const Card = styled.div`
   border-radius: 12px;
   background: #fff;
   border: 1px solid #eceef0;
-  box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
+  box-shadow:
+    0px 1px 3px rgba(16, 24, 40, 0.1),
     0px 1px 2px rgba(16, 24, 40, 0.06);
   overflow: hidden;
   padding: 16px;
@@ -106,17 +104,22 @@ const TagsWrapper = styled.div`
 
 return (
   <Card>
-    <CardLeft>
-      <Widget
-        src="hack.near/widget/group.inline"
-        props={{ groupId, accountId }}
-      />
-    </CardLeft>
+    <a
+      href={`/devs.near/widget/group.page?groupId=${groupId}&creatorId=${creatorId}`}
+      style={{ textDecoration: "none" }}
+    >
+      <CardLeft>
+        <Widget
+          src="devs.near/widget/group.inline"
+          props={{ group: groupInfo, groupId, accountId: creatorId }}
+        />
+      </CardLeft>
+    </a>
     <Bell>
       <div className="ms-autome-md-2 d-flex align-items-center">
         <div className="bell">
           <a
-            href={`/hack.near/widget/group.index?groupId=${groupId}`}
+            href={`/devs.near/widget/group.index?groupId=${groupId}`}
             className="bell-icon"
           >
             <i className="bi bi-bell"></i>
@@ -130,13 +133,13 @@ return (
         {groupKey === context.accountId && (
           <a
             className="btn btn-outline-dark"
-            href={`/hack.near/widget/group.edit?groupId=${groupId}`}
+            href={`/devs.near/widget/group.edit?groupId=${groupId}`}
           >
             edit
           </a>
         )}
         <Widget
-          src="hack.near/widget/group.join"
+          src="devs.near/widget/group.join"
           props={{ groupId, accountId, creatorId: props.creatorId }}
         />
       </>

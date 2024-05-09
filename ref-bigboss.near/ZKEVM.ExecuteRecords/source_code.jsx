@@ -80,6 +80,13 @@ const Container = styled.div`
             font-weight: 400;
             cursor: pointer;
             margin: 5px 0;
+            .template_item{
+              dispplay:flex;
+              align-items:center;
+              img{
+                margin-right:10px;
+              }
+            }
             .selected_icon {
               display: none;
             }
@@ -267,6 +274,13 @@ const copy_icon = (
     />
   </svg>
 );
+const template_icons = {
+  ZkEvm:
+    "https://ipfs.near.social/ipfs/bafkreiftqxncp4pt36z5mcfzizbkccoufksmz2f4zhnproxv4krfb5qmsm",
+  "ZkEvm-bridge":
+    "https://ipfs.near.social/ipfs/bafkreigu2kdqzug45li74xcdhokazx7gv2yopml6x5bwrnjrkx2qsjrsni",
+  AAVE: "https://ipfs.near.social/ipfs/bafkreibveumzusupe5rvk4nffzdipquvatfg5lagg7c6jaor2b3hgigw5e",
+};
 const select_action_list = [
   { id: "", name: "All Actions" },
   { id: "Swap", name: "Swap" },
@@ -275,11 +289,12 @@ const select_action_list = [
   // {id: 'Staking', name: 'Staking'},
 ];
 const select_template_list = [
-  { id: "", name: "All Templates" },
-  { id: "ZkEvm", name: "ZkEvm" },
-  { id: "ZkEvm-bridge", name: "Bridge" },
-  { id: "AAVE", name: "AAVE" },
+  { id: "", name: "All Templates"},
+  { id: "ZkEvm", name: "ZkEvm", icon: template_icons['ZkEvm'] },
+  { id: "ZkEvm-bridge", name: "Bridge", icon: template_icons['ZkEvm-bridge'] },
+  { id: "AAVE", name: "AAVE", icon: template_icons['AAVE'] },
 ];
+console.log('select_template_list', select_template_list);
 const select_status_list = [
   { id: "", name: "All Status" },
   { id: "Success", name: "Success" },
@@ -304,7 +319,7 @@ function get_my_records_list_by_condition() {
   // account_info todo
   const params_str = `account_id=${eth_account_id}&page_number=${state.current_page}&page_size=${state.page_size}&action_type=${state.search_action}&action_status=${state.search_status}&template=${state.search_template}&account_info=`;
   asyncFetch(
-    `https://bos-api.ref-finance.com/get-action-records-by-account?${params_str}`
+    `https://bos-api.delink.one/get-action-records-by-account?${params_str}`
   ).then((res) => {
     const { action_list, page_number, total_page, total_size } =
       JSON.parse(res.body || {}).data || {};
@@ -357,13 +372,6 @@ function getTime(timestamp) {
     "  "
   );
 }
-const template_icons = {
-  ZkEvm:
-    "https://ipfs.near.social/ipfs/bafkreiftqxncp4pt36z5mcfzizbkccoufksmz2f4zhnproxv4krfb5qmsm",
-  "ZkEvm-bridge":
-    "https://ipfs.near.social/ipfs/bafkreigu2kdqzug45li74xcdhokazx7gv2yopml6x5bwrnjrkx2qsjrsni",
-  AAVE: "https://ipfs.near.social/ipfs/bafkreibveumzusupe5rvk4nffzdipquvatfg5lagg7c6jaor2b3hgigw5e",
-};
 let timer;
 const duration = 500;
 function click_left_most() {
@@ -547,7 +555,12 @@ return (
                           state.search_template == item.id ? "active" : ""
                         }`}
                       >
-                        {item.name}
+                        <div className="template_item">
+                          {
+                            item.icon ? <img src={item.icon} width={16} height={16}></img>:null
+                          }
+                          {item.name}
+                         </div>
                         <span className="selected_icon">{selected_icon}</span>
                       </div>
                     );
@@ -593,7 +606,7 @@ return (
           </tr>
         </thead>
         <tbody>
-          {state.record_list.map((record, index) => {
+          {state.record_list && state.record_list.map((record, index) => {
             return (
               <tr key={index}>
                 <td>{record.action_title}</td>

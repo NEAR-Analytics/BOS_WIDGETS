@@ -17,7 +17,7 @@ if (!state.requestIsFetched) {
     "get_request",
     { account_id: projectId, cid },
     "final",
-    false
+    false,
   ).then((request) => State.update({ request, requestIsFetched: true }));
 }
 
@@ -27,9 +27,9 @@ if (!state.contributionIsFetched) {
     "get_contribution",
     { project_id: projectId, cid, vendor_id: vendorId },
     "final",
-    false
+    false,
   ).then((contribution) =>
-    State.update({ contribution, contributionIsFetched: true })
+    State.update({ contribution, contributionIsFetched: true }),
   );
 }
 
@@ -86,13 +86,23 @@ const Item = styled.div`
   color: #11181c;
 `;
 
-const lastAction = state.contribution.actions.length > 0 ? state.contribution.actions[state.contribution.actions.length - 1] : null;
+const lastAction =
+  state.contribution.actions.length > 0
+    ? state.contribution.actions[state.contribution.actions.length - 1]
+    : null;
 
 const lastActivity = (
   <Item>
     Last activity:
     <br />
-    {lastAction ? (<>{lastAction.description} at {new Date(Number(lastAction.start_date)).toLocaleDateString()}</>) : <>Contract has started</>}
+    {lastAction ? (
+      <>
+        {lastAction.description} at{" "}
+        {new Date(Number(lastAction.start_date)).toLocaleDateString()}
+      </>
+    ) : (
+      <>Contract has started</>
+    )}
   </Item>
 );
 
@@ -117,8 +127,6 @@ return (
       props={{ accountId: vendorId, size: "1.5em" }}
     />
     <Title>{state.request.title}</Title>
-    <Details>
-      {lastActivity}
-    </Details>
+    <Details>{lastActivity}</Details>
   </Container>
 );

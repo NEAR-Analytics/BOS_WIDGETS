@@ -11,24 +11,35 @@ const Button = styled.button`
   margin-top: 20px;
 
   &:disabled {
-    opacity: 0.3;
+    opacity: 0.5;
   }
 `;
-const account = Ethers.send("eth_requestAccounts", [])[0];
 const {
   disabled,
+  loading,
   amount,
   maxInputBalance,
   currency,
   from,
   target,
   handlerSwap,
+  addAction,
+  toast,
   gasCost,
   isGasEnough,
   onSuccess,
+  account,
+  quote,
 } = props;
 
+if (loading)
+  return (
+    <Button disabled={disabled}>
+      <Widget src="bluebiu.near/widget/0vix.LendingLoadingIcon" />
+    </Button>
+  );
 if (disabled) return <Button disabled={disabled}>Confrim</Button>;
+
 if (Big(amount || 0).eq(0))
   return <Button disabled={true}>Enter An Amount</Button>;
 if (Big(amount || 0).gt(maxInputBalance || 0) || !currency) {
@@ -42,7 +53,7 @@ State.init({
 if (!isGasEnough) {
   return (
     <Button disabled>
-      Not enough gas({Big(gasCost || 0).toFixed(3)}) needed
+      Not enough gas, {Big(gasCost || 0).toFixed(3)} needed
     </Button>
   );
 }
@@ -103,6 +114,9 @@ if (!currency?.isNative) {
 }
 
 const handleApprove = () => {
+  const toastId = toast?.loading({
+    title: `Approve ${amount} ${currency?.symbol}`,
+  });
   State.update({
     loading: true,
   });
@@ -140,17 +154,46 @@ const handleApprove = () => {
     ethers.utils.parseUnits(amount, currency.decimals)
   )
     .then((tx) => {
-      tx.wait().then((res) => {
-        const { status, transactionHash } = res;
-        State.update({
-          isApproved: status === 1,
-          loading: false,
+      tx.wait()
+        .then((res) => {
+          const { status, transactionHash } = res;
+          if (status !== 1) throw new Error("");
+          toast?.dismiss(toastId);
+          State.update({
+            isApproved: true,
+            loading: false,
+          });
+          toast?.success({
+            title: "Approve Successfully!",
+            text: `Approve ${amount} ${currency?.symbol}`,
+            tx: transactionHash,
+            chainId: from.id,
+          });
+        })
+        .catch((err) => {
+          State.update({
+            isApproved: false,
+            loading: false,
+          });
+          toast?.dismiss(toastId);
+          toast?.fail({
+            title: "Approve Failed!",
+            text: `Approve ${amount} ${currency?.symbol}`,
+            tx: transactionHash,
+            chainId: from.id,
+          });
         });
-      });
     })
-    .catch(() => {
+    .catch((err) => {
       State.update({
         loading: false,
+      });
+      toast?.dismiss(toastId);
+      toast?.fail({
+        title: "Approve Failed!",
+        text: err?.message?.includes("user rejected transaction")
+          ? "User rejected transaction"
+          : `Approve ${amount} ${currency?.symbol}`,
       });
     });
 };
@@ -158,15 +201,16 @@ const handleApprove = () => {
 if (!state.isApproved) {
   return (
     <Button onClick={handleApprove} disabled={state.loading}>
-      {state.loading && (
+      {state.loading ? (
         <Widget
           src="bluebiu.near/widget/0vix.LendingLoadingIcon"
           props={{
             size: 16,
           }}
         />
+      ) : (
+        "Approve"
       )}
-      Approve
     </Button>
   );
 }
@@ -183,33 +227,72 @@ return (
         routerEthAddress: from.routerEthAddress,
         loading: state.loading,
         target,
+        quote,
         onSuccess: (res) => {
           State.update({ loading: false });
           const { status, transactionHash } = res;
+          addAction?.({
+            type: "Bridge",
+            fromChainId: from.id,
+            toChainId: target.id,
+            token: currency,
+            amount: amount,
+            template: "Stargate Bridge",
+            add: false,
+            status,
+            transactionHash,
+          });
+          toast?.dismiss(state.toastId);
           if (status === 1) {
             onSuccess?.(transactionHash);
+            toast?.success({
+              title: "Bridge Successfully!",
+              text: `Bridge ${amount} ${inputCurrency.symbol} from ${from.name} to ${target.name}`,
+              tx: transactionHash,
+              chainId: from.id,
+            });
+          } else {
+            toast?.fail({
+              title: "Bridge Failed!",
+              text: `Bridge ${amount} ${inputCurrency.symbol} from ${from.name} to ${target.name}`,
+              tx: transactionHash,
+              chainId: from.id,
+            });
           }
         },
-        onError: (err) => {
+        onError: (tx) => {
           State.update({ loading: false });
+          toast?.dismiss(state.toastId);
+          toast?.fail({
+            title: "Bridge Failed!",
+            text: tx?.message?.includes("user rejected transaction")
+              ? "User rejected transaction"
+              : `Bridge ${amount} ${inputCurrency.symbol} from ${from.name} to ${target.name}`,
+            tx: tx ? tx.hash : "",
+            chainId,
+          });
         },
       }}
     />
     <Button
       onClick={() => {
-        State.update({ loading: true });
+        const toastId = toast?.loading({
+          title: `Bridge ${amount} ${inputCurrency.symbol} from ${from.name} to ${target.name}`,
+        });
+        State.update({ loading: true, toastId });
       }}
       disabled={state.loading}
     >
-      {state.loading && (
+      {state.loading ? (
         <Widget
           src="bluebiu.near/widget/0vix.LendingLoadingIcon"
           props={{
             size: 16,
           }}
         />
+      ) : (
+        "Confirm"
       )}
-      Confirm
     </Button>
   </>
 );

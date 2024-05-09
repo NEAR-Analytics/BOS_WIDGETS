@@ -2,6 +2,13 @@ const { typeToEmptyData, validateType, types } = props;
 
 const initialFormState = typeToEmptyData(types["astro.sking.near/type/dao"]);
 
+// Set default values here
+initialFormState.gracePeriod = 1;
+initialFormState.profileImage =
+  "https://ipfs.near.social/ipfs/bafkreiad5c4r3ngmnm7q6v52joaz4yti7kgsgo6ls5pfbsjzclljpvorsu";
+initialFormState.coverImage =
+  "https://ipfs.near.social/ipfs/bafkreicd7wmjfizslx72ycmnsmo7m7mnvfsyrw6wghsaseq45ybslbejvy";
+
 State.init({
   step: 0,
   form: initialFormState,
@@ -33,16 +40,110 @@ const handleStepComplete = (value) => {
     }
   });
 
-  if (stepValid) {
+  if (!stepValid) return;
+
+  if (state.step === 5) {
+    const finalAnswers = {
+      ...state.form,
+      ...value,
+    };
+
     State.update({
-      step: state.step + 1,
-      form: {
-        ...state.form,
-        ...value,
-      },
+      step: state.step,
+      form: finalAnswers,
     });
+    handleFormComplete(finalAnswers);
+    return;
   }
+  State.update({
+    step: state.step + 1,
+    form: {
+      ...state.form,
+      ...value,
+    },
+  });
 };
+
+function handleFormComplete(value) {
+  const sputnikFactoryArgs = {
+    name: value.address.replaceAll(".sputnik-dao.near", ""),
+    // encode args to base64
+    args: {
+      purpose: typeof value.purpose === "string" ? value.purpose : "",
+      bond: "100000000000000000000000",
+      vote_period: "604800000000000",
+      grace_period: Big(
+        typeof value.gracePeriod === "number" ? parseInt(value.gracePeriod) : 1
+      ).times(86400000000000),
+      policy: {
+        roles: value.policy.roles,
+        default_vote_policy: {
+          weight_kind: "RoleWeight",
+          quorum: "0",
+          threshold: [1, 2],
+        },
+        proposal_bond: "100000000000000000000000",
+        proposal_period: "604800000000000",
+        bounty_bond: "100000000000000000000000",
+        bounty_forgiveness_period: "604800000000000",
+      },
+      config: {
+        purpose: typeof value.purpose === "string" ? value.purpose : "",
+        name: value.address.replaceAll(".sputnik-dao.near", ""),
+        // encode metadata to base64
+        metadata: {
+          soulBoundTokenIssuer:
+            typeof value.soulBoundTokenIssuer === "string"
+              ? value.soulBoundTokenIssuer
+              : undefined,
+          links: Array.isArray(value.links) ? value.links : [],
+          flagCover:
+            typeof value.coverImage === "string" ? value.coverImage : "",
+          flagLogo:
+            typeof value.profileImage === "string" ? value.profileImage : "",
+          displayName: typeof value.name === "string" ? value.name : "",
+          legal: {
+            legalStatus:
+              typeof value.legalStatus === "string" ? value.legalStatus : "",
+            legalLink:
+              typeof value.legalDocument === "string"
+                ? value.legalDocument
+                : "",
+          },
+        },
+      },
+    },
+  };
+
+  // encode metadata and args to base64
+  const finalSputnikFactoryArgs = {
+    ...sputnikFactoryArgs,
+    args: Buffer.from(
+      JSON.stringify({
+        ...sputnikFactoryArgs.args,
+        config: {
+          ...sputnikFactoryArgs.args.config,
+          metadata: Buffer.from(
+            JSON.stringify(sputnikFactoryArgs.args.config.metadata)
+          ).toString("base64"),
+        },
+      })
+    ).toString("base64"),
+  };
+
+  Near.call([
+    {
+      contractName: "sputnik-dao.near",
+      methodName: "create",
+      args: finalSputnikFactoryArgs,
+      deposit: "6000000000000000000000000", // 6N
+    },
+    {
+      contractName: "social.near",
+      methodName: "set",
+    },
+  ]);
+}
 
 const steps = [
   {
@@ -91,6 +192,7 @@ return (
       props={{
         steps: steps,
         onClick: (i) => {
+          if (i > state.step) return;
           State.update({
             step: i,
           });
@@ -103,7 +205,7 @@ return (
         formState: state.form,
         onComplete: handleStepComplete,
         errors: state.errors,
-        renderFooter: (stepState) => (
+        renderFooter: (stepState, otherProps) => (
           <Widget
             src={`astro.sking.near/widget/CreateDAO.Footer`}
             props={{
@@ -117,6 +219,14 @@ return (
                   step: state.step - 1,
                 });
               },
+              onReset: () => {
+                State.update({
+                  step: 0,
+                  form: initialFormState,
+                  errors: null,
+                });
+              },
+              ...otherProps,
             }}
           />
         ),

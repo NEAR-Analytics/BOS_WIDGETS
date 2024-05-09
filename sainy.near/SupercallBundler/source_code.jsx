@@ -84,16 +84,18 @@ function handleChangeCall(index, value) {
 }
 
 function computeCalls() {
-  try {
-    const calls = state.calls.map((c, index) => {
-      const payload = Storage.get(`callPayload:${index}`, c);
-      const obj = {
-        target: payload.target,
-        callData: payload.callData,
-      };
-      return obj;
-    });
+  console.log("compute");
 
+  try {
+    const calls = state.calls.flatMap((c, index) => {
+      const payload = Storage.get(`callPayload:${index}`, c);
+      if (Array.isArray(payload)) {
+        return payload;
+      } else {
+        return [payload];
+      }
+    });
+    console.log(calls);
     Storage.set("calls", calls);
   } catch (e) {}
 }

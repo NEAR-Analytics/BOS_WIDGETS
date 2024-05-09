@@ -1,5 +1,5 @@
 let proposals = props.proposals;
-const authorId = props.authorId || "manzanal.near";
+const authorId = props.authorId || "meta-pool-official.near";
 const contractId = props.contractId || "mpip.meta-pool-dao.near";
 State.init({});
 
@@ -70,7 +70,7 @@ const getProposalStateColor = (mpip_id) => {
   const state = Near.view(contractId, "get_proposal_state", {
     mpip_id,
   });
-   // for MPIP #1, overwrite to Accepted
+  // for MPIP #1, overwrite to Accepted
   const color = statusColor(mpip_id == 1 ? "Accepted" : state);
   console.log("COLOR", color);
   return color;
@@ -186,7 +186,7 @@ return (
           <tr className="align-middle">
             <td class="text-start">
               <a
-                href={`/meta-pool-official.near/widget/ImprovementProposals?tab=proposal&mpip_id=${proposal.mpip_id}`}
+                href={`/${authorId}/widget/ImprovementProposals?tab=proposal&mpip_id=${proposal.mpip_id}`}
                 onClick={() =>
                   props.update({
                     tab: "proposal",

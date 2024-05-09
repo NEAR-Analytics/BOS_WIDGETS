@@ -1,10 +1,7 @@
 const ftList = props.ftList || [];
 const { amount, ft, isParsed } = props;
 
-const numberWithCommas = (x) => {
-  return JSON.stringify(x).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-};
-const defaultFt = { icon: "", symbol: "" };
+const defaultFt = { icon: "", symbol: "", amount: 0 };
 const near = {
   symbol: "NEAR",
   icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/6535.png",
@@ -14,23 +11,22 @@ const findFt = (ftAddress, amount) => {
   if (ftAddress === "Near" || ftAddress === "")
     return {
       ...near,
-      amount: isParsed ? amount : Number(amount) / Math.pow(10, 24),
+      amount: isParsed ? Number(amount) : Number(amount) / Math.pow(10, 24),
     };
   if (!ftList.length) return defaultFt;
   const ft = ftList.find((f) => ftAddress === f.token_account_id);
-  if (isParsed) return ft ? { ...ft, amount } : { ...defaultFt, amount };
+  if (isParsed) return ft ? { ...ft, amount:Number(amount) } : { ...defaultFt, amount:Number(amount) };
   const decimals = ft ? Number(ft.decimals) : 24;
   const parsedAmount = Number(amount) / Math.pow(10, decimals);
   return ft
-    ? { ...ft, amount: parsedAmount }
-    : { ...defaultFt, amount: parsedAmount };
+    ? { ...ft, amount: Number(parsedAmount) }
+    : { ...defaultFt, amount: Number(parsedAmount) };
 };
 
 const currentFt = findFt(ft, amount);
-
 return (
   <div style={{ display: "flex", alignItems: "center" }}>
-    <span>{numberWithCommas(parseInt(currentFt.amount))}</span>
+    <span>{Number(currentFt.amount).toLocaleString('en-US', {maximumFractionDigits:2})}</span>
     {currentFt.icon ? (
       <img
         style={{

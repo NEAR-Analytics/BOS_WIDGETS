@@ -13,12 +13,12 @@ if (!state.profileIsFetched) {
     "get",
     { keys: [`${accountId}/profile/**`] },
     "final",
-    false
+    false,
   ).then((profile) =>
     State.update({
       profile: profile[accountId].profile,
       profileIsFetched: true,
-    })
+    }),
   );
   return "Loading...";
 }

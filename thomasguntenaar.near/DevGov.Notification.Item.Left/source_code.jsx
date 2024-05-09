@@ -19,8 +19,9 @@ return props.type ? (
     <a
       className="fw-bold text-muted"
       href={href({
-        widgetSrc: "thomasguntenaar.near/widget/dh.post",
+        widgetSrc: "thomasguntenaar.near/widget/app",
         params: {
+          page: "post",
           id: props.post,
         },
       })}

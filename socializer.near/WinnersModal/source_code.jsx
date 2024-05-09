@@ -106,8 +106,16 @@ const getWinners = () => {
       const { error, data } = res.body;
       if (error) State.update({ error, loading: false });
       else if (data && data.length) {
+        const listData = data.map((obj) => {
+          if (obj.accountId.length > 30) {
+            const firstPart = obj.accountId.slice(0, 5);
+            const remainingPart = obj.accountId.slice(-5);
+            obj.accountId = `${firstPart} ... ${remainingPart}`;
+          }
+          return obj;
+        });
         State.update({
-          winners: data,
+          winners: listData,
           loaded: true,
           loading: false,
         });
@@ -130,11 +138,11 @@ return (
           borderColor: "white",
           color: "black",
         }}
-        onClick={onClose}
+        onClick={() => onClose("")}
       >
         X
       </button>
-      <ModalTitle>{`Winners`}</ModalTitle>
+      <ModalTitle>{`Winners of Campaign ${data.id}`}</ModalTitle>
       <hr />
 
       <div
@@ -142,12 +150,9 @@ return (
         style={{ flexDirection: "column", gap: 25, padding: 10 }}
       >
         {state.winners.map((item, i) => {
-          const profile = Social.getr(`${item.accountId}/profile`);
-          return (
-            <p>{`Social Username ${profile.name || item.accountId} ${
-              i + 1 < 10 ? `0${i + 1}` : i + 1
-            }`}</p>
-          );
+          //   const profile = Social.getr(`${item.accountId}/profile`);
+          //   return <p>{`${i + 1}) ${profile.name || item.accountId} `}</p>;
+          return <p>{`${i + 1}) ${item.accountId} `}</p>;
         })}
       </div>
     </ModalContent>

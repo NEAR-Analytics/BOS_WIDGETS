@@ -17,7 +17,7 @@ if (!state.isAdminIsFetched) {
       "check_is_project_admin",
       { project_id: accountId, account_id: context.accountId },
       "final",
-      false
+      false,
     ).then((isAdmin) => State.update({ isAdmin, isAdminIsFetched: true }));
   }
 }
@@ -28,7 +28,7 @@ if (!state.projectIsFetched) {
     "get_project",
     { account_id: accountId },
     "final",
-    false
+    false,
   ).then((project) => State.update({ project, projectIsFetched: true }));
 }
 
@@ -232,16 +232,10 @@ return (
                 </GreyButton>
               </>
             ) : (
-              <>
-                <Widget
-                  src={`${ownerId}/widget/Project.ProposeSideWindow`}
-                  props={{ accountId }}
-                />
-                <Widget
-                  src={`${ownerId}/widget/Project.ClaimSideWindow`}
-                  props={{ accountId }}
-                />
-              </>
+              <Widget
+                src={`${ownerId}/widget/Project.ProposeSideWindow`}
+                props={{ accountId }}
+              />
             )}
           </CTARow>
         </HeaderDetails>

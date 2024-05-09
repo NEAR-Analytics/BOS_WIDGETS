@@ -1,4 +1,5 @@
 const ownerId = "contribut3.near";
+const apiUrl = "https://api-staging-fur7.onrender.com";
 const search = props.search ?? "";
 
 State.init({
@@ -6,15 +7,11 @@ State.init({
   itemsIsFetched: false,
 });
 
-if (!state.itemsIsFetched) {
-  Near.asyncView(
-    ownerId,
-    "get_vendors",
-    {},
-    "final",
-    false
-  ).then((items) => State.update({ items, itemsIsFetched: true }));
+asyncFetch(`${apiUrl}/data/vendors?sort=timedesc&q=${search}`).then(
+  ({ body: items }) => State.update({ items, itemsIsFetched: true }),
+);
 
+if (!state.itemsIsFetched) {
   return <>Loading...</>;
 }
 
@@ -22,7 +19,7 @@ return (
   <Widget
     src={`${ownerId}/widget/List`}
     props={{
-      search,
+      filter: (accountId) => state.items.includes(accountId),
       items: state.items,
       createItem: (accountId) => (
         <Widget src={`${ownerId}/widget/Vendor.Card`} props={{ accountId }} />

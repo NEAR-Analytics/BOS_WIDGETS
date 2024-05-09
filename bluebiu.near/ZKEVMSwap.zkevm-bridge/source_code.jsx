@@ -169,12 +169,16 @@ const {
   isToastOpen,
 } = state;
 const isMainnet = chainId === 1 || chainId === 1101;
-
+const AccessKey = Storage.get(
+  "AccessKey",
+  "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
+);
 function add_action(param_body) {
-  asyncFetch("https://bos-api.delink.one/add-action-data", {
+  asyncFetch("/dapdap/api/action/add ", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
+      Authorization: AccessKey,
     },
     body: JSON.stringify(param_body),
   });
@@ -531,10 +535,13 @@ const onConfirm = (props) => {
 };
 
 const onChangeAmount = (props) => {
+  console.log("onChangeAmount", props);
   setIsContractAllowedToSpendToken(props);
 };
 
 const onUpdateToken = (props) => {
+  console.log("props: ", props);
+  console.log("onUpdateToken", props);
   setIsContractAllowedToSpendToken(props);
   setName(props.token);
   setNonce(props);
@@ -582,15 +589,6 @@ return (
       <Widget
         src="ciocan.near/widget/toast"
         props={{ open: isToastOpen, variant, title, description, onOpenChange }}
-      />
-      <Widget
-        src="guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
-        props={{
-          add: savedAdd,
-          onChangeAdd: state.onChangeAdd,
-          hide: state.hide,
-          source: props.source,
-        }}
       />
     </Container>
 

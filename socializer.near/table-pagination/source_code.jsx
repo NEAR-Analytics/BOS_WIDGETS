@@ -4,13 +4,25 @@ if (!props.data || !props.columns) {
 
 const { data, columns, searchValue } = props;
 const rowsCount = props.rowsCount || 5;
+const pagination = props.pagination || true;
 const themeColor = props.themeColor;
 const timer = props.timer ?? false;
 const timer_load = props.timer_load ?? false;
-
-State.init({ currentPage: 1, list: data, loaded: timer_load });
+State.init({ currentPage: 1, list: [], temp: [], loaded: timer_load });
 
 let Interval = null;
+
+useEffect(() => {
+  const list = data.filter((row) => {
+    if (!searchValue) return true;
+    const profile = Social.getr(`${row.poster}/profile`);
+    const name = profile.name || row.poster || "";
+    return name
+      .toLocaleLowerCase()
+      .includes(searchValue.toLocaleLowerCase() ?? "");
+  });
+  State.update({ ...state, list, temp: list });
+}, [searchValue, data]);
 
 const handlePagination = () => {
   if (!rowsCount) return { table: state.list };
@@ -75,8 +87,8 @@ const getTimeRemaining = (e) => {
 };
 
 const startTimer = () => {
-  if (!data.length) return;
-  const compaign = data.map((row, index) => {
+  if (!state.temp.length) return;
+  const compaign = state.temp.map((row, index) => {
     let { total, hours, minutes, seconds } = getTimeRemaining(row.ends);
     if (total <= 0) return false;
 
@@ -88,25 +100,44 @@ const startTimer = () => {
 
   if (!compaign.length) return;
   State.update({
+    ...state,
     list: compaign,
     loaded: true,
   });
 };
 
-const setEndsIn = () => {
-  if (Interval) clearInterval(Interval);
-  startTimer();
-  const interval = setInterval(() => {
-    if (!data.length) clearInterval(Interval);
+// const setEndsIn = () => {
+//   if (Interval) clearInterval(Interval);
+//   startTimer();
+//   const interval = setInterval(() => {
+//     if (!state.temp.length) clearInterval(Interval);
+//     startTimer();
+//   }, 1000);
+//   State.update({
+//     ...state,
+//     loaded: true,
+//   });
+//   Interval = interval;
+// };
+
+useEffect(() => {
+  if (timer && !state.loaded && state.temp.length) {
     startTimer();
-  }, 1000);
-  State.update({
-    loaded: true,
-  });
-  Interval = interval;
-};
-if (timer && !state.loaded) setEndsIn();
-else if (!timer && Interval) clearInterval(Interval);
+    const intervalId = setInterval(() => {
+      //   if (!state.temp.length) clearInterval(Interval);
+      startTimer();
+    }, 1000);
+    State.update({
+      ...state,
+      loaded: true,
+    });
+    // Interval = interval;
+    return () => {
+      clearInterval(intervalId);
+    };
+  }
+}, [timer, state.loaded, state.temp]);
+// else if (!timer && Interval) clearInterval(Interval);
 
 return (
   <div className="table-responsive" style={{ backgroundColor: "#FAFAFA" }}>
@@ -147,135 +178,140 @@ return (
         </thead>
         <tbody>
           {state.list.length > 0 &&
-            handlePagination()
-              .table.filter((row) => {
-                if (!searchValue) return true;
-                const profile = Social.getr(`${row.accountId}/profile`);
-                const name = profile.name ?? row.accountId;
-                return name
-                  .toLocaleLowerCase()
-                  .includes(searchValue.toLocaleLowerCase() ?? "");
-              })
-              .map((row, i) => {
-                // .table.filter((row) =>
-                // Object.values(row).some((value) =>
-                //   value.toString().includes(searchValue ?? "")
-                // )
-                // row.name.includes(searchValue ?? "")
-                if (!row) return;
-                return (
-                  <tr key={row.key}>
-                    {columns.map((td) => {
-                      const key = td.key ? row[td.key] : i + 1;
-                      let value = key || td.value;
-                      let name = "";
-                      if (td.key === "_id")
-                        value =
-                          value.length > 8
-                            ? `${value.slice(0, 4)}...${value.slice(
-                                value.length - 4,
-                                value.length
-                              )}`
-                            : value;
+            handlePagination().table.map((row, i) => {
+              // .table.filter((row) =>
+              // Object.values(row).some((value) =>
+              //   value.toString().includes(searchValue ?? "")
+              // )
+              // row.name.includes(searchValue ?? "")
+              if (!row) return;
+              return (
+                <tr key={row.key}>
+                  {columns.map((td) => {
+                    const key = td.key ? row[td.key] : i + 1;
+                    let value = key || td.value;
+                    let name = "";
+                    if (td.key === "_id")
+                      value =
+                        value.length > 8
+                          ? `${value.slice(0, 4)}...${value.slice(
+                              value.length - 4,
+                              value.length
+                            )}`
+                          : value;
 
-                      if (td.project) {
-                        const profile = Social.getr(`${key}/profile`);
-                        name = profile.name ?? key;
-                        State.update({
-                          [key]: `https://i.near.social/magic/large/https://near.social/magic/img/account/${key}`,
-                        });
-                      }
-                      return (
-                        <td
-                          style={{
-                            color:
-                              td.colors ||
-                              themeColor?.table_pagination?.columntextcolor,
-                            fontSize: 12,
-                            textAlign: td.align,
-                            verticalAlign: "middle",
-                            background: "transparent",
-                          }}
-                        >
-                          {td.project ? (
-                            <div
+                    if (td.project) {
+                      const profile = Social.getr(`${key}/profile`);
+                      name = profile.name ?? key;
+                      State.update({
+                        ...state,
+                        [key]: `https://i.near.social/magic/large/https://near.social/magic/img/account/${key}`,
+                      });
+                    }
+                    return (
+                      <td
+                        style={{
+                          color:
+                            td.colors ||
+                            themeColor?.table_pagination?.columntextcolor,
+                          fontSize: 12,
+                          textAlign: td.align,
+                          verticalAlign: "middle",
+                          background: "transparent",
+                        }}
+                      >
+                        {td.project ? (
+                          <div
+                            style={{
+                              display: "flex",
+                              gap: 10,
+                              alignItems: "center",
+                            }}
+                          >
+                            <img
                               style={{
-                                display: "flex",
-                                gap: 10,
-                                alignItems: "center",
+                                width: 40,
+                                height: 40,
+                                borderRadius: 50,
                               }}
-                            >
-                              <img
-                                style={{
-                                  width: 40,
-                                  height: 40,
-                                  borderRadius: 50,
-                                }}
-                                src={state[key]}
-                                onError={() => {
-                                  State.update({
-                                    [key]:
-                                      "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
-                                  });
-                                }}
-                              />
-                              {name}
-                            </div>
-                          ) : td.link ? (
-                            <div
-                              className={`d-flex ${
-                                td.align === "center" &&
-                                "justify-content-center align-items-center"
-                              }`}
-                              style={{
-                                "text-decoration": "none",
-                                color: value
-                                  ? value === "won"
-                                    ? "#4886fe"
-                                    : value === "lost"
-                                    ? "#be7c05"
-                                    : "gray"
-                                  : "#4886fe",
-                                cursor: "pointer",
+                              src={state[key]}
+                              onError={() => {
+                                State.update({
+                                  [key]:
+                                    "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
+                                });
                               }}
-                              onClick={() => td.click(row)}
-                            >
-                              {td.icon ? (
+                            />
+                            {
+                              name
+                              //   .length > 20
+                              //     ? `${name.slice(0, 15)}...`
+                              //     : name
+                            }
+                          </div>
+                        ) : td.link ? (
+                          <div
+                            className={`d-flex ${
+                              td.align === "center" &&
+                              "justify-content-center align-items-center"
+                            }`}
+                            style={{
+                              "text-decoration": "none",
+                              color: value
+                                ? value === "won"
+                                  ? "#4886fe"
+                                  : value === "lost"
+                                  ? "#be3105"
+                                  : "gray"
+                                : "#4886fe",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => td.click(row)}
+                          >
+                            {td.icon ? (
+                              value ? (
                                 <a href={value} target="_blank">
                                   {td.icon}
                                 </a>
                               ) : (
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="24"
-                                  height="24"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    fill="currentColor"
-                                    d="M9.043 5.793L2.836 12l6.207 6.207l1.414-1.414L5.664 12l4.793-4.793l-1.414-1.414Zm5.914 12.414L21.164 12l-6.207-6.207l-1.414 1.414L18.336 12l-4.793 4.793l1.414 1.414Z"
-                                  />
-                                </svg>
-                              )}
-                            </div>
-                          ) : td.button ? (
-                            <Button onClick={() => td.click(row)}>
-                              {value}
-                            </Button>
-                          ) : (
-                            value
-                          )}
-                        </td>
-                      );
-                    })}
-                  </tr>
-                );
-              })}
+                                ""
+                              )
+                            ) : (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  fill="currentColor"
+                                  d="M9.043 5.793L2.836 12l6.207 6.207l1.414-1.414L5.664 12l4.793-4.793l-1.414-1.414Zm5.914 12.414L21.164 12l-6.207-6.207l-1.414 1.414L18.336 12l-4.793 4.793l1.414 1.414Z"
+                                />
+                              </svg>
+                            )}
+                          </div>
+                        ) : td.button ? (
+                          <Button
+                            className="btn"
+                            disabled={row["participants"] === "0"}
+                            onClick={() => td.click(row)}
+                          >
+                            {value}
+                          </Button>
+                        ) : (
+                          value
+                        )}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
         </tbody>
       </Table>
     </div>
 
-    {rowsCount && (
+    {state.list.length > rowsCount && pagination && (
       <div className="d-flex justify-content-end">
         <div>
           <ul
@@ -286,7 +322,7 @@ return (
               <button
                 onClick={() => {
                   const page = state.currentPage - 1;
-                  if (page > 0) State.update({ currentPage: page });
+                  if (page > 0) State.update({ ...state, currentPage: page });
                 }}
                 className="page-link btn"
                 style={{
@@ -313,30 +349,187 @@ return (
                 </svg>
               </button>
             </li>
-            {state.list.length > 0 &&
-              handlePagination().buttons.map((btn, i) => {
-                return (
-                  <li key={i} className="page-item">
-                    <button
-                      onClick={() => State.update({ currentPage: i + 1 })}
-                      className="page-link btn"
-                      style={{
-                        width: 32,
-                        height: 32,
-                        padding: 6,
-                        borderRadius: 8,
-                        background:
-                          state.currentPage === i + 1 ? "#121212" : "#fff",
-                        borderColor:
-                          themeColor?.table_pagination?.btn_border ?? "#000",
-                        color: state.currentPage === i + 1 ? "#fff" : "#000",
-                      }}
-                    >
-                      {i + 1}
-                    </button>
-                  </li>
-                );
-              })}
+            {handlePagination().buttons.length <= 5 ? (
+              handlePagination().buttons.map((btn, i) => (
+                <li key={i} className="page-item">
+                  <button
+                    onClick={() => State.update({ currentPage: i + 1 })}
+                    className="page-link btn"
+                    style={{
+                      width: 32,
+                      height: 32,
+                      padding: 6,
+                      borderRadius: 8,
+                      background:
+                        state.currentPage === i + 1 ? "#121212" : "#fff",
+                      borderColor:
+                        themeColor?.table_pagination?.btn_border ?? "#000",
+                      color: state.currentPage === i + 1 ? "#fff" : "#000",
+                    }}
+                  >
+                    {i + 1}
+                  </button>
+                </li>
+              ))
+            ) : (
+              <>
+                <li className="page-item">
+                  <button
+                    onClick={() => State.update({ currentPage: 1 })}
+                    className="page-link btn"
+                    style={{
+                      width: 32,
+                      height: 32,
+                      padding: 6,
+                      borderRadius: 8,
+                      background: state.currentPage === 1 ? "#121212" : "#fff",
+                      borderColor:
+                        themeColor?.table_pagination?.btn_border ?? "#000",
+                      color: state.currentPage === 1 ? "#fff" : "#000",
+                    }}
+                  >
+                    1
+                  </button>
+                </li>
+                <li className="page-item">
+                  <button
+                    onClick={() => {
+                      State.update({
+                        currentPage:
+                          state.currentPage <= 3 ? 2 : state.currentPage + 1,
+                      });
+                    }}
+                    className="page-link btn"
+                    style={{
+                      width: 32,
+                      height: 32,
+                      padding: 6,
+                      borderRadius: 8,
+                      background: state.currentPage === 2 ? "#121212" : "#fff",
+                      borderColor:
+                        themeColor?.table_pagination?.btn_border ?? "#000",
+                      color: state.currentPage === 2 ? "#fff" : "#000",
+                    }}
+                  >
+                    {state.currentPage <= 3 ? 2 : `...`}
+                  </button>
+                </li>
+                <li className="page-item">
+                  <button
+                    onClick={() => {
+                      State.update({
+                        currentPage:
+                          state.currentPage <= 3
+                            ? 3
+                            : state.currentPage >=
+                              handlePagination().buttons.length - 2
+                            ? handlePagination().buttons.length - 2
+                            : state.currentPage,
+                      });
+                    }}
+                    className="page-link btn"
+                    style={{
+                      width: 32,
+                      height: 32,
+                      padding: 6,
+                      borderRadius: 8,
+                      background:
+                        state.currentPage === 3 ||
+                        state.currentPage ===
+                          handlePagination().buttons.length - 2 ||
+                        (state.currentPage > 3 &&
+                          state.currentPage <
+                            handlePagination().buttons.length - 2)
+                          ? "#121212"
+                          : "#fff",
+                      borderColor:
+                        themeColor?.table_pagination?.btn_border ?? "#000",
+                      color:
+                        state.currentPage === 3 ||
+                        state.currentPage ===
+                          handlePagination().buttons.length - 2 ||
+                        (state.currentPage > 3 &&
+                          state.currentPage <
+                            handlePagination().buttons.length - 2)
+                          ? "#fff"
+                          : "#000",
+                    }}
+                  >
+                    {state.currentPage <= 3
+                      ? 3
+                      : state.currentPage >=
+                        handlePagination().buttons.length - 2
+                      ? handlePagination().buttons.length - 2
+                      : state.currentPage}
+                  </button>
+                </li>
+                <li className="page-item">
+                  <button
+                    onClick={() => {
+                      State.update({
+                        currentPage:
+                          state.currentPage >=
+                          handlePagination().buttons.length - 2
+                            ? handlePagination().buttons.length - 1
+                            : state.currentPage + 1,
+                      });
+                    }}
+                    className="page-link btn"
+                    style={{
+                      width: 32,
+                      height: 32,
+                      padding: 6,
+                      borderRadius: 8,
+                      background:
+                        state.currentPage ===
+                        handlePagination().buttons.length - 1
+                          ? "#121212"
+                          : "#fff",
+                      borderColor:
+                        themeColor?.table_pagination?.btn_border ?? "#000",
+                      color:
+                        state.currentPage ===
+                        handlePagination().buttons.length - 1
+                          ? "#fff"
+                          : "#000",
+                    }}
+                  >
+                    {state.currentPage >= handlePagination().buttons.length - 2
+                      ? handlePagination().buttons.length - 1
+                      : `...`}
+                  </button>
+                </li>
+                <li className="page-item">
+                  <button
+                    onClick={() =>
+                      State.update({
+                        currentPage: handlePagination().buttons.length,
+                      })
+                    }
+                    className="page-link btn"
+                    style={{
+                      width: 32,
+                      height: 32,
+                      padding: 6,
+                      borderRadius: 8,
+                      background:
+                        state.currentPage === handlePagination().buttons.length
+                          ? "#121212"
+                          : "#fff",
+                      borderColor:
+                        themeColor?.table_pagination?.btn_border ?? "#000",
+                      color:
+                        state.currentPage === handlePagination().buttons.length
+                          ? "#fff"
+                          : "#000",
+                    }}
+                  >
+                    {handlePagination().buttons.length}
+                  </button>
+                </li>
+              </>
+            )}
+
             <li className="page-item">
               <button
                 onClick={() => {

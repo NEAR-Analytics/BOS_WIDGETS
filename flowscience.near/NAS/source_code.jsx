@@ -1,19 +1,14 @@
-const data = props.data || {};
-const type = props.type || "flowscience.near/type/fileformat";
-const record = props.file || "flowscience.near/type/record";
-const typeSrc = props.typeSrc || "flowscience.near";
-const buildEdges = props.buildEdges;
-const template = props.template || "";
-const thingId = props.thingId;
+const [data, setData] = useState({});
+const type = props.type || "";
+const attestationType = "hyperfiles.near/type/attestation";
+const [selectedSchema, setSelectedSchema] = useState(props.selectedSchema);
+const schemaType = props.schemaType || "hyperfiles.near/type/schema";
+const typeSrc = props.typeSrc || "hyperfiles.near";
+const [schemaSrc, setSchemaSrc] = useState("initialSchemaSrcValue");
 const defaultView = props.defaultView || "CREATE_THING";
 
 if (type !== "") {
   const parts = type.split("/");
-  typeSrc = parts[0];
-}
-
-if (record !== "") {
-  const parts = record.split("/");
   typeSrc = parts[0];
 }
 
@@ -121,93 +116,60 @@ const CenteredDiv = styled.div`
 State.init({
   data,
   config: data,
-  isModalOpen: false,
   typeSrc,
-  selectedRecord: record,
+  schemaSrc,
   selectedType: type,
+  selectedSchema: state.selectedSchema,
   view: defaultView,
   preview: "TEMPLATE",
   template,
   templateVal: template,
-  thingId,
+  schemas: {},
+  loading: false,
 });
 
-const handleOnChange = (value) => {
+const handleSelectedSchemaChange = (newSelectedSchema) => {
+  setSelectedSchema(newSelectedSchema);
+  console.log("New selected schema:", selectedSchema);
+};
+
+const handleSchemaSrcChange = (newSchemaSrc) => {
+  setSchemaSrc(newSchemaSrc);
+  console.log("New schema source:", newSchemaSrc);
+};
+
+useEffect(() => {
+  console.log("New schema source:", schemaSrc); // Correctly logs after updates
+}, [schemaSrc]); // Listen for changes to schemaSrc
+
+const handleOnChange = (updatedItem) => {
+  // Assuming updatedItem is an object with { key: value } pairs representing changes
+  //console.log("Changes from attest:", updatedItem);
+
+  // Update your state accordingly
+  // This example assumes you have a state.data object that you're updating
   State.update({ data: { ...state.data, ...value } });
+
+  // Ensure you have a state setup to handle this in NAS if using React's useState
+  setData((prevState) => ({
+    ...prevState,
+    ...updatedItem,
+  }));
 };
 
-const handleApply = () => {
-  State.update({
-    config: state.data,
-    template: state.templateVal,
-  });
-  // set the props for the main content
-};
+useEffect(() => {
+  // Assuming setSelectedSchema is the state setter for selectedSchema in NAS
+  setSelectedSchema(props.selectedSchema);
+  console.log("New schema from props:", selectedSchema);
 
-const handleSave = () => {
-  // create the thing
-  State.update({ isModalOpen: false });
-  const thingId = state.thingId || Math.random();
-  let edges = [];
-  if (buildEdges) {
-    const newPath = `${context.accountId}/thing/${thingId}`;
-    edges = buildEdges(newPath, state.selectedType);
-  }
-
-  const data = {
-    thing: {
-      [thingId]: JSON.stringify({
-        data: state.config,
-        template: {
-          src: state.template,
-        },
-        type: state.selectedType,
-      }),
-    },
-    index: {
-      thing: JSON.stringify({
-        key: thingId,
-        value: {
-          type: state.selectedType,
-        },
-      }),
-    },
-  };
-  if (edges.length) {
-    data.index.edge = JSON.stringify(edges);
-  }
-  Social.set(data, {
-    onCommit: () => {
-      State.update({
-        data: {},
-        isModalOpen: false,
-        config: undefined,
-      });
-    },
-    onCancel: () => {
-      State.update({
-        isModalOpen: false,
-      });
-    },
-  });
-};
-
-let availableTypes = [];
-const types = Social.get(`${state.typeSrc}/type/**`, "final");
-if (types !== null) {
-  availableTypes =
-    Object.keys(types)?.map((it) => `${state.typeSrc}/type/${it}`) || [];
-}
-
-const handleTypeChange = (e) => {
-  State.update({ selectedType: e.target.value, templateVal: "", data: {} });
-};
+  // You might also want to perform other actions when selectedSchema changes
+}, [props.selectedSchema]); // This effect runs whenever props.selectedSchema changes
 
 return (
   <Container>
     <SidePanel>
       <h1>Near Attestation Service (NAS)</h1>
-      <Row style={{ gap: "8px", marginBottom: "16px" }}>
+      {/* <Row style={{ gap: "8px", marginBottom: "16px" }}>
         <h2>Make a new</h2>{" "}
         <Select
           value={state.view}
@@ -216,62 +178,30 @@ return (
           <option value="CREATE_THING">attestation</option>
           <option value="CREATE_TYPE">schema</option>
         </Select>
-      </Row>
+      </Row> */}
       {state.view === "CREATE_THING" ? (
         <>
-          <FormContainer>
-            <Label>Schema Owner:</Label>
-            <Row>
-              <Input
-                type="text"
-                value={state.newTypeSrc}
-                onChange={(e) => State.update({ newTypeSrc: e.target.value })}
-                placeholder={"accountId"}
-              />
-              <Button
-                onClick={() => State.update({ typeSrc: state.newTypeSrc })}
-              >
-                apply
-              </Button>
-            </Row>
-            <Label>Schema</Label>
-            <Row>
-              <Select value={state.selectedType} onChange={handleTypeChange}>
-                <option value="">Choose a schema</option>
-                {availableTypes?.map((it) => (
-                  <option value={it} key={it}>
-                    {it}
-                  </option>
-                ))}
-              </Select>
-            </Row>
-          </FormContainer>
-          <FormContainer>
-            <Widget
-              src="efiz.near/widget/create"
-              props={{
-                item: {
-                  type: state.selectedRecord,
-                  value: state.data,
-                },
-                onChange: handleOnChange,
-              }}
-            />
-          </FormContainer>
-          <Footer>
-            <Button onClick={() => handleApply()}>apply</Button>
-            <Button
-              onClick={() => State.update({ isModalOpen: true })}
-              disabled={state.config === undefined}
-            >
-              save
-            </Button>
-          </Footer>
+          {/* <Widget
+            src="flowscience.near/widget/SchemaSelector"
+            props={{
+              onSelectedSchemaChange: handleSelectedSchemaChange,
+              onSchemaSrcChange: handleSchemaSrcChange,
+            }}
+          /> */}
+          <Widget
+            src="flowscience.near/widget/attestWithTypes"
+            props={{
+              item: state.data,
+              onChange: handleOnChange,
+              selectedSchema: selectedSchema,
+            }}
+          />
+          <Footer></Footer>
         </>
       ) : (
         <Widget
-          src="every.near/widget/every.type.create"
-          props={{ typeSrc: state.selectedType }}
+          src="flowscience.near/widget/schema.editor"
+          props={{ schemaSrc: state.schemaSrc }}
         />
       )}
     </SidePanel>
@@ -281,7 +211,7 @@ return (
           <Header>
             <Row style={{ justifyContent: "space-between" }}>
               <div>
-                <Label>Template:</Label>
+                <Label>Hyperfile (set of edges)</Label>
                 <Input
                   value={state.templateVal}
                   onChange={(e) =>
@@ -289,76 +219,32 @@ return (
                   }
                 />
               </div>
-              <Select
-                value={state.preview}
-                onChange={(e) => State.update({ preview: e.target.value })}
-              >
-                <option value="TEMPLATE">template</option>
-                <option value="RAW">raw</option>
-              </Select>
+
               <Button>
                 <a
                   className={`btn`}
-                  href={`https://jutsu.ai/editor/${state.template}`}
+                  href={`https://draw.everything.dev/${state.template}`}
                   target="_blank"
                 >
-                  <i className=" me-1">
-                    <svg
-                      focusable="false"
-                      aria-hidden="true"
-                      viewBox="2 2 18 18"
-                      width="16px"
-                      height="16px"
-                    >
-                      <path d="M12.16 3h-.32L9.21 8.25h5.58zm4.3 5.25h5.16l-2.07-4.14C19.21 3.43 18.52 3 17.76 3h-3.93l2.63 5.25zm4.92 1.5h-8.63V20.1zM11.25 20.1V9.75H2.62zM7.54 8.25 10.16 3H6.24c-.76 0-1.45.43-1.79 1.11L2.38 8.25h5.16z"></path>
-                    </svg>
-                  </i>
-                  <span>Open in Jutsu</span>
+                  <span>Open on Canvas</span>
                 </a>
               </Button>
             </Row>
           </Header>
-          {state.preview === "TEMPLATE" ? (
-            <>
-              {(state.template && (
-                <Widget src={state.template} props={{ data: state.config }} />
-              )) || <CenteredDiv>set a template and click apply</CenteredDiv>}
-            </>
-          ) : (
-            <Widget
-              src="efiz.near/widget/Every.Raw.View"
-              props={{ value: state.config || {} }}
-            />
-          )}
+          <h3>View Data</h3>
+          <Widget src="flowscience.near/widget/view" />
+          <hr />
+          <Widget
+            src="hack.near/widget/graph.view"
+            props={{
+              accounts: [context.accountId, state.recipientId, state.refUID],
+            }}
+          />
+          )
         </>
       ) : (
         <></>
       )}
     </MainContent>
-    {state.isModalOpen && (
-      <ModalOverlay>
-        <ModalContent>
-          <ModalTitle>Make an attestation</ModalTitle>
-          <p>option to provide a thing id</p>
-          <Row style={{ gap: "8px" }}>
-            <Input
-              value={state.thingId}
-              onChange={(e) => State.update({ thingId: e.target.value })}
-              placeholder="thing id"
-            />
-          </Row>
-          <Widget
-            src="efiz.near/widget/Every.Raw.View"
-            props={{
-              value: { data: state.config, template: { src: state.template } },
-            }}
-          />
-          <Button onClick={handleSave}>Save</Button>
-          <Button onClick={() => State.update({ isModalOpen: false })}>
-            Cancel
-          </Button>
-        </ModalContent>
-      </ModalOverlay>
-    )}
   </Container>
 );

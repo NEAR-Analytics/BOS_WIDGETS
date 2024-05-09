@@ -1,5 +1,4 @@
 const dataa = Social.get("frichard5.near/widget/**");
-console.log("data", dataa);
 const comment = () => {
   const index = {
     action: "post",
@@ -11,7 +10,6 @@ const comment = () => {
     },
   };
   const initialItems = Social.index(index.action, index.key, index.options);
-  console.log("initialItems", initialItems);
   //const setPost = Social.set();
   const data = {
     post: {
@@ -26,15 +24,6 @@ const comment = () => {
       }),
     },
   };
-  //Social.set(data, { force: true });
-  //Social.set({ ndcTest: "hello" });
-  /*const item = {
-    type: "social",
-    path: `satoshidev.near/post/main`,
-    blockheight: 91360190,
-  };
-  const uh = Social.index("like", item);
-  console.log("azdaz", uh);*/
 };
 
 return (

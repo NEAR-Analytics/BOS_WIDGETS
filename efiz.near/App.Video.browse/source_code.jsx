@@ -10,7 +10,7 @@ const Grid = styled.div`
 return (
   <>
     <Widget
-      src="devs.near/widget/Feed"
+      src="devs.near/widget/Feed@100100160"
       props={{
         index: {
           action: "every",
@@ -20,7 +20,12 @@ return (
             order: "desc",
           },
         },
-        Item: (p) => <Widget src="efiz.near/widget/App.Video.card" props={{ ...p, ...props}} />,
+        Item: (p) => (
+          <Widget
+            src="efiz.near/widget/App.Video.card"
+            props={{ ...p, ...props }}
+          />
+        ),
         Layout: Grid,
         buildPath: (item) => `${item.accountId}/thing/${item.value.id}`,
       }}

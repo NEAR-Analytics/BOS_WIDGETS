@@ -15,12 +15,16 @@ const ChainWrapper = styled.div`
   &:nth-child(2) {
     width: 40%;
   }
+  
 `;
 const Label = styled.div`
   font-family: Gantari;
   font-size: 18px;
   font-weight: 500;
-  color: var(--label-color);
+  color: #979abe;
+  &.spe {
+    color: var(--spe-text-color);
+  }
 `;
 const ChainLogo = styled.img`
   width: 44px;
@@ -34,7 +38,7 @@ const ChainName = styled.div`
   color: var(--chain-name-color);
 `;
 const ExchangeIcon = styled.div`
-  color: var(--label-color);
+  color: #979abe;
   transform: rotate(90deg);
   margin-right: 30px;
   margin-top: 20px;
@@ -83,8 +87,11 @@ const {
   handlerSwap,
   handleStargateTx,
   showNetwrokDialog,
+  account,
+  prices,
+  showFee,
 } = props;
-const account = Ethers.send("eth_requestAccounts", [])[0];
+
 const reverseCurrency = (_currency) => {
   const [_address, _decimals, _poolId] = [
     _currency.address,
@@ -101,16 +108,37 @@ const reverseCurrency = (_currency) => {
   return _currency;
 };
 
-const cached_chainId = Storage.privateGet("cached_chainId");
-if (
-  (cached_chainId !== chainId || !state.from) &&
-  chainId !== -1 &&
-  [chain.id, mainnet.id].includes(chainId)
-) {
+const checkGas = (gasCost) => {
+  if (!account || !gasCost) return;
+  const provider = Ethers.provider();
+  State.update({ checkingGas: true });
+  provider.getBalance(account).then((rawBalance) => {
+    const balance = ethers.utils.formatUnits(rawBalance._hex, 18);
+    const _balance = state.currency.isNative
+      ? Big(balance || 0).minus(state.amount || 0)
+      : Big(balance || 0);
+
+    State.update({
+      isGasEnough: !_balance.lt(gasCost || 0),
+      checkingGas: false,
+    });
+  });
+};
+
+useEffect(() => {
+  if (Big(state.amount || 0).gt(state.maxInputBalance || 0)) {
+    State.update({
+      errorTips: "Invalid amount! Amount should be less than token balance",
+    });
+    return;
+  }
+  State.update({
+    errorTips: "",
+  });
+}, [state.maxInputBalance, state.amount]);
+
+useEffect(() => {
   const chains = chainId === chain.id ? [chain, mainnet] : [mainnet, chain];
-  const cached_token = Storage.privateGet(
-    `cached_token_${chains[0].id}_${chains[1].id}`
-  );
   const params = {
     from: chains[0],
     to: chains[1],
@@ -122,40 +150,34 @@ if (
     updateInputTokenBalance: true,
     loading: true,
   };
-  Storage.privateSet("cached_chainId", chainId);
   if (chainId === mainnet.id) {
     params.tokens = tokens.map((token) => reverseCurrency(token));
   }
   State.update(params);
-}
+}, [chainId]);
 
-const getTrade = () => {
-  State.update({
-    loading: true,
-  });
-};
+useEffect(() => {
+  function debounce(fn, wait) {
+    let timer;
+    return () => {
+      clearTimeout(timer);
+      timer = setTimeout(fn, wait);
+    };
+  }
 
-function debounce(fn, wait) {
-  let timer;
-  return () => {
-    clearTimeout(timer);
-    timer = setTimeout(fn, wait);
+  const getTrade = () => {
+    State.update({
+      loading: true,
+      isGasEnough: true,
+    });
   };
-}
 
-const checkGasIsEnough = () => {
-  if (!account) return;
-  const provider = Ethers.provider();
-  provider.getBalance(account).then((rawBalance) => {
-    const balance = ethers.utils.formatUnits(rawBalance._hex, 18);
-    const _balance = state.currency.isNative
-      ? Big(balance || 0).minus(state.amount || 0)
-      : Big(balance || 0);
-    State.update({ isGasEnough: !_balance.lt(state.gasCost || 0) });
+  const debouncedGetTrade = debounce(getTrade, 500);
+
+  State.update({
+    debouncedGetTrade,
   });
-};
-
-const debouncedGetTrade = debounce(getTrade, 500);
+}, []);
 
 return (
   <>
@@ -164,8 +186,8 @@ return (
         State.update({ displayCurrencySelect: false });
       }}
     >
-      <ChainWrapper>
-        <Label>Bridge from</Label>
+      <ChainWrapper >
+        <Label className="spe">Bridge from</Label>
         <Flex>
           <Chain>
             {state.from.logo && <ChainLogo src={state.from.logo} />}
@@ -181,7 +203,7 @@ return (
         </Flex>
       </ChainWrapper>
       <ChainWrapper>
-        <Label>To</Label>
+        <Label className="spe">To</Label>
         <Chain>
           {state.to.logo && <ChainLogo src={state.to.logo} />}
           <ChainName>{state.to.name}</ChainName>
@@ -196,9 +218,11 @@ return (
           currency: state.currency,
           amount: state.amount,
           updateTokenBalance: state.updateInputTokenBalance,
+          account,
+          price: prices[state.currency.symbol],
           onCurrencySelectOpen: () => {
             State.update({
-              displayCurrencySelect: true,
+              displayCurrencySelect: !state.displayCurrencySelect,
               selectedTokenAddress: state.currency.address,
             });
           },
@@ -211,22 +235,13 @@ return (
               updateInputTokenBalance: false,
             });
           },
-          onGetPrice: (price) => {
-            State.update({
-              price,
-            });
-          },
           onAmountChange: (val) => {
             const params = {
               amount: val,
-              loading: val && Number(val) && state.currency.address,
             };
-            if (val && Number(val)) debouncedGetTrade();
-            params.errorTips = Big(val || 0).gt(state.maxInputBalance || 0)
-              ? "Invalid amount! Amount should be less than token balance"
-              : "";
+            if (val && Number(val) && state.currency.address)
+              state.debouncedGetTrade();
             State.update(params);
-            checkGasIsEnough();
           },
         }}
       />
@@ -243,31 +258,49 @@ return (
             });
           },
           onSelect: (currency) => {
-            State.update({
+            const params = {
               displayCurrencySelect: false,
               currency,
               updateInputTokenBalance: true,
-            });
-            Storage.privateSet(
-              `cached_token_${state.from.id}_${state.to.id}`,
-              currency
-            );
+            };
+            if (state.amount) state.debouncedGetTrade();
+            State.update(params);
           },
         }}
       />
     </Send>
+    {
+      showFee && <Receive>
+        <Label>Fee</Label>
+        <AmountWrapper>
+          <Amount>
+          {!state.gasCost
+              ? "-"
+              : Big(state.gasCost || 0).lt(0.0001)
+              ? "<0.0001"
+              : Big(state.gasCost).toFixed(4, 0)}{" "}
+            {state.currency?.symbol}
+          </Amount>
+        </AmountWrapper>
+      </Receive>
+    }
     <Receive>
       <Label>Receive</Label>
       <AmountWrapper>
         <Amount>
-          {state.received || "-"} {state.currency?.symbol}
+          {!state.received
+            ? "-"
+            : Big(state.received || 0).lt(0.0001)
+            ? "<0.0001"
+            : Big(state.received).toFixed(4, 0)}{" "}
+          {state.currency?.symbol}
         </Amount>
         <Value>
           ≈ $
           <Widget
             src="bluebiu.near/widget/Base.Bridge.Value"
             props={{
-              price: state.price,
+              price: prices[state.currency.symbol],
               amount: state.received,
             }}
           />
@@ -282,22 +315,32 @@ return (
         maxInputBalance: state.maxInputBalance,
         currency: state.currency,
         target: {
+          id: state.to?.id,
           dstId: state.to?.dstId,
           address: state.currency?.targetAddress,
           poolId: state.currency?.targetPoolId,
+          name: state.to?.name,
         },
         from: state.from,
         gasCost: state.gasCost,
         isGasEnough: state.isGasEnough,
         handlerSwap,
+        addAction: props.addAction,
+        toast: props.toast,
+        loading: state.loading || state.checkingGas,
+        account,
+        quote: state.quote,
         onSuccess: (hash) => {
           handleStargateTx({
             hash,
             amount: state.amount,
-            price: state.price,
+            price: prices[state.currency.symbol],
             from: state.from,
             to: state.to,
             currency: state.currency,
+          });
+          State.update({
+            updateInputTokenBalance: true,
           });
         },
       }}
@@ -311,13 +354,23 @@ return (
           dstId: state.to?.dstId,
           address: state.currency?.targetAddress,
         },
+        source: {
+          decimals: state.currency.decimals,
+          address: state.currency?.address,
+        },
+        currency: state.currency,
+        from: state.from,
+        to: state.to,
         routerAddress: state.from?.routerAddress,
         onLoad: (data) => {
-          State.update({
-            loading: false,
-            ...data,
-          });
-          checkGasIsEnough();
+          console.log("data:", data);
+          if (typeof data.amount === 'undefined' || data.amount === state.amount) {
+            State.update({
+              loading: false,
+              ...data,
+            });
+          }
+          checkGas(data.gasCost);
         },
       }}
     />

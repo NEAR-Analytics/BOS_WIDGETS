@@ -6,7 +6,7 @@ if (!context.accountId) {
       src={`${ownerId}/widget/InfoSegment`}
       props={{
         title: "Not logged in!",
-        description: "You must log in to create a new vendor!",
+        description: "You must log in to create a new contributor!",
       }}
     />
   );
@@ -97,7 +97,7 @@ if (!state.accountsWithPermissionsIsFetched) {
     "debug_get_permissions",
     { account_id: context.accountId },
     "final",
-    false
+    false,
   ).then((data) =>
     State.update({
       accountsWithPermissions: data
@@ -105,7 +105,7 @@ if (!state.accountsWithPermissionsIsFetched) {
         .filter((info) => "AccountId" in info)
         .map(({ AccountId }) => AccountId),
       accountsWithPermissionsIsFetched: true,
-    })
+    }),
   );
 }
 
@@ -156,14 +156,14 @@ const validateForm = () => {
 return (
   <Container>
     <div>
-      <Header>Create new vendor</Header>
+      <Header>Create new contributor</Header>
     </div>
     <Form>
       <FormHeader>General</FormHeader>
       <Widget
         src={`${ownerId}/widget/Inputs.Text`}
         props={{
-          label: "Vendor name *",
+          label: "Contributor name *",
           placeholder: "Enter contributor name",
           value: state.name,
           onChange: (name) => State.update({ name }),
@@ -188,7 +188,7 @@ return (
       <Widget
         src={`${ownerId}/widget/Inputs.AccountId`}
         props={{
-          label: "NEAR Account *",
+          label: "The NEAR Account of the contributor profile *",
           placeholder:
             "Enter the NEAR account ID of your contributor (wallet address like nearhorizon.near)",
           value: state.accountId,
@@ -339,7 +339,7 @@ return (
                           tags: state.tags.reduce(
                             (acc, { name }) =>
                               Object.assign(acc, { [name]: "" }),
-                            {}
+                            {},
                           ),
                         }
                       : {}),
@@ -361,7 +361,7 @@ return (
                 },
               };
               const deposit = Big(JSON.stringify(data).length * 16).mul(
-                Big(10).pow(20)
+                Big(10).pow(20),
               );
               const transactions = [
                 {

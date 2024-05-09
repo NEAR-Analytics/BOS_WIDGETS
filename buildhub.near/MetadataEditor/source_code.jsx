@@ -1,7 +1,6 @@
 const initialMetadata = props.initialMetadata ?? {};
 const onChange = props.onChange;
 const options = props.options;
-
 State.init({
   initialMetadata,
   metadata: initialMetadata,
@@ -11,7 +10,6 @@ State.init({
   backgroundImage: initialMetadata.backgroundImage,
   screenshots: initialMetadata.screenshots ?? {},
 });
-
 const metadata = {
   name: options.name ? state.metadata.name : undefined,
   description: options.name ? state.metadata.description : undefined,
@@ -32,7 +30,6 @@ const metadata = {
   tags: options.tags ? state.metadata.tags : undefined,
   screenshots: options.screenshots ? state.metadata.screenshots : undefined,
 };
-
 if (
   onChange &&
   JSON.stringify(state.reportedMetadata) !== JSON.stringify(metadata)
@@ -42,36 +39,30 @@ if (
   });
   onChange(metadata);
 }
-
 const Container = styled.div`
   color: #fff;
 `;
-
 const CustomTagEditor = styled.div`
   .form-control {
     background: #23242b;
     border: 1px solid rgba(255, 255, 255, 0.2);
   }
 `;
-
 const CustomImageUpload = styled.div`
   .nav-link {
     background: transparent;
     color: #fff;
     border: none;
   }
-
   .nav.nav-tabs {
     border: none;
   }
-
   .nav-link.active {
     color: #fff;
     background: transparent;
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-bottom: none;
   }
-
   .p-2 {
     border: none;
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
@@ -79,13 +70,11 @@ const CustomImageUpload = styled.div`
     background: #23242b !important;
     color: #fff !important;
   }
-
   .form-control {
     background: #23242b;
     border: 1px solid rgba(255, 255, 255, 0.2);
   }
 `;
-
 return (
   <Container>
     {options.name && (

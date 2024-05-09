@@ -1,308 +1,164 @@
-State.init({
-  activePair: defaultPair,
-  isPoolFetching: false,
-  isUserPositionsFetching: false,
-  chainId: "",
-});
+const ALL_DATA_URL =
+  "https://wire2.gamma.xyz/fusionx/mantle/hypervisors/allData";
 
-const MANTLE_MAINNET_CHAIN_ID = 5000;
+const USER_DATA_BASE = "https://wire2.gamma.xyz/fusionx/mantle/user/";
 
-const sender = Ethers.send("eth_requestAccounts", [])[0];
-const ContainerLogin = styled.div`
-  display: flex;
-  max-width: 500px;
-
-  flex-direction: column;
-  margin: 80px auto auto auto;
-
-  .web3-connect {
-    width: 480px;
-    height: 60px;
-    border-radius: 10px;
-    background-color: #fff;
-    color: #0f1126;
-    font-size: 18px;
-    font-weight: 500;
-    border: none;
-    margin-top: 20px;
-  }
-
-  @media (max-width: 736px) {
-    max-width: 100%;
-    .web3-connect {
-      width: 100%;
-
-      font-size: 16px;
-      height: 40px;
-    }
-  }
-`;
-
-const TitleText = styled.div`
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 32px;
-  color: #ffffff;
-  @media (max-width: 900px) {
-    display: none;
-  }
-`;
-
-if (!sender)
-  return (
-    <>
-      <TitleText>Liquidity Manage</TitleText>
-      <ContainerLogin
-        style={{
-          display: "flex",
-          maxWidth: "500px",
-          flexDirection: "column",
-          margin: "80px auto auto auto",
-        }}
-      >
-        <img src="https://ipfs.near.social/ipfs/bafkreibmhq4fseqpcbywiq4hfojghxvhj47mjsri2trggt7d5h5od4y6kq"></img>
-
-        <Web3Connect
-          className="web3-connect"
-          connectLabel="Connect ETH wallet"
-        />
-      </ContainerLogin>
-    </>
-  );
-
-Ethers.provider()
-  .getNetwork()
-  .then((data) => {
-    State.update({
-      chainId: data.chainId,
-    });
-  });
-const chainIdToSwitch = `0x${MANTLE_MAINNET_CHAIN_ID.toString(16)}`;
-
-const switchChain = () => {
-  const mantleChain = {
-    chainId: chainIdToSwitch,
-    chainName: "Mantle",
-    nativeCurrency: {
-      name: "Mantle",
-      symbol: "MNT",
-      decimals: 18,
-    },
-    rpcUrls: ["https://mantle-mainnet.public.blastapi.io"],
-    blockExplorerUrls: ["https://explorer.mantle.xyz/"],
-  };
-
-  Ethers.send("wallet_addEthereumChain", [mantleChain]);
+const CHAIN_CONFIG = {
+  chainName: "Mantle",
+  nativeCurrency: {
+    name: "Mantle",
+    symbol: "MNT",
+    decimals: 18,
+  },
+  rpcUrls: ["https://mantle-mainnet.public.blastapi.io"],
+  blockExplorerUrls: ["https://explorer.mantle.xyz/"],
 };
 
-const SwitchWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  font-family: "Inter";
-  max-width: 500px;
-  color: #fff;
-  margin: auto;
-  text-align: center;
-  border-radius: 12px;
-  padding: 16px 0;
-  align-items: center;
-  gap: 12px;
-  margin-top: 80px;
-  button {
-    background: #8247e5;
-    border: none;
-    &:hover {
-      background: #8257f5;
-    }
-  }
+const MAINNET_CHAIN_ID = 5000;
 
-  @media (max-width: 736px) {
-    max-width: 100%;
-    img {
-      width: 100%;
-    }
-  }
-`;
+const addresses = {
+  USDT: "0x201eba5cc46d216ce6dc03f6a759e8e766e956ae",
+  MINU: "0x51cfe5b1e764dc253f4c8c1f19a081ff4c3517ed",
+  WMNT: "0x78c1b0c915c4faa5fffa6cabf0219da63d7f4cb8",
+  WBTC: "0xcabae6f6ea1ecab08ad02fe02ce9a44f09aebfa2",
+  USDC: "0x09bc4e0d864854c6afb6eb9a9cdf58ac190d0df9",
+  WETH: "0xdeaddeaddeaddeaddeaddeaddeaddeaddead1111",
 
-if (state.chainId !== MANTLE_MAINNET_CHAIN_ID) {
-  return (
-    <>
-      <TitleText>Liquidity Manage</TitleText>
-      <SwitchWrapper>
-        <img src="https://ipfs.near.social/ipfs/bafkreibmhq4fseqpcbywiq4hfojghxvhj47mjsri2trggt7d5h5od4y6kq"></img>
-        <h4>Please switch to Mantle </h4>
-        <button onClick={switchChain}>Switch to Mantle</button>
-        <p>**Please refresh once after switch chain**</p>
-      </SwitchWrapper>
-    </>
-  );
-}
-const fetchPoolsData = () => {
-  State.update({
-    isPoolFetching: true,
-  });
-  asyncFetch("https://wire2.gamma.xyz/fusionx/mantle/hypervisors/allData").then(
-    (res) => {
-      if (!res.ok) return;
+  "N USDT-WMNT-500": "0x6e9d701fb6478ed5972a37886c2ba6c82a4cbb4c",
+  "W USDT-WMNT-500": "0x1ee3ae551188661553882fdc75f8f62eaa6726ad",
 
-      State.update({
-        poolsData: res.body,
-        isPoolFetching: false,
-      });
-    }
-  );
+  "N MINU-WMNT-10000": "0xd6cc4a33da7557a629e819c68fb805ddb225f517",
+  "W MINU-WMNT-10000": "0xf8a02496bd84bd7f7ab9f1a000044fc482d729ca",
+
+  "N USDT-WETH-500": "0xde7421f870ffb2b99998d9ed07c4d9b22e783922",
+  "W USDT-WETH-500": "0xfe4bb996926aca85c9747bbec886ec2a3f510c66",
+
+  "N USDT-WBTC-500": "0x2e18b825b049c4994370b0db6c35d0100295b96c",
+  "W USDT-WBTC-500": "0xa18d3073441b0774a1efa45ba9d2e7da3441da2f",
+
+  "W USDC-USDT-100": "0x561f5cf838429586d1f8d3826526891b289270ee",
 };
 
-const fetchUserData = () => {
-  State.update({
-    isUserPositionsFetching: true,
-  });
-  asyncFetch(`https://wire2.gamma.xyz/fusionx/mantle/user/${sender}`).then(
-    (res) => {
-      if (!res.ok) return;
+const pairs = [
+  {
+    id: "N USDT-WMNT-500",
+    strategy: "Dynamic",
+    strategy2: "Narrow",
+    token0: "USDT",
+    token1: "WMNT",
+    decimals0: 6,
+    decimals1: 18,
+  },
+  {
+    id: "W USDT-WMNT-500",
+    strategy: "Dynamic",
+    strategy2: "Wide",
+    token0: "USDT",
+    token1: "WMNT",
+    decimals0: 6,
+    decimals1: 18,
+  },
+  {
+    id: "N MINU-WMNT-10000",
+    strategy: "Dynamic",
+    strategy2: "Narrow",
+    token0: "MINU",
+    token1: "WMNT",
+    decimals0: 18,
+    decimals1: 18,
+  },
+  {
+    id: "W MINU-WMNT-10000",
+    strategy: "Dynamic",
+    strategy2: "Wide",
+    token0: "MINU",
+    token1: "WMNT",
+    decimals0: 18,
+    decimals1: 18,
+  },
+  {
+    id: "N USDT-WETH-500",
+    strategy: "Dynamic",
+    strategy2: "Narrow",
+    token0: "USDT",
+    token1: "WETH",
+    decimals0: 6,
+    decimals1: 18,
+  },
 
-      State.update({
-        userPositions: res.body[sender],
-        isUserPositionsFetching: false,
-      });
-    }
-  );
-};
+  {
+    id: "W USDT-WETH-500",
+    strategy: "Dynamic",
+    strategy2: "Wide",
+    token0: "USDT",
+    token1: "WETH",
+    decimals0: 6,
+    decimals1: 18,
+  },
 
-if (state.poolsData === undefined) {
-  fetchPoolsData();
-}
+  {
+    id: "N USDT-WBTC-500",
+    strategy: "Dynamic",
+    strategy2: "Narrow",
+    token0: "USDT",
+    token1: "WBTC",
+    decimals0: 6,
+    decimals1: 8,
+  },
 
-if (sender && state.userPositions === undefined) {
-  fetchUserData();
-}
+  {
+    id: "W USDT-WBTC-500",
+    strategy: "Dynamic",
+    strategy2: "Wide",
+    token0: "USDT",
+    token1: "WBTC",
+    decimals0: 6,
+    decimals1: 8,
+  },
 
-const refetch = () => {
-  fetchPoolsData();
-  fetchUserData();
-  console.log("refetching");
-};
+  {
+    id: "W USDC-USDT-100",
+    strategy: "Dynamic",
+    strategy2: "Wide",
+    token0: "USDC",
+    token1: "USDT",
+    decimals0: 6,
+    decimals1: 6,
+  },
+];
 
-const postRefetch = () => {
-  setTimeout(() => refetch(), 45_000);
-};
+const proxyAddress = "0xFc13Ebe7FEB9595D70195E9168aA7F3acE153621";
 
 const defaultPair = {
-  id: "N WETH-USDC",
-  token0: "WETH",
-  token1: "USDC",
-  decimals0: 18,
-  decimals1: 6,
+  id: "W USDT-WETH-500",
+  strategy: "Dynamic",
+  strategy2: "Wide",
+  token0: "USDT",
+  token1: "WETH",
+  decimals0: 6,
+  decimals1: 18,
 };
 
-const Wrapper = styled.div`
-  display: flex;
-  align-items: start;
-  gap: 24px;
-
-  @media (max-width: 736px) {
-    flex-direction: column-reverse;
-  }
+const ThemeContainer = styled.div`
+  --button-text-color: black;
+  --button-color: rgb(0, 255, 224);
 `;
-const VStack = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  .tableTitle {
-    font-size: 18px;
-    color: #7c7f96;
-    font-weight: 500;
-    padding-left: 16px;
-    margin-bottom: 5px;
-
-    @media (max-width: 736px) {
-      display: none;
-    }
-  }
-`;
-const Button = styled.button`
-  background: #1d1e1f;
-  border-radius: 4px;
-  border: none;
-  max-width: 640px;
-  width: 100%;
-  color: #fff;
-  padding: 8px 0;
-  font-weight: 600;
-  font-size: 14px;
-  position: relative;
-  min-height: 37px;
-  &:hover {
-    background: #2b2a2b;
-  }
-  &:disabled {
-    background: #333;
-    color: #ccc;
-  }
-`;
-
-const handlePairClick = (pair) => {
-  State.update({
-    activePair: pair,
-  });
-};
-
-const {
-  activePair,
-  poolsData,
-  userPositions,
-  isPoolFetching,
-  isUserPositionsFetching,
-} = state;
 
 return (
-  <VStack>
-    <div className="tableTitle">Active Liquidity</div>
-    <Wrapper>
-      <Widget
-        src="bluebiu.near/widget/Mantle.GAMMA.gamma-mantle-table"
-        props={{ handlePairClick, poolsData, userPositions }}
-      />
-
-      <div
-        className=""
-        style={{
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <Widget
-          src="bluebiu.near/widget/Mantle.GAMMA.gamma-mantle-vault"
-          props={{
-            ...props,
-            pair: activePair,
-            refetch: postRefetch,
-            can_add_action: state.add_action,
-            poolsData,
-
-            handlePairClick,
-          }}
-        />
-
-        <div
-          style={{
-            width: "350px",
-            paddingTop: "20px",
-          }}
-        >
-          <Widget
-            src="guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
-            props={{
-              add: state.add_action,
-              onChangeAdd: (value) => {
-                State.update({
-                  add_action: value,
-                });
-              },
-            }}
-          />
-        </div>
-      </div>
-    </Wrapper>
-  </VStack>
+  <ThemeContainer>
+    <Widget
+      src="bluebiu.near/widget/Linea.Liquidity.GAMMA.GAMMAConnector"
+      props={{
+        addresses,
+        pairs,
+        proxyAddress,
+        defaultPair,
+        CHAIN_CONFIG,
+        ALL_DATA_URL,
+        USER_DATA_BASE,
+        MAINNET_CHAIN_ID,
+        ...props,
+      }}
+    />
+  </ThemeContainer>
 );

@@ -1,6 +1,7 @@
+//props indexer_name
+let indexer_name = props.indexer_name
 return (
     <>
-        <h1>hello</h1>
-        <h1>hello</h1>
+        <h1>Indexer Manager</h1>
     </>
 )

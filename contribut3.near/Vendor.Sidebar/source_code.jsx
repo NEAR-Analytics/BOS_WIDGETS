@@ -1,19 +1,12 @@
 const ownerId = "contribut3.near";
 const accountId = props.accountId;
 
-
 return (
   <Widget
     src={`${ownerId}/widget/Vendor.Details`}
     props={{
       accountId,
-      onSave: (profile) => {
-        Near.call({
-          contractName: "social.near",
-          methodName: "edit_project",
-          args: { data: { [accountId]: { profile } } },
-        });
-      },
+      onSave: (profile) => Social.set({ profile }),
       isAdmin: props.isAdmin,
     }}
   />

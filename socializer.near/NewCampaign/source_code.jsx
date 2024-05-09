@@ -1,7 +1,7 @@
 const accountId = context.accountId;
 const Owner = "socializer.near";
 const profile = Social.getr(`${accountId}/profile`);
-const API_URL = props?.API_URL || "http://localhost:3000";
+const API_URL = props?.API_URL || "https://e2e.nearverselabs.com/";
 
 const changePage = props?.changePage || (() => {});
 const page = props?.page || "";
@@ -14,7 +14,15 @@ const requirementsOptions = [
   { name: "I-Am-Human Verified", value: "human" },
 ];
 
-const hrOption = [];
+const hrOption = [
+  { text: "00", value: "00" },
+  { text: "06", value: "06" },
+  { text: "12", value: "12" },
+  { text: "18", value: "18" },
+  { text: "24", value: "24" },
+  { text: "48", value: "48" },
+  { text: "72", value: "72" },
+];
 const minOption = [];
 
 for (let i = 0; i <= 50; i++) {
@@ -22,14 +30,14 @@ for (let i = 0; i <= 50; i++) {
   let min = i * 10;
   if (min == 0) min = "00";
   if (i <= 5) minOption.push({ text: min.toString(), value: min.toString() });
-  hrOption.push({ text: hr.toString(), value: hr.toString() });
+  //   hrOption.push({ text: hr.toString(), value: hr.toString() });
 }
 
 State.init({
   requirements: [],
-  username: profile.name ? profile.name : accountId,
+  username: "",
   post_link: "",
-  amount: 0.1,
+  amount: "",
   token: "NEAR",
   winners: 1,
   total_reward: "",
@@ -38,38 +46,62 @@ State.init({
   tokens: [],
   error: "",
   balance: 0,
+  minimum: 0,
   loading: false,
   notification: "",
 });
 
 const Wrapper = styled.div`
-  display: flex;
-  width: 100%;
-  height: 100%;
-  position: relative;
-  background: #FAFAFA;
-  flex-direction: column;
-  padding: 18px;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: #FAFAFA;
+    flex-direction: column;
+    padding: 18px;
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
 `;
 
 const HeadComponent = styled.div`
   display: flex;
   width: 100%;
   flex-direction: row;
-  padding: 32px 14px;
+  padding: 16px 14px;
   justify-content: space-between;
   border-bottom: 1px solid #B3B3B3;
 `;
 
 const MainComponent = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  padding: 32px 14px;
-  gap: 24px;
-  & p {
-    margin : 0
-  }
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    padding: 16px 14px;
+    gap: 10px;
+    & p {
+        margin : 0
+    }
+
+    @media (max-width: 620px) {
+        .form-group {
+            gap: 0px !important;
+            flex-direction: column;
+            
+            .form-label, .form-value, .form-input {
+                width: 100% !important;
+            }
+
+            .form-reward {
+                gap: 5px !important;
+                flex-direction: column;
+            }
+        }
+
+    }
+  
 `;
 
 const Input = styled.input`
@@ -93,11 +125,55 @@ const Button = styled.button`
   background: var(--Dark, #121212); 
   color: var(--light_95, #F3F3F3);
   text-align: center;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   text-transform: capitalize;
   line-height: normal;
+  border: none;
+  border-radius: 4px;
+  margin: 12px;
+  cursor: pointer;
+  position: relative;
 `;
+
+const LoadingSpinner = styled.div`
+  @keyframes rotate{
+    100% {
+        transform: rotate(360deg);
+    }
+  }
+  border: 4px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  border-top-color: white;
+  opacity: ${() => (state.loading ? 1 : 0)};
+  position: absolute;
+  left: 25%;
+  right: 25%;
+  top: 25%;
+  bottom: 25%;
+  margin: auto;
+  width: 20px;
+  height: 20px;
+  transition: opacity 200ms;
+  animation: rotate 1s linear;
+  animation-iteration-count: infinite;
+  transition-delay: ${() => (state.loading ? "200ms" : "0ms")}
+`;
+
+const ButtonText = styled.p`
+  font-weight: bold;
+  transition: opacity 200ms;
+  transition-delay: ${() => (state.loading ? "0ms" : "200ms")};
+  width: 100%;
+  opacity: ${({ loading }) => (loading ? 0 : 1)};
+`;
+
+const ButtonLoader = ({ color, onClick, loading, children }) => (
+  <Button loading={loading} color={color} onClick={onClick}>
+    <LoadingSpinner loading={loading} />
+    <ButtonText loading={loading}>{children}</ButtonText>
+  </Button>
+);
 
 const getTokenData = () => {
   return asyncFetch(API_URL + `/api/token?accountId=${accountId}`).then(
@@ -116,6 +192,7 @@ const getTokenData = () => {
         State.update({
           tokens,
           balance,
+          minimum: tokens[0]["minimum"] ?? 0,
         });
       }
     }
@@ -130,6 +207,72 @@ const changeRequirement = (label) => {
   });
 };
 
+const changeAmount = (value) => {
+  const amount = value !== "" && Math.abs(value && Number(value));
+  const total_reward = `${Number((amount * state.winners).toFixed(4))} ${
+    state.token
+  }`;
+  State.update({
+    amount: amount,
+    total_reward,
+  });
+  if (amount < state.minimum)
+    State.update({ error: "Amount must be greater than " + state.minimum });
+  else if (amount > state.balance)
+    return State.update({
+      error: "Not enough Balance. Please recharge in Ledger",
+    });
+  else State.update({ error: "" });
+};
+
+const changeWinners = (value) => {
+  const winners = Math.abs(value ? parseInt(value) : 0);
+  winners = winners > 20 ? 20 : winners;
+  const total_reward = `${Number((state.amount * winners).toFixed(4))} ${
+    state.token
+  }`;
+  State.update({
+    winners: winners ? winners : "",
+    total_reward,
+  });
+  if (state.amount * winners > state.balance)
+    return State.update({
+      error: "Not enough Balance. Please recharge in Ledger",
+    });
+};
+
+const changePostLink = (link) => {
+  State.update({ error: "", post_link: link, loading: true });
+  asyncFetch(API_URL + `/api/campaign`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ post_link: link }),
+  }).then((res) => {
+    if (res.ok) {
+      const { error, accountId } = res.body;
+      console.log(res.body, "-==>data");
+      if (error)
+        State.update({ ...state, error, post_link: "", loading: false });
+      else if (accountId) {
+        State.update({
+          ...state,
+          loading: false,
+          username: accountId,
+        });
+      }
+    } else {
+      State.update({
+        ...state,
+        post_link: "",
+        error: res.error,
+        loading: false,
+      });
+    }
+  });
+};
+
 const createCampaign = () => {
   const {
     requirements,
@@ -141,7 +284,9 @@ const createCampaign = () => {
     total_reward,
     duration_hr,
     duration_min,
+    minimum,
   } = state;
+
   if (
     !requirements.length ||
     !username ||
@@ -150,10 +295,15 @@ const createCampaign = () => {
     !token ||
     !winners ||
     !total_reward ||
-    !duration_hr ||
-    !duration_min
+    (duration_hr == "00" && duration_min == "00")
   )
     return State.update({ error: "Please fill out all form fields" });
+
+  if (amount < minimum)
+    return State.update({ error: "Amount must be greater than " + minimum });
+
+  if (winners < 1 || winners > 20)
+    return State.update({ error: " 1 <= Winners <= 20" });
 
   State.update({ error: "", loading: true });
   asyncFetch(API_URL + `/api/campaign`, {
@@ -172,6 +322,8 @@ const createCampaign = () => {
           changePage("dashboard");
         }, 2000);
       }
+    } else {
+      State.update({ loading: false });
     }
   });
 };
@@ -180,7 +332,8 @@ return (
   <Wrapper>
     <div className="d-flex">
       <p
-        style={{ color: "#B3B3B3", cursor: "pointer" }}
+        className="m-0 position-relative"
+        style={{ color: "#B3B3B3", cursor: "pointer", top: 5 }}
         onClick={() => {
           changePage("dashboard");
         }}
@@ -195,7 +348,7 @@ return (
           position: "relative",
           flexDirection: "column",
           display: "flex",
-          gap: 14,
+          gap: 7,
         }}
       >
         <h4 style={{ margin: 0 }}>{"Create New Campaign"}</h4>
@@ -209,9 +362,9 @@ return (
     </HeadComponent>
 
     <MainComponent>
-      <div className="d-flex" style={{ gap: 20 }}>
+      <div className="d-flex form-group" style={{ gap: 20 }}>
         <div
-          className="d-flex"
+          className="d-flex form-label"
           style={{ gap: 8, flexDirection: "column", width: 240 }}
         >
           <p style={{ fontWeight: 600 }}>{"Project /Username*"}</p>
@@ -219,9 +372,9 @@ return (
             {"Your Social  Username"}
           </p>
         </div>
-        <div className="d-flex align-items-center col-lg-6">
+        <div className="d-flex align-items-center col-lg-6 form-value">
           <Input
-            className="col-lg-12"
+            className="col-lg-12 form-input"
             placeholder="Near Degens || neardegens.near"
             value={state.username}
             readOnly
@@ -229,9 +382,9 @@ return (
         </div>
       </div>
 
-      <div className="d-flex" style={{ gap: 20 }}>
+      <div className="d-flex form-group" style={{ gap: 20 }}>
         <div
-          className="d-flex"
+          className="d-flex form-label"
           style={{ gap: 8, flexDirection: "column", width: 240 }}
         >
           <p style={{ fontWeight: 600 }}>{"Post  Link*"}</p>
@@ -239,23 +392,21 @@ return (
             {"Paste the  link of your Near Social Post"}
           </p>
         </div>
-        <div className="d-flex align-items-center col-lg-6">
+        <div className="d-flex align-items-center col-lg-6  form-value">
           <Input
-            className="col-lg-12"
+            className="col-lg-12 form-input"
             value={state.post_link}
             placeholder="https://near.social/"
             onChange={(e) => {
-              State.update({
-                post_link: e.target.value,
-              });
+              changePostLink(e.target.value);
             }}
           />
         </div>
       </div>
 
-      <div className="d-flex" style={{ gap: 20 }}>
+      <div className="d-flex form-group" style={{ gap: 20 }}>
         <div
-          className="d-flex"
+          className="d-flex form-label"
           style={{ gap: 8, flexDirection: "column", width: 240 }}
         >
           <p style={{ fontWeight: 600 }}>{"Requirements *"}</p>
@@ -263,11 +414,11 @@ return (
             {"Participation requirements for this campaign"}
           </p>
         </div>
-        <div className="d-flex align-items-center col-lg-6">
+        <div className="d-flex align-items-center col-lg-6  form-value">
           <Typeahead
             multiple
             labelKey="name"
-            className="col-lg-12"
+            className="col-lg-12  form-input"
             onChange={changeRequirement}
             options={requirementsOptions}
             placeholder=""
@@ -277,38 +428,40 @@ return (
         </div>
       </div>
 
-      <div className="d-flex" style={{ gap: 20 }}>
+      <div className="d-flex form-group" style={{ gap: 20 }}>
         <div
-          className="d-flex"
+          className="d-flex form-label"
           style={{ gap: 8, flexDirection: "column", width: 240 }}
         >
-          <p style={{ fontWeight: 600 }}>{"Reward  Per Winner*"}</p>
+          <p style={{ fontWeight: 600 }}>{"Reward Per Winner*"}</p>
           <p style={{ fontSize: 14, color: "#595959" }}>
             {"Amount and Token Type "}
           </p>
         </div>
-        <div className="d-flex align-items-center col-lg-8 gap-4">
-          <div>
+        <div className="d-flex align-items-center col-lg-8 gap-4  form-value form-reward">
+          <div className="form-value">
             <p>{`Amount`}</p>
             <Input
-              type="number"
-              min="0.01"
-              step="0.1"
               value={state.amount}
+              className="form-input"
+              type="number"
+              style={{
+                border:
+                  state.error.includes("Amount must be") ||
+                  state.error.includes("Not enough Balance")
+                    ? "1px solid var(--light_70,red)"
+                    : "1px solid var(--light_70,black)",
+              }}
               onChange={(e) => {
-                const amount = Number(e.target.value);
-                if (amount < 0.01) return;
-                const total_reward = `${Number(
-                  (amount * state.winners).toFixed(4)
-                )} ${state.token}`;
-                State.update({
-                  amount,
-                  total_reward,
-                });
+                changeAmount(e.target.value);
               }}
             />
+            <p style={{ fontSize: 12 }}>{`Minimun amount ${state.minimum}`}</p>
           </div>
-          <div className="d-flex align-items-center" style={{ gap: 10 }}>
+          <div
+            className="d-flex flex-column align-items-center form-value "
+            style={{ gap: 0 }}
+          >
             <Widget
               props={{
                 label: "Token",
@@ -324,21 +477,22 @@ return (
                     token: e.value,
                     total_reward,
                     balance: e.balance,
+                    minimum: e.minimum,
                   });
                 },
               }}
               src={`${Owner}/widget/Select`}
             />
             <p
-              style={{ fontSize: 12, marginTop: 25 }}
+              style={{ fontSize: 12 }}
             >{`Available Balance = ${state.balance} ${state.token}`}</p>
           </div>
         </div>
       </div>
 
-      <div className="d-flex" style={{ gap: 20 }}>
+      <div className="d-flex form-group" style={{ gap: 20 }}>
         <div
-          className="d-flex"
+          className="d-flex form-label"
           style={{ gap: 8, flexDirection: "column", width: 240 }}
         >
           <p style={{ fontWeight: 600 }}>{"Winners*"}</p>
@@ -346,7 +500,7 @@ return (
             {"No of Winners  <=20"}
           </p>
         </div>
-        <div className="d-flex align-items-center col-lg-6">
+        <div className="d-flex align-items-center col-lg-6  form-value">
           <Input
             type="number"
             min="1"
@@ -354,24 +508,21 @@ return (
             step="1"
             value={state.winners}
             onChange={(e) => {
-              const winners = Number(e.target.value);
-              if (winners < 1 || winners > 20) return;
-              const total_reward = `${Number(
-                (state.amount * winners).toFixed(4)
-              )} ${state.token}`;
-              State.update({
-                winners,
-                total_reward,
-              });
+              changeWinners(e.target.value);
             }}
-            className="col-lg-12"
+            className="col-lg-12  form-input"
+            style={{
+              border: state.error.includes("Not enough Balance")
+                ? "1px solid var(--light_70,red)"
+                : "1px solid var(--light_70,black)",
+            }}
           />
         </div>
       </div>
 
-      <div className="d-flex" style={{ gap: 20, marginTop: 10 }}>
+      <div className="d-flex form-group" style={{ gap: 20, marginTop: 10 }}>
         <div
-          className="d-flex"
+          className="d-flex form-label"
           style={{ gap: 8, flexDirection: "column", width: 240 }}
         >
           <p style={{ fontWeight: 600 }}>{"Total Rewards*"}</p>
@@ -379,14 +530,18 @@ return (
             {"Total = Reward x  No of Winners"}
           </p>
         </div>
-        <div className="d-flex align-items-center col-lg-6">
-          <Input className="col-lg-12" value={state.total_reward} readOnly />
+        <div className="d-flex align-items-center col-lg-6  form-value">
+          <Input
+            className="col-lg-12  form-input"
+            value={state.total_reward}
+            readOnly
+          />
         </div>
       </div>
 
-      <div className="d-flex" style={{ gap: 20 }}>
+      <div className="d-flex align-items-center form-group" style={{ gap: 20 }}>
         <div
-          className="d-flex"
+          className="d-flex form-label"
           style={{ gap: 8, flexDirection: "column", width: 240 }}
         >
           <p style={{ fontWeight: 600 }}>{"Duration*"}</p>
@@ -394,7 +549,10 @@ return (
             {"Campaign duration in HH:MM"}
           </p>
         </div>
-        <div className="d-flex align-items-center col-lg-6 gap-4">
+        <div
+          className="d-flex align-items-center col-lg-6 gap-4  form-value form-duration"
+          style={{ height: "40px" }}
+        >
           <Widget
             props={{
               noLabel: true,
@@ -425,17 +583,24 @@ return (
           />
         </div>
       </div>
+      <p style={{ fontSize: 16, color: "#595959" }}>
+        {`You are paying: ${state.total_reward} $${state.token.text} for rewards, and 0.01 $NEAR as campaign fees`}
+      </p>
       <div
         style={{
           display: "flex",
           alignItems: "center",
-          justifyContent: "end",
+          justifyContent: "start",
           gap: 21,
         }}
       >
-        <Button disabled={state.loading} onClick={createCampaign}>
-          {state.loading ? "Loading..." : "Submit"}
-        </Button>
+        <ButtonLoader
+          loading={state.loading}
+          color="hsl(120, 100%, 40%)"
+          onClick={createCampaign}
+        >
+          Submit
+        </ButtonLoader>
       </div>
     </MainComponent>
     {state.notification && (

@@ -45,29 +45,18 @@ const Backdrop = styled.div`
   left: 0;
   top: 0;
   z-index: 1001;
+  justify-content: center;
+  align-items: center;
 `;
 const Modal = styled.div`
   background-color: #25283a;
   border-radius: 12px;
   position: fixed;
   z-index: 1002;
-  width: 30rem;
-  max-width: 95vw;
+  max-width: 30rem;
+  width: 100vw;
   max-height: 80vh;
   padding: 10px 0 20px 0;
-  animation: anishow 0.3s forwards ease-out;
-  left: 50%;
-  top: 50%;
-  @keyframes anishow {
-    from {
-      opacity: 0;
-      transform: translate(-50%, -70%);
-    }
-    to {
-      opacity: 1;
-      transform: translate(-50%, -50%);
-    }
-  }
   .modal-header {
     display: flex;
     align-items: center;
@@ -104,6 +93,11 @@ const Modal = styled.div`
   }
   .pb-2 {
     padding-bottom: 20px;
+  }
+  @media (max-width: 900px) {
+    bottom: 0px;
+    left: 0px;
+    border-radius: 12px 12px 0px 0px;
   }
 `;
 /** base tool start  */
@@ -415,57 +409,55 @@ return (
       src="juaner.near/widget/ref-icons"
       props={{ getWnearIcon, getCloseButtonIcon }}
     />
-    {/** modal */}
-    <Modal style={{ display: showModal ? "block" : "none" }}>
-      <div class="modal-header">
-        <div class="modal_title">Burrow {selectedTokenMeta.symbol}</div>
-        <img
-          class="btn-close-custom"
-          src={closeButtonBase64}
-          onClick={closeModal}
-        />
-      </div>
-      <div class="px-3">
-        <Widget
-          src="juaner.near/widget/ref-input-box"
-          props={{
-            amount,
-            handleAmount,
-            balance: available,
-            balance$: availableUSD,
-            metadata: asset.metadata,
-            label: "Available to withdraw",
-          }}
-        />
-        {hasError && (
-          <p class="alert alert-danger mt-10" role="alert">
-            Amount greater than available
-          </p>
-        )}
-      </div>
-      <div class="separator" />
-      <div class="px-3 pb-2">
-        <div class="template mt_25">
-          <span class="template_title">Health Factor</span>
-          <span class="value">
-            {newHealthFactor ? newHealthFactor : healthFactor}%
-          </span>
+    <Backdrop style={{ display: showModal ? "flex" : "none" }}>
+      {/** modal */}
+      <Modal style={{ display: showModal ? "block" : "none" }}>
+        <div class="modal-header">
+          <div class="modal_title">Burrow {selectedTokenMeta.symbol}</div>
+          <img
+            class="btn-close-custom"
+            src={closeButtonBase64}
+            onClick={closeModal}
+          />
         </div>
-        <div class="template mt_25">
-          <span class="template_title">Collateral Factor</span>
-          <span class="value">{cf || "-"}%</span>
+        <div class="px-3">
+          <Widget
+            src="juaner.near/widget/ref-input-box"
+            props={{
+              amount,
+              handleAmount,
+              balance: available,
+              balance$: availableUSD,
+              metadata: asset.metadata,
+              label: "Available to withdraw",
+            }}
+          />
+          {hasError && (
+            <p class="alert alert-danger mt-10" role="alert">
+              Amount greater than available
+            </p>
+          )}
         </div>
-        <div
-          class={`greenButton mt_25 ${Number(amount) ? "" : "disabled"}`}
-          onClick={handleBorrow}
-        >
-          Borrow
+        <div class="separator" />
+        <div class="px-3 pb-2">
+          <div class="template mt_25">
+            <span class="template_title">Health Factor</span>
+            <span class="value">
+              {newHealthFactor ? newHealthFactor : healthFactor}%
+            </span>
+          </div>
+          <div class="template mt_25">
+            <span class="template_title">Collateral Factor</span>
+            <span class="value">{cf || "-"}%</span>
+          </div>
+          <div
+            class={`greenButton mt_25 ${Number(amount) ? "" : "disabled"}`}
+            onClick={handleBorrow}
+          >
+            Borrow
+          </div>
         </div>
-      </div>
-    </Modal>
-    <Backdrop
-      style={{ display: showModal ? "block" : "none" }}
-      onClick={closeModal}
-    ></Backdrop>
+      </Modal>
+    </Backdrop>
   </Container>
 );

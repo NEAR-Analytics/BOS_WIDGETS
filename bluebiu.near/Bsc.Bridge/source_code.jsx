@@ -61,15 +61,15 @@ return (
       src="bluebiu.near/widget/Base.Bridge.Index"
       props={{
         connectProps: {
-          imgProps: {
-            src: "https://ipfs.near.social/ipfs/bafkreiajfajinsydy3ewmc3elgnpahc3n3v4cophn6ip5bzr3ym7ypn5vm",
-            style: {
-              width: "282px",
-              height: "167px",
-              marginTop: "80px",
-            },
-          },
-          noAccountTips: "BNB Bridge",
+          // imgProps: {
+          //   src: "https://ipfs.near.social/ipfs/bafkreiajfajinsydy3ewmc3elgnpahc3n3v4cophn6ip5bzr3ym7ypn5vm",
+          //   style: {
+          //     width: "282px",
+          //     height: "167px",
+          //     marginTop: "80px",
+          //   },
+          // },
+          noAccountTips: "BNB Chain Bridge",
           wrongNetworkTips: "To proceed, kindly switch to BNB Chain.",
         },
         chain: {
@@ -91,6 +91,7 @@ return (
         tokens: Tokens,
         amountOutFn: "bluebiu.near/widget/Base.Bridge.AmountOut",
         handlerSwap: "bluebiu.near/widget/Base.Bridge.HandlerSwap",
+        ...props,
       }}
     />
   </Theme>

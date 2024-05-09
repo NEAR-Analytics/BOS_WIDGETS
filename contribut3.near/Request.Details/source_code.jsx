@@ -39,19 +39,19 @@ if (!state.isFetched) {
     (paymentTypes) =>
       State.update({
         paymentTypes: paymentTypes.map((value) => ({ value, text: value })),
-      })
+      }),
   );
   Near.asyncView(ownerId, "get_payment_sources", {}, "final", false).then(
     (paymentSources) =>
       State.update({
         paymentSources: paymentSources.map((value) => ({ value, text: value })),
-      })
+      }),
   );
   Near.asyncView(ownerId, "get_request_types", {}, "final", false).then(
     (requestTypes) =>
       State.update({
         requestTypes: requestTypes.map((value) => ({ value, text: value })),
-      })
+      }),
   );
   State.update({ isFetched: true });
 }
@@ -62,12 +62,12 @@ if (!state.nameIsFetched) {
     "get",
     { keys: [`${request.project_id}/profile/name`] },
     "final",
-    false
+    false,
   ).then((data) =>
     State.update({
       name: data[request.project_id].profile.name,
       nameIsFetched: true,
-    })
+    }),
   );
   return <>Loading...</>;
 }

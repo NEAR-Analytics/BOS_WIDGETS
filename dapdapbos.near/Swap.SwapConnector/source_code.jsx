@@ -1,4 +1,3 @@
-const account = Ethers.send("eth_requestAccounts", [])[0];
 const {
   chainId,
   chainName,
@@ -9,19 +8,7 @@ const {
   ...restProps
 } = props;
 
-const {
-  name,
-  CHAIN_LIST,
-  DEFAULT_CHAIN_ID,
-  dappConfig,
-  curChainId,
-  chains,
-  dappSrc,
-} = props;
-
-const chainIdNotSupport = !CHAIN_LIST.find(
-  (chain) => chain.chainId === curChainId
-);
+const { name, CHAIN_LIST, curChain, dappSrc } = props;
 
 const CONNECT_PROPS = {
   ...connectProps,
@@ -46,14 +33,28 @@ State.init({
   selectedDex: defalutDex,
 });
 
-if (account) {
+const account = Ethers.send("eth_requestAccounts", [])[0];
+
+useEffect(() => {
+  if (!account) return;
+
   Ethers.provider()
     .getNetwork()
     .then(({ chainId }) => {
-      State.update({ chainId });
+      State.update({
+        chainId,
+        chainIdNotSupport: chainId !== curChain.chain_id,
+      });
     })
     .catch(() => {});
-}
+}, [account]);
+
+useEffect(() => {
+  if (state.chainId === -1) return;
+  State.update({
+    chainIdNotSupport: state.chainId !== curChain.chain_id,
+  });
+}, [curChain]);
 
 // if (state.chainId !== chainId) {
 //   return (
@@ -182,8 +183,6 @@ const WidgetWrapper = styled.div`
   }
 `;
 
-const curChain = restProps.chains[chainId];
-
 const BridgeBanner = styled.div`
   width: 560px;
   border-radius: 16px;
@@ -239,7 +238,6 @@ const ArrowRight = (
     <path d="M1 11L5 6L1 1" stroke="currentColor" stroke-width="2" />
   </svg>
 );
-
 return (
   <Dex>
     <WidgetWrapper>
@@ -250,29 +248,24 @@ return (
           dexConfig: dexs[state.selectedDex],
           account,
           chainId,
-          chainIdNotSupport,
-          ...restProps,
+          chainIdNotSupport: state.chainIdNotSupport,
           ...props,
         }}
       />
 
       <BridgeBanner
         onClick={() => {
-          if (chainIdNotSupport) return;
+          if (state.chainIdNotSupport) return;
           restProps?.bridgeCb();
         }}
       >
         <div className="bridge-text ">
-          <img className="icon" src={curChain.icon} />
+          <img className="icon" src={curChain.logo} />
 
           <div className="text-wrapper">
-            <div className="text-l">
-              {curChain.chainName} Chain token bridge
-            </div>
+            <div className="text-l">{curChain.name} Chain token bridge</div>
 
-            <div className="text-m">
-              {curChain.chainName} Chain token bridge
-            </div>
+            <div className="text-m">{curChain.name} Chain token bridge</div>
           </div>
         </div>
 

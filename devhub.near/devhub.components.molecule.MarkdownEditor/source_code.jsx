@@ -1,24 +1,11 @@
-const MarkdownEditor = ({ data, onChange }) => {
+const MarkdownEditor = ({ data, onChange, showAutoComplete }) => {
   return (
     <Widget
       src={"devhub.near/widget/devhub.components.molecule.SimpleMDE"}
       props={{
         data,
         onChange,
-        toolbar: [
-          "heading",
-          "bold",
-          "italic",
-          "quote",
-          "code",
-          "link",
-          "unordered-list",
-          "ordered-list",
-          "checklist",
-          "mention",
-        ],
-        statusConfig: [],
-        spellChecker: false,
+        showAutoComplete,
       }}
     />
   );

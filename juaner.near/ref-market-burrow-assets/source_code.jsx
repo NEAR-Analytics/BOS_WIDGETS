@@ -1,74 +1,109 @@
 const Container = styled.div`
-   background: #1A2E33;
-    .table{
-        margin:0;
+  background-color: #25283a;
+  border-radius: 12px;
+  .template {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 6px;
+  }
+  .assets_table {
+    display: block;
+    width: 100%;
+    tr {
+      color: #7c7f96;
+      border: none;
+      height: 50px;
     }
-    .noBorder{
-      border:none;
+    th,
+    td {
+      border: none;
+      font-size: 14px;
     }
-    .table thead tr{
-        height:50px;
-        border:hidden;
+    td {
+      color: #fff;
     }
-    .table tbody tr{
-        height:50px;
+    th:first-child,
+    td:first-child {
+      padding-left: 20px;
+      min-width: 160px;
     }
-     .table.click tbody tr:hover{
-        background: rgba(0, 0, 0, 0.1);
-     }
-    .table th{
-        color: #7E8A93;
-        font-size:14px;
-        vertical-align: middle;
+    th:nth-child(5) {
+      min-width: 120px;
     }
-    .table td{
-        color: #fff;
-        font-size:14px;
-        vertical-align: middle;
-        border: none;
+    tbody {
+      .table_handlers div {
+        background-color: rgba(0, 255, 163, 0.6);
+        transition: 0.5s;
+      }
+      tr:hover {
+        background-color: #373a53;
+        border-radius: 12px;
+        .table_handlers div {
+          background-color: #00ffa3;
+        }
+      }
+      tr:last-child td:first-child {
+        border-bottom-left-radius: 12px;
+      }
+      tr:last-child td:last-child {
+        border-bottom-right-radius: 12px;
+      }
     }
-    .tokenIcon{
-      width: 26px;
-      height: 26px;
-      border-radius:100px;
-      margin-right:8px;
+    .table_handlers {
+      display: flex;
+      justify-content: end;
+      align-items: center;
+      padding-right: 10px;
     }
-    .rewardIcon{
-      width: 16px;
-      height: 16px;
-      border-radius:100px;
+  }
+
+  .tokenIcon {
+    width: 26px;
+    height: 26px;
+    border-radius: 100px;
+    margin-right: 8px;
+  }
+  .rewardIcon {
+    width: 16px;
+    height: 16px;
+    border-radius: 100px;
+  }
+  .text_red_color {
+    color: #ff6ba9;
+  }
+  .ml_4_ne {
+    margin-left: -4px;
+  }
+  .font-18 {
+    font-size: 18px;
+  }
+  .title {
+    padding-left: 20px;
+  }
+  @media (max-width: 900px) {
+    background-color: transparent;
+    .assets_table {
+      display: none;
     }
-    .text_red_color{
-      color:#FF6BA9;
+    .text_red_color {
+      color: #fff;
     }
-    .ml_4_ne{
-        margin-left:-4px;
-    }
-    .flex_center{
-      display:flex;
-      align-items:center;
-    }
-    .font-18{
-      font-size:18px;
-    }
-    .flex-end{
-      display:flex;
-      align-items:center;
-      justify-content:end;
-      height:50px;
-    }
+  }
 `;
 /** base tool start  */
 let accountId = context.accountId;
-if (!accountId) {
-  return <Widget src="juaner.near/widget/ref_account-signin" />;
-}
+// if (!accountId) {
+//   return <Widget src="juaner.near/widget/ref_account-signin" />;
+// }
 let MAX_RATIO = 10_000;
 let BURROW_CONTRACT = "contract.main.burrow.near";
 let B = Big();
 B.DP = 60; // set precision to 60 decimals
 
-const toAPY = (v) => Math.round(v * 100) / 100;
+State.init({ tableData: [] });
+
+const toAPY = (v) => (v ? (Math.round(v * 100) / 100).toFixed(2) : 0);
 const clone = (o) => JSON.parse(JSON.stringify(o));
 const shrinkToken = (value, decimals) => {
   return B(value).div(B(10).pow(decimals || 0));
@@ -95,14 +130,11 @@ const nFormat = (num, digits) => {
     { value: 1e3, symbol: "K" },
     { value: 1e6, symbol: "M" },
   ];
-  const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
   var item = lookup
     .slice()
     .reverse()
     .find((item) => num >= item.value);
-  return item
-    ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol
-    : "0";
+  return item ? (num / item.value).toFixed(digits) + item.symbol : "0";
 };
 const {
   rewards,
@@ -120,8 +152,72 @@ const {
 const hasData = assets.length > 0 && rewards.length > 0 && account;
 /** base tool end */
 const config = Near.view(BURROW_CONTRACT, "get_config");
+const formatAssets = (data) => {
+  const rewardsMap = data.rewards
+    ? data.rewards.reduce((acc, cur) => {
+        return {
+          ...acc,
+          [cur.token_id]: cur,
+        };
+      }, {})
+    : {};
+  const assetsMap = data.assets
+    ? data.assets.reduce((acc, cur) => {
+        return {
+          ...acc,
+          [cur.token_id]: cur,
+        };
+      }, {})
+    : {};
+
+  const _assets = data.assets
+    .filter(
+      (a) => a.config.can_borrow && !["meta-token.near"].includes(a.token_id)
+    )
+    .map((asset) => {
+      const { token_id, metadata, price, config } = asset;
+      const r = data.rewards.find((a) => a.token_id === asset.token_id);
+      const borrowApy = r.apyBaseBorrow;
+      const extraApy = getExtraApy(asset, data.account, data.assets);
+      const apy = borrowApy - extraApy;
+      const token_usd_price = price && price.usd;
+      const liquidity = B(asset.availableLiquidity || 0)
+        .mul(token_usd_price || 0)
+        .toNumber();
+      const { volatility_ratio } = config;
+
+      const hasRewards = rewardsMap[token_id] && assetsMap[token_id];
+      const rewardMap = hasRewards && rewardsMap[token_id];
+      const rewardTokens = rewardMap && rewardMap.rewardTokensBorrow;
+      return {
+        icon: metadata.icon,
+        symbol: metadata.symbol,
+        apy,
+        rewardTokens,
+        volatility_ratio,
+        token_id,
+        liquidity,
+      };
+    });
+
+  if (!state.activeArrow) {
+    State.update({
+      activeArrow: "up-liquidity",
+    });
+    return _assets.sort((a, b) => b.liquidity - a.liquidity);
+  } else {
+    const [type, key] = state.activeArrow.split("-");
+    return _assets.sort((a, b) =>
+      type === "down" ? a[key] - b[key] : b[key] - a[key]
+    );
+  }
+};
 const onLoad = (data) => {
   State.update(data);
+  // get market can deposit assets
+  if (data.assets && data.assets.length) {
+    State.update({ tableData: formatAssets(data) });
+  }
 };
 const rewardsMap = rewards
   ? rewards.reduce((acc, cur) => {
@@ -139,7 +235,7 @@ const assetsMap = assets
       };
     }, {})
   : {};
-function getExtraApy(asset) {
+function getExtraApy(asset, account, assets) {
   const asset_token_id = asset.token_id;
   const borrowFarm = asset.farms.find(
     (farm) =>
@@ -229,28 +325,17 @@ const toUsd = (balance, asset) =>
       ) * asset.price.usd
     : 0;
 // get market can burrow assets
-const can_burrow_assets = assets && assets.filter((a) => a.config.can_borrow);
-const market_burrow_assets =
-  can_burrow_assets &&
-  can_burrow_assets.map((asset) => {
-    const { token_id, metadata, price, config } = asset;
-    const r = rewards.find((a) => a.token_id === asset.token_id);
-    const borrowApy = r.apyBaseBorrow;
-    const extraApy = getExtraApy(asset);
-    const apy = borrowApy - extraApy;
-    const token_usd_price = price && price.usd;
-    const liquidity = nFormat(
-      B(asset.availableLiquidity || 0)
-        .mul(token_usd_price || 0)
-        .toNumber(),
-      2
-    );
-    const { volatility_ratio } = config;
-    const cf = volatility_ratio / 100;
-
-    const hasRewards = rewardsMap[token_id] && assetsMap[token_id];
-    const rewardMap = hasRewards && rewardsMap[token_id];
-    const rewardTokens = rewardMap && rewardMap.rewardTokensBorrow;
+const renderAssets = (data) =>
+  data.map((asset) => {
+    const {
+      icon,
+      symbol,
+      apy,
+      rewardTokens,
+      volatility_ratio,
+      token_id,
+      liquidity,
+    } = asset;
     const rewardTokensImg =
       rewardTokens &&
       rewardTokens.map((token_id, index) => {
@@ -262,32 +347,105 @@ const market_burrow_assets =
           ></img>
         );
       });
+    const cf = volatility_ratio / 100;
+    const liquidity_display = nFormat(liquidity, 2);
     return (
-      <tr>
+      <tr key={token_id}>
         <td>
-          <img src={metadata.icon || wnearbase64} class="tokenIcon"></img>
-          {metadata.symbol}
+          <img src={icon || wnearbase64} class="tokenIcon"></img>
+          {symbol !== "wNEAR" ? symbol : "NEAR"}
         </td>
         <td>{toAPY(apy)}%</td>
         <td class="text-white">
           {rewardTokensImg.length == 0 ? "-" : rewardTokensImg}
         </td>
         <td>{cf || "-"}%</td>
-        <td>${liquidity}</td>
-        <td class="flex-end">
-          <Widget
-            src="juaner.near/widget/ref-operation-button"
-            props={{
-              clickEvent: () => {
-                handleSelect(token_id);
-              },
-              buttonType: "solid",
-              actionName: "Burrow",
-              hoverOn: true,
-            }}
-          />
+        <td>${liquidity_display}</td>
+        <td>
+          <div class="table_handlers">
+            <Widget
+              src="juaner.near/widget/ref-operation-button"
+              props={{
+                clickEvent: () => {
+                  handleSelect(token_id);
+                },
+                buttonType: "solid",
+                actionName: "Borrow",
+                hoverOn: true,
+              }}
+            />
+          </div>
         </td>
       </tr>
+    );
+  });
+
+const renderMbAssets = (data, hasDollar) =>
+  data.map((item) => {
+    const {
+      icon,
+      symbol,
+      apy,
+      rewardTokens,
+      volatility_ratio,
+      token_id,
+      liquidity,
+    } = item;
+    const rewardTokensImg =
+      rewardTokens &&
+      rewardTokens.map((token_id, index) => {
+        const metadata = assetsMap[token_id].metadata;
+        return (
+          <img
+            class={`rewardIcon ${index > 0 ? "ml_4_ne" : ""}`}
+            src={metadata.icon}
+          ></img>
+        );
+      });
+    const cf = volatility_ratio / 100;
+    const liquidity_display = nFormat(liquidity, 2);
+    return (
+      <div className="mb_row" key={token_id}>
+        <div className="mb_row_header">
+          <div className="mb_row_token">
+            <img src={icon || wnearbase64} class="tokenIcon"></img>
+            {symbol !== "wNEAR" ? symbol : "NEAR"}
+          </div>
+        </div>
+        <div className="mb_row_item">
+          <div className="mb_row_label">Borrow Apy</div>
+          <div className="mb_row_value">{toAPY(totalApy)}%</div>
+        </div>
+        <div className="mb_row_item">
+          <div className="mb_row_label">Rewards</div>
+          <div className="mb_row_value">
+            {rewardTokensImg.length == 0 ? "-" : rewardTokensImg}
+          </div>
+        </div>
+        <div className="mb_row_item">
+          <div className="mb_row_label">C.F.</div>
+          <div className="mb_row_value">{cf || "-"}%</div>
+        </div>
+        <div className="mb_row_item">
+          <div className="mb_row_label">Liquidity</div>
+          <div className="mb_row_value">${liquidity_display}</div>
+        </div>
+        <div className="mb_row_actions">
+          <div className="action_btn">
+            <Widget
+              src="juaner.near/widget/ref-operation-button"
+              props={{
+                clickEvent: () => {
+                  handleSelect(token_id);
+                },
+                buttonType: "solid",
+                actionName: "Borrow",
+                hoverOn: true,
+              }}
+            />
+          </div>
+        </div>
+      </div>
     );
   });
 const handleSelect = (token_id) => {
@@ -299,11 +457,6 @@ const handleSelect = (token_id) => {
 function closeModal() {
   State.update({
     showModal: false,
-  });
-}
-function changeTab(tabName) {
-  State.update({
-    tabName,
   });
 }
 function getWnearIcon(icon) {
@@ -318,6 +471,16 @@ function getCloseButtonIcon(icon) {
 }
 const selectedToken = (selectedTokenId && assetsMap[selectedTokenId]) || {};
 const selectedTokenMeta = selectedToken.metadata || {};
+
+const handleSort = (type, key) => {
+  if (!state.tableData.length) return;
+  State.update({
+    tableData: state.tableData.sort((a, b) =>
+      type === "down" ? a[key] - b[key] : b[key] - a[key]
+    ),
+    activeArrow: `${type}-${key}`,
+  });
+};
 return (
   <Container>
     {/* load data */}
@@ -330,32 +493,81 @@ return (
       props={{ getWnearIcon, getCloseButtonIcon }}
     />
     {/* market */}
-    <div class="fw-bold text-white mt-3 font-18">
+    <div class="fw-bold text-white pt-3 font-18 title">
       <span class="text_red_color">Borrow</span> Market
     </div>
-    <table class="table click noBorder">
+    <table class="assets_table click">
       <thead>
         <tr>
-          <th scope="col" width="15%">
+          <th scope="col" width="20%">
             Assets
           </th>
-          <th scope="col" class="text-start" width="15%">
-            APY
+          <th scope="col" width="15%">
+            <div className="table_sorter">
+              <span>APY</span>
+              <div className="arrows">
+                <div className="arrow-wrap">
+                  <div
+                    className={`arrow arrow-up ${
+                      state.activeArrow === "up-apy" && "active"
+                    }`}
+                    onClick={() => {
+                      handleSort("up", "apy");
+                    }}
+                  />
+                </div>
+                <div className="arrow-wrap">
+                  <div
+                    className={`arrow arrow-down ${
+                      state.activeArrow === "down-apy" && "active"
+                    }`}
+                    onClick={() => {
+                      handleSort("down", "apy");
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
           </th>
-          <th scope="col" class="text-start" width="15%">
+          <th scope="col" width="15%">
             Rewards
           </th>
-          <th scope="col" class="text-start" width="15%">
+          <th scope="col" width="15%">
             C.F.
           </th>
-          <th scope="col" class="text-start" width="15%">
-            Total Liquidity
+          <th scope="col" width="20%">
+            <div className="table_sorter">
+              <span>Liquidity</span>
+              <div className="arrows">
+                <div className="arrow-wrap">
+                  <div
+                    className={`arrow arrow-up ${
+                      state.activeArrow === "up-liquidity" && "active"
+                    }`}
+                    onClick={() => {
+                      handleSort("up", "liquidity");
+                    }}
+                  />
+                </div>
+                <div className="arrow-wrap">
+                  <div
+                    className={`arrow arrow-down ${
+                      state.activeArrow === "down-liquidity" && "active"
+                    }`}
+                    onClick={() => {
+                      handleSort("down", "liquidity");
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
           </th>
-          <th scope="col" class="text-end"></th>
+          <th scope="col" width="15%"></th>
         </tr>
       </thead>
-      <tbody>{market_burrow_assets}</tbody>
+      <tbody>{renderAssets(state.tableData) || ""}</tbody>
     </table>
+    <div className="mb_table">{renderMbAssets(state.tableData)}</div>
     {/* Modal*/}
     <Widget
       src="juaner.near/widget/ref-market-burrow-burrow"

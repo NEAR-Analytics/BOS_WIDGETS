@@ -100,10 +100,10 @@ const table_creditSent_theme = {
   height: "80px",
   align: "left",
   description: "",
-  brand: "Credit",
+  brand: "Using",
   fontsize: "25px",
   fontweight: "25px",
-  afterbrand: "Sent",
+  afterbrand: "Imports",
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
   fontbrand: " Arial, sans-serif",
   color1brand: themeColor?.dynamic_header?.color1brand || "#000",
@@ -154,10 +154,10 @@ const table_creditReceived_theme = {
   height: "80px",
   align: "left",
   description: "",
-  brand: "Credit ",
+  brand: "Used ",
   fontsize: "25px",
   fontweight: "25px",
-  afterbrand: "Received",
+  afterbrand: "Imports",
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
   fontbrand: " Arial, sans-serif",
   color1brand: themeColor?.dynamic_header?.color1brand || "#000",
@@ -544,14 +544,15 @@ let secondSection = (
                       {
                         title: "Total Tnxs",
                         key: "total_trxs",
+                        description:
+                          "Total number of BOS development transactions for each component",
                       },
-                      {
-                        title: "Build Tnxs",
-                        key: "build",
-                      },
+
                       {
                         title: "Update Tnxs",
                         key: "update",
+                        description:
+                          "The number of transactions resulting in component updates",
                       },
                       {
                         title: "Star Received",
@@ -716,22 +717,66 @@ let thirdSection = (
         <div className="col-md-6">
           <div className="row">
             <div className="col-md-6">
-              <Widget
-                src="lord1.near/widget/header-dynamic"
-                props={table_creditSent_theme}
-              />
+              <OverlayTrigger
+                placement="top"
+                overlay={
+                  <Tooltip>
+                    <div>
+                      The number of imports executed from other people's
+                      widgets. For example, you import widgets from other
+                      developers to use in your own widget.
+                    </div>
+                  </Tooltip>
+                }
+              >
+                <div>
+                  <Widget
+                    src="lord1.near/widget/header-dynamic"
+                    props={table_creditSent_theme}
+                  />{" "}
+                </div>
+              </OverlayTrigger>
             </div>
             <div className="col-md-3">
-              <Widget
-                src="lord1.near/widget/header-dynamic"
-                props={table_creditSentTab1_theme}
-              />
+              <OverlayTrigger
+                placement="top"
+                overlay={
+                  <Tooltip>
+                    <div>
+                      The number of non-personal widgets that you import to use
+                      in your own widgets.
+                    </div>
+                    <div>Personal widget imports are not considered.</div>
+                  </Tooltip>
+                }
+              >
+                <div>
+                  <Widget
+                    src="lord1.near/widget/header-dynamic"
+                    props={table_creditSentTab1_theme}
+                  />{" "}
+                </div>
+              </OverlayTrigger>
             </div>{" "}
             <div className="col-md-3">
-              <Widget
-                src="lord1.near/widget/header-dynamic"
-                props={table_creditSentTab2_theme}
-              />
+              <OverlayTrigger
+                placement="top"
+                overlay={
+                  <Tooltip>
+                    <div>
+                      The number of developers whose widgets you have imported
+                      to use in your own widgets.
+                    </div>
+                  </Tooltip>
+                }
+              >
+                <div>
+                  <Widget
+                    src="lord1.near/widget/header-dynamic"
+                    props={table_creditSentTab2_theme}
+                  />{" "}
+                </div>
+              </OverlayTrigger>
             </div>{" "}
           </div>
           <div
@@ -749,23 +794,29 @@ let thirdSection = (
                   rowsCount: "5",
                   columns: [
                     {
-                      title: "Source widget",
-                      key: "source_widget",
-                    },
-                    {
-                      title: "User' widget",
+                      title: "Your' widget",
                       key: "destination_widget",
                       link: "yes",
                       beforehref: `https://bos.flipsidecrypto.xyz/${state.data}/widget/`,
                       hyperlink: "yes",
+                      description:
+                        "the widget (of yours) in which other developers' widgets are imported there",
+                    },
+                    {
+                      title: "Developer' widget",
+                      key: "source_widget",
+                      description:
+                        "The widget that is imported into your widget",
                     },
 
                     {
-                      title: "User",
+                      title: "Developer",
                       key: "source_account",
                       link: "yes",
                       beforehref: `https://near.social/mob.near/widget/ProfilePage?accountId=`,
                       hyperlink: "yes",
+                      description:
+                        "the developer who you have used their widget",
                     },
                   ],
                 }}
@@ -778,22 +829,64 @@ let thirdSection = (
         <div className="col-md-6">
           <div className="row">
             <div className="col-md-6">
-              <Widget
-                src="lord1.near/widget/header-dynamic"
-                props={table_creditReceived_theme}
-              />
+              <OverlayTrigger
+                placement="top"
+                overlay={
+                  <Tooltip>
+                    <div>
+                      The widgets (your widgets) that other developers import to
+                      use in their widgets.
+                    </div>
+                  </Tooltip>
+                }
+              >
+                <div>
+                  <Widget
+                    src="lord1.near/widget/header-dynamic"
+                    props={table_creditReceived_theme}
+                  />{" "}
+                </div>
+              </OverlayTrigger>
             </div>
             <div className="col-md-3">
-              <Widget
-                src="lord1.near/widget/header-dynamic"
-                props={table_creditReceivedTab1_theme}
-              />
+              <OverlayTrigger
+                placement="top"
+                overlay={
+                  <Tooltip>
+                    <div>
+                      The number of widgets (your widgets) that other developers
+                      import to use in their widgets.
+                    </div>
+                  </Tooltip>
+                }
+              >
+                <div>
+                  <Widget
+                    src="lord1.near/widget/header-dynamic"
+                    props={table_creditReceivedTab1_theme}
+                  />{" "}
+                </div>
+              </OverlayTrigger>
             </div>{" "}
             <div className="col-md-3">
-              <Widget
-                src="lord1.near/widget/header-dynamic"
-                props={table_creditReceivedTab2_theme}
-              />
+              <OverlayTrigger
+                placement="top"
+                overlay={
+                  <Tooltip>
+                    <div>
+                      How many developers have imported your widgets to use in
+                      their own widgets?
+                    </div>
+                  </Tooltip>
+                }
+              >
+                <div>
+                  <Widget
+                    src="lord1.near/widget/header-dynamic"
+                    props={table_creditReceivedTab2_theme}
+                  />{" "}
+                </div>
+              </OverlayTrigger>
             </div>{" "}
           </div>
           <div
@@ -811,23 +904,29 @@ let thirdSection = (
                   rowsCount: "5",
                   columns: [
                     {
-                      title: "Source widget",
+                      title: "Your widget",
                       key: "source_widget",
                       link: "yes",
                       beforehref: `https://bos.flipsidecrypto.xyz/${state.data}/widget/`,
                       hyperlink: "yes",
+                      description:
+                        "the widgets from you that are imported into other people's widgets.",
                     },
                     {
-                      title: "User' widget",
+                      title: "Developer' widget",
                       key: "destination_widget",
+                      description:
+                        "the widgets in which your widgets are imported",
                     },
 
                     {
-                      title: "User",
+                      title: "Developer",
                       key: "source_account",
                       link: "yes",
                       beforehref: `https://near.social/mob.near/widget/ProfilePage?accountId=`,
                       hyperlink: "yes",
+                      description:
+                        "The developers who have imported your widget into their own widgets",
                     },
                   ],
                 }}

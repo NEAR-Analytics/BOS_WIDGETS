@@ -648,14 +648,8 @@ RouterContract[method](...params)
             outputCurrency.decimals
           ),
           netSyFee: ethers.utils.formatUnits(res[2], 16),
-          priceImpact: ethers.utils.formatUnits(
-            res[3],
-            outputCurrency.decimals - 2
-          ),
-          exchangeRateAfter: ethers.utils.formatUnits(
-            res[4],
-            outputCurrency.decimals
-          ),
+          priceImpact: ethers.utils.formatUnits(res[3], 16),
+          exchangeRateAfter: ethers.utils.formatUnits(res[4], 18),
         };
         break;
       case "swapExactSyForPtStatic":
@@ -680,7 +674,15 @@ RouterContract[method](...params)
     }
     data.netOut = ethers.utils.formatUnits(res[0], outputCurrency.decimals);
     data.routes = getRoutes(data.netOut);
-    data.apy = Big(market.impliedApy).minus(data.priceImpact).toFixed(3);
+    const syAmount = ["PT", "YT"].includes(inputCurrency.baseType)
+      ? data.netOut
+      : inputCurrencyAmount;
+    data.netSyFee = Big(data.netSyFee).div(syAmount).toString();
+    data.apy = Big(market.impliedApy)
+      .minus(data.priceImpact / 100)
+      .minus(data.netSyFee / 100)
+      .mul(99)
+      .toFixed(3);
     onLoad(data);
     return;
   })

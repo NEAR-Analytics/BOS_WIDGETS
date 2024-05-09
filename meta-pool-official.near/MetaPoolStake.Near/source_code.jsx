@@ -19,8 +19,16 @@ State.init({
   nearBalanceIsFetched: false,
   stNearBalance: null,
   stNearBalanceIsFetched: false,
+  EpochInfo: null,
+  EpochInfoIsFetched: false,
   dataIntervalStarted: false,
+  isStNearMaxSelected: false,
   action: "stake",
+  contractState: null,
+  contractStateIsFetched: false,
+  accountInfo: null,
+  accountInfoIsFetched: false,
+  feeBP: 30,
 });
 
 function isValid(a) {
@@ -28,6 +36,34 @@ function isValid(a) {
   if (isNaN(Number(a))) return false;
   if (a === "") return false;
   return true;
+}
+
+function getDiscountBasisPoints(liquidity, sell, contractState) {
+  try {
+    if (Big(sell).mul(Big(10).pow(tokenDecimals)).gt(liquidity)) {
+      return contractState.nslp_max_discount_basis_points;
+    }
+
+    const target = Big(contractState.nslp_target);
+    const liq_after = Big(liquidity).sub(
+      Big(sell).mul(Big(10).pow(tokenDecimals))
+    );
+    if (liq_after.gte(target)) {
+      return contractState.nslp_min_discount_basis_points;
+    }
+
+    let range = Big(
+      contractState.nslp_max_discount_basis_points -
+        contractState.nslp_min_discount_basis_points
+    );
+
+    const proportion = range.mul(liq_after).div(target);
+
+    return contractState.nslp_max_discount_basis_points - Number(proportion);
+  } catch (ex) {
+    console.error(ex);
+    return contractState.nslp_current_discount_basis_points;
+  }
 }
 
 const fetchMetrics = () => {
@@ -70,6 +106,40 @@ function getStNearBalance(subscribe) {
     State.update({
       stNearBalance: balance.lt(0) ? "0" : balance.toFixed(),
       stNearBalanceIsFetched: true,
+    });
+  });
+}
+
+function getContractState(subscribe) {
+  Near.asyncView(
+    contractId,
+    "get_contract_state",
+    {},
+    undefined,
+    subscribe
+  ).then((contractState) => {
+    if (!contractState) return;
+    State.update({
+      contractState: contractState,
+      contractStateIsFetched: true,
+    });
+  });
+}
+
+function getAccountInfo(subscribe) {
+  Near.asyncView(
+    contractId,
+    "get_account_info",
+    {
+      account_id: accountId,
+    },
+    undefined,
+    subscribe
+  ).then((accountInfo) => {
+    if (!accountInfo) return;
+    State.update({
+      accountInfo: accountInfo,
+      contractStateIsFetched: true,
     });
   });
 }
@@ -155,7 +225,14 @@ const handleInputStNear = (value) => {
       validation: "",
     });
   }
-  State.update({ value });
+  const feeBP = state.contractState
+    ? getDiscountBasisPoints(
+        state.contractState.nslp_liquidity,
+        value,
+        state.contractState
+      )
+    : 30;
+  State.update({ value, isStNearMaxSelected: false, feeBP });
 };
 
 const getUserAddress = () => {
@@ -176,12 +253,107 @@ const onClickMaxNear = () => {
 };
 
 const onClickMaxstNear = () => {
-  const value =
-    state.stNearBalance > 0.1
-      ? (parseFloat(state.stNearBalance) - 0.1).toFixed(2)
-      : "0";
-  handleInputStNear(value);
+  handleInputStNear(
+    (Math.trunc(parseFloat(state.stNearBalance) * 100) / 100).toFixed(2)
+  );
+  State.update({ isStNearMaxSelected: true });
 };
+
+const getEpochInfo = (prevBlock, startBlock, lastBlock) => {
+  let prev_timestamp = Math.round(prevBlock.header.timestamp / 1e6);
+  let start_block_height = startBlock.header.height;
+  let start_timestamp = Math.round(startBlock.header.timestamp / 1e6);
+  let last_block_timestamp = Math.round(lastBlock.header.timestamp / 1e6);
+
+  if (start_timestamp < new Date().getTime() - 48 * 60 * 60 * 1000) {
+    start_timestamp = new Date().getTime() - 6 * 60 * 60 * 1000;
+  }
+  if (prev_timestamp < new Date().getTime() - 48 * 60 * 60 * 1000) {
+    prev_timestamp = new Date().getTime() - 12 * 60 * 60 * 1000;
+  }
+
+  let length = startBlock.header.height - prevBlock.header.height;
+  let advance;
+  let duration_ms;
+
+  if (length == 0) {
+    length = 43200;
+    duration_ms = 12 * 60 * 60 * 1000;
+    advance =
+      Math.round(
+        Number(
+          Big(lastBlock.header.height)
+            .sub(Big(start_block_height))
+            .mul(Big(1000000))
+            .div(Big(length))
+        )
+      ) / 1000000;
+    start_timestamp = last_block_timestamp - duration_ms * advance;
+    prev_timestamp = start_timestamp - duration_ms;
+  } else {
+    duration_ms = start_timestamp - prev_timestamp;
+  }
+
+  let ends_dtm = new Date(start_timestamp + duration_ms);
+  return { duration_ms, ends_dtm };
+};
+
+function fetchEpochInfo() {
+  getLastBlock().then((lastBlock) => {
+    getBlock(lastBlock.body.result.header.next_epoch_id).then((firstBlock) => {
+      getBlock(lastBlock.body.result.header.epoch_id).then((prevBlock) => {
+        const epochCached = getEpochInfo(
+          prevBlock.body.result,
+          firstBlock.body.result,
+          lastBlock.body.result
+        );
+        const newEndOfEpochCached = new Date(epochCached.ends_dtm);
+        const newEpochDurationMs = epochCached.duration_ms;
+        State.update({
+          epochInfo: {
+            endOfEpochCached: newEndOfEpochCached,
+            epochDurationMs: newEpochDurationMs,
+          },
+        });
+      });
+    });
+  });
+}
+
+async function getLastBlock() {
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      jsonrpc: "2.0",
+      id: "dontcare",
+      method: "block",
+      params: {
+        finality: "optimistic",
+      },
+    }),
+  };
+  return asyncFetch("https://rpc.mainnet.near.org", options);
+}
+async function getBlock(blockId) {
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      jsonrpc: "2.0",
+      id: "dontcare",
+      method: "block",
+      params: {
+        block_id: blockId,
+      },
+    }),
+  };
+  return asyncFetch("https://rpc.mainnet.near.org", options);
+}
 
 // UPDATE DATA
 
@@ -190,11 +362,14 @@ const updateData = () => {
   fetchMetrics();
   getNearBalance();
   getStNearBalance();
+  getContractState();
+  getAccountInfo();
+  fetchEpochInfo();
 };
 
 if (!state.dataIntervalStarted) {
   State.update({ dataIntervalStarted: true });
-
+  updateData();
   setInterval(() => {
     updateData();
   }, 20000);
@@ -317,7 +492,12 @@ const renderActions = (
     <TokensList>
       <ActionItem
         onClick={() => {
-          State.update({ action: "stake" });
+          State.update({
+            action: "stake",
+            value: "0",
+            validation: "",
+            isStNearMaxSelected: false,
+          });
         }}
         active={state.action == "stake"}
       >
@@ -340,7 +520,12 @@ const renderActions = (
       </ActionItem>
       <ActionItem
         onClick={() => {
-          State.update({ action: "fast" });
+          State.update({
+            action: "fast",
+            value: "0",
+            validation: "",
+            isStNearMaxSelected: false,
+          });
         }}
         active={state.action == "fast"}
       >
@@ -365,7 +550,12 @@ const renderActions = (
 
       <ActionItem
         onClick={() => {
-          State.update({ action: "delayed" });
+          State.update({
+            action: "delayed",
+            value: "0",
+            validation: "",
+            isStNearMaxSelected: false,
+          });
         }}
         active={state.action == "delayed"}
       >

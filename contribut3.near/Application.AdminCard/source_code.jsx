@@ -14,7 +14,7 @@ if (!state.projectIsFetched) {
     "get_project",
     { account_id: accountId },
     "final",
-    false
+    false,
   ).then((project) => State.update({ project, projectIsFetched: true }));
 }
 
@@ -24,12 +24,12 @@ if (!state.profileIsFetched) {
     "get",
     { keys: [`${accountId}/profile/*`] },
     "final",
-    false
+    false,
   ).then((data) =>
     State.update({
       profile: data[accountId].profile,
       profileIsFetched: true,
-    })
+    }),
   );
 }
 
@@ -84,6 +84,12 @@ const text =
     ? state.project.application
     : Object.keys(state.project.application)[0];
 
+const date =
+  typeof state.project.application !== "string" &&
+  "Submitted" in state.project.application
+    ? new Date(Number(state.project.application.Submitted.slice(0, -6)))
+    : new Date();
+
 return (
   <Container>
     <Name
@@ -102,7 +108,7 @@ return (
         }}
       />
     </Name>
-    <Other>{new Date().toLocaleDateString()}</Other>
+    <Other>{date.toLocaleString()}</Other>
     <Other>
       <Widget
         src={`${ownerId}/widget/ActiveIndicator`}

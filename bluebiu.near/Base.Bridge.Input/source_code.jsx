@@ -14,7 +14,7 @@ const InputField = styled.div`
 `;
 const InputWarpper = styled.div`
   height: 46px;
-  border-bottom: 1px solid var(--input-border-color);
+  border-bottom: 1px solid #373a53;
   padding: 10px 0px;
   @media (max-width: 900px) {
     height: 40px;
@@ -51,7 +51,7 @@ const CurrencySelect = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid var(--input-border-color);
+  border: 1px solid #373a53;
   border-radius: 24px;
   padding: 6px 12px 6px 6px;
   cursor: pointer;
@@ -108,23 +108,21 @@ const Amount = styled.div`
   line-height: 16px;
   text-align: right;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
 `;
 // styled area end
 
 State.init({
-  balanceLoaded: false,
   balance: "0",
+  loading: false,
 });
-
-const getTokenPrice = () => {
-  const prices = Storage.privateGet("tokensPrice");
-  return prices[props.currency?.symbol];
-};
 
 const utils = {
   balanceFormated: () => {
     if (!props.currency?.address) return "-";
-    if (!state.balanceLoaded) return "Loading";
     if (state.balance === "0" || Big(state.balance).eq(0)) return "0";
     if (Big(state.balance).lt(0.0001)) return "<0.0001";
     return Big(state.balance).toFixed(4, 0);
@@ -133,71 +131,38 @@ const utils = {
 
 const handlers = {
   handleDisplayCurrencySelect: () => {
-    State.update({
-      balanceLoaded: false,
-    });
     props?.onCurrencySelectOpen();
   },
   handleInputChange: (ev) => {
     if (isNaN(Number(ev.target.value))) return;
-    props.onAmountChange?.(ev.target.value);
+    props.onAmountChange?.(ev.target.value.replace(/\s+/g, ""));
   },
 };
 
-const DELAY = 1000 * 60 * 5;
-const timer = Storage.privateGet("priceTimer");
-
-function getPrice() {
-  const AccessKey = Storage.get(
-    "AccessKey",
-    "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
-  );
-  asyncFetch("/dapdap/get-token-price-by-dapdap", {
-    Authorization: AccessKey,
-  })
-    .then((res) => {
-      const data = res.body.data;
-      data.native = data.aurora;
-      delete data.aurora;
-      Storage.privateSet("tokensPrice", data);
-      props?.onGetPrice(data[props.currency?.symbol]);
-      setTimeout(getPrice, DELAY);
-    })
-    .catch((err) => {
-      setTimeout(getPrice, DELAY);
-    });
-}
-
 useEffect(() => {
-  getPrice();
-}, []);
-
-useEffect(() => {
-  props?.onGetPrice(getTokenPrice());
-}, [props.currency]);
+  if (props.updateTokenBalance === undefined) return;
+  State.update({
+    loading: props.updateTokenBalance,
+  });
+}, [props.updateTokenBalance]);
 
 return (
   <Wrapper>
-    {(props.updateTokenBalance || !state.balanceLoaded) && (
-      <Widget
-        src="bluebiu.near/widget/Arbitrum.Swap.CurrencyBalance"
-        props={{
-          address: props.currency?.isNative
-            ? "native"
-            : props.currency?.address,
-          onLoad: (balance) => {
-            State.update({
-              balance: ethers.utils.formatUnits(
-                balance,
-                props.currency.decimals
-              ),
-              balanceLoaded: true,
-            });
-            props?.onUpdateCurrencyBalance(balance);
-          },
-        }}
-      />
-    )}
+    <Widget
+      src="bluebiu.near/widget/Arbitrum.Swap.CurrencyBalance"
+      props={{
+        address: props.currency?.isNative ? "native" : props.currency?.address,
+        updateTokenBalance: props.updateTokenBalance,
+        account: props.account,
+        onLoad: (balance) => {
+          State.update({
+            balance: ethers.utils.formatUnits(balance, props.currency.decimals),
+            loading: false,
+          });
+          props?.onUpdateCurrencyBalance(balance);
+        },
+      }}
+    />
     <InputField>
       <InputWarpper>
         <Input
@@ -211,7 +176,7 @@ return (
         <Widget
           src="bluebiu.near/widget/Base.Bridge.Value"
           props={{
-            price: getTokenPrice(),
+            price: props.price,
             amount: props.amount,
           }}
         />
@@ -237,13 +202,19 @@ return (
         }}
       >
         Balance:{" "}
-        <span
-          style={{
-            textDecoration: props.disabled ? "none" : "underline",
-          }}
-        >
-          {utils.balanceFormated()}
-        </span>
+        {state.loading ? (
+          <div style={{ width: "18px" }}>
+            <Widget src="bluebiu.near/widget/0vix.LendingLoadingIcon" />
+          </div>
+        ) : (
+          <span
+            style={{
+              textDecoration: props.disabled ? "none" : "underline",
+            }}
+          >
+            {utils.balanceFormated()}
+          </span>
+        )}
       </Amount>
     </CurrencyField>
   </Wrapper>

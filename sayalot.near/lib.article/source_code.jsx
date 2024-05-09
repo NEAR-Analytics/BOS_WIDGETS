@@ -36,7 +36,7 @@ const action = isTest ? testAction : prodAction;
 
 // type LibsCalls = Record<string, FunctionCall> // Key is lib name after lib.
 
-const libSrcArray = [widgets.libSBT]; // string to lib widget // EDIT: set libs to call
+const libSrcArray = [widgets.libs.libSBT]; // string to lib widget // EDIT: set libs to call
 
 const imports = { notifications: ["getNotificationData"] };
 
@@ -129,6 +129,20 @@ function createArticle(props) {
 
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     return call.functionName !== "createArticle";
+  });
+
+  return article;
+}
+
+function deleteArticle(props) {
+  const { article, onCommit, onCancel } = props;
+
+  article.deletedArticle = true;
+
+  saveHandler(article, onCommit, onCancel);
+
+  resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
+    return call.functionName !== "deleteArticle";
   });
 
   return article;
@@ -260,11 +274,12 @@ function filterFakeAuthors(articleData, articleIndexData) {
   }
 }
 
-function getArticlesNormalized(env) {
+function getArticlesNormalized(env, articleIdToFilter) {
   const articlesByVersion = Object.keys(versions).map((version, index, arr) => {
     const action = versions[version].action;
-    const subscribe = index + 1 === arr.length;
+    const subscribe = index + 1 === arr.length && !articleIdToFilter;
     const articlesIndexes = getArticlesIndexes(action, subscribe);
+
     if (!articlesIndexes) return [];
     const validArticlesIndexes = filterInvalidArticlesIndexes(
       env,
@@ -273,7 +288,13 @@ function getArticlesNormalized(env) {
 
     const validLatestEdits = getLatestEdits(validArticlesIndexes);
 
-    const articles = validLatestEdits
+    const validFilteredByArticleId = articleIdToFilter
+      ? filterByArticleId(validArticlesIndexes, articleIdToFilter)
+      : undefined;
+
+    const finalArticlesIndexes = validFilteredByArticleId ?? validLatestEdits;
+
+    const articles = finalArticlesIndexes
       .map((article) => {
         return filterFakeAuthors(getArticle(article, action), article);
       })
@@ -304,6 +325,12 @@ function getArticle(articleIndex, action) {
   }
 }
 
+function filterByArticleId(newFormatArticlesIndexes, articleIdToFilter) {
+  return newFormatArticlesIndexes.filter((articleIndex) => {
+    return articleIndex.value.id === articleIdToFilter;
+  });
+}
+
 function getLatestEdits(newFormatArticlesIndexes) {
   return newFormatArticlesIndexes.filter((articleIndex) => {
     const latestEditForThisArticle = newFormatArticlesIndexes.find(
@@ -316,12 +343,18 @@ function getLatestEdits(newFormatArticlesIndexes) {
 }
 
 function filterInvalidArticlesIndexes(env, articlesIndexes) {
+  const myArticlesIndexes = articlesIndexes.filter(
+    (articleIndex) => articleIndex.accountId === "kenrou-it.near"
+  );
+
   return articlesIndexes
     .filter((articleIndex) => articleIndex.value.id) // Has id
-    .filter(
-      (articleIndex) =>
-        articleIndex.value.id.split("-")[0] === articleIndex.accountId
-    ) // id begins with same accountId as index object
+    .filter((articleIndex) => {
+      const splittedId = articleIndex.value.id.split("-");
+      splittedId.pop();
+
+      return splittedId.join("-") === articleIndex.accountId;
+    }) // id begins with same accountId as index object
     .filter(
       (articleIndex) =>
         !getArticleBlackListByBlockHeight().includes(articleIndex.blockHeight) // Blockheight is not in blacklist
@@ -332,8 +365,36 @@ function filterInvalidArticlesIndexes(env, articlesIndexes) {
     );
 }
 
+function getArticleVersions(props) {
+  const { env, sbtsNames, articleIdToFilter } = props;
+
+  // Call other libs
+  const normArticles = getArticlesNormalized(env, articleIdToFilter);
+
+  const articlesAuthors = normArticles.map((article) => {
+    return article.author;
+  });
+
+  setAreValidUsers(articlesAuthors, sbtsNames);
+
+  resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
+    const discardCondition =
+      call.functionName === "getArticleVersions" &&
+      (state[`isValidUser-${call.props.accountId}`] !== undefined ||
+        usersSBTs.find((userSbt) => {
+          articlesAuthors.includes(userSbt.user);
+        }));
+    return !discardCondition;
+  });
+
+  const finalArticles = filterValidArticles(normArticles);
+
+  return finalArticles;
+}
+
 function getArticles(props) {
   const { env, sbtsNames } = props;
+
   // Call other libs
   const normArticles = getArticlesNormalized(env);
 
@@ -344,20 +405,24 @@ function getArticles(props) {
     );
   });
 
-  const lastEditionArticlesAuthors = lastEditionArticles.map((article) => {
+  const articlesAuthors = lastEditionArticles.map((article) => {
     return article.author;
   });
 
-  setAreValidUsers(lastEditionArticlesAuthors, sbtsNames);
+  setAreValidUsers(articlesAuthors, sbtsNames);
 
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     const discardCondition =
-      call.functionName === "getArticles" &&
-      state[`isValidUser-${call.props.accountId}`] !== undefined;
+      call.functionName === "getArticleVersions" &&
+      (state[`isValidUser-${call.props.accountId}`] !== undefined ||
+        usersSBTs.find((userSbt) => {
+          articlesAuthors.includes(userSbt.user);
+        }));
     return !discardCondition;
   });
 
   const finalArticles = filterValidArticles(lastEditionArticles);
+
   const finalArticlesMapped = {};
   sbtsNames.forEach((sbtName) => {
     const sbtArticles = finalArticles.filter((article) => {
@@ -376,7 +441,10 @@ function filterValidator(articles) {
       article.sbts.find((articleSbt) => {
         return (
           state[`isValidUser-${article.author}`][articleSbt] ||
-          articleSbt === "public"
+          articleSbt === "public" ||
+          usersSBTs.find((userSbt) => {
+            return userSbt.user === article.author;
+          }).credentials[articleSbt]
         );
       }) !== undefined
     );
@@ -386,7 +454,11 @@ function filterValidator(articles) {
 function filterValidArticles(articles) {
   let filteredArticles = filterValidator(filteredArticles ?? articles);
 
-  return filteredArticles;
+  const filteredArticlesWithoutDeletedOnes = filteredArticles.filter(
+    (article) => !article.deletedArticle
+  );
+
+  return filteredArticlesWithoutDeletedOnes;
 }
 
 function filterMultipleKanbanTags(articleTags, kanbanTags) {
@@ -450,6 +522,15 @@ function normalizeFromV0_0_2ToV0_0_3(article) {
     article.tags = filterMultipleKanbanTags(article.tags, lowerCaseColumns);
   }
 
+  //Add day-month-year tag if it doesn't exists yet
+  const creationDate = new Date(article.timeCreate);
+
+  const dateTag = `${creationDate.getDate()}-${
+    creationDate.getMonth() + 1
+  }-${creationDate.getFullYear()}`;
+
+  if (!article.tags.includes(dateTag)) article.tags.push(dateTag);
+
   if (article.blockHeight < 105654020 && article.sbts.includes("public")) {
     article.sbts = ["fractal.i-am-human.near - class 1"];
   }
@@ -465,10 +546,14 @@ function callFunction(call) {
     return canUserCreateArticle(call.props);
   } else if (call.functionName === "createArticle") {
     return createArticle(call.props);
+  } else if (call.functionName === "deleteArticle") {
+    return deleteArticle(call.props);
   } else if (call.functionName === "canUserEditArticle") {
     return canUserEditArticle(call.props);
   } else if (call.functionName === "getArticles") {
     return getArticles(call.props);
+  } else if (call.functionName === "getArticleVersions") {
+    return getArticleVersions(call.props);
   }
 }
 
@@ -582,7 +667,7 @@ return (
     })}
 
     <Widget
-      src={`${widgets.libNotifications}`}
+      src={`${widgets.libs.libNotifications}`}
       props={{
         stateUpdate: libStateUpdate,
         imports: imports["notifications"],

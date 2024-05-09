@@ -4,6 +4,10 @@ const [showMenu, setShowMenu] = useState(false);
 
 const { href: linkHref } = VM.require("devhub.near/widget/core.lib.url");
 
+const { hasModerator } = VM.require(
+  "devhub.near/widget/core.adapter.devhub-contract"
+);
+
 linkHref || (linkHref = () => {});
 
 const Logo = () => {
@@ -95,7 +99,7 @@ const MenuIcon = () => (
 );
 
 const Navbar = styled.div`
-  padding: 1.5rem 3rem;
+  padding: 1.5rem 0rem;
 
   display: flex;
   flex-direction: row;
@@ -129,15 +133,20 @@ const MobileMenu = styled.button`
   }
 `;
 
-const links = [
+let links = [
+  {
+    title: "/feed",
+    href: "announcements",
+    links: [],
+  },
   {
     title: "/communities",
     href: "communities",
     links: [],
   },
   {
-    title: "/activity feed",
-    href: "feed",
+    title: "/proposals",
+    href: "proposals",
     links: [],
   },
   {
@@ -157,6 +166,23 @@ const links = [
     ],
   },
 ];
+
+if (hasModerator) {
+  const isDevHubModerator = hasModerator({
+    account_id: context.accountId,
+  });
+
+  if (isDevHubModerator) {
+    links = [
+      {
+        title: "/admin",
+        href: "admin",
+        links: [],
+      },
+      ...links,
+    ];
+  }
+}
 
 const MobileNav = styled.div`
   display: none;

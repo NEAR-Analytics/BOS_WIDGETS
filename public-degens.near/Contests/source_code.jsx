@@ -1,77 +1,43 @@
 const tasks = [
   {
     category: "twitter",
-    header: "Twitter Task 1",
-    text: "",
-    url: "",
+    header: "Create Twitter Thread",
+    created: "15.01.2024",
+    budget: 700,
+    text: "Spread the word about NEAR on Twitter! Please make sure that you have read the rules. Only unique Twitter threads created on a specific topic are allowed to be evaluated. If you have created multiple threads, fill out the form for each individual post. Max 3 threads from one member. Thank you and good luck ❤️",
+    url: "https://public-degens-home.super.site/twitter",
   },
   {
     category: "reddit",
-    header: "Redit Task 1",
-    text: "",
-    url: "",
+    header: "Create Reddit Post",
+    created: "15.01.2024",
+    budget: 400,
+    text: "Create a post about Near Protocol on the specified subreddits. Avoid simple references to Near (example: Why Near the best?). Create engaging development content that will attract new members to the ecosystem. 3 posts from one member. Good luck ❤️",
+    url: "https://public-degens-home.super.site/reddit",
   },
   {
     category: "articles",
-    header: "Articles Task 1",
-    created: "05.10.2023",
-    budget: 750,
-    text: "It is crucial to adhere to these rules and thoroughly read them before participating in contest to understand the requirements. Please note that any content found to be in violation of the rules will be disqualified from the contest. Good luck!",
-    url: "https://telegra.ph/Article-task-1-10-05",
+    header: "Create Article",
+    created: "15.01.2024",
+    budget: 800,
+    text: "Show your creative skills in creating articles! Please make sure that you have read the rules. Only unique articles created on a specific topic are allowed to be evaluated. Max one from one member. Thank you and good luck ❤️",
+    url: "https://public-degens-home.super.site/articles",
   },
   {
     category: "video",
-    header: "Video Task 1",
-    text: "",
-    url: "",
-  },
-  {
-    category: "infographics",
-    header: "Infographics Task 1",
-    text: "",
-    url: "",
+    header: "Create Video Content",
+    created: "15.01.2024",
+    budget: 800,
+    text: "Create a video about Near Protocol. We welcome content about technology! Please make sure that you have read the rules. Only unique video created on a specific topic are allowed to be evaluated. Max one video from one member. Thank you and good luck ❤️",
+    url: "https://public-degens-home.super.site/video",
   },
   {
     category: "memes",
-    header: "Memes Task 1",
-    text: "",
-    url: "",
-  },
-  {
-    category: "twitter",
-    header: "Twitter Task 2",
-    text: "",
-    url: "",
-  },
-  {
-    category: "reddit",
-    header: "Redit Task 2",
-    text: "",
-    url: "",
-  },
-  {
-    category: "articles",
-    header: "Articles Task 2",
-    text: "",
-    url: "",
-  },
-  {
-    category: "video",
-    header: "Video Task 2",
-    text: "",
-    url: "",
-  },
-  {
-    category: "infographics",
-    header: "Infographics Task 2",
-    text: "",
-    url: "",
-  },
-  {
-    category: "memes",
-    header: "Memes Task 2",
-    text: "",
-    url: "",
+    header: "Create Meme",
+    created: "15.01.2024",
+    budget: 300,
+    text: "Create a meme about Near Protocol/NDC. A meme shouldn't be offensive, just a fan. Max 3 memes from one member. Thank you and good luck ❤️",
+    url: "https://public-degens-home.super.site/memes",
   },
 ];
 
@@ -122,7 +88,7 @@ if (!state.was) {
         </p>
         <p>
           Click the button and choose a task that suits you. Make sure to read
-          the rules, good luck!
+          the rules, good luck ❤️
         </p>
       </div>
       <Button onClick={register} className={""}>
@@ -214,11 +180,18 @@ const selectCategory = (event) => {
 State.init({ selected: state.selected ?? "articles" });
 return (
   <Page>
-    <Header>Contests</Header>
+    <Header>Public Degens</Header>
+    <h4>✅Stage 1 is completed. The results will be published on March 18</h4>
     <Category>
       <span>Select category</span>
     </Category>
     <select onChange={selectCategory}>
+      <option
+        value="Select a task"
+        selected={state.selected === "Select a task"}
+      >
+        Select a task
+      </option>
       <option value="twitter" selected={state.selected === "twitter"}>
         Twitter
       </option>
@@ -226,13 +199,10 @@ return (
         Reddit
       </option>
       <option value="articles" selected={state.selected === "articles"}>
-        Aritcles
+        Articles
       </option>
       <option value="video" selected={state.selected === "video"}>
         Video
-      </option>
-      <option value="infographics" selected={state.selected === "infographics"}>
-        Infographics
       </option>
       <option value="memes" selected={state.selected === "memes"}>
         Memes

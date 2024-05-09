@@ -1,1 +1,1 @@
-return <div>New Widget</div>;
+return <div>Hello World</div>;

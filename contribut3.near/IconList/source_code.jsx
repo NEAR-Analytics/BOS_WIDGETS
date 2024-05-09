@@ -8,7 +8,7 @@ const Container = styled.div`
   flex-direction: row;
   align-items: flex-start;
   justify-content: ${justify};
-  gap: .25em;
+  gap: 0.25em;
   width: 100%;
 `;
 
@@ -17,7 +17,13 @@ const Item = styled.a`
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  gap: .125em;
+  gap: 0.125em;
+
+  @media screen and (max-width: 900px) {
+    & > div:last-child {
+      display: none;
+    }
+  }
 `;
 
 State.init({
@@ -31,26 +37,38 @@ if (!state.namesIsFetched) {
     "get",
     { keys: ids.map((id) => `${id}/profile/name`) },
     "final",
-    false
+    false,
   ).then((data) =>
     State.update({
-      names: ids.reduce((acc, id) => ({ ...acc, [id]: data[id].profile.name }), {}),
+      names: ids.reduce(
+        (acc, id) => ({ ...acc, [id]: data[id].profile.name }),
+        {},
+      ),
       namesIsFetched: true,
-    })
+    }),
   );
 }
 
 const createItem = (accountId) => (
-  <Item key={accountId} href={`/near/widget/ProfilePage?accountId=${accountId}`}>
+  <Item
+    key={accountId}
+    href={`/near/widget/ProfilePage?accountId=${accountId}`}
+  >
     <Widget src={`${ownerId}/widget/Vendor.Icon`} props={{ accountId }} />
     {onlyOne ? (
-      <Widget src={`${ownerId}/widget/NameAndAccount`} props={{ accountId, name: state.names[accountId], nameSize: ".75em", accountSize: ".75em" }} />
-    ) : <></>}
+      <Widget
+        src={`${ownerId}/widget/NameAndAccount`}
+        props={{
+          accountId,
+          name: state.names[accountId],
+          nameSize: ".75em",
+          accountSize: ".75em",
+        }}
+      />
+    ) : (
+      <></>
+    )}
   </Item>
 );
 
-return (
-  <Container>
-    {ids.map(createItem)}
-  </Container>
-);
+return <Container>{ids.map(createItem)}</Container>;

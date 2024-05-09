@@ -10,12 +10,12 @@ const {
   rowId,
   id,
   disabeleOpenReportLInk,
+  dao,
 } = props;
 const GAS = "200000000000000";
 const DEPOSIT = 10000000000000000000000;
 
-if (!item || !rowId || !contractName)
-  return <Widget src="flashui.near/widget/Loading" />;
+if (!item || !contractName) return <Widget src="flashui.near/widget/Loading" />;
 
 const [itemState, setItemState] = useState(item);
 const [snapshot, setSnapshot] = useState(item);
@@ -23,10 +23,6 @@ const [showMore, setShowMore] = useState(null);
 const [showComments, setShowComments] = useState(showCommentsDefault);
 const [selectedHistoryId, setSelectedHistoryId] = useState(0);
 const accountId = context.accountId;
-
-const dao = Near.view(contractName, "get_dao_by_id", {
-  id: parseInt(itemState.dao_id),
-});
 
 if (!dao || !itemState) return <Widget src="flashui.near/widget/Loading" />;
 
@@ -70,7 +66,7 @@ const TableCell = styled.div`
   .account-link {
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 150px;
+    max-width: 100px;
   }
 
   &.dao {
@@ -113,11 +109,11 @@ const StatusBadge = styled.span`
 `;
 
 const statusColors = {
-  New: { background: "#8A92F9", color: "white", border: "#8A92F9" },
-  Approved: { background: "#2CE691", color: "white", border: "#2CE691" },
-  Closed: { background: "#CCC", color: "white", border: "#CCC" },
-  InReview: { background: "#F6B86A", color: "white", border: "#F6B86A" },
-  Rejected: { background: "#FC6F60", color: "white", border: "#FC6F60" },
+  New: { background: "#8A92F9", color: "#3F3F3F;", border: "#8A92F9" },
+  Approved: { background: "#2CE691", color: "#3F3F3F;", border: "#2CE691" },
+  Closed: { background: "#CCC", color: "#3F3F3F;", border: "#CCC" },
+  InReview: { background: "#F6B86A", color: "#3F3F3F;", border: "#F6B86A" },
+  Rejected: { background: "#FC6F60", color: "#3F3F3F;", border: "#FC6F60" },
 };
 
 const ProposalsState = styled.div`
@@ -149,6 +145,7 @@ const ExpandCollapseIcon = styled.div`
 const Container = styled.div`
   display: flex;
   gap: 10px;
+  align-items: center;
 
   .dao-img {
     width: 32px;
@@ -908,16 +905,15 @@ return (
                 </div>
                 <div className="info">
                   <div className="title">{dao.title}</div>
-                  <div>
-                    <span className="created">Created at:</span>{" "}
-                    <span className="date">
-                      {formatDate(itemState.created_at)}
-                    </span>
-                  </div>
                 </div>
               </Container>
             </TableCell>
-            <TableCell flex={1}>
+            <TableCell flex={0.5}>
+              <div className="info">
+                {new Date(itemState.created_at / 1000000).toLocaleDateString()}
+              </div>
+            </TableCell>
+            <TableCell flex={0.5}>
               <div className="info">
                 <div className="created"> Created by</div>
                 <a
@@ -928,7 +924,7 @@ return (
                 </a>
               </div>
             </TableCell>
-            <TableCell flex={3} className="proposal-states">
+            <TableCell flex={2.5} className="proposal-states">
               <ProposalsState approve={itemState.state.dao_council_approved}>
                 <span>
                   {itemState.state.dao_council_approved ? (

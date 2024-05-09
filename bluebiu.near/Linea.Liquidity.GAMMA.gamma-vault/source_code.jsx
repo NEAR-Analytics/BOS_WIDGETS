@@ -6,6 +6,7 @@ const {
   userPositions,
   pair,
   chainName,
+  addAction,
 } = props;
 
 const curPositionUSD = userPositions[addresses[pair.id]]?.balanceUSD;
@@ -426,16 +427,10 @@ const SelectPairs = styled.div`
     }
   }
 `;
-
-function add_action(param_body) {
-  asyncFetch("https://bos-api.delink.one/add-action-data", {
-    method: "post",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(param_body),
-  });
-}
+const AccessKey = Storage.get(
+  "AccessKey",
+  "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
+);
 
 const defaultDeposit = props.tab === "deposit" || !props.tab;
 
@@ -478,8 +473,8 @@ const getFromDepositAmount = (depositAmount, tokenDecimal) => {
       .div(new Big(10).pow(tokenDecimal))
       .toFixed(i);
     if (
-      a.div(new Big(10).pow(tokenDecimal)).lte(midpointFixed) &&
-      b.div(new Big(10).pow(tokenDecimal)).gte(midpointFixed)
+      a.div(Big(10).pow(tokenDecimal)).lte(midpointFixed) &&
+      b.div(Big(10).pow(tokenDecimal)).gte(midpointFixed)
     ) {
       return midpointFixed;
     }
@@ -531,7 +526,9 @@ const updateBalance = (token) => {
       Ethers.provider()
     );
     tokenContract.balanceOf(sender).then((balanceBig) => {
-      const adjustedBalance = ethers.utils.formatUnits(balanceBig, decimals);
+      const adjustedBalance = Big(
+        ethers.utils.formatUnits(balanceBig, decimals)
+      ).toString();
       State.update({
         balances: {
           ...state.balances,
@@ -542,14 +539,15 @@ const updateBalance = (token) => {
   }
 };
 
-if (sender) {
+useEffect(() => {
+  if (!sender || !token0 || !token1) return;
   [
     { symbol: token0, address: addresses[token0], decimals: decimals0 },
     { symbol: token1, address: addresses[token1], decimals: decimals1 },
   ].map(updateBalance);
 
   updateLPBalance();
-}
+}, [sender, token0, token1]);
 
 const {
   isDeposit,
@@ -569,8 +567,14 @@ const {
 } = state;
 
 const checkApproval = (token0Amount, token1Amount) => {
-  const token0Wei = new Big(ethers.utils.parseUnits(token0Amount, decimals0));
-  const token1Wei = new Big(ethers.utils.parseUnits(token1Amount, decimals1));
+  const token0Wei = ethers.utils.parseUnits(
+    Big(token0Amount).toFixed(decimals0),
+    decimals0
+  );
+  const token1Wei = ethers.utils.parseUnits(
+    Big(token1Amount).toFixed(decimals1),
+    decimals1
+  );
 
   const abi = [
     "function allowance(address, address) external view returns (uint256)",
@@ -633,8 +637,10 @@ const handleToken0Change = (amount) => {
     isError: false,
     loadingMsg: "Computing deposit amount...",
   });
-
-  const token0Wei = ethers.utils.parseUnits(amount, decimals0).toString();
+  const token0Wei = ethers.utils.parseUnits(
+    Big(amount).toFixed(decimals0),
+    decimals0
+  );
 
   const proxyAbi = [
     "function getDepositAmount(address, address, uint256) public view returns (uint256, uint256)",
@@ -644,11 +650,13 @@ const handleToken0Change = (amount) => {
     proxyAbi,
     Ethers.provider()
   );
-
+  console.log(hypeAddress, addresses[token0], token0Wei);
   proxyContract
     .getDepositAmount(hypeAddress, addresses[token0], token0Wei)
     .then((depositAmount) => {
+      console.log("depositAmount", depositAmount);
       const amount1 = getFromDepositAmount(depositAmount, decimals1);
+
       State.update({ amount1 });
       State.update({ isLoading: false });
       checkApproval(amount, amount1);
@@ -680,7 +688,10 @@ const handleToken1Change = (amount) => {
     isError: false,
     loadingMsg: "Computing deposit amount...",
   });
-  const token1Wei = ethers.utils.parseUnits(amount, decimals1).toString();
+  const token1Wei = ethers.utils.parseUnits(
+    Big(amount).toFixed(decimals1),
+    decimals1
+  );
 
   const proxyAbi = [
     "function getDepositAmount(address, address, uint256) public view returns (uint256, uint256)",
@@ -721,6 +732,14 @@ const handleApprove = (isToken0) => {
     ? { isToken0Approving: true }
     : { isToken1Approving: true };
 
+  const amount = isToken0
+    ? Big(amount0).toFixed(decimals0)
+    : Big(amount1).toFixed(decimals1);
+
+  const toastId = props.toast?.loading({
+    title: `Approve ${amount} ${_token}`,
+  });
+
   State.update({
     ...payload,
     isLoading: true,
@@ -728,7 +747,7 @@ const handleApprove = (isToken0) => {
   });
 
   const tokenWei = ethers.utils.parseUnits(
-    isToken0 ? amount0 : amount1,
+    amount,
     isToken0 ? decimals0 : decimals1
   );
 
@@ -749,25 +768,50 @@ const handleApprove = (isToken0) => {
         : { isToken1Approved: true, isToken1Approving: false };
 
       State.update({ ...payload, isLoading: false, loadingMsg: "" });
+      props.toast?.dismiss(toastId);
+      props.toast?.success({
+        title: "Approve Successfully!",
+        text: `Approve ${amount} ${_token}`,
+        tx: receipt.transactionHash,
+        chainId: props.chainId,
+      });
     })
     .catch((error) => {
       State.update({
         isError: true,
         isLoading: false,
         loadingMsg: error,
+        isToken0Approving: false,
+        isToken1Approving: false,
+      });
+      props.toast?.dismiss(toastId);
+      props.toast?.fail({
+        title: "Approve Failed!",
+        text: error?.message?.includes("user rejected transaction")
+          ? "User rejected transaction"
+          : `Approve ${amount} ${_token}`,
       });
     });
 };
 
 const handleDeposit = () => {
+  const toastId = props.toast?.loading({
+    title: `Depositing...`,
+  });
   State.update({
     isLoading: true,
     isError: false,
     loadingMsg: "Depositing...",
   });
 
-  const token0Wei = ethers.utils.parseUnits(amount0, decimals0);
-  const token1Wei = ethers.utils.parseUnits(amount1, decimals1);
+  const token0Wei = ethers.utils.parseUnits(
+    Big(amount0).toFixed(decimals0),
+    decimals0
+  );
+  const token1Wei = ethers.utils.parseUnits(
+    Big(amount1).toFixed(decimals1),
+    decimals1
+  );
 
   const proxyAbi = [
     "function deposit(uint256, uint256,address,address,uint256[4] memory)  external returns (uint256)",
@@ -778,7 +822,6 @@ const handleDeposit = () => {
     proxyAbi,
     Ethers.provider().getSigner()
   );
-
   proxyContract
     .deposit(token0Wei, token1Wei, sender, hypeAddress, [0, 0, 0, 0])
     .then((tx) => {
@@ -787,23 +830,17 @@ const handleDeposit = () => {
     .then((receipt) => {
       const { status, transactionHash } = receipt;
 
-      const uuid = Storage.get(
-        "zkevm-warm-up-uuid",
-        "guessme.near/widget/ZKEVMWarmUp.generage-uuid"
-      );
-
-      add_action({
-        action_title: `Deposit ${token0}-${token1} on Gamma`,
-        action_type: "Deposit",
-        action_tokens: JSON.stringify([token0, token1]),
-        action_amount: "",
-        account_id: sender,
-        action_network_id: chainName || "zkEVM",
-        account_info: uuid,
+      addAction?.({
+        type: "Liquidity",
+        action: "Deposit",
+        token0,
+        token1,
+        amount: amount0,
         template: "Gamma",
-        action_status: status === 1 ? "Success" : "Failed",
-        action_switch: can_add_action ? 1 : 0,
-        tx_id: transactionHash,
+        status: status,
+        add: can_add_action,
+        transactionHash,
+        chain_id: props.chainId,
       });
 
       State.update({
@@ -815,6 +852,11 @@ const handleDeposit = () => {
 
       const { refetch } = props;
       if (refetch) refetch();
+
+      props.toast?.dismiss(toastId);
+      props.toast?.success({
+        title: "Deposit Successfully!",
+      });
     })
     .catch((error) => {
       State.update({
@@ -822,17 +864,27 @@ const handleDeposit = () => {
         isLoading: false,
         loadingMsg: error,
       });
+      props.toast?.dismiss(toastId);
+      props.toast?.fail({
+        title: "Deposit Failed!",
+        text: error?.message?.includes("user rejected transaction")
+          ? "User rejected transaction"
+          : "",
+      });
     });
 };
 
 const handleWithdraw = () => {
+  const toastId = props.toast?.loading({
+    title: `Withdrawing...`,
+  });
   State.update({
     isLoading: true,
     isError: false,
     loadingMsg: "Withdrawing...",
   });
 
-  const lpWeiAmount = ethers.utils.parseUnits(lpAmount, 18);
+  const lpWeiAmount = ethers.utils.parseUnits(Big(lpAmount).toFixed(18), 18);
   const abi = [
     "function withdraw(uint256, address, address,uint256[4] memory) external returns (uint256, uint256)",
   ];
@@ -856,29 +908,28 @@ const handleWithdraw = () => {
 
       const { status, transactionHash } = receipt;
 
-      const uuid = Storage.get(
-        "zkevm-warm-up-uuid",
-        "guessme.near/widget/ZKEVMWarmUp.generage-uuid"
-      );
-
-      add_action({
-        action_title: `Withdraw ${token0}-${token1} on Gamma`,
-        action_type: "Withdraw",
-        action_tokens: JSON.stringify([token0, token1]),
-        action_amount: lpAmount,
-        account_id: sender,
-        action_network_id: chainName || "zkEVM",
-        account_info: uuid,
+      addAction?.({
+        type: "Liquidity",
+        action: "Withdraw",
+        token0,
+        token1,
+        amount: lpAmount,
         template: "Gamma",
-        action_status: status === 1 ? "Success" : "Failed",
-        action_switch: can_add_action ? 1 : 0,
-        tx_id: transactionHash,
+        status: status,
+        add: can_add_action,
+        transactionHash,
+        chain_id: props.chainId,
       });
 
       setTimeout(() => State.update({ isPostTx: false }), 10_000);
 
       const { refetch } = props;
       if (refetch) refetch();
+
+      props.toast?.dismiss(toastId);
+      props.toast?.success({
+        title: "Withdraw Successfully!",
+      });
     })
     .catch((error) => {
       State.update({
@@ -886,15 +937,22 @@ const handleWithdraw = () => {
         isLoading: false,
         loadingMsg: error,
       });
+      props.toast?.dismiss(toastId);
+      props.toast?.fail({
+        title: "Withdraw Failed!",
+        text: error?.message?.includes("user rejected transaction")
+          ? "User rejected transaction"
+          : "",
+      });
     });
 };
 
 const DELAY = 1000 * 60 * 5;
 const timer = Storage.privateGet("priceTimer");
 function getPrice() {
-  asyncFetch(
-    "https://mainnet-indexer.ref-finance.com/get-token-price-by-dapdap"
-  )
+  asyncFetch("/dapdap/get-token-price-by-dapdap", {
+    Authorization: AccessKey,
+  })
     .then((res) => {
       const data = JSON.parse(res.body);
       data.native = data.aurora;
@@ -944,7 +1002,7 @@ const balanceLp =
     ? "-"
     : parseFloat(
         Big(lpAmount)
-          .div(lpBalance || 1)
+          .div(Big(lpBalance).gt(0) ? lpBalance : 1)
           .times(curPositionUSD)
           .toFixed(4)
       );
@@ -965,7 +1023,11 @@ const onChangeSlider = (percent) => {
   handleLPChange(newLpValue);
 };
 
-console.log("state.lpPercent: ", state.lpPercent);
+useEffect(() => {
+  if (amount0) {
+    handleToken0Change(amount0);
+  }
+}, [pair]);
 
 return (
   <VStack>
@@ -1118,7 +1180,7 @@ return (
 
                   if (value && Big(value).gt(0)) {
                     const newSliderPercent = Big(value || 0)
-                      .div(lpBalance || 1)
+                      .div(Big(lpBalance).gt(0) ? lpBalance : 1)
                       .times(100)
                       .toFixed(0);
                     onUpdateLpPercent(newSliderPercent);
@@ -1153,7 +1215,7 @@ return (
                 <span
                   onClick={() => {
                     const newSliderPercent = Big(lpBalance || 0)
-                      .div(lpBalance || 1)
+                      .div(Big(lpBalance).gt(0) ? lpBalance : 1)
                       .times(100)
                       .toFixed(0);
 

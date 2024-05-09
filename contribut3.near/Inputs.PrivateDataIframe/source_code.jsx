@@ -60,7 +60,9 @@ const iframeCode = `
   </script>
 `;
 
-console.log(Storage.get("near-api-js:keystore:" + context.accountId + ":mainnet"));
+console.log(
+  Storage.get("near-api-js:keystore:" + context.accountId + ":mainnet"),
+);
 
 return (
   <iframe
@@ -69,7 +71,9 @@ return (
     sandbox="allow-scripts allow-same-origin"
     message={{
       accountId: context.accountId,
-      url: `https://encryption-service-73dm.onrender.com${props.encrypt ? "/encrypt/" : "/decrypt/"}${props.accountId}`,
+      url: `https://api-staging-fur7.onrender.com${
+        props.encrypt ? "/encrypt/" : "/decrypt/"
+      }${props.accountId}`,
       body: props.body,
       send: props.send,
     }}

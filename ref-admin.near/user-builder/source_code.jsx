@@ -1,3 +1,5 @@
+const { onUser } = props;
+
 const Container = styled.div`
   display: inline-flex;
   align-items: center;
@@ -42,24 +44,22 @@ function switchButton(type) {
 const targetStatus = buttonStatus || current_mode;
 return (
   <Container>
-    <a
-      disable={targetStatus != "builder"}
+    <span
       class={`default ${targetStatus !== "builder" ? "active" : ""}`}
       onClick={(e) => {
         switchButton("user");
-        return false;
+        onUser && onUser();
       }}
     >
       User
-    </a>
-    <a
-      disable={true}
+    </span>
+    <span
       class={`default ${targetStatus == "builder" ? "active" : ""}`}
       onClick={(e) => {
         switchButton("builder");
       }}
     >
       Builder
-    </a>
+    </span>
   </Container>
 );

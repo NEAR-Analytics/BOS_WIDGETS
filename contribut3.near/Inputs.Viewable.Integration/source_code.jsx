@@ -1,9 +1,9 @@
 const ownerId = "contribut3.near";
 const id = props.id ?? "select";
 const label = props.label ?? "Input";
-const value = props.value ?? [];
+const value = props.value ?? {};
 const options = props.options ?? [];
-const onSave = props.onSave ?? (() => { });
+const onSave = props.onSave ?? (() => {});
 const canEdit = props.canEdit;
 
 const LabelArea = styled.div`
@@ -47,10 +47,20 @@ const SaveButton = styled.button`
 
 const edit = (update, v) => (
   <LabelArea>
-    <Widget src={`${ownerId}/widget/Inputs.Integration`} props={{ integration: v, update, noLabel: true }} />
+    <Widget
+      src={`${ownerId}/widget/Inputs.Integration`}
+      props={{ integration: v, update, noLabel: true }}
+    />
     <SaveButton onClick={() => onSave(v)}>Save</SaveButton>
   </LabelArea>
 );
+
+const optionsMap = {
+  native: "Native",
+  multichain: "Multichain",
+  interested: "Not yet but interested",
+  no: "No",
+};
 
 return (
   <Widget
@@ -60,7 +70,7 @@ return (
       label,
       value,
       edit,
-      view: value[0].name,
+      view: optionsMap[value],
       canEdit,
     }}
   />

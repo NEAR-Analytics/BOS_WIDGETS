@@ -2,7 +2,7 @@ const Message = styled.div`
   position: fixed;
   right: 30px;
   z-index: 8888;
-  top: 30px;
+  top: 100px;
   @media (max-width: 640px) {
     top: calc(100vh - 88px);
     left: 0px;
@@ -92,7 +92,7 @@ return (
         <Text>{text}</Text>
       </Flex>
       <Widget
-        src="bluebiu.near/widget/Base.BaseCloseIcon"
+        src="bluebiu.near/widget/Arbitrum.Swap.CloseIcon"
         props={{
           onClose: () => {
             onClose?.();

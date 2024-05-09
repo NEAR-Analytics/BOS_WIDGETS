@@ -42,6 +42,7 @@ State.init({
   profileIsFetched: false,
   project: null,
   projectIsFetched: false,
+  metric: { value: "MAA", text: "Monthly Active Accounts" },
 });
 
 if (!state.profileIsFetched) {
@@ -50,12 +51,12 @@ if (!state.profileIsFetched) {
     "get",
     { keys: [`${accountId}/profile/**`] },
     "final",
-    false
+    false,
   ).then((profile) =>
     State.update({
       profile: profile[accountId].profile ?? {},
       profileIsFetched: true,
-    })
+    }),
   );
 }
 
@@ -65,7 +66,7 @@ if (!state.projectIsFetched) {
     "get_project",
     { account_id: accountId },
     "final",
-    false
+    false,
   ).then((project) => State.update({ project, projectIsFetched: true }));
 }
 
@@ -81,14 +82,14 @@ if (!state.namesIsFetched) {
       keys: state.project.founders.map((key) => `${key}/profile/name`),
     },
     "final",
-    false
+    false,
   ).then((names) => {
     State.update({
       names: new Map(
         Object.keys(names).map((account) => [
           account,
           names[account].profile.name,
-        ])
+        ]),
       ),
       namesIsFetched: true,
     });
@@ -123,6 +124,10 @@ const Details = styled.div`
 
   @media screen and (min-width: 768px) and (max-width: 1024px) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  &.full {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
   }
 `;
 
@@ -194,7 +199,9 @@ return (
           label: "Website",
           id: "website",
           value: state.profile.linktree?.website ?? state.profile.website ?? "",
-          link: `https://${state.profile.linktree.website}`,
+          link: `https://${
+            state.profile.linktree.website ?? state.profile.website
+          }`,
           onSave: (website) => onSave({ profile: { linktree: { website } } }),
           canEdit: isAdmin,
         }}
@@ -204,16 +211,26 @@ return (
     <Separator />
 
     <Heading>Project stats</Heading>
-    <Details>
+    <Details className="full">
       <Widget
-        src={`${ownerId}/widget/Inputs.Viewable.Number`}
+        src={`${ownerId}/widget/Inputs.Select`}
         props={{
-          label: "User base (MAA)",
-          id: "userbase",
-          value: state.profile.userbase,
-          onSave: (userbase) =>
-            onSave({ profile: { userbase: `${userbase}` } }),
-          canEdit: isAdmin,
+          label: "Metric",
+          options: [
+            { value: "DAA", text: "Daily Active Accounts" },
+            { value: "MAA", text: "Monthly Active Accounts" },
+            { value: "MAT", text: "Monthly Average Transactions" },
+            { value: "DAT", text: "Daily Average Transactions" },
+          ],
+          value: state.metric,
+          onChange: (metric) => State.update({ metric }),
+        }}
+      />
+      <Widget
+        src="y3k.near/widget/widgets.external.horizon_project_stats"
+        props={{
+          project_name: accountId,
+          selectedMetric: state.metric,
         }}
       />
     </Details>
@@ -236,7 +253,7 @@ return (
         props={{
           label: "Development phase",
           value: state.profile.dev,
-          onSave: ({ value: stage }) => onSave({ profile: { stage } }),
+          onSave: ({ value: dev }) => onSave({ profile: { dev } }),
           canEdit: isAdmin,
         }}
       />
@@ -261,7 +278,7 @@ return (
             profile: {
               verticals: verticals.reduce(
                 (acc, vertical) => Object.assign(acc, { [vertical]: "" }),
-                {}
+                {},
               ),
             },
           }),
@@ -278,7 +295,7 @@ return (
             profile: {
               product_type: productType.reduce(
                 (acc, productType) => Object.assign(acc, { [productType]: "" }),
-                {}
+                {},
               ),
             },
           }),

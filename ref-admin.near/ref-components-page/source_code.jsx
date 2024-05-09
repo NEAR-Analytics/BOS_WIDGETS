@@ -27,7 +27,9 @@ const filterMap = {
   NFT: ["NFT marketplace", "Collectibles"],
 };
 
-const { role } = props;
+// const { role } = props;
+
+const role = props.role;
 
 const addComponentIcon = (
   <svg
@@ -50,6 +52,7 @@ State.init({
   currentPage: 0,
   selectedTab: props.tab || "all",
   filters: Storage.get("ref-filters", curComponent) || ["Defi"],
+  ViewMode: Storage.get("ViewMode", curComponent) || "wide",
   counts: {
     Chain: 0,
     Infrastructure: 0,
@@ -83,11 +86,25 @@ if (data) {
         tagsData[accountId].widget[widgetName]?.metadata?.tags || {}
       );
 
-      const hasRefTag = tags.some((t) =>
-        state.filters.map((f) => f.toLowerCase()).includes(t.toLowerCase())
+      const chainTags = state.filters.filter((t) =>
+        filterMap["Chain"].includes(t)
       );
 
-      if (!hasRefTag && state.filters.length > 0) return;
+      const noChainTags = state.filters.filter(
+        (t) => !filterMap["Chain"].includes(t)
+      );
+
+      const hasRefTag = tags.some((t) =>
+        noChainTags.map((f) => f.toLowerCase()).includes(t.toLowerCase())
+      );
+
+      const hasChainTag = chainTags.some((t) =>
+        tags.some((f) => f.toLowerCase() === t.toLowerCase())
+      );
+
+      if (chainTags?.length > 0 && !hasChainTag) return;
+
+      if (!hasRefTag && noChainTags?.length > 0) return;
 
       //     const hasAppTag =
       //       tagsData[accountId].widget[widgetName]?.metadata?.tags["app"] === "";
@@ -221,7 +238,10 @@ const Text = styled.p`
 const Items = styled.div`
   display: grid;
   width: 100%;
-  grid-template-columns: repeat(auto-fill, 350px);
+  grid-template-columns: ${(p) =>
+    p.ViewMode === "wide"
+      ? "repeat(auto-fill,  350px)"
+      : "repeat(auto-fill,  165px)"};
   gap: 20px;
   height: 100%;
 `;
@@ -296,41 +316,69 @@ const sortIcon = (
   </svg>
 );
 
-const gridView = (
-  <svg
-    width="16"
-    height="16"
-    viewBox="0 0 16 16"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <rect x="0.5" y="0.5" width="6.2" height="6.2" rx="1.5" stroke="#7E8A93" />
-    <rect
-      x="0.5"
-      y="9.30005"
-      width="6.2"
-      height="6.2"
-      rx="1.5"
-      stroke="#7E8A93"
-    />
-    <rect
-      x="9.29999"
-      y="0.5"
-      width="6.2"
-      height="6.2"
-      rx="1.5"
-      stroke="#7E8A93"
-    />
-    <rect
-      x="9.29999"
-      y="9.30005"
-      width="6.2"
-      height="6.2"
-      rx="1.5"
-      stroke="#7E8A93"
-    />
-  </svg>
-);
+const gridView =
+  state.ViewMode === "wide" ? (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect
+        x="0.5"
+        y="0.5"
+        width="6.2"
+        height="6.2"
+        rx="1.5"
+        stroke="#7E8A93"
+      />
+      <rect
+        x="0.5"
+        y="9.30005"
+        width="6.2"
+        height="6.2"
+        rx="1.5"
+        stroke="#7E8A93"
+      />
+      <rect
+        x="9.29999"
+        y="0.5"
+        width="6.2"
+        height="6.2"
+        rx="1.5"
+        stroke="#7E8A93"
+      />
+      <rect
+        x="9.29999"
+        y="9.30005"
+        width="6.2"
+        height="6.2"
+        rx="1.5"
+        stroke="#7E8A93"
+      />
+    </svg>
+  ) : (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect width="7.2" height="7.2" rx="2" fill="#00FFD1" />
+      <rect y="8.7998" width="7.2" height="7.2" rx="2" fill="#00FFD1" />
+      <rect x="8.80005" width="7.2" height="7.2" rx="2" fill="#00FFD1" />
+      <rect
+        x="8.80005"
+        y="8.7998"
+        width="7.2"
+        height="7.2"
+        rx="2"
+        fill="#00FFD1"
+      />
+    </svg>
+  );
 
 const arrowDown = (
   <svg
@@ -350,23 +398,35 @@ const arrowDown = (
   </svg>
 );
 
-const wideView = (
-  <svg
-    width="16"
-    height="16"
-    viewBox="0 0 16 16"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <rect width="16" height="7" rx="2" fill="#00FFD1" />
-    <rect y="9" width="16" height="7" rx="2" fill="#00FFD1" />
-  </svg>
-);
+const wideView =
+  state.ViewMode === "wide" ? (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect width="16" height="7" rx="2" fill="#00FFD1" />
+      <rect y="9" width="16" height="7" rx="2" fill="#00FFD1" />
+    </svg>
+  ) : (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect x="0.5" y="0.5" width="15" height="6" rx="1.5" stroke="#7E8A93" />
+      <rect x="0.5" y="9.5" width="15" height="6" rx="1.5" stroke="#7E8A93" />
+    </svg>
+  );
 
 const CardView = styled.div`
   width: 36px;
   height: 36px;
-
+  cursor: pointer;
   background: #1a2e33;
   border-radius: 10px;
   display: flex;
@@ -411,11 +471,12 @@ return (
             onChange: onSearchChange,
             placeholder: searchPlaceholder,
             filterTags: state.filters.length === 0 ? null : state.filters,
+            chains: filterMap["Chain"],
           }}
         />
 
         {role === "Builder" && (
-          <AddComponentWrapper href={"#edit"}>
+          <AddComponentWrapper href={"/sandbox"}>
             {addComponentIcon}
             <span>Add Component</span>
           </AddComponentWrapper>
@@ -429,8 +490,22 @@ return (
           <span>Latest</span>
         </FunctionWrapper>
 
-        <CardView>{gridView}</CardView>
-        <CardView>{wideView}</CardView>
+        <CardView
+          onClick={() => {
+            State.update({ ViewMode: "grid" });
+            Storage.set("ViewMode", "grid");
+          }}
+        >
+          {gridView}
+        </CardView>
+        <CardView
+          onClick={() => {
+            State.update({ ViewMode: "wide" });
+            Storage.set("ViewMode", "wide");
+          }}
+        >
+          {wideView}
+        </CardView>
       </FunctionArea>
     </div>
 
@@ -453,18 +528,34 @@ return (
       )}
 
       {items.length > 0 && (
-        <Items>
-          {items.map((component, i) => (
-            <Widget
-              key={component.accountId + component.widgetName}
-              src="ref-admin.near/widget/ref-component-card-wide"
-              props={{
-                src: `${component.accountId}/widget/${component.widgetName}`,
-                blockHeight: component.blockHeight,
-                role: role,
-              }}
-            />
-          ))}
+        <Items ViewMode={state.ViewMode}>
+          {items.map((component, i) =>
+            state.ViewMode === "wide" ? (
+              <Widget
+                key={component.accountId + component.widgetName}
+                src="ref-admin.near/widget/ref-component-card-wide"
+                props={{
+                  src: `${component.accountId}/widget/${component.widgetName}`,
+                  blockHeight: component.blockHeight,
+                  role: role,
+                }}
+              />
+            ) : (
+              <>
+                <div>
+                  <Widget
+                    key={component.accountId + component.widgetName}
+                    src="ref-admin.near/widget/ref-component-card"
+                    props={{
+                      src: `${component.accountId}/widget/${component.widgetName}`,
+                      blockHeight: component.blockHeight,
+                      role: role,
+                    }}
+                  />
+                </div>
+              </>
+            )
+          )}
         </Items>
       )}
     </ContentWrapper>

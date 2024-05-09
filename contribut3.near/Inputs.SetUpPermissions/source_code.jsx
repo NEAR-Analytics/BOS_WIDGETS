@@ -3,7 +3,7 @@ const ownerId = "contribut3.near";
 State.init({
   following: [],
   followingIsFetched: false,
-  value: [{ name: props.accountId }],
+  value: (props.accountIds ?? "").split(",").map((name) => ({ name })),
   accountsWithPermissions: [],
   accountsWithPermissionsIsFetched: false,
 });
@@ -18,15 +18,18 @@ if (!state.followingIsFetched) {
     "get",
     { keys: [`${context.accountId}/graph/follow/*`] },
     "final",
-    false
-  ).then((data) =>
+    false,
+  ).then((data) => {
+    const following = (
+      Object.keys(data).length > 0
+        ? Object.keys(data[context.accountId]?.graph?.follow ?? {})
+        : []
+    ).map((name) => ({ name }));
     State.update({
-      following: Object.keys(data[context.accountId].graph.follow).map(
-        (name) => ({ name })
-      ),
+      following,
       followingIsFetched: true,
-    })
-  );
+    });
+  });
 }
 
 if (!state.accountsWithPermissionsIsFetched) {
@@ -35,7 +38,7 @@ if (!state.accountsWithPermissionsIsFetched) {
     "debug_get_permissions",
     { account_id: context.accountId },
     "final",
-    false
+    false,
   ).then((data) =>
     State.update({
       accountsWithPermissions: data
@@ -43,7 +46,7 @@ if (!state.accountsWithPermissionsIsFetched) {
         .filter((info) => "AccountId" in info)
         .map(({ AccountId }) => AccountId),
       accountsWithPermissionsIsFetched: true,
-    })
+    }),
   );
 }
 

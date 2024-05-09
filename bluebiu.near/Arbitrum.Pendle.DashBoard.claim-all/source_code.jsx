@@ -4,8 +4,14 @@ if (claimList.length === 0) return "";
 
 const DELAY = 1000 * 60 * 5;
 const timer = Storage.privateGet("priceTimer");
+const AccessKey = Storage.get(
+  "AccessKey",
+  "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
+);
 function getPrice() {
-  asyncFetch("https://test-api.dapdap.net/get-token-price-by-dapdap")
+  asyncFetch("/dapdap/get-token-price-by-dapdap", {
+    Authorization: AccessKey,
+  })
     .then((res) => {
       const data = JSON.parse(res.body);
       data.native = data.aurora;

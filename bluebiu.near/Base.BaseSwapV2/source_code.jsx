@@ -4,6 +4,8 @@ const DexConfig = {
   BaseSwap: {
     factoryAddress: "0xFDa619b6d20975be80A10332cD39b9a4b0FAa8BB",
     routerAddress: "0x327Df1E6de05895d2ab08513aaDD9313Fe505d86",
+    uniType: "v2",
+
     defaultCurrencies: {
       input: {
         chainId: 8453,
@@ -11,7 +13,7 @@ const DexConfig = {
         decimals: 18,
         symbol: "ETH",
         name: "Ether",
-        icon: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+        icon: "https://storage.googleapis.com/prod-pendle-bucket-a/images/assets/simple/55ac44e4-bb2e-4637-92d8-3031b672670a.svg",
       },
       output: {
         chainId: 8453,
@@ -26,6 +28,8 @@ const DexConfig = {
   RocketSwap: {
     factoryAddress: "0x1B8128c3A1B7D20053D10763ff02466ca7FF99FC",
     routerAddress: "0x4cf76043B3f97ba06917cBd90F9e3A2AAC1B306e",
+    uniType: "v2",
+
     defaultCurrencies: {
       input: {
         chainId: 8453,
@@ -33,7 +37,7 @@ const DexConfig = {
         decimals: 18,
         symbol: "ETH",
         name: "Ether",
-        icon: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+        icon: "https://storage.googleapis.com/prod-pendle-bucket-a/images/assets/simple/55ac44e4-bb2e-4637-92d8-3031b672670a.svg",
       },
       output: {
         chainId: 8453,
@@ -48,6 +52,7 @@ const DexConfig = {
   SwapBased: {
     factoryAddress: "0x04C9f118d21e8B767D2e50C946f0cC9F6C367300",
     routerAddress: "0xaaa3b1F1bd7BCc97fD1917c18ADE665C5D31F066",
+    uniType: "v2",
     defaultCurrencies: {
       input: {
         chainId: 8453,
@@ -55,7 +60,7 @@ const DexConfig = {
         decimals: 18,
         symbol: "ETH",
         name: "Ether",
-        icon: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+        icon: "https://storage.googleapis.com/prod-pendle-bucket-a/images/assets/simple/55ac44e4-bb2e-4637-92d8-3031b672670a.svg",
       },
       output: {
         chainId: 8453,
@@ -70,6 +75,8 @@ const DexConfig = {
   Synthswap: {
     factoryAddress: "0x4bd16d59A5E1E0DB903F724aa9d721a31d7D720D",
     routerAddress: "0x8734B3264Dbd22F899BCeF4E92D442d538aBefF0",
+    uniType: "v2",
+
     defaultCurrencies: {
       input: {
         chainId: 8453,
@@ -77,7 +84,7 @@ const DexConfig = {
         decimals: 18,
         symbol: "ETH",
         name: "Ether",
-        icon: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+        icon: "https://storage.googleapis.com/prod-pendle-bucket-a/images/assets/simple/55ac44e4-bb2e-4637-92d8-3031b672670a.svg",
       },
       output: {
         chainId: 8453,
@@ -89,6 +96,30 @@ const DexConfig = {
       },
     },
   },
+  HorizonDEX: {
+    factoryAddress: "0x07AceD5690e09935b1c0e6E88B772d9440F64718",
+    routerAddress: "0x99AEC509174Cbf06F8F7E15dDEeB7bcC32363827",
+    quoterAddress: "0x94ddDe405A00180891eD79Dc1147F0d841c30D73",
+    uniType: "v3",
+    defaultCurrencies: {
+      input: {
+        chainId: 8453,
+        address: "native",
+        decimals: 18,
+        symbol: "ETH",
+        name: "Ether",
+        icon: "https://storage.googleapis.com/prod-pendle-bucket-a/images/assets/simple/55ac44e4-bb2e-4637-92d8-3031b672670a.svg",
+      },
+      output: {
+        chainId: 8453,
+        address: "0x081AD949deFe648774C3B8deBe0E4F28a80716dc",
+        decimals: 18,
+        symbol: "HZN",
+        name: "Horizon",
+        icon: "https://assets.coingecko.com/coins/images/31156/small/Circle_logo_black_%281%29.png?1691040942",
+      },
+    },
+  },
 };
 let initialLoading = false;
 if (Storage.privateGet("prevTitle") !== title || !state.config) {
@@ -96,6 +127,7 @@ if (Storage.privateGet("prevTitle") !== title || !state.config) {
     config: DexConfig[title],
     inputCurrency: DexConfig[title].defaultCurrencies.input,
     outputCurrency: DexConfig[title].defaultCurrencies.output,
+    uniType: DexConfig[title].type,
     inputCurrencyAmount: "1",
     outputCurrencyAmount: "",
     maxInputBalance: "0",
@@ -122,9 +154,12 @@ const Title = styled.div`
   line-height: 22px;
   padding-left: 30px;
   padding-bottom: 10px;
+  @media (max-width: 900px) {
+    display: none;
+  }
 `;
 const Panel = styled.div`
-  width: 560px;
+  width: 100%;
   border-radius: 16px;
   border: 1px solid #2c334b;
   padding: 30px;
@@ -149,6 +184,9 @@ const Price = styled.div`
   text-align: right;
   margin-bottom: 30px;
   margin-top: 20px;
+  @media (max-width: 768px) {
+    margin-top: 10px;
+  }
 `;
 const SwapButton = styled.button`
   width: 100%;
@@ -205,91 +243,13 @@ const getPairContract = (_pairAddress) =>
     Ethers.provider().getSigner()
   );
 
-const RouterContract = new ethers.Contract(
-  state.config.routerAddress,
-  [
-    {
-      inputs: [
-        {
-          internalType: "uint256",
-          name: "amountOut",
-          type: "uint256",
-        },
-        {
-          internalType: "uint256",
-          name: "reserveIn",
-          type: "uint256",
-        },
-        {
-          internalType: "uint256",
-          name: "reserveOut",
-          type: "uint256",
-        },
-      ],
-      name: "getAmountIn",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "amountIn",
-          type: "uint256",
-        },
-      ],
-      stateMutability: "pure",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "uint256",
-          name: "amountIn",
-          type: "uint256",
-        },
-        {
-          internalType: "uint256",
-          name: "reserveIn",
-          type: "uint256",
-        },
-        {
-          internalType: "uint256",
-          name: "reserveOut",
-          type: "uint256",
-        },
-      ],
-      name: "getAmountOut",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "amountOut",
-          type: "uint256",
-        },
-      ],
-      stateMutability: "pure",
-      type: "function",
-    },
-  ],
-  Ethers.provider().getSigner()
-);
-
-const FactoryContract = new ethers.Contract(
-  state.config.factoryAddress,
-  [
-    {
-      constant: true,
-      inputs: [
-        { internalType: "address", name: "", type: "address" },
-        { internalType: "address", name: "", type: "address" },
-      ],
-      name: "getPair",
-      outputs: [{ internalType: "address", name: "", type: "address" }],
-      payable: false,
-      stateMutability: "view",
-      type: "function",
-    },
-  ],
-  Ethers.provider().getSigner()
-);
 const getBestTrade = () => {
-  if (!state.inputCurrency.address || !state.outputCurrency.address) {
+  const curDexUniType = DexConfig[title].uniType;
+  if (
+    !state.inputCurrency.address ||
+    !state.outputCurrency.address ||
+    curDexUniType === "v3"
+  ) {
     State.update({
       loading: false,
     });
@@ -319,107 +279,58 @@ const getBestTrade = () => {
     );
     return;
   }
-
-  FactoryContract.getPair(
-    state.inputCurrency.address === "native"
-      ? WETH_ADDRESS
-      : state.inputCurrency.address,
-    state.outputCurrency.address === "native"
-      ? WETH_ADDRESS
-      : state.outputCurrency.address
+  const currentCurrency =
+    state.tradeType === "in" ? state.inputCurrency : state.outputCurrency;
+  const currentAmount = Big(
+    state.tradeType === "in"
+      ? state.inputCurrencyAmount
+      : state.outputCurrencyAmount
   )
-    .then((_pairAddress) => {
-      if (
-        !_pairAddress ||
-        !ethers.utils.isAddress(_pairAddress) ||
-        _pairAddress === "0x0000000000000000000000000000000000000000"
-      ) {
-        State.update({
-          noPair: true,
-        });
-        throw Error("Get pair address error");
-      }
-      const PairContract = getPairContract(_pairAddress);
-      PairContract["token0"]()
-        .then((_token0) => {
-          PairContract.getReserves()
-            .then((res) => {
-              const [reserve0, reserve1] = res;
-
-              const currentCurrency =
-                state.tradeType === "in"
-                  ? state.inputCurrency
-                  : state.outputCurrency;
-              const currentAmount = Big(
-                state.tradeType === "in"
-                  ? state.inputCurrencyAmount
-                  : state.outputCurrencyAmount
-              )
-                .mul(0.995)
-                .toString();
-              const type =
-                _token0 ===
-                (currentCurrency.address === "native"
-                  ? WETH_ADDRESS
-                  : currentCurrency.address)
-                  ? "in"
-                  : "out";
-
-              RouterContract[type === "in" ? "getAmountOut" : "getAmountIn"](
-                ethers.utils.parseUnits(
-                  currentAmount,
-                  currentCurrency.decimals
-                ),
-                reserve0,
-                reserve1
-              )
-                .then((_outAmount) => {
-                  const outCurrency =
-                    state.tradeType === "in"
-                      ? state.outputCurrency
-                      : state.inputCurrency;
-                  const outAmount = Big(
-                    ethers.utils.formatUnits(_outAmount, outCurrency.decimals)
-                  ).toFixed(4);
-                  State.update(
-                    state.tradeType === "in"
-                      ? {
-                          outputCurrencyAmount: outAmount,
-                          loading: false,
-                          noPair: false,
-                        }
-                      : {
-                          inputCurrencyAmount: outAmount,
-                          loading: false,
-                          noPair: false,
-                        }
-                  );
-                })
-                .catch(() => {
-                  State.update({
-                    loading: false,
-                    noPair: true,
-                  });
-                });
-            })
-            .catch(() => {
-              State.update({
-                loading: false,
-                noPair: true,
-              });
-            });
-        })
-        .catch(() => {
-          State.update({
-            loading: false,
-            noPair: true,
-          });
-        });
+    .mul(0.995)
+    .toFixed(5);
+  const outCurrency =
+    state.tradeType === "in" ? state.outputCurrency : state.inputCurrency;
+  const RouterContract = new ethers.Contract(
+    state.config.routerAddress,
+    [
+      {
+        inputs: [
+          { internalType: "uint256", name: "amountIn", type: "uint256" },
+          { internalType: "address[]", name: "path", type: "address[]" },
+        ],
+        name: "getAmountsOut",
+        outputs: [
+          { internalType: "uint256[]", name: "amounts", type: "uint256[]" },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
+    ],
+    Ethers.provider().getSigner()
+  );
+  const path = [
+    currentCurrency.address === "native"
+      ? WETH_ADDRESS
+      : currentCurrency.address,
+    outCurrency.address === "native" ? WETH_ADDRESS : outCurrency.address,
+  ];
+  RouterContract.getAmountsOut(
+    ethers.utils.parseUnits(currentAmount, currentCurrency.decimals),
+    path
+  )
+    .then((res) => {
+      State.update({
+        outputCurrencyAmount: Big(
+          ethers.utils.formatUnits(res[1], outCurrency.decimals)
+        ).toFixed(4),
+        loading: false,
+        noPair: false,
+      });
     })
-    .catch((err) => {
-      console.log(err);
+    .catch(() => {
       State.update({
         loading: false,
+        noPair: true,
       });
     });
 };
@@ -514,6 +425,7 @@ return (
           currency: state.outputCurrency,
           amount: state.outputCurrencyAmount,
           updateTokenBalance: state.updateOutputTokenBalance,
+          disabled: true,
           onCurrencySelectOpen: () => {
             State.update({
               displayCurrencySelect: true,
@@ -525,18 +437,6 @@ return (
             State.update({
               updateOutputTokenBalance: false,
             });
-          },
-          onAmountChange: (val) => {
-            State.update({
-              outputCurrencyAmount: val,
-              tradeType: "out",
-              loading:
-                val &&
-                Number(val) &&
-                state.inputCurrency.address &&
-                state.outputCurrency.address,
-            });
-            if (val && Number(val)) debouncedGetBestTrade();
           },
         }}
       />
@@ -563,6 +463,8 @@ return (
           },
           noPair: state.noPair,
           loading: state.loading,
+          fee: state.v3Fee,
+          uniType: DexConfig[title].uniType,
         }}
       />
     </Panel>
@@ -579,48 +481,51 @@ return (
             });
           },
           onSelect: (currency) => {
-            const updatedParams =
-              state.currencySelectType === 0
-                ? {
-                    inputCurrency: currency,
-                    outputCurrencyAmount: "",
-                    noPair: false,
-                    updateInputTokenBalance: true,
-                  }
-                : {
-                    outputCurrency: currency,
-                    inputCurrencyAmount: "",
-                    noPair: false,
-                    updateOutputTokenBalance: true,
-                  };
-            if (
-              state.currencySelectType === 0 &&
-              currency.address === state.outputCurrency.address
-            ) {
-              updatedParams.outputCurrency = null;
-              updatedParams.outputCurrencyAmount = "";
+            const updatedParams = {
+              outputCurrencyAmount: "",
+              noPair: false,
+              updateInputTokenBalance: true,
+            };
+            if (state.currencySelectType === 0) {
+              updatedParams.inputCurrency = currency;
+              if (currency.address === state.outputCurrency.address)
+                updatedParams.outputCurrency = null;
+            }
+            if (state.currencySelectType === 1) {
+              updatedParams.outputCurrency = currency;
+              if (currency.address === state.inputCurrency.address) {
+                updatedParams.inputCurrency = null;
+                updatedParams.inputCurrencyAmount = "";
+              }
             }
             if (
-              state.currencySelectType === 1 &&
-              currency.address === state.inputCurrency.address
-            ) {
-              updatedParams.inputCurrency = null;
-              updatedParams.inputCurrencyAmount = "";
-            }
-            if (
-              (state.currencySelectType === 1 &&
-                state.outputCurrencyAmount &&
-                Number(state.outputCurrencyAmount) &&
-                state.outputCurrency?.address) ||
-              (state.currencySelectType === 0 &&
-                state.inputCurrencyAmount &&
-                Number(state.inputCurrencyAmount) &&
-                state.inputCurrency?.address)
+              state.inputCurrencyAmount &&
+              Number(state.inputCurrencyAmount) &&
+              state.inputCurrency?.address
             ) {
               updatedParams.loading = true;
             }
             State.update(updatedParams);
             if (updatedParams.loading) getBestTrade();
+          },
+        }}
+      />
+    )}
+
+    {DexConfig[title].uniType === "v3" && (
+      <Widget
+        src="bluebiu.near/widget/Base.BaseQuoterV3"
+        props={{
+          amountIn: state.inputCurrencyAmount,
+          tokenIn: state.inputCurrency,
+          tokenOut: state.outputCurrency,
+          quoterContractId: DexConfig[title].quoterAddress,
+          loadAmountOut: (data) => {
+            State.update({
+              outputCurrencyAmount: data.amountOut,
+              v3Fee: data.fee,
+              loading: false,
+            });
           },
         }}
       />

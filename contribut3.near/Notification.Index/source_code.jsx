@@ -1,6 +1,5 @@
-console.log(props);
 const { value } = props;
-const ownerId = "nearhorizon.near";
+const ownerId = "contribut3.near";
 
 const { type } = value;
 const item = value?.item || {};
@@ -14,7 +13,8 @@ const Wrapper = styled.div`
   align-items: center;
   gap: 24px;
   border: 1px solid #eceef0;
-  box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
+  box-shadow:
+    0px 1px 3px rgba(16, 24, 40, 0.1),
     0px 1px 2px rgba(16, 24, 40, 0.06);
   padding: 12px;
   border-radius: 12px;
@@ -143,7 +143,12 @@ return (
         />
       ) : value.type === "vendor/propose" ? (
         <Widget
-          src={`${ownerId}/widget/Notification.Vendor.Propose`}
+          src={`${ownerId}/widget/Notification.Vendor.Proposal`}
+          props={props}
+        />
+      ) : value.type === "vendor/proposeToRequest" ? (
+        <Widget
+          src={`${ownerId}/widget/Notification.Vendor.RequestProposal`}
           props={props}
         />
       ) : value.type === "vendor/contract" ? (
@@ -154,6 +159,11 @@ return (
       ) : value.type === "project/feedback" ||
         value.type === "vendor/feedback" ? (
         <Widget src={`${ownerId}/widget/Notification.Feedback`} props={props} />
+      ) : value.type === "vendor/propose" ? (
+        <Widget
+          src={`${ownerId}/widget/Notification.Vendor.Proposal`}
+          props={props}
+        />
       ) : (
         <div>
           Unknown notification:{" "}

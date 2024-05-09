@@ -1,113 +1,96 @@
 const Container = styled.div`
-  .tokenIcon{
-      width: 26px;
-      height: 26px;
-      border-radius:100px;
-      margin-right:4px;
-    }
-.rewardIcon{
-      width: 16px;
-      height: 16px;
-      border-radius:100px;
+  .tokenIcon {
+    width: 26px;
+    height: 26px;
+    border-radius: 100px;
+    margin-right: 4px;
   }
-  .flex-end{
-      display:flex;
-      align-items:center;
-      justify-content:end;
-      height:50px;
+  .rewardIcon {
+    width: 16px;
+    height: 16px;
+    border-radius: 100px;
+  }
+  .flex-end {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    height: 50px;
+  }
+  .assets_table {
+    display: block;
+    width: 100%;
+    tr {
+      color: #7c7f96;
+      border: none;
+      height: 50px;
     }
-`;
-const Backdrop = styled.div`
-  height: 100vh;
-  width: 100vw;
-  background-color: rgba(0, 0, 0, 0.6);
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 1001;
-`;
-const Modal = styled.div`
-  background-color:#1A2E33;
-  border-radius:12px;
-  position:fixed;
-  z-index:1002;
-  width:30rem;
-  max-width: 95vw;
-  max-height: 80vh;
-  padding:10px 0 20px 0;
-  animation:anishow 0.3s forwards ease-out;
-  left:50%;
-  top:50%;
-  @keyframes anishow {
-    from {
-      opacity: 0;
-      transform:translate(-50%,-70%);
+    th,
+    td {
+      border: none;
+      font-size: 14px;
     }
-    to {
-      opacity: 1;
-      transform:translate(-50%,-50%);
+    td {
+      color: #fff;
+    }
+    th:first-child,
+    td:first-child {
+      padding-left: 20px;
+      min-width: 160px;
+    }
+    th:nth-child(2) {
+      padding-right: 10px;
+      min-width: 120px;
+    }
+    tbody {
+      tr {
+        line-height: 40px;
+      }
+      .table_handlers div {
+        background-color: rgba(0, 255, 163, 0.6);
+        transition: 0.5s;
+      }
+      tr:hover {
+        background-color: #373a53;
+        border-radius: 12px;
+        .table_handlers div {
+          background-color: #00ffa3;
+        }
+      }
+    }
+    .table_handlers {
+      display: flex;
+      justify-content: end;
+      margin-top: 12px;
+      padding-right: 10px;
     }
   }
-    .modal-header{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:#fff;
-      font-weight: 700;
-      font-size: 18px;
-      padding:12px;
-      margin-bottom:16px;
-      border-bottom:2px solid rgba(48, 67, 82, 0.5);
-    } 
-    .modal-header .btn-close{
-      position:absolute;
-      right:28px;
-      margin:0;
+  .burrow_title {
+    font-size: 18px;
+    color: #fff;
+    padding-left: 20px;
+  }
+  .double_lines {
+    line-height: 16px;
+    margin-top: 4px;
+  }
+  @media (max-width: 900px) {
+    .assets_table {
+      display: none;
     }
-    .modal-body {
-        padding:0 10px;
-    }
-    .modal-body .tab{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      margin-bottom:30px;
-    }
-    .modal-body .tab span{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      width:50%;
-      height:40px;
-      border-radius: 6px;
-      font-weight: 700;
-      font-size: 18px;
-      cursor:pointer;
-      color:#fff;
-    }
-    .modal-body .tab span.active{
-      background: #304352;
-    }
-   .btn-close-custom{
-      position:absolute;
-      right:28px;
-      width:12px;
-      height:12px;
-      cursor:pointer;
-    }
+  }
 `;
 /** base tool start  */
 let accountId = context.accountId;
-if (!accountId) {
-  return <Widget src="juaner.near/widget/ref_account-signin" />;
-}
+
 let B = Big();
 B.DP = 60; // set precision to 60 decimals
+State.init({ tableData: [] });
 const toAPY = (v) => Math.round(v * 100) / 100;
 const shrinkToken = (value, decimals, fixed) => {
   return new Big(value).div(new Big(10).pow(decimals || 0)).toFixed(fixed);
 };
-function getExtraApy(asset) {
+let total_burrowed_usd = Big(0);
+function getExtraApy(asset, account, assets) {
   const asset_token_id = asset.token_id;
   const borrowFarm = asset.farms.find(
     (farm) =>
@@ -222,12 +205,8 @@ function closeModal() {
     showModal: false,
   });
 }
-const onLoad = (data) => {
-  State.update(data);
-};
-
-const hasData = assets.length > 0 && rewards.length > 0 && account;
-function getPortfolioRewards(type, token_id) {
+function getPortfolioRewards(type, token_id, data) {
+  const { account, assets } = data;
   const targetFarm = account.farms.find((farm) => {
     return farm["farm_id"][type] == token_id;
   });
@@ -258,45 +237,150 @@ function getPortfolioRewards(type, token_id) {
       );
       const rewardPerDay =
         (boostedShares / totalBoostedShares) * totalRewardsPerDay || 0;
-      return { rewardPerDay, metadata: rewardAsset.metadata };
+      return { rewardPerDay, metadata: rewardAsset.metadata, rewardAsset };
     });
     return result;
   }
   return [];
 }
-// get portfolio borrowed assets
-let total_burrowed_usd = Big(0);
-const borrowedAssets = hasData
-  ? account.borrowed.map((borrowedAsset) => {
-      const asset = assets.find((a) => a.token_id === borrowedAsset.token_id);
-      const r = rewards.find((a) => a.token_id === asset.token_id);
-      const totalApy = r.apyBaseBorrow;
-      const extraApy = getExtraApy(asset);
-      const apy = totalApy - extraApy;
-      const decimals = asset.metadata.decimals + asset.config.extra_decimals;
-      const borrowed = Number(shrinkToken(borrowedAsset.balance, decimals));
-      const usd = borrowed * asset.price.usd;
-      total_burrowed_usd = total_burrowed_usd.plus(usd);
-      const rewardsList =
-        getPortfolioRewards("Borrowed", borrowedAsset.token_id) || [];
-      return (
-        <tr>
-          <td>
-            <img
-              src={asset.metadata.icon || wnearbase64}
-              class="tokenIcon"
-            ></img>
-            {asset.metadata.symbol}
-          </td>
-          <td class="text-start">{toAPY(apy)}%</td>
-          <td class="text-start">
+const formatAssets = (data) => {
+  const { account, rewards, assets } = data;
+  return account?.borrowed.map((borrowedAsset) => {
+    const asset = assets.find((a) => a.token_id === borrowedAsset.token_id);
+    const r = rewards.find((a) => a.token_id === asset.token_id);
+    const totalApy = r.apyBaseBorrow;
+    const extraApy = getExtraApy(asset, account, assets);
+    const apy = totalApy - extraApy;
+    const decimals = asset.metadata.decimals + asset.config.extra_decimals;
+    const borrowed = Number(shrinkToken(borrowedAsset.balance, decimals));
+    const usd = borrowed * asset.price.usd;
+    total_burrowed_usd = total_burrowed_usd.plus(usd);
+    const rewardsList =
+      getPortfolioRewards("Borrowed", borrowedAsset.token_id, data) || [];
+    return {
+      icon: asset.metadata.icon,
+      symbol: asset.metadata.symbol,
+      apy,
+      rewardsList,
+      borrowed,
+      usd,
+      token_id: asset.token_id,
+      asset,
+    };
+  });
+};
+const onLoad = (data) => {
+  State.update(data);
+  // get market can deposit assets
+  if (data.assets?.length && data.rewards?.length && data.account) {
+    State.update({ tableData: formatAssets(data) });
+    onLoadState &&
+      onLoadState({
+        total_burrowed_usd: total_burrowed_usd.toFixed(),
+      });
+  }
+};
+
+const hasData = assets.length > 0 && rewards.length > 0 && account;
+const formatValue = (v) => {
+  if (Big(v).eq(0)) return "0";
+  if (Big(v).lt(0.01)) return hasDollar ? "<$0.01" : "<0.01";
+  return Big(v).toNumber().toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+};
+const renderAssets = (assets) =>
+  assets.map((item) => {
+    const { token_id, icon, symbol, apy, rewardsList, borrowed, usd, asset } =
+      item;
+    return (
+      <tr key={token_id}>
+        <td>
+          <img src={icon || wnearbase64} class="tokenIcon"></img>
+          {symbol !== "wNEAR" ? symbol : "NEAR"}
+        </td>
+        <td>{toAPY(apy)}%</td>
+        <td>
+          {rewardsList.length == 0
+            ? "-"
+            : rewardsList.map((reward) => {
+                const { rewardPerDay, metadata, rewardAsset } = reward;
+                return (
+                  <div class="flex_center">
+                    $
+                    {formatValue(
+                      Big(rewardPerDay || 0)
+                        .mul(rewardAsset?.price?.usd || 0)
+                        .toString(),
+                      true
+                    )}
+                    <img
+                      class="rewardIcon ml_5"
+                      src={metadata.icon || wnearbase64}
+                    />
+                  </div>
+                );
+              })}
+        </td>
+        <td>
+          <div className="double_lines">
+            <div>{formatValue(borrowed)}</div>
+            <div class="text_grey_color">(${formatValue(usd, true)})</div>
+          </div>
+        </td>
+        <td class="table_handlers">
+          <Widget
+            src="juaner.near/widget/ref-operation-button"
+            props={{
+              clickEvent: () => {
+                changeSelectedToken(asset, "burrow");
+              },
+              buttonType: "solid",
+              actionName: "Repay",
+              hoverOn: true,
+            }}
+          />
+        </td>
+      </tr>
+    );
+  });
+const renderMbAssets = (data, hasDollar) =>
+  data.map((item) => {
+    const { token_id, icon, symbol, apy, rewardsList, borrowed, usd, asset } =
+      item;
+    return (
+      <div className="mb_row" key={token_id}>
+        <div className="mb_row_header">
+          <div className="mb_row_token">
+            <img src={icon || wnearbase64} class="tokenIcon"></img>
+            {symbol !== "wNEAR" ? symbol : "NEAR"}
+          </div>
+          <div className="double_lines">
+            <div>{formatValue(borrowed)}</div>
+            <div class="text_grey_color">(${formatValue(usd, true)})</div>
+          </div>
+        </div>
+        <div className="mb_row_item">
+          <div className="mb_row_label">Borrow Apy</div>
+          <div className="mb_row_value">{toAPY(apy)}%</div>
+        </div>
+        <div className="mb_row_item">
+          <div className="mb_row_label">Rewards</div>
+          <div className="mb_row_value">
             {rewardsList.length == 0
               ? "-"
               : rewardsList.map((reward) => {
-                  const { rewardPerDay, metadata } = reward;
+                  const { rewardPerDay, metadata, rewardAsset } = reward;
                   return (
                     <div class="flex_center">
-                      {Big(rewardPerDay).toFixed(4)}
+                      $
+                      {formatValue(
+                        Big(rewardPerDay || 0)
+                          .mul(rewardAsset?.price?.usd || 0)
+                          .toString(),
+                        true
+                      )}
                       <img
                         class="rewardIcon ml_5"
                         src={metadata.icon || wnearbase64}
@@ -304,12 +388,10 @@ const borrowedAssets = hasData
                     </div>
                   );
                 })}
-          </td>
-          <td class="text-start">
-            {borrowed.toFixed(4)}
-            <span class="text_grey_color">(${usd.toFixed(2)})</span>
-          </td>
-          <td class="flex-end">
+          </div>
+        </div>
+        <div className="mb_row_actions">
+          <div className="action_btn">
             <Widget
               src="juaner.near/widget/ref-operation-button"
               props={{
@@ -321,17 +403,12 @@ const borrowedAssets = hasData
                 hoverOn: true,
               }}
             />
-          </td>
-        </tr>
-      );
-    })
-  : undefined;
-if (borrowedAssets && borrowedAssets.length > 0) {
-  onLoadState &&
-    onLoadState({
-      total_burrowed_usd: total_burrowed_usd.toFixed(),
-    });
-}
+          </div>
+        </div>
+      </div>
+    );
+  });
+
 function getWnearIcon(icon) {
   State.update({
     wnearbase64: icon,
@@ -343,18 +420,15 @@ function getCloseButtonIcon(icon) {
   });
 }
 return (
-  <Container>
+  <Container className="pt-3">
     {/* load data */}
     {!hasData && (
       <Widget src="juaner.near/widget/ref_burrow-data" props={{ onLoad }} />
     )}
     {/* load icons */}
-    <Widget
-      src="juaner.near/widget/ref-icons"
-      props={{ getWnearIcon, getCloseButtonIcon }}
-    />
-    <div class="title">You Borrowed</div>
-    <table class="table click">
+    <Widget src="juaner.near/widget/ref-icons" props={{ getWnearIcon }} />
+    <div class="burrow_title">You Borrowed</div>
+    <table class="assets_table click">
       <thead>
         <tr>
           <th scope="col" width="20%">
@@ -372,8 +446,10 @@ return (
           <th scope="col"></th>
         </tr>
       </thead>
-      <tbody>{borrowedAssets}</tbody>
+
+      {accountId && <tbody>{renderAssets(state.tableData)}</tbody>}
     </table>
+    <div className="mb_table">{renderMbAssets(state.tableData)}</div>
     {/** modal */}
     <Widget
       src="juaner.near/widget/ref-market-burrow-repay"

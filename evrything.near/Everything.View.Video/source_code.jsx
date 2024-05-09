@@ -1,0 +1,1 @@
+return (<p>Go configure your <a href="/#/edit/evrything.near/widget/Everything.View.Video">view widget</a>!</p>);

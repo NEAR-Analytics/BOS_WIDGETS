@@ -1,0 +1,1 @@
+const data= props.data; return (<><p>Configure <a href="/#/edit/3513937518421a6650d50b4e3e522ac55fe569d1bd2f4be374edd3416509bf38/widget/Everything.Summary.Post">this widget</a> to attractively display your data below:</p><p>{JSON.stringify(data)}</p></>);

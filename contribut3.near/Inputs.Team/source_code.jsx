@@ -49,7 +49,7 @@ if (!state.followingIsFetched) {
     "get",
     { keys: [`${context.accountId}/graph/follow/*`] },
     "final",
-    false
+    false,
   ).then((data) => {
     const following = (
       Object.keys(data).length > 0
@@ -69,7 +69,7 @@ if (!state.followersIsFetched) {
     "get",
     { keys: [`*/graph/follow/${context.accountId}`] },
     "final",
-    false
+    false,
   ).then((data) => {
     const followers = Object.keys(data ?? {}).map((name) => ({ name }));
     State.update({
@@ -115,14 +115,14 @@ return (
         label: "Add team members",
         placeholder: "Start typing",
         options: [...state.followers, ...state.following].filter(
-          ({ name }) => !teamMembers.includes(name)
+          ({ name }) => !teamMembers.includes(name),
         ),
         value: state.team,
         onChange: (team) => {
           State.update({ team });
           Object.assign(
             props.team,
-            ...team.map(({ name }) => ({ [name]: [] }))
+            ...team.map(({ name }) => ({ [name]: [] })),
           );
           update(props.team);
         },
@@ -134,23 +134,25 @@ return (
       <Other />
     </Header>
     {teamMembers.map((accountId) => (
-      <Widget
-        src={`${ownerId}/widget/Inputs.TeamMember`}
-        props={{
-          accountId,
-          name: team[accountId]?.name ?? accountId,
-          permission: getPermission(accountId),
-          onToggle: (id) => {
-            const permissions = id === "Admin" ? ["Admin"] : [];
-            Object.assign(team, { [accountId]: permissions });
-            update(team);
-          },
-          onRemove: () => {
-            delete team[accountId];
-            update(team);
-          },
-        }}
-      />
+      <div key={accountId}>
+        <Widget
+          src={`${ownerId}/widget/Inputs.TeamMember`}
+          props={{
+            accountId,
+            name: team[accountId]?.name ?? accountId,
+            permission: getPermission(accountId),
+            onToggle: (id) => {
+              const permissions = id === "Admin" ? ["Admin"] : [];
+              Object.assign(team, { [accountId]: permissions });
+              update(team);
+            },
+            onRemove: () => {
+              delete team[accountId];
+              update(team);
+            },
+          }}
+        />
+      </div>
     ))}
     <SaveButton onClick={() => onSave(team)}>Save changes</SaveButton>
   </Container>

@@ -3,47 +3,37 @@ const accounts = [
   {
     id: "cripteros.near",
     topic: "NEAR UX for Spanish speaking contributors",
-    link: "https://docs.google.com/document/d/10eAXOIFTyCjEcHs9Izs2uC61OXFV43Q23uhC7SpqH3k/edit?usp=sharing",
-  },
-  {
-    id: "dabbie3229.near",
-    topic: "Gender in Web3 (women in near the ecosystem)",
-    link: "https://docs.google.com/document/d/1qxHZu6IKTxxdIJrJNsIGAiHepkH58KyTincgv2i9VtU/edit?usp=sharing",
+    link: "https://www.mintbase.xyz/meta/nrc.mintbase1.near%3Ac7a0557c30a8cb25a98b95e3da06ef14",
   },
   {
     id: "hannah17.near",
     topic: "Decentralized Finance (DeFi) and Ref Finance",
-    link: "https://docs.google.com/document/d/1EhODQcNZKAaRdBy_SnERws6-BwlYGp3EVQLY0Zo0Q6E/edit?usp=sharing",
+    link: "https://www.mintbase.xyz/meta/nrc.mintbase1.near%3Abbb13b4fcaaf810401efcddf801f76bf",
   },
   {
     id: "15870c8972a9fe6cdb7dfc2df835740108e8674cc170a091cd0ece0b9e4f6cfa",
     topic: "Cryptography in Blockchain",
-    link: "https://docs.google.com/document/d/1cnE-3tJ-jWXCnIPZK8Mi8xvdL4VnrVwEFg6z-j27aQw/edit?usp=sharing",
-  },
-  {
-    id: "ca391bd08dff676aba646e23d2a099dd2cefa728f11d864940e05433f09a4371",
-    topic: "The impacts of musical NFT’s on near ecosystem",
-    link: "https://docs.google.com/document/d/10RgXhAs6aaI_6JKy9oTjowjUElUxYeR_-amQpDegYIo/edit",
+    link: "https://www.mintbase.xyz/meta/nrc.mintbase1.near%3Adfd9a2ceaee89886caf94023da680d92",
   },
   {
     id: "xvii.near",
     topic: "DeFi on NEAR VS ETH",
-    link: "https://docs.google.com/document/d/1ymC009NWDZxne5CWKrUOhtXTys2MKjxQez5G1brWFyE/edit?usp=sharing",
-  },
-  {
-    id: "racheludoka.near",
-    topic: "Airdrop campaign and it's effects on new projects",
-    link: "https://docs.google.com/document/d/1vBMw-TuXuzM5D1jiugBwBJ8lPPEgNmTmwHoKItGqdus/edit?usp=drivesdk",
+    link: "https://www.mintbase.xyz/meta/nrc.mintbase1.near%3A42580d5f861aca030c5d52539eccc69a",
   },
   {
     id: "bheegem.near",
     topic: "DeFi projects on Near",
-    link: "https://docs.google.com/document/d/1y_GsDrA_VG8kQubplRqjy8ddIL_Fnjl7IkkNt5YpPbU/edit?usp=drivesdk",
+    link: "https://www.mintbase.xyz/meta/nrc.mintbase1.near%3Aba652396b6449b7895cafa5895be3ba9",
   },
   {
     id: "trojanhorse15.near",
     topic: "NDC Election",
-    link: "https://docs.google.com/document/d/1alFrnJ5cQBVouCG5kGytOSZOpd8-sjP1pAdjatTm_UY/edit?usp=drivesdk",
+    link: "https://www.mintbase.xyz/meta/nrc.mintbase1.near%3A265eb920f403c5ecbb6616a73c3e361b",
+  },
+  {
+    id: "palomaetienne.near",
+    topic: "NEAR Protocol: A Hub for Creatives",
+    link: "https://www.mintbase.xyz/meta/nrc.mintbase1.near%3A9b83a6ff5d694fb977dcae7dc0dc0b14",
   },
 ];
 
@@ -216,7 +206,7 @@ const renderCard = (account) => {
         </div>
       </CardLeft>
       <div>
-        <strong>Research Topic Selected:</strong>
+        <strong>Research Project:</strong>
         <br />
         {link ? (
           <a href={link} target="_blank" rel="noopener noreferrer">

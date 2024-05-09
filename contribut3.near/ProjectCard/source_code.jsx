@@ -89,7 +89,8 @@ const footer = (
     href={`/#/${ownerId}/widget/Index?tab=entity&accountId=${accountId}`}
     onClick={() =>
       props.update({
-        tab: "entity", content: "",
+        tab: "entity",
+        content: "",
         search: "",
         accountId,
       })

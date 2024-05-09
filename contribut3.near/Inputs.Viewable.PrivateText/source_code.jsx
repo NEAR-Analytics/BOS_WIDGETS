@@ -3,7 +3,7 @@ const id = props.id ?? "textarea";
 const accountId = props.accountId ?? context.accountId;
 const label = props.label ?? "Input";
 const value = props.value ?? "";
-const onSave = props.onSave ?? (() => { });
+const onSave = props.onSave ?? (() => {});
 const canEdit = props.canEdit;
 
 const LabelArea = styled.div`
@@ -76,14 +76,19 @@ return (
             value={v}
             onChange={(e) => update(e.target.value)}
           />
-          <Widget src={`${ownerId}/widget/Inputs.PrivateDataIframe`} props={{
-            accountId,
-            encrypt: true,
-            body: { [id]: v },
-            send: state.send,
-            onChange: (result) => onSave(result),
-          }} />
-          <SaveButton onClick={() => State.update({ send: true })}>Save</SaveButton>
+          <Widget
+            src={`${ownerId}/widget/Inputs.PrivateDataIframe`}
+            props={{
+              accountId,
+              encrypt: true,
+              body: { [id]: v },
+              send: state.send,
+              onChange: (result) => onSave(result),
+            }}
+          />
+          <SaveButton onClick={() => State.update({ send: true })}>
+            Save
+          </SaveButton>
         </LabelArea>
       ),
       // view: <Widget src={`${ownerId}/widget/DescriptionArea`} props={{ description: value }} />,

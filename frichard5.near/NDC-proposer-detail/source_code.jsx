@@ -32,6 +32,15 @@ const columns = [
   {
     id: "submission_time",
     label: "Date",
+    formatter: (data) => {
+      return new Date(data.submission_time).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric"
+      });
+    },
   },
   {
     id: "proposal_type",
@@ -43,7 +52,7 @@ const columns = [
     formatter: (d) => {
       return (
         <a
-          href={`https://near.social/#/${widgetProvider}/widget/NDC-Page?tab=proposal&proposal_id=${d.proposal_id}`}
+          href={`https://near.org/${widgetProvider}/widget/NDC-Page?tab=proposal&proposal_id=${d.proposal_id}`}
           target="_blank"
         >
           {d.proposal_id}
@@ -61,12 +70,13 @@ State.init({
 
 const nextPage = () => {
   const currentOffset = state.offset + resPerPage;
+
   State.update({
     offset: currentOffset,
-    displayedHistory: state.history.slice(
+    displayedHistory: [...state.history.slice(
       currentOffset,
       resPerPage + currentOffset
-    ),
+    )],
   });
 };
 
@@ -74,10 +84,10 @@ const previousPage = () => {
   const currentOffset = state.offset - resPerPage;
   State.update({
     offset: currentOffset,
-    displayedHistory: state.history.slice(
+    displayedHistory: [...state.history.slice(
       currentOffset,
       resPerPage + currentOffset
-    ),
+    )],
   });
 };
 
@@ -91,6 +101,8 @@ const GenericTable = (
       previousPage,
       offset: state.offset,
       resPerPage,
+      boxShadow: 'unset',
+      maxHeight: 800
     }}
   />
 );
@@ -109,8 +121,7 @@ const fetchProposerHistory = () => {
     });
 };
 
-fetchProposerHistory();
-
+!state.history.length && fetchProposerHistory();
 return (
   <DetailWrapper>
     <h2>

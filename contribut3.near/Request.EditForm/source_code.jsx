@@ -162,26 +162,26 @@ if (!state.projectIsFetched) {
     (paymentTypes) =>
       State.update({
         paymentTypes: paymentTypes.map((value) => ({ value, text: value })),
-      })
+      }),
   );
   Near.asyncView(ownerId, "get_payment_sources", {}, "final", false).then(
     (paymentSources) =>
       State.update({
         paymentSources: paymentSources.map((value) => ({ value, text: value })),
-      })
+      }),
   );
   Near.asyncView(ownerId, "get_request_types", {}, "final", false).then(
     (requestTypes) =>
       State.update({
         requestTypes: requestTypes.map((value) => ({ value, text: value })),
-      })
+      }),
   );
   Near.asyncView(
     ownerId,
     "get_project",
     { account_id: props.accountId },
     "final",
-    false
+    false,
   ).then((project) => {
     State.update({ project, projectIsFetched: true });
   });
@@ -190,7 +190,7 @@ if (!state.projectIsFetched) {
     "get_request",
     { account_id: props.accountId, cid: props.cid },
     "final",
-    false
+    false,
   ).then((request) => {
     State.update({
       title: request.title,
@@ -310,7 +310,7 @@ return (
           props={{
             label: "Payment source *",
             options: state.paymentSources.filter(
-              ({ value }) => state.project.credits || value === "Other"
+              ({ value }) => state.project.credits || value === "Other",
             ),
             value: state.paymentSource,
             onChange: (paymentSource) => State.update({ paymentSource }),

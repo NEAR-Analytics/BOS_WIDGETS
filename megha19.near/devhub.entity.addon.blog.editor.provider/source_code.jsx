@@ -1,6 +1,6 @@
-const { getPost } =
-  VM.require("megha19.near/widget/core.adapter.devhub-contract") ||
-  (() => {});
+const { getPost } = VM.require(
+  "megha19.near/widget/core.adapter.devhub-contract"
+) || { getPost: () => {} };
 
 const { Layout, handle } = props;
 
@@ -19,7 +19,7 @@ const fetchGraphQL = (operationsDoc, operationName, variables) => {
 };
 
 const queryName =
-  props.queryName ?? `bo_near_devhub_v17_posts_with_latest_snapshot`;
+  props.queryName ?? `bo_near_devhub_v38_posts_with_latest_snapshot`;
 
 const query = `query DevhubPostsQuery($limit: Int = 100, $offset: Int = 0, $where: ${queryName}_bool_exp = {}) {
     ${queryName}(
@@ -81,23 +81,24 @@ const handleOnChange = (v) => {
 
 const handleGetData = (v) => {
   const postId = parseInt(v);
-  const post = getPost({ post_id: postId });
-  const description = JSON.parse(post.snapshot.description || "null") || {};
-
-  return {
-    id: postId,
-    ...description,
-  };
+  return Near.asyncView("devgovgigs.near", "get_post", {
+    post_id: postId,
+  }).then((post) => {
+    const description = JSON.parse(post.snapshot.description || "null") || {};
+    return {
+      id: postId,
+      ...description,
+    };
+  });
 };
 
 const handleOnSubmit = (v, isEdit) => {
-  console.log(isEdit);
   if (isEdit) {
     Near.call({
       contractName: "devgovgigs.near",
       methodName: "edit_post",
       args: {
-        id: v.id,
+        id: parseInt(v.id),
         labels: ["blog", handle],
         body: {
           post_type: "Comment",
@@ -130,7 +131,7 @@ const handleOnCancel = (v) => {
 
 return (
   <Layout
-    data={posts.body.data.bo_near_devhub_v36_posts_with_latest_snapshot || []}
+    data={posts.body.data.bo_near_devhub_v38_posts_with_latest_snapshot || []}
     getData={handleGetData}
     onChange={handleOnChange}
     onSubmit={handleOnSubmit}

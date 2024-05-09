@@ -1,5 +1,5 @@
 const accountId = props.accountId ?? context.accountId;
-const authorId = props.authorId || "manzanal.near";
+const authorId = props.authorId || "meta-pool-official.near";
 const contractId = props.contractId || "mpip.meta-pool-dao.near";
 const META_VOTE_CONTRACT_ID = "meta-vote.near";
 const edit = props.edit ?? false;
@@ -273,7 +273,7 @@ return (
           onClick: () => State.update({ tabs: "home", content: "" }),
           className: "mt-2",
           variant: "primary",
-          href: `/meta-pool-official.near/widget/ImprovementProposals?tab=home`,
+          href: `/${authorId}/widget/ImprovementProposals?tab=home`,
         }}
       />
       <Widget

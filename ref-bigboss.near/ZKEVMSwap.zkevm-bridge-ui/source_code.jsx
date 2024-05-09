@@ -880,39 +880,40 @@ const { isToastOpen, variant, title, description } = state;
 
 const { source } = props;
 
-const params = Storage.get(
+let params = Storage.get(
   "zk-evm-bridge-params",
   "ref-bigboss.near/widget/ZKEVMWarmUp.quest-card"
 );
-const storedSymbol = params?.symbol;
-console.log(
-  "params: ",
-  params,
-  selectedToken,
-  chainId,
-  source === "quest-card",
-  params.symbol === selectedToken,
-  (params?.chain === "Ethereum" && chainId === 1) ||
-    (params?.chain?.toLowerCase() === "zkevm" && chainId === 1101)
+const params_from_question_list = Storage.get(
+  "zk-evm-swap-params",
+  "ref-bigboss.near/widget/ZKEVM.QuestionList"
 );
+
+if (props.source == 'question_list' && params_from_question_list) {
+  params = params_from_question_list;
+}
+const storedSymbol = params?.symbol;
 
 const hideCondition =
   params &&
   source === "quest-card" &&
   params.symbol === selectedToken &&
   ((params?.chain === "Ethereum" && chainId === 1) ||
-    (params?.chain?.toLowerCase() === "zkevm" && chainId === 1101));
-console.log("hideCondition: ", hideCondition);
+    (params?.chain &&
+      params?.chain?.toLowerCase() === "zkevm" &&
+      chainId === 1101));
 
 if (!hideCondition) {
-  props.updateHide(false);
+  props.updateHide && props.updateHide(false);
 } else {
-  props.updateHide(true);
+  props.updateHide && props.updateHide(true);
 }
 
 if (
   (params?.chain === "Ethereum" && chainId !== 1) ||
-  (params?.chain?.toLowerCase() === "zkevm" && chainId !== 1101)
+  (params?.chain &&
+    params?.chain?.toLowerCase() === "zkevm" &&
+    chainId !== 1101)
 ) {
   const chainId = params?.chain === "Ethereum" ? 1 : 1101;
 

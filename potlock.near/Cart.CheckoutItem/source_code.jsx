@@ -1,7 +1,21 @@
-const ownerId = "potlock.near";
-const donationContractId = "donate.potlock.near";
+const { basisPointsToPercent } = VM.require("potlock.near/widget/utils") || {
+  basisPointsToPercent: () => 0,
+};
+const { SUPPORTED_FTS } = VM.require("potlock.near/widget/constants") || {
+  SUPPORTED_FTS: {},
+};
 
-const donationContractConfig = Near.view(donationContractId, "get_config", {});
+const { removeItemsFromCart, updateItemInCart } = VM.require("potlock.near/widget/SDK.cart") || {
+  removeItemsFromCart: () => {},
+  updateItemInCart: () => {},
+};
+
+const { cartItem, checked, handleCheckboxClick } = props;
+
+const projectId = cartItem?.id;
+const isPotDonation = cartItem?.potId;
+
+const profile = props.profile || Social.get(`${projectId}/profile/**`, "final") || {};
 
 const IPFS_BASE_URL = "https://nftstorage.link/ipfs/";
 const CHEVRON_DOWN_URL =
@@ -65,7 +79,7 @@ const Description = styled.div`
   font-weight: 400;
   word-wrap: break-word;
   overflow-wrap: break-word;
-  margin-bottom: 24px;
+  margin: 16px 0px 24px 0px;
 `;
 
 const FtIcon = styled.img`
@@ -73,132 +87,91 @@ const FtIcon = styled.img`
   height: 20px;
 `;
 
-const BreakdownSummary = styled.div`
-  display: flex;
-  flex-direction: column;
-  // justify-content: flex-end;
-  align-items: center;
-  width: 100%;
-  margin-top: 16px;
-  cursor: pointer;
-`;
-
-const BreakdownSummaryRight = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-  // background: pink;
-  width: 100%;
-`;
-
-const BreakdownTitle = styled.div`
-  color: #2e2e2e;
-  font-size: 14px;
-  line-height: 16px;
-  font-weight: 600;
-  word-wrap: break-word;
-`;
-
-const ChevronIcon = styled.img`
-  width: 24px;
-  height: 24px;
-  margin-left: 8px;
-`;
-
-const BreakdownDetails = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin-top: 8px;
-  gap: 12px;
-  padding: 16px;
-  border-radius: 8px;
-  border: 1px #dbdbdb solid;
-  background: #fafafa;
-`;
-
-const BreakdownItem = styled.div`
+const Row = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  gap: 16px;
 `;
 
-const BreakdownItemLeft = styled.div`
-  color: #7b7b7b;
-  font-size: 14px;
-  line-height: 20px;
-  font-weight: 400;
-  word-wrap: break-word;
+const Icon = styled.svg`
+  width: 20px;
+  height: 20px;
 `;
 
-const BreakdownItemRight = styled.div`
-  display: flex;
-  flex-direction: row;
-  // justify-content: flex-end;
-  align-items: center;
-  gap: 8px;
-`;
+const NearIcon = (props) => (
+  <Icon
+    {...props}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    id="near-logo"
+  >
+    <rect width="24" height="24" rx="12" fill="#CECECE" />
+    <path
+      d="M15.616 6.61333L13.1121 10.3333C12.939 10.5867 13.2719 10.8933 13.5117 10.68L15.9756 8.53333C16.0422 8.48 16.1354 8.52 16.1354 8.61333V15.32C16.1354 15.4133 16.0155 15.4533 15.9623 15.3867L8.50388 6.45333C8.26415 6.16 7.91787 6 7.53163 6H7.26526C6.5727 6 6 6.57333 6 7.28V16.72C6 17.4267 6.5727 18 7.27858 18C7.71809 18 8.13097 17.7733 8.3707 17.3867L10.8746 13.6667C11.0477 13.4133 10.7148 13.1067 10.475 13.32L8.0111 15.4533C7.94451 15.5067 7.85128 15.4667 7.85128 15.3733V8.68C7.85128 8.58667 7.97114 8.54667 8.02442 8.61333L15.4828 17.5467C15.7225 17.84 16.0821 18 16.4551 18H16.7214C17.4273 18 18 17.4267 18 16.72V7.28C18 6.57333 17.4273 6 16.7214 6C16.2686 6 15.8557 6.22667 15.616 6.61333Z"
+      fill="black"
+    />
+  </Icon>
+);
 
-const BreakdownAmount = styled.div`
-  color: #2e2e2e;
-  font-size: 14px;
-  line-height: 20px;
-  font-weight: 500;
-  word-wrap: break-word;
-`;
-
-const { projectId, checked, handleCheckboxClick } = props;
-
-const profile = props.profile || Social.get(`${projectId}/profile/**`, "final") || {};
-
-// TODO: move this to state to handle selected FT once we support multiple FTs
-// TODO: also note this is duplicated in Cart.BreakdownSummary
-const SUPPORTED_FTS = {
-  NEAR: {
-    iconUrl: IPFS_BASE_URL + "bafkreicwkm5y7ojxnnfnmuqcs6ykftq2jvzg6nfeqznzbhctgl4w3n6eja",
-    toIndivisible: (amount) => amount * 10 ** 24,
-    fromIndivisible: (amount) => amount / 10 ** 24,
-  },
-};
+const [itemAmount, setItemAmount] = useState(cartItem?.amount);
+const [itemToken, setItemToken] = useState(cartItem?.token);
 
 State.init({
-  showBreakdown: false,
+  ftBalances: null,
+  denominationOptions: [
+    { text: "NEAR", value: "NEAR", selected: itemToken.text === "NEAR", decimals: 24 },
+  ],
 });
 
-const basisPointsToPercent = (basisPoints) => {
-  return basisPoints / 100;
-};
+// * REMOVING FTs FROM CHECKOUT FOR NOW *
+// const ftBalancesRes = useCache(
+//   () =>
+//     asyncFetch(
+//       `https://near-mainnet.api.pagoda.co/eapi/v1/accounts/${context.accountId}/balances/FT`,
+//       {
+//         headers: {
+//           "Content-Type": "application/json",
+//           "x-api-key": "dce81322-81b0-491d-8880-9cfef4c2b3c2",
+//         },
+//       }
+//     )
+//       .then((res) => res.body)
+//       .catch((e) => console.log("error fetching ft balances: ", e)),
+//   `ft-balances-${context.accountId}`
+// );
+// console.log("ftBalancesRes: ", ftBalancesRes);
 
-if (!donationContractConfig) return "";
+// console.log("state in CheckoutItem: ", state);
 
-const {
-  protocol_fee_basis_points: protocolFeeBasisPoints,
-  referral_fee_basis_points: referralFeeBasisPoints,
-  protocol_fee_recipient_account: protocolFeeRecipientAccount,
-} = donationContractConfig;
-const TOTAL_BASIS_POINTS = 10_000;
-let projectAllocationBasisPoints = TOTAL_BASIS_POINTS - protocolFeeBasisPoints;
-if (props.cart[projectId]?.referrerId) {
-  projectAllocationBasisPoints -= referralFeeBasisPoints;
-}
-const projectAllocationPercent = basisPointsToPercent(projectAllocationBasisPoints);
-const projectAllocationAmount =
-  (parseFloat(props.cart[projectId]?.amount) * projectAllocationBasisPoints) / TOTAL_BASIS_POINTS;
-const protocolFeePercent = basisPointsToPercent(protocolFeeBasisPoints);
-const protocolFeeAmount =
-  (parseFloat(props.cart[projectId]?.amount) * protocolFeeBasisPoints) / TOTAL_BASIS_POINTS;
-const referrerFeePercent = basisPointsToPercent(referralFeeBasisPoints);
-const referrerFeeAmount =
-  (parseFloat(props.cart[projectId]?.amount) * referralFeeBasisPoints) / TOTAL_BASIS_POINTS;
+// * REMOVING FTs FROM CHECKOUT FOR NOW *
+// useEffect(() => {
+//   if (context.accountId && !isPotDonation && ftBalancesRes && !state.ftBalances) {
+//     State.update({
+//       ftBalances: ftBalancesRes.balances,
+//       denominationOptions: state.denominationOptions.concat(
+//         ftBalancesRes.balances
+//           .map(({ amount, contract_account_id, metadata }) => ({
+//             amount,
+//             id: contract_account_id,
+//             text: metadata.symbol,
+//             value: metadata.symbol,
+//             icon: metadata.icon,
+//             decimals: metadata.decimals,
+//             selected: false,
+//           }))
+//           .filter((option) => option.text.length < 10)
+//       ),
+//     });
+//   }
+// }, [context.accountId, state.ftBalances, ftBalancesRes, isPotDonation]);
 
 return (
   <ItemContainer>
     <ItemLeft>
       <Widget
-        src={`${ownerId}/widget/Inputs.Checkbox`}
+        src={"potlock.near/widget/Inputs.Checkbox"}
         props={{
           id: "selector-" + projectId,
           checked,
@@ -225,41 +198,64 @@ return (
         />
       </ImageContainer>
       <DetailsContainer>
-        <Title href={`?tab=project&projectId=${projectId}`}>{profile.name ?? ""}</Title>
+        <Row>
+          <Title href={props.hrefWithParams(`?tab=project&projectId=${projectId}`)}>
+            {profile.name ?? ""}
+          </Title>
+          <Widget
+            src={"potlock.near/widget/Pots.Tag"}
+            props={{
+              ...props,
+              backgroundColor: isPotDonation ? "#FEF6EE" : "#F6F5F3",
+              borderColor: isPotDonation ? "rgba(219, 82, 27, 0.36)" : "#DBDBDB",
+              textColor: isPotDonation ? "#EA6A25" : "#292929",
+              text: isPotDonation
+                ? cartItem.potDetail
+                  ? cartItem.potDetail.pot_name
+                  : "-"
+                : "Direct Donation",
+            }}
+          />
+        </Row>
         <Description>{profile.description ?? ""}</Description>
         <Widget
-          src={`${ownerId}/widget/Inputs.Text`}
+          src={"potlock.near/widget/Inputs.Text"}
           props={{
             label: "Amount",
             placeholder: "0",
-            value: props.cart[projectId]?.amount,
+            value: itemAmount,
             onChange: (amount) => {
               amount = amount.replace(/[^\d.]/g, ""); // remove all non-numeric characters except for decimal
               if (amount === ".") amount = "0.";
-              props.updateCartItem(
-                projectId,
-                amount,
-                props.cart[projectId]?.ft,
-                props.cart[projectId]?.referrerId
-              ); // TODO: update this to use selected FT ID
+              setItemAmount(amount);
+            },
+            onBlur: (e) => {
+              updateItemInCart({
+                ...cartItem,
+                amount: e.target.value,
+              });
             },
             inputStyles: {
               textAlign: "right",
               borderRadius: "0px 4px 4px 0px",
             },
-            prefixElement: (
+            preInputChildren: (
               <Widget
-                src={`${ownerId}/widget/Inputs.Select`}
+                src={"potlock.near/widget/Inputs.Select"}
                 props={{
                   noLabel: true,
                   placeholder: "",
-                  options: [
-                    { text: "", value: "" },
-                    { text: "NEAR", value: "NEAR" },
-                  ],
-                  value: { text: props.cart[projectId]?.ft, value: props.cart[projectId]?.ft },
+                  options: state.denominationOptions,
+                  value: { text: itemToken.text, value: itemToken.value },
                   onChange: ({ text, value }) => {
-                    props.updateCartItem(projectId, undefined, value);
+                    const token = state.denominationOptions.find((option) => option.text === text);
+                    setItemToken(token);
+                    setItemAmount(undefined);
+                    updateCartItem({
+                      ...cartItem,
+                      token: token,
+                      amount: undefined,
+                    });
                   },
                   containerStyles: {
                     width: "auto",
@@ -273,66 +269,24 @@ return (
                     padding: "12px 16px",
                     boxShadow: "0px -2px 0px rgba(93, 93, 93, 0.24) inset",
                   },
-                  iconLeft: <FtIcon src={SUPPORTED_FTS[props.cart[projectId].ft].iconUrl} />,
+                  iconLeft:
+                    itemToken.text == "NEAR" ? <NearIcon /> : <FtIcon src={itemToken.icon} />,
                 }}
               />
             ),
           }}
         />
-        <BreakdownSummary onClick={() => State.update({ showBreakdown: !state.showBreakdown })}>
-          <BreakdownSummaryRight>
-            <BreakdownTitle style={{ fontSize: "14px", lineHeight: "16px" }}>
-              {state.showBreakdown ? "Hide" : "Show"} breakdown
-            </BreakdownTitle>
-            <ChevronIcon src={state.showBreakdown ? CHEVRON_UP_URL : CHEVRON_DOWN_URL} />
-          </BreakdownSummaryRight>
-          {state.showBreakdown && (
-            <BreakdownDetails>
-              <BreakdownItem>
-                <BreakdownItemLeft>
-                  Protocol fee ({protocolFeePercent}% to {protocolFeeRecipientAccount})
-                </BreakdownItemLeft>
-                <BreakdownItemRight>
-                  <BreakdownAmount>
-                    {protocolFeeAmount ? protocolFeeAmount.toFixed(3) : "-"}
-                  </BreakdownAmount>
-                  <FtIcon src={SUPPORTED_FTS[props.cart[projectId].ft].iconUrl} />
-                </BreakdownItemRight>
-              </BreakdownItem>
-              {props.cart[projectId]?.referrerId && (
-                <BreakdownItem>
-                  <BreakdownItemLeft>
-                    Referrer fee ({referrerFeePercent}% to {props.cart[projectId]?.referrerId})
-                  </BreakdownItemLeft>
-                  <BreakdownItemRight>
-                    <BreakdownAmount>
-                      {referrerFeeAmount ? referrerFeeAmount.toFixed(3) : "-"}
-                    </BreakdownAmount>
-                    <FtIcon src={SUPPORTED_FTS[props.cart[projectId].ft].iconUrl} />
-                  </BreakdownItemRight>
-                </BreakdownItem>
-              )}
-              <BreakdownItem>
-                <BreakdownItemLeft>On-Chain Storage</BreakdownItemLeft>
-                <BreakdownItemRight>
-                  <BreakdownAmount>{"<0.010"}</BreakdownAmount>
-                  <FtIcon src={SUPPORTED_FTS[props.cart[projectId].ft].iconUrl} />
-                </BreakdownItemRight>
-              </BreakdownItem>
-              <BreakdownItem>
-                <BreakdownItemLeft>
-                  Project allocation (~{projectAllocationPercent}% to {projectId})
-                </BreakdownItemLeft>
-                <BreakdownItemRight>
-                  <BreakdownAmount>
-                    ~{projectAllocationAmount ? projectAllocationAmount.toFixed(3) : "-"}
-                  </BreakdownAmount>
-                  <FtIcon src={SUPPORTED_FTS[props.cart[projectId].ft].iconUrl} />
-                </BreakdownItemRight>
-              </BreakdownItem>
-            </BreakdownDetails>
-          )}
-        </BreakdownSummary>
+        <Widget
+          src={"potlock.near/widget/Cart.BreakdownSummary"}
+          props={{
+            ...props,
+            ftIcon: itemToken.icon,
+            referrerId,
+            totalAmount: itemAmount,
+            bypassProtocolFee: false, // TODO: allow user to choose
+            containerStyle: { marginTop: "16px" },
+          }}
+        />
       </DetailsContainer>
     </ItemRight>
   </ItemContainer>

@@ -208,7 +208,12 @@ return (
             </StakeFormTopContainerRightContent1>
             <StakeFormTopContainerRightContent2>
               <span>
-                {state.stNearBalance}
+                {state.stNearBalance
+                  ? (
+                      Math.trunc(parseFloat(state.stNearBalance) * 100000) /
+                      100000
+                    ).toFixed(5)
+                  : ""}
                 stNEAR
               </span>
             </StakeFormTopContainerRightContent2>
@@ -243,7 +248,7 @@ return (
         props={{
           value:
             state.metrics && state.value && parseFloat(state.value) > 0
-              ? (state.value / state.metrics?.st_near_price_usd).toFixed(5)
+              ? (state.value / state.metrics?.st_near_price).toFixed(5)
               : 0,
           iconName: "stNEAR",
           token: "NEAR",

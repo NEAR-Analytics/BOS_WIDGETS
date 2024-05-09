@@ -1,4 +1,5 @@
-const { currency, selectedTokenAddress, display, chainId, onClick } = props;
+const { currency, selectedTokenAddress, display, account, chainId, onClick } =
+  props;
 const CurrencyRow = styled.div`
   padding: 10px 30px;
   display: flex;
@@ -38,26 +39,36 @@ const CurrencyLabel = styled.div`
 `;
 const CurrencySymbol = styled.div`
   font-size: 18px;
-  font-weight: 500px;
+  font-weight: 500;
   color: #fff;
+  @media (max-width: 768px) {
+    font-size: 16px;
+    font-weight: 400;
+  }
 `;
 const CurrencyName = styled.div`
   font-size: 14px;
   color: #fff;
   opacity: 0.5;
+  @media (max-width: 768px) {
+    font-size: 12px;
+    font-weight: 400;
+  }
 `;
 const CurrencyAmount = styled.div`
   font-size: 18px;
   font-weight: 500px;
   color: #fff;
+  @media (max-width: 768px) {
+    font-size: 14px;
+    font-weight: 400;
+  }
 `;
 
 State.init({
   balanceLoaded: false,
   balance: "0",
 });
-
-const account = Ethers.send("eth_requestAccounts", [])[0];
 
 const utils = {
   balanceFormated: () => {
@@ -73,29 +84,32 @@ const utils = {
 const isActive = currency.address === selectedTokenAddress;
 return (
   <CurrencyRow className={isActive ? "active" : ""} onClick={onClick}>
-    {display && !state.balanceLoaded && chainId === currency.chainId && (
-      <Widget
-        src="dapdapbos.near/widget/Uniswap.Swap.CurrencyBalance"
-        props={{
-          address: currency.address,
-          chainIdNotSupport: false,
-          onLoad: (balance) => {
-            State.update({
-              balance: ethers.utils.formatUnits(balance, currency.decimals),
-              balanceLoaded: true,
-            });
-          },
-        }}
-      />
-    )}
+    {display &&
+      account &&
+      !state.balanceLoaded &&
+      chainId === currency.chainId && (
+        <Widget
+          src="dapdapbos.near/widget/Uniswap.Swap.CurrencyBalance"
+          props={{
+            address: currency.address,
+            chainIdNotSupport: false,
+            onLoad: (balance) => {
+              State.update({
+                balance: ethers.utils.formatUnits(balance, currency.decimals),
+                balanceLoaded: true,
+              });
+            },
+          }}
+        />
+      )}
     <CurrencyLabel>
       <Widget
         src="dapdapbos.near/widget/Linea.Uniswap.Swap.TokenIcon"
         props={{ size: 36, token: currency }}
       />
       <div>
-        <CurrencySymbol>{currency.symbol}</CurrencySymbol>
-        <CurrencyName>{currency.name}</CurrencyName>
+        <CurrencySymbol>{currency.name}</CurrencySymbol>
+        <CurrencyName>{currency.symbol}</CurrencyName>
       </div>
     </CurrencyLabel>
     <CurrencyAmount>

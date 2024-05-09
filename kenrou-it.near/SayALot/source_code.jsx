@@ -1,132 +1,171 @@
-//===============================================INITIALIZATION=====================================================
-let { sharedBlockHeight, tagShared, isTest, accountId } = props;
+// SayALot
 
-const initSbtName = "fractal.i-am-human.near";
+let {
+  sharedBlockHeight,
+  tagShared,
+  isTest,
+  accountId,
+  sharedArticleId,
+  sharedCommentId,
+  topicShared,
+} = props;
 
-const sbtName = state.sbt;
-
-const initLibCalls = [
-  {
-    functionName: "getLastEditArticles",
-    key: "articles",
-    props: {
-      env: isTest ? "test" : "prod",
-      filterBy: {
-        parameterName: "",
-        parameterValue: undefined,
-      },
-      sbtName: initSbtName,
+const initLibsCalls = {
+  SBT: [
+    {
+      functionName: "getSBTWhiteList",
+      key: "sbtWhiteList",
+      props: {},
     },
-  },
-  {
-    functionName: "canUserCreateArticle",
-    key: "canLoggedUserCreateArticle",
-    props: {
-      accountId: context.accountId,
-      sbtName: initSbtName,
-    },
-  },
-];
-
-if (!accountId) accountId = context.accountId;
-
-const tabs = {
-  SHOW_ARTICLES_LIST: { id: 0 },
-  SHOW_ARTICLE: { id: 1 },
-  ARTICLE_WORKSHOP: { id: 2 },
-  SHOW_ARTICLES_LIST_BY_AUTHORS: { id: 3 },
+  ],
 };
 
 State.init({
-  displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
-  articleToRenderData: {},
-  filterBy: tagShared
-    ? { parameterName: "tag", parameterValue: tagShared }
-    : { parameterName: "" },
-  authorsProfiles: [],
-  libCalls: initLibCalls,
-  sbtName: "fractal.i-am-human.near",
-  sbts: [initSbtName],
+  functionsToCallByLibrary: initLibsCalls,
+  usersSBTs: [],
 });
 
-let newLibCalls = state.libCalls;
-newLibCalls[0].props.filterBy = state.filterBy;
+const usersSBTs = state.usersSBTs;
 
-State.update({ libCalls: newLibCalls });
+let newLibsCalls = state.functionsToCallByLibrary;
 
-//=============================================END INITIALIZATION===================================================
+State.update({ libsCalls: newLibsCalls });
 
-//==================================================CONSTS==========================================================
+const sbtWhiteList = state.sbtWhiteList
+  ? state.sbtWhiteList.map((sbt) => sbt.value)
+  : undefined;
+// const sbtWhiteList =
+//   context.networkId === "testnet"
+//     ? [
+//         "fractal-v2.i-am-human.testnet - class 1",
+//         "community-v2.i-am-human.testnet - class 1",
+//       ]
+//     : [
+//         "fractal.i-am-human.near - class 1",
+//         "community.i-am-human.near - class 1",
+//         "community.i-am-human.near - class 2",
+//         "community.i-am-human.near - class 3",
+//         "elections.ndc-gwg.near - class 2",
+//         "elections.ndc-gwg.near - class 3",
+//         "elections.ndc-gwg.near - class 4",
+//         "public",
+//       ];
 
-//const authorForWidget = "sayalot.near";
-const authorForWidget =
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
-// const authorForWidget = "kenrou-it.near";
-const testAuthor = "kenrou-it.near";
-const libSrcArray = [`${testAuthor}/widget/SayALot.lib.article`];
-const thisWidgetName = "SayALot";
+function createSbtOptions() {
+  return state.sbtWhiteList;
+}
 
-// let writersWhiteList = [
-//   "neardigitalcollective.near",
-//   "blaze.near",
-//   "jlw.near",
-//   "kazanderdad.near",
-//   "joep.near",
-//   "sarahkornfeld.near",
-//   "yuensid.near",
-//   "shubham007.near",
-//   "fiftycent.near",
-//   "ozymandius.near",
-//   "chloe.near",
-// ];
+// function createSbtOptions() {
+//   return sbtWhiteList.map((option, i) => {
+//     const title = "";
 
-// const sayALotWorkers = [
-//   "silkking.near",
-//   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
-//   "blaze.near",
-//   "ayelen.near",
-//   "kenrou-it.near",
-// ];
+//     if (option === "fractal.i-am-human.near - class 1") {
+//       title = "General";
+//     } else if (option === "community.i-am-human.near - class 1") {
+//       title = "OG";
+//     } else if (option === "community.i-am-human.near - class 2") {
+//       title = "Contributor";
+//     } else if (option === "community.i-am-human.near - class 3") {
+//       title = "Core Contributor";
+//     } else if (option === "elections.ndc-gwg.near - class 2") {
+//       title = "HoM";
+//     } else if (option === "elections.ndc-gwg.near - class 3") {
+//       title = "CoA";
+//     } else if (option === "elections.ndc-gwg.near - class 4") {
+//       title = "TC";
+//     } else if (option === "fractal-v2.i-am-human.testnet - class 1") {
+//       title = "Fractal";
+//     } else if (option === "community-v2.i-am-human.testnet - class 1") {
+//       title = "Community";
+//     } else {
+//       title = "Public";
+//     }
 
-// if (isTest) {
-//   writersWhiteList = sayALotWorkers;
+//     if (i == 0) {
+//       //The first options is always the default one
+//       return { title, default: true, value: option };
+//     } else {
+//       return { title, value: option };
+//     }
+//   });
 // }
-const sbtWhiteList = ["fractal.i-am-human.near", "community.i-am-human.near"];
+
+// const componentsOwner =
+//   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+const componentsOwner = "sayalot.near";
+
+const authorForWidget = "sayalot.near";
+// const authorForWidget =
+//   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+// const authorForWidget = "kenrou-it.near";
+// const authorForWidget = "silkking.near";
+const dev = "kenrou-it.near";
+
+const configWidget = "SayALot";
 
 const widgets = {
-  sayALot: `${authorForWidget}/widget/${thisWidgetName}`,
-  create: `${testAuthor}/widget/SayALot.Create`,
+  thisForum: `${authorForWidget}/widget/${configWidget}`,
+
+  //Editable widgets
+  //   ndcForum: `${componentsOwner}/widget/NDC.Forum`, //////////////////////////////////////////////////////
+  ndcForum: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.Forum`, //////////////////////////////////////////////////////
+  create: `${componentsOwner}/widget/NDC.Forum.Create`,
+  header: `${componentsOwner}/widget/NDC.NavBar`,
+  //   showArticlesList: `${componentsOwner}/widget/NDC.Forum.AllArticlesList`, //////////////////////////////////////////////////////
+  showArticlesList: `${dev}/widget/NDC.Forum.AllArticlesList`, //////////////////////////////////////////////////////
+  showArticlesListSortedByAuthors: `${componentsOwner}/widget/NDC.AllArticlesSortByAuthors`,
+  articlesByAuthorCard: `${componentsOwner}/widget/NDC.ArticlesByAuthorCard`,
+  //   generalCard: `${componentsOwner}/widget/NDC.GeneralCard`, //////////////////////////////////////////////////////
+  generalCard: `${dev}/widget/NDC.GeneralCard`,
+  articleView: `${componentsOwner}/widget/NDC.ArticleView`,
+  reactions: `${componentsOwner}/widget/NDC.Reactions`,
+  addComment: `${componentsOwner}/widget/NDC.AddComment`,
+  commentView: `${componentsOwner}/widget/NDC.CommentView`,
+  upVoteButton: `${componentsOwner}/widget/NDC.UpVoteButton`,
+  profileShortInlineBlock: `${componentsOwner}/widget/Profile.ShortInlineBlock`,
+  tagsEditor: `${componentsOwner}/widget/TagsEditor`,
+  kanbanBoard: `${componentsOwner}/widget/NDC.KanbanBoard`,
+  compactPost: `${componentsOwner}/widget/NDC.CompactPost`,
+  articleHistory: `${componentsOwner}/widget/NDC.ArticleHistory.Handler`,
+
+  //Libs
+  //   libSBT: `sayalot.near/widget/lib.SBT`,
+  libSBT: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.SBT`,
+  libComment: `sayalot.near/widget/lib.comment`,
+  // libArticle: `sayalot.near/widget/lib.article`, //////////////////////////////////////////////////////
+  libArticle: `${dev}/widget/lib.article`,
+  libEmojis: `sayalot.near/widget/lib.emojis`,
+  libUpVotes: `sayalot.near/widget/lib.upVotes`,
+  libNotifications: `sayalot.near/widget/lib.notifications`,
+
+  //Standard widgets
+  fasterTextInput: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/fasterTextInput`,
+  markownEditorIframe: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/MarkdownEditorIframe`,
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
-  header: `${authorForWidget}/widget/SayALot.NavBar`,
-  showArticlesList: `${testAuthor}/widget/SayALot.AllArticlesList`,
-  showArticlesListSortedByAuthors: `${authorForWidget}/widget/SayALot.AllArticlesSortByAuthors`,
-  articlesByAuthorCard: `${authorForWidget}/widget/SayALot.ArticlesByAuthorCard`,
-  generalCard: `${authorForWidget}/widget/SayALot.GeneralCard`,
-  articleView: `${authorForWidget}/widget/SayALot.ArticleView`,
-  reactions: `${authorForWidget}/widget/SayALot.Reactions`,
-  addComment: `${authorForWidget}/widget/SayALot.AddComment`,
-  commentView: `${authorForWidget}/widget/SayALot.CommentView`,
-  // candidatePage: `#/rubycop.near/widget/NDC.Nomination.Candidate.Page`,
-  libComment: `${authorForWidget}/widget/SayALot.lib.comment`,
-  libArticle: `${testAuthor}/widget/SayALot.lib.article`,
-  libEmojis: `${authorForWidget}/widget/SayALot.lib.emojis`,
-  libUpVotes: `${authorForWidget}/widget/SayALot.lib.upVotes`,
-  upVoteButton: `${authorForWidget}/widget/SayALot.UpVoteButton`,
+  newStyledComponents: {
+    Element: {
+      Badge: "nearui.near/widget/Element.Badge",
+      User: "nearui.near/widget/Element.User",
+    },
+    Feedback: {
+      Spinner: "nearui.near/widget/Feedback.Spinner",
+    },
+    Input: {
+      Button: "nearui.near/widget/Input.Button",
+      Checkbox: "nearui.near/widget/Input.Checkbox",
+      Select: "nearui.near/widget/Input.Select",
+    },
+  },
+  socialMarkdown: "mob.near/widget/SocialMarkdown",
+  profileOverlayTrigger: "mob.near/widget/Profile.OverlayTrigger",
+  profileImage: "mob.near/widget/ProfileImage",
+  wikiOnSocialDB_TooltipProfiles: `testwiki.near/widget/WikiOnSocialDB_TooltipProfiles`,
+  navBarImg: "mob.near/widget/Image",
 };
 
-const profile = props.profile ?? Social.getr(`${accountId}/profile`);
-if (profile === null) {
-  return "Loading";
-}
-
-let authorProfile = {};
-if (state.filterBy.parameterName == "author") {
-  authorProfile = Social.getr(`${state.filterBy.parameterValue}/profile`);
-  // if (!authorProfile) return "Loading...";
-}
+const libSrcArray = [widgets.libSBT];
 
 const brand = {
-  homePageId: tabs.SHOW_ARTICLES_LIST.id,
   brandName: "Say a lot",
   logoHref:
     "https://ipfs.near.social/ipfs/bafkreiaqxa4st4vp4rtq2iyobdgqe5tpfg55mmyvfg25upd2qplcxylyfi",
@@ -134,245 +173,90 @@ const brand = {
   logoRemHeight: 6,
 };
 
-const navigationPills = [
-  { id: tabs.SHOW_ARTICLES_LIST.id, title: "Articles" },
-  { id: tabs.SHOW_ARTICLES_LIST_BY_AUTHORS.id, title: "Authors" },
-];
-
-const navigationButtons = [
-  // { id: tabs.ARTICLE_WORKSHOP.id, title: "+Create article" },
-];
-
-const sbts = state.sbts;
-
-const initialBodyAtCreation = state.editArticleData.body;
-
-//=================================================END CONSTS=======================================================
-
-//=================================================GET DATA=========================================================
-const finalArticles = state.articles;
-//===============================================END GET DATA=======================================================
-
-//=============================================STYLED COMPONENTS====================================================
-const CallLibrary = styled.div`
-  display: none;
-`;
-//===========================================END STYLED COMPONENTS==================================================
-
-//=================================================FUNCTIONS========================================================
-function getValidEditArticleDataTags() {
-  let tags = state.editArticleData.tags;
-  let newFormatTags = {};
-
-  tags &&
-    tags.map((tag) => {
-      newFormatTags[tag] = "";
-    });
-  return newFormatTags;
-}
-
-function createSbtOptions() {
-  return sbtWhiteList.map((option, i) => {
-    //The first options is always the default one
-    if (i == 0) {
-      return { title: option, default: true, value: option };
-    } else {
-      return { title: option, value: option };
-    }
-  });
-}
-
-const initialCreateState = {
-  articleId: state.editArticleData.articleId ?? "",
-  articleBody: state.editArticleData.body ?? initialBodyAtCreation,
-  tags: state.editArticleData.tags ? getValidEditArticleDataTags() : {},
-  libCalls: [],
-  sbts: [sbtWhiteList[0]],
+const baseActions = {
+  commentBaseAction: "sayALotComment",
+  articlesBaseAction: "sayALotArticle",
+  upVoteBaseAction: "sayALotUpVote",
+  reactionBaseAction: "sayALotReaction",
 };
 
-function stateUpdate(obj) {
+const kanbanColumns = ["Open", "Claimed", "In Work", "Closed"];
+
+const kanbanRequiredTags = [];
+const kanbanExcludedTags = [];
+
+const CallLibrary = styled.div`
+    display: none;
+`;
+
+function mainStateUpdate(obj) {
   State.update(obj);
 }
 
-function handleOpenArticle(articleToRenderData) {
-  State.update({
-    displayedTabId: tabs.SHOW_ARTICLE.id,
-    articleToRenderData,
-    editArticleData: undefined,
-  });
-}
-
-function handleEditArticle(articleData) {
-  State.update({
-    displayedTabId: tabs.ARTICLE_WORKSHOP.id,
-    editArticleData: articleData,
-  });
-}
-
-function handleFilterArticles(filter) {
-  State.update({
-    displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
-    filterBy: { parameterName: filter.filterBy, parameterValue: filter.value },
-    editArticleData: undefined,
-  });
-}
-
-function handleBackButton() {
-  props.editArticleData
-    ? State.update({
-        displayedTabId: tabs.SHOW_ARTICLE.id,
-        editArticleData: undefined,
-        filterBy: {
-          parameterName: "",
-          parameterValue: undefined,
-          handleBackClicked: true,
-        },
-      })
-    : State.update({
-        displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
-        articleToRenderData: {},
-        editArticleData: undefined,
-        filterBy: {
-          parameterName: "",
-          parameterValue: undefined,
-          handleBackClicked: true,
-        },
-      });
-}
-
-function handleGoHomeButton() {
-  State.update({
-    displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
-    articleToRenderData: {},
-    filterBy: { parameterName: "", parameterValue: {} },
-    editArticleData: undefined,
-  });
-}
-
-function handlePillNavigation(navegateTo) {
-  State.update({ displayedTabId: navegateTo, editArticleData: undefined });
-}
-
-function callLibs(srcArray, stateUpdate, libCalls) {
+function callLibs(
+  src,
+  stateUpdate,
+  functionsToCallByLibrary,
+  extraProps,
+  callerWidget
+) {
   return (
-    <>
-      {srcArray.map((src) => {
-        return (
-          <Widget
-            src={src}
-            props={{
-              isTest,
-              stateUpdate,
-              libCalls,
-            }}
-          />
-        );
-      })}
-    </>
+    <Widget
+      src={src}
+      props={{
+        mainStateUpdate,
+        isTest,
+        stateUpdate,
+        functionsToCallByLibrary,
+        callLibs,
+        widgets,
+        callerWidget,
+        ...extraProps,
+        usersSBTs,
+      }}
+    />
   );
 }
 
-function handleSbtSelection(string) {
-  State.update({ sbts: [string] });
-}
-
-//===============================================END FUNCTIONS======================================================
 return (
   <>
-    <Widget
-      src={widgets.header}
-      props={{
-        isTest,
-        stateUpdate,
-        handleGoHomeButton,
-        handlePillNavigation,
-        brand,
-        pills: navigationPills,
-        navigationButtons,
-        displayedTabId: state.displayedTabId,
-        handleFilterArticles,
-        filterParameter: state.filterBy.parameterName,
-        handleBackButton,
-        tabs,
-      }}
-    />
-    {state.displayedTabId == tabs.SHOW_ARTICLES_LIST.id && (
+    {sbtWhiteList ? (
       <Widget
-        src={widgets.showArticlesList}
+        src={widgets.ndcForum}
         props={{
+          sharedBlockHeight,
+          tagShared,
           isTest,
-          finalArticles,
-          tabs,
-          widgets,
-          addressForArticles,
-          handleOpenArticle,
-          handleFilterArticles,
-          authorForWidget,
-          initialCreateState,
-          editArticleData: state.editArticleData,
-          callLibs,
-          handleFilterArticles,
-          handleEditArticle,
-          showCreateArticle: state.canLoggedUserCreateArticle,
+          accountId,
           sbtWhiteList,
-          handleSbtSelection,
-          sbts,
+          authorForWidget,
+          widgets,
+          brand,
+          baseActions,
           createSbtOptions,
-        }}
-      />
-    )}
-    {state.displayedTabId == tabs.SHOW_ARTICLE.id && (
-      <Widget
-        src={widgets.articleView}
-        props={{
-          isTest,
-          widgets,
-          handleFilterArticles,
-          articleToRenderData: state.articleToRenderData,
-          authorForWidget,
-          handleEditArticle,
-        }}
-      />
-    )}
-
-    {state.displayedTabId == tabs.SHOW_ARTICLES_LIST_BY_AUTHORS.id && (
-      <Widget
-        src={widgets.showArticlesListSortedByAuthors}
-        props={{
-          isTest,
-          finalArticles,
-          tabs,
-          widgets,
-          handleOpenArticle,
-          handleFilterArticles,
-          authorForWidget,
-        }}
-      />
-    )}
-
-    {state.displayedTabId == tabs.ARTICLE_WORKSHOP.id && (
-      <Widget
-        src={widgets.create}
-        props={{
-          isTest,
-          addressForArticles,
-          authorForWidget,
-          stateUpdate,
-          widgets,
-          initialBody: initialBodyAtCreation,
-          initialCreateState,
-          editArticleData: state.editArticleData,
+          kanbanColumns,
+          kanbanRequiredLabels,
+          kanbanExcludedLabels,
+          sharedArticleId,
+          sharedCommentId,
+          topicShared,
           callLibs,
-          handleFilterArticles,
-          handleEditArticle,
-          sbtWhiteList,
-          createSbtOptions,
+          mainStateUpdate,
         }}
       />
+    ) : (
+      <Widget src={widgets.newStyledComponents.Feedback.Spinner} />
     )}
-
     <CallLibrary>
-      {callLibs(libSrcArray, stateUpdate, state.libCalls)}
+      {libSrcArray.map((src) => {
+        return callLibs(
+          src,
+          mainStateUpdate,
+          state.functionsToCallByLibrary,
+          { baseAction: baseActions.articlesBaseAction, kanbanColumns },
+          "SayALot"
+        );
+      })}
     </CallLibrary>
   </>
 );

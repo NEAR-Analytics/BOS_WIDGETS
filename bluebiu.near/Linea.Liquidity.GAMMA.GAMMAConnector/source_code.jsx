@@ -14,73 +14,32 @@ const {
   pairs,
   proxyAddress,
   defaultPair,
+  prices,
 } = props;
+
+const CONNECT_PROPS = {
+  ...props.connectProps,
+  chainId: MAINNET_CHAIN_ID,
+  chainName: CHAIN_CONFIG.chainName,
+  noAccountTips: `${CHAIN_CONFIG.chainName} Liquidity`,
+  wrongNetworkTips: `To proceed, kindly switch to ${CHAIN_CONFIG.chainName} Chain.`,
+};
 
 const chainIdToSwitch = `0x${MAINNET_CHAIN_ID.toString(16)}`;
 
 CHAIN_CONFIG.chainId = chainIdToSwitch;
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
-const ContainerLogin = styled.div`
-  display: flex;
-  max-width: 500px;
-
-  flex-direction: column;
-  margin: 80px auto auto auto;
-
-  .web3-connect {
-    width: 480px;
-    height: 60px;
-    border-radius: 10px;
-    background-color: #fff;
-    color: #0f1126;
-    font-size: 18px;
-    font-weight: 500;
-    border: none;
-    margin-top: 20px;
-  }
-
-  @media (max-width: 736px) {
-    max-width: 100%;
-    .web3-connect {
-      width: 100%;
-
-      font-size: 16px;
-      height: 40px;
-    }
-  }
-`;
-
-const TitleText = styled.div`
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 32px;
-  color: #ffffff;
-  @media (max-width: 900px) {
-    display: none;
-  }
-`;
 
 if (!sender)
   return (
-    <>
-      <TitleText>Liquidity Manage</TitleText>
-      <ContainerLogin
-        style={{
-          display: "flex",
-          maxWidth: "500px",
-          flexDirection: "column",
-          margin: "80px auto auto auto",
-        }}
-      >
-        <img src="https://ipfs.near.social/ipfs/bafkreibmhq4fseqpcbywiq4hfojghxvhj47mjsri2trggt7d5h5od4y6kq"></img>
-
-        <Web3Connect
-          className="web3-connect"
-          connectLabel="Connect ETH wallet"
-        />
-      </ContainerLogin>
-    </>
+    <Widget
+      src="bluebiu.near/widget/Arbitrum.Swap.ConnectButton"
+      props={{
+        ...CONNECT_PROPS,
+        isWrongNetwork: false,
+      }}
+    />
   );
 
 Ethers.provider()
@@ -95,48 +54,15 @@ const switchChain = () => {
   Ethers.send("wallet_addEthereumChain", [CHAIN_CONFIG]);
 };
 
-const SwitchWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  font-family: "Inter";
-  max-width: 500px;
-  color: #fff;
-  margin: auto;
-  text-align: center;
-  border-radius: 12px;
-  padding: 16px 0;
-  align-items: center;
-  gap: 12px;
-  margin-top: 80px;
-  button {
-    background: #8247e5;
-    border: none;
-    &:hover {
-      background: #8257f5;
-    }
-  }
-
-  @media (max-width: 736px) {
-    max-width: 100%;
-    img {
-      width: 100%;
-    }
-  }
-`;
-
 if (state.chainId !== MAINNET_CHAIN_ID) {
   return (
-    <>
-      <TitleText>Liquidity Manage</TitleText>
-      <SwitchWrapper>
-        <img src="https://ipfs.near.social/ipfs/bafkreibmhq4fseqpcbywiq4hfojghxvhj47mjsri2trggt7d5h5od4y6kq"></img>
-        <h4>Please switch to {CHAIN_CONFIG.chainName} </h4>
-        <button onClick={switchChain}>
-          Switch to {CHAIN_CONFIG.chainName}
-        </button>
-        <p>**Please refresh once after switch chain**</p>
-      </SwitchWrapper>
-    </>
+    <Widget
+      src="bluebiu.near/widget/Arbitrum.Swap.ConnectButton"
+      props={{
+        ...CONNECT_PROPS,
+        isWrongNetwork: true,
+      }}
+    />
   );
 }
 const fetchPoolsData = () => {
@@ -167,8 +93,21 @@ const fetchUserData = () => {
   });
 };
 
+const fetchFusionsData = () => {
+  asyncFetch("https://api.lynex.fi/api/v1/fusions").then((res) => {
+    if (!res.ok) return;
+    State.update({
+      fusionsData: res?.body?.data,
+      // isUserPositionsFetching: false,
+    });
+  });
+};
+
 if (state.poolsData === undefined) {
   fetchPoolsData();
+}
+if (state.fusionsData === undefined) {
+  fetchFusionsData();
 }
 
 if (sender && state.userPositions === undefined) {
@@ -178,6 +117,7 @@ if (sender && state.userPositions === undefined) {
 const refetch = () => {
   fetchPoolsData();
   fetchUserData();
+  fetchFusionsData();
   console.log("refetching");
 };
 
@@ -240,7 +180,9 @@ const handlePairClick = (pair) => {
 const {
   activePair,
   poolsData,
+  fusionsData,
   userPositions,
+
   isPoolFetching,
   isUserPositionsFetching,
 } = state;
@@ -253,7 +195,9 @@ return (
         src={"bluebiu.near/widget/Linea.Liquidity.GAMMA.gamma-table"}
         props={{
           handlePairClick,
+          prices,
           poolsData,
+          fusionsData,
           userPositions,
           addresses,
           pairs,
@@ -285,27 +229,11 @@ return (
             handlePairClick,
             userPositions,
             chainName: CHAIN_CONFIG.chainName,
+            addAction: props.addAction,
+            toast: props.toast,
+            chainId: state.chainId,
           }}
         />
-
-        <div
-          style={{
-            width: "350px",
-            paddingTop: "20px",
-          }}
-        >
-          <Widget
-            src="guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
-            props={{
-              add: state.add_action,
-              onChangeAdd: (value) => {
-                State.update({
-                  add_action: value,
-                });
-              },
-            }}
-          />
-        </div>
       </div>
     </Wrapper>
   </VStack>

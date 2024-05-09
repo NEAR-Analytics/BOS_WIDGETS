@@ -145,9 +145,6 @@ const CardChilden = styled.div`
         }
       }
     }
-    &:last-child {
-      margin-bottom: 20px;
-    }
   }
   @media (max-width: 900px) {
     display: block;
@@ -173,10 +170,6 @@ const CardChilden = styled.div`
       margin-bottom: 0;
      }
     }
-    a:last-child {
-      display:block;
-      margin-bottom: 20px;
-    }
   }
 `;
 
@@ -191,6 +184,8 @@ const getBackgroundColor = (content) => {
     return "rgba(193, 191, 255, 1)";
   } else if (content === "Staking") {
     return "rgba(193, 191, 255, 1)";
+  } else if (content === "Yield") {
+    return "rgba(249, 181, 230, 1)";
   } else if (content === "Liquidity Manage") {
     return "rgba(170, 214, 255, 1)";
   } else {

@@ -25,7 +25,7 @@ if (!state.itemsIsFetched) {
       "get_vendor_contributions",
       { account_id: props.accountId },
       "final",
-      false
+      false,
     ).then((items) => {
       const map = {};
       for (const [project_id, _] of items) {
@@ -38,7 +38,7 @@ if (!state.itemsIsFetched) {
           "get_contribution_history",
           { project_id, vendor_id },
           "final",
-          false
+          false,
         ).then((history) => {
           state.map[project_id].history = history;
           state.map[project_id].fetched = true;

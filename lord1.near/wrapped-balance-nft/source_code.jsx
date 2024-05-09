@@ -239,7 +239,7 @@ return (
     <div className="row">
       <Widget src="lord1.near/widget/header-dynamic" props={general_theme} />
 
-      <div className="col-6">
+      <div className="col-lg-6 col-md-12">
         <div
           style={{ background: themeColor?.sbt_area?.section_bg }}
           className="shadow-sm rounded-2 overflow-auto p-2"
@@ -265,7 +265,7 @@ return (
         </div>
       </div>
 
-      <div className="col-6">
+      <div className="col-lg-6 col-md-12">
         <div
           style={{ background: themeColor?.sbt_area?.section_bg }}
           className="shadow-sm rounded-2 overflow-auto p-2"

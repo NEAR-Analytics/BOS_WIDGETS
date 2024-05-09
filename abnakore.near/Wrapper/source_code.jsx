@@ -6,7 +6,7 @@ const Wrapper = styled.div`
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  width: 100vw;
+  width: 100%;
 
 
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -22,16 +22,21 @@ const Wrapper = styled.div`
 }
 
 .two-sides {
-  display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   place-items: center;
+  margin: 0;
+  grid-template-rows: auto 1fr;
+  min-height: 100vh;
+  width: 100%;
 }
 .two-sides aside {
   position: fixed;
   background-color: #333;
   padding: 20px;
   height: 100vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -65,7 +70,7 @@ aside {
   background-color: #333;
   padding: 20px;
   height: 50px;
-  width: 100vw;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -160,6 +165,7 @@ table tr:hover {
 
 label {
   position: relative;
+  display: block;
 }
 label .input {
   background-color: #333;
@@ -245,7 +251,7 @@ button, select {
 }
 
 .error {
-  border-color: #ff6464;
+  border: 1px solid #ff6464;
 }
 
 button:hover, select:hover {
@@ -267,7 +273,6 @@ button:focus-visible {
   gap: 10px;
   min-width: 350px;
   padding: 20px;
-  padding-right: 40px;
   border-radius: 20px;
   position: relative;
   background-color: #1a1a1a;
@@ -331,8 +336,8 @@ button:focus-visible {
   justify-content: center;
   place-items: center;
   margin: 0;
-  min-width: 100vw;
-  min-height: 100%;
+  min-width: 100%;
+  min-height: 100vh;
 }
 
 .card {

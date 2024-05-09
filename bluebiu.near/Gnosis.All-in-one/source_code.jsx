@@ -2,7 +2,6 @@ const Layout = styled.div``;
 
 const Container = styled.div`
   width: 100%;
-  min-height: 100vh;
   display: flex;
   justify-content: center;
 
@@ -117,8 +116,8 @@ const bridgeIcon = (
       height="18"
     >
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M17.7684 3.3323C16.5569 2.49226 15.0859 2 13.5 2C9.35786 2 6 5.35786 6 9.5C6 13.6421 9.35786 17 13.5 17C13.9539 17 14.3984 16.9597 14.8302 16.8824C13.3983 17.5946 11.7518 18 10 18C4.47715 18 0 13.9706 0 9C0 4.02944 4.47715 0 10 0C13.1361 0 15.935 1.29925 17.7684 3.3323Z"
         fill="currentColor"
       />
@@ -135,8 +134,8 @@ const bridgeIcon = (
       height="13"
     >
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M8.99975 5.42751C9.28439 5.37792 9.5772 5.35206 9.87604 5.35206C12.6763 5.35206 14.9463 7.62209 14.9463 10.4223C14.9463 13.1425 12.8042 15.3623 10.1149 15.487C10.9532 15.9225 11.9057 16.1686 12.9157 16.1686C16.276 16.1686 19 13.4446 19 10.0843C19 6.72403 16.276 4 12.9157 4C11.4242 4 10.058 4.5367 8.99975 5.42751Z"
         fill="currentColor"
       />
@@ -186,6 +185,8 @@ const lendingIcon = (
   </svg>
 );
 
+const { swapConfig, lendingConfig, prices, ...restProps } = props;
+
 return (
   <Layout>
     <Container>
@@ -223,13 +224,18 @@ return (
               src="bluebiu.near/widget/Gnosis.Swap.Dex"
               props={{
                 layout: "center",
+                ...swapConfig,
+                ...restProps,
               }}
             />
           </>
         ) : null}
         {activeMenu == "Lending" ? (
           <>
-            <Widget src="bluebiu.near/widget/Gnosis.Lending" props={props} />
+            <Widget
+              src="bluebiu.near/widget/Gnosis.Lending"
+              props={{ ...lendingConfig, ...restProps, prices }}
+            />
           </>
         ) : null}
       </div>

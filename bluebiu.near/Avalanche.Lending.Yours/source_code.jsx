@@ -38,7 +38,7 @@ const Right = styled.div`
   text-align: right;
 `;
 
-const { markets, dapps, currentDapp } = props;
+const { markets, dapps, toast, currentDapp } = props;
 const formatData = () => {
   let userTotalSupplyUsd = Big(0);
   let userTotalBorrowUsd = Big(0);
@@ -52,9 +52,11 @@ const formatData = () => {
     });
   } else {
     const dapp = dapps[currentDapp];
-    userTotalSupplyUsd = Big(dapp.userTotalSupplyUsd);
-    userTotalBorrowUsd = Big(dapp.userTotalBorrowUsd);
-    totalCollateralUsd = Big(dapp.totalCollateralUsd);
+    if (dapp) {
+      userTotalSupplyUsd = Big(dapp.userTotalSupplyUsd || 0);
+      userTotalBorrowUsd = Big(dapp.userTotalBorrowUsd || 0);
+      totalCollateralUsd = Big(dapp.totalCollateralUsd || 0);
+    }
   }
   const marketsToList = Object.values(markets);
   const supplies = [];
@@ -75,52 +77,58 @@ const formatData = () => {
           rewardBorrowApy += Number(borrowApy.slice(0, -1));
         });
       }
+
       if (Big(market.userSupply || 0).gt(0)) {
         supplies.push({
-          icon: market.icon,
+          icon: market.underlyingToken.icon,
           symbol: market.underlyingToken.symbol,
           dappIcon: dapp.dappIcon,
           dappName: dapp.dappName,
           apy: market.supplyApy,
           isCollateral: market.userMerberShip,
           balance: market.userSupply,
-          balance_value: Big(market.userSupply)
+          balance_value: Big(market.userSupply || 0)
             .mul(market.underlyingPrice)
             .toString(),
           address: market.address,
+          distributionApy: market.distributionApy,
         });
         change = change.add(
           Big(
-            (Number(market.supplyApy.slice(0, -1)) + rewardSupplyApy) / 100
-          ).mul(market.userSupply || 0)
+            (Number(market.supplyApy.slice(0, -1)) + rewardSupplyApy) / 100 || 0
+          )
+            .mul(market.userSupply || 0)
+            .mul(market.underlyingPrice)
         );
       }
       if (Big(market.userBorrow || 0).gt(0)) {
         borrows.push({
-          icon: market.icon,
+          icon: market.underlyingToken.icon,
           symbol: market.underlyingToken.symbol,
           dappIcon: dapp.dappIcon,
           dappName: dapp.dappName,
           apy: market.borrowApy,
           borrowed: market.userBorrow,
-          borrowed_value: Big(market.userBorrow)
+          borrowed_value: Big(market.userBorrow || 0)
             .mul(market.underlyingPrice)
             .toString(),
           address: market.address,
+          distributionApy: market.distributionApy,
         });
         change = change.minus(
           Big(
-            (Number(market.borrowApy.slice(0, -1)) + rewardBorrowApy) / 100
-          ).mul(market.userBorrow || 0)
+            (Number(market.borrowApy.slice(0, -1)) - rewardBorrowApy) / 100 || 0
+          )
+            .mul(market.userBorrow || 0)
+            .mul(market.underlyingPrice)
         );
       }
     });
-
   Object.values(dapps).forEach((dapp) => {
     if (
       dapp.rewards &&
       dapp.rewards.length &&
-      (currentDapp === "All" || currentDapp === dapp.name)
+      (currentDapp === "All" || currentDapp === dapp.dappName)
     ) {
       dapp.rewards.forEach((reward) => {
         rewards.push({
@@ -129,20 +137,22 @@ const formatData = () => {
           dappIcon: dapp.dappIcon,
           dappName: dapp.dappName,
           dailyReward: reward.dailyRewards,
-          dailyReward_value: Big(reward.dailyRewards)
-            .mul(reward.price)
+          dailyReward_value: Big(reward.dailyRewards || 0)
+            .mul(reward.price || 0)
             .toString(),
           unclaimed: reward.unclaimed,
-          unclaimed_value: Big(reward.unclaimed).mul(reward.price).toString(),
+          unclaimed_value: Big(reward.unclaimed || 0)
+            .mul(reward.price || 0)
+            .toString(),
+          ...reward,
         });
       });
     }
   });
-
   State.update({
     userTotalSupplyUsd: userTotalSupplyUsd.toString(),
     userTotalBorrowUsd: userTotalBorrowUsd.toString(),
-    userBorrowLimit: Big(userTotalBorrowUsd)
+    userBorrowLimit: Big(userTotalBorrowUsd || 0)
       .div(totalCollateralUsd.eq(0) ? 1 : totalCollateralUsd)
       .mul(100)
       .toFixed(2),
@@ -156,14 +166,11 @@ const formatData = () => {
   });
 };
 
-const prevMarketTimestamp = Storage.privateGet("prevMarketTimestampYours");
-
-if (prevMarketTimestamp !== props.timestamp) {
+useEffect(() => {
   if (markets) {
     formatData();
-    Storage.privateSet("prevMarketTimestampYours", props.timestamp);
   }
-}
+}, [markets, currentDapp]);
 
 return (
   <>
@@ -225,15 +232,15 @@ return (
         />
       </YoursTableWrapper>
     </Yours>
-    {state.rewards && state.rewards.length > 0 && (
-      <Widget
-        src="bluebiu.near/widget/Avalanche.Lending.RewardsTable"
-        props={{
-          data: state.rewards || [],
-          dapps: props.dappsConfig,
-          onSuccess: props.onSuccess,
-        }}
-      />
-    )}
+    <Widget
+      src="bluebiu.near/widget/Avalanche.Lending.RewardsTable"
+      props={{
+        data: state.rewards || [],
+        dapps: props.dappsConfig,
+        onSuccess: props.onSuccess,
+        supplies: state.supplies,
+        toast,
+      }}
+    />
   </>
 );

@@ -14,7 +14,7 @@ if (!state.foundersIsFetched) {
     "get_founders",
     { account_id: accountId },
     "final",
-    false
+    false,
   ).then((founders) => State.update({ founders, foundersIsFetched: true }));
 }
 
@@ -24,7 +24,7 @@ if (!state.teamIsFetched) {
     "get_team",
     { account_id: accountId },
     "final",
-    false
+    false,
   ).then((team) => State.update({ team, teamIsFetched: true }));
 }
 
@@ -37,18 +37,18 @@ if (!state.namesIsFetched) {
     "get",
     {
       keys: [...state.founders, ...Object.keys(state.team)].map(
-        (key) => `${key}/profile/name`
+        (key) => `${key}/profile/name`,
       ),
     },
     "final",
-    false
+    false,
   ).then((names) => {
     State.update({
       names: new Map(
         Object.keys(names).map((account) => [
           account,
           names[account].profile.name,
-        ])
+        ]),
       ),
       namesIsFetched: true,
     });

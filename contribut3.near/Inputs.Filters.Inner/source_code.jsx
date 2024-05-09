@@ -111,6 +111,12 @@ const Row = styled.div`
   width: 100%;
   gap: 30px;
 
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+  }
+
   & > a {
     box-sizing: border-box;
     display: flex;
@@ -140,7 +146,7 @@ const Row = styled.div`
     justify-content: flex-start;
     gap: 13px;
 
-    & > button.clear {
+    & > a.clear {
       display: flex;
       flex-direction: row;
       justify-content: center;
@@ -157,6 +163,12 @@ const Row = styled.div`
       line-height: 15px;
       text-align: center;
       color: #ffffff;
+
+      &:hover,
+      &:focus,
+      &:active {
+        text-decoration: none;
+      }
     }
 
     & > div {
@@ -351,8 +363,12 @@ const CollapsibleContent = styled("Collapsible.Content")`
       gap: 6px;
 
       &.large {
-        flex-wrap: nowrap !important;
+        flex-wrap: nowrap;
         justify-content: space-between;
+
+        @media screen and (max-width: 1044px) {
+          flex-wrap: wrap;
+        }
       }
 
       & > div {
@@ -512,34 +528,6 @@ const selected = () => {
   );
 };
 
-const url = () => {
-  const urlString = "";
-
-  if (selected()) {
-    const selectedKeys = Object.keys(state.value);
-
-    urlString += "&";
-    urlString += selectedKeys
-      .map((key) => {
-        const values = Array.from(state.value[key]);
-        return `${key}=${values.join(",")}`;
-      })
-      .join("&");
-  }
-
-  if (state.search) {
-    urlString += `&q=${state.search}`;
-  }
-
-  const sort = getSort();
-
-  if (sort) {
-    urlString += `&sort=${sort}`;
-  }
-
-  return urlString;
-};
-
 return (
   <>
     <Row>
@@ -575,7 +563,7 @@ return (
         <a
           href={`/${ownerId}/widget/Index?tab=${
             props.entity ?? "projects"
-          }${url()}`}
+          }&${props.url({ filters: state.value })}`}
         >
           <svg
             width="14"
@@ -698,7 +686,7 @@ return (
               <a
                 href={`/${ownerId}/widget/Index?tab=${
                   props.entity ?? "projects"
-                }${url()}`}
+                }&${props.url({ filters: state.value })}`}
               >
                 <svg
                   width="14"
@@ -721,9 +709,12 @@ return (
           </div>
         </CollapsibleContent>
         <Row className={selected() ? "selected" : "not"}>
-          <button className="clear" onClick={() => clear()}>
+          <a
+            className="clear"
+            href={`/${ownerId}/widget/Index?tab=${props.entity ?? "projects"}`}
+          >
             Clear all
-          </button>
+          </a>
           {Object.keys(state.value).map((key) => {
             /** @type {Set<string>} */
             const set = state.value[key];

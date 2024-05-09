@@ -18,7 +18,7 @@ if (!state.projectIsFetched) {
     "get_project",
     { account_id: accountId },
     "final",
-    false
+    false,
   ).then((project) => State.update({ project, projectIsFetched: true }));
 }
 
@@ -28,7 +28,7 @@ if (!state.foundersIsFetched) {
     "get_founders",
     { account_id: accountId },
     "final",
-    false
+    false,
   ).then((founders) => State.update({ founders, foundersIsFetched: true }));
 }
 
@@ -38,7 +38,7 @@ if (!state.requestsIsFetched) {
     "get_project_requests",
     { account_id: accountId },
     "final",
-    false
+    false,
   ).then((requests) => State.update({ requests, requestsIsFetched: true }));
 }
 
@@ -48,12 +48,12 @@ if (!state.profileIsFetched) {
     "get",
     { keys: [`${accountId}/profile/*`] },
     "final",
-    false
+    false,
   ).then((data) =>
     State.update({
       profile: data[accountId].profile,
       profileIsFetched: true,
-    })
+    }),
   );
 }
 
@@ -72,7 +72,7 @@ const Name = styled.a`
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  gap: .5em;
+  gap: 0.5em;
   width: 35%;
 `;
 
@@ -81,7 +81,7 @@ const Other = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  width: 13%;
+  width: 16.25%;
 `;
 
 const Badge = styled.div`
@@ -103,8 +103,10 @@ if (!state.projectIsFetched || !state.profileIsFetched) {
   return <>Loading...</>;
 }
 
-const text = typeof state.project.application_status === "string" ? state.project.application_status : Object.keys(state.project.application_status)[0];
-const graduationText = typeof state.project.graduation_status === "string" ? state.project.graduation_status : Object.keys(state.project.graduation_status)[0];
+const text =
+  typeof state.project.application === "string"
+    ? state.project.application
+    : Object.keys(state.project.application)[0];
 
 return (
   <Container>
@@ -132,9 +134,6 @@ return (
     </Other>
     <Other>
       <Badge>{text}</Badge>
-    </Other>
-    <Other>
-      <Badge>{graduationText}</Badge>
     </Other>
     <Other>{new Date().toLocaleDateString()}</Other>
     <Other>

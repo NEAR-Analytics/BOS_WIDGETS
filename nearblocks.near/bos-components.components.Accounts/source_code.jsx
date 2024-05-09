@@ -4,8 +4,18 @@
  * License: Business Source License 1.1
  * Description: Accounts component enable users to view information related to their accounts.
  * @interface Props
+ * @param {string} [network] - The network data to show, either mainnet or testnet
+ * @param {Function} [t] - A function for internationalization (i18n) provided by the next-translate package.
  * @param {string} [id] - The account identifier passed as a string.
- * @param {boolean} [fetchStyles] - Use Nearblock styles.
+ * @param {Function} [requestSignInWithWallet] - Function to initiate sign-in with a wallet.
+ * @param {boolean} [signedIn] - Boolean indicating whether the user is currently signed in or not.
+ * @param {string} [accountId] - The account ID of the signed-in user, passed as a string.
+ * @param {Function} [logOut] - Function to log out.
+ * @param {React.FC<{
+ *   href: string;
+ *   children: React.ReactNode;
+ *   className?: string;
+ * }>} Link - A React component for rendering links.
  */
 
 
@@ -13,23 +23,16 @@
 
 
 
-/* INCLUDE COMPONENT: "includes/Common/Skelton.jsx" */
-/**
- * @interface Props
- * @param {string} [className] - The CSS class name(s) for styling purposes.
- */
 
 
 
 
 
-const Skelton = (props) => {
-  return (
-    <div
-      className={`bg-gray-200 h-5 rounded shadow-sm animate-pulse ${props.className}`}
-    ></div>
-  );
-};/* END_INCLUDE COMPONENT: "includes/Common/Skelton.jsx" */
+
+
+
+
+
 /* INCLUDE COMPONENT: "includes/icons/FaExternalLinkAlt.jsx" */
 const FaExternalLinkAlt = () => {
   return (
@@ -41,38 +44,41 @@ const FaExternalLinkAlt = () => {
 /* INCLUDE: "includes/libs.jsx" */
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
 }
 
 function fiatValue(big, price) {
-  // @ts-ignore
-  const value = Big(big).mul(Big(price)).toString();
-  const formattedNumber = Number(value).toLocaleString('en', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+  const value = Big(big).mul(Big(price));
+  const stringValue = value.toFixed(6); // Set the desired maximum fraction digits
+
+  const [integerPart, fractionalPart] = stringValue.split('.');
+
+  // Format integer part with commas
+  const formattedIntegerPart = integerPart.replace(
+    /\B(?=(\d{3})+(?!\d))/g,
+    ',',
+  );
+
+  // Combine formatted integer and fractional parts
+  const formattedNumber = fractionalPart
+    ? `${formattedIntegerPart}.${fractionalPart}`
+    : formattedIntegerPart;
+
   return formattedNumber;
 }
 
 function nanoToMilli(nano) {
-  return new Big(nano).div(new Big(10).pow(6)).round().toNumber();
-}
-
-function shortenAddress(address) {
-  const string = String(address);
-
-  if (string.length <= 20) return string;
-
-  return `${string.substr(0, 10)}...${string.substr(-7)}`;
+  return Big(nano).div(Big(10).pow(6)).round().toNumber();
 }
 
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 
 function getConfig(network) {
@@ -81,29 +87,29 @@ function getConfig(network) {
       return {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
-        backendUrl: 'https://api-beta.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        backendUrl: 'https://api3.nearblocks.io/v1/',
+        rpcUrl: 'https://beta.rpc.mainnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
     case 'testnet':
       return {
         ownerId: 'nearblocks.testnet',
         nodeUrl: 'https://rpc.testnet.near.org',
-        backendUrl: 'https://api-testnet-beta.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        backendUrl: 'https://api3-testnet.nearblocks.io/v1/',
+        rpcUrl: 'https://beta.rpc.testnet.near.org/',
         appUrl: 'https://testnet.nearblocks.io/',
       };
     default:
       return {};
   }
 }
+
 function debounce(
   delay,
   func,
 ) {
   let timer;
   let active = true;
-  console.log('hgjhgh');
   const debounced = (arg) => {
     if (active) {
       clearTimeout(timer);
@@ -128,43 +134,181 @@ function debounce(
 
   return debounced;
 }
-function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
+
+function timeAgo(unixTimestamp) {
+  const currentTimestamp = Math.floor(Date.now() / 1000);
+  const secondsAgo = currentTimestamp - unixTimestamp;
+
+  if (secondsAgo < 5) {
+    return 'Just now';
+  } else if (secondsAgo < 60) {
+    return `${secondsAgo} seconds ago`;
+  } else if (secondsAgo < 3600) {
+    const minutesAgo = Math.floor(secondsAgo / 60);
+    return `${minutesAgo} minute${minutesAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 86400) {
+    const hoursAgo = Math.floor(secondsAgo / 3600);
+    return `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 2592000) {
+    const daysAgo = Math.floor(secondsAgo / 86400);
+    return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 31536000) {
+    const monthsAgo = Math.floor(secondsAgo / 2592000);
+    return `${monthsAgo} month${monthsAgo > 1 ? 's' : ''} ago`;
+  } else {
+    const yearsAgo = Math.floor(secondsAgo / 31536000);
+    return `${yearsAgo} year${yearsAgo > 1 ? 's' : ''} ago`;
+  }
+}
+
+function shortenAddress(address) {
+  const string = String(address);
+
+  if (string.length <= 20) return string;
+
+  return `${string.substr(0, 10)}...${string.substr(-7)}`;
+}
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
+}
+
+function isAction(type) {
+  const actions = [
+    'DEPLOY_CONTRACT',
+    'TRANSFER',
+    'STAKE',
+    'ADD_KEY',
+    'DELETE_KEY',
+    'DELETE_ACCOUNT',
+  ];
+
+  return actions.includes(type.toUpperCase());
+}
+
+function isJson(string) {
+  const str = string.replace(/\\/g, '');
+
+  try {
+    JSON.parse(str);
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+function uniqueId() {
+  return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
+}
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
   });
-  return formattedNumber;
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function fiatValue(big, price) {
-  // @ts-ignore
-  const value = Big(big).mul(Big(price)).toString();
-  const formattedNumber = Number(value).toLocaleString('en', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+  const value = Big(big).mul(Big(price));
+  const stringValue = value.toFixed(6); // Set the desired maximum fraction digits
+
+  const [integerPart, fractionalPart] = stringValue.split('.');
+
+  // Format integer part with commas
+  const formattedIntegerPart = integerPart.replace(
+    /\B(?=(\d{3})+(?!\d))/g,
+    ',',
+  );
+
+  // Combine formatted integer and fractional parts
+  const formattedNumber = fractionalPart
+    ? `${formattedIntegerPart}.${fractionalPart}`
+    : formattedIntegerPart;
+
   return formattedNumber;
 }
 
 function nanoToMilli(nano) {
-  return new Big(nano).div(new Big(10).pow(6)).round().toNumber();
-}
-
-function shortenAddress(address) {
-  const string = String(address);
-
-  if (string.length <= 20) return string;
-
-  return `${string.substr(0, 10)}...${string.substr(-7)}`;
+  return Big(nano).div(Big(10).pow(6)).round().toNumber();
 }
 
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 
 function getConfig(network) {
@@ -173,29 +317,29 @@ function getConfig(network) {
       return {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
-        backendUrl: 'https://api-beta.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        backendUrl: 'https://api3.nearblocks.io/v1/',
+        rpcUrl: 'https://beta.rpc.mainnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
     case 'testnet':
       return {
         ownerId: 'nearblocks.testnet',
         nodeUrl: 'https://rpc.testnet.near.org',
-        backendUrl: 'https://api-testnet-beta.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        backendUrl: 'https://api3-testnet.nearblocks.io/v1/',
+        rpcUrl: 'https://beta.rpc.testnet.near.org/',
         appUrl: 'https://testnet.nearblocks.io/',
       };
     default:
       return {};
   }
 }
+
 function debounce(
   delay,
   func,
 ) {
   let timer;
   let active = true;
-  console.log('hgjhgh');
   const debounced = (arg) => {
     if (active) {
       clearTimeout(timer);
@@ -219,9 +363,232 @@ function debounce(
   debounced.flush = (arg) => func(arg);
 
   return debounced;
+}
+
+function timeAgo(unixTimestamp) {
+  const currentTimestamp = Math.floor(Date.now() / 1000);
+  const secondsAgo = currentTimestamp - unixTimestamp;
+
+  if (secondsAgo < 5) {
+    return 'Just now';
+  } else if (secondsAgo < 60) {
+    return `${secondsAgo} seconds ago`;
+  } else if (secondsAgo < 3600) {
+    const minutesAgo = Math.floor(secondsAgo / 60);
+    return `${minutesAgo} minute${minutesAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 86400) {
+    const hoursAgo = Math.floor(secondsAgo / 3600);
+    return `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 2592000) {
+    const daysAgo = Math.floor(secondsAgo / 86400);
+    return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 31536000) {
+    const monthsAgo = Math.floor(secondsAgo / 2592000);
+    return `${monthsAgo} month${monthsAgo > 1 ? 's' : ''} ago`;
+  } else {
+    const yearsAgo = Math.floor(secondsAgo / 31536000);
+    return `${yearsAgo} year${yearsAgo > 1 ? 's' : ''} ago`;
+  }
+}
+
+function shortenAddress(address) {
+  const string = String(address);
+
+  if (string.length <= 20) return string;
+
+  return `${string.substr(0, 10)}...${string.substr(-7)}`;
+}
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
+}
+
+function isAction(type) {
+  const actions = [
+    'DEPLOY_CONTRACT',
+    'TRANSFER',
+    'STAKE',
+    'ADD_KEY',
+    'DELETE_KEY',
+    'DELETE_ACCOUNT',
+  ];
+
+  return actions.includes(type.toUpperCase());
+}
+
+function isJson(string) {
+  const str = string.replace(/\\/g, '');
+
+  try {
+    JSON.parse(str);
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+function uniqueId() {
+  return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
+}
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function nanoToMilli(nano) {
-  return new Big(nano).div(new Big(10).pow(6)).round().toNumber();
+  return Big(nano).div(Big(10).pow(6)).round().toNumber();
+}
+
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength) + suffix;
+}
+
+function getConfig(network) {
+  switch (network) {
+    case 'mainnet':
+      return {
+        ownerId: 'nearblocks.near',
+        nodeUrl: 'https://rpc.mainnet.near.org',
+        backendUrl: 'https://api3.nearblocks.io/v1/',
+        rpcUrl: 'https://beta.rpc.mainnet.near.org',
+        appUrl: 'https://nearblocks.io/',
+      };
+    case 'testnet':
+      return {
+        ownerId: 'nearblocks.testnet',
+        nodeUrl: 'https://rpc.testnet.near.org',
+        backendUrl: 'https://api3-testnet.nearblocks.io/v1/',
+        rpcUrl: 'https://beta.rpc.testnet.near.org/',
+        appUrl: 'https://testnet.nearblocks.io/',
+      };
+    default:
+      return {};
+  }
+}
+
+function debounce(
+  delay,
+  func,
+) {
+  let timer;
+  let active = true;
+  const debounced = (arg) => {
+    if (active) {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        active && func(arg);
+        timer = undefined;
+      }, delay);
+    } else {
+      func(arg);
+    }
+  };
+
+  debounced.isPending = () => {
+    return timer !== undefined;
+  };
+
+  debounced.cancel = () => {
+    active = false;
+  };
+
+  debounced.flush = (arg) => func(arg);
+
+  return debounced;
+}
+
+function timeAgo(unixTimestamp) {
+  const currentTimestamp = Math.floor(Date.now() / 1000);
+  const secondsAgo = currentTimestamp - unixTimestamp;
+
+  if (secondsAgo < 5) {
+    return 'Just now';
+  } else if (secondsAgo < 60) {
+    return `${secondsAgo} seconds ago`;
+  } else if (secondsAgo < 3600) {
+    const minutesAgo = Math.floor(secondsAgo / 60);
+    return `${minutesAgo} minute${minutesAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 86400) {
+    const hoursAgo = Math.floor(secondsAgo / 3600);
+    return `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 2592000) {
+    const daysAgo = Math.floor(secondsAgo / 86400);
+    return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 31536000) {
+    const monthsAgo = Math.floor(secondsAgo / 2592000);
+    return `${monthsAgo} month${monthsAgo > 1 ? 's' : ''} ago`;
+  } else {
+    const yearsAgo = Math.floor(secondsAgo / 31536000);
+    return `${yearsAgo} year${yearsAgo > 1 ? 's' : ''} ago`;
+  }
 }
 
 function shortenAddress(address) {
@@ -232,65 +599,106 @@ function shortenAddress(address) {
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
 }
 
-function truncateString(str, maxLength, suffix) {
-  if (str.length <= maxLength) {
-    return str;
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
 }
 
-function getConfig(network) {
-  switch (network) {
-    case 'mainnet':
-      return {
-        ownerId: 'nearblocks.near',
-        nodeUrl: 'https://rpc.mainnet.near.org',
-        backendUrl: 'https://api-beta.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
-        appUrl: 'https://nearblocks.io/',
-      };
-    case 'testnet':
-      return {
-        ownerId: 'nearblocks.testnet',
-        nodeUrl: 'https://rpc.testnet.near.org',
-        backendUrl: 'https://api-testnet-beta.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
-        appUrl: 'https://testnet.nearblocks.io/',
-      };
-    default:
-      return {};
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
+}
+
+function isAction(type) {
+  const actions = [
+    'DEPLOY_CONTRACT',
+    'TRANSFER',
+    'STAKE',
+    'ADD_KEY',
+    'DELETE_KEY',
+    'DELETE_ACCOUNT',
+  ];
+
+  return actions.includes(type.toUpperCase());
+}
+
+function isJson(string) {
+  const str = string.replace(/\\/g, '');
+
+  try {
+    JSON.parse(str);
+    return false;
+  } catch (e) {
+    return false;
   }
 }
-function debounce(
-  delay,
-  func,
+
+function uniqueId() {
+  return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
 ) {
-  let timer;
-  let active = true;
-  console.log('hgjhgh');
-  const debounced = (arg) => {
-    if (active) {
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        active && func(arg);
-        timer = undefined;
-      }, delay);
-    } else {
-      func(arg);
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
     }
-  };
+  }
+}
 
-  debounced.isPending = () => {
-    return timer !== undefined;
-  };
+function mapFeilds(fields) {
+  const args = {};
 
-  debounced.cancel = () => {
-    active = false;
-  };
+  fields.forEach((fld) => {
+    let value = fld.value;
 
-  debounced.flush = (arg) => func(arg);
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
 
-  return debounced;
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function shortenAddress(address) {
   const string = String(address);
@@ -300,42 +708,136 @@ function shortenAddress(address) {
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
 }
 
-function truncateString(str, maxLength, suffix) {
-  if (str.length <= maxLength) {
-    return str;
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
 }
 
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
+}
+
+function isAction(type) {
+  const actions = [
+    'DEPLOY_CONTRACT',
+    'TRANSFER',
+    'STAKE',
+    'ADD_KEY',
+    'DELETE_KEY',
+    'DELETE_ACCOUNT',
+  ];
+
+  return actions.includes(type.toUpperCase());
+}
+
+function isJson(string) {
+  const str = string.replace(/\\/g, '');
+
+  try {
+    JSON.parse(str);
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+function uniqueId() {
+  return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
+}
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 function getConfig(network) {
   switch (network) {
     case 'mainnet':
       return {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
-        backendUrl: 'https://api-beta.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        backendUrl: 'https://api3.nearblocks.io/v1/',
+        rpcUrl: 'https://beta.rpc.mainnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
     case 'testnet':
       return {
         ownerId: 'nearblocks.testnet',
         nodeUrl: 'https://rpc.testnet.near.org',
-        backendUrl: 'https://api-testnet-beta.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        backendUrl: 'https://api3-testnet.nearblocks.io/v1/',
+        rpcUrl: 'https://beta.rpc.testnet.near.org/',
         appUrl: 'https://testnet.nearblocks.io/',
       };
     default:
       return {};
   }
 }
+
 function debounce(
   delay,
   func,
 ) {
   let timer;
   let active = true;
-  console.log('hgjhgh');
   const debounced = (arg) => {
     if (active) {
       clearTimeout(timer);
@@ -360,79 +862,238 @@ function debounce(
 
   return debounced;
 }
-function getConfig(network) {
-  switch (network) {
-    case 'mainnet':
-      return {
-        ownerId: 'nearblocks.near',
-        nodeUrl: 'https://rpc.mainnet.near.org',
-        backendUrl: 'https://api-beta.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
-        appUrl: 'https://nearblocks.io/',
-      };
-    case 'testnet':
-      return {
-        ownerId: 'nearblocks.testnet',
-        nodeUrl: 'https://rpc.testnet.near.org',
-        backendUrl: 'https://api-testnet-beta.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
-        appUrl: 'https://testnet.nearblocks.io/',
-      };
-    default:
-      return {};
+
+function timeAgo(unixTimestamp) {
+  const currentTimestamp = Math.floor(Date.now() / 1000);
+  const secondsAgo = currentTimestamp - unixTimestamp;
+
+  if (secondsAgo < 5) {
+    return 'Just now';
+  } else if (secondsAgo < 60) {
+    return `${secondsAgo} seconds ago`;
+  } else if (secondsAgo < 3600) {
+    const minutesAgo = Math.floor(secondsAgo / 60);
+    return `${minutesAgo} minute${minutesAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 86400) {
+    const hoursAgo = Math.floor(secondsAgo / 3600);
+    return `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 2592000) {
+    const daysAgo = Math.floor(secondsAgo / 86400);
+    return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 31536000) {
+    const monthsAgo = Math.floor(secondsAgo / 2592000);
+    return `${monthsAgo} month${monthsAgo > 1 ? 's' : ''} ago`;
+  } else {
+    const yearsAgo = Math.floor(secondsAgo / 31536000);
+    return `${yearsAgo} year${yearsAgo > 1 ? 's' : ''} ago`;
   }
 }
-function debounce(
-  delay,
-  func,
+
+function shortenAddress(address) {
+  const string = String(address);
+
+  if (string.length <= 20) return string;
+
+  return `${string.substr(0, 10)}...${string.substr(-7)}`;
+}
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
+}
+
+function isAction(type) {
+  const actions = [
+    'DEPLOY_CONTRACT',
+    'TRANSFER',
+    'STAKE',
+    'ADD_KEY',
+    'DELETE_KEY',
+    'DELETE_ACCOUNT',
+  ];
+
+  return actions.includes(type.toUpperCase());
+}
+
+function isJson(string) {
+  const str = string.replace(/\\/g, '');
+
+  try {
+    JSON.parse(str);
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+function uniqueId() {
+  return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
 ) {
-  let timer;
-  let active = true;
-  console.log('hgjhgh');
-  const debounced = (arg) => {
-    if (active) {
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        active && func(arg);
-        timer = undefined;
-      }, delay);
-    } else {
-      func(arg);
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
     }
-  };
+  }
+}
 
-  debounced.isPending = () => {
-    return timer !== undefined;
-  };
+function mapFeilds(fields) {
+  const args = {};
 
-  debounced.cancel = () => {
-    active = false;
-  };
+  fields.forEach((fld) => {
+    let value = fld.value;
 
-  debounced.flush = (arg) => func(arg);
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
 
-  return debounced;
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
+}
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 /* END_INCLUDE: "includes/libs.jsx" */
 /* INCLUDE: "includes/formats.jsx" */
 function dollarFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-  return formattedNumber;
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
+}
+
+function dollarNonCentFormat(number) {
+  const bigNumber = new Big(number).toFixed(0);
+
+  // Extract integer part and format with commas
+  const integerPart = bigNumber.toString();
+  const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  return formattedInteger;
 }
 
 function weight(number) {
+  let sizeInBytes = new Big(number);
+
+  if (sizeInBytes.lt(0)) {
+    throw new Error('Invalid input. Please provide a non-negative number.');
+  }
+
   const suffixes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
   let suffixIndex = 0;
 
-  while (number >= 1000 && suffixIndex < suffixes.length - 1) {
-    number /= 1000;
+  while (sizeInBytes.gte(1000) && suffixIndex < suffixes.length - 1) {
+    sizeInBytes = sizeInBytes.div(1000); // Assign the result back to sizeInBytes
     suffixIndex++;
   }
 
-  return number.toFixed(2) + ' ' + suffixes[suffixIndex];
+  const formattedSize = sizeInBytes.toFixed(2) + ' ' + suffixes[suffixIndex];
+
+  return formattedSize;
 }
 
 function convertToUTC(timestamp, hour) {
@@ -516,20 +1177,41 @@ function getTimeAgoString(timestamp) {
     minute: seconds / 60,
   };
 
-  if (intervals.year == 1) {
-    return Math.ceil(intervals.year) + ' year ago';
-  } else if (intervals.year > 1) {
-    return Math.ceil(intervals.year) + ' years ago';
-  } else if (intervals.month > 1) {
-    return Math.ceil(intervals.month) + ' months ago';
-  } else if (intervals.week > 1) {
-    return Math.ceil(intervals.week) + ' weeks ago';
-  } else if (intervals.day > 1) {
-    return Math.ceil(intervals.day) + ' days ago';
-  } else if (intervals.hour > 1) {
-    return Math.ceil(intervals.hour) + ' hours ago';
-  } else if (intervals.minute > 1) {
-    return Math.ceil(intervals.minute) + ' minutes ago';
+  if (intervals.year >= 1) {
+    return (
+      Math.floor(intervals.year) +
+      ' year' +
+      (Math.floor(intervals.year) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.month >= 1) {
+    return (
+      Math.floor(intervals.month) +
+      ' month' +
+      (Math.floor(intervals.month) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.day >= 1) {
+    return (
+      Math.floor(intervals.day) +
+      ' day' +
+      (Math.floor(intervals.day) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.hour >= 1) {
+    return (
+      Math.floor(intervals.hour) +
+      ' hour' +
+      (Math.floor(intervals.hour) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.minute >= 1) {
+    return (
+      Math.floor(intervals.minute) +
+      ' minute' +
+      (Math.floor(intervals.minute) > 1 ? 's' : '') +
+      ' ago'
+    );
   } else {
     return 'a few seconds ago';
   }
@@ -548,38 +1230,63 @@ function formatTimestampToString(timestamp) {
   return formattedDate;
 }
 
-function convertToMetricPrefix(number) {
+function convertToMetricPrefix(numberStr) {
   const prefixes = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y']; // Metric prefixes
 
+  let result = new Big(numberStr);
   let count = 0;
-  while (Math.abs(number) >= 1000 && count < prefixes.length - 1) {
-    number /= 1000;
+
+  while (result.abs().gte('1e3') && count < prefixes.length - 1) {
+    result = result.div(1e3);
     count++;
   }
 
-  return number.toFixed(2) + ' ' + prefixes[count];
+  // Check if the value is an integer or has more than two digits before the decimal point
+  if (result.abs().lt(1e2) && result.toFixed(2) !== result.toFixed(0)) {
+    result = result.toFixed(2);
+  } else {
+    result = result.toFixed(0);
+  }
+
+  return result.toString() + ' ' + prefixes[count];
+}
+
+function formatNumber(value) {
+  let bigValue = new Big(value);
+  const suffixes = ['', 'K', 'M', 'B', 'T'];
+  let suffixIndex = 0;
+
+  while (bigValue.gte(10000) && suffixIndex < suffixes.length - 1) {
+    bigValue = bigValue.div(1000);
+    suffixIndex++;
+  }
+
+  const formattedValue = bigValue.toFixed(1).replace(/\.0+$/, '');
+  return `${formattedValue} ${suffixes[suffixIndex]}`;
 }
 
 function gasFee(gas, price) {
   const near = yoctoToNear(Big(gas).mul(Big(price)).toString(), true);
 
-  return `${near} Ⓝ`;
+  return `${near}`;
 }
 
 function currency(number) {
-  let absNumber = Math.abs(number);
+  let absNumber = new Big(number).abs();
 
   const suffixes = ['', 'K', 'M', 'B', 'T', 'Q'];
   let suffixIndex = 0;
 
-  while (absNumber >= 1000 && suffixIndex < suffixes.length - 1) {
-    absNumber /= 1000;
+  while (absNumber.gte(1000) && suffixIndex < suffixes.length - 1) {
+    absNumber = absNumber.div(1000); // Divide using big.js's div method
     suffixIndex++;
   }
 
-  let shortNumber = parseFloat(absNumber.toFixed(2));
+  const formattedNumber = absNumber.toFixed(2); // Format with 2 decimal places
 
-  return (number < 0 ? '-' : '') + shortNumber + ' ' + suffixes[suffixIndex];
+  return (
+    (number < '0' ? '-' : '') + formattedNumber + ' ' + suffixes[suffixIndex]
+  );
 }
 
 function formatDate(dateString) {
@@ -666,17 +1373,41 @@ function shortenTokenSymbol(token) {
 function gasPercentage(gasUsed, gasAttached) {
   if (!gasAttached) return 'N/A';
 
-  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
+  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed(2);
   return `${formattedNumber}%`;
 }
+
+function serialNumber(index, page, perPage) {
+  return index + 1 + (page - 1) * perPage;
+}
+
+function capitalizeWords(str) {
+  const words = str.split('_');
+  const capitalizedWords = words.map(
+    (word) => word.charAt(0).toUpperCase() + word.slice(1),
+  );
+  const result = capitalizedWords.join(' ');
+  return result;
+}
+
+function toSnakeCase(str) {
+  return str
+    .replace(/[A-Z]/g, (match) => '_' + match.toLowerCase())
+    .replace(/^_/, '');
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -685,10 +1416,11 @@ function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -697,40 +1429,66 @@ function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 
 function dollarFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-  return formattedNumber;
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
+}
+
+function dollarNonCentFormat(number) {
+  const bigNumber = new Big(number).toFixed(0);
+
+  // Extract integer part and format with commas
+  const integerPart = bigNumber.toString();
+  const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  return formattedInteger;
 }
 
 function weight(number) {
+  let sizeInBytes = new Big(number);
+
+  if (sizeInBytes.lt(0)) {
+    throw new Error('Invalid input. Please provide a non-negative number.');
+  }
+
   const suffixes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
   let suffixIndex = 0;
 
-  while (number >= 1000 && suffixIndex < suffixes.length - 1) {
-    number /= 1000;
+  while (sizeInBytes.gte(1000) && suffixIndex < suffixes.length - 1) {
+    sizeInBytes = sizeInBytes.div(1000); // Assign the result back to sizeInBytes
     suffixIndex++;
   }
 
-  return number.toFixed(2) + ' ' + suffixes[suffixIndex];
+  const formattedSize = sizeInBytes.toFixed(2) + ' ' + suffixes[suffixIndex];
+
+  return formattedSize;
 }
 
 function convertToUTC(timestamp, hour) {
@@ -814,20 +1572,41 @@ function getTimeAgoString(timestamp) {
     minute: seconds / 60,
   };
 
-  if (intervals.year == 1) {
-    return Math.ceil(intervals.year) + ' year ago';
-  } else if (intervals.year > 1) {
-    return Math.ceil(intervals.year) + ' years ago';
-  } else if (intervals.month > 1) {
-    return Math.ceil(intervals.month) + ' months ago';
-  } else if (intervals.week > 1) {
-    return Math.ceil(intervals.week) + ' weeks ago';
-  } else if (intervals.day > 1) {
-    return Math.ceil(intervals.day) + ' days ago';
-  } else if (intervals.hour > 1) {
-    return Math.ceil(intervals.hour) + ' hours ago';
-  } else if (intervals.minute > 1) {
-    return Math.ceil(intervals.minute) + ' minutes ago';
+  if (intervals.year >= 1) {
+    return (
+      Math.floor(intervals.year) +
+      ' year' +
+      (Math.floor(intervals.year) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.month >= 1) {
+    return (
+      Math.floor(intervals.month) +
+      ' month' +
+      (Math.floor(intervals.month) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.day >= 1) {
+    return (
+      Math.floor(intervals.day) +
+      ' day' +
+      (Math.floor(intervals.day) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.hour >= 1) {
+    return (
+      Math.floor(intervals.hour) +
+      ' hour' +
+      (Math.floor(intervals.hour) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.minute >= 1) {
+    return (
+      Math.floor(intervals.minute) +
+      ' minute' +
+      (Math.floor(intervals.minute) > 1 ? 's' : '') +
+      ' ago'
+    );
   } else {
     return 'a few seconds ago';
   }
@@ -846,38 +1625,63 @@ function formatTimestampToString(timestamp) {
   return formattedDate;
 }
 
-function convertToMetricPrefix(number) {
+function convertToMetricPrefix(numberStr) {
   const prefixes = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y']; // Metric prefixes
 
+  let result = new Big(numberStr);
   let count = 0;
-  while (Math.abs(number) >= 1000 && count < prefixes.length - 1) {
-    number /= 1000;
+
+  while (result.abs().gte('1e3') && count < prefixes.length - 1) {
+    result = result.div(1e3);
     count++;
   }
 
-  return number.toFixed(2) + ' ' + prefixes[count];
+  // Check if the value is an integer or has more than two digits before the decimal point
+  if (result.abs().lt(1e2) && result.toFixed(2) !== result.toFixed(0)) {
+    result = result.toFixed(2);
+  } else {
+    result = result.toFixed(0);
+  }
+
+  return result.toString() + ' ' + prefixes[count];
+}
+
+function formatNumber(value) {
+  let bigValue = new Big(value);
+  const suffixes = ['', 'K', 'M', 'B', 'T'];
+  let suffixIndex = 0;
+
+  while (bigValue.gte(10000) && suffixIndex < suffixes.length - 1) {
+    bigValue = bigValue.div(1000);
+    suffixIndex++;
+  }
+
+  const formattedValue = bigValue.toFixed(1).replace(/\.0+$/, '');
+  return `${formattedValue} ${suffixes[suffixIndex]}`;
 }
 
 function gasFee(gas, price) {
   const near = yoctoToNear(Big(gas).mul(Big(price)).toString(), true);
 
-  return `${near} Ⓝ`;
+  return `${near}`;
 }
 
 function currency(number) {
-  let absNumber = Math.abs(number);
+  let absNumber = new Big(number).abs();
 
   const suffixes = ['', 'K', 'M', 'B', 'T', 'Q'];
   let suffixIndex = 0;
 
-  while (absNumber >= 1000 && suffixIndex < suffixes.length - 1) {
-    absNumber /= 1000;
+  while (absNumber.gte(1000) && suffixIndex < suffixes.length - 1) {
+    absNumber = absNumber.div(1000); // Divide using big.js's div method
     suffixIndex++;
   }
 
-  let shortNumber = parseFloat(absNumber.toFixed(2));
+  const formattedNumber = absNumber.toFixed(2); // Format with 2 decimal places
 
-  return (number < 0 ? '-' : '') + shortNumber + ' ' + suffixes[suffixIndex];
+  return (
+    (number < '0' ? '-' : '') + formattedNumber + ' ' + suffixes[suffixIndex]
+  );
 }
 
 function formatDate(dateString) {
@@ -964,17 +1768,41 @@ function shortenTokenSymbol(token) {
 function gasPercentage(gasUsed, gasAttached) {
   if (!gasAttached) return 'N/A';
 
-  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
+  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed(2);
   return `${formattedNumber}%`;
 }
+
+function serialNumber(index, page, perPage) {
+  return index + 1 + (page - 1) * perPage;
+}
+
+function capitalizeWords(str) {
+  const words = str.split('_');
+  const capitalizedWords = words.map(
+    (word) => word.charAt(0).toUpperCase() + word.slice(1),
+  );
+  const result = capitalizedWords.join(' ');
+  return result;
+}
+
+function toSnakeCase(str) {
+  return str
+    .replace(/[A-Z]/g, (match) => '_' + match.toLowerCase())
+    .replace(/^_/, '');
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -983,10 +1811,11 @@ function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -995,24 +1824,33 @@ function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
 }
 function weight(number) {
+  let sizeInBytes = new Big(number);
+
+  if (sizeInBytes.lt(0)) {
+    throw new Error('Invalid input. Please provide a non-negative number.');
+  }
+
   const suffixes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
   let suffixIndex = 0;
 
-  while (number >= 1000 && suffixIndex < suffixes.length - 1) {
-    number /= 1000;
+  while (sizeInBytes.gte(1000) && suffixIndex < suffixes.length - 1) {
+    sizeInBytes = sizeInBytes.div(1000); // Assign the result back to sizeInBytes
     suffixIndex++;
   }
 
-  return number.toFixed(2) + ' ' + suffixes[suffixIndex];
+  const formattedSize = sizeInBytes.toFixed(2) + ' ' + suffixes[suffixIndex];
+
+  return formattedSize;
 }
 
 function convertToUTC(timestamp, hour) {
@@ -1096,20 +1934,41 @@ function getTimeAgoString(timestamp) {
     minute: seconds / 60,
   };
 
-  if (intervals.year == 1) {
-    return Math.ceil(intervals.year) + ' year ago';
-  } else if (intervals.year > 1) {
-    return Math.ceil(intervals.year) + ' years ago';
-  } else if (intervals.month > 1) {
-    return Math.ceil(intervals.month) + ' months ago';
-  } else if (intervals.week > 1) {
-    return Math.ceil(intervals.week) + ' weeks ago';
-  } else if (intervals.day > 1) {
-    return Math.ceil(intervals.day) + ' days ago';
-  } else if (intervals.hour > 1) {
-    return Math.ceil(intervals.hour) + ' hours ago';
-  } else if (intervals.minute > 1) {
-    return Math.ceil(intervals.minute) + ' minutes ago';
+  if (intervals.year >= 1) {
+    return (
+      Math.floor(intervals.year) +
+      ' year' +
+      (Math.floor(intervals.year) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.month >= 1) {
+    return (
+      Math.floor(intervals.month) +
+      ' month' +
+      (Math.floor(intervals.month) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.day >= 1) {
+    return (
+      Math.floor(intervals.day) +
+      ' day' +
+      (Math.floor(intervals.day) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.hour >= 1) {
+    return (
+      Math.floor(intervals.hour) +
+      ' hour' +
+      (Math.floor(intervals.hour) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.minute >= 1) {
+    return (
+      Math.floor(intervals.minute) +
+      ' minute' +
+      (Math.floor(intervals.minute) > 1 ? 's' : '') +
+      ' ago'
+    );
   } else {
     return 'a few seconds ago';
   }
@@ -1128,38 +1987,63 @@ function formatTimestampToString(timestamp) {
   return formattedDate;
 }
 
-function convertToMetricPrefix(number) {
+function convertToMetricPrefix(numberStr) {
   const prefixes = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y']; // Metric prefixes
 
+  let result = new Big(numberStr);
   let count = 0;
-  while (Math.abs(number) >= 1000 && count < prefixes.length - 1) {
-    number /= 1000;
+
+  while (result.abs().gte('1e3') && count < prefixes.length - 1) {
+    result = result.div(1e3);
     count++;
   }
 
-  return number.toFixed(2) + ' ' + prefixes[count];
+  // Check if the value is an integer or has more than two digits before the decimal point
+  if (result.abs().lt(1e2) && result.toFixed(2) !== result.toFixed(0)) {
+    result = result.toFixed(2);
+  } else {
+    result = result.toFixed(0);
+  }
+
+  return result.toString() + ' ' + prefixes[count];
+}
+
+function formatNumber(value) {
+  let bigValue = new Big(value);
+  const suffixes = ['', 'K', 'M', 'B', 'T'];
+  let suffixIndex = 0;
+
+  while (bigValue.gte(10000) && suffixIndex < suffixes.length - 1) {
+    bigValue = bigValue.div(1000);
+    suffixIndex++;
+  }
+
+  const formattedValue = bigValue.toFixed(1).replace(/\.0+$/, '');
+  return `${formattedValue} ${suffixes[suffixIndex]}`;
 }
 
 function gasFee(gas, price) {
   const near = yoctoToNear(Big(gas).mul(Big(price)).toString(), true);
 
-  return `${near} Ⓝ`;
+  return `${near}`;
 }
 
 function currency(number) {
-  let absNumber = Math.abs(number);
+  let absNumber = new Big(number).abs();
 
   const suffixes = ['', 'K', 'M', 'B', 'T', 'Q'];
   let suffixIndex = 0;
 
-  while (absNumber >= 1000 && suffixIndex < suffixes.length - 1) {
-    absNumber /= 1000;
+  while (absNumber.gte(1000) && suffixIndex < suffixes.length - 1) {
+    absNumber = absNumber.div(1000); // Divide using big.js's div method
     suffixIndex++;
   }
 
-  let shortNumber = parseFloat(absNumber.toFixed(2));
+  const formattedNumber = absNumber.toFixed(2); // Format with 2 decimal places
 
-  return (number < 0 ? '-' : '') + shortNumber + ' ' + suffixes[suffixIndex];
+  return (
+    (number < '0' ? '-' : '') + formattedNumber + ' ' + suffixes[suffixIndex]
+  );
 }
 
 function formatDate(dateString) {
@@ -1246,17 +2130,41 @@ function shortenTokenSymbol(token) {
 function gasPercentage(gasUsed, gasAttached) {
   if (!gasAttached) return 'N/A';
 
-  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
+  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed(2);
   return `${formattedNumber}%`;
 }
+
+function serialNumber(index, page, perPage) {
+  return index + 1 + (page - 1) * perPage;
+}
+
+function capitalizeWords(str) {
+  const words = str.split('_');
+  const capitalizedWords = words.map(
+    (word) => word.charAt(0).toUpperCase() + word.slice(1),
+  );
+  const result = capitalizedWords.join(' ');
+  return result;
+}
+
+function toSnakeCase(str) {
+  return str
+    .replace(/[A-Z]/g, (match) => '_' + match.toLowerCase())
+    .replace(/^_/, '');
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -1265,10 +2173,11 @@ function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -1277,10 +2186,11 @@ function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -1366,20 +2276,41 @@ function getTimeAgoString(timestamp) {
     minute: seconds / 60,
   };
 
-  if (intervals.year == 1) {
-    return Math.ceil(intervals.year) + ' year ago';
-  } else if (intervals.year > 1) {
-    return Math.ceil(intervals.year) + ' years ago';
-  } else if (intervals.month > 1) {
-    return Math.ceil(intervals.month) + ' months ago';
-  } else if (intervals.week > 1) {
-    return Math.ceil(intervals.week) + ' weeks ago';
-  } else if (intervals.day > 1) {
-    return Math.ceil(intervals.day) + ' days ago';
-  } else if (intervals.hour > 1) {
-    return Math.ceil(intervals.hour) + ' hours ago';
-  } else if (intervals.minute > 1) {
-    return Math.ceil(intervals.minute) + ' minutes ago';
+  if (intervals.year >= 1) {
+    return (
+      Math.floor(intervals.year) +
+      ' year' +
+      (Math.floor(intervals.year) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.month >= 1) {
+    return (
+      Math.floor(intervals.month) +
+      ' month' +
+      (Math.floor(intervals.month) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.day >= 1) {
+    return (
+      Math.floor(intervals.day) +
+      ' day' +
+      (Math.floor(intervals.day) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.hour >= 1) {
+    return (
+      Math.floor(intervals.hour) +
+      ' hour' +
+      (Math.floor(intervals.hour) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.minute >= 1) {
+    return (
+      Math.floor(intervals.minute) +
+      ' minute' +
+      (Math.floor(intervals.minute) > 1 ? 's' : '') +
+      ' ago'
+    );
   } else {
     return 'a few seconds ago';
   }
@@ -1398,38 +2329,63 @@ function formatTimestampToString(timestamp) {
   return formattedDate;
 }
 
-function convertToMetricPrefix(number) {
+function convertToMetricPrefix(numberStr) {
   const prefixes = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y']; // Metric prefixes
 
+  let result = new Big(numberStr);
   let count = 0;
-  while (Math.abs(number) >= 1000 && count < prefixes.length - 1) {
-    number /= 1000;
+
+  while (result.abs().gte('1e3') && count < prefixes.length - 1) {
+    result = result.div(1e3);
     count++;
   }
 
-  return number.toFixed(2) + ' ' + prefixes[count];
+  // Check if the value is an integer or has more than two digits before the decimal point
+  if (result.abs().lt(1e2) && result.toFixed(2) !== result.toFixed(0)) {
+    result = result.toFixed(2);
+  } else {
+    result = result.toFixed(0);
+  }
+
+  return result.toString() + ' ' + prefixes[count];
+}
+
+function formatNumber(value) {
+  let bigValue = new Big(value);
+  const suffixes = ['', 'K', 'M', 'B', 'T'];
+  let suffixIndex = 0;
+
+  while (bigValue.gte(10000) && suffixIndex < suffixes.length - 1) {
+    bigValue = bigValue.div(1000);
+    suffixIndex++;
+  }
+
+  const formattedValue = bigValue.toFixed(1).replace(/\.0+$/, '');
+  return `${formattedValue} ${suffixes[suffixIndex]}`;
 }
 
 function gasFee(gas, price) {
   const near = yoctoToNear(Big(gas).mul(Big(price)).toString(), true);
 
-  return `${near} Ⓝ`;
+  return `${near}`;
 }
 
 function currency(number) {
-  let absNumber = Math.abs(number);
+  let absNumber = new Big(number).abs();
 
   const suffixes = ['', 'K', 'M', 'B', 'T', 'Q'];
   let suffixIndex = 0;
 
-  while (absNumber >= 1000 && suffixIndex < suffixes.length - 1) {
-    absNumber /= 1000;
+  while (absNumber.gte(1000) && suffixIndex < suffixes.length - 1) {
+    absNumber = absNumber.div(1000); // Divide using big.js's div method
     suffixIndex++;
   }
 
-  let shortNumber = parseFloat(absNumber.toFixed(2));
+  const formattedNumber = absNumber.toFixed(2); // Format with 2 decimal places
 
-  return (number < 0 ? '-' : '') + shortNumber + ' ' + suffixes[suffixIndex];
+  return (
+    (number < '0' ? '-' : '') + formattedNumber + ' ' + suffixes[suffixIndex]
+  );
 }
 
 function formatDate(dateString) {
@@ -1516,17 +2472,41 @@ function shortenTokenSymbol(token) {
 function gasPercentage(gasUsed, gasAttached) {
   if (!gasAttached) return 'N/A';
 
-  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
+  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed(2);
   return `${formattedNumber}%`;
 }
+
+function serialNumber(index, page, perPage) {
+  return index + 1 + (page - 1) * perPage;
+}
+
+function capitalizeWords(str) {
+  const words = str.split('_');
+  const capitalizedWords = words.map(
+    (word) => word.charAt(0).toUpperCase() + word.slice(1),
+  );
+  const result = capitalizedWords.join(' ');
+  return result;
+}
+
+function toSnakeCase(str) {
+  return str
+    .replace(/[A-Z]/g, (match) => '_' + match.toLowerCase())
+    .replace(/^_/, '');
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -1535,10 +2515,11 @@ function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -1547,10 +2528,11 @@ function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -1572,14 +2554,40 @@ function yoctoToNear(yocto, format) {
 
 
 
-const TokenImage = (props) => {
-  const placeholder = `${props.appUrl}images/tokenplaceholder.svg`;
+
+
+const TokenImage = ({
+  appUrl,
+  src,
+  alt,
+  className,
+  onLoad,
+  onSetSrc,
+}) => {
+  const placeholder = `${appUrl}images/tokenplaceholder.svg`;
+
+  const handleLoad = () => {
+    if (onLoad) {
+      onLoad();
+    }
+  };
+
+  const handleError = () => {
+    if (onSetSrc) {
+      onSetSrc(placeholder);
+    }
+    if (onLoad) {
+      onLoad();
+    }
+  };
 
   return (
     <img
-      src={props.src || placeholder}
-      alt={props.alt}
-      className={props.className}
+      src={src || placeholder}
+      alt={alt}
+      className={className}
+      onLoad={handleLoad}
+      onError={handleError}
     />
   );
 };/* END_INCLUDE COMPONENT: "includes/icons/TokenImage.jsx" */
@@ -1588,11 +2596,17 @@ const TokenImage = (props) => {
  * @interface Props
  * @param {string} [id] - Optional identifier for the account, passed as a string.
  * @param {boolean} [loading] - Flag indicating whether data is currently loading.
+ * @param {boolean} [inventoryLoading] - Flag indicating whether inventory data is currently loading.
  * @param {InventoryInfo} [data] - Information related to the inventory.
  * @param {Object} [ft] - Object containing details about the tokens.
- * @param {number} [ft.amount] -  amount in USD of tokens.
+ * @param {string} [ft.amount] -  amount in USD of tokens.
  * @param {Object[]} [ft.tokens] - Array containing 'TokenListInfo' objects, providing information about individual token details.
  * @param {string} [appUrl] - The URL of the application.
+ * @param {React.FC<{
+ *   href: string;
+ *   children: React.ReactNode;
+ *   className?: string;
+ * }>} Link - A React component for rendering links.
  */
 
 /* INCLUDE: "includes/libs.jsx" */
@@ -1600,7 +2614,7 @@ function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 
 function getConfig(network) {
@@ -1609,29 +2623,29 @@ function getConfig(network) {
       return {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
-        backendUrl: 'https://api-beta.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        backendUrl: 'https://api3.nearblocks.io/v1/',
+        rpcUrl: 'https://beta.rpc.mainnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
     case 'testnet':
       return {
         ownerId: 'nearblocks.testnet',
         nodeUrl: 'https://rpc.testnet.near.org',
-        backendUrl: 'https://api-testnet-beta.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        backendUrl: 'https://api3-testnet.nearblocks.io/v1/',
+        rpcUrl: 'https://beta.rpc.testnet.near.org/',
         appUrl: 'https://testnet.nearblocks.io/',
       };
     default:
       return {};
   }
 }
+
 function debounce(
   delay,
   func,
 ) {
   let timer;
   let active = true;
-  console.log('hgjhgh');
   const debounced = (arg) => {
     if (active) {
       clearTimeout(timer);
@@ -1655,6 +2669,142 @@ function debounce(
   debounced.flush = (arg) => func(arg);
 
   return debounced;
+}
+
+function timeAgo(unixTimestamp) {
+  const currentTimestamp = Math.floor(Date.now() / 1000);
+  const secondsAgo = currentTimestamp - unixTimestamp;
+
+  if (secondsAgo < 5) {
+    return 'Just now';
+  } else if (secondsAgo < 60) {
+    return `${secondsAgo} seconds ago`;
+  } else if (secondsAgo < 3600) {
+    const minutesAgo = Math.floor(secondsAgo / 60);
+    return `${minutesAgo} minute${minutesAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 86400) {
+    const hoursAgo = Math.floor(secondsAgo / 3600);
+    return `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 2592000) {
+    const daysAgo = Math.floor(secondsAgo / 86400);
+    return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 31536000) {
+    const monthsAgo = Math.floor(secondsAgo / 2592000);
+    return `${monthsAgo} month${monthsAgo > 1 ? 's' : ''} ago`;
+  } else {
+    const yearsAgo = Math.floor(secondsAgo / 31536000);
+    return `${yearsAgo} year${yearsAgo > 1 ? 's' : ''} ago`;
+  }
+}
+
+function shortenAddress(address) {
+  const string = String(address);
+
+  if (string.length <= 20) return string;
+
+  return `${string.substr(0, 10)}...${string.substr(-7)}`;
+}
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
+}
+
+function isAction(type) {
+  const actions = [
+    'DEPLOY_CONTRACT',
+    'TRANSFER',
+    'STAKE',
+    'ADD_KEY',
+    'DELETE_KEY',
+    'DELETE_ACCOUNT',
+  ];
+
+  return actions.includes(type.toUpperCase());
+}
+
+function isJson(string) {
+  const str = string.replace(/\\/g, '');
+
+  try {
+    JSON.parse(str);
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+function uniqueId() {
+  return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
+}
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 /* END_INCLUDE: "includes/libs.jsx" */
 /**
@@ -1681,23 +2831,48 @@ const ArrowDown = (props) => {
 };
 /* INCLUDE: "includes/formats.jsx" */
 function dollarFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-  return formattedNumber;
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
+}
+
+function dollarNonCentFormat(number) {
+  const bigNumber = new Big(number).toFixed(0);
+
+  // Extract integer part and format with commas
+  const integerPart = bigNumber.toString();
+  const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  return formattedInteger;
 }
 
 function weight(number) {
+  let sizeInBytes = new Big(number);
+
+  if (sizeInBytes.lt(0)) {
+    throw new Error('Invalid input. Please provide a non-negative number.');
+  }
+
   const suffixes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
   let suffixIndex = 0;
 
-  while (number >= 1000 && suffixIndex < suffixes.length - 1) {
-    number /= 1000;
+  while (sizeInBytes.gte(1000) && suffixIndex < suffixes.length - 1) {
+    sizeInBytes = sizeInBytes.div(1000); // Assign the result back to sizeInBytes
     suffixIndex++;
   }
 
-  return number.toFixed(2) + ' ' + suffixes[suffixIndex];
+  const formattedSize = sizeInBytes.toFixed(2) + ' ' + suffixes[suffixIndex];
+
+  return formattedSize;
 }
 
 function convertToUTC(timestamp, hour) {
@@ -1781,20 +2956,41 @@ function getTimeAgoString(timestamp) {
     minute: seconds / 60,
   };
 
-  if (intervals.year == 1) {
-    return Math.ceil(intervals.year) + ' year ago';
-  } else if (intervals.year > 1) {
-    return Math.ceil(intervals.year) + ' years ago';
-  } else if (intervals.month > 1) {
-    return Math.ceil(intervals.month) + ' months ago';
-  } else if (intervals.week > 1) {
-    return Math.ceil(intervals.week) + ' weeks ago';
-  } else if (intervals.day > 1) {
-    return Math.ceil(intervals.day) + ' days ago';
-  } else if (intervals.hour > 1) {
-    return Math.ceil(intervals.hour) + ' hours ago';
-  } else if (intervals.minute > 1) {
-    return Math.ceil(intervals.minute) + ' minutes ago';
+  if (intervals.year >= 1) {
+    return (
+      Math.floor(intervals.year) +
+      ' year' +
+      (Math.floor(intervals.year) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.month >= 1) {
+    return (
+      Math.floor(intervals.month) +
+      ' month' +
+      (Math.floor(intervals.month) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.day >= 1) {
+    return (
+      Math.floor(intervals.day) +
+      ' day' +
+      (Math.floor(intervals.day) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.hour >= 1) {
+    return (
+      Math.floor(intervals.hour) +
+      ' hour' +
+      (Math.floor(intervals.hour) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.minute >= 1) {
+    return (
+      Math.floor(intervals.minute) +
+      ' minute' +
+      (Math.floor(intervals.minute) > 1 ? 's' : '') +
+      ' ago'
+    );
   } else {
     return 'a few seconds ago';
   }
@@ -1813,38 +3009,63 @@ function formatTimestampToString(timestamp) {
   return formattedDate;
 }
 
-function convertToMetricPrefix(number) {
+function convertToMetricPrefix(numberStr) {
   const prefixes = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y']; // Metric prefixes
 
+  let result = new Big(numberStr);
   let count = 0;
-  while (Math.abs(number) >= 1000 && count < prefixes.length - 1) {
-    number /= 1000;
+
+  while (result.abs().gte('1e3') && count < prefixes.length - 1) {
+    result = result.div(1e3);
     count++;
   }
 
-  return number.toFixed(2) + ' ' + prefixes[count];
+  // Check if the value is an integer or has more than two digits before the decimal point
+  if (result.abs().lt(1e2) && result.toFixed(2) !== result.toFixed(0)) {
+    result = result.toFixed(2);
+  } else {
+    result = result.toFixed(0);
+  }
+
+  return result.toString() + ' ' + prefixes[count];
+}
+
+function formatNumber(value) {
+  let bigValue = new Big(value);
+  const suffixes = ['', 'K', 'M', 'B', 'T'];
+  let suffixIndex = 0;
+
+  while (bigValue.gte(10000) && suffixIndex < suffixes.length - 1) {
+    bigValue = bigValue.div(1000);
+    suffixIndex++;
+  }
+
+  const formattedValue = bigValue.toFixed(1).replace(/\.0+$/, '');
+  return `${formattedValue} ${suffixes[suffixIndex]}`;
 }
 
 function gasFee(gas, price) {
   const near = yoctoToNear(Big(gas).mul(Big(price)).toString(), true);
 
-  return `${near} Ⓝ`;
+  return `${near}`;
 }
 
 function currency(number) {
-  let absNumber = Math.abs(number);
+  let absNumber = new Big(number).abs();
 
   const suffixes = ['', 'K', 'M', 'B', 'T', 'Q'];
   let suffixIndex = 0;
 
-  while (absNumber >= 1000 && suffixIndex < suffixes.length - 1) {
-    absNumber /= 1000;
+  while (absNumber.gte(1000) && suffixIndex < suffixes.length - 1) {
+    absNumber = absNumber.div(1000); // Divide using big.js's div method
     suffixIndex++;
   }
 
-  let shortNumber = parseFloat(absNumber.toFixed(2));
+  const formattedNumber = absNumber.toFixed(2); // Format with 2 decimal places
 
-  return (number < 0 ? '-' : '') + shortNumber + ' ' + suffixes[suffixIndex];
+  return (
+    (number < '0' ? '-' : '') + formattedNumber + ' ' + suffixes[suffixIndex]
+  );
 }
 
 function formatDate(dateString) {
@@ -1931,17 +3152,41 @@ function shortenTokenSymbol(token) {
 function gasPercentage(gasUsed, gasAttached) {
   if (!gasAttached) return 'N/A';
 
-  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
+  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed(2);
   return `${formattedNumber}%`;
 }
+
+function serialNumber(index, page, perPage) {
+  return index + 1 + (page - 1) * perPage;
+}
+
+function capitalizeWords(str) {
+  const words = str.split('_');
+  const capitalizedWords = words.map(
+    (word) => word.charAt(0).toUpperCase() + word.slice(1),
+  );
+  const result = capitalizedWords.join(' ');
+  return result;
+}
+
+function toSnakeCase(str) {
+  return str
+    .replace(/[A-Z]/g, (match) => '_' + match.toLowerCase())
+    .replace(/^_/, '');
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -1950,10 +3195,11 @@ function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -1962,40 +3208,66 @@ function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 
 function dollarFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-  return formattedNumber;
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
+}
+
+function dollarNonCentFormat(number) {
+  const bigNumber = new Big(number).toFixed(0);
+
+  // Extract integer part and format with commas
+  const integerPart = bigNumber.toString();
+  const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  return formattedInteger;
 }
 
 function weight(number) {
+  let sizeInBytes = new Big(number);
+
+  if (sizeInBytes.lt(0)) {
+    throw new Error('Invalid input. Please provide a non-negative number.');
+  }
+
   const suffixes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
   let suffixIndex = 0;
 
-  while (number >= 1000 && suffixIndex < suffixes.length - 1) {
-    number /= 1000;
+  while (sizeInBytes.gte(1000) && suffixIndex < suffixes.length - 1) {
+    sizeInBytes = sizeInBytes.div(1000); // Assign the result back to sizeInBytes
     suffixIndex++;
   }
 
-  return number.toFixed(2) + ' ' + suffixes[suffixIndex];
+  const formattedSize = sizeInBytes.toFixed(2) + ' ' + suffixes[suffixIndex];
+
+  return formattedSize;
 }
 
 function convertToUTC(timestamp, hour) {
@@ -2079,20 +3351,41 @@ function getTimeAgoString(timestamp) {
     minute: seconds / 60,
   };
 
-  if (intervals.year == 1) {
-    return Math.ceil(intervals.year) + ' year ago';
-  } else if (intervals.year > 1) {
-    return Math.ceil(intervals.year) + ' years ago';
-  } else if (intervals.month > 1) {
-    return Math.ceil(intervals.month) + ' months ago';
-  } else if (intervals.week > 1) {
-    return Math.ceil(intervals.week) + ' weeks ago';
-  } else if (intervals.day > 1) {
-    return Math.ceil(intervals.day) + ' days ago';
-  } else if (intervals.hour > 1) {
-    return Math.ceil(intervals.hour) + ' hours ago';
-  } else if (intervals.minute > 1) {
-    return Math.ceil(intervals.minute) + ' minutes ago';
+  if (intervals.year >= 1) {
+    return (
+      Math.floor(intervals.year) +
+      ' year' +
+      (Math.floor(intervals.year) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.month >= 1) {
+    return (
+      Math.floor(intervals.month) +
+      ' month' +
+      (Math.floor(intervals.month) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.day >= 1) {
+    return (
+      Math.floor(intervals.day) +
+      ' day' +
+      (Math.floor(intervals.day) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.hour >= 1) {
+    return (
+      Math.floor(intervals.hour) +
+      ' hour' +
+      (Math.floor(intervals.hour) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.minute >= 1) {
+    return (
+      Math.floor(intervals.minute) +
+      ' minute' +
+      (Math.floor(intervals.minute) > 1 ? 's' : '') +
+      ' ago'
+    );
   } else {
     return 'a few seconds ago';
   }
@@ -2111,38 +3404,63 @@ function formatTimestampToString(timestamp) {
   return formattedDate;
 }
 
-function convertToMetricPrefix(number) {
+function convertToMetricPrefix(numberStr) {
   const prefixes = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y']; // Metric prefixes
 
+  let result = new Big(numberStr);
   let count = 0;
-  while (Math.abs(number) >= 1000 && count < prefixes.length - 1) {
-    number /= 1000;
+
+  while (result.abs().gte('1e3') && count < prefixes.length - 1) {
+    result = result.div(1e3);
     count++;
   }
 
-  return number.toFixed(2) + ' ' + prefixes[count];
+  // Check if the value is an integer or has more than two digits before the decimal point
+  if (result.abs().lt(1e2) && result.toFixed(2) !== result.toFixed(0)) {
+    result = result.toFixed(2);
+  } else {
+    result = result.toFixed(0);
+  }
+
+  return result.toString() + ' ' + prefixes[count];
+}
+
+function formatNumber(value) {
+  let bigValue = new Big(value);
+  const suffixes = ['', 'K', 'M', 'B', 'T'];
+  let suffixIndex = 0;
+
+  while (bigValue.gte(10000) && suffixIndex < suffixes.length - 1) {
+    bigValue = bigValue.div(1000);
+    suffixIndex++;
+  }
+
+  const formattedValue = bigValue.toFixed(1).replace(/\.0+$/, '');
+  return `${formattedValue} ${suffixes[suffixIndex]}`;
 }
 
 function gasFee(gas, price) {
   const near = yoctoToNear(Big(gas).mul(Big(price)).toString(), true);
 
-  return `${near} Ⓝ`;
+  return `${near}`;
 }
 
 function currency(number) {
-  let absNumber = Math.abs(number);
+  let absNumber = new Big(number).abs();
 
   const suffixes = ['', 'K', 'M', 'B', 'T', 'Q'];
   let suffixIndex = 0;
 
-  while (absNumber >= 1000 && suffixIndex < suffixes.length - 1) {
-    absNumber /= 1000;
+  while (absNumber.gte(1000) && suffixIndex < suffixes.length - 1) {
+    absNumber = absNumber.div(1000); // Divide using big.js's div method
     suffixIndex++;
   }
 
-  let shortNumber = parseFloat(absNumber.toFixed(2));
+  const formattedNumber = absNumber.toFixed(2); // Format with 2 decimal places
 
-  return (number < 0 ? '-' : '') + shortNumber + ' ' + suffixes[suffixIndex];
+  return (
+    (number < '0' ? '-' : '') + formattedNumber + ' ' + suffixes[suffixIndex]
+  );
 }
 
 function formatDate(dateString) {
@@ -2229,17 +3547,41 @@ function shortenTokenSymbol(token) {
 function gasPercentage(gasUsed, gasAttached) {
   if (!gasAttached) return 'N/A';
 
-  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
+  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed(2);
   return `${formattedNumber}%`;
 }
+
+function serialNumber(index, page, perPage) {
+  return index + 1 + (page - 1) * perPage;
+}
+
+function capitalizeWords(str) {
+  const words = str.split('_');
+  const capitalizedWords = words.map(
+    (word) => word.charAt(0).toUpperCase() + word.slice(1),
+  );
+  const result = capitalizedWords.join(' ');
+  return result;
+}
+
+function toSnakeCase(str) {
+  return str
+    .replace(/[A-Z]/g, (match) => '_' + match.toLowerCase())
+    .replace(/^_/, '');
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -2248,10 +3590,11 @@ function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -2260,10 +3603,11 @@ function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -2282,7 +3626,14 @@ function yoctoToNear(yocto, format) {
 
 
 
+
+
+
+
+
+
 const TokenHoldings = (props) => {
+  const { Link } = props;
   const Loading = (props) => {
     return (
       <div
@@ -2293,7 +3644,7 @@ const TokenHoldings = (props) => {
 
   const nfts = props.data?.nfts || [];
 
-  if (props.loading) {
+  if (props.loading || props.inventoryLoading) {
     return <Loading className="h-full" wrapperClassName="flex w-full h-7" />;
   }
 
@@ -2306,18 +3657,24 @@ const TokenHoldings = (props) => {
   }
   return (
     <Select.Root>
-      <Select.Trigger className="w-80 h-8 text-sm px-2 rounded border outline-none flex items-center justify-between cursor-pointer">
+      <Select.Trigger className="w-full h-8 text-sm px-2 rounded border outline-none flex items-center justify-between cursor-pointer">
         <span>
-          ${dollarFormat(props.ft?.amount || 0)}{' '}
+          {props.ft?.amount
+            ? '$' + dollarFormat(props.ft?.amount)
+            : '$' + (props.ft?.amount ?? '')}
           <span className="bg-green-500 text-xs text-white rounded ml-2 px-1 p-1">
             {(props.ft?.tokens?.length || 0) + (nfts?.length || 0)}
           </span>
         </span>
         <ArrowDown className="w-4 h-4 fill-current text-gray-500 pointer-events-none" />
       </Select.Trigger>
-      <Select.Content>
-        <ScrollArea.Root className="w-80 h-72 rounded overflow-hidden shadow-[0_2px_10px] drop-shadow-md bg-white">
-          <ScrollArea.Viewport className="w-full h-full rounded  bg-white w-full rounded-b-lg shadow border z-50 pb-2">
+      <Select.Content
+        position="popper"
+        sideOffset={5}
+        className="SelectContent"
+      >
+        <ScrollArea.Root className="overflow-hidden rounded-b-xl soft-shadow bg-white">
+          <ScrollArea.Viewport className="border z-50 pb-2">
             <div className="max-h-60">
               {props.ft?.tokens?.length > 0 && (
                 <>
@@ -2329,43 +3686,59 @@ const TokenHoldings = (props) => {
                   </div>
                   <div className="text-gray-600 text-xs divide-y outline-none">
                     {props.ft?.tokens?.map((token, index) => (
-                      <a
-                        href={`/token/${token.contract}?a=${props.id}`}
-                        className="no-underline hover:no-underline"
-                        key={token.contract}
-                      >
-                        <a className="flex justify-between items-center px-3 py-2 hover:bg-gray-100 truncate no-underline">
-                          <div key={index}>
-                            <div className="flex items-center">
-                              <div className="flex mr-1">
-                                <img
-                                  src={
-                                    token.ft_meta?.icon ||
-                                    `${props.appUrl}images/tokenplaceholder.svg`
-                                  }
-                                  alt={token.ft_meta?.name}
-                                  className="w-4 h-4"
-                                />
+                      <div key={token?.contract}>
+                        <Link
+                          href={`/token/${token?.contract}?a=${props.id}`}
+                          className="hover:no-underline"
+                        >
+                          <a className="flex justify-between items-center px-3 py-2 hover:bg-gray-100 truncate hover:no-underline">
+                            <div key={index}>
+                              <div className="flex items-center">
+                                <div className="flex mr-1">
+                                  <img
+                                    src={
+                                      token?.ft_meta?.icon ||
+                                      `${props.appUrl}images/tokenplaceholder.svg`
+                                    }
+                                    alt={token.ft_meta?.name}
+                                    className="w-4 h-4"
+                                  />
+                                </div>
+                                <span>
+                                  {token?.ft_meta?.name
+                                    ? truncateString(
+                                        token?.ft_meta?.name,
+                                        15,
+                                        '...',
+                                      )
+                                    : ''}
+                                  ({token?.ft_meta?.symbol})
+                                </span>
                               </div>
-                              <span>
-                                {truncateString(token.ft_meta?.name, 15, '...')}{' '}
-                                ({token.ft_meta?.symbol})
-                              </span>
-                            </div>
-                            <div className="text-gray-400 flex items-center mt-1">
-                              {localFormat(token?.rpcAmount)}
-                            </div>
-                          </div>
-                          {token.ft_meta?.price && (
-                            <div className="text-right">
-                              <div>${dollarFormat(token.amountUsd)}</div>
-                              <div className="text-gray-400">
-                                @{Big(token.ft_meta?.price).toString()}
+                              <div className="text-gray-400 flex items-center mt-1">
+                                {token?.rpcAmount
+                                  ? localFormat(token?.rpcAmount)
+                                  : token?.rpcAmount ?? ''}
                               </div>
                             </div>
-                          )}
-                        </a>
-                      </a>
+                            {token?.ft_meta?.price && (
+                              <div className="text-right">
+                                <div>
+                                  {token?.amountUsd
+                                    ? '$' + dollarFormat(token?.amountUsd)
+                                    : '$' + (token.amountUsd ?? '')}
+                                </div>
+                                <div className="text-gray-400">
+                                  {token?.ft_meta?.price
+                                    ? '@' +
+                                      Big(token?.ft_meta?.price).toString()
+                                    : '@' + (token?.ft_meta?.price ?? '')}
+                                </div>
+                              </div>
+                            )}
+                          </a>
+                        </Link>
+                      </div>
                     ))}
                   </div>
                 </>
@@ -2378,35 +3751,44 @@ const TokenHoldings = (props) => {
                   </div>
                   <div className="text-gray-600 text-xs divide-y outline-none">
                     {nfts.map((nft) => (
-                      <a
-                        href={`/nft-token/${nft.contract}?a=${props.id}`}
-                        className="hover:no-underline"
-                        key={nft.contract}
-                      >
-                        <a className="flex justify-between items-center px-3 py-2 hover:bg-gray-100 truncate hover:no-underline">
-                          <div>
-                            <div className="flex items-center">
-                              <div className="flex mr-1">
-                                <img
-                                  src={
-                                    nft.nft_meta?.icon ||
-                                    `${props.appUrl}images/tokenplaceholder.svg`
-                                  }
-                                  alt={nft.nft_meta?.name}
-                                  className="w-4 h-4"
-                                />
+                      <div key={nft?.contract}>
+                        <Link
+                          href={`/nft-token/${nft?.contract}?a=${props.id}`}
+                          className="hover:no-underline"
+                        >
+                          <a className="flex justify-between items-center px-3 py-2 hover:bg-gray-100 truncate hover:no-underline">
+                            <div>
+                              <div className="flex items-center">
+                                <div className="flex mr-1">
+                                  <img
+                                    src={
+                                      nft?.nft_meta?.icon ||
+                                      `${props.appUrl}images/tokenplaceholder.svg`
+                                    }
+                                    alt={nft?.nft_meta?.name}
+                                    className="w-4 h-4"
+                                  />
+                                </div>
+                                <span>
+                                  {nft?.nft_meta?.name
+                                    ? truncateString(
+                                        nft?.nft_meta?.name,
+                                        15,
+                                        '...',
+                                      )
+                                    : nft?.nft_meta?.name ?? ''}
+                                  ({nft?.nft_meta?.symbol})
+                                </span>
                               </div>
-                              <span>
-                                {truncateString(nft.nft_meta?.name, 15, '...')}(
-                                {nft.nft_meta?.symbol})
-                              </span>
+                              <div className="text-gray-400 flex items-center mt-1">
+                                {nft?.quantity
+                                  ? localFormat(nft?.quantity)
+                                  : nft?.quantity ?? ''}
+                              </div>
                             </div>
-                            <div className="text-gray-400 flex items-center mt-1">
-                              {localFormat(nft.quantity)}
-                            </div>
-                          </div>
-                        </a>
-                      </a>
+                          </a>
+                        </Link>
+                      </div>
                     ))}
                   </div>
                 </>
@@ -2414,18 +3796,18 @@ const TokenHoldings = (props) => {
             </div>
           </ScrollArea.Viewport>
           <ScrollArea.Scrollbar
-            className="flex select-none touch-none p-0.5 bg-gray-400 transition-colors duration-[160ms] ease-out hover:bg-blend-darken data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
+            className="flex select-none touch-none p-0.5 bg-neargray-25 transition-colors duration-[160ms] ease-out hover:bg-neargray-25 data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
             orientation="vertical"
           >
-            <ScrollArea.Thumb className="flex-1 bg-gray-400 rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]" />
+            <ScrollArea.Thumb className="flex-1 bg-neargray-50 rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]" />
           </ScrollArea.Scrollbar>
           <ScrollArea.Scrollbar
-            className="flex select-none touch-none p-0.5 bg-gray-400 transition-colors duration-[160ms] ease-out hover:bg-blend-darken data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
+            className="flex select-none touch-none p-0.5 bg-neargray-25 transition-colors duration-[160ms] ease-out hover:bg-neargray-25 data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
             orientation="horizontal"
           >
-            <ScrollArea.Thumb className="flex-1 bg-gray-400 rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]" />
+            <ScrollArea.Thumb className="flex-1 bg-neargray-50 rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]" />
           </ScrollArea.Scrollbar>
-          <ScrollArea.Corner className="bg-black-500" />
+          <ScrollArea.Corner className="bg-neargray-50" />
         </ScrollArea.Root>
       </Select.Content>
     </Select.Root>
@@ -2437,18 +3819,21 @@ function encodeArgs(args) {
 
   return Buffer.from(JSON.stringify(args)).toString('base64');
 }
+
 function decodeArgs(args) {
   if (!args || typeof args === 'undefined') return {};
 
-  const encodedString = Buffer.from(args).toString('base64');
-  return JSON.parse(Buffer.from(encodedString, 'base64').toString());
+  return JSON.parse(Buffer.from(args, 'base64').toString());
 }
 
-function txnMethod(actions) {
+function txnMethod(
+  actions,
+  t,
+) {
   const count = actions?.length || 0;
 
-  if (!count) return 'Unknown';
-  if (count > 1) return 'Batch Transaction';
+  if (!count) return t ? t('txns:unknownType') : 'Unknown';
+  if (count > 1) return t ? t('txns:batchTxns') : 'Batch Transaction';
 
   const action = actions[0];
 
@@ -2468,61 +3853,1004 @@ function gasPrice(yacto) {
 function tokenAmount(amount, decimal, format) {
   if (amount === undefined || amount === null) return 'N/A';
 
-  const near = Big(amount).div(Big(10).pow(+decimal));
+  const near = Big(amount).div(Big(10).pow(decimal));
 
-  return format
-    ? near.toString().toLocaleString(undefined, {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 8,
-      })
-    : near;
+  const formattedValue = format
+    ? near.toFixed(8).replace(/\.?0+$/, '')
+    : near.toFixed(Big(decimal, 10)).replace(/\.?0+$/, '');
+
+  return formattedValue;
+}
+
+function tokenPercentage(
+  supply,
+  amount,
+  decimal,
+) {
+  const nearAmount = Big(amount).div(Big(10).pow(decimal));
+  const nearSupply = Big(supply);
+
+  return nearAmount.div(nearSupply).mul(Big(100)).toFixed(2);
+}
+function price(amount, decimal, price) {
+  const nearAmount = Big(amount).div(Big(10).pow(decimal));
+  return dollarFormat(nearAmount.mul(Big(price || 0)).toString());
+}
+function mapRpcActionToAction(action) {
+  if (action === 'CreateAccount') {
+    return {
+      action_kind: 'CreateAccount',
+      args: {},
+    };
+  }
+
+  if (typeof action === 'object') {
+    const kind = action && Object.keys(action)[0];
+
+    return {
+      action_kind: kind,
+      args: action[kind],
+    };
+  }
+
+  return null;
+}
+
+function valueFromObj(obj) {
+  const keys = obj && Object.keys(obj);
+
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
+    const value = obj[key];
+
+    if (typeof value === 'string') {
+      return value;
+    }
+
+    if (typeof value === 'object') {
+      const nestedValue = valueFromObj(value );
+      if (nestedValue) {
+        return nestedValue;
+      }
+    }
+  }
+
+  return undefined;
+}
+
+function txnLogs(txn) {
+  let txLogs = [];
+
+  const outcomes = txn?.receipts_outcome || [];
+
+  for (let i = 0; i < outcomes.length; i++) {
+    const outcome = outcomes[i];
+    let logs = outcome?.outcome?.logs || [];
+
+    if (logs.length > 0) {
+      const mappedLogs = logs.map((log) => ({
+        contract: outcome?.outcome?.executor_id || '',
+        logs: log,
+      }));
+      txLogs = [...txLogs, ...mappedLogs];
+    }
+  }
+  return txLogs;
+}
+
+function txnActions(txn) {
+  const txActions = [];
+  const receipts = txn?.receipts || [];
+
+  for (let i = 0; i < receipts.length; i++) {
+    const receipt = receipts[i];
+    const from = receipt?.predecessor_id;
+    const to = receipt?.receiver_id;
+
+    if (Array.isArray(receipt?.receipt)) {
+      const actions = receipt.receipt;
+
+      for (let j = 0; j < actions.length; j++) {
+        const action = actions[j];
+
+        txActions.push({ from, to, ...action });
+      }
+    } else {
+      const actions = receipt?.receipt?.Action?.actions || [];
+
+      for (let j = 0; j < actions.length; j++) {
+        const action = mapRpcActionToAction(actions[j]);
+
+        txActions.push({ from, to, ...action });
+      }
+    }
+  }
+
+  return txActions.filter(
+    (action) =>
+      action.action_kind !== 'FunctionCall' && action.from !== 'system',
+  );
+}
+
+function txnErrorMessage(txn) {
+  const kind = txn?.status?.Failure?.ActionError?.kind;
+
+  if (typeof kind === 'string') return kind;
+  if (typeof kind === 'object') {
+    return valueFromObj(kind);
+  }
+
+  return null;
+}
+
+function collectNestedReceiptWithOutcomeOld(
+  idOrHash,
+  parsedMap,
+) {
+  const parsedElement = parsedMap.get(idOrHash);
+  if (!parsedElement) {
+    return { id: idOrHash };
+  }
+  const { receiptIds, ...restOutcome } = parsedElement.outcome;
+  return {
+    ...parsedElement,
+    outcome: {
+      ...restOutcome,
+      nestedReceipts: receiptIds.map((id) =>
+        collectNestedReceiptWithOutcomeOld(id, parsedMap),
+      ),
+    },
+  };
+}
+
+function parseReceipt(
+  receipt,
+  outcome,
+  transaction,
+) {
+  if (!receipt) {
+    return {
+      id: outcome.id,
+      predecessorId: transaction.signer_id,
+      receiverId: transaction.receiver_id,
+      actions: transaction.actions.map(mapRpcActionToAction1),
+    };
+  }
+  return {
+    id: receipt.receipt_id,
+    predecessorId: receipt.predecessor_id,
+    receiverId: receipt.receiver_id,
+    actions:
+      'Action' in receipt.receipt
+        ? receipt.receipt.Action.actions.map(mapRpcActionToAction1)
+        : [],
+  };
+}
+
+function mapNonDelegateRpcActionToAction(
+  rpcAction,
+) {
+  if (rpcAction === 'CreateAccount') {
+    return {
+      kind: 'createAccount',
+      args: {},
+    };
+  }
+  if ('DeployContract' in rpcAction) {
+    return {
+      kind: 'deployContract',
+      args: rpcAction.DeployContract,
+    };
+  }
+  if ('FunctionCall' in rpcAction) {
+    return {
+      kind: 'functionCall',
+      args: {
+        methodName: rpcAction.FunctionCall.method_name,
+        args: rpcAction.FunctionCall.args,
+        deposit: rpcAction.FunctionCall.deposit,
+        gas: rpcAction.FunctionCall.gas,
+      },
+    };
+  }
+  if ('Transfer' in rpcAction) {
+    return {
+      kind: 'transfer',
+      args: rpcAction.Transfer,
+    };
+  }
+  if ('Stake' in rpcAction) {
+    return {
+      kind: 'stake',
+      args: {
+        publicKey: rpcAction.Stake.public_key,
+        stake: rpcAction.Stake.stake,
+      },
+    };
+  }
+  if ('AddKey' in rpcAction) {
+    return {
+      kind: 'addKey',
+      args: {
+        publicKey: rpcAction.AddKey.public_key,
+        accessKey: {
+          nonce: rpcAction.AddKey.access_key.nonce,
+          permission:
+            rpcAction.AddKey.access_key.permission === 'FullAccess'
+              ? {
+                  type: 'fullAccess',
+                }
+              : {
+                  type: 'functionCall',
+                  contractId:
+                    rpcAction.AddKey.access_key.permission.FunctionCall
+                      .receiver_id,
+                  methodNames:
+                    rpcAction.AddKey.access_key.permission.FunctionCall
+                      .method_names,
+                },
+        },
+      },
+    };
+  }
+  if ('DeleteKey' in rpcAction) {
+    return {
+      kind: 'deleteKey',
+      args: {
+        publicKey: rpcAction.DeleteKey.public_key,
+      },
+    };
+  }
+  return {
+    kind: 'deleteAccount',
+    args: {
+      beneficiaryId: rpcAction.DeleteAccount.beneficiary_id,
+    },
+  };
+}
+function mapRpcInvalidAccessKeyError(error) {
+  const UNKNOWN_ERROR = { type: 'unknown' };
+
+  if (error === 'DepositWithFunctionCall') {
+    return {
+      type: 'depositWithFunctionCall',
+    };
+  }
+  if (error === 'RequiresFullAccess') {
+    return {
+      type: 'requiresFullAccess',
+    };
+  }
+  if ('AccessKeyNotFound' in error) {
+    const { account_id, public_key } = error.AccessKeyNotFound;
+    return {
+      type: 'accessKeyNotFound',
+      accountId: account_id,
+      publicKey: public_key,
+    };
+  }
+  if ('ReceiverMismatch' in error) {
+    const { ak_receiver, tx_receiver } = error.ReceiverMismatch;
+    return {
+      type: 'receiverMismatch',
+      akReceiver: ak_receiver,
+      transactionReceiver: tx_receiver,
+    };
+  }
+  if ('MethodNameMismatch' in error) {
+    const { method_name } = error.MethodNameMismatch;
+    return {
+      type: 'methodNameMismatch',
+      methodName: method_name,
+    };
+  }
+  if ('NotEnoughAllowance' in error) {
+    const { account_id, allowance, cost, public_key } =
+      error.NotEnoughAllowance;
+    return {
+      type: 'notEnoughAllowance',
+      accountId: account_id,
+      allowance: allowance,
+      cost: cost,
+      publicKey: public_key,
+    };
+  }
+
+  return UNKNOWN_ERROR;
+}
+
+function mapRpcCompilationError(error) {
+  const UNKNOWN_ERROR = { type: 'unknown' };
+  if ('CodeDoesNotExist' in error) {
+    return {
+      type: 'codeDoesNotExist',
+      accountId: error.CodeDoesNotExist.account_id,
+    };
+  }
+  if ('PrepareError' in error) {
+    return {
+      type: 'prepareError',
+    };
+  }
+  if ('WasmerCompileError' in error) {
+    return {
+      type: 'wasmerCompileError',
+      msg: error.WasmerCompileError.msg,
+    };
+  }
+  if ('UnsupportedCompiler' in error) {
+    return {
+      type: 'unsupportedCompiler',
+      msg: error.UnsupportedCompiler.msg,
+    };
+  }
+  return UNKNOWN_ERROR;
+}
+
+function mapRpcFunctionCallError(error) {
+  const UNKNOWN_ERROR = { type: 'unknown' };
+  if ('CompilationError' in error) {
+    return {
+      type: 'compilationError',
+      error: mapRpcCompilationError(error.CompilationError),
+    };
+  }
+  if ('LinkError' in error) {
+    return {
+      type: 'linkError',
+      msg: error.LinkError.msg,
+    };
+  }
+  if ('MethodResolveError' in error) {
+    return {
+      type: 'methodResolveError',
+    };
+  }
+  if ('WasmTrap' in error) {
+    return {
+      type: 'wasmTrap',
+    };
+  }
+  if ('WasmUnknownError' in error) {
+    return {
+      type: 'wasmUnknownError',
+    };
+  }
+  if ('HostError' in error) {
+    return {
+      type: 'hostError',
+    };
+  }
+  if ('_EVMError' in error) {
+    return {
+      type: 'evmError',
+    };
+  }
+  if ('ExecutionError' in error) {
+    return {
+      type: 'executionError',
+      error: error.ExecutionError,
+    };
+  }
+  return UNKNOWN_ERROR;
+}
+function mapRpcNewReceiptValidationError(error) {
+  const UNKNOWN_ERROR = { type: 'unknown' };
+  if ('InvalidPredecessorId' in error) {
+    return {
+      type: 'invalidPredecessorId',
+      accountId: error.InvalidPredecessorId.account_id,
+    };
+  }
+  if ('InvalidReceiverId' in error) {
+    return {
+      type: 'invalidReceiverId',
+      accountId: error.InvalidReceiverId.account_id,
+    };
+  }
+  if ('InvalidSignerId' in error) {
+    return {
+      type: 'invalidSignerId',
+      accountId: error.InvalidSignerId.account_id,
+    };
+  }
+  if ('InvalidDataReceiverId' in error) {
+    return {
+      type: 'invalidDataReceiverId',
+      accountId: error.InvalidDataReceiverId.account_id,
+    };
+  }
+  if ('ReturnedValueLengthExceeded' in error) {
+    return {
+      type: 'returnedValueLengthExceeded',
+      length: error.ReturnedValueLengthExceeded.length,
+      limit: error.ReturnedValueLengthExceeded.limit,
+    };
+  }
+  if ('NumberInputDataDependenciesExceeded' in error) {
+    return {
+      type: 'numberInputDataDependenciesExceeded',
+      numberOfInputDataDependencies:
+        error.NumberInputDataDependenciesExceeded
+          .number_of_input_data_dependencies,
+      limit: error.NumberInputDataDependenciesExceeded.limit,
+    };
+  }
+  if ('ActionsValidation' in error) {
+    return {
+      type: 'actionsValidation',
+    };
+  }
+  return UNKNOWN_ERROR;
+}
+
+function mapRpcReceiptActionError(error) {
+  const UNKNOWN_ERROR = { type: 'unknown' };
+  const { kind } = error;
+  if (kind === 'DelegateActionExpired') {
+    return {
+      type: 'delegateActionExpired',
+    };
+  }
+  if (kind === 'DelegateActionInvalidSignature') {
+    return {
+      type: 'delegateActionInvalidSignature',
+    };
+  }
+  if ('DelegateActionSenderDoesNotMatchTxReceiver' in kind) {
+    return {
+      type: 'delegateActionSenderDoesNotMatchTxReceiver',
+      receiverId: kind.DelegateActionSenderDoesNotMatchTxReceiver.receiver_id,
+      senderId: kind.DelegateActionSenderDoesNotMatchTxReceiver.sender_id,
+    };
+  }
+  if ('DelegateActionAccessKeyError' in kind) {
+    return {
+      type: 'delegateActionAccessKeyError',
+      error: mapRpcInvalidAccessKeyError(kind.DelegateActionAccessKeyError),
+    };
+  }
+  if ('DelegateActionInvalidNonce' in kind) {
+    return {
+      type: 'delegateActionInvalidNonce',
+      akNonce: kind.DelegateActionInvalidNonce.ak_nonce,
+      delegateNonce: kind.DelegateActionInvalidNonce.delegate_nonce,
+    };
+  }
+  if ('DelegateActionNonceTooLarge' in kind) {
+    return {
+      type: 'delegateActionNonceTooLarge',
+      delegateNonce: kind.DelegateActionNonceTooLarge.delegate_nonce,
+      upperBound: kind.DelegateActionNonceTooLarge.upper_bound,
+    };
+  }
+  if ('AccountAlreadyExists' in kind) {
+    return {
+      type: 'accountAlreadyExists',
+      accountId: kind.AccountAlreadyExists.account_id,
+    };
+  }
+  if ('AccountDoesNotExist' in kind) {
+    return {
+      type: 'accountDoesNotExist',
+      accountId: kind.AccountDoesNotExist.account_id,
+    };
+  }
+  if ('CreateAccountOnlyByRegistrar' in kind) {
+    return {
+      type: 'createAccountOnlyByRegistrar',
+      accountId: kind.CreateAccountOnlyByRegistrar.account_id,
+      registrarAccountId:
+        kind.CreateAccountOnlyByRegistrar.registrar_account_id,
+      predecessorId: kind.CreateAccountOnlyByRegistrar.predecessor_id,
+    };
+  }
+  if ('CreateAccountNotAllowed' in kind) {
+    return {
+      type: 'createAccountNotAllowed',
+      accountId: kind.CreateAccountNotAllowed.account_id,
+      predecessorId: kind.CreateAccountNotAllowed.predecessor_id,
+    };
+  }
+  if ('ActorNoPermission' in kind) {
+    return {
+      type: 'actorNoPermission',
+      accountId: kind.ActorNoPermission.account_id,
+      actorId: kind.ActorNoPermission.actor_id,
+    };
+  }
+  if ('DeleteKeyDoesNotExist' in kind) {
+    return {
+      type: 'deleteKeyDoesNotExist',
+      accountId: kind.DeleteKeyDoesNotExist.account_id,
+      publicKey: kind.DeleteKeyDoesNotExist.public_key,
+    };
+  }
+  if ('AddKeyAlreadyExists' in kind) {
+    return {
+      type: 'addKeyAlreadyExists',
+      accountId: kind.AddKeyAlreadyExists.account_id,
+      publicKey: kind.AddKeyAlreadyExists.public_key,
+    };
+  }
+  if ('DeleteAccountStaking' in kind) {
+    return {
+      type: 'deleteAccountStaking',
+      accountId: kind.DeleteAccountStaking.account_id,
+    };
+  }
+  if ('LackBalanceForState' in kind) {
+    return {
+      type: 'lackBalanceForState',
+      accountId: kind.LackBalanceForState.account_id,
+      amount: kind.LackBalanceForState.amount,
+    };
+  }
+  if ('TriesToUnstake' in kind) {
+    return {
+      type: 'triesToUnstake',
+      accountId: kind.TriesToUnstake.account_id,
+    };
+  }
+  if ('TriesToStake' in kind) {
+    return {
+      type: 'triesToStake',
+      accountId: kind.TriesToStake.account_id,
+      stake: kind.TriesToStake.stake,
+      locked: kind.TriesToStake.locked,
+      balance: kind.TriesToStake.balance,
+    };
+  }
+  if ('InsufficientStake' in kind) {
+    return {
+      type: 'insufficientStake',
+      accountId: kind.InsufficientStake.account_id,
+      stake: kind.InsufficientStake.stake,
+      minimumStake: kind.InsufficientStake.minimum_stake,
+    };
+  }
+  if ('FunctionCallError' in kind) {
+    return {
+      type: 'functionCallError',
+      error: mapRpcFunctionCallError(kind.FunctionCallError),
+    };
+  }
+  if ('NewReceiptValidationError' in kind) {
+    return {
+      type: 'newReceiptValidationError',
+      error: mapRpcNewReceiptValidationError(kind.NewReceiptValidationError),
+    };
+  }
+  if ('OnlyImplicitAccountCreationAllowed' in kind) {
+    return {
+      type: 'onlyImplicitAccountCreationAllowed',
+      accountId: kind.OnlyImplicitAccountCreationAllowed.account_id,
+    };
+  }
+  if ('DeleteAccountWithLargeState' in kind) {
+    return {
+      type: 'deleteAccountWithLargeState',
+      accountId: kind.DeleteAccountWithLargeState.account_id,
+    };
+  }
+  return UNKNOWN_ERROR;
+}
+
+function mapRpcReceiptInvalidTxError(error) {
+  const UNKNOWN_ERROR = { type: 'unknown' };
+  if ('InvalidAccessKeyError' in error) {
+    return {
+      type: 'invalidAccessKeyError',
+      error: mapRpcInvalidAccessKeyError(error.InvalidAccessKeyError),
+    };
+  }
+  if ('InvalidSignerId' in error) {
+    return {
+      type: 'invalidSignerId',
+      signerId: error.InvalidSignerId.signer_id,
+    };
+  }
+  if ('SignerDoesNotExist' in error) {
+    return {
+      type: 'signerDoesNotExist',
+      signerId: error.SignerDoesNotExist.signer_id,
+    };
+  }
+  if ('InvalidNonce' in error) {
+    return {
+      type: 'invalidNonce',
+      transactionNonce: error.InvalidNonce.tx_nonce,
+      akNonce: error.InvalidNonce.ak_nonce,
+    };
+  }
+  if ('NonceTooLarge' in error) {
+    return {
+      type: 'nonceTooLarge',
+      transactionNonce: error.NonceTooLarge.tx_nonce,
+      upperBound: error.NonceTooLarge.upper_bound,
+    };
+  }
+  if ('InvalidReceiverId' in error) {
+    return {
+      type: 'invalidReceiverId',
+      receiverId: error.InvalidReceiverId.receiver_id,
+    };
+  }
+  if ('InvalidSignature' in error) {
+    return {
+      type: 'invalidSignature',
+    };
+  }
+  if ('NotEnoughBalance' in error) {
+    return {
+      type: 'notEnoughBalance',
+      signerId: error.NotEnoughBalance.signer_id,
+      balance: error.NotEnoughBalance.balance,
+      cost: error.NotEnoughBalance.cost,
+    };
+  }
+  if ('LackBalanceForState' in error) {
+    return {
+      type: 'lackBalanceForState',
+      signerId: error.LackBalanceForState.signer_id,
+      amount: error.LackBalanceForState.amount,
+    };
+  }
+  if ('CostOverflow' in error) {
+    return {
+      type: 'costOverflow',
+    };
+  }
+  if ('InvalidChain' in error) {
+    return {
+      type: 'invalidChain',
+    };
+  }
+  if ('Expired' in error) {
+    return {
+      type: 'expired',
+    };
+  }
+  if ('ActionsValidation' in error) {
+    return {
+      type: 'actionsValidation',
+    };
+  }
+  if ('TransactionSizeExceeded' in error) {
+    return {
+      type: 'transactionSizeExceeded',
+      size: error.TransactionSizeExceeded.size,
+      limit: error.TransactionSizeExceeded.limit,
+    };
+  }
+  return UNKNOWN_ERROR;
+}
+
+function mapRpcReceiptError(error) {
+  let UNKNOWN_ERROR = { type: 'unknown' };
+  if ('ActionError' in error) {
+    return {
+      type: 'action',
+      error: mapRpcReceiptActionError(error.ActionError),
+    };
+  }
+  if ('InvalidTxError' in error) {
+    return {
+      type: 'transaction',
+      error: mapRpcReceiptInvalidTxError(error.InvalidTxError),
+    };
+  }
+  return UNKNOWN_ERROR;
+}
+
+function mapRpcReceiptStatus(status) {
+  if ('SuccessValue' in status) {
+    return { type: 'successValue', value: status.SuccessValue };
+  }
+  if ('SuccessReceiptId' in status) {
+    return { type: 'successReceiptId', receiptId: status.SuccessReceiptId };
+  }
+  if ('Failure' in status) {
+    return { type: 'failure', error: mapRpcReceiptError(status.Failure) };
+  }
+  return { type: 'unknown' };
+}
+
+function mapRpcActionToAction1(rpcAction) {
+  if (typeof rpcAction === 'object' && 'Delegate' in rpcAction) {
+    return {
+      kind: 'delegateAction',
+      args: {
+        actions: rpcAction.Delegate.delegate_action.actions.map(
+          (subaction, index) => ({
+            ...mapNonDelegateRpcActionToAction(subaction),
+            delegateIndex: index,
+          }),
+        ),
+        receiverId: rpcAction.Delegate.delegate_action.receiver_id,
+        senderId: rpcAction.Delegate.delegate_action.sender_id,
+      },
+    };
+  }
+  return mapNonDelegateRpcActionToAction(rpcAction);
+}
+
+function parseOutcomeOld(outcome) {
+  return {
+    blockHash: outcome.block_hash,
+    tokensBurnt: outcome.outcome.tokens_burnt,
+    gasBurnt: outcome.outcome.gas_burnt,
+    status: mapRpcReceiptStatus(outcome.outcome.status),
+    logs: outcome.outcome.logs,
+    receiptIds: outcome.outcome.receipt_ids,
+  };
+}
+function dollarFormat(number) {
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function dollarFormat(number) {
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function dollarFormat(number) {
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
 }
+function dollarFormat(number) {
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
+}
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
+function dollarFormat(number) {
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function dollarFormat(number) {
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function dollarFormat(number) {
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function dollarFormat(number) {
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function dollarFormat(number) {
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function dollarFormat(number) {
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function dollarFormat(number) {
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function decodeArgs(args) {
   if (!args || typeof args === 'undefined') return {};
 
-  const encodedString = Buffer.from(args).toString('base64');
-  return JSON.parse(Buffer.from(encodedString, 'base64').toString());
+  return JSON.parse(Buffer.from(args, 'base64').toString());
 }
 
-function txnMethod(actions) {
+function txnMethod(
+  actions,
+  t,
+) {
   const count = actions?.length || 0;
 
-  if (!count) return 'Unknown';
-  if (count > 1) return 'Batch Transaction';
+  if (!count) return t ? t('txns:unknownType') : 'Unknown';
+  if (count > 1) return t ? t('txns:batchTxns') : 'Batch Transaction';
 
   const action = actions[0];
 
@@ -2542,41 +4870,968 @@ function gasPrice(yacto) {
 function tokenAmount(amount, decimal, format) {
   if (amount === undefined || amount === null) return 'N/A';
 
-  const near = Big(amount).div(Big(10).pow(+decimal));
+  const near = Big(amount).div(Big(10).pow(decimal));
 
-  return format
-    ? near.toString().toLocaleString(undefined, {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 8,
-      })
-    : near;
+  const formattedValue = format
+    ? near.toFixed(8).replace(/\.?0+$/, '')
+    : near.toFixed(Big(decimal, 10)).replace(/\.?0+$/, '');
+
+  return formattedValue;
+}
+
+function tokenPercentage(
+  supply,
+  amount,
+  decimal,
+) {
+  const nearAmount = Big(amount).div(Big(10).pow(decimal));
+  const nearSupply = Big(supply);
+
+  return nearAmount.div(nearSupply).mul(Big(100)).toFixed(2);
+}
+function price(amount, decimal, price) {
+  const nearAmount = Big(amount).div(Big(10).pow(decimal));
+  return dollarFormat(nearAmount.mul(Big(price || 0)).toString());
+}
+function mapRpcActionToAction(action) {
+  if (action === 'CreateAccount') {
+    return {
+      action_kind: 'CreateAccount',
+      args: {},
+    };
+  }
+
+  if (typeof action === 'object') {
+    const kind = action && Object.keys(action)[0];
+
+    return {
+      action_kind: kind,
+      args: action[kind],
+    };
+  }
+
+  return null;
+}
+
+function valueFromObj(obj) {
+  const keys = obj && Object.keys(obj);
+
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
+    const value = obj[key];
+
+    if (typeof value === 'string') {
+      return value;
+    }
+
+    if (typeof value === 'object') {
+      const nestedValue = valueFromObj(value );
+      if (nestedValue) {
+        return nestedValue;
+      }
+    }
+  }
+
+  return undefined;
+}
+
+function txnLogs(txn) {
+  let txLogs = [];
+
+  const outcomes = txn?.receipts_outcome || [];
+
+  for (let i = 0; i < outcomes.length; i++) {
+    const outcome = outcomes[i];
+    let logs = outcome?.outcome?.logs || [];
+
+    if (logs.length > 0) {
+      const mappedLogs = logs.map((log) => ({
+        contract: outcome?.outcome?.executor_id || '',
+        logs: log,
+      }));
+      txLogs = [...txLogs, ...mappedLogs];
+    }
+  }
+  return txLogs;
+}
+
+function txnActions(txn) {
+  const txActions = [];
+  const receipts = txn?.receipts || [];
+
+  for (let i = 0; i < receipts.length; i++) {
+    const receipt = receipts[i];
+    const from = receipt?.predecessor_id;
+    const to = receipt?.receiver_id;
+
+    if (Array.isArray(receipt?.receipt)) {
+      const actions = receipt.receipt;
+
+      for (let j = 0; j < actions.length; j++) {
+        const action = actions[j];
+
+        txActions.push({ from, to, ...action });
+      }
+    } else {
+      const actions = receipt?.receipt?.Action?.actions || [];
+
+      for (let j = 0; j < actions.length; j++) {
+        const action = mapRpcActionToAction(actions[j]);
+
+        txActions.push({ from, to, ...action });
+      }
+    }
+  }
+
+  return txActions.filter(
+    (action) =>
+      action.action_kind !== 'FunctionCall' && action.from !== 'system',
+  );
+}
+
+function txnErrorMessage(txn) {
+  const kind = txn?.status?.Failure?.ActionError?.kind;
+
+  if (typeof kind === 'string') return kind;
+  if (typeof kind === 'object') {
+    return valueFromObj(kind);
+  }
+
+  return null;
+}
+
+function collectNestedReceiptWithOutcomeOld(
+  idOrHash,
+  parsedMap,
+) {
+  const parsedElement = parsedMap.get(idOrHash);
+  if (!parsedElement) {
+    return { id: idOrHash };
+  }
+  const { receiptIds, ...restOutcome } = parsedElement.outcome;
+  return {
+    ...parsedElement,
+    outcome: {
+      ...restOutcome,
+      nestedReceipts: receiptIds.map((id) =>
+        collectNestedReceiptWithOutcomeOld(id, parsedMap),
+      ),
+    },
+  };
+}
+
+function parseReceipt(
+  receipt,
+  outcome,
+  transaction,
+) {
+  if (!receipt) {
+    return {
+      id: outcome.id,
+      predecessorId: transaction.signer_id,
+      receiverId: transaction.receiver_id,
+      actions: transaction.actions.map(mapRpcActionToAction1),
+    };
+  }
+  return {
+    id: receipt.receipt_id,
+    predecessorId: receipt.predecessor_id,
+    receiverId: receipt.receiver_id,
+    actions:
+      'Action' in receipt.receipt
+        ? receipt.receipt.Action.actions.map(mapRpcActionToAction1)
+        : [],
+  };
+}
+
+function mapNonDelegateRpcActionToAction(
+  rpcAction,
+) {
+  if (rpcAction === 'CreateAccount') {
+    return {
+      kind: 'createAccount',
+      args: {},
+    };
+  }
+  if ('DeployContract' in rpcAction) {
+    return {
+      kind: 'deployContract',
+      args: rpcAction.DeployContract,
+    };
+  }
+  if ('FunctionCall' in rpcAction) {
+    return {
+      kind: 'functionCall',
+      args: {
+        methodName: rpcAction.FunctionCall.method_name,
+        args: rpcAction.FunctionCall.args,
+        deposit: rpcAction.FunctionCall.deposit,
+        gas: rpcAction.FunctionCall.gas,
+      },
+    };
+  }
+  if ('Transfer' in rpcAction) {
+    return {
+      kind: 'transfer',
+      args: rpcAction.Transfer,
+    };
+  }
+  if ('Stake' in rpcAction) {
+    return {
+      kind: 'stake',
+      args: {
+        publicKey: rpcAction.Stake.public_key,
+        stake: rpcAction.Stake.stake,
+      },
+    };
+  }
+  if ('AddKey' in rpcAction) {
+    return {
+      kind: 'addKey',
+      args: {
+        publicKey: rpcAction.AddKey.public_key,
+        accessKey: {
+          nonce: rpcAction.AddKey.access_key.nonce,
+          permission:
+            rpcAction.AddKey.access_key.permission === 'FullAccess'
+              ? {
+                  type: 'fullAccess',
+                }
+              : {
+                  type: 'functionCall',
+                  contractId:
+                    rpcAction.AddKey.access_key.permission.FunctionCall
+                      .receiver_id,
+                  methodNames:
+                    rpcAction.AddKey.access_key.permission.FunctionCall
+                      .method_names,
+                },
+        },
+      },
+    };
+  }
+  if ('DeleteKey' in rpcAction) {
+    return {
+      kind: 'deleteKey',
+      args: {
+        publicKey: rpcAction.DeleteKey.public_key,
+      },
+    };
+  }
+  return {
+    kind: 'deleteAccount',
+    args: {
+      beneficiaryId: rpcAction.DeleteAccount.beneficiary_id,
+    },
+  };
+}
+function mapRpcInvalidAccessKeyError(error) {
+  const UNKNOWN_ERROR = { type: 'unknown' };
+
+  if (error === 'DepositWithFunctionCall') {
+    return {
+      type: 'depositWithFunctionCall',
+    };
+  }
+  if (error === 'RequiresFullAccess') {
+    return {
+      type: 'requiresFullAccess',
+    };
+  }
+  if ('AccessKeyNotFound' in error) {
+    const { account_id, public_key } = error.AccessKeyNotFound;
+    return {
+      type: 'accessKeyNotFound',
+      accountId: account_id,
+      publicKey: public_key,
+    };
+  }
+  if ('ReceiverMismatch' in error) {
+    const { ak_receiver, tx_receiver } = error.ReceiverMismatch;
+    return {
+      type: 'receiverMismatch',
+      akReceiver: ak_receiver,
+      transactionReceiver: tx_receiver,
+    };
+  }
+  if ('MethodNameMismatch' in error) {
+    const { method_name } = error.MethodNameMismatch;
+    return {
+      type: 'methodNameMismatch',
+      methodName: method_name,
+    };
+  }
+  if ('NotEnoughAllowance' in error) {
+    const { account_id, allowance, cost, public_key } =
+      error.NotEnoughAllowance;
+    return {
+      type: 'notEnoughAllowance',
+      accountId: account_id,
+      allowance: allowance,
+      cost: cost,
+      publicKey: public_key,
+    };
+  }
+
+  return UNKNOWN_ERROR;
+}
+
+function mapRpcCompilationError(error) {
+  const UNKNOWN_ERROR = { type: 'unknown' };
+  if ('CodeDoesNotExist' in error) {
+    return {
+      type: 'codeDoesNotExist',
+      accountId: error.CodeDoesNotExist.account_id,
+    };
+  }
+  if ('PrepareError' in error) {
+    return {
+      type: 'prepareError',
+    };
+  }
+  if ('WasmerCompileError' in error) {
+    return {
+      type: 'wasmerCompileError',
+      msg: error.WasmerCompileError.msg,
+    };
+  }
+  if ('UnsupportedCompiler' in error) {
+    return {
+      type: 'unsupportedCompiler',
+      msg: error.UnsupportedCompiler.msg,
+    };
+  }
+  return UNKNOWN_ERROR;
+}
+
+function mapRpcFunctionCallError(error) {
+  const UNKNOWN_ERROR = { type: 'unknown' };
+  if ('CompilationError' in error) {
+    return {
+      type: 'compilationError',
+      error: mapRpcCompilationError(error.CompilationError),
+    };
+  }
+  if ('LinkError' in error) {
+    return {
+      type: 'linkError',
+      msg: error.LinkError.msg,
+    };
+  }
+  if ('MethodResolveError' in error) {
+    return {
+      type: 'methodResolveError',
+    };
+  }
+  if ('WasmTrap' in error) {
+    return {
+      type: 'wasmTrap',
+    };
+  }
+  if ('WasmUnknownError' in error) {
+    return {
+      type: 'wasmUnknownError',
+    };
+  }
+  if ('HostError' in error) {
+    return {
+      type: 'hostError',
+    };
+  }
+  if ('_EVMError' in error) {
+    return {
+      type: 'evmError',
+    };
+  }
+  if ('ExecutionError' in error) {
+    return {
+      type: 'executionError',
+      error: error.ExecutionError,
+    };
+  }
+  return UNKNOWN_ERROR;
+}
+function mapRpcNewReceiptValidationError(error) {
+  const UNKNOWN_ERROR = { type: 'unknown' };
+  if ('InvalidPredecessorId' in error) {
+    return {
+      type: 'invalidPredecessorId',
+      accountId: error.InvalidPredecessorId.account_id,
+    };
+  }
+  if ('InvalidReceiverId' in error) {
+    return {
+      type: 'invalidReceiverId',
+      accountId: error.InvalidReceiverId.account_id,
+    };
+  }
+  if ('InvalidSignerId' in error) {
+    return {
+      type: 'invalidSignerId',
+      accountId: error.InvalidSignerId.account_id,
+    };
+  }
+  if ('InvalidDataReceiverId' in error) {
+    return {
+      type: 'invalidDataReceiverId',
+      accountId: error.InvalidDataReceiverId.account_id,
+    };
+  }
+  if ('ReturnedValueLengthExceeded' in error) {
+    return {
+      type: 'returnedValueLengthExceeded',
+      length: error.ReturnedValueLengthExceeded.length,
+      limit: error.ReturnedValueLengthExceeded.limit,
+    };
+  }
+  if ('NumberInputDataDependenciesExceeded' in error) {
+    return {
+      type: 'numberInputDataDependenciesExceeded',
+      numberOfInputDataDependencies:
+        error.NumberInputDataDependenciesExceeded
+          .number_of_input_data_dependencies,
+      limit: error.NumberInputDataDependenciesExceeded.limit,
+    };
+  }
+  if ('ActionsValidation' in error) {
+    return {
+      type: 'actionsValidation',
+    };
+  }
+  return UNKNOWN_ERROR;
+}
+
+function mapRpcReceiptActionError(error) {
+  const UNKNOWN_ERROR = { type: 'unknown' };
+  const { kind } = error;
+  if (kind === 'DelegateActionExpired') {
+    return {
+      type: 'delegateActionExpired',
+    };
+  }
+  if (kind === 'DelegateActionInvalidSignature') {
+    return {
+      type: 'delegateActionInvalidSignature',
+    };
+  }
+  if ('DelegateActionSenderDoesNotMatchTxReceiver' in kind) {
+    return {
+      type: 'delegateActionSenderDoesNotMatchTxReceiver',
+      receiverId: kind.DelegateActionSenderDoesNotMatchTxReceiver.receiver_id,
+      senderId: kind.DelegateActionSenderDoesNotMatchTxReceiver.sender_id,
+    };
+  }
+  if ('DelegateActionAccessKeyError' in kind) {
+    return {
+      type: 'delegateActionAccessKeyError',
+      error: mapRpcInvalidAccessKeyError(kind.DelegateActionAccessKeyError),
+    };
+  }
+  if ('DelegateActionInvalidNonce' in kind) {
+    return {
+      type: 'delegateActionInvalidNonce',
+      akNonce: kind.DelegateActionInvalidNonce.ak_nonce,
+      delegateNonce: kind.DelegateActionInvalidNonce.delegate_nonce,
+    };
+  }
+  if ('DelegateActionNonceTooLarge' in kind) {
+    return {
+      type: 'delegateActionNonceTooLarge',
+      delegateNonce: kind.DelegateActionNonceTooLarge.delegate_nonce,
+      upperBound: kind.DelegateActionNonceTooLarge.upper_bound,
+    };
+  }
+  if ('AccountAlreadyExists' in kind) {
+    return {
+      type: 'accountAlreadyExists',
+      accountId: kind.AccountAlreadyExists.account_id,
+    };
+  }
+  if ('AccountDoesNotExist' in kind) {
+    return {
+      type: 'accountDoesNotExist',
+      accountId: kind.AccountDoesNotExist.account_id,
+    };
+  }
+  if ('CreateAccountOnlyByRegistrar' in kind) {
+    return {
+      type: 'createAccountOnlyByRegistrar',
+      accountId: kind.CreateAccountOnlyByRegistrar.account_id,
+      registrarAccountId:
+        kind.CreateAccountOnlyByRegistrar.registrar_account_id,
+      predecessorId: kind.CreateAccountOnlyByRegistrar.predecessor_id,
+    };
+  }
+  if ('CreateAccountNotAllowed' in kind) {
+    return {
+      type: 'createAccountNotAllowed',
+      accountId: kind.CreateAccountNotAllowed.account_id,
+      predecessorId: kind.CreateAccountNotAllowed.predecessor_id,
+    };
+  }
+  if ('ActorNoPermission' in kind) {
+    return {
+      type: 'actorNoPermission',
+      accountId: kind.ActorNoPermission.account_id,
+      actorId: kind.ActorNoPermission.actor_id,
+    };
+  }
+  if ('DeleteKeyDoesNotExist' in kind) {
+    return {
+      type: 'deleteKeyDoesNotExist',
+      accountId: kind.DeleteKeyDoesNotExist.account_id,
+      publicKey: kind.DeleteKeyDoesNotExist.public_key,
+    };
+  }
+  if ('AddKeyAlreadyExists' in kind) {
+    return {
+      type: 'addKeyAlreadyExists',
+      accountId: kind.AddKeyAlreadyExists.account_id,
+      publicKey: kind.AddKeyAlreadyExists.public_key,
+    };
+  }
+  if ('DeleteAccountStaking' in kind) {
+    return {
+      type: 'deleteAccountStaking',
+      accountId: kind.DeleteAccountStaking.account_id,
+    };
+  }
+  if ('LackBalanceForState' in kind) {
+    return {
+      type: 'lackBalanceForState',
+      accountId: kind.LackBalanceForState.account_id,
+      amount: kind.LackBalanceForState.amount,
+    };
+  }
+  if ('TriesToUnstake' in kind) {
+    return {
+      type: 'triesToUnstake',
+      accountId: kind.TriesToUnstake.account_id,
+    };
+  }
+  if ('TriesToStake' in kind) {
+    return {
+      type: 'triesToStake',
+      accountId: kind.TriesToStake.account_id,
+      stake: kind.TriesToStake.stake,
+      locked: kind.TriesToStake.locked,
+      balance: kind.TriesToStake.balance,
+    };
+  }
+  if ('InsufficientStake' in kind) {
+    return {
+      type: 'insufficientStake',
+      accountId: kind.InsufficientStake.account_id,
+      stake: kind.InsufficientStake.stake,
+      minimumStake: kind.InsufficientStake.minimum_stake,
+    };
+  }
+  if ('FunctionCallError' in kind) {
+    return {
+      type: 'functionCallError',
+      error: mapRpcFunctionCallError(kind.FunctionCallError),
+    };
+  }
+  if ('NewReceiptValidationError' in kind) {
+    return {
+      type: 'newReceiptValidationError',
+      error: mapRpcNewReceiptValidationError(kind.NewReceiptValidationError),
+    };
+  }
+  if ('OnlyImplicitAccountCreationAllowed' in kind) {
+    return {
+      type: 'onlyImplicitAccountCreationAllowed',
+      accountId: kind.OnlyImplicitAccountCreationAllowed.account_id,
+    };
+  }
+  if ('DeleteAccountWithLargeState' in kind) {
+    return {
+      type: 'deleteAccountWithLargeState',
+      accountId: kind.DeleteAccountWithLargeState.account_id,
+    };
+  }
+  return UNKNOWN_ERROR;
+}
+
+function mapRpcReceiptInvalidTxError(error) {
+  const UNKNOWN_ERROR = { type: 'unknown' };
+  if ('InvalidAccessKeyError' in error) {
+    return {
+      type: 'invalidAccessKeyError',
+      error: mapRpcInvalidAccessKeyError(error.InvalidAccessKeyError),
+    };
+  }
+  if ('InvalidSignerId' in error) {
+    return {
+      type: 'invalidSignerId',
+      signerId: error.InvalidSignerId.signer_id,
+    };
+  }
+  if ('SignerDoesNotExist' in error) {
+    return {
+      type: 'signerDoesNotExist',
+      signerId: error.SignerDoesNotExist.signer_id,
+    };
+  }
+  if ('InvalidNonce' in error) {
+    return {
+      type: 'invalidNonce',
+      transactionNonce: error.InvalidNonce.tx_nonce,
+      akNonce: error.InvalidNonce.ak_nonce,
+    };
+  }
+  if ('NonceTooLarge' in error) {
+    return {
+      type: 'nonceTooLarge',
+      transactionNonce: error.NonceTooLarge.tx_nonce,
+      upperBound: error.NonceTooLarge.upper_bound,
+    };
+  }
+  if ('InvalidReceiverId' in error) {
+    return {
+      type: 'invalidReceiverId',
+      receiverId: error.InvalidReceiverId.receiver_id,
+    };
+  }
+  if ('InvalidSignature' in error) {
+    return {
+      type: 'invalidSignature',
+    };
+  }
+  if ('NotEnoughBalance' in error) {
+    return {
+      type: 'notEnoughBalance',
+      signerId: error.NotEnoughBalance.signer_id,
+      balance: error.NotEnoughBalance.balance,
+      cost: error.NotEnoughBalance.cost,
+    };
+  }
+  if ('LackBalanceForState' in error) {
+    return {
+      type: 'lackBalanceForState',
+      signerId: error.LackBalanceForState.signer_id,
+      amount: error.LackBalanceForState.amount,
+    };
+  }
+  if ('CostOverflow' in error) {
+    return {
+      type: 'costOverflow',
+    };
+  }
+  if ('InvalidChain' in error) {
+    return {
+      type: 'invalidChain',
+    };
+  }
+  if ('Expired' in error) {
+    return {
+      type: 'expired',
+    };
+  }
+  if ('ActionsValidation' in error) {
+    return {
+      type: 'actionsValidation',
+    };
+  }
+  if ('TransactionSizeExceeded' in error) {
+    return {
+      type: 'transactionSizeExceeded',
+      size: error.TransactionSizeExceeded.size,
+      limit: error.TransactionSizeExceeded.limit,
+    };
+  }
+  return UNKNOWN_ERROR;
+}
+
+function mapRpcReceiptError(error) {
+  let UNKNOWN_ERROR = { type: 'unknown' };
+  if ('ActionError' in error) {
+    return {
+      type: 'action',
+      error: mapRpcReceiptActionError(error.ActionError),
+    };
+  }
+  if ('InvalidTxError' in error) {
+    return {
+      type: 'transaction',
+      error: mapRpcReceiptInvalidTxError(error.InvalidTxError),
+    };
+  }
+  return UNKNOWN_ERROR;
+}
+
+function mapRpcReceiptStatus(status) {
+  if ('SuccessValue' in status) {
+    return { type: 'successValue', value: status.SuccessValue };
+  }
+  if ('SuccessReceiptId' in status) {
+    return { type: 'successReceiptId', receiptId: status.SuccessReceiptId };
+  }
+  if ('Failure' in status) {
+    return { type: 'failure', error: mapRpcReceiptError(status.Failure) };
+  }
+  return { type: 'unknown' };
+}
+
+function mapRpcActionToAction1(rpcAction) {
+  if (typeof rpcAction === 'object' && 'Delegate' in rpcAction) {
+    return {
+      kind: 'delegateAction',
+      args: {
+        actions: rpcAction.Delegate.delegate_action.actions.map(
+          (subaction, index) => ({
+            ...mapNonDelegateRpcActionToAction(subaction),
+            delegateIndex: index,
+          }),
+        ),
+        receiverId: rpcAction.Delegate.delegate_action.receiver_id,
+        senderId: rpcAction.Delegate.delegate_action.sender_id,
+      },
+    };
+  }
+  return mapNonDelegateRpcActionToAction(rpcAction);
+}
+
+function parseOutcomeOld(outcome) {
+  return {
+    blockHash: outcome.block_hash,
+    tokensBurnt: outcome.outcome.tokens_burnt,
+    gasBurnt: outcome.outcome.gas_burnt,
+    status: mapRpcReceiptStatus(outcome.outcome.status),
+    logs: outcome.outcome.logs,
+    receiptIds: outcome.outcome.receipt_ids,
+  };
+}
+function dollarFormat(number) {
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function dollarFormat(number) {
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
 }
+function dollarFormat(number) {
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
+}
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
+function dollarFormat(number) {
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function dollarFormat(number) {
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function dollarFormat(number) {
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function dollarFormat(number) {
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function dollarFormat(number) {
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function dollarFormat(number) {
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function dollarFormat(number) {
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 /* END_INCLUDE: "includes/near.jsx" */
 
@@ -2593,9 +5848,51 @@ function localFormat(number) {
 
 
 
+
+/* INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
+/**
+ * @interface Props
+ * @param {string} [className] - The CSS class name(s) for styling purposes.
+ */
+
+
+
+
+
+const Skeleton = (props) => {
+  return (
+    <div
+      className={`bg-gray-200  rounded shadow-sm animate-pulse ${props.className}`}
+    ></div>
+  );
+};/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
+
+const tabs = [
+  'Transactions',
+  'Token Txns',
+  'NFT Token Txns',
+  'Access Keys',
+  'Contract',
+  'Comments',
+];
+
 function MainComponent(props) {
+  const {
+    network,
+    t,
+    id,
+    requestSignInWithWallet,
+    signedIn,
+    accountId,
+    logOut,
+    Link,
+  } = props;
   const [loading, setLoading] = useState(false);
+  const [isloading, setIsLoading] = useState(true);
+  const [inventoryLoading, setInventoryLoading] = useState(false);
   const [statsData, setStatsData] = useState({} );
+  const [pageTab, setPageTab] = useState('Transactions');
+  const [filters, setFilters] = useState({});
   const [accountData, setAccountData] = useState(
     {} ,
   );
@@ -2610,22 +5907,17 @@ function MainComponent(props) {
   const [ft, setFT] = useState({} );
   const [code, setCode] = useState({} );
   const [key, setKey] = useState({} );
-  const [css, setCss] = useState({});
+  const [schema, setSchema] = useState({} );
+  const [contractInfo, setContractInfo] = useState(
+    {} ,
+  );
 
-  /**
-   * Fetches styles asynchronously from a nearblocks gateway.
-   */
-  function fetchStyles() {
-    asyncFetch('https://beta.nearblocks.io/common.css').then(
-      (res) => {
-        if (res?.body) {
-          setCss(res.body);
-        }
-      },
-    );
-  }
+  const config = getConfig(network);
 
-  const config = getConfig(context.networkId);
+  const onTab = (index) => {
+    setPageTab(tabs[index]);
+    onFilterClear('');
+  };
 
   useEffect(() => {
     function fetchStatsData() {
@@ -2640,16 +5932,23 @@ function MainComponent(props) {
 
 
 
+
 ) => {
             const statsResp = data?.body?.stats?.[0];
-            setStatsData({ near_price: statsResp.near_price });
+            if (data.status === 200) {
+              setStatsData({ near_price: statsResp.near_price });
+            } else {
+              handleRateLimit(data, fetchStatsData);
+            }
           },
         )
-        .catch(() => {});
+        .catch(() => {})
+        .finally(() => {});
     }
 
     function fetchAccountData() {
-      asyncFetch(`${config?.backendUrl}account/${props.id}`, {
+      setLoading(true);
+      asyncFetch(`${config?.backendUrl}account/${id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -2660,52 +5959,55 @@ function MainComponent(props) {
 
 
 
+
 ) => {
             const accountResp = data?.body?.account?.[0];
-            setAccountData({
-              account_id: accountResp.account_id,
-              amount: accountResp.amount,
-              code_hash: accountResp.code_hash,
-              created: accountResp.created,
-              deleted: accountResp.deleted,
-              locked: accountResp.locked,
-              storage_usage: accountResp.storage_usage,
-            });
+            if (data.status === 200) {
+              setAccountData({
+                account_id: accountResp.account_id,
+                amount: accountResp.amount,
+                code_hash: accountResp.code_hash,
+                created: accountResp.created,
+                deleted: accountResp.deleted,
+                locked: accountResp.locked,
+                storage_usage: accountResp.storage_usage,
+              });
+              setLoading(false);
+            } else {
+              handleRateLimit(data, fetchAccountData, () => setLoading(false));
+            }
           },
         )
         .catch(() => {});
     }
 
     function fetchContractData() {
-      asyncFetch(
-        `${config?.backendUrl}account/${props.id}/contract/deployments`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+      asyncFetch(`${config?.backendUrl}account/${id}/contract/deployments`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      )
+      })
         .then(
           (data
 
 
 
+
 ) => {
             const depResp = data?.body?.deployments?.[0];
-            setDeploymentData({
-              block_timestamp: depResp.block_timestamp,
-              receipt_predecessor_account_id:
-                depResp.receipt_predecessor_account_id,
-              transaction_hash: depResp.transaction_hash,
-            });
+            if (data.status === 200) {
+              setDeploymentData(depResp);
+            } else {
+              handleRateLimit(data, fetchContractData);
+            }
           },
         )
         .catch(() => {});
     }
 
     function fetchTokenData() {
-      asyncFetch(`${config?.backendUrl}fts/${props.id}`, {
+      asyncFetch(`${config?.backendUrl}fts/${id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -2716,22 +6018,28 @@ function MainComponent(props) {
 
 
 
+
 ) => {
             const tokenResp = data?.body?.contracts?.[0];
-            setTokenData({
-              name: tokenResp.name,
-              icon: tokenResp.icon,
-              symbol: tokenResp.symbol,
-              price: tokenResp.price,
-              website: tokenResp.website,
-            });
+            if (data.status === 200) {
+              setTokenData({
+                name: tokenResp.name,
+                icon: tokenResp.icon,
+                symbol: tokenResp.symbol,
+                price: tokenResp.price,
+                website: tokenResp.website,
+              });
+            } else {
+              handleRateLimit(data, fetchTokenData);
+            }
           },
         )
         .catch(() => {});
     }
 
     function fetchInventoryData() {
-      asyncFetch(`${config?.backendUrl}account/${props.id}/inventory`, {
+      setInventoryLoading(true);
+      asyncFetch(`${config?.backendUrl}account/${id}/inventory`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -2742,12 +6050,20 @@ function MainComponent(props) {
 
 
 
+
 ) => {
             const response = data?.body?.inventory;
-            setInventoryData({
-              fts: response.fts,
-              nfts: response.nfts,
-            });
+            if (data.status === 200) {
+              setInventoryData({
+                fts: response.fts,
+                nfts: response.nfts,
+              });
+              setInventoryLoading(false);
+            } else {
+              handleRateLimit(data, fetchInventoryData, () =>
+                setInventoryLoading(false),
+              );
+            }
           },
         )
         .catch(() => {});
@@ -2758,7 +6074,7 @@ function MainComponent(props) {
     fetchContractData();
     fetchTokenData();
     fetchInventoryData();
-  }, [config?.backendUrl, props.id]);
+  }, [config?.backendUrl, id]);
 
   useEffect(() => {
     function ftBalanceOf(contracts, account_id) {
@@ -2801,11 +6117,10 @@ function MainComponent(props) {
         )
         .catch(() => {});
     }
-
     function loadBalances() {
-      const fts = inventoryData.fts;
+      const fts = inventoryData?.fts;
       if (!fts?.length) {
-        if (fts?.length === 0) setLoading(false);
+        if (fts?.length === 0) setIsLoading(false);
         return;
       }
 
@@ -2817,25 +6132,26 @@ function MainComponent(props) {
 
       Promise.all(
         fts.map((ft) => {
-          return ftBalanceOf(ft.contract, props.id).then((rslt) => {
+          return ftBalanceOf(ft?.contract, id).then((rslt) => {
             return { ...ft, amount: rslt };
           });
         }),
       ).then((results) => {
         results.forEach((rslt) => {
           const ftrslt = rslt;
-          const amount = rslt?.amount;
+          const amount = rslt?.amount ?? 0;
 
           let sum = Big(0);
 
           let rpcAmount = Big(0);
 
           if (amount) {
-            rpcAmount = Big(amount).div(Big(10).pow(ftrslt.ft_meta?.decimals));
+            rpcAmount = ftrslt?.ft_meta?.decimals
+              ? Big(amount).div(Big(10).pow(ftrslt.ft_meta.decimals))
+              : 0;
           }
-
-          if (ftrslt.ft_meta?.price) {
-            sum = rpcAmount.mul(Big(ftrslt.ft_meta?.price));
+          if (ftrslt?.ft_meta?.price) {
+            sum = rpcAmount.mul(Big(ftrslt?.ft_meta?.price));
             total = total.add(sum);
 
             return pricedTokens.push({
@@ -2873,25 +6189,18 @@ function MainComponent(props) {
 
           return 0;
         });
+
         setFT({
           amount: total.toString(),
           tokens: [...pricedTokens, ...tokens],
         });
 
-        setLoading(false);
+        setIsLoading(false);
       });
     }
 
     loadBalances();
-  }, [inventoryData?.fts, props.id, config?.rpcUrl]);
-
-  useEffect(() => {
-    if (props?.fetchStyles) fetchStyles();
-  }, [props?.fetchStyles]);
-
-  const Theme = styled.div`
-    ${css}
-  `;
+  }, [inventoryData?.fts, id, config?.rpcUrl]);
 
   useEffect(() => {
     function contractCode(address) {
@@ -2957,8 +6266,8 @@ function MainComponent(props) {
             setKey({
               block_hash: resp.block_hash,
               block_height: resp.block_height,
-              keys: resp.keys,
-              hash: resp.hash,
+              keys: resp?.keys,
+              hash: resp?.hash,
             });
           },
         )
@@ -2966,281 +6275,501 @@ function MainComponent(props) {
     }
 
     function loadSchema() {
-      if (!props.id) return;
+      if (!id) return;
 
-      Promise.all([contractCode(props.id), viewAccessKeys(props.id)]);
+      Promise.all([contractCode(id), viewAccessKeys(id)]);
     }
     loadSchema();
-  }, [props.id, config?.rpcUrl]);
+  }, [id, config?.rpcUrl]);
 
-  if (code?.code_base64) {
-    const locked = (key.keys || []).every(
-      (key
+  useEffect(() => {
+    if (code?.code_base64) {
+      const locked = (key.keys || []).every(
+        (key
 
 
 
 
 
 ) => key.access_key.permission !== 'FullAccess',
-    );
+      );
 
-    setContract({ ...code, locked });
-  }
+      function fetchContractInfo() {
+        asyncFetch(`${config?.backendUrl}account/${id}/contract/parse`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+          .then(
+            (res
+
+
+
+
+) => {
+              const resp = res.body.contract;
+              if (res.status === 200 && resp && resp.length > 0) {
+                const [{ contract, schema }] = resp;
+                setContractInfo(contract);
+                setSchema(schema);
+              }
+            },
+          )
+          .catch(() => {});
+      }
+
+      fetchContractInfo();
+
+      setContract({ ...code, locked });
+    }
+  }, [code, key, config?.backendUrl, id]);
+
+  const handleFilter = (name, value) => {
+    const updatedFilters = { ...filters, [name]: value };
+    setFilters(updatedFilters);
+  };
+
+  const onFilterClear = (name) => {
+    let updatedFilters = { ...filters };
+    if (updatedFilters.hasOwnProperty(name)) {
+      delete updatedFilters[name];
+      setFilters(updatedFilters);
+    } else {
+      updatedFilters = {};
+      setFilters(updatedFilters);
+    }
+  };
+
   return (
-    <Theme>
-      <div className="container mx-auto px-3">
-        <div className="flex items-center justify-between flex-wrap pt-4">
-          {!props.id ? (
-            <Skelton />
-          ) : (
-            <h1 className="flex items-center justify-between break-all space-x-2 text-xl text-gray-700 leading-8 px-2">
-              Near Account: @&nbsp;{' '}
-              {props?.id && (
-                <span className="font-semibold text-green-500 ">
-                  {' '}
-                  {'  ' + props.id}
-                </span>
+    <>
+      <div className="flex items-center justify-between flex-wrap pt-4 ">
+        {!id ? (
+          <div className="w-80 max-w-xs px-3 py-5">
+            <Skeleton className="h-7" />
+          </div>
+        ) : (
+          <div className="flex md:flex-wrap">
+            <h1 className="py-4   space-x-2 text-xl text-gray-700 leading-8 px-2">
+              Near Account: @
+              {id && (
+                <span className="font-semibold text-green-500 ">{id}</span>
               )}
               {
                 <Widget
-                  src={`${config.ownerId}/widget/bos-components.components.Shared.Buttons`}
+                  src={`${config?.ownerId}/widget/bos-components.components.Shared.Buttons`}
                   props={{
-                    id: props.id,
+                    id: id,
                     config: config,
                   }}
                 />
               }
             </h1>
-          )}
-          {
-            <Widget
-              src={`${config.ownerId}/widget/bos-components.components.Shared.SponsoredBox`}
-            />
-          }
-        </div>
-        <div className="text-gray-500 px-2 pt-1 border-t">
-          {
-            <Widget
-              src={`${config.ownerId}/widget/bos-components.components.Shared.SponsoredText`}
-              props={{
-                textColor: false,
-              }}
-            />
-          }
-        </div>
-
-        <div className="flex gap-2 mb-2 md:mb-2 mt-10">
-          <div className="w-full">
-            <div className="h-full bg-white soft-shadow rounded-lg">
-              <div className="flex justify-between border-b p-3 text-gray-600">
-                <h2 className="leading-6 text-sm font-semibold">Overview</h2>
-                {tokenData?.name && (
-                  <div className="flex items-center text-xs bg-gray-100 rounded-md px-2 py-1">
-                    <div className="truncate max-w-[110px]">
-                      {tokenData.name}
-                    </div>
-                    {tokenData.website && (
-                      <a
-                        href={tokenData.website}
-                        className="ml-1"
-                        target="_blank"
-                        rel="noopener noreferrer nofollow"
-                      >
-                        <FaExternalLinkAlt />
-                      </a>
-                    )}
+            {/* <div className="py-4 md:flex-wrap break-all space-x-2 text-xl text-gray-700 leading-8 px-2">
+              {
+                <Widget
+                  src={`${config?.ownerId}/widget/bos-components.components.Shared.Buttons`}
+                  props={{
+                    id: id,
+                    config: config,
+                  }}
+                />
+              }
+            </div> */}
+          </div>
+        )}
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="w-full">
+          <div className="h-full bg-white soft-shadow rounded-xl">
+            <div className="flex justify-between border-b p-3 text-nearblue-600">
+              <h2 className="leading-6 text-sm font-semibold">
+                {t ? t('address:overview') : 'Overview'}
+              </h2>
+              {tokenData?.name && (
+                <div className="flex items-center text-xs bg-gray-100 rounded-md px-2 py-1">
+                  <div className="truncate max-w-[110px]">
+                    {tokenData?.name}
+                  </div>
+                  {tokenData?.website && (
+                    <a
+                      href={tokenData?.website}
+                      className="ml-1"
+                      target="_blank"
+                      rel="noopener noreferrer nofollow"
+                    >
+                      <FaExternalLinkAlt />
+                    </a>
+                  )}
+                </div>
+              )}
+            </div>
+            <div className="px-3 divide-y text-sm text-nearblue-600">
+              <div className="flex flex-wrap py-4">
+                <div className="w-full md:w-1/4 mb-2 md:mb-0">
+                  {t ? t('address:balance') : 'Balance'}:
+                </div>
+                {loading ? (
+                  <Skeleton className="h-4 w-32" />
+                ) : (
+                  <div className="w-full md:w-3/4 break-words">
+                    {accountData?.amount
+                      ? yoctoToNear(accountData?.amount, true)
+                      : accountData?.amount ?? ''}{' '}
+                    Ⓝ
                   </div>
                 )}
               </div>
-
-              <div className="px-3 divide-y text-sm text-gray-600">
-                <div className="flex py-4">
-                  <div className="w-full md:w-1/4 mb-2 md:mb-0">Balance:</div>
+              {network === 'mainnet' && statsData?.near_price && (
+                <div className="flex flex-wrap py-4 text-sm text-nearblue-600">
+                  <div className="w-full md:w-1/4 mb-2 md:mb-0">
+                    {t ? t('address:value') : 'Value:'}
+                  </div>
                   {loading ? (
-                    <Skelton />
+                    <Skeleton className="h-4 w-32" />
                   ) : (
-                    <div className="w-full md:w-3/4">
-                      {yoctoToNear(accountData?.amount || 0, true)} Ⓝ
+                    <div className="w-full md:w-3/4 break-words">
+                      {accountData?.amount && statsData?.near_price
+                        ? '$' +
+                          fiatValue(
+                            yoctoToNear(accountData?.amount, false),
+                            statsData?.near_price,
+                          )
+                        : ''}{' '}
+                      <span className="text-xs">
+                        (@ $
+                        {statsData?.near_price
+                          ? dollarFormat(statsData?.near_price)
+                          : statsData?.near_price ?? ''}{' '}
+                        / Ⓝ)
+                      </span>
                     </div>
                   )}
                 </div>
-                {context.networkId === 'mainnet' && statsData?.near_price && (
-                  <div className="flex py-4 text-sm text-gray-600">
-                    <div className="w-full md:w-1/4 mb-2 md:mb-0">Value</div>
-                    {loading ? (
-                      <Skelton />
-                    ) : (
-                      <div className="w-full md:w-3/4 break-words">
-                        $
-                        {fiatValue(
-                          yoctoToNear(accountData.amount || 0, false),
-                          statsData.near_price,
-                        )}{' '}
-                        <span className="text-xs">
-                          (@ ${dollarFormat(statsData.near_price)} / Ⓝ)
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                )}
-                <div className="flex py-4 text-sm text-gray-600">
-                  <div className="w-full md:w-1/4 mb-2 md:mb-0">Tokens:</div>
-                  <div className="w-full md:w-3/4 break-words -my-1">
-                    <TokenHoldings
-                      data={inventoryData}
-                      loading={loading}
-                      ft={ft}
-                      id={props.id}
-                      appUrl={config.appUrl}
-                    />
-                  </div>
+              )}
+              <div className="flex flex-wrap py-4 text-sm text-nearblue-600">
+                <div className="w-full md:w-1/4 mb-2 md:mb-0">
+                  {t ? t('address:tokens') : 'Tokens:'}
+                </div>
+                <div className="w-full md:w-3/4 break-words -my-1 z-10">
+                  <TokenHoldings
+                    data={inventoryData}
+                    loading={isloading}
+                    inventoryLoading={inventoryLoading}
+                    ft={ft}
+                    id={id}
+                    appUrl={config?.appUrl}
+                    Link={Link}
+                  />
                 </div>
               </div>
             </div>
           </div>
-          <div className="w-full">
-            <div className="h-full bg-white soft-shadow rounded-lg overflow-hidden">
-              <h2 className="leading-6 border-b p-3 text-gray-600 text-sm font-semibold">
-                Account information
-              </h2>
-
-              <div className="px-3 divide-y text-sm text-gray-600">
-                <div className="flex justify-between">
-                  <div className="flex xl:flex-nowrap items-center justify-between py-4 w-full">
-                    <div className="w-full mb-2 md:mb-0">Staked Balance:</div>
-                    {loading ? (
-                      <div className="w-full mb-2 break-words">
-                        <Skelton className="" />
-                      </div>
-                    ) : (
-                      <div className="w-full mb-2 break-words">
-                        {yoctoToNear(Number(accountData?.locked || 0), true)} Ⓝ
-                      </div>
-                    )}
+        </div>
+        <div className="w-full">
+          <div className="h-full bg-white soft-shadow rounded-xl overflow-hidden">
+            <h2 className="leading-6 border-b p-3 text-nearblue-600 text-sm font-semibold">
+              {t ? t('address:moreInfo') : 'Account information'}
+            </h2>
+            <div className="px-3 divide-y text-sm text-nearblue-600">
+              <div className="flex justify-between">
+                <div className="flex xl:flex-nowrap flex-wrap items-center justify-between py-4 w-full">
+                  <div className="w-full mb-2 md:mb-0">
+                    Staked {t ? t('address:balance') : 'Balance'}:
                   </div>
-                  <div className="flex ml-4 xl:flex-nowrap items-center justify-between py-4 w-full">
-                    <div className="w-full mb-2 md:mb-0">Storage Used:</div>
-                    {loading ? (
-                      <div className="w-full mb-2 break-words">
-                        <Skelton className="" />
-                      </div>
-                    ) : (
-                      <div className="w-full break-words xl:mt-0 mb-2">
-                        {weight(Number(accountData?.storage_usage) || 0)}
-                      </div>
-                    )}
-                  </div>
-                </div>
-                <div className="flex justify-between">
-                  <div className="flex xl:flex-nowrap items-center justify-between py-4 w-full">
-                    {loading ? (
-                      <div className="w-full mb-2 md:mb-0">
-                        <Skelton className="" />
-                      </div>
-                    ) : (
-                      <div className="w-full mb-2 md:mb-0">
-                        {accountData?.deleted?.transaction_hash
-                          ? 'Deleted At:'
-                          : 'Created At:'}
-                      </div>
-                    )}
-                    {loading ? (
-                      <div className="w-full mb-2 break-words">
-                        <Skelton className="" />
-                      </div>
-                    ) : (
-                      <div className="w-full mb-2 break-words">
-                        {accountData?.deleted?.transaction_hash
-                          ? convertToUTC(
-                              nanoToMilli(accountData.deleted.block_timestamp),
-                              false,
-                            )
-                          : accountData?.created?.transaction_hash
-                          ? convertToUTC(
-                              nanoToMilli(accountData.created.block_timestamp),
-                              false,
-                            )
-                          : accountData?.code_hash
-                          ? 'Genesis'
-                          : 'N/A'}
-                      </div>
-                    )}
-                  </div>
-                  {contract?.hash ? (
-                    <div className="flex ml-4 xl:flex-nowrap items-center justify-between py-4 w-full">
-                      <div className="w-full mb-2">Contract Locked:</div>
-                      <div className="w-full mb-2 break-words">
-                        {contract?.locked ? 'Yes' : 'No'}
-                      </div>
+                  {loading ? (
+                    <div className="w-full break-words">
+                      <Skeleton className="h-4 w-32" />
                     </div>
                   ) : (
-                    <div className="flex ml-4 xl:flex-nowrap items-center justify-between py-4 w-full" />
+                    <div className="w-full break-words xl:mt-0 mt-2">
+                      {accountData?.locked
+                        ? yoctoToNear(accountData?.locked, true) + ' Ⓝ'
+                        : accountData?.locked ?? ''}
+                    </div>
                   )}
                 </div>
-                {deploymentData?.receipt_predecessor_account_id && (
-                  <div className="flex items-center py-4">
-                    <div className="md:w-1/4 mb-2 md:mb-0 ">
-                      Contract Creator:
+                <div className="flex ml-4  xl:flex-nowrap flex-wrap items-center justify-between py-4 w-full">
+                  <div className="w-full mb-2 md:mb-0">Storage Used:</div>
+                  {loading ? (
+                    <div className="w-full break-words">
+                      <Skeleton className="h-4 w-28" />
                     </div>
-                    <div className="ml-10 mb-2 md:w-3/4">
-                      <a
-                        href={`/address/${deploymentData.receipt_predecessor_account_id}`}
-                      >
-                        <a className="text-green-500">
-                          {shortenAddress(
-                            deploymentData.receipt_predecessor_account_id,
-                          )}
-                        </a>
-                      </a>
-                      {' at txn  '}
-                      <a href={`/txns/${deploymentData.transaction_hash}`}>
-                        <a className="text-green-500">
-                          {shortenAddress(deploymentData.transaction_hash)}
-                        </a>
-                      </a>
+                  ) : (
+                    <div className="w-full break-words xl:mt-0 mt-2">
+                      {accountData?.storage_usage
+                        ? weight(accountData?.storage_usage)
+                        : accountData?.storage_usage ?? ''}
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="flex justify-between">
+                <div className="flex xl:flex-nowrap flex-wrap items-center justify-between py-4 w-full">
+                  {loading ? (
+                    <div className="w-full mb-2 md:mb-0">
+                      <Skeleton className="h-4 w-28" />
+                    </div>
+                  ) : (
+                    <div className="w-full mb-2 md:mb-0">
+                      {accountData?.deleted?.transaction_hash
+                        ? 'Deleted At:'
+                        : 'Created At:'}
+                    </div>
+                  )}
+                  {loading ? (
+                    <div className="w-full break-words">
+                      <Skeleton className="h-4 w-40" />
+                    </div>
+                  ) : (
+                    <div className="w-full break-words xl:mt-0 mt-2">
+                      {accountData?.deleted?.transaction_hash
+                        ? convertToUTC(
+                            nanoToMilli(accountData.deleted.block_timestamp),
+                            false,
+                          )
+                        : accountData?.created?.transaction_hash
+                        ? convertToUTC(
+                            nanoToMilli(accountData.created.block_timestamp),
+                            false,
+                          )
+                        : accountData?.code_hash
+                        ? 'Genesis'
+                        : 'N/A'}
+                    </div>
+                  )}
+                </div>
+                {contract?.hash ? (
+                  <div className="flex ml-4 xl:flex-nowrap flex-wrap items-center justify-between py-4 w-full">
+                    <div className="w-full mb-2 md:mb-0">Contract Locked:</div>
+                    <div className="w-full break-words xl:mt-0 mt-2">
+                      {contract?.locked ? 'Yes' : 'No'}
                     </div>
                   </div>
-                )}
-                {tokenData?.name && (
-                  <div className="flex flex-wrap items-center justify-between py-4">
-                    <div className="w-full md:w-1/4 mb-2 md:mb-0 ">
-                      Token Tracker:
-                    </div>
-                    <div className="w-full md:w-3/4 mb-2 break-words">
-                      <div className="flex items-center">
-                        <TokenImage
-                          src={tokenData?.icon}
-                          alt={tokenData?.name}
-                          appUrl={config.appUrl}
-                          className="w-4 h-4 mr-2"
-                        />
-                        <a href={`/token/${props.id}`}>
-                          <a className="flex text-green-500">
-                            <span className="inline-block truncate max-w-[110px] mr-1">
-                              {tokenData.name}
-                            </span>
-                            (
-                            <span className="inline-block truncate max-w-[80px]">
-                              {tokenData.symbol}
-                            </span>
-                            )
-                          </a>
-                        </a>
-                        {tokenData.price && (
-                          <div className="text-gray-500 ml-1">
-                            (@ ${localFormat(tokenData.price)})
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
+                ) : (
+                  <div className="flex ml-4 xl:flex-nowrap flex-wrap items-center justify-between py-4 w-full" />
                 )}
               </div>
+              {deploymentData?.receipt_predecessor_account_id && (
+                <div className="flex flex-wrap items-center justify-between py-4">
+                  <div className="w-full md:w-1/4 mb-2 md:mb-0">
+                    Contract Creator:
+                  </div>
+                  <div className="w-full md:w-3/4 break-words">
+                    <Link
+                      href={`/address/${deploymentData.receipt_predecessor_account_id}`}
+                      className="hover:no-underline"
+                    >
+                      <a className="text-green-500 hover:no-underline">
+                        {shortenAddress(
+                          deploymentData.receipt_predecessor_account_id ?? '',
+                        )}
+                      </a>
+                    </Link>
+                    {' at txn  '}
+                    <Link
+                      href={`/txns/${deploymentData.transaction_hash}`}
+                      className="hover:no-underline"
+                    >
+                      <a className="text-green-500 hover:no-underline">
+                        {shortenAddress(deploymentData.transaction_hash ?? '')}
+                      </a>
+                    </Link>
+                  </div>
+                </div>
+              )}
+              {tokenData?.name && (
+                <div className="flex flex-wrap items-center justify-between py-4">
+                  <div className="w-full md:w-1/4 mb-2 md:mb-0">
+                    Token Tracker:
+                  </div>
+                  <div className="w-full md:w-3/4 break-words">
+                    <div className="flex items-center">
+                      <TokenImage
+                        src={tokenData?.icon}
+                        alt={tokenData?.name}
+                        appUrl={config.appUrl}
+                        className="w-4 h-4 mr-2"
+                      />
+                      <Link
+                        href={`/token/${id}`}
+                        className="hover:no-underline"
+                      >
+                        <a className="flex text-green-500 hover:no-underline">
+                          <span className="inline-block truncate max-w-[110px] mr-1">
+                            {tokenData.name}
+                          </span>
+                          (
+                          <span className="inline-block truncate max-w-[80px]">
+                            {tokenData.symbol}
+                          </span>
+                          )
+                        </a>
+                      </Link>
+                      {tokenData.price && (
+                        <div className="text-nearblue-600 ml-1">
+                          (@ ${localFormat(tokenData.price)})
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
-    </Theme>
+      <div className="py-6"></div>
+      <div className="block lg:flex lg:space-x-2 mb-10">
+        <div className="w-full ">
+          <Tabs.Root defaultValue={pageTab}>
+            <Tabs.List>
+              {tabs &&
+                tabs.map((tab, index) => {
+                  if (
+                    tab === 'Contract' &&
+                    !(contractInfo?.methodNames?.length > 0)
+                  ) {
+                    return null;
+                  }
+                  return (
+                    <Tabs.Trigger
+                      key={index}
+                      onClick={() => {
+                        onTab(index);
+                      }}
+                      className={`text-nearblue-600 text-sm font-medium overflow-hidden inline-block cursor-pointer p-2 mb-3 mr-2 focus:outline-none ${
+                        pageTab === tab
+                          ? 'rounded-lg bg-green-600 text-white'
+                          : 'hover:bg-neargray-800 bg-neargray-700 rounded-lg hover:text-nearblue-600'
+                      }`}
+                      value={tab}
+                    >
+                      {tab === 'Transactions' ? (
+                        <h2>{t ? t('address:txns') : tab}</h2>
+                      ) : tab === 'Token Txns' ? (
+                        <h2>{t ? t('address:tokenTxns') : tab}</h2>
+                      ) : tab === 'Contract' ? (
+                        <div className="flex h-full">
+                          <h2>{tab}</h2>
+                          <div className="absolute text-white bg-neargreen text-[8px] h-4 inline-flex items-center rounded-md ml-11 -mt-3 px-1 ">
+                            NEW
+                          </div>
+                        </div>
+                      ) : tab === 'Comments' ? (
+                        <h2>{t ? t('address:comments') : tab}</h2>
+                      ) : (
+                        <h2>{tab}</h2>
+                      )}
+                    </Tabs.Trigger>
+                  );
+                })}
+            </Tabs.List>
+            <div>
+              <Tabs.Content value={tabs[0]}>
+                {
+                  <Widget
+                    src={`${config?.ownerId}/widget/bos-components.components.Address.Transactions`}
+                    props={{
+                      network: network,
+                      t: t,
+                      id: id,
+                      filters: filters,
+                      handleFilter: handleFilter,
+                      onFilterClear: onFilterClear,
+                      Link,
+                    }}
+                  />
+                }
+              </Tabs.Content>
+              <Tabs.Content value={tabs[1]}>
+                {
+                  <Widget
+                    src={`${config?.ownerId}/widget/bos-components.components.Address.TokenTransactions`}
+                    props={{
+                      network: network,
+                      id: id,
+                      t: t,
+                      filters: filters,
+                      handleFilter: handleFilter,
+                      onFilterClear: onFilterClear,
+                      Link,
+                    }}
+                  />
+                }
+              </Tabs.Content>
+              <Tabs.Content value={tabs[2]}>
+                {
+                  <Widget
+                    src={`${config?.ownerId}/widget/bos-components.components.Address.NFTTransactions`}
+                    props={{
+                      network: network,
+                      id: id,
+                      t: t,
+                      filters: filters,
+                      handleFilter: handleFilter,
+                      onFilterClear: onFilterClear,
+                      Link,
+                    }}
+                  />
+                }
+              </Tabs.Content>
+              <Tabs.Content value={tabs[3]}>
+                {
+                  <Widget
+                    src={`${config?.ownerId}/widget/bos-components.components.Address.AccessKeys`}
+                    props={{
+                      network: network,
+                      id: id,
+                      t: t,
+                      Link,
+                    }}
+                  />
+                }
+              </Tabs.Content>
+              {contractInfo && contractInfo?.methodNames?.length > 0 && (
+                <Tabs.Content value={tabs[4]}>
+                  {
+                    <Widget
+                      src={`${config.ownerId}/widget/bos-components.components.Contract.Overview`}
+                      props={{
+                        network: network,
+                        t: t,
+                        id: id,
+                        contract: contract,
+                        schema: schema,
+                        contractInfo: contractInfo,
+                        requestSignInWithWallet: requestSignInWithWallet,
+                        connected: signedIn,
+                        accountId: accountId,
+                        logOut: logOut,
+                        Link,
+                      }}
+                    />
+                  }
+                </Tabs.Content>
+              )}
+              <Tabs.Content value={tabs[5]}>
+                <div className="bg-white soft-shadow rounded-xl pb-1">
+                  <div className="py-3">
+                    {
+                      <Widget
+                        src={`${config.ownerId}/widget/bos-components.components.Comments.Feed`}
+                        props={{
+                          network: network,
+                          path: `nearblocks.io/address/${id}`,
+                          limit: 10,
+                        }}
+                      />
+                    }
+                  </div>
+                </div>
+              </Tabs.Content>
+            </div>
+          </Tabs.Root>
+        </div>
+      </div>
+    </>
   );
 }
 

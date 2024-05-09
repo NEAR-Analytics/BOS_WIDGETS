@@ -1,23 +1,31 @@
-const ownerId = "potlock.near";
-const REGISTRY_CONTRACT_ID = "registry.potlock.near";
+const {
+  validateNearAddress,
+  validateEVMAddress,
+  validateGithubRepoUrl,
+  getTeamMembersFromSocialProfileData,
+  doesUserHaveDaoFunctionCallProposalPermissions,
+} = VM.require("potlock.near/widget/utils") || {
+  getTeamMembersFromSocialProfileData: () => [],
+  doesUserHaveDaoFunctionCallProposalPermissions: () => "",
+  validateNearAddress: () => "",
+  validateEVMAddress: () => "",
+  validateGithubRepoUrl: () => "",
+};
 const HORIZON_CONTRACT_ID = "nearhorizon.near";
 const SOCIAL_CONTRACT_ID = "social.near";
-
+const ownerId = "potlock.near";
 Big.PE = 100;
 const FIFTY_TGAS = "50000000000000";
 const THREE_HUNDRED_TGAS = "300000000000000";
-const MIN_PROPOSAL_DEPOSIT = "100000000000000000000000"; // 0.1N
+const MIN_PROPOSAL_DEPOSIT_FALLBACK = "100000000000000000000000"; // 0.1N
 
 const IPFS_BASE_URL = "https://nftstorage.link/ipfs/";
 const DEFAULT_BANNER_IMAGE_CID = "bafkreih4i6kftb34wpdzcuvgafozxz6tk6u4f5kcr2gwvtvxikvwriteci";
-// const DEFAULT_BANNER_IMAGE_URL =
-//   IPFS_BASE_URL + "bafkreih4i6kftb34wpdzcuvgafozxz6tk6u4f5kcr2gwvtvxikvwriteci";
-// const DEFAULT_PROFILE_IMAGE_URL =
-//   IPFS_BASE_URL + "bafkreifel4bfm6hxmklcsqjilk3bhvi3acf2rxqepcgglluhginbttkyqm";
-const ADD_TEAM_MEMBERS_ICON_URL =
-  IPFS_BASE_URL + "bafkreig6c7m2z2lupreu2br4pm3xx575mv6uvmuy2qkij4kzzfpt7tipcq";
-const CLOSE_ICON_URL =
-  IPFS_BASE_URL + "bafkreifyg2vvmdjpbhkylnhye5es3vgpsivhigkjvtv2o4pzsae2z4vi5i";
+const DEFAULT_PROFILE_IMAGE_URL =
+  IPFS_BASE_URL + "bafkreifel4bfm6hxmklcsqjilk3bhvi3acf2rxqepcgglluhginbttkyqm";
+// const TRASH_ICON_URL =
+//   IPFS_BASE_URL + "bafkreifuvrxly3wuy4xdmavmdeb2o47nv6pzxwz3xmy6zvkxv76e55lj3y";
+// const EDIT_ICON_URL = IPFS_BASE_URL + "bafkreigc2laqrwu6g4ihm5n2qfxwl3g5phujtrwybone2ouxaz5ittjzee";
 
 const MAX_TEAM_MEMBERS_DISPLAY_COUNT = 5;
 
@@ -37,7 +45,16 @@ const existingHorizonProject = Near.view(HORIZON_CONTRACT_ID, "get_project", {
   account_id: context.accountId,
 });
 
-const projects = Near.view(REGISTRY_CONTRACT_ID, "get_projects", {});
+const ListsSDK =
+  VM.require("potlock.near/widget/SDK.lists") ||
+  (() => ({
+    getRegistrations: () => {},
+    getRegistration: () => {},
+    asyncGetRegistration: () => {},
+  }));
+const lists = ListsSDK({ env: props.env });
+
+const registrations = lists.getRegistrations() || [];
 
 const imageHeightPx = 120;
 const profileImageTranslateYPx = 220;
@@ -55,17 +72,18 @@ const Container = styled.div`
 
 const LowerBannerContainer = styled.div`
   position: absolute;
-  bottom: -250px;
+  top: 340px;
   left: 0px;
   display: flex;
   align-items: stretch; /* Ensuring child elements stretch to full height */
   justify-content: space-between;
   width: 100%;
-
-  // background: green;
-
+  z-index: 10;
   @media screen and (max-width: 768px) {
-    bottom: -310px;
+    top: 310px;
+    align-items: flex-start;
+    gap: 10px;
+    flex-direction: column;
   }
 `;
 
@@ -89,15 +107,15 @@ const LowerBannerContainerRight = styled.div`
   flex: 1;
 `;
 
-const TeamContainer = styled.div`
-  width: 200px;
-  height: 30px;
-  // background: green;
-  margin-bottom: 16px;
-  display: flex;
-  flex-direction: row;
-  // gap: -40px;
-`;
+// const TeamContainer = styled.div`
+//   width: 200px;
+//   height: 30px;
+//   // background: green;
+//   margin-bottom: 16px;
+//   display: flex;
+//   flex-direction: row;
+//   // gap: -40px;
+// `;
 
 const AddTeamMembers = styled.a`
   margin: 0px 0px 16px 36px;
@@ -109,16 +127,19 @@ const AddTeamMembers = styled.a`
   &:hover {
     text-decoration: none;
   }
+  @media screen and (max-width: 768px) {
+    margin-bottom: 0;
+  }
 `;
 
 const FormBody = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 260px 68px 32px 68px;
+  padding: 0px 68px 32px 68px;
   width: 100%;
 
   @media screen and (max-width: 768px) {
-    padding: 320px 32px 32px 32px;
+    padding: 0px 32px 32px 32px;
   }
 `;
 
@@ -195,147 +216,6 @@ const Space = styled.div`
   height: ${(props) => props.height}px;
 `;
 
-const ModalOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  // padding-top: 30vh;
-`;
-
-const ModalContent = styled.div`
-  border-radius: 14px;
-  // width: 60%;
-  padding: 32px;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-`;
-
-const ModalHeader = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  margin-bottom: 24px;
-`;
-
-const ModalHeaderLeft = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-`;
-
-const IconContainer = styled.div`
-  width: 40px;
-  height: 40px;
-  background: #f0f0f0;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 16px;
-`;
-
-const Icon = styled.img`
-  width: 24px;
-  height: 24px;
-  cursor: ${(props) => (props.cursor ? props.cursor : "default")};
-`;
-
-const ModalTitle = styled.div`
-  font-color: #2e2e2e;
-  font-size: 16px;
-  font-weight: 600;
-`;
-
-const ModalDescription = styled.p`
-  font-color: #2e2e2e;
-  font-size: 16px;
-  font-weight: 400;
-=`;
-
-const MembersCount = styled.span`
-  color: #2e2e2e;
-  font-weight: 600;
-`;
-
-const MembersText = styled.div`
-  color: #7b7b7b;
-  font-size: 12px;
-  font-weight: 400;
-`;
-
-const MembersListItem = styled.div`
-  padding: 16px 0px;
-  border-top: 1px #f0f0f0 solid;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const RemoveMember = styled.a`
-  color: #2e2e2e;
-  font-size: 14px;
-  font-weight: 600;
-  visibility: hidden;
-  cursor: pointer;
-  opacity: 0;
-  transition: opacity 0.2s ease-in-out;
-
-  &:hover {
-    text-decoration: none;
-  }
-
-  ${MembersListItem}:hover & {
-    visibility: visible;
-    opacity: 1;
-  }
-`;
-
-const MembersListItemLeft = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 16px;
-`;
-
-const MembersListItemText = styled.div`
-  font-size: 16px;
-  font-weight: 400;
-  color: #2e2e2e;
-`;
-
-const MoreTeamMembersContainer = styled.div`
-  width: 28px;
-  height: 28px;
-  border: 2px solid white;
-  border-radius: 50%;
-  background: #dd3345;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: ${(props) => props.zIndex};
-  margin-right: -8px;
-`;
-
-const MoreTeamMembersText = styled.div`
-  color: white;
-  font-size: 12px;
-  font-weight: 600;
-  text-align: center;
-`;
-
 const InputPrefix = styled.div`
   display: flex;
   justify-content: center;
@@ -350,21 +230,169 @@ const InputPrefix = styled.div`
   box-shadow: 0px -2px 0px rgba(93, 93, 93, 0.24) inset;
 `;
 
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: center;
+`;
+
+const Icon = styled.svg`
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  path {
+    transition: 300ms;
+  }
+  :hover path {
+    fill: #dd3345;
+  }
+`;
+
+const FUNDING_SOURCE_COLUMNS = ["Funding Source", "Description", "Amount", "Denomination"];
+
+const FundingHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background: #f6f5f3;
+  width: 100%;
+`;
+
+const FundingHeaderItem = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: space-between;
+  justify-content: flex-start;
+  padding: 10px 20px;
+  width: ${100 / FUNDING_SOURCE_COLUMNS.length}%;
+`;
+
+const FundingHeaderItemText = styled.div`
+  color: #292929;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 24px;
+  word-wrap: break-word;
+`;
+
+const Table = styled.div`
+  display: flex;
+  flex-direction: column;
+  border-radius: 6px;
+  border: 1px solid #7b7b7b;
+  background: #fff;
+  .header,
+  .fudning-row {
+    display: flex;
+    justify-content: space-between;
+  }
+  .header {
+    border-bottom: 0.5px solid #7b7b7b;
+  }
+  .fudning-row:not(:last-of-type) {
+    border-bottom: 0.5px solid #7b7b7b;
+  }
+  .item {
+    width: 140px;
+    display: flex;
+    align-items: center;
+    &:nth-of-type(1) {
+      width: 190px;
+    }
+    &:nth-of-type(2) {
+      flex: 1;
+    }
+  }
+  .source {
+    width: 190px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    div {
+      font-weight: 600;
+    }
+    div:last-of-type {
+      color: #7b7b7b;
+      font-weight: 400;
+    }
+  }
+  .amount {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+    div:last-child {
+      font-weight: 600;
+    }
+  }
+  .btns {
+    width: 95px;
+    gap: 2rem;
+    justify-content: space-between;
+    svg {
+      cursor: pointer;
+      path {
+        transition: 300ms ease-in-out;
+      }
+      &:hover {
+        path {
+          fill: black;
+        }
+      }
+    }
+  }
+  .header .item {
+    padding: 10px 1rem;
+    color: #7b7b7b;
+    font-weight: 600;
+  }
+  .fudning-row .item {
+    padding: 1rem 1rem;
+  }
+  @media only screen and (max-width: 769px) {
+    .header {
+      display: none;
+    }
+    .fudning-row {
+      flex-direction: column;
+    }
+    .item {
+      width: 100%;
+      justify-content: flex-start;
+    }
+  }
+`;
+
 State.init({
   isDao: false,
   daoAddressTemp: "", // used while input is focused
   daoAddress: "", // set on input blur
   daoAddressError: "",
+  existingSocialData: {},
   backgroundImage: {
     ipfs_cid: DEFAULT_BANNER_IMAGE_CID,
   },
   profileImage: "",
   name: "",
   nameError: "",
-  category: "",
-  categoryError: "",
+  originalCategories: [], // to keep track of removals
+  categories: [],
+  categoriesError: "",
   description: "",
   descriptionError: "",
+  publicGoodReason: "",
+  publicGoodReasonError: "",
+  hasSmartContracts: false,
+  originalSmartContracts: [], // to keep track of removals
+  smartContracts: [["", ""]], // [chain, contractAddress]
+  originalGithubRepos: [], // to keep track of removals
+  githubRepos: [[""]],
+  hasReceivedFunding: false,
+  fundingSourceIndex: null,
+  originalFundingSources: [], // to keep track of removals
+  fundingSources: [],
   website: "",
   websiteError: "",
   twitter: "",
@@ -375,9 +403,7 @@ State.init({
   githubError: "",
   socialDataFetched: false,
   socialDataIsFetching: false,
-  registeredProjects: null,
-  getRegisteredProjectsError: "",
-  isModalOpen: false,
+  isMultiAccountModalOpen: false,
   teamMember: "",
   teamMembers: [],
   nearAccountIdError: "",
@@ -386,33 +412,73 @@ State.init({
   alertMessage: "",
 });
 
+const CATEGORY_MAPPINGS = {
+  SOCIAL_IMPACT: "Social Impact",
+  NON_PROFIT: "NonProfit",
+  CLIMATE: "Climate",
+  PUBLIC_GOOD: "Public Good",
+  DE_SCI: "DeSci",
+  OPEN_SOURCE: "Open Source",
+  COMMUNITY: "Community",
+  EDUCATION: "Education",
+  _deprecated: {
+    "social-impact": "SOCIAL_IMPACT",
+    "non-profit": "NON_PROFIT",
+    climate: "CLIMATE",
+    "public-good": "PUBLIC_GOOD",
+    "de-sci": "DE_SCI",
+    "open-source": "OPEN_SOURCE",
+    community: "COMMUNITY",
+    education: "EDUCATION",
+  },
+};
+
+const CHAIN_OPTIONS = {
+  NEAR: { isEVM: false },
+  Solana: { isEVM: false },
+  Ethereum: { isEVM: true },
+  Polygon: { isEVM: true },
+  Avalanche: { isEVM: true },
+  Optimism: { isEVM: true },
+  Arbitrum: { isEVM: true },
+  BNB: { isEVM: true },
+  Sui: { isEVM: false },
+  Aptos: { isEVM: false },
+  Polkadot: { isEVM: false },
+  Stellar: { isEVM: false },
+  ZkSync: { isEVM: false }, // Note: ZkSync aims for EVM compatibility but might not fully be considered as traditional EVM at the time of writing.
+  Celo: { isEVM: true },
+  Aurora: { isEVM: true },
+  Injective: { isEVM: true },
+  Base: { isEVM: false },
+  Manta: { isEVM: false }, // Listed twice in the original list; included once here.
+  Fantom: { isEVM: true },
+  ZkEVM: { isEVM: true }, // Considering the name, assuming it aims for EVM compatibility.
+  Flow: { isEVM: false },
+  Tron: { isEVM: true },
+  MultiverseX: { isEVM: false }, // Formerly known as Elrond, not traditionally EVM but has some level of compatibility.
+  Scroll: { isEVM: true }, // Assuming EVM compatibility based on the context of ZkEVM.
+  Linea: { isEVM: true }, // Assuming non-EVM due to lack of information.
+  Metis: { isEVM: true },
+};
+
 const accountId = props.projectId
   ? props.projectId
   : state.isDao
   ? state.daoAddress
   : context.accountId;
 const policy = Near.view(accountId, "get_policy", {});
+const userHasPermissions =
+  policy == null
+    ? false
+    : policy == undefined ||
+      doesUserHaveDaoFunctionCallProposalPermissions(context.accountId, policy);
 
-const userHasPermissions = useMemo(() => {
-  if (!policy) return true;
-  // TODO: break this out (NB: duplicated in Project.CreateForm)
-  const userRoles = policy.roles.filter((role) => {
-    if (role.kind === "Everyone") return true;
-    return role.kind.Group && role.kind.Group.includes(context.accountId);
-  });
-  const kind = "call";
-  const action = "AddProposal";
-  // Check if the user is allowed to perform the action
-  const allowed = userRoles.some(({ permissions }) => {
-    return (
-      permissions.includes(`${kind}:${action}`) ||
-      permissions.includes(`${kind}:*`) ||
-      permissions.includes(`*:${action}`) ||
-      permissions.includes("*:*")
-    );
-  });
-  return allowed;
-}, [policy]);
+// const userHasPermissions = useMemo(() => {
+//   if (policy == undefined) return true;
+//   if (policy == null) return false;
+//   return doesUserHaveDaoFunctionCallProposalPermissions(policy);
+// }, [policy]);
 
 const getImageUrlFromSocialImage = (image) => {
   if (image.url) {
@@ -432,15 +498,18 @@ const Modal = ({ isOpen, onClose, children }) => {
   );
 };
 
+// console.log("state: ", state);
+
 const setSocialData = (accountId, shouldSetTeamMembers) => {
-  Near.asyncView("social.near", "get", { keys: [`${accountId}/profile/**`] })
+  Near.asyncView("social.near", "get", { keys: [`${accountId}/**`] })
     .then((socialData) => {
-      // console.log("socialData: ", socialData);
+      console.log("socialData: ", socialData);
       if (!socialData || !socialData[accountId].profile) {
         State.update({
           socialDataFetched: true,
           name: "",
-          category: "",
+          originalCategories: [],
+          categories: [],
           description: "",
           website: "",
           twitter: "",
@@ -454,20 +523,71 @@ const setSocialData = (accountId, shouldSetTeamMembers) => {
       const backgroundImage = profileData.backgroundImage;
       const profileImage = profileData.image || "";
       const description = profileData.description || "";
-      const category = typeof profileData.category == "string" ? profileData.category : "";
+      const publicGoodReason = profileData.plPublicGoodReason || "";
+      let categories = [];
+      if (profileData.plCategories) {
+        categories = JSON.parse(profileData.plCategories);
+      } else if (profileData.category) {
+        // old/deprecated version
+        if (typeof profileData.category == "string") {
+          const availableCategory =
+            CATEGORY_MAPPINGS[CATEGORY_MAPPINGS._deprecated[profileData.category]];
+          if (availableCategory) {
+            categories.push(availableCategory);
+          }
+        }
+      }
+      const smartContracts = profileData.plSmartContracts
+        ? Object.entries(JSON.parse(profileData.plSmartContracts)).reduce(
+            (accumulator, [chain, contracts]) => {
+              // Iterate over each contract address in the current chain
+              const contractsForChain = Object.keys(contracts).map((contractAddress) => {
+                return [chain, contractAddress]; // Create an array with the chain and contract address
+              });
+
+              return accumulator.concat(contractsForChain); // Add the arrays for this chain to the accumulator
+            },
+            []
+          )
+        : [];
+      const hasSmartContracts = smartContracts.length > 0;
+      smartContracts.push(["", ""]); // Add an empty string to the end of the array to allow for adding new contracts
+
+      const githubRepos = profileData.plGithubRepos
+        ? JSON.parse(profileData.plGithubRepos).map((repo) => [repo])
+        : [];
+      const originalGithubRepos = githubRepos;
+      githubRepos.push([""]); // Add an empty string to the end of the array to allow for adding new repos
+
+      const fundingSources = profileData.plFundingSources
+        ? JSON.parse(profileData.plFundingSources)
+        : [];
+      const hasReceivedFunding = fundingSources.length > 0;
+
       const linktree = profileData.linktree || {};
       const twitter = linktree.twitter || "";
       const telegram = linktree.telegram || "";
       const github = linktree.github || "";
       const website = linktree.website || "";
-      const team = profileData.team || {};
+      const team = getTeamMembersFromSocialProfileData(profileData);
       // update state
       const stateUpdates = {
+        existingSocialData: socialData[accountId],
         backgroundImage,
         profileImage,
         name: profileData?.name || "",
         description,
-        category,
+        publicGoodReason,
+        originalCategories: categories,
+        categories,
+        hasSmartContracts,
+        originalSmartContracts: smartContracts,
+        smartContracts,
+        originalGithubRepos,
+        githubRepos,
+        hasReceivedFunding,
+        originalFundingSources: fundingSources,
+        fundingSources,
         twitter,
         telegram,
         github,
@@ -478,12 +598,7 @@ const setSocialData = (accountId, shouldSetTeamMembers) => {
         stateUpdates.backgroundImage = backgroundImage;
       }
       if (shouldSetTeamMembers) {
-        stateUpdates.teamMembers = Object.entries(team)
-          .filter(([_address, value]) => value !== null)
-          .map(([address, _]) => ({
-            address,
-            imageUrl: DEFAULT_PROFILE_IMAGE_URL, // TODO: fetch actual image from near social. or better, move ProfileImage to its own component that handles the social data fetching
-          }));
+        stateUpdates.teamMembers = team;
       }
       State.update(stateUpdates);
     })
@@ -501,33 +616,56 @@ useEffect(() => {
   }
 }, [state.socialDataFetched, state.isDao, state.daoAddress, context.accountId]);
 
-if (context.accountId && !state.registeredProjects) {
-  Near.asyncView(REGISTRY_CONTRACT_ID, "get_projects", {})
-    .then((projects) => {
-      State.update({ registeredProjects: projects });
-    })
-    .catch((e) => {
-      console.log("error getting projects: ", e);
-      State.update({ getRegisteredProjectsError: e });
-    });
-}
-
 const isCreateProjectDisabled =
   state.daoAddressError ||
   !state.name ||
   state.nameError ||
   !state.description ||
   state.descriptionError ||
-  !state.category ||
-  state.categoryError;
+  !state.publicGoodReason ||
+  state.publicGoodReasonError ||
+  (state.categories.includes(CATEGORY_MAPPINGS.OPEN_SOURCE) &&
+    !state.githubRepos.filter((val) => val[0]).length) ||
+  (state.hasSmartContracts && !state.smartContracts.length) || // TODO: REVIEW THIS
+  (state.hasReceivedFunding && !state.fundingSources.length) ||
+  !state.categories.length ||
+  state.categoriesError;
 
-// console.log("isCreateProjectDisabled: ", isCreateProjectDisabled);
-// console.log("state: ", state);
-// console.log("policy: ", policy);
+const deepObjectDiff = (objOriginal, objUpdated) => {
+  if (!objUpdated) objUpdated = {};
+  let diff = {};
+
+  function findDiff(original, updated, diffObj) {
+    Object.keys(updated).forEach((key) => {
+      const updatedValue = updated[key];
+      const originalValue = original ? original[key] : undefined;
+
+      // If both values are objects, recurse.
+      if (
+        typeof updatedValue === "object" &&
+        updatedValue !== null &&
+        (originalValue === undefined ||
+          (typeof originalValue === "object" && originalValue !== null))
+      ) {
+        const nestedDiff = originalValue ? findDiff(originalValue, updatedValue, {}) : updatedValue;
+        if (Object.keys(nestedDiff).length > 0) {
+          diffObj[key] = nestedDiff;
+        }
+      } else if (updatedValue !== originalValue) {
+        // Direct comparison for string values.
+        diffObj[key] = updatedValue;
+      }
+    });
+
+    return diffObj;
+  }
+
+  return findDiff(objOriginal, objUpdated, diff);
+};
 
 const handleCreateOrUpdateProject = (e) => {
   if (isCreateProjectDisabled) return;
-  const daoAddressValid = state.isDao ? props.validateNearAddress(state.daoAddress) : true;
+  const daoAddressValid = state.isDao ? validateNearAddress(state.daoAddress) : true;
   if (!daoAddressValid) {
     State.update({
       daoAddressError: "Invalid NEAR account ID",
@@ -535,69 +673,93 @@ const handleCreateOrUpdateProject = (e) => {
     return;
   }
 
-  const socialArgs = {
-    data: {
-      [accountId]: {
-        // basic profile details
-        profile: {
-          name: state.name,
-          category: state.category,
-          description: state.description,
-          linktree: {
-            website: state.website,
-            twitter: state.twitter,
-            telegram: state.telegram,
-            github: state.github,
-          },
-          team: state.teamMembers.reduce(
-            (acc, tm) => ({ ...acc, [tm.accountId]: tm.remove ? null : "" }),
-            {}
-          ),
+  // format smart contracts
+  const formattedSmartContracts = state.smartContracts.reduce(
+    (accumulator, [chain, contractAddress]) => {
+      if (!chain || !contractAddress) return accumulator; // Skip empty entries
+      // If the chain doesn't exist in the accumulator, initialize it with an empty object
+      if (!accumulator[chain]) {
+        accumulator[chain] = {};
+      }
+      // Add the contractAddress with an empty string as its value under the chain
+      accumulator[chain][contractAddress] = "";
+      return accumulator; // Return the updated accumulator for the next iteration
+    },
+    {}
+  );
+
+  const socialData = {
+    // basic profile details
+    profile: {
+      name: state.name,
+      plCategories: JSON.stringify(state.categories),
+      description: state.description,
+      plPublicGoodReason: state.publicGoodReason,
+      plSmartContracts: state.hasSmartContracts ? JSON.stringify(formattedSmartContracts) : null,
+      plGithubRepos: JSON.stringify(state.githubRepos.map((repo) => repo[0]).filter((val) => val)),
+      plFundingSources: JSON.stringify(state.fundingSources),
+      linktree: {
+        website: state.website,
+        twitter: state.twitter,
+        telegram: state.telegram,
+        github: state.github,
+      },
+      plTeam: JSON.stringify(state.teamMembers),
+    },
+    // follow & star Potlock
+    index: {
+      star: {
+        key: {
+          type: "social",
+          path: `${ownerId}/widget/Index`,
         },
-        // follow & star Potlock
-        index: {
-          star: {
-            key: {
-              type: "social",
-              path: `${ownerId}/widget/Index`,
-            },
-            value: {
-              type: "star",
-            },
-          },
-          notify: {
-            key: ownerId,
-            value: {
-              type: "star",
-              item: {
-                type: "social",
-                path: `${ownerId}/widget/Index`,
-              },
-            },
-          },
+        value: {
+          type: "star",
         },
-        graph: {
-          star: {
-            [ownerId]: {
-              widget: {
-                Index: "",
-              },
-            },
-          },
-          follow: {
-            [ownerId]: "",
+      },
+      notify: {
+        key: ownerId,
+        value: {
+          type: "star",
+          item: {
+            type: "social",
+            path: `${ownerId}/widget/Index`,
           },
         },
       },
     },
+    graph: {
+      star: {
+        [ownerId]: {
+          widget: {
+            Index: "",
+          },
+        },
+      },
+      follow: {
+        [ownerId]: "",
+      },
+    },
   };
+
   if (state.backgroundImage) {
-    socialArgs.data[accountId].profile.backgroundImage = state.backgroundImage;
+    socialData.profile.backgroundImage = state.backgroundImage;
   }
   if (state.profileImage) {
-    socialArgs.data[accountId].profile.image = state.profileImage;
+    socialData.profile.image = state.profileImage;
   }
-  const potlockRegistryArgs = {};
+
+  const diff = deepObjectDiff(state.existingSocialData, socialData);
+
+  const socialArgs = {
+    data: {
+      [accountId]: diff,
+    },
+  };
+
+  const potlockRegistryArgs = {
+    list_id: 1, // hardcoding to potlock registry list for now
+  };
   const horizonArgs = { account_id: state.isDao ? state.daoAddress : context.accountId };
 
   // first, we have to get the account from social.near to see if it exists. If it doesn't, we need to add 0.1N to the deposit
@@ -609,7 +771,7 @@ const handleCreateOrUpdateProject = (e) => {
       methodName: "set",
       args: socialArgs,
     };
-    let depositFloat = JSON.stringify(socialArgs).length * 0.00003;
+    let depositFloat = JSON.stringify(socialArgs).length * 0.00015;
     if (!account) {
       depositFloat += 0.1;
     }
@@ -623,8 +785,8 @@ const handleCreateOrUpdateProject = (e) => {
       transactions.push(
         // register project on potlock
         {
-          contractName: REGISTRY_CONTRACT_ID,
-          methodName: "register",
+          contractName: lists.getContractId(),
+          methodName: "register_batch",
           deposit: Big(0.05).mul(Big(10).pow(24)),
           args: potlockRegistryArgs,
         }
@@ -668,7 +830,7 @@ const handleCreateOrUpdateProject = (e) => {
               },
             },
           },
-          deposit: policy.proposal_bond || MIN_PROPOSAL_DEPOSIT,
+          deposit: policy.proposal_bond || MIN_PROPOSAL_DEPOSIT_FALLBACK,
           gas: THREE_HUNDRED_TGAS,
         };
       });
@@ -680,13 +842,12 @@ const handleCreateOrUpdateProject = (e) => {
     const pollIntervalMs = 1000;
     // const totalPollTimeMs = 60000; // consider adding in to make sure interval doesn't run indefinitely
     const pollId = setInterval(() => {
-      Near.asyncView(REGISTRY_CONTRACT_ID, "get_project_by_id", {
-        project_id: context.accountId,
-        // TODO: implement pagination (should be OK without until there are 500+ donations from this user)
-      }).then((_project) => {
-        // won't get here unless project exists
-        clearInterval(pollId);
-        State.update({ registrationSuccess: true });
+      // This is an async request, not converting to SDK yet
+      lists.asyncGetRegistration(null, context.accountId).then((_project) => {
+        if (_project) {
+          clearInterval(pollId);
+          State.update({ registrationSuccess: true });
+        }
       });
     }, pollIntervalMs);
   });
@@ -705,14 +866,10 @@ if (props.projectId) {
 }
 
 const registeredProject = useMemo(() => {
-  return state.registeredProjects
-    ? state.registeredProjects?.find(
-        (project) => project.id == (state.isDao ? state.daoAddress : context.accountId)
-      )
-    : null;
-}, [state.registeredProjects, state.isDao, state.daoAddress]);
+  return lists.getRegistration(null, state.isDao ? state.daoAddress : context.accountId);
+}, [state.isDao, state.daoAddress]);
 
-// console.log("registeredProject: ", registeredProject);
+console.log("registeredProject: ", registeredProject);
 
 const proposals = Near.view(state.daoAddress, "get_proposals", {
   from_index: 0,
@@ -724,61 +881,28 @@ const proposalInProgress = useMemo(() => {
   return proposals?.find((proposal) => {
     return (
       proposal.status == "InProgress" &&
-      proposal.kind.FunctionCall?.receiver_id == REGISTRY_CONTRACT_ID &&
+      proposal.kind.FunctionCall?.receiver_id == lists.getContractId() &&
       proposal.kind.FunctionCall?.actions[0]?.method_name == "register"
     );
   });
 }, [state, proposals]);
 
 const handleAddTeamMember = () => {
-  let isValid = props.validateNearAddress(state.teamMember);
+  let isValid = validateNearAddress(state.teamMember);
   if (!isValid) {
     State.update({
       nearAccountIdError: "Invalid NEAR account ID",
     });
     return;
   }
-  if (!state.teamMembers.find((tm) => tm.accountId == state.teamMember)) {
-    // get data from social.near
-    const profileImageUrl = DEFAULT_PROFILE_IMAGE_URL;
-    const fullTeamMember = {
-      accountId: state.teamMember.toLowerCase(),
-      imageUrl: profileImageUrl,
-    };
-    Near.asyncView("social.near", "get", { keys: [`${state.teamMember}/profile/**`] })
-      .then((socialData) => {
-        if (socialData) {
-          const profileData = socialData[state.teamMember].profile;
-          if (!profileData) return;
-          // get profile image URL
-          if (profileData.image) {
-            const imageUrl = getImageUrlFromSocialImage(profileData.image);
-            if (imageUrl) fullTeamMember.imageUrl = imageUrl;
-          }
-        }
-      })
-      .catch((e) => {
-        console.log("error getting social data: ", e);
-      })
-      .finally(() => {
-        State.update({
-          teamMembers: [...state.teamMembers, fullTeamMember],
-          teamMember: "",
-          nearAccountIdError: "",
-        });
-      });
+  if (!state.teamMembers.find((tm) => tm == state.teamMember)) {
+    // update state
+    State.update({
+      teamMembers: [...state.teamMembers, state.teamMember],
+      teamMember: "",
+      nearAccountIdError: "",
+    });
   }
-};
-
-const CATEGORY_MAPPINGS = {
-  "social-impact": "Social Impact",
-  "non-profit": "NonProfit",
-  climate: "Climate",
-  "public-good": "Public Good",
-  "de-sci": "DeSci",
-  "open-source": "Open Source",
-  community: "Community",
-  education: "Education",
 };
 
 const FormSectionLeft = (title, description, isRequired) => {
@@ -815,7 +939,17 @@ const FormSectionLeft = (title, description, isRequired) => {
   );
 };
 
-if (props.edit && (!registeredProject || !userHasPermissions)) {
+const DeleteIcon = (props) => (
+  <Icon {...props} viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M2.5 14C2.0875 14 1.73437 13.8531 1.44062 13.5594C1.14687 13.2656 1 12.9125 1 12.5V2.5H0V1H4V0H8V1H12V2.5H11V12.491C11 12.9137 10.8531 13.2708 10.5594 13.5625C10.2656 13.8542 9.9125 14 9.5 14H2.5ZM9.5 2.5H2.5V12.5H9.5V2.5ZM4 11H5.5V4H4V11ZM6.5 11H8V4H6.5V11Z"
+      fill="#7B7B7B"
+    />
+  </Icon>
+);
+
+// if (props.edit && (!registeredProject || !userHasPermissions)) { // TODO: ADD THIS BACK IN
+if (props.edit && !userHasPermissions) {
   return <h3 style={{ textAlign: "center", paddingTop: "32px" }}>Unauthorized</h3>;
 }
 
@@ -827,11 +961,13 @@ const uploadFileUpdateState = (body, callback) => {
   }).then(callback);
 };
 
-console.log("state: ", state);
+// console.log("state in create form: ", state);
+
+console.log(state.fundingSources);
 
 return (
   <Container>
-    {!state.socialDataFetched || !projects ? (
+    {!state.socialDataFetched || !registrations ? (
       <div class="spinner-border text-secondary" role="status" />
     ) : proposalInProgress ? (
       <Container
@@ -875,7 +1011,9 @@ return (
               type: "primary",
               text: "View your project",
               disabled: false,
-              href: `?tab=project&projectId=${registeredProject?.id || context.accountId}`,
+              href: props.hrefWithParams(
+                `?tab=project&projectId=${registeredProject?.id || context.accountId}`
+              ),
             }}
           />
           <Widget
@@ -884,7 +1022,7 @@ return (
               type: "secondary",
               text: "View all projects",
               disabled: false,
-              href: `?tab=projects`,
+              href: props.hrefWithParams(`?tab=projects`),
             }}
           />
         </ButtonsContainer>
@@ -892,16 +1030,10 @@ return (
     ) : (
       <>
         <Widget
-          src={`${ownerId}/widget/Project.BannerHeader`}
+          src={`${ownerId}/widget/Profile.BannerHeader`}
           props={{
             ...props,
             projectId: state.isDao && state.daoAddress ? state.daoAddress : context.accountId, // TODO: consider updating to use dao address if available, but will look weird bc no DAOs prob have a banner image on near social
-            backgroundStyle: {
-              objectFit: "cover",
-              left: 0,
-              top: 0,
-              height: "280px",
-            },
             // allowEdit: true,
             backgroundImage: state.backgroundImage,
             profileImage: state.profileImage,
@@ -924,46 +1056,20 @@ return (
             children: (
               <LowerBannerContainer>
                 <LowerBannerContainerLeft>
-                  <AddTeamMembers onClick={() => State.update({ isModalOpen: true })}>
+                  <AddTeamMembers onClick={() => State.update({ isMultiAccountModalOpen: true })}>
                     {state.teamMembers.length > 0
                       ? "Add or remove team members"
                       : "Add team members"}
                   </AddTeamMembers>
                 </LowerBannerContainerLeft>
                 <LowerBannerContainerRight>
-                  <TeamContainer>
-                    {state.teamMembers.length > MAX_TEAM_MEMBERS_DISPLAY_COUNT && (
-                      <MoreTeamMembersContainer zIndex={state.teamMembers.length + 1}>
-                        <MoreTeamMembersText>{MAX_TEAM_MEMBERS_DISPLAY_COUNT}+</MoreTeamMembersText>
-                      </MoreTeamMembersContainer>
-                    )}
-                    {state.teamMembers
-                      .filter((teamMember) => !teamMember.remove)
-                      .slice(0, MAX_TEAM_MEMBERS_DISPLAY_COUNT)
-                      .map((teamMember, idx) => {
-                        return (
-                          <Widget
-                            src="mob.near/widget/ProfileImage"
-                            props={{
-                              accountId: teamMember.accountId,
-                              style: {
-                                width: "28px",
-                                height: "28px",
-                                zIndex: state.isModalOpen ? 0 : state.teamMembers.length - idx,
-                                margin: "0 -8px 0 0",
-                                border: "2px solid white",
-                                borderRadius: "50%",
-                                background: "white",
-                              },
-                              className: "mb-2",
-                              imageClassName: "rounded-circle w-100 h-100 d-block",
-                              thumbnail: false,
-                              tooltip: true,
-                            }}
-                          />
-                        );
-                      })}
-                  </TeamContainer>
+                  <Widget
+                    src={`${ownerId}/widget/Components.AccountsStack`}
+                    props={{
+                      accountIds: state.teamMembers,
+                      sendToBack: state.isMultiAccountModalOpen,
+                    }}
+                  />
                 </LowerBannerContainerRight>
               </LowerBannerContainer>
             ),
@@ -1011,7 +1117,7 @@ return (
                   validate: () => {
                     // **CALLED ON BLUR**
                     if (state.isDao) {
-                      const isValid = props.validateNearAddress(state.daoAddressTemp);
+                      const isValid = validateNearAddress(state.daoAddressTemp);
                       if (!isValid) {
                         State.update({
                           daoAddressError: "Invalid NEAR account ID",
@@ -1049,9 +1155,7 @@ return (
                             const councilRole = policy.roles.find(
                               (role) => role.name === "council"
                             );
-                            const councilTeamMembers = (councilRole?.kind?.Group || []).map(
-                              (tm) => ({ accountId: tm })
-                            );
+                            const councilTeamMembers = councilRole?.kind?.Group || [];
                             State.update({
                               daoAddress: state.daoAddressTemp,
                               teamMembers: councilTeamMembers,
@@ -1122,33 +1226,394 @@ return (
               <Space height={24} />
 
               <Widget
-                src={`${ownerId}/widget/Inputs.Select`}
+                src={`${ownerId}/widget/Inputs.TextArea`}
                 props={{
-                  label: "Select category *",
-                  noLabel: false,
+                  label: "Reason for considering yourself a public good *",
+                  placeholder: "Type response",
+                  value: state.publicGoodReason,
+                  onChange: (publicGoodReason) => State.update({ publicGoodReason }),
+                  validate: () => {
+                    if (state.publicGoodReason.length > 500) {
+                      State.update({
+                        publicGoodReasonError: "Response must be less than 500 characters",
+                      });
+                      return;
+                    }
+
+                    State.update({ publicGoodReasonError: "" });
+                  },
+                  error: state.publicGoodReasonError,
+                }}
+              />
+              <Space height={24} />
+
+              <Widget
+                src={`${ownerId}/widget/Inputs.SelectMultiple`}
+                props={{
+                  label: "Select category (select multiple) *",
                   placeholder: "Choose category",
-                  options: Object.entries(CATEGORY_MAPPINGS).map(([value, text]) => ({
-                    value,
-                    text,
-                  })),
-                  value: { text: CATEGORY_MAPPINGS[state.category] || "", value: state.category },
-                  onChange: (category) => {
+                  options: Object.values(CATEGORY_MAPPINGS).filter((el) => typeof el === "string"),
+                  onChange: (categories) => {
                     State.update({
-                      category: category.value,
+                      categories,
                     });
                   },
-                  validate: () => {
-                    if (!state.category) {
-                      State.update({
-                        categoryError: "Please select a category",
-                      });
-                    }
+                  selected: state.categories,
+                }}
+              />
+              <Space height={24} />
+              <Widget
+                src={`${ownerId}/widget/Inputs.Checkbox`}
+                props={{
+                  id: "hasSmartContractsSelector",
+                  checked: state.hasSmartContracts,
+                  onClick: (e) => {
+                    State.update({ hasSmartContracts: e.target.checked });
                   },
-                  error: state.categoryError,
+                  label: "Yes, my project has smart contracts",
+                  containerStyle: {
+                    marginBottom: "16px",
+                  },
+                }}
+              />
+              <Widget
+                src={`${ownerId}/widget/Inputs.Checkbox`}
+                props={{
+                  id: "hasReceivedFundingSelector",
+                  checked: state.hasReceivedFunding,
+                  onClick: (e) => {
+                    State.update({ hasReceivedFunding: e.target.checked });
+                  },
+                  label: "Yes, my project has received funding",
+                  // containerStyle: {
+                  //   marginBottom: "24px",
+                  // },
                 }}
               />
             </FormSectionRightDiv>
           </FormSectionContainer>
+          {state.categories.includes(CATEGORY_MAPPINGS.OPEN_SOURCE) && (
+            <>
+              <FormDivider />
+              <FormSectionContainer>
+                {FormSectionLeft(
+                  "Add Your Repositories",
+                  "Add full URLs for specific github repositories so we can track their popularity.",
+                  true
+                )}
+                <FormSectionRightDiv>
+                  {state.githubRepos.map((repo, index) => {
+                    return (
+                      <Row style={{ marginBottom: "12px" }} key={index}>
+                        <Widget
+                          src={`${ownerId}/widget/Inputs.Text`}
+                          props={{
+                            label: "GitHub Repo URL #" + (index + 1),
+                            // preInputChildren: <InputPrefix>github.com/</InputPrefix>,
+                            inputStyles: { borderRadius: "0px 4px 4px 0px" },
+                            value: state.githubRepos[index][0],
+                            onChange: (repo) =>
+                              State.update({
+                                githubRepos: state.githubRepos.map((r, i) =>
+                                  i == index ? [repo] : [r[0]]
+                                ),
+                              }),
+                            validate: () => {
+                              // validate link
+                              const isValid = validateGithubRepoUrl(repo);
+                              // if invalid, set the error as the 2nd element of the array
+                              if (!isValid) {
+                                State.update({
+                                  githubRepos: state.githubRepos.map((r, i) =>
+                                    i == index ? [r[0], "Invalid GitHub Repo URL"] : [r[0]]
+                                  ),
+                                });
+                                return;
+                              }
+                            },
+                            error: state.githubRepos[index][1] || "",
+                          }}
+                        />
+                        {state.githubRepos.length > 1 && (
+                          <div style={{ height: "100%", display: "flex", alignItems: "center" }}>
+                            <DeleteIcon
+                              onClick={() => {
+                                const updatedRepos = state.githubRepos.filter((r, i) => i != index);
+                                State.update({
+                                  githubRepos: updatedRepos,
+                                });
+                              }}
+                            />
+                          </div>
+                        )}
+                      </Row>
+                    );
+                  })}
+                  <Widget
+                    src={`${ownerId}/widget/Components.Button`}
+                    props={{
+                      type: "tertiary",
+                      text: "Add another repository",
+                      disabled: !state.githubRepos[state.githubRepos.length - 1][0],
+                      onClick: () => {
+                        State.update({
+                          githubRepos: [...state.githubRepos, [""]],
+                        });
+                      },
+                    }}
+                  />
+                </FormSectionRightDiv>
+              </FormSectionContainer>
+            </>
+          )}
+          {state.hasSmartContracts && (
+            <>
+              <FormDivider />
+              <FormSectionContainer>
+                {FormSectionLeft(
+                  "Smart contracts",
+                  "Add smart contracts from different chains that belong to your application.",
+                  true
+                )}
+                <FormSectionRightDiv>
+                  {state.smartContracts.map(([chain, contractAddress], index) => {
+                    return (
+                      <Row style={{ marginBottom: "12px" }} key={index}>
+                        <Widget
+                          src={`${ownerId}/widget/Inputs.Select`}
+                          props={{
+                            label: "Add chain",
+                            noLabel: false,
+                            placeholder: "Select chain",
+                            options: Object.keys(CHAIN_OPTIONS).map((chain) => ({
+                              text: chain,
+                              value: chain,
+                            })),
+                            value: {
+                              text: chain,
+                              value: chain,
+                            },
+                            onChange: (chain) => {
+                              const updatedSmartContracts = state.smartContracts.map((sc, i) => {
+                                if (i == index) {
+                                  return [chain.value, sc[1]];
+                                }
+                                return sc;
+                              });
+                              State.update({
+                                smartContracts: updatedSmartContracts,
+                              });
+                            },
+                          }}
+                        />
+                        <Widget
+                          src={`${ownerId}/widget/Inputs.Text`}
+                          props={{
+                            label: "Contract address",
+                            placeholder: "Enter address",
+                            value: contractAddress,
+                            onChange: (contractAddress) => {
+                              const updatedSmartContracts = state.smartContracts.map((sc, i) => {
+                                if (i == index) {
+                                  return [sc[0], contractAddress];
+                                }
+                                return sc;
+                              });
+                              State.update({
+                                smartContracts: updatedSmartContracts,
+                              });
+                            },
+                            validate: () => {
+                              // if NEAR, use validateNearAddress, otherwise if EVM, use validateEvmAddress
+                              const chain = state.smartContracts[index][0];
+                              const isEvm = CHAIN_OPTIONS[chain].isEVM;
+                              const isValid =
+                                chain == "NEAR"
+                                  ? validateNearAddress(contractAddress)
+                                  : isEvm
+                                  ? validateEVMAddress(contractAddress)
+                                  : true; // TODO: validate non-EVM, non-NEAR addresses
+                              // if invalid, set the error as the 3rd element of the array
+                              if (!isValid) {
+                                State.update({
+                                  smartContracts: state.smartContracts.map((sc, i) => {
+                                    if (i == index) {
+                                      return [sc[0], sc[1], "Invalid address"];
+                                    }
+                                    return sc;
+                                  }),
+                                });
+                                return;
+                              }
+                            },
+                            error: state.smartContracts[index][2] || "",
+                          }}
+                        />
+                        {state.smartContracts.length > 1 && (
+                          <div style={{ height: "100%", display: "flex", alignItems: "center" }}>
+                            <DeleteIcon
+                              onClick={() => {
+                                const updatedSmartContracts = state.smartContracts.filter(
+                                  (sc, i) => i != index
+                                );
+                                State.update({
+                                  smartContracts: updatedSmartContracts,
+                                });
+                              }}
+                            />
+                          </div>
+                        )}
+                      </Row>
+                    );
+                  })}
+                  <Widget
+                    src={`${ownerId}/widget/Components.Button`}
+                    props={{
+                      type: "tertiary",
+                      text: "Add another contract",
+                      disabled:
+                        !state.smartContracts[state.smartContracts.length - 1][0] &&
+                        !state.smartContracts[state.smartContracts.length - 1][1],
+                      onClick: () => {
+                        State.update({
+                          smartContracts: [...state.smartContracts, ["", ""]],
+                        });
+                      },
+                    }}
+                  />
+                </FormSectionRightDiv>
+              </FormSectionContainer>
+            </>
+          )}
+          {state.hasReceivedFunding && (
+            <>
+              <FormDivider />
+              <FormSectionContainer>
+                {FormSectionLeft(
+                  "Funding sources",
+                  "Add any previous funding you have received.",
+                  true
+                )}
+                {/* <FormSectionRightDiv>
+                  
+                </FormSectionRightDiv> */}
+              </FormSectionContainer>
+              {state.fundingSources.length > 0 && (
+                <Table>
+                  <div className="header">
+                    <div className="item">Funding source</div>
+                    <div className="item">Description</div>
+                    <div className="item amount">Amount</div>
+                    <div className="btns" />
+                  </div>
+                  {state.fundingSources.map((funding, idx) => (
+                    <div className="fudning-row" key={funding.investorName}>
+                      <div className="item source">
+                        <div>{funding.investorName}</div>
+                        {funding.date && (
+                          <div>
+                            {new Date(funding.date).toLocaleDateString("en-US", {
+                              month: "numeric",
+                              day: "numeric",
+                              year: "numeric",
+                            })}
+                          </div>
+                        )}
+                      </div>
+                      <div className="item">{funding.description}</div>
+                      <div className="item amount">
+                        <div>{funding.denomination}</div>
+                        <div>{funding.amountReceived}</div>
+                      </div>
+                      <div className="btns item">
+                        {/* Edit Button */}
+                        <svg
+                          onClick={() =>
+                            State.update({
+                              fundingSourceIndex: idx,
+                            })
+                          }
+                          width="18"
+                          height="18"
+                          viewBox="0 0 18 18"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <g clip-path="url(#clip0_446_76)">
+                            <path
+                              d="M15.369 0.290547C14.979 -0.0994531 14.349 -0.0994531 13.959 0.290547L12.129 2.12055L15.879 5.87055L17.709 4.04055C18.099 3.65055 18.099 3.02055 17.709 2.63055L15.369 0.290547Z"
+                              fill="#7B7B7B"
+                            />
+                            <path
+                              d="M-0.000976562 18.0005H3.74902L14.809 6.94055L11.059 3.19055L-0.000976562 14.2505V18.0005ZM1.99902 15.0805L11.059 6.02055L11.979 6.94055L2.91902 16.0005H1.99902V15.0805Z"
+                              fill="#7B7B7B"
+                            />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_446_76">
+                              <rect width="18" height="18" fill="white" />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                        {/* Delete Button */}
+                        <svg
+                          onClick={() => {
+                            const updatedFundingSources = state.fundingSources.filter(
+                              (fudning, i) => i !== idx
+                            );
+                            State.update({
+                              fundingSources: updatedFundingSources,
+                            });
+                          }}
+                          width="14"
+                          height="18"
+                          viewBox="0 0 14 18"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M11 6V16H3V6H11ZM9.5 0H4.5L3.5 1H0V3H14V1H10.5L9.5 0ZM13 4H1V16C1 17.1 1.9 18 3 18H11C12.1 18 13 17.1 13 16V4Z"
+                            fill="#7B7B7B"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  ))}
+                </Table>
+              )}
+              <Widget
+                src={`${ownerId}/widget/Components.Button`}
+                props={{
+                  type: "tertiary",
+                  text: "Add funding source",
+                  style: {
+                    width: "fit-content",
+                    marginTop: "1rem",
+                  },
+                  disabled: state.fundingSources.some(
+                    (fs) =>
+                      !fs.investorName || !fs.amountReceived || !fs.denomination || !fs.description
+                  ),
+                  onClick: () => {
+                    // add new funding source obj & set index
+                    const updatedFundingSources = [
+                      ...state.fundingSources,
+                      {
+                        investorName: "",
+                        description: "",
+                        amountReceived: "",
+                        denomination: "",
+                      },
+                    ];
+                    State.update({
+                      fundingSources: updatedFundingSources,
+                      fundingSourceIndex: updatedFundingSources.length - 1,
+                    });
+                  },
+                }}
+              />
+            </>
+          )}
           <FormDivider />
           <FormSectionContainer>
             {FormSectionLeft(
@@ -1164,7 +1629,7 @@ return (
                   preInputChildren: <InputPrefix>twitter.com/</InputPrefix>,
                   inputStyles: { borderRadius: "0px 4px 4px 0px" },
                   value: state.twitter,
-                  onChange: (twitter) => State.update({ twitter }),
+                  onChange: (twitter) => State.update({ twitter: twitter.trim() }),
                   validate: () => {
                     if (state.twitter.length > 15) {
                       State.update({
@@ -1185,7 +1650,7 @@ return (
                   preInputChildren: <InputPrefix>t.me/</InputPrefix>,
                   inputStyles: { borderRadius: "0px 4px 4px 0px" },
                   value: state.telegram,
-                  onChange: (telegram) => State.update({ telegram }),
+                  onChange: (telegram) => State.update({ telegram: telegram.trim() }),
                   validate: () => {
                     // TODO: add validation?
                   },
@@ -1200,11 +1665,26 @@ return (
                   preInputChildren: <InputPrefix>github.com/</InputPrefix>,
                   inputStyles: { borderRadius: "0px 4px 4px 0px" },
                   value: state.github,
-                  onChange: (github) => State.update({ github }),
+                  onChange: (github) => State.update({ github: github.trim() }),
                   validate: () => {
                     // TODO: add validation
                   },
                   error: state.githubError,
+                }}
+              />
+              <Space height={24} />
+              <Widget
+                src={`${ownerId}/widget/Inputs.Text`}
+                props={{
+                  label: "Website",
+                  preInputChildren: <InputPrefix>https://</InputPrefix>,
+                  inputStyles: { borderRadius: "0px 4px 4px 0px" },
+                  value: state.website,
+                  onChange: (website) => State.update({ website: website.trim() }),
+                  validate: () => {
+                    // TODO: add validation
+                  },
+                  error: state.websiteError,
                 }}
               />
               <Space height={24} />
@@ -1228,99 +1708,74 @@ return (
             </FormSectionRightDiv>
           </FormSectionContainer>
         </FormBody>
-        <Modal isOpen={state.isModalOpen} onClose={() => State.update({ isModalOpen: false })}>
-          <ModalHeader>
-            <ModalHeaderLeft>
-              <IconContainer>
-                <Icon src={ADD_TEAM_MEMBERS_ICON_URL} />
-              </IconContainer>
-              <ModalTitle>Add team members</ModalTitle>
-            </ModalHeaderLeft>
-            <Icon
-              cursor={"pointer"}
-              src={CLOSE_ICON_URL}
-              onClick={() => State.update({ isModalOpen: false })}
-            />
-          </ModalHeader>
-          <ModalDescription>Add NEAR account IDs for your team members.</ModalDescription>
-          <Widget
-            src={`${ownerId}/widget/Inputs.Text`}
-            props={{
-              placeholder: "NEAR account ID",
-              value: state.teamMember,
-              onChange: (teamMember) => {
-                State.update({ teamMember, nearAccountIdError: "" });
-              },
-              postInputChildren: (
-                <Widget
-                  src={`${ownerId}/widget/Components.Button`}
-                  props={{
-                    type: "primary",
-                    text: "Add",
-                    onClick: handleAddTeamMember,
-                    style: { borderRadius: `0px 4px 4px 0px` },
-                    submit: true,
-                  }}
-                />
-              ),
-              handleKeyPress: (e) => {
-                if (e.key === "Enter") {
-                  handleAddTeamMember();
-                }
-              },
-              error: state.nearAccountIdError,
-            }}
-          />
-          <Space height={24} />
-          <MembersText>
-            <MembersCount>
-              {state.teamMembers.filter((teamMember) => !teamMember.remove).length}{" "}
-            </MembersCount>
-            {state.teamMembers.filter((teamMember) => !teamMember.remove).length == 1
-              ? "member"
-              : "members"}
-          </MembersText>
-          {state.teamMembers
-            .filter((teamMember) => !teamMember.remove)
-            .map((teamMember) => {
-              return (
-                <MembersListItem>
-                  <MembersListItemLeft>
-                    <Widget
-                      src="mob.near/widget/ProfileImage"
-                      props={{
-                        accountId: teamMember.accountId,
-                        style: {
-                          width: "40px",
-                          height: "40px",
-                          margin: "0 -8px 0 0",
-                          borderRadius: "50%",
-                          background: "white",
-                        },
-                        imageClassName: "rounded-circle w-100 h-100 d-block",
-                        thumbnail: false,
-                        tooltip: true,
-                      }}
-                    />
-                    <MembersListItemText>@{teamMember.accountId}</MembersListItemText>
-                  </MembersListItemLeft>
-                  <RemoveMember
-                    onClick={() => {
-                      const teamMembers = state.teamMembers.map((tm) => {
-                        if (tm.accountId == teamMember.accountId) {
-                          return { ...tm, remove: true };
-                        }
-                        return tm;
-                      });
-                      State.update({ teamMembers });
-                    }}
-                  >
-                    Remove
-                  </RemoveMember>
-                </MembersListItem>
+        <Widget
+          src={`${ownerId}/widget/Components.ModalMultiAccount`}
+          props={{
+            ...props,
+            isModalOpen: state.isMultiAccountModalOpen,
+            onClose: () => State.update({ isMultiAccountModalOpen: false }),
+            titleText: "Add team members",
+            descriptionText: "Add NEAR account IDs for your team members.",
+            inputValue: state.teamMember,
+            onInputChange: (teamMember) => {
+              State.update({ teamMember, nearAccountIdError: "" });
+            },
+            handleAddAccount: handleAddTeamMember,
+            handleRemoveAccount: (accountId) => {
+              State.update({
+                teamMembers: state.teamMembers.filter((tm) => tm != accountId),
+              });
+            },
+            accountError: state.nearAccountIdError,
+            accountIds: state.teamMembers,
+            unitText: "member",
+          }}
+        />
+        <Widget
+          src={`${ownerId}/widget/Project.ModalAddFundingSource`}
+          props={{
+            ...props,
+            isModalOpen: state.fundingSourceIndex !== null,
+            onClose: () => {
+              // remove any funding sources with all empty values
+              // console.log("state.fundingSources line 1660: ", state.fundingSources);
+              const updatedFundingSources = state.fundingSources.filter(
+                (fs) => fs.investorName && fs.amountReceived && fs.denomination && fs.description
               );
-            })}
-        </Modal>
+              // console.log("updatedFundingSources: ", updatedFundingSources);
+              State.update({
+                fundingSources: updatedFundingSources,
+                fundingSourceIndex: null,
+              });
+            },
+            fundingSources: state.fundingSources,
+            fundingSourceIndex: state.fundingSourceIndex,
+            handleAddFundingSource: ({
+              investorName,
+              date,
+              description,
+              amountReceived,
+              denomination,
+            }) => {
+              const updatedFundingSources = state.fundingSources.map((fs, i) => {
+                if (i == state.fundingSourceIndex) {
+                  return {
+                    investorName,
+                    date,
+                    description,
+                    amountReceived,
+                    denomination,
+                  };
+                }
+                return fs;
+              });
+              State.update({
+                fundingSources: updatedFundingSources,
+                fundingSourceIndex: null,
+              });
+            },
+          }}
+        />
       </>
     )}
   </Container>

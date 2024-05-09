@@ -351,10 +351,10 @@ const isBorrow = arr[0].toLowerCase() === "borrow";
 const isRepay = arr[0].toLowerCase() === "repay";
 
 if (isBridge) {
-  link = "/ref-bigboss.near/widget/ZKEVMSwap.zkevm-bridge";
+  link = "/ref-bigboss.near/widget/ZKEVMSwap.zkevm-bridge?source=quest-card";
 }
 if (isSwap) {
-  link = "/ref-bigboss.near/widget/ZKEVMSwap.zkevm-swap";
+  link = "/ref-bigboss.near/widget/ZKEVMSwap.zkevm-swap?source=quest-card";
 }
 
 if (isSupply) {

@@ -1,13 +1,10 @@
 const daoId = props.daoId ?? "dao.near";
-
 if (!daoId) {
   return "DAO ID not provided";
 }
-
 // -- Pikespeak API
 const baseApi = "https://api.pikespeak.ai";
 const publicApiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
-
 const CardRoot = styled.div`
   width: 315px;
   height: 448px;
@@ -41,7 +38,6 @@ const Top = styled.div`
       }
     }
 `;
-
 const Bottom = styled.div`
   h1 {
     overflow: hidden;
@@ -56,7 +52,6 @@ const Bottom = styled.div`
     text-transform: uppercase;
   }
 `;
-
 const ImageProfile = styled.div`
   img {
     position: absolute;
@@ -71,7 +66,6 @@ const ImageProfile = styled.div`
     left: 16px;
   }
 `;
-
 const HeaderText = styled.div`
   margin-top: 32px;
   height: 140px;
@@ -87,7 +81,6 @@ const HeaderText = styled.div`
     line-height: normal;
   }
 `;
-
 const CardBody = styled.div`
   padding: 0 16px;
   h1 {
@@ -112,7 +105,6 @@ const CardBody = styled.div`
     line-height: 148%;
   }
 `;
-
 const AmountSec = styled.div`
   width: 100%;
   display: flex;
@@ -156,14 +148,12 @@ const AmountSec = styled.div`
     }
   }
 `;
-
 const Button = styled.div`
 width: 100%;
 display: flex;
 align-items: center;
 justify-content: center;
 margin-top: 10px;
-
   button {
     border: 1px solid black;
     border-radius: 0;
@@ -186,7 +176,6 @@ margin-top: 10px;
     border-color: black;
   }
 `;
-
 const Tags = styled.div`
   display: flex;
   gap: 7px;
@@ -215,20 +204,17 @@ const Tags = styled.div`
     opacity: 0;
   }
 `;
-
 const Footer = styled.div`
   height: 100px;
   display: flex;
   flex-direction: column;
 `;
-
 const fetchApiConfig = {
   mode: "cors",
   headers: {
     "x-api-key": publicApiKey,
   },
 };
-
 const constructURL = (baseURL, paramObj) => {
   let params = "";
   for (const [key, value] of Object.entries(paramObj ?? {})) {
@@ -237,7 +223,6 @@ const constructURL = (baseURL, paramObj) => {
   params = params.slice(0, -1);
   return `${baseURL}?${params}`;
 };
-
 const fether = {
   balances: (accounts) => {
     return fetch(
@@ -254,7 +239,6 @@ const fether = {
 };
 const balances = fether.balances([daoId]);
 const proposalsStatus = fether.proposalsStatus(daoId);
-
 let activeProposalsCount;
 let totalProposalsCount;
 proposalsStatus.body &&
@@ -263,11 +247,9 @@ proposalsStatus.body &&
     totalProposalsCount += p["Total"] ? parseInt(p["Total"]) : 0;
   });
 // --
-
 // -- Social DB
 const profile = Social.get(`${daoId}/profile/**`, "final");
 // --
-
 // -- Smart Contract
 const policy = Near.view(daoId, "get_policy");
 let members = [];
@@ -279,14 +261,12 @@ policy &&
   });
 members = [...new Set(members)];
 // --
-
 const shorten = (str, len) => {
   if (str.length <= len) {
     return str;
   }
   return str.slice(0, len) + "...";
 };
-
 const shortenNumber = (n) => {
   if (n < 1e3) return n;
   if (n >= 1e3 && n < 1e6) return (n / 1e3).toFixed(1) + "k";
@@ -294,14 +274,12 @@ const shortenNumber = (n) => {
   if (n >= 1e9 && n < 1e12) return (n / 1e9).toFixed(1) + "b";
   if (n >= 1e12) return (n / 1e12).toFixed(1) + "t";
 };
-
 function makeAccountIdShorter(accountId) {
   if (accountId.length > shortenLength) {
     return accountId.slice(0, shortenLength) + "...";
   }
   return accountId;
 }
-
 return (
   <CardRoot>
     <Top>

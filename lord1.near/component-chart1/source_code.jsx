@@ -63,10 +63,10 @@ const activity_of_user_theme = {
   height: "90px",
   align: "center",
   description: "",
-  brand: "Activity of user",
+  brand: "Activity of",
   fontsize: "75",
   fontweight: "25px",
-  afterbrand: "available",
+  afterbrand: "developer",
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
   fontbrand: " Arial, sans-serif",
   color1brand: themeColor?.dynamic_header?.color1brand || "#000",
@@ -148,6 +148,18 @@ const handleHasedData = ({ hash, id }) => {
     });
   }
 };
+const convertData = (data) => {
+  if (typeof data !== "string") {
+    return data;
+  }
+  let converted;
+  try {
+    converted = JSON.parse(data);
+  } catch (er) {
+    converted = data;
+  }
+  return converted;
+};
 const fetchData = (hash) => {
   const data = fetch(
     `https://api.flipsidecrypto.com/api/v2/queries/${hash}/data/latest`,
@@ -160,7 +172,7 @@ const fetchData = (hash) => {
     }
   );
   const result = {
-    data: (data && data.body) || null,
+    data: (data && convertData(data.body)) || null,
     error: (data && !data.ok && (data.status || data.error)) || null,
     isLoading: !data && !error,
   };
@@ -465,21 +477,16 @@ let ChartSections = (
                   type: "column",
                   id: 1,
                 },
+
                 {
-                  key: "build_trxs",
-                  seriesName: "Daily Build Transaction",
-                  type: "column",
-                  id: 1,
-                },
-                {
-                  key: "update_trxs",
-                  seriesName: "Daily Update Transaction",
+                  key: "forks",
+                  seriesName: "Daily Forks",
                   type: "column",
                   id: 1,
                 },
                 {
                   key: "widget",
-                  seriesName: "Components",
+                  seriesName: "Daily Components",
                   type: "column",
                   id: 1,
                 },
@@ -490,17 +497,12 @@ let ChartSections = (
                   id: 2,
                 },
                 {
-                  key: "cum_update_trxs",
-                  seriesName: "Total Update Transaction",
+                  key: "cum_forks",
+                  seriesName: "Total Forks",
                   type: "spline",
                   id: 2,
                 },
-                {
-                  key: "cum_build_trxs",
-                  seriesName: "Total Build Transaction",
-                  type: "spline",
-                  id: 2,
-                },
+
                 {
                   key: "cum_widget",
                   seriesName: "Total Components",

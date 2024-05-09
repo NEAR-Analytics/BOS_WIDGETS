@@ -1,12 +1,14 @@
 const { Feed } = VM.require("efiz.near/widget/Module.Feed");
 const { Card } = VM.require("discover.near/widget/Project.Module");
 
+console.log();
+
 if (!Feed) {
   return <div>Loading modules...</div>;
 }
 
 const projectRegistry = Social.getr(
-  `${context.accountId}/thing/project-registry`,
+  "efiz.near/thing/project-registry",
   "final"
 );
 

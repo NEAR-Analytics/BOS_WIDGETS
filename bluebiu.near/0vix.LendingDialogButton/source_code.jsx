@@ -146,6 +146,7 @@ const {
   unitrollerAddress,
   onSuccess,
   onMessage,
+  addAction,
 } = props;
 const account = Ethers.send("eth_requestAccounts", [])[0];
 const tokenSymbol = market.symbol.slice(1).toUpperCase();
@@ -353,29 +354,9 @@ const getParametersAndOptions = () => {
   return [parameters, options];
 };
 
-const AccessKey = Storage.get(
-  "AccessKey",
-  "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
-);
-
-function add_action(param_body) {
-  asyncFetch("/dapdap/api/action/add ", {
-    method: "post",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: AccessKey,
-    },
-    body: JSON.stringify(param_body),
-  });
-}
 const questionSwitch = Storage.get(
   "zkevm-is-quest",
   "bluebiu.near/widget/0vix.LendingQuest"
-);
-
-const uuid = Storage.get(
-  "zkevm-warm-up-uuid",
-  "guessme.near/widget/ZKEVMWarmUp.generage-uuid"
 );
 
 return (
@@ -406,20 +387,16 @@ return (
             });
 
             if (status === 1) {
-              const symbol = market.symbol.slice(1);
               if (type) {
-                add_action({
-                  action_title: `${type} ${symbol} on 0vix`,
-                  action_type: type,
-                  action_tokens: JSON.stringify([`${symbol}`]),
-                  action_amount: amount,
-                  account_id: account,
-                  account_info: uuid,
-                  template: "Lending",
-                  action_switch: questionSwitch === "on" ? "1" : "0",
-                  action_status: status === 1 ? "Success" : "Failed",
-                  tx_id: transactionHash,
-                  action_network_id: "zkEVM",
+                addAction?.({
+                  type: "Lending",
+                  action: type,
+                  token: market.underlyingToken,
+                  amount,
+                  template: "0vix",
+                  add: questionSwitch,
+                  status,
+                  transactionHash,
                 });
               }
               onSuccess?.();

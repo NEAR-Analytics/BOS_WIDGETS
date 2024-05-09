@@ -1,4 +1,4 @@
-const daoId = props.daoId;
+const daoId = props.daoId || "marmaj-research.sputnik-dao.near";
 
 State.init({
   filterByRole,
@@ -100,7 +100,7 @@ const Wrapper = styled.div`
 
 const renderUserRow = (user, roles, i) => {
   return (
-    <div key={i} className="ndc-card ratio ratio-1x1">
+    <div key={i} className="ndc-card ratio-1x1">
       <div className="flex-column p-2">
         <Widget
           src="nui.sking.near/widget/Element.User"
@@ -135,15 +135,6 @@ const renderUserRow = (user, roles, i) => {
             props={{
               accountId: user,
               size: "sm",
-              className: "w-100",
-            }}
-          />
-          <Widget
-            src="nui.sking.near/widget/Input.Button"
-            props={{
-              children: "Propose to Mint SBT",
-              size: "sm",
-              variant: ["secondary", "outline"],
               className: "w-100",
             }}
           />

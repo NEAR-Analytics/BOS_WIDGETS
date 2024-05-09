@@ -14,13 +14,18 @@ const {
   handlerStateUpdate,
   sbtWhiteList,
   sbts,
+  categories,
   canLoggedUserCreateArticles,
   callLibs,
   baseActions,
   handleOnCommitArticle,
 } = props;
 
-const libSrcArray = [widgets.libArticle];
+const libSrcArray = [widgets.libs.libArticle];
+
+const categoriesWithoutAllArticles = categories.filter(
+  (categ) => categ.value !== "All categories"
+);
 
 const errTextNoBody = "ERROR: no article Body",
   errTextNoId = "ERROR: no article Id",
@@ -32,6 +37,7 @@ State.init({
   functionsToCallByLibrary: {
     article: [],
   },
+  category: categoriesWithoutAllArticles[0],
 });
 
 function createStateUpdate(obj) {
@@ -67,6 +73,7 @@ function getArticleData() {
     tags: tagsArray ?? [],
     id: getRealArticleId(),
     sbts,
+    category: state.category,
   };
   return args;
 }
@@ -83,6 +90,7 @@ function onCommit(article) {
     // showCreatedArticle: true,
     showPreview: false,
     saving: false,
+    category: "Uncategorized",
   });
 
   if (!Array.isArray(article.tags)) article.tags = Object.keys(article.tags);
@@ -108,8 +116,14 @@ function getInitialMarkdownBody() {
   } else {
     return state.initialBody == "" || !state.initialBody
       ? "Post content (markdown supported)"
-      : state.initalBody;
+      : state.initialBody;
   }
+}
+
+function handleCategorySelection(selectedCategory) {
+  State.update({
+    category: selectedCategory,
+  });
 }
 
 function createArticleListener() {
@@ -140,55 +154,55 @@ function switchShowPreview() {
 }
 
 const GeneralContainer = styled.div`
-  background-color: rgb(248, 248, 249);
-  margin: 0;
-`;
+    background-color: rgb(248, 248, 249);
+    margin: 0;
+  `;
 
 const Button = styled.button` 
-  margin: 0px 1rem; 
-  display: inline-block; 
-  text-align: center; 
-  vertical-align: middle; 
-  cursor: pointer; 
-  user-select: none; 
-  transition: color 0.15s ease-in-out,background-color 0.15s ease-in-out,border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out; 
- 
-  border: 2px solid transparent; 
-  font-weight: 500; 
-  padding: 0.3rem 0.5rem; 
-  background-color: #010A2D; 
-  border-radius: 12px; 
-  color: white; 
-  text-decoration: none;   
- 
-  &:hover { 
-    color: #010A2D; 
-    background-color: white; 
-  } 
-`;
+    margin: 0px 1rem; 
+    display: inline-block; 
+    text-align: center; 
+    vertical-align: middle; 
+    cursor: pointer; 
+    user-select: none; 
+    transition: color 0.15s ease-in-out,background-color 0.15s ease-in-out,border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out; 
+   
+    border: 2px solid transparent; 
+    font-weight: 500; 
+    padding: 0.3rem 0.5rem; 
+    background-color: #010A2D; 
+    border-radius: 12px; 
+    color: white; 
+    text-decoration: none;   
+   
+    &:hover { 
+      color: #010A2D; 
+      background-color: white; 
+    } 
+  `;
 
 const CreationContainer = styled.div`
-  background-color: rgb(230, 230, 230);
-  border-radius: 20px;
-  padding: 1rem 0;
-  position: relative;
-`;
+    background-color: rgb(230, 230, 230);
+    border-radius: 20px;
+    padding: 1rem 0;
+    position: relative;
+  `;
 
 const SecondContainer = styled.div`
-  min-width: 360px;
-  background-color: white;
-  padding: 1rem;
-`;
+    min-width: 360px;
+    background-color: white;
+    padding: 1rem;
+  `;
 
 const BoxShadow = styled.div`
-  box-shadow: rgba(140, 149, 159, 0.1) 0px 4px 28px 0px;
-`;
+    box-shadow: rgba(140, 149, 159, 0.1) 0px 4px 28px 0px;
+  `;
 
 const SpinnerContainer = styled.div`
-  height: 1rem;
-  width: 1rem;
-  marginTop: 2px;
-`;
+    height: 1rem;
+    width: 1rem;
+    marginTop: 2px;
+  `;
 
 const Spinner = () => {
   return (
@@ -209,29 +223,11 @@ return (
   <div>
     <GeneralContainer className="pt-2 row card-group">
       <BoxShadow className="rounded-3 p-3 m-3 bg-white col-lg-8 col-md-8 col-sm-12">
-        {/*{state.createdArticle && state.showCreatedArticle && editArticleData ? (
-          <Widget
-            src={widgets.articleView}
-            props={{
-              widgets,
-              isTest,
-              handleFilterArticles,
-              articleToRenderData: state.createdArticle,
-              authorForWidget,
-              handleEditArticle,
-              callLibs,
-              baseActions,
-            }}
-          />
-        ) : ( If you uncomment this you need to uncomment the line before </BoxShadow> too*/}
         <div>
-          {
-            // <CreationContainer className="container-fluid">
-          }
           <SecondContainer className="rounded">
             {state.showPreview ? (
               <Widget
-                src={widgets.generalCard}
+                src={widgets.views.editableWidgets.generalCard}
                 props={{
                   widgets,
                   isTest,
@@ -246,8 +242,10 @@ return (
                     navigation_id: null,
                     tags: tagsArray,
                     id: getRealArticleId(),
+                    category: state.category,
                     sbts,
                   },
+                  categories,
                   addressForArticles,
                   handleOpenArticle: () => {},
                   handleFilterArticles: () => {},
@@ -255,6 +253,7 @@ return (
                   handleShareButton: () => {},
                   callLibs,
                   baseActions,
+                  switchShowPreview,
                 }}
               />
             ) : (
@@ -264,7 +263,7 @@ return (
                     {state.errorId}
                   </label>
                   <Widget
-                    src={widgets.fasterTextInput}
+                    src={widgets.views.standardWidgets.fasterTextInput}
                     props={{
                       firstText: state.title,
                       forceClear: state.clearArticleId,
@@ -272,6 +271,23 @@ return (
                       filterText: (e) => e.target.value,
                       placeholder: "Post title (case-sensitive)",
                       editable: editArticleData,
+                    }}
+                  />
+                </div>
+                <div className="d-flex flex-column pt-3">
+                  <label for="inputCategory" className="small text-danger">
+                    {state.errorCategory}
+                  </label>
+                  <Widget
+                    src={
+                      widgets.views.standardWidgets.newStyledComponents.Input
+                        .Select
+                    }
+                    props={{
+                      label: "Select category",
+                      value: state.category,
+                      onChange: handleCategorySelection,
+                      options: categoriesWithoutAllArticles,
                     }}
                   />
                 </div>
@@ -284,7 +300,7 @@ return (
                   </label>
                   <div className="d-flex gap-2">
                     <Widget
-                      src={widgets.markownEditorIframe}
+                      src={widgets.views.standardWidgets.markownEditorIframe}
                       props={{
                         initialText: getInitialMarkdownBody(),
                         onChange: (articleBody) =>
@@ -299,7 +315,7 @@ return (
                 </div>
                 <div className="d-flex flex-column pt-3">
                   <Widget
-                    src={widgets.tagsEditor}
+                    src={widgets.views.editableWidgets.tagsEditor}
                     props={{
                       forceClear: state.clearTags,
                       stateUpdate: (obj) => State.update(obj),
@@ -319,7 +335,9 @@ return (
             )}
             <div className="mt-2 d-flex justify-content-end">
               <Widget
-                src={widgets.newStyledComponents.Input.Button}
+                src={
+                  widgets.views.standardWidgets.newStyledComponents.Input.Button
+                }
                 props={{
                   className: "info outline mx-2",
                   disabled:
@@ -335,7 +353,9 @@ return (
                 }}
               />
               <Widget
-                src={widgets.newStyledComponents.Input.Button}
+                src={
+                  widgets.views.standardWidgets.newStyledComponents.Input.Button
+                }
                 props={{
                   className: "info ",
                   disabled:

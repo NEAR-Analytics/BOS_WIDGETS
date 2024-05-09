@@ -160,9 +160,23 @@ return (
             key="top"
             overlay={
               <Tooltip>
-                Total number of transactions that include both build and update
-                transactions, and your rank in terms of the number of dev
-                transactions among other developers
+                <div>
+                  Transactions: Total transactions of a developer (Build +
+                  Update + both) related to widget development
+                </div>
+                <div>
+                  Build Transactions: The number of transactions resulting in
+                  component builds
+                </div>
+                <div>
+                  Update Transactions: The number of transactions resulting in
+                  component updates
+                </div>
+                <div>Forks: How many fork done by developer so far updates</div>
+                <div>
+                  Your Rank: Developer rank based on the number of transactions
+                  (the lower the better)
+                </div>
               </Tooltip>
             }
           >
@@ -192,15 +206,19 @@ return (
 
           <p>
             <div>
-              Build Transactions:
+              Build | Update Trxs:
               <span style={{ color: props.numberintextColor }}>
                 {formatNumber(state.data[0].build_trxs)}
               </span>
-            </div>
-            <div>
-              Update Transactions:
+              |
               <span style={{ color: props.numberintextColor }}>
                 {formatNumber(state.data[0].update_trxs)}
+              </span>
+            </div>
+            <div>
+              Forks:
+              <span style={{ color: props.numberintextColor }}>
+                {formatNumber(state.data[0].fork_of)}
               </span>
             </div>
             <Widget
@@ -209,7 +227,7 @@ return (
             />
             Your Rank 👉
             <span style={{ color: props.numberintextColor }}>
-              {formatNumber(state.data[0].widget_rank)}
+              {formatNumber(state.data[0].trx_rank)}
             </span>
           </p>
         </ParentDiv>
@@ -218,9 +236,19 @@ return (
             key="top"
             overlay={
               <Tooltip>
-                How many components have you developed, what is your rank based
-                on the number of components, and are you considered an active
-                developer (among the top 50 most active)
+                <div>Components: Total widgets created by a developer</div>
+                <div>
+                  Active or Not: An active developer is equivalent to having a
+                  widget rank of less than 50{" "}
+                </div>
+                <div>
+                  Deposits: Deposited volume in Near token for BOS development
+                  to social.near contract
+                </div>
+                <div>
+                  Your Rank: Developer rank based on the number of widgets (the
+                  lower the better)
+                </div>
               </Tooltip>
             }
           >
@@ -250,15 +278,15 @@ return (
           />
           <p>
             <div>
-              Total Components:
+              Active dev or not ?:
               <span style={{ color: props.numberintextColor }}>
-                {formatNumber(state.data[0].widget)}
+                {formatNumber(state.data[0].active_or_not)}
               </span>
             </div>
             <div>
-              Active dev or not :
+              Deposits :
               <span style={{ color: props.numberintextColor }}>
-                {formatNumber(state.data[0].active_or_not)}
+                {formatNumber(state.data[0].deposit)}
               </span>
             </div>
             <Widget
@@ -276,9 +304,20 @@ return (
             key="top"
             overlay={
               <Tooltip>
-                When did you first start your development activity, how many
-                days have you been active, and what is your rank based on your
-                dev history
+                <div>
+                  History (day): Number of days from the first day of BOS
+                  development activity until the present day.
+                </div>
+                <div>
+                  Active Since: The first day of BOS development activity
+                </div>
+                <div>
+                  Active Days: Number of days that developer has been active
+                </div>
+                <div>
+                  Your Rank: The rank of developers based on the age of their
+                  activities. (The less the better)
+                </div>
               </Tooltip>
             }
           >
@@ -333,7 +372,21 @@ return (
           <OverlayTrigger
             key="top"
             overlay={
-              <Tooltip>Number of stars received or sent in total</Tooltip>
+              <Tooltip>
+                {" "}
+                <div>
+                  Stars Received: Number of stars received by developer from
+                  other users
+                </div>
+                <div>
+                  Stars Sent: Number of stars sent by developer to other users
+                  to value their work
+                </div>
+                <div>
+                  Your Rank: The rank of developers based number of starts
+                  received (The less the better)
+                </div>
+              </Tooltip>
             }
           >
             <div

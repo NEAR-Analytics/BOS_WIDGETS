@@ -22,7 +22,8 @@ const Container = styled("Tooltip.Trigger")`
   background: #fff;
   border-radius: 16px;
   border: none;
-  box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
+  box-shadow:
+    hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
     hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
   z-index: 10;
 `;
@@ -37,7 +38,8 @@ const StyledTooltip = styled("Tooltip.Content")`
   border-radius: 4px;
   padding: 10px 15px;
   background-color: white;
-  box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
+  box-shadow:
+    hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
     hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
   user-select: none;
   animation-duration: 400ms;

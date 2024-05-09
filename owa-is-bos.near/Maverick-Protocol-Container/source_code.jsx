@@ -14,6 +14,13 @@ State.init({
   tabSelectedLiq: "portfolio",
 });
 
+/* TODO added Wrapper container to reset font-family styles */
+const Wrapper = styled.div`
+* {
+  font-family: 'system-ui','Inter', 'Space Grotesk' !important;
+}
+`;
+
 const PillButtonActive = styled.div`
 font-weight: 700;
 background-color: #8D8DFD;
@@ -38,13 +45,15 @@ padding: 7px 0 7px 0;
 `;
 
 return (
-  <>
+  <Wrapper>
     <div
       style={{
         display: "flex",
         "justify-content": "center",
       }}
     >
+      <Widget src="miraclx.near/widget/FontAwesome" props={{ dep: true }} />
+
       <label style={{ "font-weight": "700", "font-size": "35px" }}>
         Maverick Protocol
         <svg
@@ -147,5 +156,5 @@ return (
         </div>
       )}
     </div>
-  </>
+  </Wrapper>
 );

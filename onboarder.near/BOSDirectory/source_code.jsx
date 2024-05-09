@@ -132,6 +132,19 @@ const social = {
         "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fneardefi%2Fpolygon-bos-gateway&build-command=pnpm%20run%20build&env=NEXT_PUBLIC_NETWORK_ID,NEXT_PUBLIC_HOSTNAME&envDescription=mainnet-near.org&envLink=https%3A%2F%2Fgithub.com%2FNearDeFi%2Fpolygon-bos-gateway%2Fblob%2Fmain%2F.env.example",
       github: "https://github.com/NearDeFi/polygon-bos-gateway",
     },
+        {
+      key: 2,
+      name: "PotLock",
+      url: "https://app.potlock.org",
+      image:
+        "https://ipfs.near.social/ipfs/bafkreid5dizxzafvgzzlcennqctrigkw5lnxjrhnrcznr4lie67cqjkrse",
+      description:
+        "Public goods funding ",
+      category: ["NEAR", "PublicGoods", "zkEVM"],
+      deploy:
+        "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fneardefi%2Fpolygon-bos-gateway&build-command=pnpm%20run%20build&env=NEXT_PUBLIC_NETWORK_ID,NEXT_PUBLIC_HOSTNAME&envDescription=mainnet-near.org&envLink=https%3A%2F%2Fgithub.com%2Fpotlock%2Fbos-gateway%2Fblob%2Fmain",
+      github: "https://github.com/potlock/bos-gateway",},
+ 
     {
       key: 5,
       name: "DiscoverBOS",
@@ -179,14 +192,13 @@ const social = {
       deploy: null,
       github: null,
     },
-        {
+    {
       key: 5,
       name: "Uniswap on Linea",
       url: "https://linea.dapdap.net/",
       image:
         "https://ipfs.near.social/ipfs/bafkreiha2jdblwwbcj63b5u5huxlapicovlaxrvfshym2tqp7ghf42jzdq",
-      description:
-        "Uniswap V3 on Linea w no fees",
+      description: "Uniswap V3 on Linea w no fees",
       category: ["DeFi", "EVM", "Linea"],
       deploy: null,
       github: null,

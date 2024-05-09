@@ -5,12 +5,13 @@ const src = props.src;
 
 State.init({});
 
+console.log("aa", src.split("/"));
 const onDelete = () => {
-  const [accountId, key, undefined, uid] = src.split("/");
+  const [accountId, key, type, uid] = src.split("/");
 
   const commit = {
     [key]: {
-      poll: { [uid]: null },
+      [type]: { [uid]: null },
     },
   };
 

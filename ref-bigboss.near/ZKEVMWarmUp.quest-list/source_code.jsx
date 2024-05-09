@@ -1,5 +1,4 @@
 const sender = Ethers.send("eth_requestAccounts", [])[0];
-console.log("sender on quest list: ", sender);
 const searchTip = (
   <svg
     width="215"
@@ -145,9 +144,12 @@ const CardListWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-const uuid = Storage.get("zkevm-warm-up-uuid");
+const uuid = Storage.get(
+  "zkevm-warm-up-uuid",
+  "ref-bigboss.near/widget/ZKEVMWarmUp.generage-uuid"
+);
 
-const quest_url = `https://bos-api.ref-finance.com/get-action-by-account?account_id=${
+const quest_url = `https://bos-api.delink.one/get-action-by-account?account_id=${
   sender || ""
 }&account_info=${uuid}`;
 
@@ -183,7 +185,7 @@ const myQuestList = JSON.parse(fetchBody)?.data || [];
 console.log("myQuestList: ", myQuestList);
 
 const onDelete = (action_id) => {
-  asyncFetch("https://bos-api.ref-finance.com/delete-action-by_id", {
+  asyncFetch("https://bos-api.delink.one/delete-action-by_id", {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",

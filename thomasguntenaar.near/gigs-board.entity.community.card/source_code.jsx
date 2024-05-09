@@ -52,18 +52,21 @@ function href(widgetName, linkProps) {
 }
 /* END_INCLUDE: "common.jsx" */
 /* INCLUDE: "core/lib/gui/attractable" */
-
-const AttractableLink = styled.a`
+const AttractableDiv = styled.div`
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
   transition: box-shadow 0.6s;
-  width: 23%;
 
   &:hover {
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
   }
+`;
 
-  @media (max-width: 768px) {
-    width: 45%;
+const AttractableLink = styled.a`
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+  transition: box-shadow 0.6s;
+
+  &:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
   }
 `;
 
@@ -145,7 +148,7 @@ const CommunityCard = ({
     <AttractableLink
       className="card d-flex flex-column flex-shrink-0 text-decoration-none text-reset"
       href={link}
-      style={{ maxWidth: 304 }}
+      style={{ width: "23%", maxWidth: 304 }}
     >
       <div
         className="card-img-top w-100"

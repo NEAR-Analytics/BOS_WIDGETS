@@ -11,7 +11,7 @@ const isPremium = !!props.isPremium;
 const Overlay = (props) => (
   <a
     className="link-dark text-truncate d-inline-flex mw-100"
-    href={`/mob.near/widget/ProfilePage?accountId=${accountId}`}
+    href={`/bos.genadrop.near/widget/DropFlow.ArtistPage.Index?accountId=${accountId}`}
   >
     <Widget
       src="jgodwill.near/widget/CPlanet.Profile.N.OverlayTrigger"

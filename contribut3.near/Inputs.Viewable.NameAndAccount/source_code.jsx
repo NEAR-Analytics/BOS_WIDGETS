@@ -1,7 +1,7 @@
 const ownerId = "contribut3.near";
 const id = props.id ?? "text";
 const value = props.value ?? "";
-const onSave = props.onSave ?? (() => { });
+const onSave = props.onSave ?? (() => {});
 const canEdit = props.canEdit;
 
 const LabelArea = styled.div`
@@ -63,11 +63,20 @@ return (
       ),
       view: (
         <Widget
-          src={`${ownerId}/widget/NameAndAccount`}
-          props={{ accountId: props.accountId, name: value }}
+          src="near/widget/AccountProfileOverlay"
+          props={{
+            accountId: props.accountId,
+            children: (
+              <Widget
+                src={`${ownerId}/widget/NameAndAccount`}
+                props={{ accountId: props.accountId, name: value }}
+              />
+            ),
+            inline: true,
+          }}
         />
       ),
-      canEdit
+      canEdit,
     }}
   />
 );

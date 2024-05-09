@@ -1,7 +1,6 @@
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
-  padding-top: 50px;
   gap: 8px;
   .invalid-pool-tip {
     font-size: 18px;
@@ -573,10 +572,9 @@ if (!state.sender || state.selectedChainId !== 5000) {
       src="guessme.near/widget/ZKEVMSwap.zkevm-connect"
       props={{
         title: title,
-        src: "https://ipfs.near.social/ipfs/bafkreiajvwzt4jfhveovrctyojmcabm5x2nkpho6n2mrlg4c5b6nht3v3a",
+        // src: "https://ipfs.near.social/ipfs/bafkreiajvwzt4jfhveovrctyojmcabm5x2nkpho6n2mrlg4c5b6nht3v3a",
         imgStyle: {
           width: "538px",
-          // height: "203px",
         },
       }}
     />

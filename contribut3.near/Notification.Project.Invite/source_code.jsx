@@ -1,5 +1,5 @@
-const ownerId = "nearhorizon.near";
-const { requestId } = props.value;
+const { requestId, vendorId } = props.value;
+const ownerId = "contribut3.near";
 const [accountId, cid] = requestId;
 
 State.init({
@@ -13,7 +13,7 @@ if (!state.requestIsFetched) {
     "get_request",
     { account_id: accountId, cid },
     "final",
-    false
+    false,
   ).then((request) => State.update({ request, requestIsFetched: true }));
 }
 
@@ -115,7 +115,52 @@ return (
     </div>
 
     <div>
-      <Button class="primary">Accept</Button>
+      <Widget
+        src={`${ownerId}/widget/Buttons.Green`}
+        props={{
+          text: "Accept",
+          onClick: () => {
+            const transactions = [
+              {
+                contractName: ownerId,
+                methodName: "accept_contribution",
+                args: {
+                  project_id: accountId,
+                  cid,
+                  vendor_id: vendorId,
+                },
+              },
+              {
+                contractName: "social.near",
+                methodName: "set",
+                args: {
+                  data: {
+                    [context.accountId]: {
+                      index: {
+                        graph: JSON.stringify({
+                          key: "vendor/contract",
+                          value: { accountId: accountId },
+                        }),
+                        inbox: JSON.stringify({
+                          key: accountId,
+                          value: {
+                            type: "vendor/contract",
+                            contributionId: [accountId, cid],
+                            message: state.message,
+                            vendorId: vendorId,
+                            actionType: "accept",
+                          },
+                        }),
+                      },
+                    },
+                  },
+                },
+              },
+            ];
+            Near.call(transactions);
+          },
+        }}
+      />
       <Button>Discuss</Button>
     </div>
   </>

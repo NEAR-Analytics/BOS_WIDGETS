@@ -213,22 +213,22 @@ return (
                   </div>
                   <br />
                   <div>
-                    <a
-                      href="https://forms.gle/DBAzBKAWtnRozaBQ9"
-                      target="_blank"
-                      style={{
-                        color: "black",
-                        background: "#f54866",
-                        color: "white",
-                        "font-weight": "700",
-                        padding: "15px 20px",
-                        "border-radius": "1rem",
-                        border: "none",
+                    <ItemMintButton
+                      onClick={async () => {
+                        mint();
                       }}
                     >
-                      Request Early Access
-                    </a>
+                      Mint Burrito
+                    </ItemMintButton>
                     <br /> <br />
+                    <div>
+                      <a
+                        href="#/burrito-pets.near/widget/Burrito-Pets-Interact"
+                        style={{ color: "black" }}
+                      >
+                        Go to Play
+                      </a>
+                    </div>
                     <br />
                     <div>
                       <label style={{ color: "black", "font-weight": "500" }}>

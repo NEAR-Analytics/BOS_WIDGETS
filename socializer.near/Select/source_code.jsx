@@ -8,12 +8,13 @@ const onChange = props.onChange ?? (() => {});
 const error = props.error ?? "";
 
 const Container = styled.div`
+  gap: 0.45em;
+  height: 100%;
   display: flex;
+  width: ${width}px;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  gap: 0.45em;
-  width: ${width}px;
 `;
 
 const Label = styled.label`
@@ -41,23 +42,24 @@ const Error = styled.span`
 `;
 
 const Input = styled.div`
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 18px 12px 24px;
   gap: 0.5em;
-  background: #ffffff;
-  border: 1px solid var(--Dark, #121212);
-  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
-  border-radius: 6px;
-  color: #121212;
   width: 100%;
+  height: 100%;
+  display: flex;
+  color: #121212;
   font-size: 12px;
   font-weight: 600;
+  border-radius: 6px;
   line-height: normal;
+  align-items: center;
+  flex-direction: row;
+  background: #ffffff;
+  box-sizing: border-box;
   text-transform: capitalize;
+  padding: 12px 18px 12px 24px;
+  justify-content: space-between;
+  border: 1px solid var(--Dark, #121212);
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
 `;
 
 const Placeholder = styled.span`
@@ -138,7 +140,7 @@ const Item = styled.button`
 `;
 
 return (
-  <Container>
+  <Container className="form-select-wrapper">
     {noLabel ? <></> : <Label>{label}</Label>}
     <Select.Root
       value={value?.value}

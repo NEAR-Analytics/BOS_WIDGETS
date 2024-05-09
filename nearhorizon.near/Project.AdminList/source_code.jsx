@@ -15,7 +15,7 @@ if (!state.itemsIsFetched) {
       "get_admin_projects",
       { account_id: context.accountId },
       "final",
-      false
+      false,
     ).then((items) => State.update({ items, itemsIsFetched: true }));
 
     return <>Loading...</>;
@@ -45,7 +45,7 @@ const Name = styled.div`
 
 const Other = styled.div`
   text-align: center;
-  width: 13%;
+  width: 16.25%;
 `;
 
 const Container = styled.div`
@@ -60,13 +60,13 @@ return (
       <Name>Name</Name>
       <Other>Admins</Other>
       <Other>Accelerator</Other>
-      <Other>Graduation</Other>
       <Other>Created</Other>
       <Other>Status</Other>
     </Header>
     <Widget
       src={`${ownerId}/widget/List`}
       props={{
+        full: true,
         filter: (accountId) => accountId.includes(search),
         items: state.items,
         createItem: (accountId) => (

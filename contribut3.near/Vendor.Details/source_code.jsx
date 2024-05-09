@@ -10,6 +10,7 @@ const Container = styled.div`
   gap: 1em;
   padding: 0.5em 0.2em;
   max-width: 100%;
+  font-size: 0.9em;
 `;
 
 const Heading = styled.div`
@@ -34,20 +35,24 @@ if (!state.profileIsFetched) {
     "get",
     { keys: [`${accountId}/profile/**`] },
     "final",
-    false
+    false,
   ).then((profile) =>
     State.update({
       profile: profile[accountId].profile,
       profileIsFetched: true,
-    })
+    }),
   );
   return <>Loading...</>;
 }
 
 const onSave = (profile) => {
-  Near.call("social.near", "set", {
-    data: { [accountId]: { profile } },
-  });
+  Social.set(
+    { profile },
+    {
+      onCommit: () =>
+        State.update({ profile: { ...state.profile, ...profile } }),
+    },
+  );
 };
 
 return (
@@ -81,14 +86,14 @@ return (
         id: "type",
         value: state.profile.vendor_type,
         options: [
-          { name: "Individual contributor", id: "individual" },
-          { name: "Organization", id: "organization" },
+          { text: "Individual contributor", value: "individual" },
+          { text: "Organization", value: "organization" },
         ],
-        onSave: ([{ id: vendor_type }]) => onSave({ vendor_type }),
+        onSave: ({ value: vendor_type }) => onSave({ vendor_type }),
         canEdit: isAdmin,
       }}
     />
-    <Widget
+    {/*<Widget
       src={`${ownerId}/widget/Inputs.Viewable.Tags`}
       props={{
         label: "Skills",
@@ -111,7 +116,7 @@ return (
           }),
         canEdit: isAdmin,
       }}
-    />
+    />*/}
     <Widget
       src={`${ownerId}/widget/Inputs.Viewable.MultiSelect`}
       props={{
@@ -130,7 +135,7 @@ return (
           onSave({
             payments: payments.reduce(
               (acc, { id }) => Object.assign(acc, { [id]: "" }),
-              {}
+              {},
             ),
           }),
         canEdit: isAdmin,
@@ -169,7 +174,7 @@ return (
           onSave({
             work: work.reduce(
               (acc, { id }) => Object.assign(acc, { [id]: "" }),
-              {}
+              {},
             ),
           }),
         canEdit: isAdmin,

@@ -1,7 +1,7 @@
 const ownerId = "contribut3.near";
 const accountId = props.accountId;
 const name = props.name;
-const premission = props.premission;
+const permission = props.permission;
 const onToggle = props.onToggle;
 const onRemove = props.onRemove;
 
@@ -10,6 +10,7 @@ const Name = styled.a`
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
+  gap: 0.5em;
   font-style: normal;
   font-weight: 600;
   font-size: 0.95em;
@@ -69,8 +70,8 @@ return (
             { id: "Admin", text: "Admin" },
             { id: "Member", text: "Member" },
           ],
-          selected: premission,
-          update: (premission) => onToggle(premission),
+          selected: permission.id,
+          update: (permission) => onToggle(permission),
         }}
       />
     </Other>

@@ -2,6 +2,7 @@
 const nearDevGovGigsContractAccountId =
   props.nearDevGovGigsContractAccountId ||
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
+
 const nearDevGovGigsWidgetsAccountId =
   props.nearDevGovGigsWidgetsAccountId ||
   // (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
@@ -14,6 +15,7 @@ function widget(widgetName, widgetProps, key) {
     nearDevGovGigsWidgetsAccountId: props.nearDevGovGigsWidgetsAccountId,
     referral: props.referral,
   };
+
   return (
     <Widget
       src={`${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.${widgetName}`}
@@ -25,20 +27,26 @@ function widget(widgetName, widgetProps, key) {
 
 function href(widgetName, linkProps) {
   linkProps = { ...linkProps };
+
   if (props.nearDevGovGigsContractAccountId) {
     linkProps.nearDevGovGigsContractAccountId =
       props.nearDevGovGigsContractAccountId;
   }
+
   if (props.nearDevGovGigsWidgetsAccountId) {
     linkProps.nearDevGovGigsWidgetsAccountId =
       props.nearDevGovGigsWidgetsAccountId;
   }
+
   if (props.referral) {
     linkProps.referral = props.referral;
   }
+
   const linkPropsQuery = Object.entries(linkProps)
+    .filter(([_key, nullable]) => (nullable ?? null) !== null)
     .map(([key, value]) => `${key}=${value}`)
     .join("&");
+
   return `/#/${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.pages.${widgetName}${
     linkPropsQuery ? "?" : ""
   }${linkPropsQuery}`;
@@ -111,37 +119,26 @@ const socialLinks = [
   },
 ];
 
-const mockTeamMembers = [
-  // {
-  //   id: "${community.member}",
-  //   role: "${community.role}",
-  //   avatar: "${community.profileImage}",
-  //   wallet: "${community.accountId}",
-  // },
+// TODO ADD AMIN MEMBERS HERE
+
+const TeamMembers = [
+  {
+    id: "",
+    role: "",
+    avatar: "",
+    wallet: "",
+  },
 
   {
-    id: "css_queen",
-    role: "Owner",
-    avatar:
-      "https://paras.id/_next/image?url=https%3A%2F%2Fparas-cdn.imgix.net%2F219f4d987a6c8e3c5af385c0a7c892477f870941%3Fw%3D400&w=828&q=75",
-    wallet: "@css_queen.near",
-  },
-  {
     id: "js_joker",
-    role: "Moderator",
+    role: "Admin",
     avatar:
       "https://paras.id/_next/image?url=https%3A%2F%2Fparas-cdn.imgix.net%2F6196b861da8a91415f23e551a5e88c0ac0671c0d%3Fw%3D400&w=1080&q=75",
     wallet: "@js_joker.near",
   },
-  {
-    id: "python_princess",
-    role: "Admin",
-    avatar:
-      "https://paras.id/_next/image?url=https%3A%2F%2Fparas-cdn.imgix.net%2Fca017da093f9b4b0ee8fae85bb3ef57477590674%3Fw%3D400&w=2048&q=75",
-    wallet: "@python_princess.near",
-  },
 ];
 /* END_INCLUDE: "mockcommunity.jsx" */
+
 if (!props.label) {
   return (
     <div class="alert alert-danger" role="alert">
@@ -268,7 +265,7 @@ const TeamMember = ({ member }) => (
 );
 
 // Team Members List
-const TeamMembersList = mockTeamMembers.map((member) => (
+const TeamMembersList = TeamMembers.map((member) => (
   <TeamMember key={member.id} member={member} />
 ));
 

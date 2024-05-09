@@ -1,176 +1,199 @@
-/*This fetches the google poppins, Monteserrat, and Orbitron fonts*/
-const font = fetch(
-  "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Montserrat+Alternates:wght@400;600;800&family=Orbitron:wght@400;600&family=Poppins:wght@100;200;700&display=swap"
-).body;
+const useThemeName = (light, dark) => {
+  return state.theme.name === "light" ? light : dark;
+};
 
-/*This checks wether the google font is returned, if not, it returns null*/
-if (!font) {
-  return null;
-}
+const pages = [
+  {
+    label: "Blog",
+    href: `#/`,
+    target: "_self",
+    icon: "sourcescan.near/widget/SourceScan.Common.Icons.DocsIcon",
+  },
+  {
+    label: "Docs",
+    href: `#/oraio.near/widget/dTecteet?page=docs`,
+    target: "_self",
+    icon: "sourcescan.near/widget/SourceScan.Common.Icons.DocsIcon",
+  },
+];
 
-const NavStyle = styled.div`
-*{
-  margin:0;
-  padding:0;
-  box-sizing: border-box;
-  font-family: Poppins, 'sans-serif';
-}.body;
-`;
+State.init({
+  theme: props.theme || {
+    name: "light",
+    bg: "#e3e8ef",
+    color: "#4c5566",
+    border: "#748094",
+  },
+  ownerId: "sourcescan.near",
+});
 
-const Header = styled.div`
-  display: flex;
-  flex-direction: rows;
-  justify-content: space-around;
-  align-items: center;
-  width: 100wv;
-  height: 99px;
-  border: 2.5px solid #EDEDED;
-  background: rgba(255, 255, 255, 0.01);
-  backdrop-filter: blur(24.5px);
-
-    @media only screen and (max-width: 750px) {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        height: 50px;
-        padding: 0 30px;
-
-    };
-`;
-const Titlediv = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  font-family: Poppins, 'sans-serif';
-  font-size: 32px;
-  font-style: normal;
-  font-weight: 800;
-  line-height: normal;
-
-    @media only screen and (max-width: 750px) {
-    display: flex;
-    justify-content: flex-start;
-    font-size: 12px;
-    flex-shrink: 0;
-
-    };
-  
-`;
-const Title1 = styled.span`
-  color: #232323;
-
-    @media only screen and (max-width: 750px) {
-    
-    };
-`;
-
-const Title2 = styled.span`
-  color: #8B5EED;
-`;
-const Navdiv = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 225px;
-  height: 30px;
-
-    @media only screen and (max-width: 750px) {
-      justify-content: space-around;
-      padding: 0 30px;
-
-`;
-
-const Navspan1 = styled.span`
-  color: #000;
-  font-feature-settings: 'clig' off, 'liga' off;
-  font-family: Roboto;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  letter-spacing: 0.15px;
-    a{
-    text-decoration: none;
-    color: #000 !important;
-    }
-    a:hover{
-      color: #8B5EED !important;
-    }
-
-
-    @media only screen and (max-width: 750px) {
-    font-size: 12px;
-    flex-shrink: 0;
-    a{
-    text-decoration: none;
-    color: #000 !important;
-    font-weight: 400;
-    }
-
-
-`;
-
-const Navspan2 = styled.span`
-color: #000;
-font-feature-settings: 'clig' off, 'liga' off;
-font-family: Poppins, 'sans-serif';
-font-size: 24px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
-letter-spacing: 0.15px;
-    a{
-    text-decoration: none;
-    color: #000 !important;
-    }
-    a:hover{
-      color: #8B5EED !important;
-    }
-
-    @media only screen and (max-width: 750px) {
-    font-size: 12px;
-    flex-shrink: 0;
-    a{
-    text-decoration: none;
-    color: #000 !important;
-    font-weight: 400;
-    }
-`;
-
-/*This section handles the screen size respinsiveness at maximum of 750px (Mobile first design) */
 const Main = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  background-color: #fff;
-  overflow-y: auto;
-  height: 100vh;
-  padding-bottom: 80px;
-  background-image: url('https://bit.ly/dtect-app');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+  padding-top: 6px;
 
   @media only screen and (max-width: 750px) {
-    padding-bottom: 160px;
+    padding-top: 22px;
   }
 `;
 
+const RStack = styled.div`
+  width: 100%;
+  display: flex;
+  gap: 25px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+
+  @media only screen and (max-width: 750px) {
+    flex-direction: column;
+  }
+`;
+
+const HStack = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 25px;
+  justify-content: center;
+  align-items: center;
+`;
+
+const NavButton = styled.button`
+  font-weight: 600;
+  font-size: 18px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 40px;
+  border: 1px solid transparent;
+  color: ${state.theme.color};
+  background-color: ${state.theme.bg};
+  transition: background-color 0.1s ease-in-out;
+
+  :hover {
+    background-color: ${state.theme.hover.bg};
+  }
+`;
+
+const NavButtonStack = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+`;
+
+const LogoContainer = styled.div`
+  left: 0;
+  position: absolute;
+  padding-left: 28px;
+  padding-right: 28px;
+
+
+`;
+
+const ThemeChangerContainer = styled.div`
+  position: absolute;
+  right: 0;
+  padding-left: 28px;
+  padding-right: 28px;
+
+  @media only screen and (max-width: 750px) {
+    display: none;
+  }
+`;
+
+const Mobile = styled.div`
+  display: none;
+
+  @media only screen and (max-width: 750px) {
+    display: flex;
+  }
+`;
+
+const Desktop = styled.div`
+  display: flex;
+
+  @media only screen and (max-width: 750px) {
+    display: none;
+  }
+`;
+
+const Logo = styled.img`
+  cursor: pointer;
+  filter: ${useThemeName("invert(0)", "invert(1)")};
+`;
+
 return (
-  <NavStyle>
-    <Main>
-      <Header>
-        <Titlediv>
-          <Title1>DTEC</Title1> <Title2>TEET</Title2>
-        </Titlediv>
-        <Navdiv>
-          <Navspan1>
-            <a href="#">Docs</a>
-          </Navspan1>
-          <Navspan2>
-            <a href="#">Blog</a>
-          </Navspan2>
-        </Navdiv>
-      </Header>
-    </Main>
-  </NavStyle>
+  <Main>
+    <HStack>
+      <LogoContainer>
+        <Widget
+          src="oraio.near/widget/dTecteet.Logo"
+          props={{
+            theme: state.theme,
+          }}
+        />
+      </LogoContainer>
+      <RStack>
+        <Mobile>
+          <a href="#/oraio.near/widget/dTecteet.index" target={"_self"}>
+            <Logo
+              src={
+                "https://ipfs.io/ipfs/bafkreibfot4vz22olyjagjtr5qk7m4rpybwy3jb2x3bjfvjl5zzv3biluq"
+              }
+              width={"100px"}
+            />
+          </a>
+        </Mobile>
+        <HStack>
+          <Desktop>
+            <a href="#/oraio.near/widget/dTecteet.index" target={"_self"}>
+              <Logo
+                src={
+                  "https://ipfs.io/ipfs/bafkreibfot4vz22olyjagjtr5qk7m4rpybwy3jb2x3bjfvjl5zzv3biluq"
+                }
+                width={"100px"}
+              />
+            </a>
+          </Desktop>
+          {pages.map((page, i) => {
+            return page.href ? (
+              <a key={i} href={page.href} target={page.target}>
+                <NavButton>
+                  <NavButtonStack>
+                    <Widget
+                      src={page.icon}
+                      props={{ width: "18px", height: "18px" }}
+                    />
+                    {page.label}
+                  </NavButtonStack>
+                </NavButton>
+              </a>
+            ) : (
+              <NavButton key={i}>
+                <NavButtonStack>
+                  <Widget
+                    src={page.icon}
+                    props={{ width: "18px", height: "18px" }}
+                  />
+                  {page.label}
+                </NavButtonStack>
+              </NavButton>
+            );
+          })}
+        </HStack>
+        <ThemeChangerContainer>
+          <Widget
+            src={`${state.ownerId}/widget/SourceScan.Inputs.ThemeChanger`}
+            props={{
+              theme: state.theme,
+              switchTheme: props.switchTheme,
+            }}
+          />
+        </ThemeChangerContainer>
+      </RStack>
+    </HStack>
+  </Main>
 );

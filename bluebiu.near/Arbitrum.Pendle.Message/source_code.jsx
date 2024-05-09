@@ -133,7 +133,7 @@ return (
       </Flex>
       <div className="pt-14">
         <Widget
-          src="bluebiu.near/widget/Base.BaseCloseIcon"
+          src="bluebiu.near/widget/Arbitrum.Swap.CloseIcon"
           props={{
             onClose: () => {
               onClose?.();

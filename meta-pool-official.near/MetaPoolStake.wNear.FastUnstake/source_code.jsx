@@ -6,7 +6,7 @@ const {
   sender,
   update,
   state,
-  handleInputstNear,
+  handleInputStNear,
   onClickMaxstNear,
   updateData,
 } = props;
@@ -29,14 +29,17 @@ const swapAbi = [
 
 const iface = new ethers.utils.Interface(swapAbi);
 
-const onSubmit = (strAmount) => {
+const onSubmit = () => {
   const swap = new ethers.Contract(
     swapAddress,
     swapAbi,
     Ethers.provider().getSigner()
   );
+  const stNearValue = state.isStNearMaxSelected
+    ? state.stNearBalance
+    : state.value;
 
-  let amount = ethers.utils.parseUnits(strAmount, tokenDecimals).toString();
+  let amount = ethers.utils.parseUnits(stNearValue, tokenDecimals).toString();
 
   update({ loading: true });
 
@@ -240,7 +243,12 @@ return (
             </StakeFormTopContainerLeftContent1>
             <StakeFormTopContainerLeftContent2>
               <span>
-                {state.stNearBalance}
+                {state.stNearBalance
+                  ? (
+                      Math.trunc(parseFloat(state.stNearBalance) * 100000) /
+                      100000
+                    ).toFixed(5)
+                  : ""}
                 stNEAR
               </span>
             </StakeFormTopContainerLeftContent2>
@@ -286,7 +294,7 @@ return (
               : "0",
           placeholder: "Enter stNEAR amount",
           value: state.value,
-          onChange: (e) => handleInputstNear(e.target.value),
+          onChange: (e) => handleInputStNear(e.target.value),
           onClickMax: onClickMaxstNear,
           inputError: state.validation !== "",
           balance: state.stNearBalance ?? "-",
@@ -303,7 +311,7 @@ return (
         props={{
           value:
             state.metrics && state.value && parseFloat(state.value) > 0
-              ? (state.value * state.metrics?.st_near_price_usd).toFixed(5)
+              ? (state.value * state.metrics?.st_near_price).toFixed(5)
               : 0,
           iconName: "wNEAR",
           token: "stNEAR",
@@ -317,7 +325,7 @@ return (
         <Widget
           src={`${authorId}/widget/MetaPoolStake.Common.Button`}
           props={{
-            onClick: () => onSubmit(state.value),
+            onClick: onSubmit,
             disabled: state.loading,
             text: state.loading ? "Wait..." : "Unstake",
           }}

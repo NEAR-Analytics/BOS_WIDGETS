@@ -1,22 +1,22 @@
 const Container = styled.div`
-  .greenButton{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background: #00FFD1;
+  .greenButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #00ffa3;
     border-radius: 12px;
-    height:46px;
+    height: 46px;
     font-weight: 700;
     font-size: 18px;
-    color:#000;
-    cursor:pointer;
-    width:100%;
+    color: #000;
+    cursor: pointer;
+    width: 100%;
   }
-  .mt_25{
-    margin-top:25px;
+  .mt_25 {
+    margin-top: 25px;
   }
-  .disabled{
-    opacity:0.3;
+  .disabled {
+    opacity: 0.5;
     cursor: not-allowed;
   }
 `;

@@ -6,12 +6,21 @@ const YouWillReceive = styled.div`
   margin-top: 16px;
   p{
     margin-bottom:0px;
+    line-height:26px;
+    img {
+      width: 26px;
+      height: 26px;
+      margin-right:10px;
+      margin-top:-4px;
+    }
   }
 `;
 
 return (
   <YouWillReceive>
-    <p>You will receive </p>
+    <p>
+      <img src={props.secondIconUrl} />
+      {props.secondIconName}  to  receive </p>
     <p>{props.text}</p>
   </YouWillReceive>
 );

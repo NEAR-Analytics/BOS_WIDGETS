@@ -1,24 +1,18 @@
 const data = props.data;
 const customCard = data.customWidgetSrc;
 
-console.log(data);
+State.init({
+  hideEditModal: true,
+});
 
 const EventCard = () => {
   const title = data.title || "No-title event";
   const description = data.description;
   const logo = data.logo;
-  const backgroundImage = data.background;
-  const tags = Object.keys(data.tags ?? {});
   const organizer = data.organizer;
-  const eventLink = data.link;
-  const profileLink = `https://near.org/near/widget/ProfilePage?accountId=${organizer}`;
-  const category = data.category;
   const hashtags = JSON.parse(data.hashTags);
   const startDate = data.start;
   const startTime = data.startTime;
-  const endDate = data.end;
-  const endTime = data.endTime;
-  const location = data.location;
   const blockHeight = data.blockHeight;
   const path = data.path;
 
@@ -40,7 +34,7 @@ const EventCard = () => {
     font-weight: 500;
     line-height: normal;
 
-    @media (max-width: 550px) {
+    @media (max-width: 768px) {
       font-size: 12px;
     }
   `;
@@ -52,7 +46,7 @@ const EventCard = () => {
     font-weight: 600;
     line-height: normal;
 
-    @media (max-width: 550px) {
+    @media (max-width: 768px) {
       font-size: 12px;
     }
   `;
@@ -64,17 +58,9 @@ const EventCard = () => {
     font-style: normal;
     font-weight: 600;
     line-height: normal;
-
-    @media (max-width: 550px) {
-      font-size: 16px;
-    }
   `;
 
   const eventDescription = styled.div`
-    @media (max-width: 550px) {
-      font-size: 12px;
-    }
-
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -103,6 +89,28 @@ const EventCard = () => {
     }
   `;
 
+  const editIcon = styled.button`
+    border-radius: 6px;
+    background: transparent;
+    display: flex;
+    padding: 6px;
+    flex-direction: row;
+    -webkit-box-align: center;
+    align-items: center;
+    color: rgb(0, 0, 0);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+
+    outline: none;
+    border: 1px solid #e9ecef;
+
+    @media (max-width: 768px) {
+      font-size: 12px;
+    }
+  `;
+
   const formatStartTime = () => {
     const date = new Date(`${startDate} ${startTime}`);
     const options = {
@@ -116,11 +124,39 @@ const EventCard = () => {
 
   const formattedTime = formatStartTime();
 
+  const onEdit = () => {
+    toggleEditModal();
+    console.log("event card:", data);
+  };
+
+  const toggleEditModal = () => {
+    State.update({ hideEditModal: !state.hideEditModal });
+  };
+
+  const editModalProps = {
+    title: "Edit event",
+    body: (
+      <Widget
+        src="itexpert120-contra.near/widget/EditEvent"
+        props={{ data: data, toggleEditModal }}
+      />
+    ),
+    confirmText: "Edit event",
+    onConfirm: () => {
+      console.log("confirm");
+    },
+    hidden: state.hideEditModal,
+    onClose: toggleEditModal,
+    showFooter: false,
+  };
+
   return (
-    <styledCard>
-      <styledA
-        href={`https://near.social/itexpert120-contra.near/widget/EventView?path=${path}&blockHeight=${blockHeight}`}
-      >
+    <>
+      <Widget
+        src="itexpert120-contra.near/widget/Modal"
+        props={{ ...editModalProps }}
+      />
+      <styledCard>
         <div class="card mb-3 w-100" style={{ borderRadius: "6px" }}>
           <div class="card-body">
             <div className="d-flex mb-3 align-items-center">
@@ -131,8 +167,15 @@ const EventCard = () => {
                   </tagsSpan>
                 ))}
               </div>
-              <div className="ms-auto">
-                <timeP className="m-0">{formattedTime}</timeP>
+              <div className="ms-auto d-flex align-items-center gap-1">
+                {organizer === context.accountId && (
+                  <editIcon className="me-1" onClick={onEdit}>
+                    <i className="bi bi-pencil me-1"></i>Edit
+                  </editIcon>
+                )}
+                <div>
+                  <timeP className="m-0">{formattedTime}</timeP>
+                </div>
               </div>
             </div>
             <div className="d-flex gap-3">
@@ -140,39 +183,45 @@ const EventCard = () => {
                 <Widget src={customCard} props={{ data: data }} />
               ) : (
                 <>
-                  <div>
-                    <Widget
-                      src="mob.near/widget/Image"
-                      props={{
-                        image: logo,
-                        alt: "event logo",
-                        style: {
-                          width: 40,
-                          height: 40,
-                          borderRadius: "4px",
-                          objectFit: "cover",
-                        },
-                        fallbackUrl:
-                          "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <eventTitle class="card-title">{title}</eventTitle>
-                    <eventDescription>
-                      <Widget
-                        src="efiz.near/widget/every.markdown.view"
-                        props={{ data: description }}
-                      />
-                    </eventDescription>
-                  </div>
+                  <styledA
+                    href={`https://near.social/itexpert120-contra.near/widget/EventView?path=${path}&blockHeight=${blockHeight}`}
+                  >
+                    <div className="d-flex">
+                      <div className="me-3">
+                        <Widget
+                          src="mob.near/widget/Image"
+                          props={{
+                            image: logo,
+                            alt: "event logo",
+                            style: {
+                              width: 40,
+                              height: 40,
+                              borderRadius: "4px",
+                              objectFit: "cover",
+                            },
+                            fallbackUrl:
+                              "https://www.ivins.com/wp-content/uploads/2020/09/placeholder-1.png",
+                          }}
+                        />
+                      </div>
+                      <div>
+                        <eventTitle class="card-title">{title}</eventTitle>
+                        <eventDescription>
+                          <Widget
+                            src="efiz.near/widget/every.markdown.view"
+                            props={{ data: description }}
+                          />
+                        </eventDescription>
+                      </div>
+                    </div>
+                  </styledA>
                 </>
               )}
             </div>
           </div>
         </div>
-      </styledA>
-    </styledCard>
+      </styledCard>
+    </>
   );
 };
 

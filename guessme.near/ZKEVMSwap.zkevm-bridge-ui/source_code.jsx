@@ -135,6 +135,7 @@ const AccountWrapper = styled.div`
   font-size: 14px;
   .balance {
     text-decoration: underline;
+    cursor: pointer;
   }
 `;
 
@@ -536,18 +537,18 @@ const walletChains = {
 };
 
 const coins = Object.keys(coinsMap);
-const pricesUrl = `https://api.coingecko.com/api/v3/simple/price?ids=${coins.join(
-  ","
-)}&vs_currencies=usd`;
 
-if (!prices[selectedToken]) {
+useEffect(() => {
+  const pricesUrl = `https://api.coingecko.com/api/v3/simple/price?ids=${coins.join(
+    ","
+  )}&vs_currencies=usd`;
   asyncFetch(pricesUrl).then((res) => {
     if (!res.ok) return;
     const prices = {};
     coins.forEach((coin) => (prices[coinsMap[coin]] = res.body[coin].usd));
     State.update({ prices });
   });
-}
+}, []);
 
 const updateBalance = (token) => {
   const { address, decimals, symbol } = token;
@@ -557,12 +558,20 @@ const updateBalance = (token) => {
       .getBalance(sender)
       .then((balanceBig) => {
         const adjustedBalance = ethers.utils.formatEther(balanceBig);
-        State.update({
+
+        // State.update({
+        //   balances: {
+        //     ...state.balances,
+        //     [symbol]: new Big(adjustedBalance || 0).toFixed(),
+        //   },
+        // });
+        State.update((prevState) => ({
+          ...prevState,
           balances: {
-            ...state.balances,
+            ...prevState.balances,
             [symbol]: new Big(adjustedBalance || 0).toFixed(),
           },
-        });
+        }));
       });
   } else {
     const erc20Abi = ["function balanceOf(address) view returns (uint256)"];
@@ -577,12 +586,20 @@ const updateBalance = (token) => {
         const adjustedBalance = Big(balanceBig.toString())
           .div(Big(10).pow(decimals))
           .toFixed();
-        State.update({
+
+        // State.update({
+        //   balances: {
+        //     ...state.balances,
+        //     [symbol]: new Big(adjustedBalance || 0).toFixed(),
+        //   },
+        // });
+        State.update((prevState) => ({
+          ...prevState,
           balances: {
-            ...state.balances,
+            ...prevState.balances,
             [symbol]: new Big(adjustedBalance || 0).toFixed(),
           },
-        });
+        }));
       })
       .catch((e) => console.log("error", e));
   }
@@ -995,6 +1012,7 @@ const calcPrice = () => {
   if (!amount) return "0";
   return Big(amount).mul(Big(prices[selectedToken])).toFixed(2);
 };
+
 return (
   <DeskLayout>
     <Layout>
@@ -1101,7 +1119,13 @@ return (
           <span>~ ${calcPrice()}</span>
           <span>
             Balance:
-            <span className="balance">
+            <span className="balance" onClick={() => {
+              if (balances[selectedToken]) {
+                State.update({
+                  amount: balances[selectedToken]
+                })
+              }
+            }}>
               {balances[selectedToken]
                 ? Big(balances[selectedToken]).toFixed(4)
                 : 0}

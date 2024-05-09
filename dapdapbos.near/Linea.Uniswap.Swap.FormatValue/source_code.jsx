@@ -20,5 +20,4 @@ if (price) {
 if (total.eq(0)) return "0" + unit;
 const digitSplit = 1 / Math.pow(10, digits);
 if (total.lt(digitSplit)) return "<" + prev + digitSplit + unit;
-
-return prev + total.toFixed(digit) + unit;
+return prev + Number(total.toFixed(digits)).toLocaleString("en-US") + unit;

@@ -198,8 +198,6 @@ const ArrowWrapper = styled.div`
   transform: ${(p) => (p.show ? "" : "rotate(180deg)")};
 `;
 
-console.log(state.showItems);
-
 return (
   <Wrapper>
     {Object.entries(defaultItems).map(([key, value]) => {

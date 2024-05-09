@@ -1,70 +1,31 @@
-const accountId = props.accountId ?? "hack.near";
-const widgetName = props.widgetName ?? "Academy";
-const widgetPath = `${accountId}/widget/${widgetName}`;
-const blockHeight = props.blockHeight;
-const metadata = props.metadata ?? Social.getr(`${widgetPath}/metadata`);
+const src = props.src ?? "hack.near/widget/Academy";
+const [accountId, widget, widgetName] = src.split("/");
 
-const name = metadata.name ?? widgetName;
-const description = metadata.description;
-const tags = Object.keys(metadata.tags ?? {});
-
-const TagLink = styled.div`
-  text-decoration: none;
-
-  .tag-link:hover {
-    text-decoration: none;
-  }
-`;
-
-const TagContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 5px;
-`;
+const metadata = props.metadata ?? Social.getr(`${src}/metadata`);
 
 return (
-  <div className="d-flex flex-row">
-    <a href={`#/${widgetPath}`} className="text-decoration-none link-dark">
-      <Widget
-        src="mob.near/widget/WidgetImage"
-        props={{
-          metadata,
-          accountId,
-          widgetName,
-          style: { height: "3em", width: "3em", minWidth: "3em" },
-          className: "me-2 float-start d-inline-block",
-          imageClassName: "w-100 h-100",
-        }}
-      />
-    </a>
-    <div className="d-inline-block">
-      <a href={`#/${widgetPath}`} className="text-decoration-none link-dark">
-        <div className="text-truncate">
-          <span className="fw-bold">{name}</span>{" "}
+  <>
+    <a style={{ color: "#000", textDecoration: "none" }} href={`/${src}`}>
+      <div className="d-flex flex-row">
+        <div className="me-1">
+          <Widget
+            src="mob.near/widget/WidgetImage"
+            props={{
+              accountId,
+              widgetName,
+            }}
+          />
         </div>
-      </a>
-
-      <div className="text-truncate text-muted">
-        {tags.length > 0 && (
-          <>
-            <TagContainer>
-              {tags.map((tag, i) => (
-                <TagLink>
-                  <a key={i} href={`#/mob.near/widget/LastWidgets?tag=${tag}`}>
-                    <span
-                      key={i}
-                      className="fw-light badge border border-secondary text-bg-light"
-                    >
-                      #{tag}
-                    </span>
-                  </a>
-                </TagLink>
-              ))}
-            </TagContainer>
-          </>
-        )}
+        <div className="text-truncate ms-2">
+          <span className="fw-bold ms-1">{metadata.name ?? widgetName}</span>
+          <div className="text-truncate text-muted">
+            <Widget src="hack.near/widget/BuilderHat" props={{ accountId }} />
+            <small>
+              <span className="font-monospace ms-1">@{accountId}</span>
+            </small>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
+    </a>
+  </>
 );

@@ -2,7 +2,6 @@ const showNavbar = props.showNavbar ?? true;
 State.init({
   isOpen: false,
 });
-
 const NavContainer = styled.div`
   background: ${() =>
     props.isHome && !state.isOpen ? "transparent" : "white"};
@@ -27,7 +26,6 @@ const NavContainer = styled.div`
     }
   }
 `;
-
 const Logo = styled.a`
   display: flex;
   color: ${() => (props.isHome && !state.isOpen ? "white" : "#000")};
@@ -61,7 +59,6 @@ const Routes = styled.div`
     line-height: normal;
   }
 `;
-
 const Join = styled.div`
   display: flex;
   .button:first-child {
@@ -121,7 +118,6 @@ const MobileJoin = styled.div`
     margin: 0 10px 0 0;
   }
 `;
-
 const MobileMyAcc = styled.p`
   margin: 0;
   margin-left: 8px;
@@ -140,7 +136,6 @@ const MyAcc = styled.p`
   padding: 5px;
   border-radius: 10px;
 `;
-
 const getSender = () => {
   return !state.sender
     ? ""
@@ -148,18 +143,15 @@ const getSender = () => {
         "..." +
         state.sender.substring(state.sender.length - 4, state.sender.length);
 };
-
 if (state.sender === undefined) {
   const accounts = Ethers.send("eth_requestAccounts", []);
   if (accounts.length) {
     State.update({ sender: accounts[0] });
   }
 }
-
 const MobileNavOptions = styled.div`
   display: none;
   background-color: ${state.isOpen ? "#fff" : "transparent"};
-
   * {
     font-family: Helvetica Neue;
   }
@@ -167,7 +159,6 @@ const MobileNavOptions = styled.div`
     display: flex;
   }
 `;
-
 const MobileRoutes = styled.div`
   display: none;
   background-color: #fff;
@@ -222,7 +213,6 @@ const MobileRoutes = styled.div`
     width: 100%;
   }
 `;
-
 const MenuToggle = styled.div`
   padding: 5px;
   cursor: pointer;
@@ -230,18 +220,15 @@ const MenuToggle = styled.div`
     stroke: ${props.isHome ? "#fff" : "#000"};
   }
 `;
-
 const menuToggleHandler = () => {
   State.update({
     isOpen: !state.isOpen,
   });
 };
-
 const tabToggleHanler = (tabStr) => {
   props.update({ tab: tabStr });
   State.update({ isOpen: !state.isOpen });
 };
-
 return (
   <>
     {!props.isGateway && (
@@ -250,7 +237,7 @@ return (
           {showNavbar && (
             <>
               <Logo
-                href="#/agwaze.near/widget/CPlanet.index?tab=home"
+                href="#/bos.genadrop.near/widget/CPlanet.Index?tab=home"
                 onClick={() => tabToggleHanler("home")}
               >
                 <h2>C</h2>
@@ -258,13 +245,13 @@ return (
               </Logo>
               <Routes className="desk">
                 <a
-                  href={`#/agwaze.near/widget/CPlanet.index?tab=explore`}
+                  href={`#/bos.genadrop.near/widget/CPlanet.Index?tab=explore`}
                   onClick={() => tabToggleHanler("explore")}
                 >
                   NFTs
                 </a>
                 <a
-                  href={`#/agwaze.near/widget/CPlanet.index?tab=community`}
+                  href={`#/bos.genadrop.near/widget/CPlanet.Index?tab=community`}
                   onClick={() => tabToggleHanler("community")}
                 >
                   Communities
@@ -276,10 +263,16 @@ return (
                   Funding
                 </a>
                 <a
-                  href={`#/agwaze.near/widget/CPlanet.index?tab=feed`}
+                  href={`#/bos.genadrop.near/widget/CPlanet.Index?tab=feed`}
                   onClick={() => tabToggleHanler("feed")}
                 >
                   Feeds
+                </a>
+                <a
+                  href={`#/bos.genadrop.near/widget/CPlanet.Index?tab=dropFunds`}
+                  onClick={() => tabToggleHanler("dropFunds")}
+                >
+                  Drop Funds
                 </a>
               </Routes>
               <MobileNavOptions>
@@ -343,13 +336,13 @@ return (
         <MobileRoutes>
           <div className="mroutes">
             <a
-              href={`#/agwaze.near/widget/CPlanet.index?tab=explore`}
+              href={`#/bos.genadrop.near/widget/CPlanet.Index?tab=explore`}
               onClick={() => props.update({ tab: "explore" })}
             >
               NFTs
             </a>
             <a
-              href={`#/agwaze.near/widget/CPlanet.index?tab=community`}
+              href={`#/bos.genadrop.near/widget/CPlanet.Index?tab=community`}
               onClick={() => props.update({ tab: "community" })}
             >
               Communities
@@ -375,10 +368,16 @@ return (
               </svg>
             </a>
             <a
-              href={`#/agwaze.near/widget/CPlanet.index?tab=feed`}
+              href={`#/bos.genadrop.near/widget/CPlanet.Index?tab=feed`}
               onClick={() => props.update({ tab: "feed" })}
             >
               Feeds
+            </a>
+            <a
+              href={`#/bos.genadrop.near/widget/CPlanet.Index?tab=dropFunds`}
+              onClick={() => tabToggleHanler("dropFunds")}
+            >
+              Drop Funds
             </a>
           </div>
           <MobileJoin onClick={() => State.update({ isOpen: false })}>

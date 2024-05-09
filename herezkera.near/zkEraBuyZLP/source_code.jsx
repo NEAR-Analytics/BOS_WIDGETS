@@ -325,7 +325,6 @@ const ZKE_DECIMALS = 18;
 const MINT_BURN_FEE_BASIS_POINTS = 25;
 const TAX_BASIS_POINTS = 60;
 const BASIS_POINTS_DIVISOR = 10000;
-const PLACEHOLDER_ACCOUNT = "0x769Fc809C22747F73D98D3E7a79921CFa840BFCc";
 const SECONDS_PER_YEAR = 31536000;
 
 // CHAINS
@@ -1075,7 +1074,6 @@ State.init({
   zlpBalance: undefined,
   network: undefined,
   chainId: undefined,
-  showSettings: false,
   tokenBalances: undefined,
   vaultTokenInfo: undefined,
   zlpPrice: undefined,
@@ -1092,6 +1090,7 @@ State.init({
   stakingInfo: undefined,
   zlpSupply: undefined,
   aum: undefined,
+  chainsMap: Object.values(CHAINS),
 });
 const {
   payValue,
@@ -1100,7 +1099,6 @@ const {
   zlpBalance,
   network,
   chainId,
-  showSettings,
   tokenBalances,
   vaultTokenInfo,
   zlpPrice,
@@ -1117,6 +1115,7 @@ const {
   stakingInfo,
   zlpSupply,
   aum,
+  chainsMap,
 } = state;
 
 // RECONNECT TO WALLET
@@ -1236,26 +1235,23 @@ const readerContract = new ethers.Contract(
   Ethers.provider() && Ethers.provider().getSigner()
 );
 
-readerContract
-  .getTokenBalances(sender || PLACEHOLDER_ACCOUNT, tokenAddresses)
-  .then((result) => {
+if (sender) {
+  readerContract.getTokenBalances(sender, tokenAddresses).then((result) => {
     State.update({ tokenBalances: result });
   });
 
-readerContract
-  .getTokenBalancesWithSupplies(
-    sender || PLACEHOLDER_ACCOUNT,
-    tokensForBalanceAndSupplyQuery
-  )
-  .then((result) => {
-    State.update({ balancesAndSupplies: result });
-  });
+  readerContract
+    .getTokenBalancesWithSupplies(sender, tokensForBalanceAndSupplyQuery)
+    .then((result) => {
+      State.update({ balancesAndSupplies: result });
+    });
 
-readerContract
-  .getTokenBalancesWithSupplies(sender || PLACEHOLDER_ACCOUNT, [zlpAddress])
-  .then((result) => {
-    State.update({ zlpSupply: result[1] });
-  });
+  readerContract
+    .getTokenBalancesWithSupplies(sender, [zlpAddress])
+    .then((result) => {
+      State.update({ zlpSupply: result[1] });
+    });
+}
 
 const rewardTrackerContract = new ethers.Contract(
   rewardTrackerAddress,
@@ -1263,11 +1259,11 @@ const rewardTrackerContract = new ethers.Contract(
   Ethers.provider() && Ethers.provider().getSigner()
 );
 
-rewardTrackerContract
-  .stakedAmounts(sender || PLACEHOLDER_ACCOUNT)
-  .then((result) => {
+if (sender) {
+  rewardTrackerContract.stakedAmounts(sender).then((result) => {
     State.update({ zlpBalance: result });
   });
+}
 
 const vaultContract = new ethers.Contract(
   vaultAddress,
@@ -1323,12 +1319,7 @@ const { infoTokens } = useInfoTokens(
 );
 
 const tokensInfo = Object.values(infoTokens);
-if (
-  infoTokens &&
-  infoTokens[ADDRESS_ZERO].balance &&
-  !fromToken &&
-  sender !== PLACEHOLDER_ACCOUNT
-) {
+if (infoTokens && infoTokens[ADDRESS_ZERO].balance && !fromToken) {
   State.update({ fromToken: infoTokens[ADDRESS_ZERO] });
 }
 
@@ -1338,11 +1329,13 @@ const rewardReaderContract = new ethers.Contract(
   Ethers.provider() && Ethers.provider().getSigner()
 );
 
-rewardReaderContract
-  .getStakingInfo(sender || PLACEHOLDER_ACCOUNT, rewardTrackersForStakingInfo)
-  .then((result) => {
-    State.update({ stakingInfo: result });
-  });
+if (sender) {
+  rewardReaderContract
+    .getStakingInfo(sender, rewardTrackersForStakingInfo)
+    .then((result) => {
+      State.update({ stakingInfo: result });
+    });
+}
 
 const stakingData = getStakingData(stakingInfo);
 const nativeToken = infoTokens[ADDRESS_ZERO];
@@ -1382,8 +1375,6 @@ const receiveValueDisplay =
 
 const getIconForToken = () => {
   switch (fromToken.symbol) {
-    case "ETH":
-      return <IconETH />;
     case "USDC":
       return <IconUSDC />;
     case "WBTC":
@@ -1650,49 +1641,25 @@ return (
           <div class="relative flex justify-center">
             <LogoZkEra />
             {chainId && (
-              <button
-                class="btn btn-xs btn-outline absolute right-0 top-0 text-white hover:bg-gray-900"
-                style={{ "border-color": "#43f574" }}
-                onClick={() => {
-                  State.update({ showSettings: !state.showSettings });
+              <select
+                onChange={(e) => {
+                  handleClickSwitchNetwork(e.target.value);
                 }}
+                class="btn btn-xs btn-outline absolute right-0 top-0 text-white hover:bg-gray-900"
               >
-                {chainId === "unsupported"
-                  ? "Unsupported network"
-                  : CHAINS[chainId].NETWORK_INFO.chainName}
-              </button>
-            )}
-
-            {/* settings menu */}
-            {state.showSettings && (
-              <div class="absolute right-0 top-8 bg-gray-900 rounded p-3">
-                <div class="flex flex-col gap-2">
-                  <button
-                    class={`btn btn-xs btn-outline${
-                      chainId === ZKSYNC_MAINNET ? " pointer-events-none" : ""
-                    }`}
-                    onClick={() => {
-                      chainId === ZKSYNC_MAINNET
-                        ? State.update({ showSettings: false })
-                        : handleClickSwitchNetwork(ZKSYNC_MAINNET);
-                    }}
-                  >
-                    {CHAINS[ZKSYNC_MAINNET].NETWORK_INFO.chainName}
-                  </button>
-                  <button
-                    class={`btn btn-xs btn-outline${
-                      chainId === ZKSYNC_TESTNET ? " pointer-events-none" : ""
-                    }`}
-                    onClick={() => {
-                      chainId === ZKSYNC_TESTNET
-                        ? State.update({ showSettings: false })
-                        : handleClickSwitchNetwork(ZKSYNC_TESTNET);
-                    }}
-                  >
-                    {CHAINS[ZKSYNC_TESTNET].NETWORK_INFO.chainName}
-                  </button>
-                </div>
-              </div>
+                {chainId === "unsupported" ? (
+                  <option value="unsupported">Unsupported network</option>
+                ) : (
+                  chainsMap.map((chain) => (
+                    <option
+                      value={chain.CHAIN_ID}
+                      selected={chain.CHAIN_ID === chainId}
+                    >
+                      {chain.NETWORK_INFO.chainName}
+                    </option>
+                  ))
+                )}
+              </select>
             )}
           </div>
 

@@ -75,13 +75,13 @@ const logo = (
       xmlns="http://www.w3.org/2000/svg"
     >
       <text x="10" y="40" font-family="'Arial'" font-size="35" fill="#008081">
-        NRC Course
+        NCR Course
       </text>
     </svg>
   </LogoArea>
 );
 
-const info = <Info>Sept 27- Dec 6 </Info>;
+const info = <Info>Feb 28 - May 8 </Info>;
 
 const actions = (
   <ActionArea>

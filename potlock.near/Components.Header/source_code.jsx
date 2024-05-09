@@ -1,6 +1,4 @@
-const ownerId = "potlock.near";
-
-const loraCss = fetch("https://fonts.googleapis.com/css2?family=Lora&display=swap").body;
+const { ownerId } = props;
 
 const headerTitleFontSizePx = 88;
 
@@ -31,8 +29,6 @@ const HeaderTitle = styled.div`
   z-index: 1;
   position: relative;
   font-family: "Lora";
-  ${loraCss}
-
   @media (max-width: 768px) {
     font-size: 48px;
   }
@@ -49,6 +45,7 @@ const HeaderDescription = styled.div`
 
   @media (max-width: 768px) {
     font-size: 24px;
+    text-align: center;
   }
 `;
 
@@ -70,9 +67,12 @@ const Underline = styled.div`
   @media (max-width: 768px) {
     top: 30px;
     left: -30px;
+  }
 `;
 
 const containerStyle = props.containerStyle ?? {};
+
+const showStats = !props.tab || props.tab == "projects";
 
 return (
   <HeaderContainer style={containerStyle}>
@@ -110,5 +110,6 @@ return (
       {props.buttonPrimary && props.buttonPrimary}
       {props.buttonSecondary && props.buttonSecondary}
     </ButtonsContainer>
+    {showStats && <Widget src={`${ownerId}/widget/Project.DonationStats`} props={{ ...props }} />}
   </HeaderContainer>
 );

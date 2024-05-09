@@ -9,13 +9,12 @@ const {
   tradeType,
   onLoad,
 } = props;
-console.log("props quoter : ", props);
 
-if (!update) return;
+if (!update) return "";
 
 if (!inputCurrency.address || !outputCurrency.address || !inputCurrencyAmount) {
   onLoad({});
-  return;
+  return "";
 }
 const wrapType =
   inputCurrency.address === "native" && outputCurrency.address === wethAddress
@@ -38,7 +37,7 @@ if (wrapType) {
           noPair: false,
         }
   );
-  return;
+  return "";
 }
 const currentCurrency = tradeType === "in" ? inputCurrency : outputCurrency;
 

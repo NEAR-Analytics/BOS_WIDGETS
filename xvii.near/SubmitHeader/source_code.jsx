@@ -27,7 +27,7 @@ const Container = styled.div`
 
 return (
   <Container>
-    <h1>Research Topics</h1>
-    <p>Research Topics Chosen by NCR Students</p>
+    <h1>Final Projects</h1>
+    <p>Showcase of Cohort 1 Final Projects</p>
   </Container>
 );

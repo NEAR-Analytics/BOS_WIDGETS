@@ -77,6 +77,10 @@ if (sender) {
     .catch(() => {});
 }
 
+const clooseAdd = Storage.get(
+  "clooseAdd",
+  "bluebiu.near/widget/ZKEVMSwap.zkevm-swap"
+);
 State.init({
   inputAssetModalHidden: true,
   outputAssetModalHidden: true,
@@ -112,7 +116,7 @@ State.init({
       outputAssetAmount: value === null ? "" : value.estimate,
     });
   },
-  add: false,
+  add: clooseAdd,
   hasGetStorage: false,
   noPool: false,
 });
@@ -743,12 +747,16 @@ if (params && selectedChainId === 1101 && state.hasGetStorage === false) {
     hasGetStorage: true,
   });
 }
-
+const AccessKey = Storage.get(
+  "AccessKey",
+  "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
+);
 function add_action(param_body) {
-  asyncFetch("https://bos-api.delink.one/add-action-data", {
+  asyncFetch("/dapdap/api/action/add ", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
+      Authorization: AccessKey,
     },
     body: JSON.stringify(param_body),
   });
@@ -782,6 +790,7 @@ const onCallTxComple = (tx) => {
       template: selectedDex,
       action_status: status === 1 ? "Success" : "Failed",
       action_switch: state.add ? 1 : 0,
+      action_network_id: "zkEVM",
       tx_id: transactionHash,
     });
 
@@ -1060,32 +1069,6 @@ return (
             </div>
           </div>
         </SwapPage>
-
-        <Widget
-          src="guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
-          props={{
-            ...props,
-            add: state.add,
-            onChangeAdd: (value) => {
-              State.update({
-                add: value,
-              });
-            },
-            hide:
-              !state?.outputAsset ||
-              !state?.inputAssetAmount ||
-              !state?.inputAsset ||
-              !state?.selectedDex ||
-              (source === "quest-card" &&
-                state.storeParams &&
-                state.storeParams.amount === state.inputAssetAmount &&
-                state.storeParams.assetId.toLowerCase() ===
-                  state.inputAssetTokenId.toLowerCase() &&
-                state.storeParams.dexName === state.selectedDex &&
-                state.storeParams.symbol ===
-                  state?.inputAsset?.metadata?.symbol),
-          }}
-        />
       </div>
     </SwapMainContainer>
     <Widget src="guessme.near/widget/ZKEVMWarmUp.generage-uuid" />

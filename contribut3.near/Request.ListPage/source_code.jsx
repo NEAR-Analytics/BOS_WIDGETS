@@ -1,4 +1,4 @@
-const ownerId = "nearhorizon.near";
+const ownerId = "contribut3.near";
 const urlProps = props.urlProps ?? {};
 const getFilters = () => {
   if (urlProps.sort) {
@@ -12,7 +12,7 @@ const getFilters = () => {
             [key]: new Set(urlProps[key].split(",")),
           })
         : acc,
-    {}
+    {},
   );
 };
 

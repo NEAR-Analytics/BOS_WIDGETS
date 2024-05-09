@@ -155,7 +155,7 @@ const getstNearBalance = () => {
 
       const balance = Big(receiverBalanceHex.toString())
         .div(Big(10).pow(tokenDecimals))
-        .toFixed(2)
+        .toFixed(5)
         .replace(/\d(?=(\d{3})+\.)/g, "$&,");
       console.log("stNEABALANCE", balance);
       State.update({
@@ -182,7 +182,7 @@ const getwNearBalance = () => {
 
       const balance = Big(receiverBalanceHex.toString())
         .div(Big(10).pow(tokenDecimals))
-        .toFixed(2)
+        .toFixed(5)
         .replace(/\d(?=(\d{3})+\.)/g, "$&,");
       console.log("wNEABALANCE", balance);
       State.update({
@@ -214,7 +214,7 @@ const handleInputwNear = (value) => {
   State.update({ value });
 };
 
-const handleInputstNear = (value) => {
+const handleInputStNear = (value) => {
   if (
     (parseFloat(value) < 1 && parseFloat(value) > 0) ||
     parseFloat(value) < 0
@@ -251,11 +251,8 @@ const onClickMaxwNear = () => {
 };
 
 const onClickMaxstNear = () => {
-  const value =
-    state.stNearBalance > 0.1
-      ? (parseFloat(state.stNearBalance) - 0.1).toFixed(2)
-      : "0";
-  handleInputstNear(value);
+  handleInputStNear((Math.trunc(parseFloat(state.stNearBalance)*100)/100).toFixed(2));
+  State.update({ isStNearMaxSelected: true});
 };
 
 // UPDATE DATA
@@ -269,7 +266,7 @@ const updateData = () => {
 
 if (!state.dataIntervalStarted) {
   State.update({ dataIntervalStarted: true });
-
+  updateData();
   setInterval(() => {
     updateData();
   }, 10000);
@@ -361,7 +358,7 @@ const renderActions = (
     <TokensList>
       <ActionItem
         onClick={() => {
-          State.update({ action: "stake" });
+          State.update({ action: "stake", value: "0", validation: "" });
         }}
         active={state.action == "stake"}
       >
@@ -384,7 +381,7 @@ const renderActions = (
       </ActionItem>
       <ActionItem
         onClick={() => {
-          State.update({ action: "fast" });
+          State.update({ action: "fast", value: "0", validation: "" });
         }}
         active={state.action == "fast"}
       >
@@ -432,7 +429,7 @@ const render = {
         update,
         state,
         isSignedIn,
-        handleInputstNear,
+        handleInputStNear,
         onClickMaxstNear,
         updateData,
         sender: state.sender,

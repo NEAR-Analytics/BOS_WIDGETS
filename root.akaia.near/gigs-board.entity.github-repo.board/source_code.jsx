@@ -7,29 +7,6 @@ const nearDevGovGigsWidgetsAccountId =
   props.nearDevGovGigsWidgetsAccountId ||
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 
-/**
- * Reads a board config from DevHub contract storage.
- * Currently a mock.
- *
- * Boards are indexed by their ids.
- */
-const boardConfigByBoardId = ({ boardId }) => {
-  return {
-    probablyUUIDv4: {
-      id: "probablyUUIDv4",
-      columns: [
-        { title: "Draft", labelFilters: ["S-draft"] },
-        { title: "Review", labelFilters: ["S-review"] },
-        { title: "HALP!", labelFilters: ["help"] },
-      ],
-      dataTypes: { Issue: true, PullRequest: true },
-      description: "Latest NEAR Enhancement Proposals by status",
-      repoURL: "https://github.com/near/NEPs",
-      title: "NEAR Protocol NEPs",
-    },
-  }[boardId];
-};
-
 function widget(widgetName, widgetProps, key) {
   widgetProps = {
     ...widgetProps,
@@ -73,156 +50,185 @@ function href(widgetName, linkProps) {
     linkPropsQuery ? "?" : ""
   }${linkPropsQuery}`;
 }
-
-const formHandler =
-  ({ formStateKey }) =>
-  ({ fieldName, updateHandler }) =>
-  (input) =>
-    State.update((lastState) => ({
-      ...lastState,
-
-      [formStateKey]: {
-        ...lastState[formStateKey],
-
-        [fieldName]:
-          typeof updateHandler === "function"
-            ? updateHandler({
-                input: input?.target?.value ?? input ?? null,
-                lastState,
-              })
-            : input?.target?.value ?? input ?? null,
-      },
-    }));
-
-const CompactContainer = styled.div`
-  width: fit-content !important;
-  max-width: 100%;
-`;
 /* END_INCLUDE: "common.jsx" */
+
+/* INCLUDE: "shared/lib/gui" */
+const Card = styled.div`
+  &:hover {
+    box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
+  }
+`;
+
+const Magnifiable = styled.div`
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+  transition: box-shadow 0.6s;
+
+  &:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  }
+`;
+/* END_INCLUDE: "shared/lib/gui" */
+
+const dataToColumns = (data, columns) =>
+  Object.values(columns).reduce(
+    (registry, column) => ({
+      ...registry,
+
+      [column.id]: [
+        ...(registry[column.id] ?? []),
+
+        ...data.filter((ticket) =>
+          column?.labelSearchTerms.every((searchTerm) =>
+            searchTerm.length > 0
+              ? ticket.labels.some((label) =>
+                  label.name.toLowerCase().includes(searchTerm.toLowerCase())
+                )
+              : true
+          )
+        ),
+      ],
+    }),
+
+    {}
+  );
+
+const withType = (type) => (data) => ({ ...data, type });
 
 const GithubRepoBoard = ({
   columns,
-  dataTypes,
+  dataTypesIncluded,
   description,
+  editorTrigger,
+  isEditable,
   pageURL,
   repoURL,
+  ticketState,
   title,
 }) => {
+  const ticketStateForSure =
+    ticketState === "open" || ticketState === "closed" || ticketState === "all"
+      ? ticketState
+      : "all";
+
   State.init({
-    pullRequestByColumn: {},
-    issueByColumn: {},
-    ticketByColumn: {},
+    ticketsByColumn: {},
   });
 
-  const dataToColumns = (data) =>
-    columns.reduce(
-      (registry, column) => ({
-        ...registry,
-
-        [column.title]: [
-          ...(registry[column.title] ?? []),
-
-          ...data.filter((pullRequest) =>
-            pullRequest.labels.some((label) =>
-              column?.labelFilters.some(
-                (searchTerm) =>
-                  searchTerm.length > 0 && label.name.includes(searchTerm)
-              )
-            )
-          ),
-        ],
-      }),
-
-      {}
-    );
-
   if (repoURL) {
-    const pullRequests = dataTypes.PullRequest
+    const pullRequests = dataTypesIncluded.PullRequest
       ? (
           fetch(
             `https://api.github.com/repos/${repoURL
               .split("/")
               .slice(-2)
-              .join("/")}/pulls`
+              .concat(["pulls"])
+              .join("/")}?state=${ticketStateForSure}`
           ).body ?? []
-        ).map((pullRequest) => ({ ...pullRequest, type: "PullRequest" }))
+        ).map(withType("PullRequest"))
       : [];
 
-    const issues = dataTypes.Issue
+    const issues = dataTypesIncluded.Issue
       ? (
           fetch(
             `https://api.github.com/repos/${repoURL
               .split("/")
               .slice(-2)
-              .join("/")}/issues`
+              .concat(["issues"])
+              .join("/")}state=${ticketStateForSure}`
           ).body ?? []
-        ).map((issue) => ({ ...issue, type: "Issue" }))
+        ).map(withType("Issue"))
       : [];
 
     State.update({
-      ticketByColumn: dataToColumns([...issues, ...pullRequests]),
+      ticketsByColumn: dataToColumns([...issues, ...pullRequests], columns),
     });
   }
 
   return (
-    <div className="d-flex flex-column gap-3">
-      <div className="d-flex justify-content-between">
-        <i className="placeholder" />
-
+    <div className="d-flex flex-column gap-4 pb-4">
+      <div className="d-flex flex-column align-items-center gap-2">
         <h5 className="h5 d-inline-flex gap-2 m-0">
           <i className="bi bi-kanban-fill" />
-          <span>{title} board</span>
+          <span>{(title?.length ?? 0) > 0 ? title : "Untitled board"}</span>
         </h5>
 
+        <p className="m-0 py-1 text-secondary text-center">{description}</p>
+      </div>
+
+      <div className="d-flex justify-content-end gap-3">
         {pageURL ? (
           <a
-            className="card-link d-inline-flex"
+            className="card-link d-inline-flex me-auto"
             href={pageURL}
             rel="noreferrer"
             role="button"
             target="_blank"
             title="Link to this board"
           >
-            <span className="hstack gap-3">
+            <span className="hstack gap-2">
               <i className="bi bi-share" />
-              <span>Link to this board</span>
+              <span>Open in new tab</span>
             </span>
           </a>
-        ) : (
-          <i className="placeholder" />
-        )}
+        ) : null}
+
+        {pageURL ? (
+          <button
+            className="btn shadow btn-sm btn-outline-secondary d-inline-flex gap-2"
+            onClick={() => clipboard.writeText(pageURL)}
+          >
+            <i className="bi bi-clipboard-fill" />
+            <span>Copy link</span>
+          </button>
+        ) : null}
+
+        {isEditable ? (
+          <button
+            className="btn shadow btn-sm btn-primary d-inline-flex gap-2"
+            onClick={editorTrigger}
+          >
+            <i className="bi bi-wrench-adjustable-circle-fill" />
+            <span>Configure</span>
+          </button>
+        ) : null}
       </div>
 
-      <div className="py-1 text-secondary text-center">{description}</div>
-
       <div className="d-flex gap-3" style={{ overflowX: "auto" }}>
-        {columns.length > 0 ? (
-          columns.map((column) => (
-            <div className="col-3" key={column.title}>
-              <CompactContainer className="card">
-                <CompactContainer className="card-body d-flex flex-column gap-3 border-secondary">
-                  <h6 className="card-title d-flex align-items-center gap-2">
+        {Object.keys(columns).length > 0 ? (
+          Object.values(columns).map((column) => (
+            <div className="col-3" key={column.id}>
+              <div className="card rounded-4">
+                <div
+                  className={[
+                    "card-body d-flex flex-column gap-3",
+                    "border border-2 border-secondary rounded-4",
+                  ].join(" ")}
+                >
+                  <h6 className="card-title h6 d-flex align-items-center gap-2 m-0">
                     {column.title}
 
                     <span className="badge rounded-pill bg-secondary">
-                      {(state.ticketByColumn[column.title] ?? []).length}
+                      {(state.ticketsByColumn[column.id] ?? []).length}
                     </span>
                   </h6>
 
-                  {(state.ticketByColumn[column.title] ?? []).map((data) =>
-                    widget(
-                      "entity.github-repo.ticket",
-                      { data, format: "card" },
-                      data.id
-                    )
-                  )}
-                </CompactContainer>
-              </CompactContainer>
+                  <p class="text-secondary m-0">{column.description}</p>
+
+                  <div class="d-flex flex-column gap-3">
+                    {(state.ticketsByColumn[column.id] ?? []).map((data) =>
+                      widget("entity.github-repo.ticket", { data }, data.id)
+                    )}
+                  </div>
+                </div>
+              </div>
             </div>
           ))
         ) : (
           <div
-            className="d-flex align-items-center justify-content-center w-100 text-black-50 opacity-50"
+            className={[
+              "d-flex align-items-center justify-content-center",
+              "w-100 text-black-50 opacity-50",
+            ].join(" ")}
             style={{ height: 384 }}
           >
             No columns were created so far.

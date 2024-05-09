@@ -3,10 +3,16 @@ const { handle } = props;
 const { getCommunity } = VM.require(
   "megha19.near/widget/core.adapter.devhub-contract"
 );
-
 const { href } = VM.require("megha19.near/widget/core.lib.url");
 
-if (!getCommunity || !href) {
+getCommunity = getCommunity || (() => <></>);
+href || (href = () => {});
+
+if (!handle) {
+  return <p>Handle not defined</p>;
+}
+
+if (!href) {
   return <p>Loading modules...</p>;
 }
 
@@ -19,6 +25,7 @@ if (communityData === null) {
 
 const MainContent = styled.div`
   flex-grow: 1;
+  max-width: 75%;
 
   @media screen and (max-width: 960px) {
     max-width: 100%;

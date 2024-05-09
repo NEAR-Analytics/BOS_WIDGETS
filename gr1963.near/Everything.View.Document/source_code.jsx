@@ -1,0 +1,1 @@
+return (<p>Go configure your <a href="/#/edit/gr1963.near/widget/Everything.View.Document">view widget</a>!</p>);

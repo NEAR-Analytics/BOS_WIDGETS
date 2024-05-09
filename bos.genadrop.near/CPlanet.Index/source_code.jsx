@@ -2,15 +2,16 @@ const Root = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  max-width: 1440px;
   position: relative;
   height: auto;
+  margin: 0 auto;
   .isHome {
     position: absolute;
     width: 100%;
   }
 `;
 const Contents = styled.div``;
-
 const availableTabs = [
   "explore",
   "singleNFT",
@@ -18,28 +19,26 @@ const availableTabs = [
   "community",
   "feed",
   "daoProfile",
+  "dropFunds",
+  "singleContest",
 ];
-
 const getTab = (tab) => {
   if (!tab || !availableTabs.includes(tab)) {
     return "home";
   }
-
   return tab;
 };
-
 State.init({
   tab: getTab(state.tab),
   contractId: "",
   tokenId: "",
   chainState: "",
   state: "",
+  contestId: "",
   daoId: "",
   daoContractId: "",
 });
-
 const update = (state) => State.update(state);
-
 const tabContentWidget = {
   home: "bos.genadrop.near/widget/CPlanet.Home.Home",
   explore: "bos.genadrop.near/widget/CPlanet.NFTExplore.Index",
@@ -47,9 +46,10 @@ const tabContentWidget = {
   singleNFT: "bos.genadrop.near/widget/CPlanet.NFTExplore.SingleNFT",
   daoProfile: "bos.genadrop.near/widget/CPlanet.DAO.Index",
   feed: "bos.genadrop.near/widget/CPlanet.MainPage.Social",
-  profile: "bos.genadrop/widget/GenaDrop.Profile.Main",
+  profile: "bos.genadrop.near/widget/GenaDrop.Profile.Main",
+  dropFunds: "bos.genadrop.near/widget/CPlanet.DropsFund.Contest.Index",
+  singleContest: "bos.genadrop.near/widget/CPlanet.DropsFund.Contest.Single",
 }[state.tab];
-
 const tabContent = (
   <Widget
     src={tabContentWidget}
@@ -65,7 +65,6 @@ const tabContent = (
     }}
   />
 );
-
 return (
   <Root>
     <div className={state.tab === "home" ? "isHome" : ""}>

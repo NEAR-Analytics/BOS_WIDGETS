@@ -13,6 +13,8 @@ const {
   callLibs,
   handleEditArticle,
   baseActions,
+  categories,
+  switchShowPreview,
 } = props;
 
 if (!Array.isArray(data.tags) && typeof data.tags === "object") {
@@ -24,15 +26,15 @@ data.tags = data.tags.filter((tag) => tag !== undefined && tag !== null);
 const tags = data.tags;
 const accountId = data.author;
 const title = data.title;
+const category = data.category;
 const content = data.body;
-const timeLastEdit = data.timeLastEdit;
 const id = data.id ?? `${data.author}-${data.timeCreate}`;
 const upVotes = data.upVotes;
 
 //For the moment we'll allways have only 1 sbt in the array. If this change remember to do the propper work in lib.SBT and here.
 const articleSbts = articleToRenderData.sbts ?? data.sbts ?? [];
 
-const libSrcArray = [widgets.libComment];
+const libSrcArray = [widgets.libs.libComment];
 
 function stateUpdate(obj) {
   State.update(obj);
@@ -92,31 +94,43 @@ function toggleShowModal() {
   State.update({ showModal: !state.showModal });
 }
 
+function switchShowPreviewExists() {
+  const exists = typeof switchShowPreview === "function";
+
+  return exists;
+}
+
+function getArticleCategoryColor() {
+  const articleCategory = categories.filter((cat) => cat.value === category);
+
+  return articleCategory.color;
+}
+
 //================================================END FUNCTIONS=====================================================
 
 //==============================================STYLED COMPONENTS===================================================
 
 const CardContainer = styled.div`
-  box-shadow: rgba(140, 149, 159, 0.1) 0px 4px 28px 0px;
-`;
+    box-shadow: rgba(140, 149, 159, 0.1) 0px 4px 28px 0px;
+  `;
 
 const Card = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 16px;
-  gap: 16px;
-  background: rgba(140, 149, 159, 0.1) 0px 4px 28px 0px;
-  border-radius: 10px;
-`;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+    gap: 16px;
+    background: rgba(140, 149, 159, 0.1) 0px 4px 28px 0px;
+    border-radius: 10px;
+  `;
 const HeaderCard = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0px;
-  gap: 12px;
-  width: 100%;
-`;
+    display: flex;
+    flex-direction: row;
+    padding: 0px;
+    gap: 12px;
+    width: 100%;
+    flex-wrap: wrap;
+  `;
 
 const profilePictureStyles = {
   width: "45px",
@@ -124,182 +138,202 @@ const profilePictureStyles = {
   borderRadius: "50%",
 };
 const HeaderContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0px;
-  gap: 4px;
-  width: 70%;
-`;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 4px;
+    width: 70%;
+  `;
 const HeaderButtonsContainer = styled.div`
-  display: flex;
-  gap: 0.5rem;
-`;
+    display: flex;
+    gap: 0.5rem;
+  `;
 const HeaderContentText = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0px;
-  cursor: pointer;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    cursor: pointer;
+  `;
+
+const CategoryContainer = styled.div``;
+
+const CategoryColorIndicator = styled.i`
+  color: ${getArticleCategoryColor()};
+  margin-right: 0.3rem;
 `;
+
+const CategoryText = styled.span`
+    font-style: normal;
+    font-size: 12px;
+    line-height: 120%;
+    margin-bottom: 0;
+`;
+
 const NominationName = styled.p`
-  font-weight: 500;
-  font-size: 14px;
-  margin: 0;
-  align-items: center;
-  color: #000000;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
+    font-weight: 500;
+    font-size: 14px;
+    margin: 0;
+    align-items: center;
+    color: #000000;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  `;
 const NominationUser = styled.p`
-  font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-  margin: 0px;
-  line-height: 120%;
-  display: flex;
-  align-items: center;
-  color: #828688;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    margin: 0px;
+    line-height: 120%;
+    display: flex;
+    align-items: center;
+    color: #828688;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  `;
 
 const KeyIssues = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 12px;
-  gap: 12px;
-  background: #ffffff;  
-  border: 1px solid rgb(248, 248, 249);
-  border-radius: 6px;
-  width: 100%;
-`;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 12px;
+    gap: 12px;
+    background: #ffffff;  
+    border: 1px solid rgb(248, 248, 249);
+    border-radius: 6px;
+    width: 100%;
+  `;
 const KeyIssuesContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0px;
-  gap: 12px;
-  width: 100%;
-`;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 12px;
+    width: 100%;
+  `;
 const KeyIssuesHeader = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 0px;
-  gap: 12px;
-`;
+    padding: 0px;
+    gap: 12px;
+  `;
+
+const TagsContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 12px;
+  `;
 const KeyIssuesTitle = styled.p`
-  font-style: normal;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 120%;
-  margin-bottom: 0;
-`;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 120%;
+    margin-bottom: 0;
+  `;
 const KeyIssuesContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0px;
-  gap: 8px;
-  overflow-y: scroll;
-  max-height: 250px;
-  width: 100%;
-  border: 1px solid rgb(248, 248, 249);
-  border-radius: var(--bs-border-radius-lg) !important;
-`;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 8px;
+    overflow-y: scroll;
+    max-height: 250px;
+    width: 100%;
+    border: 1px solid rgb(248, 248, 249);
+    border-radius: var(--bs-border-radius-lg) !important;
+  `;
 
 const ArticleBodyContainer = styled.div`
-  margin: 0 0.5rem 0.5rem 0.5rem;
-`;
+    margin: 0 0.5rem 0.5rem 0.5rem;
+  `;
 
 const LowerSection = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 8px;
-`;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 8px;
+  `;
 const LowerSectionContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 12px;
-  align-self: stretch;
-`;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 12px;
+    align-self: stretch;
+  `;
 const ButtonsLowerSection = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0px;
-  width: 100%;
-`;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    width: 100%;
+  `;
 const TextLowerSectionContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0px;
-  gap: 4px;
-  width: 239px;
-  height: 24px;
-  cursor: pointer;
-
-  flex-grow: 1;
-`;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 4px;
+    width: 239px;
+    height: 24px;
+    cursor: pointer;
+  
+    flex-grow: 1;
+  `;
 const TimestampText = styled.div`
-  font-style: italic;
-  font-weight: 300;
-  font-size: 11px;
-  line-height: 14px;
-  margin: 0px;
-  gap: 2px;
-  color: #000000;
-
-  b {
-    font-weight: 600;
-  }
-`;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 11px;
+    line-height: 14px;
+    margin: 0px;
+    gap: 2px;
+    color: #000000;
+  
+    b {
+      font-weight: 600;
+    }
+  `;
 const ButtonsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0px;
-  gap: 4px;
-  width: 87px;
-  height: 28px;
-`;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 4px;
+    width: 87px;
+    height: 28px;
+  `;
 const TagSection = styled.div`
-  display: flex;
-  align-items: flex-start;
-  gap: 4px;
-  flex-wrap: wrap;
-  overflow: hidden;
-  cursor: pointer;
-`;
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+    flex-wrap: wrap;
+    overflow: hidden;
+    cursor: pointer;
+  `;
 
 const Element = styled.div`
-  width: 150px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  padding: 10px;
-
-  &:hover {
-    border-radius: 6px;
-    background: #f8f8f9;
-  }
-`;
+    width: 150px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px;
+  
+    &:hover {
+      border-radius: 6px;
+      background: #f8f8f9;
+    }
+  `;
 
 const CallLibrary = styled.div`
-  display: none;
-`;
+    display: none;
+  `;
 //============================================END STYLED COMPONENTS=================================================
 
 //=================================================MORE STYLES======================================================
@@ -316,9 +350,9 @@ const profileImageStyles = {
 //=================================================COMPONENTS=======================================================
 
 const inner = (
-  <div className="d-flex flex-row mx-1">
+  <div className="d-flex flex-row mx-1 mw-50">
     <Widget
-      src={widgets.newStyledComponents.Element.User}
+      src={widgets.views.standardWidgets.newStyledComponents.Element.User}
       props={{
         accountId,
         options: {
@@ -343,7 +377,10 @@ const renderTags = () => {
             <div onClick={() => handleFilterArticles(filter)}>
               {tag && (
                 <Widget
-                  src={widgets.newStyledComponents.Element.Badge}
+                  src={
+                    widgets.views.standardWidgets.newStyledComponents.Element
+                      .Badge
+                  }
                   props={{
                     children: tag,
                     variant: "round info outline",
@@ -363,7 +400,7 @@ const renderArticleBody = () => {
   return (
     <ArticleBodyContainer>
       <Widget
-        src={widgets.socialMarkdown}
+        src={widgets.views.standardWidgets.socialMarkdown}
         props={{
           text: displayedContent,
           onHashtag: (hashtag) => (
@@ -384,7 +421,7 @@ const renderArticleBody = () => {
       />
       {state.sliceContent && content.length > 1000 && (
         <Widget
-          src={widgets.styledComponents}
+          src={widgets.views.standardWidgets.styledComponents}
           props={{
             Button: {
               text: `Show more`,
@@ -407,11 +444,15 @@ const renderArticleBody = () => {
 //===================================================RENDER========================================================
 
 return (
-  <CardContainer className="bg-white rounded-3 p-3 m-3 col-lg-8 col-md-8 col-sm-12">
+  <CardContainer
+    className={`bg-white rounded-3 p-3 m-3 ${
+      switchShowPreviewExists() ? "" : "col-lg-8 col-md-8 col-sm-12"
+    }`}
+  >
     <Card>
       {state.showModal && (
         <Widget
-          src={widgets.addComment}
+          src={widgets.views.editableWidgets.addComment}
           props={{
             widgets,
             article: data,
@@ -428,7 +469,7 @@ return (
       <HeaderCard className="d-flex justify-content-between pb-1 border-bottom border-dark">
         <div className="d-flex align-items-center gap-2">
           <Widget
-            src={widgets.profileOverlayTrigger}
+            src={widgets.views.standardWidgets.profileOverlayTrigger}
             props={{ accountId, children: inner }}
           />
           {
@@ -446,13 +487,14 @@ return (
         </div>
         <HeaderButtonsContainer>
           <Widget
-            src={widgets.upVoteButton}
+            src={widgets.views.editableWidgets.upVoteButton}
             props={{
               isTest,
               authorForWidget,
               reactedElementData: data,
               widgets,
               disabled:
+                switchShowPreviewExists() ||
                 !context.accountId ||
                 (articleSbts.length > 0 && !canLoggedUserCreateComment),
               articleSbts,
@@ -462,15 +504,15 @@ return (
             }}
           />
           <Widget
-            src={widgets.newStyledComponents.Input.Button}
+            src={widgets.views.standardWidgets.newStyledComponents.Input.Button}
             props={{
               size: "sm",
               className: "info outline icon",
               children: <i className="bi bi-share"></i>,
               onClick: () =>
                 handleShareButton(true, {
-                  type: "sharedBlockHeight",
-                  value: data.blockHeight,
+                  type: "sharedArticleId",
+                  value: data.id,
                 }),
             }}
           />
@@ -485,6 +527,12 @@ return (
         >
           {title}
         </KeyIssuesTitle>
+        {category && (
+          <CategoryContainer className="d-flex align-items-center">
+            <CategoryColorIndicator className="bi bi-square-fill"></CategoryColorIndicator>
+            <CategoryText>{category}</CategoryText>
+          </CategoryContainer>
+        )}
       </KeyIssuesHeader>
       <KeyIssuesContent>
         <KeyIssuesContainer>{renderArticleBody()}</KeyIssuesContainer>
@@ -494,9 +542,9 @@ return (
           {tags.length > 0 && (
             <KeyIssues>
               <KeyIssuesContent>
-                <KeyIssuesHeader>
+                <TagsContainer>
                   <KeyIssuesTitle>Tags</KeyIssuesTitle>
-                </KeyIssuesHeader>
+                </TagsContainer>
                 <div className="d-flex w-100">
                   <TagSection>{renderTags()}</TagSection>
                 </div>
@@ -512,19 +560,18 @@ return (
             >
               <i className="bi bi-clock"></i>
               <TimestampText>
-                <span>{getPublicationDate(timeLastEdit)}</span>
-                <span>by</span>
-                <b>{author}</b>
+                <span>{getPublicationDate(data.timeCreate)}</span>
               </TimestampText>
             </TextLowerSectionContainer>
             <Widget
-              src={widgets.reactions}
+              src={widgets.views.editableWidgets.reactions}
               props={{
                 widgets,
                 isTest,
                 authorForWidget,
                 elementReactedId: id,
                 disabled:
+                  switchShowPreviewExists() ||
                   !context.accountId ||
                   (articleSbts.length > 0 && !canLoggedUserCreateComment),
                 callLibs,
@@ -536,11 +583,15 @@ return (
           <div className="d-flex w-100 align-items-center">
             <div className="d-flex w-100 gap-2 justify-content-start">
               <Widget
-                src={widgets.newStyledComponents.Input.Button}
+                src={
+                  widgets.views.standardWidgets.newStyledComponents.Input.Button
+                }
                 props={{
                   children: (
                     <div className="d-flex align-items-center justify-content-center">
-                      <span className="mx-1">Add comment</span>
+                      <span className="mx-1 d-none d-lg-block">
+                        Add comment
+                      </span>
                       <i className="bi bi-chat-square-text-fill"></i>
                     </div>
                   ),
@@ -549,37 +600,45 @@ return (
                     (articleSbts.length > 0 && !canLoggedUserCreateComment),
                   size: "sm",
                   className: "info outline w-25",
-                  onClick: toggleShowModal,
+                  onClick: switchShowPreviewExists()
+                    ? () => {}
+                    : toggleShowModal,
                 }}
               />
               <Widget
-                src={widgets.newStyledComponents.Input.Button}
+                src={
+                  widgets.views.standardWidgets.newStyledComponents.Input.Button
+                }
                 props={{
                   children: (
                     <div className="d-flex align-items-center justify-content-center">
-                      <span className="mx-1">View</span>
+                      <span className="mx-1 d-none d-lg-block">View</span>
                       <i className="bi bi-eye fs-6"></i>
                     </div>
                   ),
                   size: "sm",
                   className: "info w-25",
-                  onClick: () => {
-                    handleOpenArticle(data);
-                  },
+                  onClick: () => handleOpenArticle(data),
                 }}
               />
               {context.accountId === data.author && (
                 <Widget
-                  src={widgets.newStyledComponents.Input.Button}
+                  src={
+                    widgets.views.standardWidgets.newStyledComponents.Input
+                      .Button
+                  }
                   props={{
                     children: (
                       <div className="d-flex align-items-center justify-content-center">
-                        <span className="mx-1">Edit</span>
+                        <span className="mx-1 d-none d-lg-block">Edit</span>
                         <i className="bi bi-pencil"></i>
                       </div>
                     ),
                     className: `info w-25`,
-                    onClick: () => handleEditArticle(data),
+                    onClick: () =>
+                      switchShowPreviewExists()
+                        ? switchShowPreview()
+                        : handleEditArticle(data),
                   }}
                 />
               )}

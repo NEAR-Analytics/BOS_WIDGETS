@@ -1,48 +1,5 @@
-const {
-  title,
-  chainId,
-  chainName,
-  wethAddress,
-  dexConfig,
-  amountOutFn,
-  quoterV3,
-  handlerV2,
-  handlerV3,
-  handlerSolidly,
-  QuoterSolidly,
-  handleSyncswap,
-  QuoterSyncswap,
-} = props;
-
-const prevTitle = Storage.privateGet("prevTitle");
-if (prevTitle !== title || !state.inputCurrency) {
-  State.update({
-    inputCurrency: dexConfig.defaultCurrencies.input,
-    outputCurrency: dexConfig.defaultCurrencies.output,
-    uniType: dexConfig.type,
-    inputCurrencyAmount: "1",
-    outputCurrencyAmount: "",
-    maxInputBalance: "0",
-    maxOutputBalance: "0",
-    tradeType: "in",
-    targetUnitAmount: 0,
-    noPair: false,
-    updateInputTokenBalance: true,
-    updateOutputTokenBalance: true,
-    loading: true,
-    displayCurrencySelect: false,
-    selectedTokenAddress: "",
-    currencySelectType: 0,
-    debounce: (fn, wait) => {
-      let timer;
-      return () => {
-        clearTimeout(timer);
-        timer = setTimeout(fn, wait);
-      };
-    },
-  });
-  Storage.privateSet("prevTitle", title);
-}
+const { title, chainId, chainName, wethAddress, dexConfig, account, prices } =
+  props;
 // styled area
 const SwapContainer = styled.div``;
 const Title = styled.div`
@@ -59,9 +16,9 @@ const Title = styled.div`
 const Panel = styled.div`
   width: 100%;
   border-radius: 16px;
-  border: 1px solid var(--border-color);
+  border: 1px solid #373a53;
   padding: 30px;
-  background-color: #181a27;
+  background-color: #262836;
 `;
 const ExchangeIcon = styled.div`
   width: 60px;
@@ -87,13 +44,63 @@ const Price = styled.div`
   }
 `;
 
-const getBestTrade = () => {
-  State.update({
-    loading: true,
-  });
-};
+useEffect(() => {
+  const debounce = (fn, wait) => {
+    let timer;
+    return () => {
+      clearTimeout(timer);
+      timer = setTimeout(fn, wait);
+    };
+  };
 
-const debouncedGetBestTrade = state.debounce(getBestTrade, 500);
+  const getBestTrade = () => {
+    State.update({
+      loading: true,
+      unsignedTx: "",
+      outputCurrencyAmount: "",
+      gas: undefined,
+      priceImpact: 0,
+      noPair: true,
+    });
+  };
+
+  const debouncedGetBestTrade = debounce(getBestTrade, 500);
+  State.update({
+    getBestTrade,
+    debouncedGetBestTrade,
+  });
+}, []);
+
+useEffect(() => {
+  State.update({
+    inputCurrency: dexConfig.defaultCurrencies.input,
+    outputCurrency: dexConfig.defaultCurrencies.output,
+    uniType: dexConfig.type,
+    inputCurrencyAmount: "1",
+    outputCurrencyAmount: "",
+    maxInputBalance: "0",
+    maxOutputBalance: "0",
+    tradeType: "in",
+    targetUnitAmount: 0,
+    noPair: false,
+    updateInputTokenBalance: true,
+    updateOutputTokenBalance: true,
+    loading: true,
+    displayCurrencySelect: false,
+    selectedTokenAddress: "",
+    currencySelectType: 0,
+  });
+}, [title]);
+
+useEffect(() => {
+  if (loading || !state.getBestTrade) return;
+  const cachedTimer = Storage.privateGet("_swap_timer");
+  clearTimeout(cachedTimer);
+  const _timer = setTimeout(() => {
+    state.getBestTrade();
+  }, 30000);
+  Storage.privateSet("_swap_timer", _timer);
+}, [state.loading]);
 
 const getUnitAmount = () => {
   const bigInputAmount = Big(state.inputCurrencyAmount || 0);
@@ -115,6 +122,8 @@ return (
           currency: state.inputCurrency,
           amount: state.inputCurrencyAmount,
           updateTokenBalance: state.updateInputTokenBalance,
+          prices,
+          account,
           onCurrencySelectOpen: () => {
             State.update({
               displayCurrencySelect: true,
@@ -135,13 +144,15 @@ return (
             State.update({
               inputCurrencyAmount: val,
               tradeType: "in",
+              loading: false,
             });
-            if (val && Number(val)) debouncedGetBestTrade();
+            if (val && Number(val)) state.debouncedGetBestTrade();
           },
         }}
       />
       <ExchangeIcon
         onClick={() => {
+          if (state.loading) return;
           const [inputCurrency, outputCurrency] = [
             state.outputCurrency,
             state.inputCurrency,
@@ -153,9 +164,10 @@ return (
             tradeType: "in",
             updateInputTokenBalance: true,
             updateOutputTokenBalance: true,
-            loading: true,
+            loading: false,
           });
-          if (Big(state.inputCurrencyAmount || 0).gt(0)) getBestTrade();
+          if (Big(state.inputCurrencyAmount || 0).gt(0))
+            state.debouncedGetBestTrade();
         }}
       >
         <Widget src="bluebiu.near/widget/Arbitrum.Swap.ExchangeIcon" />
@@ -168,6 +180,8 @@ return (
           amount: state.outputCurrencyAmount,
           updateTokenBalance: state.updateOutputTokenBalance,
           disabled: true,
+          prices,
+          account,
           onCurrencySelectOpen: () => {
             State.update({
               displayCurrencySelect: true,
@@ -189,7 +203,7 @@ return (
       <Widget
         src="bluebiu.near/widget/Arbitrum.Swap.SwapButton"
         props={{
-          routerAddress: dexConfig.routerAddress,
+          routerAddress: dexConfig.routerAddress || state.routerAddress,
           wethAddress,
           title,
           chainName,
@@ -198,23 +212,25 @@ return (
           inputCurrencyAmount: state.inputCurrencyAmount,
           outputCurrencyAmount: state.outputCurrencyAmount,
           maxInputBalance: state.maxInputBalance,
-          handleSyncswap,
-          handlerV2,
-          handlerV3,
-          handlerSolidly,
           onSuccess: () => {
             State.update({
               updateInputTokenBalance: true,
               updateOutputTokenBalance: true,
             });
           },
+          onApprovedSuccess: () => {
+            state.getBestTrade();
+          },
           addAction: props.addAction,
+          toast: props.toast,
           noPair: state.noPair,
           loading: state.loading,
-          fee: state.v3Fee,
-          stable: state.stable,
-          syncSwapPoolAddress: state.syncSwapPoolAddress,
-          uniType: dexConfig.uniType,
+          add: state.add,
+          unsignedTx: state.unsignedTx,
+          chainId,
+          gas: state.gas,
+          theme: props.theme?.button,
+          account,
         }}
       />
     </Panel>
@@ -227,6 +243,7 @@ return (
           title: props.title,
           chainId: props.chainId,
           tokens: dexConfig.tokens,
+          account,
           onClose: () => {
             State.update({
               displayCurrencySelect: false,
@@ -236,113 +253,61 @@ return (
             const updatedParams = {
               outputCurrencyAmount: "",
               noPair: false,
-              updateInputTokenBalance: true,
             };
+            let hasToken = false;
             if (state.currencySelectType === 0) {
               updatedParams.inputCurrency = currency;
-              if (currency.address === state.outputCurrency.address)
+              hasToken = true;
+              updatedParams.updateInputTokenBalance = true;
+              if (currency.address === state.outputCurrency.address) {
                 updatedParams.outputCurrency = null;
+                hasToken = false;
+              }
             }
             if (state.currencySelectType === 1) {
               updatedParams.outputCurrency = currency;
               updatedParams.outputCurrencyAmount = "";
+              hasToken = true;
+              updatedParams.updateOutputTokenBalance = true;
               if (currency.address === state.inputCurrency.address) {
                 updatedParams.inputCurrency = null;
                 updatedParams.inputCurrencyAmount = "";
+                hasToken = false;
               }
             }
+            State.update({ ...updatedParams, loading: false });
             if (
               state.inputCurrencyAmount &&
               Number(state.inputCurrencyAmount) &&
-              state.inputCurrency?.address
+              hasToken
             ) {
-              updatedParams.loading = true;
+              state.debouncedGetBestTrade();
             }
-            State.update(updatedParams);
-            if (updatedParams.loading) getBestTrade();
           },
         }}
       />
     )}
-
-    {dexConfig.uniType === "v3" && (
+    {dexConfig.amountOutFn && (
       <Widget
-        src={quoterV3}
+        src={dexConfig.amountOutFn}
         props={{
-          amountIn: state.inputCurrencyAmount,
-          tokenIn: state.inputCurrency,
-          tokenOut: state.outputCurrency,
-          quoterContractId: dexConfig.quoterAddress,
-          wethAddress,
-          loadAmountOut: (data) => {
-            State.update({
-              outputCurrencyAmount: data.amountOut,
-              v3Fee: data.fee,
-              loading: false,
-            });
-          },
-        }}
-      />
-    )}
-    {dexConfig.uniType === "v2" && (
-      <Widget
-        src={amountOutFn}
-        props={{
-          update: state.loading,
-          routerAddress: dexConfig.routerAddress,
+          updater: state.loading,
           inputCurrency: state.inputCurrency,
           outputCurrency: state.outputCurrency,
           inputCurrencyAmount: state.inputCurrencyAmount,
-          outputCurrencyAmount: state.outputCurrencyAmount,
-          tradeType: state.tradeType,
           wethAddress,
-          title,
-          onLoad: (data) => {
-            State.update({
-              loading: false,
-              ...data,
-            });
-          },
-        }}
-      />
-    )}
-
-    {dexConfig.uniType === "solidly" && (
-      <Widget
-        src={QuoterSolidly}
-        props={{
-          update: state.loading,
-          routerAddress: dexConfig.routerAddress,
-          inputCurrency: state.inputCurrency,
-          outputCurrency: state.outputCurrency,
-          inputCurrencyAmount: state.inputCurrencyAmount,
-          outputCurrencyAmount: state.outputCurrencyAmount,
-          tradeType: state.tradeType,
-          wethAddress,
-          onLoad: (data) => {
-            State.update({
-              loading: false,
-              ...data,
-            });
-          },
-        }}
-      />
-    )}
-
-    {dexConfig.uniType === "Syncswap" && (
-      <Widget
-        src={QuoterSyncswap}
-        props={{
+          account,
+          prices,
           ...dexConfig,
-          update: state.loading,
-          routerAddress: dexConfig.routerAddress,
-          inputCurrency: state.inputCurrency,
-          outputCurrency: state.outputCurrency,
-          inputCurrencyAmount: state.inputCurrencyAmount,
-          outputCurrencyAmount: state.outputCurrencyAmount,
-          tradeType: state.tradeType,
-          wethAddress,
+          multicall: props.multicall,
           onLoad: (data) => {
+            console.log("amountOutFn", data);
+            if (
+              data.inputCurrencyAmount !== state.inputCurrencyAmount ||
+              data.inputCurrency.address !== state.inputCurrency.address ||
+              data.outputCurrency.address !== state.outputCurrency.address
+            )
+              return;
             State.update({
               loading: false,
               ...data,

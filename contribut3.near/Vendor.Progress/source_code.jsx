@@ -1,5 +1,5 @@
 const ownerId = "contribut3.near";
-const creditsAccount = `credits.${ownerId}`;
+const apiUrl = "https://api-staging-fur7.onrender.com";
 const accountId = props.accountId;
 
 const Container = styled.div`
@@ -55,24 +55,30 @@ const Value = styled.div`
 `;
 
 State.init({
+  showCredits: false,
+  showCreditsIsFetched: false,
   earned: 0,
   earnedIsFetched: false,
   active: false,
   activeIsFetched: false,
+  completion: 0,
 });
 
-if (!state.earnedIsFetched) {
+if (!state.showCreditsIsFetched) {
   Near.asyncView(
-    creditsAccount,
-    "ft_balance_of",
+    ownerId,
+    "get_vendor",
     { account_id: accountId },
     "final",
-    false
-  ).then((earned) =>
-    State.update({
-      earned: Number(earned) / 1000,
-      earnedIsFetched: true,
-    })
+    false,
+  ).then(({ credits: showCredits }) =>
+    State.update({ showCredits, showCreditsIsFetched: true }),
+  );
+}
+
+if (state.showCredits && !state.earnedIsFetched) {
+  asyncFetch(`${apiUrl}/data/credits/vendors/${accountId}/balance`).then(
+    ({ body: earned }) => State.update({ earned, earnedIsFetched: true }),
   );
 }
 
@@ -82,14 +88,22 @@ if (!state.activeIsFetched) {
     "get",
     { keys: [`${accountId}/profile/active`] },
     "final",
-    false
+    false,
   ).then((active) =>
     State.update({
       active: active[accountId].profile.active,
       activeIsFetched: true,
-    })
+    }),
   );
 }
+
+asyncFetch(`${apiUrl}/data/vendors/completion`).then(({ body: { list } }) =>
+  State.update({
+    completion: list
+      .find(({ id }) => id === props.accountId)
+      .completion.toLocaleString("en-US", { style: "percent" }),
+  }),
+);
 
 if (!state.activeIsFetched) {
   return <>Loading...</>;
@@ -97,16 +111,23 @@ if (!state.activeIsFetched) {
 
 return (
   <Container>
-    <Row>
-      <Label>Earned:</Label>
-      <Value>
-        {state.earned} NHZN{" "}
-        <Widget
-          src={`${ownerId}/widget/Tooltip`}
-          props={{ content: "Test use case" }}
-        />
-      </Value>
-    </Row>
+    {state.showCredits ? (
+      <Row>
+        <Label>Earned:</Label>
+        <Value>
+          {Number(state.earned).toLocaleString("en-US", {
+            notation: "compact",
+          })}{" "}
+          NHZN{" "}
+          <Widget
+            src={`${ownerId}/widget/Tooltip`}
+            props={{ content: "Test use case" }}
+          />
+        </Value>
+      </Row>
+    ) : (
+      <></>
+    )}
     <Row>
       <Label>Status:</Label>
       <Value>
@@ -116,9 +137,10 @@ return (
             id: "active",
             value: state.active === "true",
             onSave: (active) =>
-              Near.call("social.near", "set", {
-                data: { [accountId]: { profile: { active: "" + active } } },
-              }),
+              Social.set(
+                { profile: { active: `${active}` } },
+                { onCommit: () => State.update({ active }) },
+              ),
             canEdit: props.isAdmin,
           }}
         />
@@ -126,7 +148,7 @@ return (
     </Row>
     <Row>
       <Label>Profile:</Label>
-      <Value>60%</Value>
+      <Value>{state.completion}</Value>
     </Row>
   </Container>
 );

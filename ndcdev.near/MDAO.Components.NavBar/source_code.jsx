@@ -33,12 +33,12 @@ const links = [
     color: "#AFC5FE",
     items: [
       {
-        title: "MDAO Charter",
+        title: "Charter",
         target: "_blank",
         href: "https://docs.google.com/document/d/11m2-dmDRABz74WZfkcgGyFz7Wn6k4y9oPVXPCCyhXp8/edit",
       },
       {
-        title: "MDAO social media strategy",
+        title: "SM Strategy",
         href: "/ndcdev.near/widget/MDAO.App?page=info",
       },
       {
@@ -51,12 +51,17 @@ const links = [
       },
       {
         title: "Meetings and Workshops Calendar",
-        href: "/ndcdev.near/widget/MDAO.App?page=meetings",
+        href: "https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23ffffff&ctz=America%2FNew_York&mode=AGENDA&src=MDNiOTMyMjJmNGQ4YTIxNmQ3MmZmNmE1MDg5ZjY4NGQ4MWI3Mjg0OGUzMGQ1ZjllOGE4MzdiZTBlYjNjNjdjZUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23C0CA33",
       },
       {
-        title: "MDAO Bounty program",
+        title: "Bounty Program",
         target: "_blank",
-        href: "https://docs.google.com/document/d/1pOUin4zeTSYxkir2Wo8zYziOapo-2vIU2WxJNCsmfLs/edit",
+        href: "https://www.heroes.build/",
+      },
+      {
+        title: "Brand Toolkit",
+        target: "_blank",
+        href: "https://nftstorage.link/ipfs/bafybeihe5lcn2jv2bhawpqjswem7yk3nlkauqxeqia3nqbbr6eaizkdsx4",
       },
     ],
   },
@@ -84,14 +89,14 @@ const LinksContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 1.5rem;
+  gap: 2rem;
 
   a {
     color: #fff;
     font-size: 14px;
     font-style: normal;
-    font-weight: 400;
     line-height: normal;
+    text-decoration: none;
   }
 
   .dropdown {
@@ -108,27 +113,24 @@ const LinksContainer = styled.div`
     display: none;
     position: absolute;
     width: 250px;
-    top: 40px;
+    top: 45px;
     right: 0;
     background-color: #f1f1f1;
     border-radius: 10px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
 
-    .link {
-      padding: 12px 16px;
+    a {
+      padding: 20px 25px;
       text-decoration: none;
       display: block;
-
-      a {
-        color: black;
-        &:hover {
-          text-decoration: none;
-        }
-      }
+      font-size: 16px;
+      color: black;
+      letter-spacing: normal;
 
       &:hover {
-        background-color: #ddd;
+        text-decoration: none;
+        background-color: rgba(227, 195, 255, 0.2);
       }
 
       &:first-child {
@@ -167,43 +169,24 @@ const MobileNav = styled.div`
   position: absolute;
   top: 0;
   right: 0;
-  width: 270px;
+  width: 100%;
   padding: 24px 36px 36px 16px;
   flex-direction: column;
   align-items: flex-end;
-  gap: 2.5rem;
   flex-shrink: 0;
 
-  border-radius: 0px 0px 0px 16px;
-  background: rgba(21, 23, 24, 0.7);
+  border-radius: 0px 0px 10px 10px;
+  background: rgba(0, 0, 0, 0.9);
   backdrop-filter: blur(5px);
 
   z-index: 50;
 
   a {
     color: #fff;
-    font-size: 14px;
+    font-size: 16px;
     font-style: normal;
-    font-weight: 400;
     line-height: normal;
-  }
-`;
-
-const MobileLink = styled.a`
-  color: #f4f4f4 !important;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 20px; /* 100% */
-  margin-bottom: 1rem;
-
-  &.active {
-    color: #00ec97 !important;
-  }
-
-  &:hover {
     text-decoration: none;
-    color: #00ec97 !important;
   }
 `;
 
@@ -221,22 +204,21 @@ return (
     <a href={`/ndcdev.near/widget/MDAO.App?page=home`}>
       <img src={assets.logoWhite} />
     </a>
-    <div className="d-flex gap-3 align-items-center">
+    <div className="d-flex gap-4 align-items-center">
       <LinksContainer>
         {links.map((link) => (
           <a className="d-flex gap-2 align-items-center" href={link.href}>
             <Circle bg={link.color} />
             {link.items?.length > 0 ? (
-              <div className="d-flex align-items-center  dropdown">
+              <div className="d-flex align-items-center dropdown">
                 <div>{link.title}</div>
                 <div className="dropdown-content">
                   {link.items.map(({ title, href, target }) => (
-                    <div className="d-flex gap-2 link align-items-center">
-                      <i className="bi bi-chevron-right text-black" />
-                      <a href={href} target={target}>
+                    <a href={href} target={target}>
+                      <div className="d-flex gap-2 link align-items-center">
                         {title}
-                      </a>
-                    </div>
+                      </div>
+                    </a>
                   ))}
                 </div>
               </div>
@@ -264,22 +246,21 @@ return (
           {links.map((link) => (
             <>
               {link.items?.length > 0 ? (
-                <>
-                  <div className="d-flex gap-2 align-items-center">
+                <div>
+                  <div className="d-flex text-white gap-2 align-items-center">
                     <Circle bg={link.color} />
-                    <div>{link.title}</div>
+                    <a>{link.title}</a>
                   </div>
-                  <div className="d-flex gap-3 flex-column">
+                  <div className="d-flex gap-3 flex-column py-3">
                     {link.items.map(({ title, href, target }) => (
-                      <div className="d-flex gap-2 align-items-center">
-                        <i className="bi bi-chevron-right text-white" />
+                      <div className="d-flex gap-2 px-3  align-items-center">
                         <a href={href} target={target}>
                           {title}
                         </a>
                       </div>
                     ))}
                   </div>
-                </>
+                </div>
               ) : (
                 <a className="d-flex gap-2 align-items-center" href={link.href}>
                   <Circle bg={link.color} />

@@ -1,4 +1,5 @@
 let { assets, content } = VM.require(`ndcdev.near/widget/MDAO.Config`);
+let { Hero } = VM.require(`ndcdev.near/widget/MDAO.Components.Hero`);
 
 assets = assets.home;
 content = content.home;
@@ -20,99 +21,60 @@ const Container = styled.div`
   }
 `;
 
-const HeroSection = styled.div`
-  background: linear-gradient(
-    96deg,
-    #fdefb1 -19.42%,
-    #e1c4fe 49.87%,
-    #95c3fe 98.55%
-  );
-  height: 600px;
-  padding: 3rem;
+const InfoSection = styled.div`
+  padding: 5rem 8rem;
 
-  @media screen and (max-width: 786px) {
-    padding: 2rem;
-    text-align: center;
-  }
-
-  h1 {
-    font-size: 5.2rem;
-    font-weight: 600;
-    margin-bottom: 0;
-    @media screen and (max-width: 786px) {
-      font-size: 3rem;
-    }
-  }
-
-  h3 {
-    font-size: 1.5rem;
-    font-weight: 300;
-    max-width: 800px;
-    margin-bottom: 0;
-  }
-
-  h4 {
-    font-size: 1.5rem;
-    font-weight: 400;
-    margin-bottom: 0;
-  }
-
-  img {
-    width: 500px;
-    height: 500px;
-    @media screen and (max-width: 786px) {
+  .wide {
+    display: flex;
+    justify-content: space-between !important;
+    @media screen and (max-width: 1399px) {
       display: none;
     }
   }
 
-  .hero-buttons {
-    flex-direction: row;
-
+  .mid {
+    display: none;
+    @media screen and (max-width: 1399px) {
+      display: flex;
+      justify-content: space-between !important;
+    }
     @media screen and (max-width: 786px) {
-      flex-direction: column;
+      display: none;
     }
   }
-
-  a.btn {
-    border-radius: 10px;
-    background: #000;
-    box-shadow: 0px 20px 30px 0px rgba(0, 0, 0, 0.25);
-    color: #f0f0f0;
-    font-size: 24px;
-    font-weight: 400;
-    padding: 15px 25px;
-    min-width: 300px;
-
-    &:hover {
-      color: #fff;
-      text-decoration: none;
-    }
-
+  .small {
+    display: none;
     @media screen and (max-width: 786px) {
-      width: 100%;
-    }
-
-    &.btn-secondary {
-      background: transparent;
-      color: #000;
-      background-image: none;
-      border: 2px solid #000;
+      display: flex;
+      justify-content: space-between !important;
     }
   }
-`;
-
-const InfoSection = styled.div`
-  padding: 5rem 3rem;
 
   @media screen and (max-width: 786px) {
-    padding: 2rem;
+    padding: 3rem 2rem;
     text-align: center;
   }
 
   h2 {
     font-size: 3rem;
     font-weight: 600;
-    width: 70%;
+    width: 80%;
+
+    @media screen and (max-width: 786px) {
+      width: 100%;
+    }
+  }
+
+  .participate_item {
+    width: 300px;
+    .circle {
+      width: 30px !important;
+      height: 30px !important;
+      border-radius: 50%;
+      background: #151718;
+      color: white;
+      font-size: 14px;
+    }
 
     @media screen and (max-width: 786px) {
       width: 100%;
@@ -120,7 +82,7 @@ const InfoSection = styled.div`
   }
 
   .item {
-    width: 280px;
+    width: 350px;
     height: 375px;
     border-radius: 10px;
     background: #fff;
@@ -141,6 +103,10 @@ const InfoSection = styled.div`
       margin: 0;
     }
 
+    a {
+      color: #151718 !important;
+    }
+
     @media screen and (max-width: 786px) {
       width: 100%;
     }
@@ -149,6 +115,7 @@ const InfoSection = styled.div`
       border-radius: 10px;
       border: 2px solid #e6cde6;
       background: rgba(252, 248, 246, 0);
+      box-shadow: unset;
       font-size: 18px;
       font-weight: 400;
       color: #151718;
@@ -172,10 +139,10 @@ const InfoSection = styled.div`
 const ConnectSection = styled.div`
   color: white;
   background: #151718;
-  padding: 5rem 3rem;
+  padding: 5rem 8rem;
 
   @media screen and (max-width: 786px) {
-    padding: 2rem;
+    padding: 3rem 2rem;
     text-align: center;
   }
 
@@ -188,7 +155,7 @@ const ConnectSection = styled.div`
   h2 {
     font-size: 3rem;
     font-weight: 600;
-    width: 70%;
+    width: 80%;
 
     @media screen and (max-width: 786px) {
       font-size: 2.7rem;
@@ -197,8 +164,6 @@ const ConnectSection = styled.div`
   }
 
   .title {
-    width: 75%;
-
     @media screen and (max-width: 786px) {
       width: 100%;
     }
@@ -228,18 +193,6 @@ const ConnectSection = styled.div`
     background: rgba(255, 255, 255, 0.05);
     box-shadow: 0px 30px 80px 0px rgba(0, 0, 0, 0.1);
 
-    .color-text {
-      background: linear-gradient(
-        270deg,
-        #efdcd1 -1.69%,
-        #e0c6f7 43.78%,
-        #adc3fb 99.83%
-      );
-      background-clip: text;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
     p {
       font-size: 16px;
       font-weight: 300;
@@ -250,19 +203,42 @@ const ConnectSection = styled.div`
       width: 100%;
     }
   }
+
+  .explore {
+    font-size: 24px;
+
+    a {
+      background: linear-gradient(
+        270deg,
+        #efdcd1 -1.69%,
+        #e0c6f7 43.78%,
+        #adc3fb 99.83%
+      );
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+
+      &:hover {
+        background: white;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    }
+  }
 `;
 
 const SupportSection = styled.div`
-  padding: 5rem 3rem 7rem 3rem;
+  padding: 5rem 8rem;
   background: linear-gradient(
     258deg,
-    rgba(162, 195, 254, 0.5) 0%,
-    rgba(225, 197, 252, 0.5) 28.72%,
-    rgba(241, 220, 210, 0.5) 100%
+    rgba(162, 195, 254, 0.75) 0%,
+    rgba(225, 197, 252, 0.75) 28.72%,
+    rgba(241, 220, 210, 0.75) 100%
   );
 
   @media screen and (max-width: 786px) {
-    padding: 2rem 2rem 4rem 2rem;
+    padding: 3rem 2rem;
     text-align: center;
   }
 
@@ -272,41 +248,56 @@ const SupportSection = styled.div`
   }
 
   .items {
-    gap: 2rem;
+    gap: 1rem;
 
     @media screen and (max-width: 786px) {
-      gap: 4rem;
+      gap: 3rem;
     }
   }
 
   .item {
-    width: 370px;
-    height: 370px;
-    border-radius: 50%;
-    background: #151718;
-    box-shadow: 0px 30px 50px 0px rgba(0, 0, 0, 0.25);
+    width: 380px;
+    height: 470px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.3);
 
-    @media screen and (max-width: 786px) {
-      width: 300px;
-      height: 300px;
+    .header {
+      border-radius: 10px 10px 0px 0px;
+      background: rgba(255, 255, 255, 0.3);
     }
 
-    .inner {
+    a.btn {
+      height: 60px;
+      border-radius: 10px;
+      background: #151718;
+      box-shadow: 0px 20px 30px 0px rgba(0, 0, 0, 0.25);
+      padding: 15px 25px 15px 40px;
       color: white;
-      width: 350px;
-      height: 350px;
-      border-radius: 50%;
-      border: 2px solid #f0ddcf;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 400;
 
-      @media screen and (max-width: 786px) {
-        width: 270px;
-        height: 270px;
+      &:hover {
+        text-decoration: none;
+        background: #fffcff;
+        color: #151718;
+
+        i {
+          color: #e6cde6;
+        }
+      }
+    }
+
+    @media screen and (max-width: 786px) {
+      width: 100%;
+
+      a.btn {
+        font-size: 18px;
+        padding: 15px 20px;
       }
     }
   }
 `;
-
-const [communities, setCommunities] = useState([]);
 
 const STATUS = {
   GOOD: ["Yes", "Approved", "Yes, include in special request"],
@@ -332,25 +323,7 @@ const Badge = styled.div`
       : "rgb(145 145 145)"};
 `;
 
-const fetchCommunities = () => {
-  const sheetId = "1HxWjHWwtHFtyo2GIUgpe7Oru4CVz2EWyuuvf3wT9Ghg";
-  const base = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?`;
-  const sheetName = "Overall Data";
-  const query = encodeURIComponent("Select *");
-  const url = `${base}&sheet=${sheetName}&tq=${query}`;
-  const resp = fetch(url);
-
-  if (resp?.body) {
-    let jsonString = resp.body.match(/(?<="table":).*(?=}\);)/g)[0];
-    let json = JSON.parse(jsonString);
-
-    setCommunities(json.rows.map((item) => item.c));
-  }
-};
-
-fetchCommunities();
-
-const Info = ({ title, desc, icon }) => (
+const Info = ({ title, desc, icon, href }) => (
   <div className="item d-flex flex-column gap-2 justify-content-between">
     <div className="header gap-3 p-4 text-center">
       {icon}
@@ -362,7 +335,7 @@ const Info = ({ title, desc, icon }) => (
     <div className="px-5 pb-4">
       <a href="" className="text-center btn-primary d-flex justify-content-end">
         <div className="d-flex justify-content-between">
-          <span>Read More</span>
+          <a href={href}>Read More</a>
           <i className="bi bi-chevron-right" />
         </div>
       </a>
@@ -370,70 +343,67 @@ const Info = ({ title, desc, icon }) => (
   </div>
 );
 
-const Connect = ({ item }) => (
-  <div className="item d-flex flex-column gap-2 justify-content-between align-items-center">
-    <h4 className="bold color-text px-4 pt-4 text-center">{item[1].v}</h4>
-    <Badge status={item[4].v}>{item[4].v || "No status yet"}</Badge>
-    <div className="pt-2 pb-4 text-center">
-      <div>
-        <b>Created at</b>: {item[3].f}
-      </div>
-      <a href={item[2].v} className="color-text">
-        <span className="mr-4">Learn More</span>
-        <i className="bi bi-chevron-right" />
-      </a>
-    </div>
-  </div>
-);
-
 const Support = ({ title, items }) => (
-  <div>
-    <h2 className="text-center mb-5">{title}</h2>
-    <div className="item d-flex justify-content-center align-items-center">
-      <div className="inner d-flex flex-column justify-content-center align-items-center">
-        {items.map((i) => (
-          <Link to={i.href}>{i.title}</Link>
-        ))}
-      </div>
+  <div className="item d-flex flex-column">
+    <h2 className="header w-100 text-center p-4">{title}</h2>
+    <div className="d-flex w-100 flex-column p-4 align-items-center gap-4">
+      {items.map((i) => (
+        <div className="w-100">
+          <a className={`btn w-100 ${i.href ? "" : "disabled"}`} href={i.href}>
+            <div className="d-flex justify-content-between align-items-center">
+              <span>{i.title}</span>
+              <i className="bi bi-chevron-right" />
+            </div>
+          </a>
+        </div>
+      ))}
     </div>
   </div>
 );
 
 if (!content || !assets) return <Widget src="flashui.near/widget/Loading" />;
 
+function partition(array, n) {
+  let i = 0;
+  let j = n;
+  const result = [];
+
+  [...Array(n)].map(() => {
+    const res = array.slice(i, j);
+    result.push(res);
+
+    i += n;
+    j += n;
+  });
+
+  return result;
+}
+
+const Participate = ({ section, i, n }) => (
+  <div className="participate_item d-flex flex-column gap-3">
+    {section.map((title, j) => (
+      <h5 className="d-flex gap-3 align-items-center">
+        <div>
+          <div className="d-flex circle justify-content-center align-items-center">
+            {i * n + j + 1}
+          </div>
+        </div>
+        <span className="text-start">{title}</span>
+      </h5>
+    ))}
+  </div>
+);
+
 return (
   <Container>
-    <HeroSection className="d-flex justify-content-between align-items-center gap-3">
-      <div className="d-flex flex-column gap-5">
-        <h1>{content.heroTitle}</h1>
-        <h3>{content.heroDesc}</h3>
-        <div className="hero-buttons d-flex gap-3">
-          <Link
-            to={"/ndcdev.near/widget/MDAO.App?page=info"}
-            className="text-center btn btn-secondary d-flex justify-content-between"
-          >
-            <span>Read More</span>
-            <i className="bi bi-chevron-right" />
-          </Link>
-
-          <Link
-            className="text-center btn d-flex justify-content-between"
-            to={`/ndcdev.near/widget/MDAO.App?page=createProposal`}
-          >
-            <span>Create Proposal / Report</span>
-            <i className="bi bi-plus" />
-          </Link>
-        </div>
-      </div>
-      <img src={assets.hero} />
-    </HeroSection>
+    <Hero />
 
     <InfoSection className="d-flex flex-column gap-5">
       <h4>{content.info.name}</h4>
       <h2>{content.info.title}</h2>
-      <div className="d-flex flex-wrap gap-4 justify-content-center">
-        {content.info.sections?.map(({ title, desc, icon }) => (
-          <Info title={title} desc={desc} icon={icon} />
+      <div className="d-flex flex-wrap gap-5 justify-content-center">
+        {content.info.sections?.map(({ title, desc, icon, href }) => (
+          <Info title={title} desc={desc} icon={icon} href={href} />
         ))}
       </div>
     </InfoSection>
@@ -446,67 +416,54 @@ return (
             <h2>{content.connect.title1}</h2>
             <p>{content.connect.desc}</p>
           </div>
-          <div>
-            <h4 className="bold">{content.connect.title2}</h4>
-          </div>
         </div>
         <div className="img">
           <img src={assets.puzzle} className="w-100" />
         </div>
       </div>
       <div className="d-flex flex-wrap gap-5 justify-content-center">
-        {communities.length > 0 ? (
-          communities
-            .reverse()
-            .slice(0, 3)
-            .map((item) => <Connect item={item} />)
-        ) : (
-          <>
-            <Widget src="flashui.near/widget/Loading" />{" "}
-            <b>Loading communities...</b>
-          </>
-        )}
+        <Widget
+          src="ndcdev.near/widget/MDAO.Components.Communities"
+          props={{ limit: 3, theme: "dark" }}
+        />
       </div>
-      <div>
-        <h4 className="bold">
-          <Link to={"/ndcdev.near/widget/MDAO.App?page=communities"}>
-            <span className="mr-4">Browse More</span>
-            <i className="bi bi-chevron-right" />
-          </Link>
-        </h4>
+      <div className="d-flex justify-content-center explore">
+        <a href={"/ndcdev.near/widget/MDAO.App?page=communities"}>
+          <span className="mr-4">Explore all Communities</span>
+          <i className="bi bi-chevron-right" />
+        </a>
       </div>
     </ConnectSection>
+
+    <InfoSection className="d-flex flex-column gap-5">
+      <h4>{content.participate.name}</h4>
+      <div>
+        <h2>{content.participate.title}</h2>
+        <p className="my-4">{content.participate.desc}</p>
+      </div>
+      <div className="wide flex-wrap justify-content-center">
+        {partition(content.participate.items, 3)?.map((section, i) => (
+          <Participate section={section} i={i} n={3} />
+        ))}
+      </div>
+      <div className="mid flex-wrap justify-content-center">
+        {partition(content.participate.items, 5)?.map((section, i) => (
+          <Participate section={section} i={i} n={6} />
+        ))}
+      </div>
+      <div className="small flex-wrap justify-content-center">
+        {partition(content.participate.items, 9)?.map((section, i) => (
+          <Participate section={section} i={i} n={9} />
+        ))}
+      </div>
+    </InfoSection>
 
     <SupportSection className="d-flex flex-column gap-5">
       <h4>{content.support.name}</h4>
       <div className="items d-flex flex-wrap justify-content-center">
-        <Support
-          title="Marketing Resources"
-          items={[
-            { title: "Get Marketing support", href: "" },
-            { title: "Influencers", href: "" },
-          ]}
-        />
-        <Support
-          title="Office Hours"
-          items={[
-            { title: "Book a meeting with MDAO Councils", href: "" },
-            { title: "Attend a workshop", href: "" },
-            { title: "Consulting call with Marketing agency", href: "" },
-            { title: "Contact us", href: "" },
-          ]}
-        />
-        <Support
-          title="Get Funding"
-          items={[
-            {
-              title: "Apply for a grant",
-              href: "/ndcdev.near/widget/MDAO.App?page=createProposal",
-            },
-            { title: "MDAO Bounty program", href: "" },
-            { title: "Editorial calendar", href: "" },
-          ]}
-        />
+        {content.support.items.map((item) => (
+          <Support title={item.title} items={item.values} />
+        ))}
       </div>
     </SupportSection>
   </Container>

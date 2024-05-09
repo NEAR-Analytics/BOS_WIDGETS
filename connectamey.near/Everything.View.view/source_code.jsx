@@ -1,0 +1,1 @@
+return (<p>Go configure your <a href="/#/edit/connectamey.near/widget/Everything.View.view">view widget</a>!</p>);

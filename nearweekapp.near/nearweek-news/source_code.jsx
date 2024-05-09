@@ -59,21 +59,26 @@ const fetchData = (url) => {
 const fetchDaoNews = fetchData(
   "https://nearweek.com/api/md/dao-news?populate=deep&sort=createdAt:desc&pagination[pageSize]=12"
 );
+
 const fetchAudio = fetchData(
   "https://nearweek.com/api/show-audio?populate=deep&sort=createdAt:desc&pagination[pageSize]=12"
 );
+
+console.log("fetchAudio", fetchAudio);
 
 const fetchMedium = fetch(
   "https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/nearprotocol/tagged/near-protocol",
   { method: "GET" }
 );
 
+const imgSrc = `https://ipfs.near.social/ipfs/bafkreih5d2mix23e4hqsblgob74chyp3yyoze2ygtdm4cbo7dblt565rwa`;
+
 if (fetchMedium && fetchMedium?.body?.items?.length > 0) {
   fetchMedium.body.items.forEach((item) => {
     mediumPosts.push({
       title: item.title,
       url: item.link,
-      thumbnail: item.thumbnail,
+      thumbnail: imgSrc,
       createdAt: item.pubDate,
       categories: item.categories,
     });
@@ -102,7 +107,10 @@ const articles = [...mediumPosts];
 const audio = [...(fetchAudio?.body.data ?? [])].map((item) => {
   return {
     title: item.Title,
-    thumbnail: nwSite + item.Thumbnail.formats.thumbnail.url,
+    thumbnail:
+      nwSite +
+      (item.Thumbnail.formats.medium.url ??
+        item.Thumbnail.formats.thumbnail.url),
     categories: [...item.categories.map((category) => category.Name)],
     createdAt: item.createdAt,
     url: nwSite + "/audio/" + item.slug,
@@ -241,6 +249,14 @@ const CardImage = styled.img`
     object-fit: cover;
 `;
 
+const AudioCardImage = styled.img`
+    width: 100%;
+    height: auto;
+    aspect-ratio: 9/6 auto;
+    border-radius: 8px 8px 0 0;
+    object-fit: cover;
+`;
+
 const CardFooter = styled.div`
     display: flex;
     justify-content: space-between;
@@ -373,6 +389,35 @@ const Post = (props) => {
   );
 };
 
+const Podcast = (props) => {
+  const { key, post } = props;
+  return (
+    <Card key={key} index={props.index}>
+      <AudioCardImage src={post.thumbnail} alt="" />
+      <CardContent>
+        <CardTitle>
+          <a href={post.url} target="_blank">
+            {post.title}
+          </a>
+        </CardTitle>
+        <CardFooter>
+          <Badges>
+            {post.categories &&
+              post.categories.length > 0 &&
+              post.categories.map((category, index) => (
+                <Badge index={index}>{category}</Badge>
+              ))}
+          </Badges>
+          <CardDate>
+            <ClockIconSVG />
+            {post.createdAt ? dateToDays(post.createdAt) : ""}
+          </CardDate>
+        </CardFooter>
+      </CardContent>
+    </Card>
+  );
+};
+
 return (
   <Theme>
     <NwWidget>
@@ -449,7 +494,7 @@ return (
           <>
             {audio.length > 0 ? (
               audio.map((podcast, index) => (
-                <Post post={podcast} index={index} />
+                <Podcast post={podcast} index={index} />
               ))
             ) : (
               <div>Loading ...</div>

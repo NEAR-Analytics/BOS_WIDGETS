@@ -72,7 +72,6 @@ const fetchTransfers = () => {
 };
 fetchTransfers();
 
-console.log(state);
 
 return (
   <>

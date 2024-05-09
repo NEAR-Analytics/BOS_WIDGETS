@@ -49,7 +49,7 @@ if (!state.followingIsFetched) {
     "get",
     { keys: [`${context.accountId}/graph/follow/*`] },
     "final",
-    false
+    false,
   ).then((data) => {
     const following = (
       Object.keys(data).length > 0
@@ -69,7 +69,7 @@ if (!state.followersIsFetched) {
     "get",
     { keys: [`*/graph/follow/${context.accountId}`] },
     "final",
-    false
+    false,
   ).then((data) => {
     const followers = Object.keys(data ?? {}).map((name) => ({ name }));
     State.update({
@@ -105,15 +105,15 @@ return (
         label: "Add founders",
         placeholder: "Start typing",
         options: [...state.followers, ...state.following].filter(
-          ({ name }) => !founders.includes(name)
+          ({ name }) => !founders.includes(name),
         ),
         value: state.founders,
         onChange: (founders) => {
           State.update({ founders });
           update(
             Array.from(
-              new Set([...props.founders, ...founders.map(({ name }) => name)])
-            )
+              new Set([...props.founders, ...founders.map(({ name }) => name)]),
+            ),
           );
         },
       }}

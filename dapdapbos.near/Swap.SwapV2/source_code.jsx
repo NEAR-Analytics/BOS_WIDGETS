@@ -14,23 +14,10 @@ const {
   QuoterSyncswap,
   account,
   chainIdNotSupport,
+  onSwitchChain,
 } = props;
 
-const {
-  name,
-  CHAIN_LIST,
-  DEFAULT_CHAIN_ID,
-  dappConfig,
-  curChainId,
-  chains,
-  dappSrc,
-} = props;
-
-const defaultChain = CHAIN_LIST.find(
-  (chain) => chain.chainId === DEFAULT_CHAIN_ID
-);
-
-const curChain = CHAIN_LIST.find((chain) => chain.chainId === curChainId);
+const { name, CHAIN_LIST, curChain } = props;
 
 const prevTitle = Storage.privateGet("prevTitle");
 if (prevTitle !== title || !state.inputCurrency) {
@@ -199,17 +186,18 @@ return (
         <Widget
           src="dapdapbos.near/widget/Swap.ChainWarnigBox"
           props={{
-            chain: defaultChain,
+            chain: curChain,
           }}
         />
       )}
       <PanelLabelWrapper>
         <PanelLabel>Swap on</PanelLabel>
-        <img className="chain-icon" src={curChain.icon || defaultChain.icon} />
+        <img className="chain-icon" src={curChain.logo} />
         <Widget
           props={{
             CHAIN_LIST,
             curChain,
+            onSwitchChain,
           }}
           src="dapdapbos.near/widget/Swap.ChainListDropDown"
         />
@@ -329,6 +317,12 @@ return (
           stable: state.stable,
           syncSwapPoolAddress: state.syncSwapPoolAddress,
           uniType: dexConfig.uniType,
+          addAction: props.addAction,
+          toast: props.toast,
+          chainIdNotSupport: props.chainIdNotSupport,
+          chainId: props.chainId,
+          switchingChain: props.switchingChain,
+          onSwitchChain: props.onSwitchChain,
         }}
       />
     </Panel>

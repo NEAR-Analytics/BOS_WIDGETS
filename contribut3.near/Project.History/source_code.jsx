@@ -1,4 +1,4 @@
-const ownerId = "nearhorizon.near";
+const ownerId = "contribut3.near";
 const search = props.search ?? "";
 
 State.init({
@@ -12,7 +12,7 @@ if (!state.itemsIsFetched) {
     "get_project_completed_contributions",
     { account_id: props.accountId },
     "final",
-    false
+    false,
   ).then((items) => State.update({ items, itemsIsFetched: true }));
 
   return <>Loading...</>;

@@ -23,12 +23,12 @@ if (!state.nameIsFetched) {
     "get",
     { keys: [`${projectId}/profile/name`] },
     "final",
-    false
+    false,
   ).then((data) =>
     State.update({
       name: data[projectId].profile.name,
       nameIsFetched: true,
-    })
+    }),
   );
 }
 
@@ -38,12 +38,12 @@ if (!state.vendorNameIsFetched) {
     "get",
     { keys: [`${vendorId}/profile/name`] },
     "final",
-    false
+    false,
   ).then((data) =>
     State.update({
       vendorName: data[vendorId].profile.name,
       vendorNameIsFetched: true,
-    })
+    }),
   );
 }
 

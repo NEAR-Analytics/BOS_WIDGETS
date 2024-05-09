@@ -411,7 +411,6 @@ const verify = () => {
     }),
   })
     .then((res) => {
-      console.log(res);
       if (res.body.message !== "Contract verified successfully") {
         State.update({
           verifyError: res.body.message ? res.body.message : "Error ocurred",

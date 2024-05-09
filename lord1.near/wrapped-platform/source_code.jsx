@@ -186,6 +186,8 @@ const Container = styled.div`
     padding: 3px 4px;
     list-style-type: none;
     margin: 0 auto;
+    flex-wrap: wrap;
+    justify-content: center;
   }
   .tab-item .active {
     background: #304352;
@@ -259,12 +261,11 @@ const chartabove = {
 //---------------------------------------------------------------------------------------------------
 
 // state ####################################
-
 State.init({
   searchedSinger: "",
   searchedInterval: "",
   result: {},
-  loader: [],
+  //loader: [],
   isLoading: false,
   error: [],
   queriesRuned: false,
@@ -278,13 +279,19 @@ const checkNewSinger = () => {
     State.update({
       searchedSinger: singer,
       searchedInterval: interval,
-      loader: [],
+      //loader: [],
+      loader: false,
       result: {},
       isLoading: true,
       queriesRuned: false,
     });
   }
+  return true;
 };
+if (checkNewSinger()) {
+  return <div>loading...</div>;
+}
+
 checkNewSinger();
 // handle hashed data #############################
 const handleHasedData = ({ hash, id }) => {
@@ -381,13 +388,13 @@ const updateResultState = ({ data, error, isLoading, queryRunId, id }) => {
         id: id,
       },
     };
-    const newLoader = loader.filter(({ id: loaderId }) => loaderId !== id);
+    //const newLoader = loader.filter(({ id: loaderId }) => loaderId !== id);
     if (error) {
       const queryError = `query${id} : ${error}`;
       return {
         ...state,
         result: { ...newResult },
-        loader: newLoader.length === 0 ? [] : newLoader,
+        // loader: newLoader.length === 0 ? [] : newLoader,
         error: [...state.error, queryError],
       };
     } else {
@@ -400,7 +407,7 @@ const updateResultState = ({ data, error, isLoading, queryRunId, id }) => {
       return {
         ...state,
         result: { ...newResult },
-        ...(data && { loader: newLoader.length === 0 ? [] : newLoader }),
+        //...(data && { loader: newLoader.length === 0 ? [] : newLoader }),
       };
     }
   });

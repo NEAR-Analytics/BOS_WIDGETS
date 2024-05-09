@@ -3,6 +3,52 @@ const MaxGasPerTransaction = TGas.mul(250);
 const GasPerTransaction = MaxGasPerTransaction.plus(TGas);
 const pageAmountOfPage = 5;
 const ipfsPrefix = "https://ipfs.near.social/ipfs";
+const landingUrl = "https://neatprotocol.ai";
+const partnerProgramUrl = "https://forms.gle/4M3fvw3LPiJSyffcA";
+const nrc20DocHost = "https://docs.nrc-20.io/";
+function toLocaleString(source, decimals, rm) {
+  if (typeof source === "string") {
+    return toLocaleString(Number(source), decimals);
+  } else if (typeof source === "number") {
+    return decimals !== undefined
+      ? source.toLocaleString(undefined, {
+          maximumFractionDigits: decimals,
+          minimumFractionDigits: decimals,
+        })
+      : source.toLocaleString();
+  } else {
+    // Big type
+    return toLocaleString(
+      decimals !== undefined
+        ? Number(source.toFixed(decimals, rm))
+        : source.toNumber(),
+      decimals
+    );
+  }
+}
+
+function formatAmount(_balance, _decimal) {
+  const balance = _balance ?? 0;
+  const decimal = _decimal ?? 8;
+  return toLocaleString(
+    Big(balance).div(Big(10).pow(decimal)).toFixed(),
+    decimal
+  );
+}
+
+function formatDeployTime(blockTime) {
+  const milliseconds = blockTime / 1000000;
+  const date = new Date(milliseconds);
+
+  const year = date.getUTCFullYear();
+  const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
+  const day = date.getUTCDate().toString().padStart(2, "0");
+  const hours = date.getUTCHours().toString().padStart(2, "0");
+  const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+  const seconds = date.getUTCSeconds().toString().padStart(2, "0");
+  return `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
+}
+
 // Config for Bos app
 function getConfig(network) {
   switch (network) {
@@ -12,7 +58,6 @@ function getConfig(network) {
         graphUrl:
           "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat",
         nodeUrl: "https://rpc.mainnet.near.org",
-        indexerUrl: "https://inscription-indexer-a16497da251b.herokuapp.com/v1",
         contractName: "inscription.near",
         methodName: "inscribe",
         args: {
@@ -21,14 +66,24 @@ function getConfig(network) {
           tick: "neat",
           amt: "100000000",
         },
+        transferArgs: {
+          p: "nrc-20",
+          op: "transfer",
+          tick: "neat",
+        },
+        ftWrapperFactory: "nrc-20.near",
+        ftWrapper: "neat.nrc-20.near",
+        refFinance: "https://app.ref.finance/",
+        minMintEvents: 1_000_000,
+        minHolders: 1_000,
+        neatDecimals: 8,
       };
     case "testnet":
       return {
         ownerId: "inscribe.testnet",
         graphUrl:
-          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat",
+          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat-test",
         nodeUrl: "https://rpc.testnet.near.org",
-        indexerUrl: "https://inscription-indexer-a16497da251b.herokuapp.com/v1",
         contractName: "inscription.testnet",
         methodName: "inscribe",
         args: {
@@ -37,6 +92,17 @@ function getConfig(network) {
           tick: "neat",
           amt: "100000000",
         },
+        transferArgs: {
+          p: "nrc-20",
+          op: "transfer",
+          tick: "neat",
+        },
+        ftWrapperFactory: "nrc-20.testnet",
+        ftWrapper: "neat.nrc-20.testnet",
+        refFinance: "https://testnet.ref-finance.com/",
+        minMintEvents: 10,
+        minHolders: 5,
+        neatDecimals: 8,
       };
     default:
       throw Error(`Unconfigured environment '${network}'.`);
@@ -49,6 +115,10 @@ const tx = {
   args: config.args,
   gas: GasPerTransaction,
 };
+
+function ftWrapperAddress(tick) {
+  return tick.toLowerCase() + "." + config.ftWrapperFactory;
+}
 
 const FormContainer = styled.div`
   max-width: 650px;
@@ -69,6 +139,10 @@ const FormContainer = styled.div`
 const FormTitle = styled.div`
   font-size: 22px;
   font-weight: 600px;
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+  }
 `;
 
 const FormBody = styled.div`
@@ -93,7 +167,7 @@ const FormButtonGroup = styled.div`
   gap: 20px;
 `;
 
-const FormButton = styled.div`
+const FormButton = styled.button`
   height: 56px;
   width: 100%;
   display: grid;
@@ -103,7 +177,13 @@ const FormButton = styled.div`
   font-size: 18px;
   font-weight: 600;
   border-radius: 4px;
-  &:hover {
+  background: transparent;
+  color: #ffffff;
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+  }
+  &:hover:not(:disabled) {
     background: rgba(255, 255, 255, 0.08);
   }
 `;
@@ -114,8 +194,229 @@ const TipText = styled.div`
   font-weight: 600;
 `;
 
+function fetchFromGraph(query) {
+  return fetch(config.graphUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      query,
+    }),
+  });
+}
+
+function asyncFetchFromGraph(query) {
+  return asyncFetch(config.graphUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      query,
+    }),
+  });
+}
+
+function fetchEventCounts(_tick) {
+  const tick = _tick || "NEAT";
+  return asyncFetchFromGraph(`
+    query {
+      eventCounts(where: {id:"${tick}"}) {
+        id
+        ticker
+        mintEventCount
+        transferEventCount
+      }
+    }
+  `).then((response) => {
+    if (response.body?.data?.eventCounts) {
+      return response.body.data.eventCounts;
+    }
+    return undefined;
+  });
+}
+
+function fetchTokenInfosAsync() {
+  return asyncFetchFromGraph(`
+    query {
+      tokenInfos(first: 1000) {
+        ticker
+        maxSupply
+        totalSupply
+        limit
+        createdBlockTimestamp
+        decimals
+      }
+      holderCounts(first: 1000) {
+        ticker
+        count
+      }
+    }
+  `).then((tokensInfoResponse) => {
+    if (tokensInfoResponse.body?.data) {
+      return tokensInfoResponse.body?.data;
+    }
+    return undefined;
+  });
+}
+
+function fetchTokenInfoAsync(token) {
+  return asyncFetchFromGraph(`
+    query {
+      tokenInfo (
+        id: "${token.toUpperCase()}",
+      ) {
+        ticker
+        limit
+        decimals
+        maxSupply
+        totalSupply
+        creatorId
+        createdBlockHeight
+        createdBlockTimestamp
+      }
+      holderCount (
+        id: "${token.toUpperCase()}",
+      ) {
+        ticker
+        count
+      }
+    }
+  `).then((tokenInfoResponse) => {
+    if (tokenInfoResponse.body?.data) {
+      return tokenInfoResponse.body.data;
+    }
+    return undefined;
+  });
+}
+
+function fetchOwnTokenInfosAsync(creatorId) {
+  return asyncFetchFromGraph(`
+    query {
+      tokenInfos(where:{creatorId:"${creatorId}"}) {
+        ticker
+        decimals
+        limit
+      }
+    }
+  `).then((tokenInfoResponse) => {
+    if (tokenInfoResponse.body?.data) {
+      return tokenInfoResponse.body.data;
+    }
+    return undefined;
+  });
+}
+
+function getBalance() {
+  const accountId = props.accountId || context.accountId;
+  return asyncFetchFromGraph(`
+    query {
+      holderInfos(
+        where: {
+          accountId: "${accountId}"
+          ticker: "neat"
+        }
+      ) {
+        accountId
+        amount
+      }
+    }
+  `).then((balanceResponse) => {
+    const holder = balanceResponse.body.data.holderInfos[0];
+    if (holder) {
+      return holder.amount;
+    }
+    return "0";
+  });
+}
+
+function getBalances() {
+  const accountId = props.accountId || context.accountId;
+  return asyncFetchFromGraph(`
+    query {
+      holderInfos(
+        where: {
+          accountId: "${accountId}"
+        }
+      ) {
+        ticker
+        amount
+      }
+    }
+  `).then((balanceResponse) => {
+    if (balanceResponse.body?.data) {
+      return balanceResponse.body.data.holderInfos;
+    }
+    return undefined;
+  });
+}
+
+function getFtWrappers(n, _data) {
+  const i = n ?? 0;
+  const data = _data ?? [];
+  const amount = 500;
+  return Near.asyncView(config.ftWrapperFactory, "get_ft_wrappers", {
+    offset: i * amount,
+    limit: amount,
+  })
+    .then((subcontracts) => {
+      if (subcontracts.length < amount) {
+        return [...subcontracts, ...data];
+      } else {
+        return getFtWrappers(i + 1, subcontracts).then((response) => {
+          return [...response, ...data];
+        });
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      return data;
+    });
+}
+
+function getNep141Balance(contractName) {
+  const accountId = props.accountId || context.accountId;
+  return Near.asyncView(contractName, "ft_balance_of", {
+    account_id: accountId,
+  });
+}
+
+function getWrapFeeRate(contractName) {
+  const accountId = props.accountId || context.accountId;
+  return Near.asyncView(contractName, "get_wrap_fee_rate", {
+    account_id: accountId,
+  });
+}
+
+function getUnwrapFeeRate(contractName) {
+  const accountId = props.accountId || context.accountId;
+  return Near.asyncView(contractName, "get_unwrap_fee_rate", {
+    account_id: accountId,
+  });
+}
+
+function getWrappedFtBalance() {
+  const accountId = props.accountId || context.accountId;
+  return Near.asyncView(config.ftWrapper, "ft_balance_of", {
+    account_id: accountId,
+  });
+}
+
+function getNrc20TotalSupply() {
+  if (!state.nep141TotalSupply || !state.tokenInfo?.maxSupply) return undefined;
+  return Big(state.tokenInfo.maxSupply)
+    .minus(state.nep141TotalSupply)
+    .toFixed();
+}
+
+function getNep141TotalSupply() {
+  return Near.asyncView(config.ftWrapper, "ft_total_supply");
+}
+
 State.init({
   balance: undefined,
+  wrappedFtBalance: undefined,
   tickerRawData: {},
   holders: [],
   ticker: [
@@ -148,37 +449,36 @@ State.init({
       value: "-",
     },
   ],
+  // transfer component
+  tickInput: props.tick ?? "",
+  transferAmount: "",
+  transferTo: "",
+  balances: undefined,
+  // wrap, unwrap component
+  wrapTab: "wrap",
 });
 
 function fetchAllData() {
-  const response = fetch(config.graphUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      query: `
-        query {
-          tokenInfo (id: "NEAT") {
-            ticker
-            maxSupply
-            totalSupply
-            limit
-          }
-          holderCount (id: "HolderCount") {
-            count
-          }
-        }
-      `,
-    }),
-  });
-
-  if (response) {
+  asyncFetchFromGraph(`
+    query {
+      tokenInfo (id: "NEAT") {
+        ticker
+        maxSupply
+        totalSupply
+        limit
+      }
+      holderCount (id: "NEAT") {
+        count
+      }
+    }
+  `).then((response) => {
     const tokenInfo = response.body.data.tokenInfo;
     const holderCount = response.body.data.holderCount.count;
     State.update({
+      tokenInfo,
       tickerRawData: {
         display_name: tokenInfo.ticker,
+        holderCount,
       },
       ticker: [
         {
@@ -191,11 +491,11 @@ function fetchAllData() {
         },
         {
           title: "Total Supply:",
-          value: Number(tokenInfo.maxSupply ?? 0).toLocaleString(),
+          value: formatAmount(tokenInfo.maxSupply ?? 0),
         },
         {
           title: "Total Minted:",
-          value: Number(tokenInfo.totalSupply ?? 0).toLocaleString(),
+          value: formatAmount(tokenInfo.totalSupply ?? 0),
         },
         {
           title: "Minted%:",
@@ -207,77 +507,103 @@ function fetchAllData() {
         },
         {
           title: "Mint Limit:",
-          value: Number(tokenInfo.limit).toLocaleString(),
+          value: formatAmount(tokenInfo.limit ?? 0),
         },
         {
           title: "Holders:",
-          value: Number(holderCount).toLocaleString(),
+          value: toLocaleString(holderCount, 0),
         },
       ],
     });
-  }
+  });
 
-  const displayName = state.tickerRawData.display_name;
-  if (displayName) {
-    const holdersResult = fetch(
-      `${config.indexerUrl}/tickers/${displayName}/holders`,
-      {
-        method: "GET",
-      }
-    );
+  getBalance().then((balance) =>
     State.update({
-      holders: holdersResult.body,
+      balance,
+    })
+  );
+
+  getWrappedFtBalance().then((balance) =>
+    State.update({
+      wrappedFtBalance: balance,
+    })
+  );
+
+  getNep141TotalSupply().then((nep141TotalSupply) => {
+    State.update({
+      nep141TotalSupply,
+    });
+  });
+
+  const nrc20TotalSupply = getNrc20TotalSupply();
+  if (nrc20TotalSupply) {
+    State.update({
+      nrc20TotalSupply,
     });
   }
-  const accountId = props.accountId || context.accountId;
-  const balancesResponse = fetch(`${config.indexerUrl}/balances/${accountId}`, {
-    method: "GET",
+
+  getBalances().then((balances) => {
+    State.update({
+      balances,
+    });
   });
-  const balance = balancesResponse.body[0]?.balance ?? "0";
-  State.update({ balance });
 }
 
-fetchAllData();
+if (!state.hasFetchGlobalData) {
+  fetchAllData();
+  State.update({ hasFetchGlobalData: true });
+}
 
 
 
+const disabled = Big(state.tokenInfo?.totalSupply ?? 0).gte(
+  state.tokenInfo?.maxSupply ?? 0
+);
 return (
-  <FormContainer>
-    <FormTitle>The First Inscription Token on NEAR Blockchain</FormTitle>
-    <FormBody>
-      {state.ticker.map((row) => (
-        <FormRowContainer key={row.title}>
-          <FormRowTitle>{row.title}</FormRowTitle>
-          <FormRowValue>{row.value}</FormRowValue>
-        </FormRowContainer>
-      ))}
-      <FormButtonGroup>
-        <FormButton
-          onClick={() => {
-            Near.call(tx.contractName, tx.methodName, tx.args);
-          }}
-        >
-          Mint
-        </FormButton>
-        <FormButton
-          onClick={() => {
-            Near.call(Array(10).fill(tx));
-          }}
-        >
-          Mint 10 Inscriptions by one click
-        </FormButton>
-        <FormButton
-          onClick={() => {
-            Near.call(Array(50).fill(tx));
-          }}
-        >
-          Mint 50 Inscriptions by one click
-        </FormButton>
-        <TipText>
-          * Mint every 10 inscriptions will take around 1 minute in your wallet.
-          Please be patient.{" "}
-        </TipText>
-      </FormButtonGroup>
-    </FormBody>
-  </FormContainer>
+  <>
+    <FormContainer style={{ fontWeight: "bold" }}>
+      🎉 NEAT is 100% minted!!!
+    </FormContainer>
+    <FormContainer>
+      <FormTitle>The First Inscription Token on NEAR Blockchain</FormTitle>
+      <FormBody>
+        {state.ticker.map((row) => (
+          <FormRowContainer key={row.title}>
+            <FormRowTitle>{row.title}</FormRowTitle>
+            <FormRowValue>{row.value}</FormRowValue>
+          </FormRowContainer>
+        ))}
+        <FormButtonGroup>
+          <FormButton
+            disabled={disabled}
+            onClick={() => {
+              Near.call(tx.contractName, tx.methodName, tx.args);
+            }}
+          >
+            Mint
+          </FormButton>
+          <FormButton
+            disabled={disabled}
+            onClick={() => {
+              Near.call(Array(10).fill(tx));
+            }}
+          >
+            Mint 10 Inscriptions by one click
+          </FormButton>
+          <FormButton
+            disabled={disabled}
+            onClick={() => {
+              Near.call(Array(50).fill(tx));
+            }}
+          >
+            Mint 50 Inscriptions by one click
+          </FormButton>
+          <TipText>
+            * Mint every 10 inscriptions will take around 1 minute in your
+            wallet. Please be patient.{" "}
+          </TipText>
+        </FormButtonGroup>
+      </FormBody>
+    </FormContainer>
+  </>
 );

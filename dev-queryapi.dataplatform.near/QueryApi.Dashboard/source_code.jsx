@@ -3,23 +3,25 @@ const [selected_accountId, selected_indexerName] = props.selectedIndexerPath
   ? props.selectedIndexerPath.split("/")
   : [undefined, undefined];
 
-const activeTab = props.view ?? "indexers";
+const activeTab = props.view == "create-new-indexer" ? "create-new-indexer" : props.selectedIndexerPath ? "indexer" : "explore"
+const activeIndexerView = props.activeIndexerView ?? "editor";
 const limit = 7;
 let totalIndexers = 0;
 
 State.init({
   activeTab: activeTab,
+  activeIndexerView: activeIndexerView,
   my_indexers: [],
   all_indexers: [],
   selected_indexer: undefined,
   selected_account: undefined,
 });
 
-Near.asyncView(`dev-queryapi.dataplatform.near`, "list_indexer_functions").then((data) => {
+Near.asyncView(`dev-queryapi.dataplatform.near`, "list_all").then((data) => {
   const indexers = [];
   const total_indexers = 0;
-  Object.keys(data.All).forEach((accountId) => {
-    Object.keys(data.All[accountId]).forEach((functionName) => {
+  Object.keys(data).forEach((accountId) => {
+    Object.keys(data[accountId]).forEach((functionName) => {
       indexers.push({
         accountId: accountId,
         indexerName: functionName,
@@ -51,6 +53,11 @@ const Subheading = styled.h2`
   text-overflow: ${(p) => (p.ellipsis ? "ellipsis" : "unset")};
   white-space: nowrap;
   outline: none;
+`;
+
+const Editor = styled.div`
+`;
+const Status = styled.div`
 `;
 
 const Wrapper = styled.div`
@@ -107,7 +114,7 @@ const Title = styled.h1`
 
 const TabsButton = styled.button`
   font-weight: 600;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 16px;
   padding: 0 12px;
   position: relative;
@@ -310,9 +317,15 @@ const selectTab = (tabName) => {
   });
 };
 
+const selectIndexerPage = (viewName) => {
+  Storage.privateSet("queryapi:activeIndexerTabView", viewName);
+  State.update({
+    activeIndexerView: viewName,
+  });
+};
 const indexerView = (accountId, indexerName) => {
-  const editUrl = `https://near.org/#/dev-queryapi.dataplatform.near/widget/QueryApi.App?selectedIndexerPath=${accountId}/${indexerName}&view=editor-window`;
-  const statusUrl = `https://near.org/#/dev-queryapi.dataplatform.near/widget/QueryApi.App?selectedIndexerPath=${accountId}/${indexerName}&view=indexer-status`;
+  const editUrl = `https://near.org/#/dev-queryapi.dataplatform.near/widget/QueryApi.App?selectedIndexerPath=${accountId}/${indexerName}`;
+  const statusUrl = `https://near.org/#/dev-queryapi.dataplatform.near/widget/QueryApi.App?selectedIndexerPath=${accountId}/${indexerName}&view=indexer&activeIndexerView=status`;
   const playgroundLink = `https://cloud.hasura.io/public/graphiql?endpoint=https://near-queryapi.dev.api.pagoda.co/v1/graphql&header=x-hasura-role%3A${accountId.replaceAll(
     ".",
     "_"
@@ -344,10 +357,10 @@ const indexerView = (accountId, indexerName) => {
       </CardBody>
 
       <CardFooter className="flex justify-center items-center">
-        <ButtonLink onClick={() => selectTab("indexer-status")}>
+        <ButtonLink onClick={() => selectIndexerPage("status")}>
           View Status
         </ButtonLink>
-        <ButtonLink primary onClick={() => selectTab("editor-window")}>
+        <ButtonLink primary onClick={() => selectIndexerPage("editor")}>
           {accountId === context.accountId ? "Edit Indexer" : "View Indexer"}
         </ButtonLink>
         <ButtonLink href={playgroundLink} target="_blank">
@@ -359,14 +372,14 @@ const indexerView = (accountId, indexerName) => {
 };
 
 return (
-  <Wrapper negativeMargin={state.activeTab === "indexers"}>
+  <Wrapper negativeMargin={state.activeTab === "explore"}>
     <Tabs>
       <TabsButton
         type="button"
-        onClick={() => selectTab("indexers")}
-        selected={state.activeTab === "indexers"}
+        onClick={() => selectTab("explore")}
+        selected={state.activeTab === "explore"}
       >
-        Indexers
+        Explore Indexers
       </TabsButton>
       {state.activeTab == "create-new-indexer" && (
         <TabsButton
@@ -382,28 +395,20 @@ return (
         <>
           <TabsButton
             type="button"
-            onClick={() => selectTab("editor-window")}
-            selected={state.activeTab === "editor-window"}
+            onClick={() => selectTab("indexer")}
+            selected={state.activeTab === "indexer"}
           >
-            Indexer Editor
-          </TabsButton>
-
-          <TabsButton
-            type="button"
-            onClick={() => selectTab("indexer-status")}
-            selected={state.activeTab === "indexer-status"}
-          >
-            Indexer Status
+            Indexer ({props.selectedIndexerPath})
           </TabsButton>
         </>
       )}
     </Tabs>
     <Main>
-      <Section active={state.activeTab === "indexers"}>
+      <Section active={state.activeTab === "explore"}>
         <NavBarLogo
           href={`https://near.org/#/dev-queryapi.dataplatform.near/widget/QueryApi.App`}
           title="QueryApi"
-          onClick={() => selectTab("indexers")}
+          onClick={() => selectTab("explore")}
         >
           <Widget
             src="mob.near/widget/Image"
@@ -466,37 +471,8 @@ return (
           </div>
         )}
       </Section>
-      <Section active={state.activeTab === "indexer-status"}>
-        {state.activeTab === "indexer-status" && (
-          <div>
-            {state.indexers.length > 0 &&
-              (state.selected_indexer != "" ? (
-                <H2>{state.selected_indexer}</H2>
-              ) : (
-                <H2>{state.indexers[0].indexerName}</H2>
-              ))}
-            {indexerView(
-              selected_accountId ?? state.indexers[0].accountId,
-              selected_indexerName ?? state.indexers[0].indexerName
-            )}
-            <Widget
-              src={`dev-queryapi.dataplatform.near/widget/QueryApi.IndexerStatus`}
-              props={{
-                indexer_name:
-                  selected_indexerName ?? state.indexers[0].indexerName,
-                accountId: selected_accountId ?? state.indexers[0].accountId,
-              }}
-            />
-          </div>
-        )}
-      </Section>
-      <Section
-        negativeMargin
-        primary
-        active={state.activeTab === "editor-window"}
-      >
-        {state.activeTab === "editor-window" && (
-          <div>
+      <Section negativeMargin primary active={state.activeTab === "indexer"}>
+          <Editor>
             {state.indexers.length > 0 &&
               (state.selected_indexer != undefined ? (
                 <H2>{state.selected_indexer}</H2>
@@ -511,10 +487,10 @@ return (
                 accountId: selected_accountId ?? state.indexers[0].accountId,
                 path: "query-api-editor",
                 tab: props.tab,
+                activeView: state.activeIndexerView
               }}
             />
-          </div>
-        )}
+          </Editor>
         {state.activeTab === "create-new-indexer" && (
           <div>
             {state.indexers.length > 0 &&

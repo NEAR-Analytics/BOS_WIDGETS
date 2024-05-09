@@ -11,40 +11,39 @@ const menuLinks = [
   {
     icon: "trophy",
     label: "Progress",
-    component: "evaluator.near/widget/NCD.Progress",
+    component: "evaluator.near/widget/NCD.Pages.Progress",
   },
   {
     icon: "motherboard",
-    label: "How to Setup",
-    component: "evaluator.near/widget/NCD.Setup",
+    label: "Prerequisites",
+    component: "evaluator.near/widget/NCD.Pages.Prerequisites",
   },
   {
     icon: "book",
-    label: "Lesson 1",
+    label: "Lesson 1 - Hello Near",
     component: "evaluator.near/widget/NCD.Lessons.HelloNear",
   },
   {
     icon: "book",
-    label: "Lesson 2",
-    component: "evaluator.near/widget/NCD.Lessons.HelloNear",
+    label: "Lesson 2 - Guestbook",
+    component: "evaluator.near/widget/NCD.Lessons.GuestBook",
   },
   {
     icon: "star",
     label: "Evaluation",
-    component: "evaluator.near/widget/NCD.Lessons.HelloNear",
+    component: "evaluator.near/widget/NCD.Lessons.Evaluation-1 ",
   },
 ];
 
 const propsSelected = props.selected || menuLinks[0].component;
 const [selected, setSelected] = useState(propsSelected);
-
-console.log("selected", propsSelected, selected);
+const evaluator_contract = "eval.flmel.near";
 
 return (
   <div class="row mt-1">
     <div class="col-4">
       <Widget
-        src="gagdiez.near/widget/NCD.Menu"
+        src="evaluator.near/widget/NCD.Menu"
         props={{
           menuLinks,
           topics,
@@ -55,7 +54,7 @@ return (
       />
     </div>
     <div class="col-8 mx-auto">
-      <Widget src={selected} props={props} />
+      <Widget src={selected} props={{ evaluator_contract }} />
     </div>
   </div>
 );

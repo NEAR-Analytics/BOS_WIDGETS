@@ -44,12 +44,12 @@ if (!state.nameIsFetched) {
     "get",
     { keys: [`${accountId}/profile/name`] },
     "final",
-    false
+    false,
   ).then((data) =>
     State.update({
       name: data[accountId]?.profile?.name ?? name,
       nameIsFetched: true,
-    })
+    }),
   );
 }
 

@@ -34,13 +34,13 @@ if (!state.descriptionIsFetched) {
     "get",
     { keys: [`${accountId}/profile/**`] },
     "final",
-    false
+    false,
   ).then((data) =>
     State.update({
       profile: data[accountId].profile,
       description: data[accountId].profile.description,
       descriptionIsFetched: true,
-    })
+    }),
   );
   return <>Loading...</>;
 }
@@ -125,7 +125,7 @@ return (
               profile: {
                 verticals: verticals.reduce(
                   (acc, vertical) => Object.assign(acc, { [vertical]: "" }),
-                  {}
+                  {},
                 ),
               },
             }),
@@ -178,7 +178,7 @@ return (
         onSave: (description) =>
           Social.set(
             { profile: { description } },
-            { onCommit: () => State.update({ description }) }
+            { onCommit: () => State.update({ description }) },
           ),
         canEdit: props.isAdmin,
       }}

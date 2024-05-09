@@ -20,12 +20,19 @@ const Overlay = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  @media (max-width: 900px) {
+    align-items: flex-end;
+  }
 `;
 const Content = styled.div`
   width: 460px;
   border-radius: 16px;
   border: 1px solid #2c334b;
   background-color: #181a27;
+  @media (max-width: 900px) {
+    width: 100%;
+    border-radius: 16px 16px 0px 0px;
+  }
 `;
 const Header = styled.div`
   display: flex;
@@ -56,6 +63,9 @@ const CurrencyList = styled.div`
   padding: 0px 30px 20px;
   max-height: calc(80vh - 120px);
   overflow-x: auto;
+  @media (max-width: 900px) {
+    max-height: 50vh;
+  }
 `;
 const Empty = styled.div`
   min-height: 100px;
@@ -87,7 +97,7 @@ const Tokens = {
     decimals: 18,
     symbol: "ETH",
     name: "Ether",
-    icon: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+    icon: "https://storage.googleapis.com/prod-pendle-bucket-a/images/assets/simple/55ac44e4-bb2e-4637-92d8-3031b672670a.svg",
   },
   "0xEB466342C4d449BC9f53A865D5Cb90586f405215": {
     chainId: 8453,

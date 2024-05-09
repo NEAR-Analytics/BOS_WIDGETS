@@ -17,7 +17,7 @@ const arbitrumApr = fetch("https://backend-arbitrum.gains.trade/apr");
 
 if (arbitrumApr.ok) {
   let nev = arbitrumApr.body.sssApr.toFixed(2);
-  console.log("pparazi ni", nev);
+  console.log("apr gotten", nev);
   apr = nev;
 }
 

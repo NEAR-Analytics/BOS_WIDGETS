@@ -38,7 +38,7 @@ function href(widgetName, linkProps) {
   const linkPropsQuery = Object.entries(linkProps)
     .map(([key, value]) => `${key}=${value}`)
     .join("&");
-  return `#/${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.pages.${widgetName}${
+  return `/#/${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.pages.${widgetName}${
     linkPropsQuery ? "?" : ""
   }${linkPropsQuery}`;
 }
@@ -96,7 +96,7 @@ let grantNotify = Near.view("social.near", "is_write_permission_granted", {
 if (grantNotify === null) {
   return;
 }
-const onClick = () => {
+const onSubmit = () => {
   let labels = state.labelStrings;
   var body = {
     Comment: { description: state.description, comment_version: "V2" },
@@ -223,9 +223,7 @@ const setLabels = (labels) => {
       { editor: context.accountId, labels: [removed] }
     ).then((allowed) => {
       if (allowed) {
-        let labelStrings = labels.map((o) => {
-          return o.name;
-        });
+        let labelStrings = labels.map(({ name }) => name);
         State.update({ labels, labelStrings });
       } else {
         State.update({
@@ -404,7 +402,7 @@ return (
         </div>
       )}
 
-      <a className="btn btn-outline-primary mb-2" onClick={onClick}>
+      <a className="btn btn-outline-primary mb-2" onClick={onSubmit}>
         Submit
       </a>
       {disclaimer}

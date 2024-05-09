@@ -1,14 +1,217 @@
+//modal starts
+const [isModalOpen, setIsModalOpen] = useState(false);
+
+const openModal = () => {
+  setIsModalOpen(true);
+};
+
+const closeModal = () => {
+  setIsModalOpen(false);
+};
+
+const Modal = ({ isOpen, onClose }) => {
+  const overlayStyle = {
+    display: isOpen ? "block" : "none",
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    zIndex: 2,
+  };
+
+  const modalStyle = {
+    display: isOpen ? "block" : "none",
+    position: "fixed",
+    top: "20%",
+    borderRadius: "1rem",
+    left: "50%",
+    transform: "translateX(-50%)",
+    width: "350px",
+
+    height: "auto",
+    backgroundColor: "#fff",
+    padding: "20px",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+    zIndex: 3,
+  };
+
+  return (
+    <div style={overlayStyle} onClick={onClose}>
+      <div style={modalStyle} className="modal">
+        <div onClick={(e) => e.stopPropagation()} className="modal-content">
+          <p
+            style={{
+              fontSize: "1.2rem",
+              textAlign: "center",
+              paddingTop: "5px",
+            }}
+          >
+            {isLoading && "Please wait..."}
+          </p>
+          <p
+            style={{
+              color: "red",
+              textAlign: "center",
+              paddingTop: "5px",
+              display: errorMessage ? "block" : "none",
+            }}
+          >
+            {errorMessage && errorMessage}
+          </p>
+
+          <div class="modal-header">
+            <h5 class="modal-title">Submit your Detail</h5>
+            <span
+              style={{ fontSize: "2rem", cursor: "pointer" }}
+              className="close"
+              onClick={onClose}
+            >
+              &times;
+            </span>
+          </div>
+          <div class="modal-body">
+            <div class="form">
+              <div class="mb-3">
+                <label for="name" class="form-label">
+                  Name
+                </label>
+                <input
+                  value={fullname || ""}
+                  onChange={(e) => setFullname(e.target.value)}
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  aria-describedby="nameHelp"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">
+                  Email
+                </label>
+                <input
+                  value={email || ""}
+                  onChange={(e) => setEmail(e.target.value)}
+                  type="email"
+                  class="form-control"
+                  id="email"
+                />
+              </div>
+
+              <button
+                data={formData}
+                type="submit"
+                class="btn btn-primary"
+                onClick={(e) => {
+                  e.preventDefault();
+                  sendData(formData);
+                }}
+              >
+                Submit
+              </button>
+              <div id="terms" class="form-text">
+                By continuing, you accept Near Fortune’s terms of service and
+                privacy policy.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const NotificationModal = ({ isOpen, onClose }) => {
+  const overlayStyle = {
+    display: isOpen ? "block" : "none",
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    zIndex: 2,
+  };
+
+  const modalStyle = {
+    display: isOpen ? "block" : "none",
+    position: "fixed",
+    top: "20%",
+    borderRadius: "1rem",
+    left: "50%",
+    transform: "translateX(-50%)",
+    width: "350px",
+    height: "auto",
+    backgroundColor: "#fff",
+    padding: "20px",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+    zIndex: 3,
+  };
+
+  return (
+    <div style={overlayStyle} onClick={onClose}>
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={modalStyle}
+        className="modal"
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <h5 class="modal-title" id="name">
+            NFT Check
+          </h5>
+          <span
+            style={{ fontSize: "2rem", cursor: "pointer" }}
+            className="close"
+            onClick={onClose}
+          >
+            &times;
+          </span>
+        </div>
+        <div>
+          Ops! You must have one of the following nfts to enter the raffle{" "}
+          <br />
+          - Kano is bos jollof - 1 <br />
+          - Kano is bos jollof - 2 <br />
+          - Black Dragon Token - 652 <br />
+          - Black Dragon Token - 531 <br />- ShardDog - 1555 <br />- NEARWEEK
+          NEWSLETTER EDITION #146 - 33
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ButtonWithModal = ({ openModal }) => {
+  return (
+    <div>
+      <button
+        style={{ padding: "12px", width: "120px", marginBottom: "10px" }}
+        onClick={openModal}
+      >
+        Enter
+      </button>
+    </div>
+  );
+};
+
+//modal ends
+
 const Image1 =
   "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588123/rafflestore/weekBanner_cwsvjc.png";
 const Image2 =
   "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588098/rafflestore/post1_e3ffre.png";
 
 const Wrapper = styled.div`
-    color: #fff;
     text-align: center;
     padding: 2rem;
     --tw-bg-opacity: 1;
-    background-color: black;
     border-radius: 0.75rem;
     justify-content: space-evenly;
     align-items: center;
@@ -53,76 +256,6 @@ const StyledIcon = styled.img`
     height: auto;
 `;
 
-const Post = (
-  <Wrapper>
-    <h2>Entered</h2>
-    <ImageGroup>
-      <StyledImage src={Image1} alt="raffle pics" />
-      <StyledImage src={Image2} alt="raffle pics" />
-    </ImageGroup>
-    <p>
-      Thanks for entering the raffle! Winners will be emailed on Dec. 15 11:59pm
-    </p>
-    <ShareBtn>
-      <span>Share on twitter</span>
-    </ShareBtn>
-  </Wrapper>
-);
-
-const backgroundImage =
-  "https://res.cloudinary.com/zbsoft/image/upload/v1700160172/raffle/background.png";
-
-const bannerImg =
-  "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588123/rafflestore/weekBanner_cwsvjc.png";
-
-const sharDogIcon =
-  "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588115/rafflestore/gift_ebqnkb.svg";
-
-State.init({ fullname: "", email: "", formSubmitted: false });
-
-const formData = {
-  fullname: state.fullname,
-  email: state.email,
-};
-
-const accountId = context.accountId;
-const contractId = "mint.sharddog.near";
-
-const returnedData = Social.get(`${accountId}/formData/*`);
-
-console.log(returnedData + "Great");
-
-if (!contractId) {
-  return `Missing "contractId"`;
-}
-
-if (!accountId) {
-  return `Please login`;
-}
-
-const nfts = Near.view(contractId, "nft_tokens_for_owner", {
-  account_id: accountId,
-  from_index: "0",
-  limit: 200,
-});
-
-const nftTitle = "Kano is bos jollof - 1";
-const id = "mint.sharddog.near:2cdbb07ea61d7a4175791ca1170ee4c3";
-State.init({ nftCheck: false });
-
-for (let i = 0; i < nfts.length; i++) {
-  if (nftTitle === nfts[i].metadata.title) {
-    State.update({ nftCheck: true });
-    break;
-  }
-}
-
-if (!nfts) {
-  return "";
-}
-
-console.log(state.fullname);
-console.log(state.email);
 const Container = styled.div`
 
 `;
@@ -148,6 +281,8 @@ overflow: clip;
 `;
 
 const RaffleContent = styled.div`
+background-color: white;
+color: black;
 display: flex;
 align-items: center;
 justify-content: center;
@@ -160,6 +295,8 @@ width: 90%;
 `;
 
 const TitleContainer = styled.div`
+background-color: white;
+color: black;
 padding: 1rem 1.25rem;
 border: 2px solid #e5e7eb;
 border-radius: 10px;
@@ -236,7 +373,7 @@ const PrizeBtn = styled.button`
     padding: 0.5rem 1rem;
     border-width: 1px;
     border-radius: 1rem;
-    align-items: flex-end;
+    align-items: center;
     flex-direction: column;
     display: flex;
     gap: 10px;
@@ -254,13 +391,7 @@ const EnterBtnWrapper = styled.div`
 `;
 
 const EnterBtn = styled.button`
-    color: #fff;
-    padding: 1rem 3rem;
-    background-color :#003C8C;
-    border-width: 1px;
-    border-radius: 0.75rem;
-    cursor: pointer;
-        margin-bottom: 10px;
+   
 `;
 
 const RaffleSummary = styled.div`
@@ -282,114 +413,164 @@ const Entries = styled.div`
    width: 50%;
 `;
 
-if (returnedData) {
+const Post = (
+  <Wrapper>
+    <h2>Entered</h2>
+    <ImageGroup>
+      <StyledImage src={Image1} alt="raffle pics" />
+      <StyledImage src={Image2} alt="raffle pics" />
+    </ImageGroup>
+    <p>
+      Thanks for entering the raffle! Winners will be emailed on Feb. 15 11:59pm
+    </p>
+    <ShareBtn>
+      <span>Share on twitter</span>
+    </ShareBtn>
+  </Wrapper>
+);
+
+const backgroundImage =
+  "https://res.cloudinary.com/zbsoft/image/upload/v1700160172/raffle/background.png";
+
+const bannerImg =
+  "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1706123137/rafflestore/IMG-20240107-WA0036_bxl0f4.jpg";
+
+const sharDogIcon =
+  "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588115/rafflestore/gift_ebqnkb.svg";
+
+const accountId = context.accountId;
+const contractId = "mint.sharddog.near";
+
+const returnedData = Social.get(`${accountId}/formData/*`);
+
+if (!contractId) {
+  return `Missing "contractId"`;
+}
+
+if (!accountId) {
+  return `Please login`;
+}
+
+const [email, setEmail] = useState("");
+const [fullname, setFullname] = useState("");
+const [message, setSuccessMessage] = useState("");
+const [errorMessage, setErrorMessage] = useState("");
+const [isLoading, setIsLoading] = useState(false);
+const [summary, setSummary] = useState(false);
+
+console.log(email);
+
+console.log(fullname);
+const sendData = () => {
+  if (!email.trim() || !fullname.trim()) {
+    setErrorMessage("Please enter both email and name");
+    return;
+  }
+  setIsLoading(true);
+  asyncFetch("https://rafflestore.000webhostapp.com/api/register.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: `email=${encodeURIComponent(email)}&fullname=${encodeURIComponent(
+      fullname
+    )}`,
+  })
+    .then((response) => {
+      console.log(response.body.status);
+
+      if (response.ok) {
+        if (response.body.status === "success") {
+          setSuccessMessage(
+            "Thanks for participating, we would get back to you soon"
+          );
+          setErrorMessage("");
+          setEmail("");
+          setFullname("");
+          console.log("Data submitted successfully");
+        } else if (
+          response.body.status === "error" &&
+          response.body.message === "Email already exists."
+        ) {
+          setErrorMessage("Email already exists, try different one");
+          setSuccessMessage("");
+          console.log("Email already exists...");
+          console.log(response.body.message + "test");
+          console.log(errorMessage);
+        } else {
+          setErrorMessage("Failed to submit data, try again");
+          console.log("Failed to submit data, try again");
+        }
+      } else {
+        console.log(`HTTP error! Status: ${response.status}`);
+      }
+    })
+    .finally(() => {
+      setIsLoading(false);
+      setSummary(true);
+    });
+};
+
+const nfts = Near.view(contractId, "nft_tokens_for_owner", {
+  account_id: accountId,
+  from_index: "0",
+  limit: 200,
+});
+
+const nftTitle = "Kano is bos jollof - 1";
+const nftTitle2 = "Black Dragon Token - 652";
+const nftTitle3 = "ShardDog - 1555";
+const nftTitle4 = "Kano is bos jollof - 2";
+const nftTitle5 = "Black Dragon Token - 531";
+const nftTitle6 = "NEARWEEK NEWSLETTER EDITION #146 - 33";
+
+console.log(nfts[0].metadata.title);
+console.log(nfts);
+
+const id = "mint.sharddog.near:2cdbb07ea61d7a4175791ca1170ee4c3";
+State.init({ nftCheck: false });
+
+for (let i = 0; i < nfts.length; i++) {
+  if (
+    nfts[i].metadata.title === nftTitle ||
+    nfts[i].metadata.title === nftTitle2 ||
+    nfts[i].metadata.title === nftTitle3 ||
+    nfts[i].metadata.title === nftTitle4 ||
+    nfts[i].metadata.title === nftTitle5 ||
+    nfts[i].metadata.title === nftTitle6
+  ) {
+    State.update({ nftCheck: true });
+    break;
+  }
+}
+
+if (!nfts) {
+  return "";
+}
+
+if (summary && !errorMessage) {
   return Post;
 }
+
+// if (returnedData) {
+//   return Post;
+// }
 
 return (
   <>
     {state.nftCheck ? (
-      <div
-        class="modal fade"
-        id="raffleModal"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
-                @
-              </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <div class="form">
-                <div class="mb-3">
-                  <label for="name" class="form-label">
-                    Name
-                  </label>
-                  <input
-                    onChange={(e) => State.update({ fullname: e.target.value })}
-                    type="text"
-                    class="form-control"
-                    id="emainamel"
-                    aria-describedby="nameHelp"
-                  />
-                </div>
-                <div class="mb-3">
-                  <label for="email" class="form-label">
-                    Email
-                  </label>
-                  <input
-                    onChange={(e) => State.update({ email: e.target.value })}
-                    type="email"
-                    class="form-control"
-                    id="email"
-                  />
-                </div>
-
-                <CommitButton
-                  data={formData}
-                  type="submit"
-                  class="btn btn-primary"
-                >
-                  Submit
-                </CommitButton>
-                <div id="terms" class="form-text">
-                  By continuing, you accept Near Fortune’s terms of service and
-                  privacy policy.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Modal isOpen={isModalOpen} onClose={closeModal} />
     ) : (
-      <div
-        class="modal fade"
-        id="raffleModal"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
-                Sharddog NFT Check
-              </h5>
-              <button
-                style={{ marginLeft: "20px" }}
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              Ops! You must have ShardDog - 1555 or Game Gallery NFT to enter
-              the raffle
-            </div>
-          </div>
-        </div>
-      </div>
+      <NotificationModal isOpen={isModalOpen} onClose={closeModal} />
     )}
 
     <Container>
-      <Widget src="nearfortuneraffle.near/widget/nearfortuneraffle.header" />
       <Banner>
         <StyledImg src={bannerImg} alt="banner" />
       </Banner>
       <RaffleContent>
         <TitleContainer>
-          <Title>SharDog Raffle</Title>
+          <Title>Black Dragon Raffle</Title>
           <Description>
             <img src={sharDogIcon} alt="shardDog icon" />
             <Text>Available for 3 winners</Text>
@@ -401,12 +582,18 @@ return (
             onchain.
           </InstructionContent>
           <InstructionContent>
-            If you have a <b>ShardDog - 1555</b> or <b>Game Gallery NFT</b> you
-            can enter the raffle to win!
+            <b>If you have one of the following:</b> <br />
+            Black Dragon Token - 652 <br />
+            Kano is bos jollof - 1 <br />
+            Kano is bos jollof - 2 <br />
+            Black Dragon Token - 531 <br />
+            ShardDog - 1555 <br />
+            NEARWEEK NEWSLETTER EDITION #146 - 33
+            <br /> <b>you can enter the raffle to win!</b>
           </InstructionContent>
         </InstructionWrapper>
         <PrizeWrapper>
-          <PrizeTitle>You don’t have any?</PrizeTitle>
+          <PrizeTitle>Do you want to participate?</PrizeTitle>
           <PrizeContent>
             <PrizeIcon>
               <PrizeBtn>
@@ -418,21 +605,14 @@ return (
               <span>
                 <b>Prize to win:</b>
               </span>
-              <li>1.10 $NEAR</li>
-              <li>2.T-shirt</li>
-              <li>3.Mystery Box</li>
+              <li>1. 10 $NEAR</li>
+              <li>2. T-shirt</li>
+              <li>3. Mystery Box</li>
             </PrizeDetail>
           </PrizeContent>
         </PrizeWrapper>
         <EnterBtnWrapper>
-          <EnterBtn
-            type="button"
-            class="btn btn-primary"
-            data-bs-toggle="modal"
-            data-bs-target="#raffleModal"
-          >
-            Enter
-          </EnterBtn>
+          <ButtonWithModal openModal={openModal} />
           <span
             style={{
               fontWeight: "bold",
@@ -444,7 +624,6 @@ return (
             <a href="#" class="underline">
               privacy
             </a>
-            .
           </span>
         </EnterBtnWrapper>
 
@@ -452,7 +631,7 @@ return (
           <CloseDate>
             <h4 style={{ fontWeight: "700", margin: "0" }}>CLOSES</h4>
             <p style={{ fontSize: "0.75rem", lineHeight: "1rem" }}>
-              Dec 13, 11:59 PM GMT+1
+              Feb 15, 11:59 PM GMT+1
             </p>
           </CloseDate>
           <Entries>

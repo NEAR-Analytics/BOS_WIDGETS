@@ -7,40 +7,13 @@ State.init({
   expand: false,
 });
 let myHomePagePath;
-let myHomePagePathDataFromCache;
-let myHomePagePathFromCache;
 let customHomeLoaded;
 if (canCustomHome) {
-  // myHomePagePath = Social.get(`${context.accountId}/myHomePagePath`);
-  // myHomePagePathDataFromCache = Storage.get(
-  //   "myHomePagePathData",
-  //   "ref-admin.near/widget/apply-as-home-button"
-  // );
-  // myHomePagePathFromCache =
-  //   myHomePagePathDataFromCache &&
-  //   myHomePagePathDataFromCache[context.accountId];
   myHomePagePath = Social.get(`${context.accountId}/myHomePagePath`);
 }
-// if (
-//   myHomePagePathFromCache == undefined ||
-//   myHomePagePath == undefined ||
-//   (myHomePagePath == myHomePagePathFromCache &&
-//     myHomePagePath !== null &&
-//     myHomePagePathDataFromCache !== null)
-// ) {
-//   customHomeLoaded = true;
-// }
 if (myHomePagePath !== null) {
   customHomeLoaded = true;
 }
-// console.log("555555555555555-canCustomHome", canCustomHome);
-// console.log("555555555555555-myHomePagePath", myHomePagePath);
-// console.log(
-//   "555555555555555-myHomePagePathDataFromCache",
-//   myHomePagePathDataFromCache
-// );
-// console.log("555555555555555-myHomePagePathFromCache", myHomePagePathFromCache);
-// console.log("555555555555555-customHomeLoaded", customHomeLoaded);
 // find all instances of the user agreeing to some version of the desired TOS
 const agreementsForUser = Social.index("tosAccept", acceptanceKey, {
   accountId: context.accountId, // make sure it was written by the user in question
@@ -157,16 +130,6 @@ const showTos =
   (!agreementsForUser.length ||
     agreementsForUser[agreementsForUser.length - 1].value < latestTosVersion);
 const targetComponentSrc = myHomePagePath || targetComponent;
-
-console.log(
-  targetComponentSrc,
-  "targetComponentSrc",
-  showTos,
-  canCustomHome,
-  customHomeLoaded,
-  canCustomHome,
-  targetProps
-);
 
 return (
   <div>

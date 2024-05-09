@@ -200,35 +200,62 @@ const StakeFormWrapper = styled.div`
   width: 100%;
   max-width: 500px;
   padding-top: 10px;
-  background: #1A2E33;
+  background: #25283A;
   border-radius: 16px;
   margin-top:20px;
   padding-bottom:20px;
   .contentArea{
-    background: #142427;
+    background: #25283A;
     border-radius: 16px;
-    padding:20px 30px;
+    padding:20px 30px 0 30px;
+  }
+  .contentArea p{
+    color: #7C7F96;
+    font-size:14px;
+  }
+  .contentArea hr{
+    background: #373A53;
+    height:2px;
+  }
+  .arr .bigIcon{
+    background: #373A53;
+  }
+  .arr .boldText{
+    font-weight: 500;
+  }
+  .arr .apr{
+    color: #7C7F96;
+  }
+  .arr .apr .value{
+    color:#FFFFFF;
+    font-weight: 500;
+  }
+  .footer p{
+    color:#FFFFFF;
   }
 `;
 
 return (
   <StakeFormWrapper>
-    <Widget
-      src={`${config.ownerId}/widget/stake-bannerIcon`}
-      props={{
-        firstIconName: "xREF",
-        firstIconUrl:
-          "https://ipfs.near.social/ipfs/bafkreierdf2ykpfcctanlt7s5xcd5jp7cydnvm3vztdl7ywlwowvuspg4e",
-        secondIconName: "REF",
-        secondIconUrl:
-          "https://ipfs.near.social/ipfs/bafkreiauvwi7qjcy2ddzcjobr274vshstk7up22fnr3dbul2lypp755j44",
-        componentType: "xref",
-      }}
-    ></Widget>
+    <div class="arr">
+      <Widget
+        src={`${config.ownerId}/widget/stake-bannerIcon`}
+        props={{
+          firstIconName: "xREF",
+          firstIconUrl:
+            "https://ipfs.near.social/ipfs/bafkreierdf2ykpfcctanlt7s5xcd5jp7cydnvm3vztdl7ywlwowvuspg4e",
+          secondIconName: "",
+          secondIconUrl:
+            "https://ipfs.near.social/ipfs/bafkreiauvwi7qjcy2ddzcjobr274vshstk7up22fnr3dbul2lypp755j44",
+          componentType: "xref",
+        }}
+      ></Widget>
+    </div>
     <div class="contentArea">
       <Widget
         src={`${config.ownerId}/widget/LiNEAR.Input`}
         props={{
+          firstIconName: "xREF",
           placeholder: "0",
           value: state.inputValue,
           onChange,
@@ -244,19 +271,18 @@ return (
           disabled: disabledStakeButton,
           text: "Unstake",
           type: "outline",
+          firstIconName: "xREF",
         }}
       />
-      <Widget
-        src={`${config.ownerId}/widget/LiNEAR.Message.YouWillReceive`}
-        props={{ text: `${youWillReceive} REF` }}
-      />
+      <div class='footer'>
+        <Widget
+          src={`${config.ownerId}/widget/LiNEAR.Message.YouWillReceive`}
+          props={{
+            text: `${youWillReceive} REF`, secondIconName: "REF",
+            secondIconUrl: "https://ipfs.near.social/ipfs/bafkreiauvwi7qjcy2ddzcjobr274vshstk7up22fnr3dbul2lypp755j44",
+          }}
+        />
+      </div>
     </div>
-    <Widget
-      src={`${config.ownerId}/widget/LiNEAR.Tab`}
-      props={{
-        updateTabName: props.updateTabName,
-        tabName: "unstake",
-      }}
-    ></Widget>
   </StakeFormWrapper>
 );

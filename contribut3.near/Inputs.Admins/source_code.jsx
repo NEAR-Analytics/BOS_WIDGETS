@@ -49,7 +49,7 @@ if (!state.followingIsFetched) {
     "get",
     { keys: [`${context.accountId}/graph/follow/*`] },
     "final",
-    false
+    false,
   ).then((data) => {
     const following = (
       Object.keys(data).length > 0
@@ -69,7 +69,7 @@ if (!state.followersIsFetched) {
     "get",
     { keys: [`*/graph/follow/${context.accountId}`] },
     "final",
-    false
+    false,
   ).then((data) => {
     const followers = Object.keys(data ?? {}).map((name) => ({ name }));
     State.update({
@@ -115,14 +115,14 @@ return (
         label: "Add admins",
         placeholder: "Start typing",
         options: [...state.followers, ...state.following].filter(
-          ({ name }) => !permissionsMembers.includes(name)
+          ({ name }) => !permissionsMembers.includes(name),
         ),
         value: state.permissions,
         onChange: (permissions) => {
           State.update({ permissions });
           Object.assign(
             props.permissions,
-            ...permissions.map(({ name }) => ({ [name]: [] }))
+            ...permissions.map(({ name }) => ({ [name]: [] })),
           );
           update(props.permissions);
         },

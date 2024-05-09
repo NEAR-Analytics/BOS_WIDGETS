@@ -25,7 +25,7 @@ if (!state.requestIsFetched) {
     "get_request",
     { account_id: accountId, cid },
     "final",
-    false
+    false,
   ).then((request) => State.update({ request, requestIsFetched: true }));
 }
 
@@ -38,7 +38,7 @@ if (!state.isAdminIsFetched) {
       "check_is_project_admin",
       { project_id: accountId, account_id: context.accountId },
       "final",
-      false
+      false,
     ).then((isAdmin) => State.update({ isAdmin, isAdminIsFetched: true }));
   }
 }
@@ -255,7 +255,7 @@ return (
             props={{
               onClick: () => {
                 clipboard.writeText(
-                  `https://near.org/${ownerId}/widget/Index?tab=request&accountId=${accountId}&cid=${cid}`
+                  `https://near.org/${ownerId}/widget/Index?tab=request&accountId=${accountId}&cid=${cid}`,
                 );
               },
               text: (

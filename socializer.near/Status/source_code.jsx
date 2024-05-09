@@ -1,7 +1,8 @@
 const menu = props.menu ?? { value: "live" };
+const length = props.length ?? 0;
 
 return (
-  <div className="d-flex" style={{ gap: 25, paddingLeft: 30, marginTop: -50 }}>
+  <div className="d-flex" style={{ gap: 20 }}>
     <div>
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -27,7 +28,7 @@ return (
           viewBox="0 0 24 24"
         >
           <path
-            fill={"#be7c05"}
+            fill={"#be3105"}
             d="M9.043 5.793L2.836 12l6.207 6.207l1.414-1.414L5.664 12l4.793-4.793l-1.414-1.414Zm5.914 12.414L21.164 12l-6.207-6.207l-1.414 1.414L18.336 12l-4.793 4.793l1.414 1.414Z"
           />
         </svg>

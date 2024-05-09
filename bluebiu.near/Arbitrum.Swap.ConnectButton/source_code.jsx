@@ -7,7 +7,7 @@ const {
   chainName,
 } = props;
 
-const account = Ethers.send("eth_requestAccounts", [])[0];
+const account = props.account || Ethers.send("eth_requestAccounts", [])[0];
 
 const ConnectWrapper = styled.div`
   display: flex;
@@ -23,7 +23,7 @@ const ConnectWrapper = styled.div`
   }
 
   .connect-button {
-    background-color: var(--button-color);
+    background: var(--button-color);
     width: 100%;
     max-width: 488px;
     height: 60px;
@@ -33,11 +33,14 @@ const ConnectWrapper = styled.div`
     font-size: 18px;
     font-weight: 700;
     &:active {
-      background-color: var(--button-color);
+      background: var(--button-color);
     }
     &:focus-visible {
       box-shadow: none;
     }
+  }
+  .empty-img {
+    height: 10vh;
   }
   @media (max-width: 768px) {
     .bridge-text {
@@ -54,7 +57,11 @@ const ConnectWrapper = styled.div`
 
 return (
   <ConnectWrapper>
-    {imgProps && <img {...imgProps} className="connect-img" />}
+    {imgProps && imgProps.src ? (
+      <img {...imgProps} className="connect-img" />
+    ) : (
+      <div className="empty-img" />
+    )}
     <div className="bridge-text">
       {!account && noAccountTips}
       {isWrongNetwork && wrongNetworkTips}

@@ -282,7 +282,6 @@ const MINT_BURN_FEE_BASIS_POINTS = 25;
 const STABLE_TAX_BASIS_POINTS = 5;
 const TAX_BASIS_POINTS = 60;
 const BASIS_POINTS_DIVISOR = 10000;
-const PLACEHOLDER_ACCOUNT = "0x769Fc809C22747F73D98D3E7a79921CFa840BFCc";
 
 const MARGIN_FEE_BASIS_POINTS = 10;
 const LEVERAGE_SHORTCUTS = [2, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50];
@@ -1124,7 +1123,6 @@ State.init({
   sender: undefined,
   network: undefined,
   chainId: undefined,
-  showSettings: false,
   tokenBalances: undefined,
   vaultTokenInfo: undefined,
   fromToken: undefined,
@@ -1143,6 +1141,9 @@ State.init({
   gasPrice: undefined,
   feesUsd: undefined,
   anchorOnFromAmount: true,
+  infoTokens: undefined,
+  tokensInfo: undefined,
+  chainsMap: Object.values(CHAINS),
 });
 const {
   fromValue,
@@ -1150,7 +1151,6 @@ const {
   sender,
   network,
   chainId,
-  showSettings,
   tokenBalances,
   vaultTokenInfo,
   fromToken,
@@ -1169,6 +1169,9 @@ const {
   gasPrice,
   feesUsd,
   anchorOnFromAmount,
+  infoTokens,
+  tokensInfo,
+  chainsMap,
 } = state;
 
 // RECONNECT TO WALLET
@@ -1194,6 +1197,12 @@ if (sender) {
       } else {
         State.update({ chainId: "unsupported" });
       }
+    });
+
+  Ethers.provider()
+    .getGasPrice()
+    .then((result) => {
+      State.update({ gasPrice: result });
     });
 }
 
@@ -1278,20 +1287,17 @@ const readerContract = new ethers.Contract(
   Ethers.provider() && Ethers.provider().getSigner()
 );
 
-readerContract
-  .getTokenBalances(sender || PLACEHOLDER_ACCOUNT, tokenAddresses)
-  .then((result) => {
+if (sender) {
+  readerContract.getTokenBalances(sender, tokenAddresses).then((result) => {
     State.update({ tokenBalances: result });
   });
 
-readerContract
-  .getTokenBalancesWithSupplies(
-    sender || PLACEHOLDER_ACCOUNT,
-    tokensForBalanceAndSupplyQuery
-  )
-  .then((result) => {
-    State.update({ balancesAndSupplies: result });
-  });
+  readerContract
+    .getTokenBalancesWithSupplies(sender, tokensForBalanceAndSupplyQuery)
+    .then((result) => {
+      State.update({ balancesAndSupplies: result });
+    });
+}
 
 const vaultContract = new ethers.Contract(
   vaultAddress,
@@ -1327,20 +1333,26 @@ if (balancesAndSupplies && balancesAndSupplies && balancesAndSupplies[3]) {
   State.update({ usdgSupply: balancesAndSupplies[3] });
 }
 
-const { infoTokens } = useInfoTokens(
-  tokens,
-  tokenBalances,
-  indexPrices,
-  vaultTokenInfo
-);
+if (tokenBalances && vaultTokenInfo) {
+  const { infoTokens } = useInfoTokens(
+    tokens,
+    tokenBalances,
+    indexPrices,
+    vaultTokenInfo
+  );
 
-const tokensInfo = Object.values(infoTokens);
-if (
-  infoTokens &&
-  infoTokens[ADDRESS_ZERO].balance &&
-  !fromToken &&
-  sender !== PLACEHOLDER_ACCOUNT
-) {
+  State.update({
+    infoTokens: infoTokens,
+  });
+}
+
+if (infoTokens) {
+  State.update({
+    tokensInfo: Object.values(infoTokens),
+  });
+}
+
+if (infoTokens && infoTokens[ADDRESS_ZERO].balance && !fromToken) {
   State.update({
     fromToken: infoTokens[ADDRESS_ZERO],
     toToken: infoTokens[ADDRESS_ZERO],
@@ -1356,12 +1368,6 @@ const positionRouterContract = new ethers.Contract(
 positionRouterContract.minExecutionFee().then((result) => {
   State.update({ minExecutionFee: result });
 });
-
-Ethers.provider()
-  .getGasPrice()
-  .then((result) => {
-    State.update({ gasPrice: result });
-  });
 
 const { executionFee, executionFeeUsd } = useExecutionFee(
   infoTokens,
@@ -1410,8 +1416,6 @@ const liquidationPrice = getLiquidationPrice({
 
 const getIconForToken = (symbol) => {
   switch (symbol) {
-    case "ETH":
-      return <IconETH />;
     case "USDC":
       return <IconUSDC />;
     case "WBTC":
@@ -1907,49 +1911,25 @@ return (
           <div class="relative flex justify-center">
             <LogoZkEra />
             {chainId && (
-              <button
-                class="btn btn-xs btn-outline absolute right-0 top-0 text-white hover:bg-gray-900"
-                style={{ "border-color": "#43f574" }}
-                onClick={() => {
-                  State.update({ showSettings: !state.showSettings });
+              <select
+                onChange={(e) => {
+                  handleClickSwitchNetwork(e.target.value);
                 }}
+                class="btn btn-xs btn-outline absolute right-0 top-0 text-white hover:bg-gray-900"
               >
-                {chainId === "unsupported"
-                  ? "Unsupported network"
-                  : CHAINS[chainId].NETWORK_INFO.chainName}
-              </button>
-            )}
-
-            {/* settings menu */}
-            {state.showSettings && (
-              <div class="absolute right-0 top-8 bg-gray-900 rounded p-3">
-                <div class="flex flex-col gap-2">
-                  <button
-                    class={`btn btn-xs btn-outline${
-                      chainId === ZKSYNC_MAINNET ? " pointer-events-none" : ""
-                    }`}
-                    onClick={() => {
-                      chainId === ZKSYNC_MAINNET
-                        ? State.update({ showSettings: false })
-                        : handleClickSwitchNetwork(ZKSYNC_MAINNET);
-                    }}
-                  >
-                    {CHAINS[ZKSYNC_MAINNET].NETWORK_INFO.chainName}
-                  </button>
-                  <button
-                    class={`btn btn-xs btn-outline${
-                      chainId === ZKSYNC_TESTNET ? " pointer-events-none" : ""
-                    }`}
-                    onClick={() => {
-                      chainId === ZKSYNC_TESTNET
-                        ? State.update({ showSettings: false })
-                        : handleClickSwitchNetwork(ZKSYNC_TESTNET);
-                    }}
-                  >
-                    {CHAINS[ZKSYNC_TESTNET].NETWORK_INFO.chainName}
-                  </button>
-                </div>
-              </div>
+                {chainId === "unsupported" ? (
+                  <option value="unsupported">Unsupported network</option>
+                ) : (
+                  chainsMap.map((chain) => (
+                    <option
+                      value={chain.CHAIN_ID}
+                      selected={chain.CHAIN_ID === chainId}
+                    >
+                      {chain.NETWORK_INFO.chainName}
+                    </option>
+                  ))
+                )}
+              </select>
             )}
           </div>
 
@@ -1991,7 +1971,7 @@ return (
                 Balance:
                 <span class="text-white">
                   {formatAmount(
-                    fromToken && fromToken.balance,
+                    fromToken ? fromToken.balance : bigNumberify(0),
                     fromToken && fromToken.decimals,
                     4,
                     true
@@ -2021,9 +2001,13 @@ return (
                   }}
                   class="select-ghost bg-gray-800  text-2xl"
                 >
-                  {tokensInfo.map((token) => (
-                    <option value={token.address}>{token.symbol}</option>
-                  ))}
+                  {tokensInfo ? (
+                    tokensInfo.map((token) => (
+                      <option value={token.address}>{token.symbol}</option>
+                    ))
+                  ) : (
+                    <option value="eth">ETH</option>
+                  )}
                 </select>
               </div>
             </div>
@@ -2063,11 +2047,15 @@ return (
                   }}
                   class="select-ghost bg-gray-800  text-2xl"
                 >
-                  {tokensInfo
-                    .filter((token) => token.isTrading)
-                    .map((token) => (
-                      <option value={token.address}>{token.symbol}</option>
-                    ))}
+                  {tokensInfo ? (
+                    tokensInfo
+                      .filter((token) => token.isTrading)
+                      .map((token) => (
+                        <option value={token.address}>{token.symbol}</option>
+                      ))
+                  ) : (
+                    <option value="eth">ETH</option>
+                  )}
                 </select>
               </div>
             </div>
@@ -2148,12 +2136,19 @@ return (
           <label class="label pt-0 pb-1">
             <span class="label-text text-gray-400">Keeper Fee</span>
             <span class="label-text text-white">
-              {`${formatAmount(executionFee, 18, 4, true)} ETH ($${formatAmount(
-                executionFeeUsd,
-                USD_DECIMALS,
-                2,
-                true
-              )})`}
+              {executionFee && executionFeeUsd
+                ? `${formatAmount(
+                    executionFee,
+                    18,
+                    4,
+                    true
+                  )} ETH ($${formatAmount(
+                    executionFeeUsd,
+                    USD_DECIMALS,
+                    2,
+                    true
+                  )})`
+                : "-"}
             </span>
           </label>
         </div>

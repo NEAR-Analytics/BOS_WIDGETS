@@ -2,7 +2,7 @@ const HelpComponent = styled.div`
   display: flex;
   justify-content: center;
   width: 188px;
-  height: 352px;
+  height: 322px;
   border-radius: 10px;
   border: 0;
   color: white;
@@ -29,7 +29,8 @@ const Question = styled.div`
 `;
 
 const Text = styled.p`
-  margin: 0
+  margin: 0;
+  text-align:center;
 `;
 
 const Circle = styled.p`
@@ -41,20 +42,21 @@ const Circle = styled.p`
   border-radius: 50%;
 `;
 
-const HelpButton = styled.button`
+const HelpButton = styled.a`
   width: 156px;
   height: 40px;
   flex-shrink: 0;
   border-radius: 10px;
   background: #F3F3F3;
-  position: absolute;
   text-align: center;
-  font-size: 12px;
+  font-size: 13px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
   letter-spacing: -0.24px;
-  bottom: 16px;
+  text-decoration: none;
+  color: black;
+  padding: 10px;
 `;
 
 const QuestionIcon = () => (
@@ -136,20 +138,20 @@ return (
           right: -100,
         }}
       />
+      <div>
+        <Text>Need</Text>
+        <Text>Support?</Text>
+      </div>
 
-      <Text>Suggestions</Text>
-      <Text
-        style={{
-          fontSize: 12,
-          textAlign: "center",
-          letterSpacing: "-0.24px",
-          marginBottom: 10,
-        }}
+      <HelpButton
+        href="https://socializer-user-guide.nearverselabs.com/"
+        target="blank"
       >
-        Having Trouble in Learning. Please contact us for more questions.
-      </Text>
-
-      <HelpButton>Go To Help Center</HelpButton>
+        User Guide
+      </HelpButton>
+      <HelpButton href="https://t.me/NearverseLabs_Support" target="blank">
+        Telegram Support
+      </HelpButton>
     </HelpContent>
   </HelpComponent>
 );

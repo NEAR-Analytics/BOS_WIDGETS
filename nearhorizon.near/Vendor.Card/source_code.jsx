@@ -1,5 +1,6 @@
 const ownerId = "nearhorizon.near";
 const accountId = props.accountId;
+const large = props.large ?? false;
 
 State.init({
   tags: null,
@@ -10,6 +11,8 @@ State.init({
   contributionsIsFetched: false,
   vendor: null,
   vendorIsFetched: false,
+  isSuperAdmin: false,
+  isSuperAdminFetched: false,
 });
 
 if (!state.foundersIsFetched) {
@@ -18,7 +21,7 @@ if (!state.foundersIsFetched) {
     "get",
     { keys: [`${accountId}/profile/tags`] },
     "final",
-    false
+    false,
   ).then((tags) => State.update({ tags, tagsIsFetched: true }));
 }
 
@@ -28,9 +31,9 @@ if (!state.profileIsFetched) {
     "get",
     { keys: [`${accountId}/profile/**`] },
     "final",
-    false
+    false,
   ).then((data) =>
-    State.update({ profile: data[accountId].profile, profileIsFetched: true })
+    State.update({ profile: data[accountId].profile, profileIsFetched: true }),
   );
 }
 
@@ -40,9 +43,9 @@ if (!state.contributionsIsFetched) {
     "get_vendor_completed_contributions",
     { account_id: accountId },
     "final",
-    false
+    false,
   ).then((contributions) =>
-    State.update({ contributions, contributionsIsFetched: true })
+    State.update({ contributions, contributionsIsFetched: true }),
   );
 }
 
@@ -52,8 +55,20 @@ if (!state.vendorIsFetched) {
     "get_vendor",
     { account_id: accountId },
     "final",
-    false
+    false,
   ).then((vendor) => State.update({ vendor, vendorIsFetched: true }));
+}
+
+if (!state.isSuperAdminFetched && context.accountId) {
+  Near.asyncView(
+    ownerId,
+    "check_is_owner",
+    { account_id: context.accountId },
+    "final",
+    false,
+  ).then((isSuperAdmin) =>
+    State.update({ isSuperAdmin, isSuperAdminFetched: true }),
+  );
 }
 
 const Container = styled.div`
@@ -81,6 +96,15 @@ const Row = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
+
+  & > span {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    color: #11181c;
+  }
 `;
 
 const Tagline = styled.div`
@@ -173,25 +197,31 @@ const Description = styled.p`
 const body = (
   <>
     <Container>
-      <Widget
-        src={`${ownerId}/widget/Vendor.Icon`}
-        props={{ accountId: props.accountId, size: "4em" }}
-      />
-      <Details>
+      <a href={`/${ownerId}/widget/Index?tab=vendor&accountId=${accountId}`}>
         <Widget
-          src={`${ownerId}/widget/NameAndAccount`}
-          props={{
-            accountId: props.accountId,
-            name: state.profile.name,
-            nameSize: "1.125em",
-          }}
+          src={`${ownerId}/widget/Vendor.Icon`}
+          props={{ accountId: props.accountId, size: "64px" }}
         />
+      </a>
+      <Details>
+        <a href={`/${ownerId}/widget/Index?tab=vendor&accountId=${accountId}`}>
+          <Widget
+            src={`${ownerId}/widget/NameAndAccount`}
+            props={{
+              accountId: props.accountId,
+              name: state.profile.name,
+              nameSize: "1.125em",
+            }}
+          />
+        </a>
         <Row>
-          {state.profile.organization === "true"
-            ? "Organization"
-            : state.profile.organization === "false"
+          <span>
+            {state.profile.organization === "true"
+              ? "Organization"
+              : state.profile.organization === "false"
               ? "Individual"
-              : ""}
+              : "Organization"}
+          </span>
           {state.profile.active !== undefined ? (
             <Widget
               src={`${ownerId}/widget/ActiveIndicator`}
@@ -222,15 +252,18 @@ const body = (
       src={`${ownerId}/widget/DescriptionArea`}
       props={{ description: state.profile.description }}
     />
-    {/* <Description>{state.profile.description}</Description> */}
     <Widget
       src={`${ownerId}/widget/Tags`}
       props={{ tags: state.profile.tags }}
     />
-    <Items>
-      {requestsCompleted}
-      {rate}
-    </Items>
+    {large ? (
+      <Items>
+        {requestsCompleted}
+        {rate}
+      </Items>
+    ) : (
+      <></>
+    )}
   </>
 );
 
@@ -266,6 +299,25 @@ const Footer = styled.div`
   width: 100%;
 `;
 
+const SecondCta = state.isSuperAdmin ? (
+  <FooterButton
+    onClick={() =>
+      Near.call({
+        contractName: ownerId,
+        methodName: "verify_vendor",
+        args: { account_id: accountId },
+      })
+    }
+  >
+    Verify vendor
+  </FooterButton>
+) : (
+  <Widget
+    src={`${ownerId}/widget/Vendor.InviteSideWindow`}
+    props={{ accountId }}
+  />
+);
+
 const footer = (
   <Footer>
     <FooterButton
@@ -281,11 +333,12 @@ const footer = (
     >
       View details
     </FooterButton>
-    <Widget
-      src={`${ownerId}/widget/Vendor.InviteSideWindow`}
-      props={{ accountId }}
-    />
+    {SecondCta}
   </Footer>
 );
 
-return <Widget src={`${ownerId}/widget/Card`} props={{ body, footer }} />;
+if (large) {
+  return <Widget src={`${ownerId}/widget/Card`} props={{ body, footer }} />;
+}
+
+return <Widget src={`${ownerId}/widget/Card`} props={{ body }} />;

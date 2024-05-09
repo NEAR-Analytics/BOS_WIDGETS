@@ -1,21 +1,26 @@
 const TabContainer = styled.div`
+  width: 40%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #142427;
+  background: #373a53;
   border-radius: 8px;
-  padding: 6px;
-  margin:20px 30px 0 30px;
+  padding: 1px 2px;
+  border: 1px #373a53 solid;
+
+  @media (max-width: 770px) {
+    width: 100%;
+  }
 `;
 
 const TabItem = styled.div`
-flex-grow:1;
-   display: flex;
+  flex-grow: 1;
+  display: flex;
   justify-content: center;
   align-items: center;
-  height: 28px;
-  border-radius: 6px;
-  font-weight: 700;
+  height: 40px;
+  border-radius: 8px;
+  font-weight: 500;
   font-size: 16px;
   cursor: pointer;
   transition: all 0.3s ease-in-o;
@@ -26,8 +31,8 @@ return (
   <TabContainer>
     <TabItem
       style={{
-        background: tabName === "stake" ? "#273C41" : "transparent",
-        color: tabName === "stake" ? "#fff" : "#7E96A8",
+        background: tabName === "stake" ? "#00FFA3" : "transparent",
+        color: tabName === "stake" ? "#332C4B" : "#FFFFFF",
       }}
       onClick={() => props.updateTabName("stake")}
     >
@@ -35,8 +40,8 @@ return (
     </TabItem>
     <TabItem
       style={{
-        background: tabName === "unstake" ? "#273C41" : "transparent",
-        color: tabName === "unstake" ? "#fff" : "#7E96A8",
+        background: tabName === "unstake" ? "#00FFA3" : "transparent",
+        color: tabName === "unstake" ? "#332C4B" : "#FFFFFF",
       }}
       onClick={() => props.updateTabName("unstake")}
     >

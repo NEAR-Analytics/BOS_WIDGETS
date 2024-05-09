@@ -1,4 +1,6 @@
+const Owner = "socializer.near";
 const accountId = context.accountId;
+
 if (!accountId) return;
 
 const API_URL = props.API_URL || "http://localhost:3000";
@@ -31,6 +33,7 @@ const ModalOverlay = styled.div`
   z-index: 100;
   width: 400px;
   height: 100%;
+  overflow: auto;
   @media (max-width: 510px) {
     right: 10px;
     top: 54px;
@@ -117,13 +120,14 @@ const getVerifyState = () => {
       const { error, data } = res.body;
       if (error) State.update({ error, loading: false });
       else if (data) {
-        const { like, follow, repost, comment, human } = data;
+        const { like, follow, repost, comment, human, finished } = data;
         State.update({
           like,
           follow,
           repost,
           comment,
           human,
+          error: finished ? "" : "Please complete all tasks",
           loaded: true,
           loading: false,
         });
@@ -147,7 +151,7 @@ const verifyEnter = () => {
       const { error, data } = res.body;
       if (error) State.update({ error, loading: false });
       else if (data) {
-        const { like, follow, repost, comment, human } = data;
+        const { like, follow, repost, comment, human, finished } = data;
         State.update({
           like,
           follow,
@@ -156,6 +160,11 @@ const verifyEnter = () => {
           human,
           loading: false,
         });
+        if (finished) {
+          setTimeout(() => {
+            onClose("Participation Successful");
+          }, 3000);
+        }
       }
     }
   });
@@ -173,7 +182,7 @@ return (
           borderColor: "white",
           color: "black",
         }}
-        onClick={onClose}
+        onClick={() => onClose("")}
       >
         X
       </button>
@@ -197,7 +206,7 @@ return (
         <p>
           {`Please ensure you do the tasks below before clicking on Verify & Enter:`}
         </p>
-        <p>{`Campaign Id: ${data._id}`}</p>
+        <p>{`Campaign Id: ${data.id}`}</p>
         {data?.requirements.map((row, index) => (
           <div className="d-flex justify-content-between align-items-center">
             <p>
@@ -234,6 +243,9 @@ return (
             )}
           </div>
         ))}
+        {state.error && (
+          <p style={{ fontSize: 14, margin: 0, color: "red" }}>{state.error}</p>
+        )}
       </div>
     </ModalContent>
     <ModalAction>

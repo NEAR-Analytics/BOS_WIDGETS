@@ -10,6 +10,7 @@ const Container = styled.div`
   gap: 1em;
   padding: 0.5em 0.2em;
   max-width: 100%;
+  font-size: 0.9em;
 `;
 
 const Heading = styled.div`
@@ -34,20 +35,24 @@ if (!state.profileIsFetched) {
     "get",
     { keys: [`${accountId}/profile/**`] },
     "final",
-    false
+    false,
   ).then((profile) =>
     State.update({
       profile: profile[accountId].profile,
       profileIsFetched: true,
-    })
+    }),
   );
   return <>Loading...</>;
 }
 
 const onSave = (profile) => {
-  Near.call("social.near", "set", {
-    data: { [accountId]: { profile } },
-  });
+  Social.set(
+    { profile },
+    {
+      onCommit: () =>
+        State.update({ profile: { ...state.profile, ...profile } }),
+    },
+  );
 };
 
 return (
@@ -80,12 +85,29 @@ return (
         label: "Specialization",
         id: "specialization",
         value: state.profile.specialization,
-        options: [{ name: "Venture investments", id: "venture" }],
-        onSave: ([{ id: specialization }]) => onSave({ specialization }),
+        options: [{ value: "Venture investments", text: "venture" }],
+        onSave: ({ value: specialization }) => onSave({ specialization }),
         canEdit: isAdmin,
       }}
     />
     <Widget
+      src={`${ownerId}/widget/Inputs.Viewable.Verticals`}
+      props={{
+        label: "Verticals",
+        value: state.profile.verticals ?? { [state.profile.category]: "" },
+        onSave: (verticals) =>
+          onSave({
+            profile: {
+              verticals: verticals.reduce(
+                (acc, vertical) => Object.assign(acc, { [vertical]: "" }),
+                {},
+              ),
+            },
+          }),
+        canEdit: isAdmin,
+      }}
+    />
+    {/*<Widget
       src={`${ownerId}/widget/Inputs.Viewable.Tags`}
       props={{
         label: "Area of interest",
@@ -108,7 +130,7 @@ return (
           }),
         canEdit: isAdmin,
       }}
-    />
+    />*/}
     <Widget
       src={`${ownerId}/widget/Inputs.Viewable.Text`}
       props={{

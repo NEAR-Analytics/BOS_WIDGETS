@@ -81,8 +81,8 @@ if (!kanbanColumns) {
 }
 
 const CursorPointer = styled.p`
-  cursor: pointer;
-`;
+    cursor: pointer;
+  `;
 
 const articlesPerLabel = kanbanColumns.map((cl) => {
   let articlesOnThisColumn = articles.filter((article) => {
@@ -102,7 +102,7 @@ function getColumnWidth() {
 }
 
 return (
-  <div>
+  <div className="container">
     <div className="row mb-2">
       {kanbanRequiredTags.length > 0 ? (
         <div className="col">
@@ -119,7 +119,10 @@ return (
                   }
                 >
                   <Widget
-                    src={widgets.newStyledComponents.Element.Badge}
+                    src={
+                      widgets.views.standardWidgets.newStyledComponents.Element
+                        .Badge
+                    }
                     props={{
                       children: label,
                       variant: "round info",
@@ -147,7 +150,10 @@ return (
                   }
                 >
                   <Widget
-                    src={widgets.newStyledComponents.Element.Badge}
+                    src={
+                      widgets.views.standardWidgets.newStyledComponents.Element
+                        .Badge
+                    }
                     props={{
                       children: label,
                       variant: "round info",
@@ -165,7 +171,7 @@ return (
     <div className="row">
       {articlesPerLabel.map((col) => {
         return (
-          <div className={`col-${getColumnWidth()}`}>
+          <div className={`col-lg-${getColumnWidth()} col-12 mb-4`}>
             <div className="card">
               <div className="card-body border-secondary">
                 <h6 className="card-title">
@@ -174,7 +180,7 @@ return (
                 {col.articles.map((article) => {
                   return (
                     <Widget
-                      src={widgets.compactPost}
+                      src={widgets.views.editableWidgets.compactPost}
                       props={{
                         widgets,
                         article,

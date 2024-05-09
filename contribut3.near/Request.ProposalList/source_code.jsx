@@ -14,7 +14,7 @@ if (!state.itemsIsFetched) {
     "get_request_proposals",
     { account_id: accountId, cid },
     "final",
-    false
+    false,
   ).then((items) => State.update({ items, itemsIsFetched: true }));
 
   return <>Loading...</>;
@@ -33,6 +33,8 @@ return (
     <Widget
       src={`${ownerId}/widget/List`}
       props={{
+        full: true,
+        filter: ([_, vendorId]) => vendorId.includes(search),
         search,
         items: state.items,
         createItem: ([[projectId, cid], vendorId]) => (

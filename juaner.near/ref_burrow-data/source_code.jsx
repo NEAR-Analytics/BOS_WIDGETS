@@ -129,8 +129,12 @@ function getAssets() {
   });
 }
 
+const assets = getAssets();
+
+if (!assets || !assets.length) return <div />;
+
 // get balance of every asset on account
-const getBalances = (assets) => {
+const getBalances = () => {
   if (!assets) return;
   const balances = accountId
     ? assets.map(({ token_id }) =>
@@ -143,20 +147,20 @@ const getBalances = (assets) => {
 
 // sum all balances for supplied or borrowed
 // it's used for computing the net liquidity apy
-const getTotalBalance = (assets, source) =>
+const getTotalBalance = (source) =>
   assets
     .map((asset) => {
-      const netTvlMultiplier = asset.config.net_tvl_multiplier / 10000;
       return (
-        toUsd(asset[source].balance, asset) * netTvlMultiplier +
-        (source === "supplied"
-          ? toUsd(asset.reserved, asset) * netTvlMultiplier
-          : 0)
+        toUsd(asset[source].balance, asset) +
+        (source === "supplied" ? toUsd(asset.reserved, asset) : 0)
       );
     })
     .reduce(sumReducer, 0);
 
-const getNetLiquidityAPY = (assets, netLiquidityFarm, account) => {
+const supplied = getTotalBalance("supplied");
+const borrowed = getTotalBalance("borrowed");
+
+const getNetLiquidityAPY = (netLiquidityFarm, account) => {
   const totalDailyNetLiquidityRewards = Object.entries(netLiquidityFarm.rewards)
     .map(([rewardTokenId, farm]) => {
       const rewardAsset = assets.find((a) => a.token_id === rewardTokenId);
@@ -172,9 +176,6 @@ const getNetLiquidityAPY = (assets, netLiquidityFarm, account) => {
       );
     })
     .reduce(sumReducer, 0);
-
-  const supplied = getTotalBalance(assets, "supplied");
-  const borrowed = getTotalBalance(assets, "borrowed");
 
   const totalProtocolLiquidity = supplied - borrowed;
   const netLiquidtyAPY =
@@ -204,11 +205,10 @@ const getNetLiquidityAPY = (assets, netLiquidityFarm, account) => {
 };
 
 // get all farm rewards for each asset
-const getRewards = (assets, account) => {
+const getRewards = (account) => {
   if (!netLiquidityFarm) return;
 
   const [apyRewardTvl, rewardTokensTVL] = getNetLiquidityAPY(
-    assets,
     netLiquidityFarm,
     account
   );
@@ -308,18 +308,48 @@ const getAccount = () => {
   return account;
 };
 
-const assets = getAssets();
-
-if (!assets) return <div />;
-const balances = getBalances(assets);
+const balances = getBalances();
 const account = getAccount();
-const rewards = getRewards(assets, account);
+const rewards = getRewards(account);
 if (!rewards) return <div />;
+const getProtocolRewards = () => {
+  const rewards = Object.entries(netLiquidityFarm.rewards).map(
+    ([tokenId, farm]) => {
+      const asset = assets.find((asset) => asset.token_id == tokenId);
+      const { name, symbol, icon } = asset.metadata;
+      const assetDecimals =
+        asset.metadata.decimals + asset.config.extra_decimals;
+      const dailyAmount = Number(
+        shrinkToken(farm.reward_per_day, assetDecimals)
+      );
+      const remainingAmount = Number(
+        shrinkToken(farm.remaining_rewards, assetDecimals)
+      );
+      return {
+        icon,
+        name,
+        symbol,
+        tokenId,
+        dailyAmount,
+        remainingAmount,
+        price: asset.price?.usd || 0,
+      };
+    }
+  );
+  const amount = rewards.reduce((acc, r) => acc + r.dailyAmount * r.price, 0);
+  // .toFixed(4);
+
+  return amount > 0 && amount < 0.0001 ? "< 0.0001" : Big(amount).toFixed(4);
+};
+const dailyRewards = getProtocolRewards();
 const data = {
   assets,
   rewards,
   balances,
   account,
+  supplied,
+  borrowed,
+  dailyRewards,
 };
 
 if (typeof props.onLoad === "function") {

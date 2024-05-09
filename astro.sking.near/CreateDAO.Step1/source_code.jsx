@@ -73,9 +73,9 @@ return (
               </span>
             </>
           ),
-          placeholder:
-            state.answers.address ?? "sample-dao-name.sputnik-dao.near",
-          value: state.answers.address,
+          placeholder: "sample-dao-name.sputnik-dao.near",
+          value:
+            state.answers.address === "" ? undefined : state.answers.address,
           size: "md",
           disabled: true,
           onChange: (v) => onValueChange("address", v),

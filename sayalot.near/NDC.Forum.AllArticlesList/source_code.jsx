@@ -19,14 +19,16 @@ let {
   sbtWhiteList,
   sbts,
   handleShareButton,
+  handleShareSearch,
   canLoggedUserCreateArticles,
   filterBy,
   callLibs,
   baseActions,
   handleOnCommitArticle,
+  sharedSearchInputValue,
 } = props;
 
-const libSrcArray = [widgets.libUpVotes];
+const libSrcArray = [widgets.libs.libUpVotes];
 
 let initLibsCalls = { upVotes: [] };
 
@@ -50,6 +52,7 @@ if (articlesToRender.length > 0) {
 State.init({
   start: Date.now(),
   libsCalls: initLibsCalls,
+  searchInputValue: sharedSearchInputValue ?? "",
 });
 
 if (state.upVotesBySBT && Object.keys(state.upVotesBySBT).length > 0) {
@@ -70,13 +73,34 @@ let finalArticlesWithUpVotes = articlesToRender.map((article) => {
   }
 });
 
+const articlesFilteredBySerch =
+  !state.searchInputValue || state.searchInputValue === ""
+    ? finalArticlesWithUpVotes
+    : finalArticlesWithUpVotes.filter((article) => {
+        if (article.title && article.body && article.author) {
+          return (
+            article.title
+              .toLowerCase()
+              .includes(state.searchInputValue.toLowerCase()) ||
+            article.body
+              .toLowerCase()
+              .includes(state.searchInputValue.toLowerCase()) ||
+            article.author
+              .toLowerCase()
+              .includes(state.searchInputValue.toLowerCase())
+          );
+        } else {
+          return true;
+        }
+      });
+
 const fiveDaysTimeLapse = 432000000;
 
-const newestArticlesWithUpVotes = finalArticlesWithUpVotes
+const newestArticlesWithUpVotes = articlesFilteredBySerch
   .filter((article) => article.timeLastEdit > Date.now() - fiveDaysTimeLapse)
   .sort((a, b) => b.timeLastEdit - a.timeLastEdit);
 
-const olderArticlesWithUpVotes = finalArticlesWithUpVotes
+const olderArticlesWithUpVotes = articlesFilteredBySerch
   .filter((article) => article.timeLastEdit < Date.now() - fiveDaysTimeLapse)
   .sort((a, b) => b.upVotes.length - a.upVotes.length);
 
@@ -96,17 +120,36 @@ const NoMargin = styled.div`margin: 0 0.75rem;`;
 const AccordionBody = styled.div`padding: 0;`;
 
 const ArticlesListContainer = styled.div`
-  background-color: rgb(248, 248, 249);
-  margin: 0;
-`;
+    background-color: rgb(248, 248, 249);
+    margin: 0;
+  `;
 
 const CallLibrary = styled.div`
-  display: none;
-`;
+    display: none;
+  `;
 
 const IconCursorPointer = styled.i`
-  cursor: pointer;
-`;
+    cursor: pointer;
+  `;
+
+const ShareSearchRow = styled.div`
+    display: flex;
+    justify-content: flex-start;
+    align-content: center;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+  `;
+
+const ShareSearchText = styled.h6`
+    margin-bottom: 0;
+    margin-left: 1rem;
+    margin-right: 1rem;
+  `;
+
+const SearchResult = styled.span`
+    margin-left: 0.5rem;
+    font-size: small;
+  `;
 
 //=================================================END CONSTS=======================================================
 
@@ -125,6 +168,10 @@ function allArticlesListStateUpdate(obj) {
   State.update(obj);
 }
 
+function handleSearch(e) {
+  State.update({ searchInputValue: e.target.value });
+}
+
 //================================================END FUNCTIONS=====================================================
 return (
   <>
@@ -134,7 +181,7 @@ return (
           <NoMargin className="accordion-item">
             <h2 className="accordion-header" id="headingOne">
               <button
-                className="accordion-button collapsed"
+                className="accordion-button collapsed border border-2"
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#collapseOne"
@@ -152,7 +199,7 @@ return (
             >
               <AccordionBody className="accordion-body">
                 <Widget
-                  src={widgets.create}
+                  src={widgets.views.editableWidgets.create}
                   props={{
                     isTest,
                     addressForArticles,
@@ -179,13 +226,46 @@ return (
     ) : (
       <h6>You can't post since you don't own this SBT</h6>
     )}
+    <Widget
+      src={widgets.views.standardWidgets.styledComponents}
+      props={{
+        Input: {
+          label: "Search",
+          value: state.searchInputValue,
+          type: "text",
+          placeholder: "You can search by title, content or author",
+          handleChange: handleSearch,
+        },
+      }}
+    />
+    {state.searchInputValue !== "" &&
+      state.searchInputValue &&
+      sortedFinalArticlesWithUpVotes.length > 0 && (
+        <SearchResult className="text-secondary">
+          {`Found ${sortedFinalArticlesWithUpVotes.length} articles searching for "${state.searchInputValue}"`}
+        </SearchResult>
+      )}
+    <ShareSearchRow>
+      <ShareSearchText>Share search</ShareSearchText>
+      <Widget
+        src={widgets.views.standardWidgets.newStyledComponents.Input.Button}
+        props={{
+          size: "sm",
+          className: "info outline icon",
+          children: <i className="bi bi-share"></i>,
+          onClick: () => handleShareSearch(true, state.searchInputValue),
+        }}
+      />
+    </ShareSearchRow>
     <NoMargin>
       {filterBy.parameterName === "tag" && (
         <div className="mt-3">
           <h6>Filter by tag:</h6>
           <div className="d-flex align-items-center ">
             <Widget
-              src={widgets.newStyledComponents.Element.Badge}
+              src={
+                widgets.views.standardWidgets.newStyledComponents.Element.Badge
+              }
               props={{
                 children: filterBy.parameterValue,
                 variant: "round info",
@@ -211,29 +291,35 @@ return (
             // If some widget posts data different than an array it will be ignored
             if (!Array.isArray(article.tags)) article.tags = [];
             return (
-              <Widget
-                src={widgets.generalCard}
-                props={{
-                  widgets,
-                  isTest,
-                  data: article,
-                  displayOverlay: true,
-                  renderReactions: true,
-                  addressForArticles,
-                  handleOpenArticle,
-                  handleFilterArticles,
-                  authorForWidget,
-                  handleShareButton,
-                  sbtWhiteList,
-                  handleEditArticle,
-                  callLibs,
-                  baseActions,
-                }}
-              />
+              <div key={article.id}>
+                <Widget
+                  src={widgets.views.editableWidgets.generalCard}
+                  props={{
+                    widgets,
+                    isTest,
+                    data: article,
+                    displayOverlay: true,
+                    renderReactions: true,
+                    addressForArticles,
+                    handleOpenArticle,
+                    handleFilterArticles,
+                    authorForWidget,
+                    handleShareButton,
+                    sbtWhiteList,
+                    handleEditArticle,
+                    callLibs,
+                    baseActions,
+                  }}
+                />
+              </div>
             );
           })
         ) : (
-          <h5>No articles uploaded using this SBT yet</h5>
+          <h5>{`No articles ${
+            state.searchInputValue !== ""
+              ? `haver been found searching for ${state.searchInputValue}`
+              : "uploaded using this SBT yet"
+          }`}</h5>
         )}
       </ArticlesListContainer>
     </NoMargin>

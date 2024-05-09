@@ -107,8 +107,9 @@ return (
   <Wrapper
     className="container-xl"
     negativeMargin={state.selectedTab === "posts"}
+    // <Widget src="shemar268abel.near/widget/community.Page" />
   >
-    <Widget src="shemar268abel.near/widget/community.Page" />
+    <Widget src="shemar268abel.near/widget/Bac-Inc-landingpage" />
     <Tabs
       halfMargin={state.selectedTab === "apps"}
       noMargin={state.selectedTab === "posts"}
@@ -141,7 +142,7 @@ return (
         <Widget src="near/widget/LatestComponents" />
       </Section>
       <Section negativeMargin primary active={state.selectedTab === "posts"}>
-        <Widget src="shemar268abel.near/widget/MainPage.Content" />
+        <Widget src="shemar268abel.near/widget/Bac.Community.Feed" />
       </Section>
       <Section active={state.selectedTab === "explore"}>
         <Widget src="shemar268abel.near/widget/Welcome2" />
@@ -149,3 +150,5 @@ return (
     </Main>
   </Wrapper>
 );
+
+// <Widget src="shemar268abel.near/widget/MainPage.Content" />

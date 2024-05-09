@@ -1,4 +1,5 @@
 const ownerId = "nearhorizon.near";
+const apiUrl = "https://api-op3o.onrender.com";
 
 const Container = styled.div`
   display: flex;
@@ -67,7 +68,7 @@ if (!state.projectIsFetched) {
     "get_project",
     { account_id: props.accountId },
     "final",
-    false
+    false,
   ).then((project) => State.update({ project, projectIsFetched: true }));
 }
 
@@ -77,12 +78,12 @@ if (!state.profileIsFetched) {
     "get",
     { keys: [`${props.accountId}/profile/**`] },
     "final",
-    false
+    false,
   ).then((profile) =>
     State.update({
       profile: profile[props.accountId].profile,
       profileIsFetched: true,
-    })
+    }),
   );
 }
 
@@ -91,18 +92,17 @@ if (!state.projectIsFetched || !state.profileIsFetched) {
 }
 
 if (state.project.credits) {
-  asyncFetch(
-    `https://api-op3o.onrender.com/data/credits/projects/${props.accountId}/balance`
-  ).then(({ body: credits }) => State.update({ credits }));
+  asyncFetch(`${apiUrl}/data/credits/projects/${props.accountId}/balance`).then(
+    ({ body: credits }) => State.update({ credits }),
+  );
 }
 
-asyncFetch("https://api-op3o.onrender.com/data/projects/completion").then(
-  ({ body: { list } }) =>
-    State.update({
-      completion: list
-        .find(({ id }) => id === props.accountId)
-        .completion.toLocaleString("en-US", { style: "percent" }),
-    })
+asyncFetch(`${apiUrl}/data/projects/completion`).then(({ body: { list } }) =>
+  State.update({
+    completion: list
+      .find(({ id }) => id === props.accountId)
+      .completion.toLocaleString("en-US", { style: "percent" }),
+  }),
 );
 
 return (

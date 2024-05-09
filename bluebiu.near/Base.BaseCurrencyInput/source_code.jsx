@@ -6,13 +6,19 @@ const Wrapper = styled.div`
   padding: 5px 0px;
 `;
 const InputField = styled.div`
-  flex-grow: 1;
+  width: calc(100% - 160px);
   margin-right: 8px;
+  @media (max-width: 768px) {
+    width: calc(100% - 115px);
+  }
 `;
 const InputWarpper = styled.div`
   height: 46px;
   border-bottom: 1px solid #332c4b;
   padding: 10px 0px;
+  @media (max-width: 900px) {
+    height: 40px;
+  }
 `;
 const Input = styled.input`
   font-size: 26px;
@@ -23,6 +29,10 @@ const Input = styled.input`
   border: none;
   height: 40px;
   vertical-align: bottom;
+  @media (max-width: 900px) {
+    font-size: 20px;
+    height: 34px;
+  }
 `;
 const Value = styled.div`
   padding-top: 10px;
@@ -32,6 +42,10 @@ const Value = styled.div`
 `;
 const CurrencyField = styled.div`
   width: 160px;
+  flex-shrink: 0;
+  @media (max-width: 768px) {
+    width: 115px;
+  }
 `;
 const CurrencySelect = styled.div`
   display: flex;
@@ -44,16 +58,29 @@ const CurrencySelect = styled.div`
   svg {
     color: #82a7ff;
   }
+  @media (max-width: 768px) {
+    svg {
+      width: 12px !important;
+    }
+    padding: 0px 12px 0px 6px;
+  }
 `;
 const CurrencyWrapper = styled.div`
   display: flex;
   align-items: center;
   height: 32px;
+  @media (max-width: 768px) {
+    width: calc(100% - 12px);
+  }
 `;
 const CurrencyIcon = styled.img`
   width: 32px;
   height: 32px;
   border-radius: 50%;
+  @media (max-width: 768px) {
+    width: 22px;
+    height: 22px;
+  }
 `;
 const CurrencySymbol = styled.div`
   font-size: 18px;
@@ -61,6 +88,16 @@ const CurrencySymbol = styled.div`
   margin-left: 7px;
   .fz-14 {
     font-size: 14px;
+  }
+  @media (max-width: 768px) {
+    width: calc(100% - 30px);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 14px;
+
+    .fz-14 {
+      font-size: 12px;
+    }
   }
 `;
 const Amount = styled.div`
@@ -82,8 +119,8 @@ const utils = {
   balanceFormated: () => {
     if (!props.currency?.address) return "-";
     if (!state.balanceLoaded) return "Loading";
-    if (state.balance === "0") return "0";
-    if (Big(state.balance).lt(0.0001)) return Big(state.balance).toPrecision(1);
+    if (state.balance === "0" || Big(state.balance).eq(0)) return "0";
+    if (Big(state.balance).lt(0.0001)) return "<0.0001";
     return Big(state.balance).toFixed(4, 0);
   },
   valueFormated: (amount) => {
@@ -112,7 +149,9 @@ const handlers = {
 const DELAY = 1000 * 60 * 5;
 const timer = Storage.privateGet("priceTimer");
 function getPrice() {
-  asyncFetch("https://mainnet-indexer.ref-finance.com/get-token-price")
+  asyncFetch(
+    "https://mainnet-indexer.ref-finance.com/get-token-price-by-dapdap"
+  )
     .then((res) => {
       const data = JSON.parse(res.body);
       data.native = data.aurora;
@@ -179,7 +218,7 @@ return (
         onClick={() => {
           const formatedBalance = utils.balanceFormated();
           if (!["-", "Loading", "0"].includes(formatedBalance))
-            props.onAmountChange?.(formatedBalance);
+            props.onAmountChange?.(state.balance);
         }}
       >
         Balance:{" "}

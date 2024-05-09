@@ -3,7 +3,8 @@ const id = props.id ?? "tags";
 const label = props.label ?? "Input";
 const value = props.value ?? [];
 const options = props.options ?? [];
-const onSave = props.onSave ?? (() => { });
+const onSave = props.onSave ?? (() => {});
+const canEdit = props.canEdit;
 
 const LabelArea = styled.div`
   display: flex;
@@ -55,14 +56,19 @@ return (
       label,
       value,
       edit,
-      view: (
-        <Widget
-          src={`${ownerId}/widget/Tags`}
-          props={{
-            tags: value.reduce((acc, { name }) => ({ ...acc, [name]: "" }), {}),
-          }}
-        />
-      ),
+      view:
+        value && value.length > 0 ? (
+          <Widget
+            src={`${ownerId}/widget/Tags`}
+            props={{
+              tags: value.reduce(
+                (acc, { name }) => ({ ...acc, [name]: "" }),
+                {},
+              ),
+            }}
+          />
+        ) : null,
+      canEdit,
     }}
   />
 );

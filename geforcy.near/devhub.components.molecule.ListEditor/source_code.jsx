@@ -1,7 +1,3 @@
-const { Tile } =
-  VM.require("geforcy.near/widget/devhub.components.molecule.Tile") ||
-  (() => <></>);
-
 const { data, setList, validate, invalidate } = props;
 
 const [newItem, setNewItem] = useState("");
@@ -71,6 +67,7 @@ return (
               inputProps: {
                 prefix: data.prefix,
               },
+              key: data.prefix + "new-list-item",
             }}
           />
         </div>
@@ -78,6 +75,7 @@ return (
           className="btn btn-success add-member"
           onClick={handleAddItem}
           disabled={newItem === ""}
+          data-testid="add-to-list"
         >
           <i className="bi bi-plus" />
         </button>

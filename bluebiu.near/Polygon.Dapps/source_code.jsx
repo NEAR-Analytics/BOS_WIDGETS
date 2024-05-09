@@ -3,7 +3,9 @@ const Container = styled.div`
   flex-wrap: wrap;
   gap: 30px 36px;
   color: #fff;
-  padding: 0 12px;
+  @media (max-width:900px) {
+    padding: 0 12px;
+  }
 `;
 
 const Search = styled.div`
@@ -64,11 +66,25 @@ const SearchIcon = (
 
 const dapps = [
   {
+    src: "bluebiu.near/widget/Polygon.All-in-one",
+    bannerImg:
+      "https://ipfs.near.social/ipfs/bafkreie3zvn25veakquygqqu3iotqqfmpqe2uak2twyyo3fobufedke6re",
+    icon: "https://ipfs.near.social/ipfs/bafkreidgxuisaaxa4vdzuwyijzxrohem6dtzs4kjqyow6nku5cnijbq7ki",
+    tags: ["Bridge","Dexes","Lending"],
+  },
+  {
     src: "bluebiu.near/widget/Polygon.Swap.Dex",
     bannerImg:
       "https://ipfs.near.social/ipfs/bafkreie3zvn25veakquygqqu3iotqqfmpqe2uak2twyyo3fobufedke6re",
     icon: "https://ipfs.near.social/ipfs/bafkreidgxuisaaxa4vdzuwyijzxrohem6dtzs4kjqyow6nku5cnijbq7ki",
     tags: ["Dexes"],
+  },
+  {
+    src: "bluebiu.near/widget/Polygon.Lending",
+    bannerImg:
+      "https://ipfs.near.social/ipfs/bafkreig4fkke5yg6jksrlyhe6aoi2fuh5tfvbqxqaq3d2pcnzhfforzziq",
+    icon: "https://ipfs.near.social/ipfs/bafkreib5huyjfeivbh3zvzxr5i53zb2ebnubsns6fzipfimyzhkj2ftbju",
+    tags: ["Lending"],
   },
 ];
 

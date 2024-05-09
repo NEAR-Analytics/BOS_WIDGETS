@@ -1,50 +1,50 @@
-const ownerId = "potlock.near";
-const renderItem = props.renderItem ?? ((item) => <div>{item}</div>);
+const { tab, shouldShuffle } = props;
+const responsive = props.responsive || [];
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 48px 64px;
-  gap: 40px;
+const { Feed } = VM.require("devs.near/widget/Feed") || {
+  Feed: () => <></>,
+};
+
+const items = useMemo(() => {
+  if (shouldShuffle) {
+    return [...props.items].sort(() => Math.random() - 0.5);
+  }
+  return props.items;
+}, [props.items, shouldShuffle]);
+
+const PAGE_SIZE = 9;
+
+const Grid = styled.div`
+  display: grid;
   width: 100%;
-  border-top: 2px #dbdbdb solid;
-  background: #fafafa;
-`;
+  padding-top: 20px;
+  padding-bottom: 32px;
 
-const List = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  width: 100%;
-  gap: 40px;
-  margin: -12px; /* Half of the margin you're giving to the children */
+  gap: 31px;
 
-  & > div {
-    margin: 12px; /* Add horizontal and vertical margins */
-
-    @media screen and (max-width: 768px) {
-      width: calc(100% - 24px); /* Subtract double the margin */
-    }
-
-    @media screen and (min-width: 768px) and (max-width: 1424px) {
-      width: calc(49% - 24px); /* Subtract double the margin */
-    }
-
-    @media screen and (min-width: 1424px) {
-      width: calc(32% - 24px); /* Subtract double the margin */
-    }
+  // For mobile devices (1 column)
+  @media screen and (max-width: 739px) {
+    grid-template-columns: repeat(1, 1fr);
+    ${props.tab !== "pot" && "padding-top: 40px;"}
   }
 
-  @media screen and (max-width: 768px) {
-    justify-content: center;
+  // For tablet devices (2 columns)
+  @media screen and (min-width: 740px) and (max-width: 1023px) {
+    grid-template-columns: repeat(2, 1fr);
   }
+
+  // For desktop devices (3 columns)
+  @media screen and (min-width: 1024px) {
+    grid-template-columns: repeat(${!props.maxCols || props.maxCols > 2 ? "3" : "2"}, 1fr);
+  }
+  ${responsive.map(
+    (view) =>
+      `
+    @media screen and (max-width: ${view.breakpoint}px) {
+      grid-template-columns: repeat(${view.items}, 1fr);
+    }
+    `
+  )}
 `;
 
-return (
-  <Container>
-    <List>{props.projects.map((project) => renderItem(project))}</List>
-  </Container>
-);
+return <Feed items={items} Item={props.renderItem} Layout={Grid} perPage={PAGE_SIZE} />;

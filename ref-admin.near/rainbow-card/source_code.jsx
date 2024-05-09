@@ -91,19 +91,15 @@ const Metadata = styled.div`
   }
 `;
 const Label = styled.div`
-  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 30px;
-  color: #fff;
   font-size: 16px;
   padding: 2px 16px;
-  background-color: rgba(26, 46, 51, 0.25);
+  color: #000000;
+  background: rgba(227, 233, 157, 1);
   @media (max-width: 900px) {
-    color: #000000;
     font-size: 12px;
     padding: 2px 10px;
-    background: rgba(227, 233, 157, 1);
-    border: none;
-  }
+  } 
 `;
 const Icon = styled.a`
   position: relative;

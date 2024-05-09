@@ -39,10 +39,14 @@ query_url_obj.forEach((item) => {
   });
   // Note: without using async/await or .then(), you won't get the body directly
   // so you may need additional handling here.
-  resultObject[item.name] = raw_data.body || [];
+  if (item.name == "Nakamoto Coefficient") {
+    resultObject[item.name] = raw_data.body || [];
+  } else {
+    resultObject[item.name] = raw_data.body || [];
+  }
 });
 
-console.log(resultObject);
+console.log(resultObject["Nakamoto Coefficient"][0]["Nakamoto Coefficient"]);
 
 return (
   <div className="container mx-auto p-4 bg-gray-900 rounded-lg">

@@ -285,6 +285,28 @@ const itemList = [
     ),
     src: `ref-admin.near/widget/xBox`,
   },
+  {
+    item: (
+      <Item role={role}>
+        <Widget
+          key={"bluebiu.near/widget/MetaPool.Stake"}
+          src="ref-admin.near/widget/ref-template-card"
+          props={{
+            src: `bluebiu.near/widget/MetaPool.Stake`,
+            isHome:
+              Social.get(`${context.accountId}/myHomePagePath`) ===
+              `bluebiu.near/widget/MetaPool.Stake`,
+            blockHeight: component.blockHeight,
+            imageSrc:
+              "https://ipfs.near.social/ipfs/bafkreigh2kjbnh2qsjbvex3mzezjugns2bdqebjnaon24eyc4gqy46idka",
+            role: role,
+            tags: ["Staking"],
+          }}
+        />
+      </Item>
+    ),
+    src: `bluebiu.near/widget/MetaPool.Stake`,
+  },
 ];
 
 return (

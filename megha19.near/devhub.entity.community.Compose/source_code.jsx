@@ -1,9 +1,8 @@
-if (!context.accountId) {
+const profileAccountId = props.profileAccountId;
+
+if (!profileAccountId) {
   return <></>;
 }
-
-const optimisticUpdateFn = props.optimisticUpdateFn;
-const clearOptimisticUpdateFn = props.clearOptimisticUpdateFn;
 
 State.init({
   image: {},
@@ -13,7 +12,8 @@ State.init({
   mentionsArray: [], // all the mentions in the description
 });
 
-const profile = Social.getr(`${context.accountId}/profile`);
+const [isSubmittingTransaction, setIsSubmittingTransaction] = useState(false);
+const profile = Social.getr(`${profileAccountId}/profile`);
 const autocompleteEnabled = true;
 
 const content = {
@@ -42,7 +42,7 @@ function extractMentions(text) {
 
 function extractTagNotifications(text, item) {
   return extractMentions(text || "")
-    .filter((accountId) => accountId !== context.accountId)
+    .filter((accountId) => accountId !== profileAccountId)
     .map((accountId) => ({
       key: accountId,
       value: {
@@ -69,7 +69,7 @@ function composeData() {
 
   const notifications = extractTagNotifications(state.text, {
     type: "social",
-    path: `${context.accountId}/post/main`,
+    path: `${profileAccountId}/post/main`,
   });
 
   if (notifications.length) {
@@ -81,32 +81,29 @@ function composeData() {
   return data;
 }
 
-function onCancel() {
-  if (clearOptimisticUpdateFn) {
-    clearOptimisticUpdateFn();
+const handleSubmit = () => {
+  const data = composeData();
+  if (props.onSubmit) {
+    props.onSubmit(data);
   }
-}
-
-function onPostClick() {
-  if (optimisticUpdateFn) {
-    const post = {
-      account_id: context.accountId,
-      block_height: "now",
-      block_timestamp: Date.now() * 1000000,
-      content,
-      comments: [],
-      accounts_liked: [],
-    };
-    optimisticUpdateFn(post);
+  if (props.isFinished) {
+    setIsSubmittingTransaction(true);
   }
-}
+};
 
-function onCommit() {
+function resetState() {
   State.update({
     image: {},
     text: "",
   });
 }
+
+useEffect(() => {
+  if (props.isFinished && props.isFinished() && isSubmittingTransaction) {
+    resetState();
+    setIsSubmittingTransaction(false);
+  }
+}, [props.isFinished]);
 
 function textareaInputHandler(value) {
   const words = value.split(/\s+/);
@@ -143,7 +140,6 @@ function autoCompleteAccountId(id) {
   );
   State.update((lastKnownState) => ({
     ...lastKnownState,
-    handler: "autocompleteSelected",
     text: updatedDescription,
     showAccountAutocomplete: false,
   }));
@@ -157,6 +153,14 @@ const Wrapper = styled.div`
     --padding: 12px;
   }
 `;
+
+const LoadingButtonSpinner = (
+  <span
+    class="submit-post-loading-indicator spinner-border spinner-border-sm"
+    role="status"
+    aria-hidden="true"
+  ></span>
+);
 
 const Avatar = styled.div`
   width: 40px;
@@ -228,10 +232,6 @@ const Textarea = styled.div`
 
     &:empty + p {
       display: block;
-    }
-
-    &:focus {
-      box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.05);
     }
   }
 `;
@@ -381,8 +381,9 @@ return (
       <PreviewWrapper>
         <Widget
           src="near/widget/v1.Posts.Post"
+          loading={<div className="w-100" style={{ height: "200px" }} />}
           props={{
-            accountId: context.accountId,
+            accountId: profileAccountId,
             blockHeight: "now",
             content,
           }}
@@ -404,6 +405,7 @@ return (
 
         <Textarea data-value={state.text}>
           <textarea
+            data-testid="compose-announcement"
             placeholder="What's happening?"
             onInput={(event) => textareaInputHandler(event.target.value)}
             onKeyUp={(event) => {
@@ -462,17 +464,15 @@ return (
         )}
       </button>
 
-      <CommitButton
-        disabled={!state.text}
-        force
-        data={composeData}
-        onCancel={onCancel}
-        onClick={onPostClick}
-        onCommit={onCommit}
+      <button
+        data-testid="post-btn"
+        disabled={isSubmittingTransaction || (!state.text && !state.image)}
+        onClick={handleSubmit}
         className="commit-post-button"
       >
+        {isSubmittingTransaction ? LoadingButtonSpinner : <></>}
         Post
-      </CommitButton>
+      </button>
     </Actions>
   </Wrapper>
 );

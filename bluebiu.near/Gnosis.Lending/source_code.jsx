@@ -16,51 +16,20 @@ const Theme = styled.div`
   --switch-color: #04795b;
   --switch-border-color: #32496a;
   --secondary-border-color: #3f577b;
+  --yours-table-title: #ffffff;
+  --claim-bg-hover-color: rgba(4, 121, 91, 1);
+  --claim-bg-color: rgba(4, 121, 91, 0.2);
+  --claim-border-color: rgba(4, 121, 91, 1);
+  --withdraw-color: #fff;
+  --replay-color: #fff;
+  --claim-color: #fff;
 `;
-const CHAIN_ID = 100;
-const CHAIN_NAME = "Gnosis";
 
 return (
   <Theme>
     <Widget
       src="bluebiu.near/widget/Avalanche.Lending.Collection"
-      props={{
-        chainId: CHAIN_ID,
-        chainName: CHAIN_NAME,
-        multicallv2: "0x072aD7f291AED59E7C4974EbdcF73B79DAC89051",
-        connectProps: {
-          imgProps: {
-            src: "https://ipfs.near.social/ipfs/bafkreigekiurmengyh5sgxt6bnjcyzgpf24nbluna4mry6ztfufregkvlm",
-            style: {
-              width: "140px",
-              height: "210px",
-              marginTop: "60px",
-            },
-          },
-          noAccountTips: `${CHAIN_NAME} Lending Collection`,
-          wrongNetworkTips: `To proceed, kindly switch to ${CHAIN_NAME} Chain.`,
-          chainId: CHAIN_ID,
-          chainName: CHAIN_NAME,
-        },
-        dapps: {
-          Agave: {
-            name: "Agave",
-            icon: "https://ipfs.near.social/ipfs/bafkreidnjva6lfgk24dzwhxrw2kuzegoochsczau5bqtmudhyyxvmcampq",
-            oracleAddress: "0x062B9D1D3F5357Ef399948067E93B81F4B85db7a",
-            PoolAddressProvider: "0x3673C22153E363B1da69732c4E0aA71872Bbb87F",
-            aaveProtocolDataProviderAddress:
-              "0xe6729389dea76d47b5bcb0ba5c080821c3b51329",
-            lendingPoolAddress: "0x5E15d5E33d318dCEd84Bfe3F4EACe07909bE6d9c",
-            wethGateway: "0x36A644cC38Ae257136EEca5919800f364d73FeFC",
-            data: "bluebiu.near/widget/Gnosis.Lending.AgaveData",
-            handlerCollateral:
-              "bluebiu.near/widget/Arbitrum.Lending.RadiantHandlerCollateral",
-            type: "aave2",
-            handlerCToken:
-              "bluebiu.near/widget/Arbitrum.Lending.RadiantActionHandler",
-          },
-        },
-      }}
+      props={props}
     />
   </Theme>
 );

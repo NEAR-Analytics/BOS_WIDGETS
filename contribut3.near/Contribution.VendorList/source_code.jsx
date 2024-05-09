@@ -12,7 +12,7 @@ if (!state.itemsIsFetched) {
     "get_vendor_contributions",
     { account_id: context.accountId },
     "final",
-    false
+    false,
   ).then((items) => State.update({ items, itemsIsFetched: true }));
 
   return <>Loading...</>;
@@ -28,6 +28,8 @@ return (
     <Widget
       src={`${ownerId}/widget/List`}
       props={{
+        full: true,
+        filter: ([_, vendor_id]) => vendor_id.includes(search),
         search,
         items: state.items,
         createItem: ([[project_id, cid], vendor_id]) => (

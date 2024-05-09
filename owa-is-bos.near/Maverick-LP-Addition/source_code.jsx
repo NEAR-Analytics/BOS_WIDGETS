@@ -95,42 +95,10 @@ const floatToFixed = (num, decimals) => {
   );
 };
 
-// Method to get token prices
-const getScale = () => {
-  asyncFetch(`https://api.mav.xyz/api/v3/tokenPrices/324`)
-    .catch((err) => {
-      console.log(err);
-    })
-    .then((res) => {
-      let priceTokenA, priceTokenB;
-      Object.entries(res.body.prices).forEach(([key, value]) => {
-        if (
-          state.selectedPoolOptions.tokenA.priceId == key ||
-          state.selectedPoolOptions.tokenA.address == key
-        ) {
-          priceTokenA = value;
-        }
-        if (
-          state.selectedPoolOptions.tokenB.priceId == key ||
-          state.selectedPoolOptions.tokenB.address == key
-        ) {
-          priceTokenB = value;
-        }
-      });
-      let scalesObj = {
-        priceTokenA: priceTokenA.usd,
-        priceTokenB: priceTokenB.usd,
-        scaleTokAToTokB: priceTokenA.usd / priceTokenB.usd,
-        scaleTokBToTokA: priceTokenB.usd / priceTokenA.usd,
-      };
-      State.update({ tokScales: scalesObj });
-    });
-};
-
 // Method to get user balances
 const getUserBalances = () => {
   const accounts = Ethers.send("eth_requestAccounts", []);
-  asyncFetch(`https://api.mav.xyz/api/v3/tokenBalances/324/${accounts[0]}`)
+  asyncFetch(`https://api.mav.xyz/api/v4/tokenBalances/324/${accounts[0]}`)
     .catch((err) => {
       console.log(err);
     })
@@ -141,38 +109,36 @@ const getUserBalances = () => {
 
 // Method to set user balances
 const setUserBalances = () => {
-  const tokABalance = state.userBalances.find(
-    (token) => token.symbol == state.selectedPoolOptions.tokenA.symbol
-  );
-  const tokBBalance = state.userBalances.find(
-    (token) => token.symbol == state.selectedPoolOptions.tokenB.symbol
-  );
+  const tokA = state.selectedPoolOptions.tokenA.symbol;
+  const tokB = state.selectedPoolOptions.tokenB.symbol;
+  const tokABalance = state.userBalances.find((token) => token.symbol == tokA);
+  const tokBBalance = state.userBalances.find((token) => token.symbol == tokB);
   tokABalance
     ? State.update({
         tokenABalance: {
-          fixed: (
-            parseFloat(tokABalance.tokenBalance).toFixed(6) - 0.000001
-          ).toString(),
+          fixed: (parseFloat(tokABalance.tokenBalance) - 0.00009)
+            .toFixed(8)
+            .toString(),
           unfixed: tokABalance.tokenBalanceBN,
         },
       })
-    : State.update({ tokABalance: undefined });
+    : State.update({ tokenABalance: undefined });
   tokBBalance
     ? State.update({
         tokenBBalance: {
-          fixed: (
-            parseFloat(tokBBalance.tokenBalance).toFixed(6) - 0.000001
-          ).toString(),
+          fixed: (parseFloat(tokBBalance.tokenBalance) - 0.00009)
+            .toFixed(8)
+            .toString(),
           unfixed: tokBBalance.tokenBalanceBN,
         },
       })
-    : State.update({ tokBBalance: undefined });
+    : State.update({ tokenBBalance: undefined });
 };
 
 // Method to get user NFT
 const getNFTUser = () => {
   const accounts = Ethers.send("eth_requestAccounts", []);
-  asyncFetch(`https://api.mav.xyz/api/v3/user/${accounts[0]}/324`)
+  asyncFetch(`https://api.mav.xyz/api/v4/user/${accounts[0]}/324`)
     .catch((err) => {
       console.log(err);
     })
@@ -185,8 +151,8 @@ const getNFTUser = () => {
 
 // Method to get pools
 const getPools = () => {
-  asyncFetch(`https://api.mav.xyz/api/v3/pools/324
-`)
+  asyncFetch(`https://api.mav.xyz/api/v4/pools/324
+          `)
     .catch((err) => {
       console.log(err);
     })
@@ -221,7 +187,7 @@ const getFeeWidthFormat = (n) => {
 
 // Format token balance
 const formatNumberBalanceToken = (n) => {
-  if(n < 0.01) {
+  if (n < 0.01) {
     return "< 0.01";
   }
   if (n >= 1000000) {
@@ -267,23 +233,24 @@ const setPoolOption = (allPoolOptions, poolOptionSelected) => {
 const getAccountAllowance = (data) => {
   let token = data.token;
   if (token.symbol == "ETH") {
-    if (data.mode == "TA") {
-      State.update({ tokenAAllowance: undefined });
-    } else {
-      State.update({ tokenBAllowance: undefined });
-    }
+    data.mode == "TA"
+      ? State.update({ tokenAAllowance: undefined })
+      : State.update({ tokenBAllowance: undefined });
   } else {
     asyncFetch(
       "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
     ).then((res) => {
+      const contract = token.address;
       const approveContract = new ethers.Contract(
-        token.address,
+        contract,
         res.body,
         Ethers.provider().getSigner()
       );
+      console.log(approveContract);
       approveContract
         .allowance(state.sender, state.routerContract)
         .then((res) => {
+          console.log(res);
           if (data.mode == "TA") {
             State.update({ tokenAAllowance: parseInt(res.toString()) });
           } else {
@@ -311,30 +278,69 @@ const addLiquidity = () => {
   let bins = state.selectedPoolOptions.bins;
 
   let amountInA, amountInB;
-  let inputA = parseFloat(state.amountInputTokenA).toString();
-  let inputB = parseFloat(state.amountInputTokenB).toString();
+  let inputA = state.amountInputTokenA;
+  let inputB = state.amountInputTokenB;
+  let usingETH =
+    state.selectedPoolOptions.tokenA.symbol == "ETH" ||
+    state.selectedPoolOptions.tokenB.symbol == "ETH";
+  let tokUsedETH =
+    state.selectedPoolOptions.tokenA.symbol == "ETH" ? "tokA" : "tokB";
 
   if (state.poolModeSelected.id == 0) {
     if (state.poolDistributionSelected.name == "Single Bin") {
-      amountInA = ethers.utils.parseUnits(inputA, 18);
-      amountInB = ethers.utils.parseUnits(inputB, 18);
+      amountInA = ethers.utils.parseUnits(
+        inputA,
+        state.selectedPoolOptions.tokenA.decimals
+      );
+      amountInB = ethers.utils.parseUnits(
+        inputB,
+        state.selectedPoolOptions.tokenB.decimals
+      );
     } else {
-      amountInA = ethers.utils.parseUnits(inputA, 18);
-      amountInB = ethers.utils.parseUnits(inputB, 18);
+      amountInA = ethers.utils.parseUnits(
+        inputA,
+        state.selectedPoolOptions.tokenA.decimals
+      );
+      amountInB = ethers.utils.parseUnits(
+        inputB,
+        state.selectedPoolOptions.tokenB.decimals
+      );
     }
   } else if (state.poolModeSelected.id == 3) {
-    amountInA = ethers.utils.parseUnits(inputA, 18);
-    amountInB = ethers.utils.parseUnits(inputB, 18);
+    amountInA = ethers.utils.parseUnits(
+      inputA,
+      state.selectedPoolOptions.tokenA.decimals
+    );
+    amountInB = ethers.utils.parseUnits(
+      inputB,
+      state.selectedPoolOptions.tokenB.decimals
+    );
   } else if (state.poolModeSelected.id == 1) {
-    amountInA = ethers.utils.parseUnits(inputA, 18);
-    amountInB = ethers.utils.parseUnits("0", 18);
+    amountInA = ethers.utils.parseUnits(
+      inputA,
+      state.selectedPoolOptions.tokenA.decimals
+    );
+    amountInB = ethers.utils.parseUnits(
+      "0",
+      state.selectedPoolOptions.tokenB.decimals
+    );
   } else if (state.poolModeSelected.id == 2) {
-    amountInA = ethers.utils.parseUnits("0", 18);
-    amountInB = ethers.utils.parseUnits(inputB, 18);
+    amountInA = ethers.utils.parseUnits(
+      "0",
+      state.selectedPoolOptions.tokenA.decimals
+    );
+    amountInB = ethers.utils.parseUnits(
+      inputB,
+      state.selectedPoolOptions.tokenB.decimals
+    );
   }
 
   const overrides = {
-    value: ethers.utils.parseUnits("0", 18),
+    value: usingETH
+      ? tokUsedETH == "tokA"
+        ? amountInA
+        : amountInB
+      : ethers.utils.parseUnits("0", 18),
     gasLimit: 3000000,
   };
 
@@ -382,8 +388,14 @@ const addLiquidity = () => {
               Math.ceil(state.binsToDistribute / 2)
             ).toString();
 
-            const amountInAFormated = ethers.utils.parseUnits(leftAmount, 18);
-            const amountInBFormated = ethers.utils.parseUnits(rightAmount, 18);
+            const amountInAFormated = ethers.utils.parseUnits(
+              leftAmount,
+              state.selectedPoolOptions.tokenA.decimals
+            );
+            const amountInBFormated = ethers.utils.parseUnits(
+              rightAmount,
+              state.selectedPoolOptions.tokenB.decimals
+            );
 
             for (let i = 0; i < state.binsToDistribute; i++) {
               const pos = position + i - Math.floor(state.binsToDistribute / 2);
@@ -411,8 +423,14 @@ const addLiquidity = () => {
               Math.ceil(state.binsToDistribute / 2)
             ).toString();
 
-            const amountInAFormated = ethers.utils.parseUnits(leftAmount, 18);
-            const amountInBFormated = ethers.utils.parseUnits(rightAmount, 18);
+            const amountInAFormated = ethers.utils.parseUnits(
+              leftAmount,
+              state.selectedPoolOptions.tokenA.decimals
+            );
+            const amountInBFormated = ethers.utils.parseUnits(
+              rightAmount,
+              state.selectedPoolOptions.tokenB.decimals
+            );
 
             for (let i = 0; i < state.binsToDistribute; i++) {
               const pos = position + i - Math.floor(state.binsToDistribute / 2);
@@ -476,7 +494,10 @@ const addLiquidity = () => {
               const pos = position + i - Math.floor(state.binsToDistribute / 2);
               let newDeltaA =
                 pos <= position
-                  ? ethers.utils.parseUnits(amountExpL[i].toString(), 18)
+                  ? ethers.utils.parseUnits(
+                      amountExpL[i].toString(),
+                      state.selectedPoolOptions.tokenA.decimals
+                    )
                   : 0;
               let newDeltaB =
                 pos >= position
@@ -484,7 +505,7 @@ const addLiquidity = () => {
                       amountExpR[
                         i - Math.floor(state.binsToDistribute / 2)
                       ].toString(),
-                      18
+                      state.selectedPoolOptions.tokenB.decimals
                     )
                   : 0;
 
@@ -540,7 +561,10 @@ const addLiquidity = () => {
               const pos = position + i - Math.floor(state.binsToDistribute / 2);
               let newDeltaA =
                 pos <= position
-                  ? ethers.utils.parseUnits(amountExpL[i].toString(), 18)
+                  ? ethers.utils.parseUnits(
+                      amountExpL[i].toString(),
+                      state.selectedPoolOptions.tokenA.decimals
+                    )
                   : 0;
               let newDeltaB =
                 pos >= position
@@ -548,7 +572,7 @@ const addLiquidity = () => {
                       amountExpR[
                         i - Math.floor(state.binsToDistribute / 2)
                       ].toString(),
-                      18
+                      state.selectedPoolOptions.tokenB.decimals
                     )
                   : 0;
 
@@ -583,8 +607,10 @@ const addLiquidity = () => {
               State.update({
                 step: 1,
                 poolSelected: undefined,
+                selectedPoolOptions: undefined,
+                poolOptions: undefined,
                 poolModeSelected: POOLSMODE[0],
-                poolDistributionSelected: DISTRIBUTIONMODE[2],
+                poolDistributionSelected: DISTRIBUTIONMODE[0],
                 needMoreAllowanceTA: false,
                 needMoreAllowanceTB: false,
                 amountInputTokenA: null,
@@ -595,8 +621,15 @@ const addLiquidity = () => {
                 need2Tokens: true,
                 addingLiquidity: false,
                 onlyRight: false,
+                tokenABalance: undefined,
+                tokenBBalance: undefined,
+                tokenAAllowance: undefined,
+                tokenBAllowance: undefined,
+                moreTokenAAllowance: undefined,
+                moreTokenBAllowance: undefined,
               });
-            }, 20000);
+              getUserBalances();
+            }, 25000);
           });
       } catch (err) {
         console.log(err);
@@ -608,7 +641,7 @@ const addLiquidity = () => {
 // Method to set pool
 const handlePoolSelect = (data) => {
   const pool = state.poolList.find((p) => p.name === data.target.value);
-  asyncFetch(`https://api.mav.xyz/api/v3/pools/324`)
+  asyncFetch(`https://api.mav.xyz/api/v4/pools/324`)
     .catch((err) => {
       console.log(err);
     })
@@ -684,7 +717,6 @@ const next = () => {
   if (state.step + 1 == 2) {
     if (!(state.tokenABalance || state.tokenBBalance)) {
       setUserBalances();
-      getScale();
     }
   } else if (state.step + 1 == 3) {
     if (!(state.tokenAAllowance || state.tokenBAllowance)) {
@@ -706,7 +738,7 @@ const next = () => {
 // Method to back step
 const back = () => {
   if (state.validation) {
-    State.update({ validation: undefined });
+    State.update({ validation: false });
   }
   State.update({
     step: state.step - 1,
@@ -768,38 +800,61 @@ const validateAllowance = (input, mode) => {
 // Handle to set token A
 const handleInputTokenA = (input) => {
   if (state.poolModeSelected.id == 0 || state.poolModeSelected.id == 3) {
-    const step1TokenAAmount = state.selectedPoolOptions.price;
-    const tickSpacing = state.selectedPoolOptions.tickSpacing;
+    const step1TokenAAmount = Big(state.selectedPoolOptions.price);
+    const tickSpacing = Big(state.selectedPoolOptions.tickSpacing);
     const ic = Math.floor(
       Math.log(step1TokenAAmount) / (Math.log(1.0001) * tickSpacing)
     );
     const il = Math.pow(1.0001, ic * tickSpacing);
     const iu = Math.pow(1.0001, (ic + 1) * tickSpacing);
-
     let deltaX = 0;
     let deltaY = 0;
     let deltaL = 1;
-
-    if (step1TokenAAmount < il) {
-      deltaX = deltaL * (1 / Math.sqrt(il) - 1 / Math.sqrt(iu));
-      deltaY = 0;
-    }
-    if (il <= step1TokenAAmount && step1TokenAAmount < iu) {
-      deltaX = deltaL * (1 / Math.sqrt(step1TokenAAmount) - 1 / Math.sqrt(iu));
-      deltaY = deltaL * (Math.sqrt(step1TokenAAmount) - Math.sqrt(il));
-    }
-    if (step1TokenAAmount >= iu) {
-      deltaX = 0;
-      deltaY = Math.sqrt(iu) - Math.sqrt(il);
+    const difPriceIl = Math.abs(Big(step1TokenAAmount - il));
+    const difPriceIu = Math.abs(Big(step1TokenAAmount - iu));
+    if (difPriceIl < 0.00000000001) {
+      const priceFix = step1TokenAAmount.toFixed(11);
+      const ilFix = il.toFixed(11);
+      const iuFix = iu.toFixed(11);
+      const sqrtPrice = Math.sqrt(priceFix);
+      const sqrtIl = Math.sqrt(ilFix);
+      const sqrtIu = Math.sqrt(iuFix);
+      if (priceFix == ilFix && sqrtIl == sqrtPrice) {
+        sqrtIl = sqrtIl + 0.0000000000012;
+      }
+      deltaY = deltaL * (sqrtIl - sqrtPrice);
+      deltaX = deltaL * (1 / sqrtPrice - 1 / sqrtIu);
+      console.log(deltaX, deltaY);
+    } else {
+      if (step1TokenAAmount < il) {
+        deltaX = deltaL * (1 / Math.sqrt(il) - 1 / Math.sqrt(iu));
+        deltaY = 0;
+      }
+      if (il <= step1TokenAAmount && step1TokenAAmount < iu) {
+        deltaY = deltaL * (Math.sqrt(step1TokenAAmount) - Math.sqrt(il));
+        deltaX =
+          deltaL * (1 / Math.sqrt(step1TokenAAmount) - 1 / Math.sqrt(iu));
+      }
+      if (step1TokenAAmount >= iu) {
+        deltaX = 0;
+        deltaY = Math.sqrt(iu) - Math.sqrt(il);
+      }
     }
 
     let tokenB = 0;
     if (ic !== 0) {
       tokenB = input * (deltaX / deltaY);
       State.update({
-        amountInputTokenB: deltaY == 0 ? 0 : tokenB.toFixed(6),
+        amountInputTokenB:
+          deltaY == 0
+            ? 0
+            : tokenB.toFixed(
+                state.poolSelected.tokenB.decimals == 18
+                  ? 11
+                  : state.poolSelected.tokenB.decimals
+              ),
         amountInputTokenA: input,
-        validation: undefined,
+        validation: false,
         onlyRight: false,
         noBalanceA:
           parseFloat(state.tokenABalance.fixed) < parseFloat(input)
@@ -814,9 +869,13 @@ const handleInputTokenA = (input) => {
         const binsR = Math.ceil(state.binsToDistribute / 2);
         tokenB = (input / binsL) * binsR;
         State.update({
-          amountInputTokenB: tokenB.toFixed(6),
+          amountInputTokenB: tokenB.toFixed(
+            state.poolSelected.tokenB.decimals == 18
+              ? 11
+              : state.poolSelected.tokenB.decimals
+          ),
           amountInputTokenA: input,
-          validation: undefined,
+          validation: false,
           onlyRight: true,
           noBalanceA:
             parseFloat(state.tokenABalance.fixed) < parseFloat(input)
@@ -856,7 +915,11 @@ const handleInputTokenA = (input) => {
 
         State.update({
           amountInputTokenA: input,
-          amountInputTokenB: tokenB.toFixed(6),
+          amountInputTokenB: tokenB.toFixed(
+            state.poolSelected.tokenB.decimals == 18
+              ? 11
+              : state.poolSelected.tokenB.decimals
+          ),
           onlyRight: true,
           noBalanceA:
             parseFloat(state.tokenABalance.fixed) < parseFloat(input)
@@ -869,7 +932,7 @@ const handleInputTokenA = (input) => {
       if (state.poolDistributionSelected.name == "Single Bin") {
         State.update({
           amountInputTokenA: 0,
-          validation: undefined,
+          validation: false,
           need2Tokens: false,
         });
       }
@@ -888,38 +951,60 @@ const handleInputTokenA = (input) => {
 // Handle to set token B
 const handleInputTokenB = (input) => {
   if (state.poolModeSelected.id == 0 || state.poolModeSelected.id == 3) {
-    const step1TokenAAmount = state.selectedPoolOptions.price;
-    const tickSpacing = state.selectedPoolOptions.tickSpacing;
+    const step1TokenAAmount = Big(state.selectedPoolOptions.price);
+    const tickSpacing = Big(state.selectedPoolOptions.tickSpacing);
     const ic = Math.floor(
       Math.log(step1TokenAAmount) / (Math.log(1.0001) * tickSpacing)
     );
     const il = Math.pow(1.0001, ic * tickSpacing);
     const iu = Math.pow(1.0001, (ic + 1) * tickSpacing);
-
     let deltaX = 0;
     let deltaY = 0;
     let deltaL = 1;
-
-    if (step1TokenAAmount < il) {
-      deltaX = deltaL * (1 / Math.sqrt(il) - 1 / Math.sqrt(iu));
-      deltaY = 0;
-    }
-    if (il <= step1TokenAAmount && step1TokenAAmount < iu) {
-      deltaX = deltaL * (1 / Math.sqrt(step1TokenAAmount) - 1 / Math.sqrt(iu));
-      deltaY = deltaL * (Math.sqrt(step1TokenAAmount) - Math.sqrt(il));
-    }
-    if (step1TokenAAmount >= iu) {
-      deltaX = 0;
-      deltaY = Math.sqrt(iu) - Math.sqrt(il);
+    const difPriceIl = Math.abs(Big(step1TokenAAmount - il));
+    const difPriceIu = Math.abs(Big(step1TokenAAmount - iu));
+    if (difPriceIl < 0.00000000001) {
+      const priceFix = step1TokenAAmount.toFixed(11);
+      const ilFix = il.toFixed(11);
+      const iuFix = iu.toFixed(11);
+      const sqrtPrice = Math.sqrt(priceFix);
+      const sqrtIl = Math.sqrt(ilFix);
+      const sqrtIu = Math.sqrt(iuFix);
+      if (priceFix == ilFix && sqrtIl == sqrtPrice) {
+        sqrtIl = sqrtIl + 0.00012;
+      }
+      deltaY = deltaL * (sqrtIl - sqrtPrice);
+      deltaX = deltaL * (1 / sqrtPrice - 1 / sqrtIu);
+    } else {
+      if (step1TokenAAmount < il) {
+        deltaX = deltaL * (1 / Math.sqrt(il) - 1 / Math.sqrt(iu));
+        deltaY = 0;
+      }
+      if (il <= step1TokenAAmount && step1TokenAAmount < iu) {
+        deltaY = deltaL * (Math.sqrt(step1TokenAAmount) - Math.sqrt(il));
+        deltaX =
+          deltaL * (1 / Math.sqrt(step1TokenAAmount) - 1 / Math.sqrt(iu));
+      }
+      if (step1TokenAAmount >= iu) {
+        deltaX = 0;
+        deltaY = Math.sqrt(iu) - Math.sqrt(il);
+      }
     }
 
     let tokenA = 0;
     if (ic !== 0) {
       tokenA = (input / deltaX) * deltaY;
       State.update({
-        amountInputTokenA: deltaY == 0 ? 0 : tokenA.toFixed(6),
+        amountInputTokenA:
+          deltaY == 0
+            ? 0
+            : tokenA.toFixed(
+                state.poolSelected.tokenA.decimals == 18
+                  ? 11
+                  : state.poolSelected.tokenA.decimals
+              ),
         amountInputTokenB: input,
-        validation: undefined,
+        validation: false,
         onlyRight: false,
         noBalanceA:
           parseFloat(state.tokenABalance.fixed) < tokenA ? true : false,
@@ -935,8 +1020,12 @@ const handleInputTokenB = (input) => {
         tokenA = (input / binsR) * binsL;
         State.update({
           amountInputTokenB: input,
-          amountInputTokenA: tokenA.toFixed(6),
-          validation: undefined,
+          amountInputTokenA: tokenA.toFixed(
+            state.poolSelected.tokenA.decimals == 18
+              ? 11
+              : state.poolSelected.tokenA.decimals
+          ),
+          validation: false,
           onlyRight: true,
           noBalanceA:
             parseFloat(state.tokenABalance.fixed) < tokenA ? true : false,
@@ -970,7 +1059,11 @@ const handleInputTokenB = (input) => {
 
         State.update({
           amountInputTokenB: input,
-          amountInputTokenA: tokenA.toFixed(6),
+          amountInputTokenA: tokenA.toFixed(
+            state.poolSelected.tokenA.decimals == 18
+              ? 11
+              : state.poolSelected.tokenA.decimals
+          ),
           onlyRight: true,
           noBalanceA:
             parseFloat(state.tokenABalance.fixed) < tokenA ? true : false,
@@ -985,7 +1078,7 @@ const handleInputTokenB = (input) => {
           amountInputTokenA: 0,
           need2Tokens: false,
           amountInputTokenB: input,
-          validation: undefined,
+          validation: false,
           noBalanceB:
             parseFloat(state.tokenBBalance.fixed) < parseFloat(input)
               ? true
@@ -1070,7 +1163,7 @@ const approveErc20Token = (mode) => {
             vAllowance: false,
             mode: mode,
           });
-          State.update({ onApprovingToken: false, validation: undefined });
+          State.update({ onApprovingToken: false, validation: false });
         }, 20000);
       });
   });
@@ -1103,16 +1196,19 @@ const validateButtonDisabled = (
   <div class="validateButtonDisabled" disabled>
     <div class={"ConfirmText"}>
       {state.poolModeSelected.id == 0 || state.poolModeSelected.id == 3
-        ? state.tokenABalance && state.tokenBBalance
+        ? state.tokenABalance &&
+          state.tokenBBalance &&
+          (state.amountInputTokenA <= state.tokenABalance.fixed ||
+            state.amountInputTokenA <= state.tokenABalance.fixed)
           ? "Validate"
           : `You don't have enough balance`
         : state.poolModeSelected.id == 1
-          ? state.tokenABalance
-            ? "Validate"
-            : `You don't have enough balance on ${state.selectedPoolOptions.tokenA.symbol}`
-          : state.tokenBBalance
-            ? "Validate"
-            : `You don't have enough balance on ${state.selectedPoolOptions.tokenB.symbol}`}
+        ? state.tokenABalance
+          ? "Validate"
+          : `You don't have enough balance on ${state.selectedPoolOptions.tokenA.symbol}`
+        : state.tokenBBalance
+        ? "Validate"
+        : `You don't have enough balance on ${state.selectedPoolOptions.tokenB.symbol}`}
     </div>
   </div>
 );
@@ -1169,8 +1265,8 @@ if (!css) return "";
 if (!state.theme) {
   State.update({
     theme: styled.div`
-    ${css}
-`,
+              ${css}
+          `,
   });
 }
 
@@ -1345,7 +1441,7 @@ return (
                           Select Pool
                         </option>
                         {state.poolList.map((p) => {
-                          return <option>{p.name}</option>;
+                          return <option value={p.name}>{p.name}</option>;
                         })}
                       </select>
                     </div>
@@ -1860,7 +1956,7 @@ return (
                 {state.step == 3
                   ? state.addingLiquidity
                     ? confirmButtonDisabled
-                    : state.validation == true
+                    : state.validation
                     ? !state.moreTokenAAllowance
                       ? !state.moreTokenBAllowance
                         ? confirmButton
@@ -1875,21 +1971,27 @@ return (
                     ? state.tokenABalance && state.tokenBBalance
                       ? state.need2Tokens
                         ? state.amountInputTokenA > 0 &&
-                          state.amountInputTokenB > 0
+                          state.amountInputTokenA <=
+                            state.tokenABalance.fixed &&
+                          state.amountInputTokenB > 0 &&
+                          state.amountInputTokenB <= state.tokenBBalance.fixed
                           ? validateButton
                           : validateButtonDisabled
-                        : state.amountInputTokenB > 0
+                        : state.amountInputTokenB > 0 &&
+                          state.amountInputTokenB < state.tokenBBalance.fixed
                         ? validateButton
                         : validateButtonDisabled
                       : validateButtonDisabled
                     : state.poolModeSelected.id == 1
                     ? state.tokenABalance
-                      ? state.amountInputTokenA > 0
+                      ? state.amountInputTokenA > 0 &&
+                        state.amountInputTokenA < state.tokenABalance.fixed
                         ? validateButton
                         : validateButtonDisabled
                       : validateButtonDisabled
                     : state.tokenBBalance
-                    ? state.amountInputTokenB > 0
+                    ? state.amountInputTokenB > 0 &&
+                      state.amountInputTokenB < state.tokenBBalance.fixed
                       ? validateButton
                       : validateButtonDisabled
                     : validateButtonDisabled

@@ -51,52 +51,7 @@ function href(widgetName, linkProps) {
   }${linkPropsQuery}`;
 }
 /* END_INCLUDE: "common.jsx" */
-/* INCLUDE: "core/adapter/dev-hub" */
-const contractAccountId =
-  props.nearDevGovGigsContractAccountId ||
-  (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
-
-const DevHub = {
-  edit_community_github: ({ handle, github }) =>
-    Near.call(contractAccountId, "edit_community_github", { handle, github }) ??
-    null,
-
-  get_access_control_info: () =>
-    Near.view(contractAccountId, "get_access_control_info") ?? null,
-
-  get_all_authors: () =>
-    Near.view(contractAccountId, "get_all_authors") ?? null,
-
-  get_all_communities: () =>
-    Near.view(contractAccountId, "get_all_communities") ?? null,
-
-  get_all_labels: () => Near.view(contractAccountId, "get_all_labels") ?? null,
-
-  get_community: ({ handle }) =>
-    Near.view(contractAccountId, "get_community", { handle }) ?? null,
-
-  get_post: ({ post_id }) =>
-    Near.view(contractAccountId, "get_post", { post_id }) ?? null,
-
-  get_posts_by_author: ({ author }) =>
-    Near.view(contractAccountId, "get_posts_by_author", { author }) ?? null,
-
-  get_posts_by_label: ({ label }) =>
-    Near.view(nearDevGovGigsContractAccountId, "get_posts_by_label", {
-      label,
-    }) ?? null,
-
-  get_root_members: () =>
-    Near.view(contractAccountId, "get_root_members") ?? null,
-};
-/* END_INCLUDE: "core/adapter/dev-hub" */
-
-const Header = styled.div`
-  overflow: hidden;
-  background: #fff;
-  margin-bottom: 25px;
-`;
-
+/* INCLUDE: "core/lib/gui/navigation" */
 const NavUnderline = styled.ul`
   border-bottom: 1px #eceef0 solid;
 
@@ -111,6 +66,157 @@ const NavUnderline = styled.ul`
     border-bottom: 4px solid #0c7283;
   }
 `;
+/* END_INCLUDE: "core/lib/gui/navigation" */
+/* INCLUDE: "core/lib/struct" */
+const Struct = {
+  deepFieldUpdate: (
+    node,
+    { input, params, path: [nextNodeKey, ...remainingPath], via: toFieldValue }
+  ) => ({
+    ...node,
+
+    [nextNodeKey]:
+      remainingPath.length > 0
+        ? Struct.deepFieldUpdate(
+            Struct.typeMatch(node[nextNodeKey]) ||
+              Array.isArray(node[nextNodeKey])
+              ? node[nextNodeKey]
+              : {
+                  ...((node[nextNodeKey] ?? null) !== null
+                    ? { __archivedLeaf__: node[nextNodeKey] }
+                    : {}),
+                },
+
+            { input, path: remainingPath, via: toFieldValue }
+          )
+        : toFieldValue({
+            input,
+            lastKnownValue: node[nextNodeKey],
+            params,
+          }),
+  }),
+
+  isEqual: (input1, input2) =>
+    Struct.typeMatch(input1) && Struct.typeMatch(input2)
+      ? JSON.stringify(Struct.toOrdered(input1)) ===
+        JSON.stringify(Struct.toOrdered(input2))
+      : false,
+
+  toOrdered: (input) =>
+    Object.keys(input)
+      .sort()
+      .reduce((output, key) => ({ ...output, [key]: input[key] }), {}),
+
+  pick: (object, subsetKeys) =>
+    Object.fromEntries(
+      Object.entries(object ?? {}).filter(([key, _]) =>
+        subsetKeys.includes(key)
+      )
+    ),
+
+  typeMatch: (input) =>
+    input !== null && typeof input === "object" && !Array.isArray(input),
+};
+/* END_INCLUDE: "core/lib/struct" */
+/* INCLUDE: "core/adapter/dev-hub" */
+const devHubAccountId =
+  props.nearDevGovGigsContractAccountId ||
+  (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
+
+const DevHub = {
+  get_root_members: () =>
+    Near.view(devHubAccountId, "get_root_members") ?? null,
+
+  has_moderator: ({ account_id }) =>
+    Near.view(devHubAccountId, "has_moderator", { account_id }) ?? null,
+
+  create_community: ({ inputs }) =>
+    Near.call(devHubAccountId, "create_community", { inputs }),
+
+  get_community: ({ handle }) =>
+    Near.view(devHubAccountId, "get_community", { handle }) ?? null,
+
+  get_account_community_permissions: ({ account_id, community_handle }) =>
+    Near.view(devHubAccountId, "get_account_community_permissions", {
+      account_id,
+      community_handle,
+    }) ?? null,
+
+  update_community: ({ handle, community }) =>
+    Near.call(devHubAccountId, "update_community", { handle, community }),
+
+  delete_community: ({ handle }) =>
+    Near.call(devHubAccountId, "delete_community", { handle }),
+
+  update_community_board: ({ handle, board }) =>
+    Near.call(devHubAccountId, "update_community_board", { handle, board }),
+
+  update_community_github: ({ handle, github }) =>
+    Near.call(devHubAccountId, "update_community_github", { handle, github }),
+
+  get_access_control_info: () =>
+    Near.view(devHubAccountId, "get_access_control_info") ?? null,
+
+  get_all_authors: () => Near.view(devHubAccountId, "get_all_authors") ?? null,
+
+  get_all_communities_metadata: () =>
+    Near.view(devHubAccountId, "get_all_communities_metadata") ?? null,
+
+  get_all_labels: () => Near.view(devHubAccountId, "get_all_labels") ?? null,
+
+  get_post: ({ post_id }) =>
+    Near.view(devHubAccountId, "get_post", { post_id }) ?? null,
+
+  get_posts_by_author: ({ author }) =>
+    Near.view(devHubAccountId, "get_posts_by_author", { author }) ?? null,
+
+  get_posts_by_label: ({ label }) =>
+    Near.view(nearDevGovGigsContractAccountId, "get_posts_by_label", {
+      label,
+    }) ?? null,
+
+  useQuery: (name, params) => {
+    const initialState = { data: null, error: null, isLoading: true };
+
+    const cacheState = useCache(
+      () =>
+        Near.asyncView(devHubAccountId, ["get", name].join("_"), params ?? {})
+          .then((response) => ({
+            ...initialState,
+            data: response ?? null,
+            isLoading: false,
+          }))
+          .catch((error) => ({
+            ...initialState,
+            error: props?.error ?? error,
+            isLoading: false,
+          })),
+
+      JSON.stringify({ name, params }),
+      { subscribe: true }
+    );
+
+    return cacheState === null ? initialState : cacheState;
+  },
+};
+/* END_INCLUDE: "core/adapter/dev-hub" */
+/* INCLUDE: "entity/viewer" */
+const Viewer = {
+  communityPermissions: ({ handle }) =>
+    DevHub.get_account_community_permissions({
+      account_id: context.accountId,
+      community_handle: handle,
+    }) ?? {
+      can_configure: false,
+      can_delete: false,
+    },
+
+  role: {
+    isDevHubModerator:
+      DevHub.has_moderator({ account_id: context.accountId }) ?? false,
+  },
+};
+/* END_INCLUDE: "entity/viewer" */
 
 const Button = styled.button`
   height: 40px;
@@ -122,35 +228,19 @@ const Button = styled.button`
 const Banner = styled.div`
   max-width: 100%;
   width: 1320px;
+  min-height: 240px;
   height: 240px;
 `;
 
-const LogoImage = styled.img`
-  top: -50px;
-`;
-
-const SizedDiv = styled.div`
-  width: 150px;
-  height: 100px;
-`;
-
 const CommunityHeader = ({ activeTabTitle, handle }) => {
-  State.init({
-    copiedShareUrl: false,
-  });
+  State.init({ isLinkCopied: false });
 
-  const accessControlInfo = DevHub.get_access_control_info();
+  const community = DevHub.get_community({ handle }),
+    permissions = Viewer.communityPermissions({ handle });
 
-  const communityData = DevHub.get_community({ handle });
-
-  if (accessControlInfo === null || communityData === null) {
+  if (community === null) {
     return <div>Loading...</div>;
   }
-
-  const isSupervisionAllowed =
-    accessControlInfo.members_list["team:moderators"]?.children?.includes(
-      context.accountId
-    ) ?? false;
 
   const tabs = [
     {
@@ -160,13 +250,15 @@ const CommunityHeader = ({ activeTabTitle, handle }) => {
       title: "Activity",
     },
 
-    ...[communityData.wiki1, communityData.wiki2]
-      .filter((maybeWikiPage) => maybeWikiPage ?? false)
-      .map(({ name }, idx) => ({
-        params: { id: idx + 1 },
-        route: "community.wiki",
-        title: name,
-      })),
+    ...(!community?.features.wiki
+      ? []
+      : [community?.wiki1, community?.wiki2]
+          .filter((maybeWikiPage) => maybeWikiPage ?? false)
+          .map(({ name }, idx) => ({
+            params: { id: idx + 1 },
+            route: "community.wiki",
+            title: name,
+          }))),
 
     {
       iconClass: "bi bi-people-fill",
@@ -174,133 +266,226 @@ const CommunityHeader = ({ activeTabTitle, handle }) => {
       title: "Teams",
     },
 
-    {
-      iconClass: "bi bi-coin",
-      route: "community.sponsorship",
-      title: "Sponsorship",
-    },
+    ...(!community?.features.board
+      ? []
+      : [
+          {
+            iconClass: "bi bi-kanban-fill",
+            route: "community.board",
+            title: "Board",
+          },
+        ]),
 
-    {
-      iconClass: "bi bi-github",
-      route: "community.github",
-      title: "GitHub",
-    },
+    ...(!community?.features.github
+      ? []
+      : [
+          {
+            iconClass: "bi bi-github",
+            route: "community.github",
+            title: "GitHub",
+          },
+        ]),
 
-    ...((communityData?.telegram_handle?.length ?? 0) > 0
-      ? [
+    ...(!community?.features.telegram ||
+    (community?.telegram_handle.length ?? 0) === 0
+      ? []
+      : [
           {
             iconClass: "bi bi-telegram",
             route: "community.telegram",
             title: "Telegram",
           },
-        ]
-      : []),
+        ]),
   ];
 
-  const isEditingAllowed =
-    isSupervisionAllowed ||
-    communityData?.admins?.includes?.(context.accountId);
+  const linkCopyStateToggle = (forcedState) =>
+    State.update((lastKnownState) => ({
+      ...lastKnownState,
+      isLinkCopied: forcedState ?? !lastKnownState.isLinkCopied,
+    }));
+
+  const onShareClick = () =>
+    clipboard
+      .writeText("https://near.org" + href("community.activity", { handle }))
+      .then(linkCopyStateToggle(true));
+
+  const hasOldData =
+    community.telegram_handle.length > 0 ||
+    community.github !== null ||
+    community.board !== null ||
+    community.wiki1 !== null ||
+    community.wiki2 !== null;
+
+  function generateRandom6CharUUID() {
+    const chars = "0123456789abcdefghijklmnopqrstuvwxyz";
+    let result = "";
+
+    for (let i = 0; i < 6; i++) {
+      const randomIndex = Math.floor(Math.random() * chars.length);
+      result += chars[randomIndex];
+    }
+
+    return result;
+  }
+
+  const migrateData = () => {
+    const addons = [];
+
+    if (community.telegram_handle.length > 0) {
+      addons.push({
+        id: generateRandom6CharUUID(),
+        addon_id: "telegram",
+        display_name: "Telegram",
+        enabled: true,
+        parameters: JSON.stringify({ handles: community.telegram_handle }),
+      });
+    }
+
+    if (community.github) {
+      addons.push({
+        id: generateRandom6CharUUID(),
+        addon_id: "github",
+        display_name: "Github",
+        enabled: true,
+        parameters: community.github,
+      });
+    }
+
+    if (community.board) {
+      addons.push({
+        id: generateRandom6CharUUID(),
+        addon_id: "kanban",
+        display_name: "Board",
+        enabled: true,
+        parameters: community.board,
+      });
+    }
+
+    if (community.wiki1) {
+      addons.push({
+        id: generateRandom6CharUUID(),
+        addon_id: "wiki",
+        display_name: "Wiki 1",
+        enabled: true,
+        parameters: JSON.stringify({
+          title: community.wiki1.name,
+          content: community.wiki1.content_markdown,
+        }),
+      });
+    }
+
+    if (community.wiki2) {
+      addons.push({
+        id: generateRandom6CharUUID(),
+        addon_id: "wiki",
+        display_name: "Wiki 2",
+        enabled: true,
+        parameters: JSON.stringify({
+          title: community.wiki2.name,
+          content: community.wiki2.content_markdown,
+        }),
+      });
+    }
+
+    Near.call("${REPL_DEVHUB_CONTRACT}", "set_community_addons", {
+      handle: community.handle,
+      addons,
+    });
+  };
 
   return (
-    <Header className="d-flex flex-column gap-3">
+    <>
+      {hasOldData && permissions.can_configure && (
+        <div
+          class="alert alert-primary d-flex justify-content-between align-items-center mb-0"
+          role="alert"
+        >
+          <div>
+            <strong>Community Migration:</strong> Some features may need to be
+            migrated to the new addon framework.
+          </div>
+          <button onClick={migrateData} className="btn btn-success">
+            Migrate Community
+          </button>
+        </div>
+      )}
       <Banner
         className="object-fit-cover"
         style={{
-          background: `center / cover no-repeat url(${communityData.banner_url})`,
+          background: `center / cover no-repeat url(${community.banner_url})`,
         }}
       />
+      <div className="d-flex flex-column gap-3 bg-white">
+        <div className="container d-flex flex-wrap justify-content-between gap-4">
+          <div className="d-flex align-items-end">
+            <div className="position-relative">
+              <div style={{ width: 150, height: 100 }}>
+                <img
+                  alt="Loading logo..."
+                  className="border border-3 border-white rounded-circle shadow position-absolute"
+                  width="150"
+                  height="150"
+                  src={community.logo_url}
+                  style={{ top: -50 }}
+                />
+              </div>
+            </div>
 
-      <div className="d-md-flex d-block justify-content-between container">
-        <div className="d-md-flex d-block align-items-end">
-          <div className="position-relative">
-            <SizedDiv>
-              <LogoImage
-                src={communityData.logo_url}
-                alt="Community logo"
-                width="150"
-                height="150"
-                className="border border-3 border-white rounded-circle shadow position-absolute"
-              />
-            </SizedDiv>
-          </div>
-
-          <div>
-            <div className="h1 pt-3 ps-3 text-nowrap">{communityData.name}</div>
-
-            <div className="ps-3 pb-2 text-secondary">
-              {communityData.description}
+            <div className="d-flex flex-column ps-3 pt-3 pb-2">
+              <span className="h1 text-nowrap">{community.name}</span>
+              <span className="text-secondary">{community.description}</span>
             </div>
           </div>
+
+          <div className="d-flex align-items-end gap-3 ms-auto">
+            {widget("components.molecule.button", {
+              classNames: { root: "btn-outline-light text-dark" },
+              href: href("community.configuration", { handle }),
+              icon: {
+                type: "bootstrap_icon",
+                variant: "bi-gear-wide-connected",
+              },
+              isHidden: !permissions.can_configure,
+              label: "Configure community",
+              type: "link",
+            })}
+
+            {widget("components.molecule.button", {
+              classNames: { root: "btn-outline-light text-dark" },
+
+              icon: {
+                type: "bootstrap_icon",
+                variant: state.isLinkCopied ? "bi-check" : "bi-link-45deg",
+              },
+
+              label: "Share",
+              onClick: onShareClick,
+              onMouseLeave: () => linkCopyStateToggle(false),
+              title: "Copy link to clipboard",
+            })}
+          </div>
         </div>
 
-        <div className="d-flex align-items-end gap-3">
-          {isEditingAllowed && (
-            <a
-              href={href("community.edit-info", { handle })}
-              className={[
-                "d-flex align-items-center gap-2 border border-1 rounded-pill px-3 py-2",
-                "text-decoration-none text-dark text-nowrap font-weight-bold fs-6",
-              ].join(" ")}
-            >
-              <i className="bi bi-gear" />
-              <span>Edit information</span>
-            </a>
+        <NavUnderline className="nav">
+          {tabs.map(({ defaultActive, params, route, title }) =>
+            title ? (
+              <li className="nav-item" key={title}>
+                <a
+                  aria-current={defaultActive && "page"}
+                  className={[
+                    "d-inline-flex gap-2",
+                    activeTabTitle === title ? "nav-link active" : "nav-link",
+                  ].join(" ")}
+                  href={href(route, { handle, ...(params ?? {}) })}
+                >
+                  <span>{title}</span>
+                </a>
+              </li>
+            ) : null
           )}
-
-          <OverlayTrigger
-            placement="top"
-            overlay={<Tooltip>Copy URL to clipboard</Tooltip>}
-          >
-            <Button
-              type="button"
-              className={[
-                "d-flex align-items-center gap-2 border border-1 rounded-pill px-3 py-2",
-                "text-dark text-nowrap font-weight-bold fs-6",
-              ].join(" ")}
-              onMouseLeave={() => {
-                State.update({ copiedShareUrl: false });
-              }}
-              onClick={() => {
-                clipboard
-                  .writeText(
-                    "https://near.org" + href("community.activity", { handle })
-                  )
-                  .then(() => {
-                    State.update({ copiedShareUrl: true });
-                  });
-              }}
-            >
-              {state.copiedShareUrl ? (
-                <i className="bi bi-16 bi-check"></i>
-              ) : (
-                <i className="bi bi-16 bi-link-45deg"></i>
-              )}
-
-              <span>Share</span>
-            </Button>
-          </OverlayTrigger>
-        </div>
+        </NavUnderline>
       </div>
-
-      <NavUnderline className="nav">
-        {tabs.map(({ defaultActive, params, route, title }) =>
-          title ? (
-            <li className="nav-item" key={title}>
-              <a
-                aria-current={defaultActive && "page"}
-                className={[
-                  "d-inline-flex gap-2",
-                  activeTabTitle === title ? "nav-link active" : "nav-link",
-                ].join(" ")}
-                href={href(route, { handle, ...(params ?? {}) })}
-              >
-                <span>{title}</span>
-              </a>
-            </li>
-          ) : null
-        )}
-      </NavUnderline>
-    </Header>
+    </>
   );
 };
 

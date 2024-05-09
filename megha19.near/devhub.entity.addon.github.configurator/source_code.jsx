@@ -76,13 +76,35 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
     );
   }
 
-  const initialFormState = Struct.typeMatch(data) ? toMigrated(data) : {};
-  const [formState, setForm] = useState(initialFormState);
-  const [editingMode, setEditingMode] = useState("form");
+  const initialBoardState = Struct.typeMatch(data) ? toMigrated(data) : {};
+
+  const getColumnData = useCallback((state) => {
+    if (Object.keys(state).length > 0) {
+      return state?.columns ?? {};
+    }
+    return state;
+  }, []);
+
+  const getNonColumnData = useCallback((state) => {
+    if (Object.keys(state).length > 0) {
+      delete state.columns;
+      return state;
+    }
+    return state;
+  }, []);
+
+  // to improve the state update speed, decoupled columns and other configuration metadata
+  const [parentState, setParentState] = useState(initialBoardState);
+  const [metadataState, setMetadata] = useState(
+    getNonColumnData(initialBoardState)
+  );
   const [showPreview, setPreview] = useState(false);
+  const [columnsState, setColumnsState] = useState(
+    getColumnData(initialBoardState)
+  );
 
   const formUpdate =
-    ({ path, via: customFieldUpdate, ...params }) =>
+    ({ path, via: customFieldUpdate, isColumnsUpdate, ...params }) =>
     (fieldInput) => {
       const transformFn = (node) => {
         if (typeof customFieldUpdate === "function") {
@@ -100,24 +122,30 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
         }
       };
       const updatedValues = Struct.deepFieldUpdate(
-        formState ?? {},
+        (isColumnsUpdate ? { columns: columnsState } : metadataState) ?? {},
         path,
         (node) => transformFn(node)
       );
-      setForm((prevFormState) => ({
-        ...prevFormState,
-        ...updatedValues,
-      }));
+      if (isColumnsUpdate) {
+        setColumnsState(updatedValues?.columns);
+      } else {
+        setMetadata((prevFormState) => ({
+          ...prevFormState,
+          ...updatedValues,
+        }));
+      }
     };
 
   const formReset = () => {
-    setForm(initialFormState);
+    setColumnsState(getColumnData(initialBoardState));
+    setMetadata(getNonColumnData(initialBoardState));
+    setParentState(initialBoardState);
   };
 
-  const onEditingModeChange = ({ target: { value } }) => setEditingMode(value);
-
   const newViewInit = () => {
-    setForm(GithubKanbanBoardDefaults);
+    setColumnsState(getColumnData(GithubKanbanBoardDefaults));
+    setMetadata(getNonColumnData(GithubKanbanBoardDefaults));
+    setParentState(GithubKanbanBoardDefaults);
   };
 
   const columnsCreateNew = ({ lastKnownValue }) =>
@@ -127,7 +155,7 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
           ...withUUIDIndex({
             description: "",
             labelSearchTerms: [],
-            title: "New column",
+            title: "",
           }),
         }
       : lastKnownValue;
@@ -143,7 +171,13 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
     formReset();
   };
 
-  const onSave = () => onSubmit(formState);
+  const updateParentState = () => {
+    const updatedState = { ...metadataState, columns: columnsState };
+    setParentState(updatedState);
+    return updatedState;
+  };
+
+  const onSave = () => onSubmit(updateParentState());
 
   const formElement = (
     <>
@@ -153,22 +187,25 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
             src={`megha19.near/widget/devhub.components.molecule.Input`}
             props={{
               className: "w-100",
-              key: `${formState.metadata.id}-repoURL`,
+              key: `${metadataState.metadata.id}-repoURL`,
               label: "Repository URL",
-              onChange: formUpdate({ path: ["repoURL"] }),
+              onChange: formUpdate({
+                path: ["repoURL"],
+                isColumnsUpdate: false,
+              }),
               placeholder: "https://github.com/example-org/example-repo",
-              value: formState.repoURL,
+              value: metadataState.repoURL,
             }}
           />
           <Widget
             src={`megha19.near/widget/devhub.components.molecule.Input`}
             props={{
               className: "w-100",
-              key: `${formState.metadata.id}-title`,
+              key: `${metadataState.metadata.id}-title`,
               label: "Title",
-              onChange: formUpdate({ path: ["title"] }),
+              onChange: formUpdate({ path: ["title"], isColumnsUpdate: false }),
               placeholder: "NEAR Protocol NEPs",
-              value: formState.title,
+              value: metadataState.title,
             }}
           />
         </div>
@@ -177,11 +214,14 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
           src={`megha19.near/widget/devhub.components.molecule.Input`}
           props={{
             className: "w-100",
-            key: `${formState.metadata.id}-description`,
+            key: `${metadataState.metadata.id}-description`,
             label: "Description",
-            onChange: formUpdate({ path: ["description"] }),
+            onChange: formUpdate({
+              path: ["description"],
+              isColumnsUpdate: false,
+            }),
             placeholder: "Latest NEAR Enhancement Proposals by status.",
-            value: formState.description,
+            value: metadataState.description,
           }}
         />
       </div>
@@ -192,11 +232,14 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
           props={{
             heading: "Ticket types",
             classNames: { root: "col-12 col-md-4 h-auto" },
-            externalState: formState.dataTypesIncluded,
+            externalState: metadataState.dataTypesIncluded,
             isActive: true,
             isEmbedded: true,
             isUnlocked: permissions.can_configure,
-            onChange: formUpdate({ path: ["dataTypesIncluded"] }),
+            onChange: formUpdate({
+              path: ["dataTypesIncluded"],
+              isColumnsUpdate: false,
+            }),
             schema: GithubKanbanBoardTicketTypesSchema,
             hideSubmitBtn: true,
           }}
@@ -210,7 +253,7 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
         >
           <span
             className="d-inline-flex gap-2"
-            id={`${formState.metadata.id}-ticketState`}
+            id={`${metadataState.metadata.id}-ticketState`}
           >
             <i class="bi bi-cone-striped" />
             <span>Ticket state</span>
@@ -218,10 +261,12 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
           <Widget
             src={`megha19.near/widget/devhub.components.molecule.Switch`}
             props={{
-              currentValue: formState.ticketState,
+              currentValue: metadataState.ticketState,
               key: "ticketState",
-              onChange: formUpdate({ path: ["ticketState"] }),
-
+              onChange: formUpdate({
+                path: ["ticketState"],
+                isColumnsUpdate: false,
+              }),
               options: [
                 { label: "All", value: "all" },
                 { label: "Open", value: "open" },
@@ -235,18 +280,21 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
           props={{
             heading: "Card fields",
             classNames: { root: "col-12 col-md-4 h-auto" },
-            externalState: formState.metadata.ticket.features,
+            externalState: metadataState.metadata.ticket.features,
             isActive: true,
             isEmbedded: true,
             isUnlocked: permissions.can_configure,
-            onChange: formUpdate({ path: ["metadata", "ticket", "features"] }),
+            onChange: formUpdate({
+              path: ["metadata", "ticket", "features"],
+              isColumnsUpdate: false,
+            }),
             schema: GithubKanbanBoardTicketFeaturesSchema,
             hideSubmitBtn: true,
           }}
         />
       </div>
 
-      <div className="d-flex align-items-center justify-content-between">
+      <div className="d-flex align-items-center justify-content-between mb-2">
         <span className="d-inline-flex gap-2 m-0">
           <i className="bi bi-list-task" />
           <span>{`Columns ( max. ${settings.maxColumnsNumber} )`}</span>
@@ -254,8 +302,8 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
       </div>
 
       <div className="d-flex flex-column align-items-center gap-3 w-100">
-        {Object.values(formState.columns ?? {}).map(
-          ({ id, description, labelSearchTerms, title }) => (
+        {Object.values(columnsState ?? {}).map(
+          ({ id, description, labelSearchTerms, title }, index) => (
             <AttractableDiv
               className="d-flex gap-3 rounded-4 border p-3 w-100"
               key={`column-${id}-configurator`}
@@ -265,9 +313,12 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
                   src={`megha19.near/widget/devhub.components.molecule.Input`}
                   props={{
                     className: "flex-grow-1",
-                    key: `${formState.metadata.id}-column-${id}-title`,
+                    key: `${metadataState.metadata.id}-column-${id}-title`,
                     label: "Title",
-                    onChange: formUpdate({ path: ["columns", id, "title"] }),
+                    onChange: formUpdate({
+                      path: ["columns", id, "title"],
+                      isColumnsUpdate: true,
+                    }),
                     placeholder: "👀 Review",
                     value: title,
                   }}
@@ -276,15 +327,13 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
                   src={`megha19.near/widget/devhub.components.molecule.Input`}
                   props={{
                     format: "comma-separated",
-                    key: `${formState.metadata.id}-column-${title}-labelSearchTerms`,
-
+                    key: `${metadataState.metadata.id}-column-${title}-labelSearchTerms`,
                     label: `Search terms for all the labels
 											MUST be presented in included tickets`,
-
                     onChange: formUpdate({
                       path: ["columns", id, "labelSearchTerms"],
+                      isColumnsUpdate: true,
                     }),
-
                     placeholder: "WG-, draft, review, proposal, ...",
                     value: labelSearchTerms.join(", "),
                   }}
@@ -293,16 +342,14 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
                   src={`megha19.near/widget/devhub.components.molecule.Input`}
                   props={{
                     className: "flex-grow-1",
-                    key: `${formState.metadata.id}-column-${id}-description`,
+                    key: `${metadataState.metadata.id}-column-${id}-description`,
                     label: "Description",
-
                     onChange: formUpdate({
                       path: ["columns", id, "description"],
+                      isColumnsUpdate: true,
                     }),
-
                     placeholder:
                       "NEPs that need a review by Subject Matter Experts.",
-
                     value: description,
                   }}
                 />
@@ -317,6 +364,7 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
                   onClick={formUpdate({
                     path: ["columns"],
                     via: columnsDeleteById(id),
+                    isColumnsUpdate: true,
                   })}
                   title="Delete column"
                 >
@@ -344,14 +392,12 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
             props={{
               classNames: { root: "btn btn-success" },
               disabled: form.isSynced,
-
               icon: {
                 type: "svg_icon",
                 variant: "floppy_drive",
                 width: 14,
                 height: 14,
               },
-
               isHidden: typeof onSave !== "function",
               label: "Save",
               onClick: onSave,
@@ -393,7 +439,10 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
             role="tab"
             aria-controls="preview"
             aria-selected="false"
-            onClick={() => setPreview(true)}
+            onClick={() => {
+              updateParentState();
+              setPreview(true);
+            }}
           >
             Preview
           </button>
@@ -405,7 +454,7 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
             src={`megha19.near/widget/devhub.entity.addon.github.Viewer`}
             props={{
               kanbanBoards: {
-                [formState.metadata.id]: formState,
+                [parentState.metadata.id]: parentState,
               },
             }}
           />
@@ -417,58 +466,32 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
               <i className="bi bi-gear-wide-connected" />
               <span>GitHub board configuration</span>
             </h5>
-            <Widget
-              src={`megha19.near/widget/devhub.components.molecule.Switch`}
-              props={{
-                currentValue: editingMode,
-                key: "editingMode",
-                onChange: onEditingModeChange,
-                options: [
-                  { label: "Form", value: "form" },
-                  { label: "JSON", value: "JSON" },
-                ],
-                title: "Editing mode selection",
-              }}
-            />
           </div>
-          {Object.keys(formState).length > 0 && (
-            <>
-              {editingMode === "form" ? (
-                <div>
-                  {formElement}
-                  <Widget
-                    src={`megha19.near/widget/devhub.components.molecule.Button`}
-                    props={{
-                      classNames: {
-                        root: "btn-sm btn-outline-secondary",
-                      },
-                      label: "New column",
-                      disabled:
-                        Object.keys(formState.columns).length >=
-                        settings.maxColumnsNumber,
-                      icon: { type: "bootstrap_icon", variant: "bi-plus-lg" },
-                      onClick: formUpdate({
-                        path: ["columns"],
-                        via: columnsCreateNew,
-                      }),
-                    }}
-                  />
-                </div>
-              ) : (
-                <div className="d-flex flex-column flex-grow-1 border-0 bg-transparent w-100">
-                  <textarea
-                    className="form-control"
-                    disabled
-                    rows="12"
-                    type="text"
-                    value={JSON.stringify(formState ?? {}, null, "\t")}
-                  />
-                </div>
-              )}
-            </>
+          {Object.keys(parentState).length > 0 && (
+            <div>
+              {formElement}
+              <Widget
+                src={`megha19.near/widget/devhub.components.molecule.Button`}
+                props={{
+                  classNames: {
+                    root: "btn-sm btn-outline-secondary",
+                  },
+                  label: "New column",
+                  disabled:
+                    Object.keys(parentState.columns).length >=
+                    settings.maxColumnsNumber,
+                  icon: { type: "bootstrap_icon", variant: "bi-plus-lg" },
+                  onClick: formUpdate({
+                    path: ["columns"],
+                    via: columnsCreateNew,
+                    isColumnsUpdate: true,
+                  }),
+                }}
+              />
+            </div>
           )}
 
-          {!Object.keys(formState).length && (
+          {!Object.keys(parentState).length && (
             <div
               className="d-flex flex-column align-items-center justify-content-center gap-4"
               style={{ height: 384 }}

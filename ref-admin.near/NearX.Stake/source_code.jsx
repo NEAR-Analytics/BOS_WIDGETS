@@ -85,92 +85,97 @@ const youWillReceive =
       ).toFixed(5, BIG_ROUND_DOWN);
 
 const Title = styled.h1`
-      font-size: 40px;
-      font-weight: bold;
-  `;
+  font-size: 40px;
+  font-weight: bold;
+`;
 
 const Main = styled.div`
-      color: white;
-      width: 100%;
-      height: 80vh;
-      background: #09071f;
-      padding: 20px;
-  
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column
-  `;
+  color: white;
+  width: 100%;
+  height: 80vh;
+  background: #09071f;
+  padding: 20px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
 
 const Description = styled.div`
-      font-size: 14px;
-      color: #999999;
-      margin-top: 5px;
-  `;
+  font-size: 14px;
+  color: #999999;
+  margin-top: 5px;
+`;
 
 const disabledStakeButton =
   !isValid(state.inputValue) || Big(state.inputValue).eq(0) || state.inputError;
 const StakeButton = styled.button`
-      border: none;
-      color: white;
-      width: 100%;
-      border-radius: 10px;
-      font-size: 20px;
-      font-weight: bold;
-      overflow: hidden;
-      padding: 8px 0;
-  
-      background-size: 100%;
-      background-image: linear-gradient(180deg, #5561ff 0%, #3643fc 100%, #3643fc 100%);
-      position: relative;
-      z-index: 0;
-      &:disabled {
-          background: #1C2056;
-          color: #3D47D6;
-      }
-      &:before {
-          background-image: linear-gradient(180deg, #4954f2 0%, #2029a7 100%);
-          content: "";
-          display: block;
-          height: 100%;
-          position: absolute;
-          top: 0;
-          left: 0;
-          opacity: 0;
-          width: 100%;
-          z-index: -100;
-          transition: opacity 0.6s;
-      }
-      &:hover:before {
-          opacity: ${disabledStakeButton ? "0" : "1"};
-      }
-  `;
+  border: none;
+  color: white;
+  width: 100%;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  overflow: hidden;
+  padding: 8px 0;
+
+  background-size: 100%;
+  background-image: linear-gradient(
+    180deg,
+    #5561ff 0%,
+    #3643fc 100%,
+    #3643fc 100%
+  );
+  position: relative;
+  z-index: 0;
+  &:disabled {
+    background: #1c2056;
+    color: #3d47d6;
+  }
+  &:before {
+    background-image: linear-gradient(180deg, #4954f2 0%, #2029a7 100%);
+    content: "";
+    display: block;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    width: 100%;
+    z-index: -100;
+    transition: opacity 0.6s;
+  }
+  &:hover:before {
+    opacity: ${disabledStakeButton ? "0" : "1"};
+  }
+`;
 
 const InputWrapper = styled.div`
-      width: 100%;
-      border-radius: 10px;
-      background: #0d0d2b;
-      padding: 20px;
-  `;
+  width: 100%;
+  border-radius: 10px;
+  background: #0d0d2b;
+  padding: 20px;
+`;
 
 const HorizentalLine = styled.hr`
-      height: 1px;
-      border: none;
-      background: white;
-      opacity: 0.1;
-      margin-top: 16px;
-      margin-bottom: 8px;
-  `;
+  height: 1px;
+  border: none;
+  background: white;
+  opacity: 0.1;
+  margin-top: 16px;
+  margin-bottom: 8px;
+`;
 
 const BalanceContainer = styled.div`
-      color: #c1c1c1;
-      font-size: 14px;
-      display: flex;
-      justify-content: space-between;
-      .error {
-          color: #ec6868;
-      }
-  `;
+  color: #c1c1c1;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  .error {
+    color: #ec6868;
+  }
+`;
 
 const NEARInputContainer = styled.div`
   display: flex;
@@ -190,40 +195,64 @@ const LogoWithText = styled.div`
 
 const MaxTexture = styled.div`
   font-size: 24px;
-  color: #4451FD;
+  color: #4451fd;
   cursor: pointer;
 `;
 
 const FooterLink = styled.a`
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color: #fff;
-    text-decoration: underline;
-    transition: all 0.2s ease-in-out;
-    margin-top: 12px;
-    text-underline-offset: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-decoration: underline;
+  transition: all 0.2s ease-in-out;
+  margin-top: 12px;
+  text-underline-offset: 3px;
 `;
 
 const YouWillReceive = styled.div`
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 
-    font-size: 14px;
-    margin-top: 16px;
+  font-size: 14px;
+  margin-top: 16px;
 `;
 const StakeFormWrapper = styled.div`
   width: 100%;
   max-width: 500px;
   padding-top: 10px;
-  background: #1A2E33;
+  background: #25283a;
   border-radius: 16px;
-  margin-top:20px;
-  padding-bottom:20px;
-  .contentArea{
-    background: #142427;
+  margin-top: 20px;
+  padding-bottom: 20px;
+  .contentArea {
+    background: #25283a;
     border-radius: 16px;
-    padding:20px 30px;
+    padding: 20px 30px 0 30px;
+  }
+  .contentArea p {
+    color: #7c7f96;
+    font-size: 14px;
+  }
+  .contentArea hr {
+    background: #373a53;
+    height: 2px;
+  }
+  .arr .bigIcon {
+    background: #373a53;
+  }
+  .arr .boldText {
+    font-weight: 500;
+  }
+  .arr .apr {
+    color: #7c7f96;
+  }
+  .arr .apr .value {
+    color: #ffffff;
+    font-weight: 500;
+  }
+  .footer p {
+    color: #ffffff;
   }
 `;
 /** events start */
@@ -260,7 +289,7 @@ const onChange = (e) => {
     ) {
       State.update({
         inputValue: stakeAmount,
-        inputError: "Stake at least 1 NEAR",
+        inputError: "at least 1 NEAR",
       });
     } else {
       State.update({
@@ -284,7 +313,7 @@ const onClickMax = () => {
   ) {
     State.update({
       inputValue: nearBalance,
-      inputError: "Stake at least 1 NEAR",
+      inputError: "at least 1 NEAR",
     });
     return;
   } else {
@@ -309,7 +338,7 @@ const onClickStake = () => {
       stakeAmount === "" ||
       Big(stakeAmount).lt(1)
     ) {
-      State.update({ inputError: "Stake at least 1 NEAR" });
+      State.update({ inputError: "at least 1 NEAR" });
     } else if (Big(stakeAmount).gt(Big(nearBalance))) {
       State.update({
         inputError: `Max is ${nearBalance} NEAR`,
@@ -336,53 +365,58 @@ const onClickStake = () => {
       });
     }
   }, 500);
-}
-console.log('00000');
+};
+console.log("00000");
 return (
-    <StakeFormWrapper>
+  <StakeFormWrapper>
+    <div class="arr">
       <Widget
         src={`ref-admin.near/widget/stake-bannerIcon`}
         props={{
           firstIconName: "NEAR",
           firstIconUrl:
             "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly",
-          secondIconName: "NearX",
+          secondIconName: "",
           secondIconUrl:
             "https://ipfs.near.social/ipfs/bafkreia7nzk2nlapfchtgtdnguzrz425fdkhqdsx5gwutuvttetao63rii",
           componentType: "NearX",
           apy_value: state.apy,
         }}
       ></Widget>
-      <div class="contentArea">
-        <Widget
-          src={`ref-admin.near/widget/LiNEAR.Input`}
-          props={{
-            placeholder: "0",
-            value: state.inputValue,
-            onChange,
-            onClickMax,
-            inputError: state.inputError,
-            balance: nearBalance,
-          }}
-        />
-        <Widget
-          src={`ref-admin.near/widget/LiNEAR.Button`}
-          props={{
-            onClick: onClickStake,
-            disabled: disabledStakeButton,
-            text: "Stake",
-          }}
-        />
+    </div>
+    <div class="contentArea">
+      <Widget
+        src={`ref-admin.near/widget/LiNEAR.Input`}
+        props={{
+          firstIconName: "NEAR",
+          placeholder: "0",
+          value: state.inputValue,
+          onChange,
+          onClickMax,
+          inputError: state.inputError,
+          balance: nearBalance,
+        }}
+      />
+      <Widget
+        src={`ref-admin.near/widget/LiNEAR.Button`}
+        props={{
+          onClick: onClickStake,
+          disabled: disabledStakeButton,
+          text: "Stake",
+          firstIconName: "NEAR",
+        }}
+      />
+      <div class="footer">
         <Widget
           src={`ref-admin.near/widget/LiNEAR.Message.YouWillReceive`}
-          props={{ text: `${youWillReceive} ${tokenName}` }}
+          props={{
+            text: `${youWillReceive} ${tokenName}`,
+            secondIconName: "NearX",
+            secondIconUrl:
+              "https://ipfs.near.social/ipfs/bafkreia7nzk2nlapfchtgtdnguzrz425fdkhqdsx5gwutuvttetao63rii",
+          }}
         />
       </div>
-      <FooterLink
-        href={`https://www.staderlabs.com/near/lt/near/?tab=Unstake&utm_referral=${utmReferral}`}
-        target="_blank"
-      >
-        Unstake {tokenName}
-      </FooterLink>
-    </StakeFormWrapper>
+    </div>
+  </StakeFormWrapper>
 );

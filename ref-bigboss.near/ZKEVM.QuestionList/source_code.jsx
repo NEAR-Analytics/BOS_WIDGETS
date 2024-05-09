@@ -135,7 +135,7 @@ State.init({
 });
 function get_hot_action_list() {
   asyncFetch(
-    "https://bos-api.ref-finance.com/get-hot-action?hot_number=20"
+    "https://bos-api.delink.one/get-hot-action?hot_number=20"
   ).then((res) => {
     const result = JSON.parse(res.body || {}).data || [];
     State.update({

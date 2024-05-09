@@ -99,7 +99,7 @@ const MenuIcon = () => (
 );
 
 const Navbar = styled.div`
-  padding: 1.5rem 3rem;
+  padding: 1.5rem 0rem;
 
   display: flex;
   flex-direction: row;
@@ -140,8 +140,8 @@ let links = [
     links: [],
   },
   {
-    title: "/activity feed",
-    href: "feed",
+    title: "/proposals",
+    href: "proposals",
     links: [],
   },
   {

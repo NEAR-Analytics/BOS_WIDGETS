@@ -13,40 +13,17 @@ if (!state.projectIsFetched) {
     "get_project",
     { account_id: accountId },
     "final",
-    false
+    false,
   ).then((project) => State.update({ project, projectIsFetched: true }));
   return <>Loading...</>;
 }
 
 const onSave = (project) => {
-  Near.call(
-    ownerId,
-    "edit_project",
-    {
-      account_id: accountId,
-      project: {
-        ...state.project,
-        ...project,
-        application: {
-          ...state.project.application,
-          ...project.application,
-          graduation: {
-            ...state.project.application.graduation,
-            ...project.application.graduation,
-          },
-          private: {
-            ...state.project.application.private,
-            ...project.application.private,
-            graduation: {
-              ...state.project.application.private.graduation,
-              ...project.application.private.graduation,
-            }
-          },
-        },
-      },
-    }
-  )
-}
+  Near.call(ownerId, "edit_project", {
+    account_id: accountId,
+    project,
+  });
+};
 
 return (
   <>
@@ -56,8 +33,8 @@ return (
         label: "Pitch deck",
         id: "pitch-deck",
         fileAccept: [".pdf"],
-        value: state.project.application.graduation.pitch_deck,
-        onSave: (pitch_deck) => onSave({ application: { graduation: { pitch_deck } } }),
+        value: state.project.deck,
+        onSave: (deck) => onSave({ deck }),
         canEdit,
       }}
     />
@@ -67,8 +44,8 @@ return (
         label: "White paper",
         id: "white-paper",
         fileAccept: [".pdf"],
-        value: state.project.application.graduation.white_paper,
-        onSave: (white_paper) => onSave({ application: { graduation: { white_paper } } }),
+        value: state.project.white_paper,
+        onSave: (white_paper) => onSave({ white_paper }),
         canEdit,
       }}
     />
@@ -78,8 +55,8 @@ return (
         label: "Roadmap",
         id: "roadmap",
         fileAccept: [".pdf"],
-        value: state.project.application.graduation.roadmap,
-        onSave: (roadmap) => onSave({ application: { graduation: { roadmap } } }),
+        value: state.project.roadmap,
+        onSave: (roadmap) => onSave({ roadmap }),
         canEdit,
       }}
     />
@@ -89,8 +66,8 @@ return (
         label: "Team",
         id: "team",
         fileAccept: [".pdf"],
-        value: state.project.application.graduation.team,
-        onSave: (team) => onSave({ application: { graduation: { team } } }),
+        value: state.project.team_deck,
+        onSave: (team_deck) => onSave({ team_deck }),
         canEdit,
       }}
     />
@@ -100,8 +77,8 @@ return (
         label: "Demo video",
         id: "demo-video",
         fileAccept: ["video/*"],
-        value: state.project.application.graduation.demo,
-        onSave: (demo) => onSave({ application: { graduation: { demo } } }),
+        value: state.project.demo,
+        onSave: (demo) => onSave({ demo }),
         canEdit,
       }}
     />

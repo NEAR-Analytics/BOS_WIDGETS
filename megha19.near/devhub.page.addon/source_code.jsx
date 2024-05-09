@@ -69,8 +69,6 @@ if (!getAllAddons || !setCommunityAddon) {
 
 const availableAddons = getAllAddons();
 
-console.log(availableAddons);
-
 const addonMatch = (availableAddons ?? []).find(
   (it) => it.id === addon.addon_id
 );
@@ -92,45 +90,34 @@ const ButtonRow = styled.div`
 
 const [view, setView] = useState(props.view || "viewer");
 
-const checkFullyRefactored = (addon_id) => {
-  switch (addon_id) {
-    case "kanban":
-      // case "github":
-      return false;
-    default:
-      return true;
-  }
-};
-
-const isFullyRefactored = checkFullyRefactored(addon.addon_id);
-
-function updateWidgetEndpoint(widgetSrc) {
-  widgetSrc = widgetSrc.replace("configurator", "Configurator");
-  widgetSrc = widgetSrc.replace("devgovgigs.near", "megha19.near");
-  console.log(widgetSrc);
-  return widgetSrc;
+if ("megha19.near" !== "devhub.near") {
+  addonMatch.configurator_widget = addonMatch.configurator_widget.replace(
+    "devhub.near/",
+    "megha19.near/"
+  );
+  addonMatch.view_widget = addonMatch.view_widget.replace(
+    "devhub.near/",
+    "megha19.near/"
+  );
 }
 
 return (
   <Container>
-    {isFullyRefactored && // Unfully refactored addons have the configurator built in.
-      // So we hide the header
-      permissions.can_configure && (
-        <SettingsButton
-          onClick={() => setView(view === "configure" ? "view" : "configure")}
-        >
-          {view === "configure" ? (
-            <span className="bi bi-x"></span>
-          ) : (
-            <span className="bi bi-gear"></span>
-          )}
-        </SettingsButton>
-      )}
+    {permissions.can_configure && addonMatch.configurator_widget !== "" && (
+      <SettingsButton
+        onClick={() => setView(view === "configure" ? "view" : "configure")}
+      >
+        {view === "configure" ? (
+          <span className="bi bi-x"></span>
+        ) : (
+          <span className="bi bi-gear"></span>
+        )}
+      </SettingsButton>
+    )}
     <Content>
-      {/* We hide in order to prevent a reload when we switch between two views */}
-      <div className={`${view !== "configure" ? "d-none" : ""}`}>
+      {view === "configure" ? (
         <Widget
-          src={updateWidgetEndpoint(addonMatch.configurator_widget)}
+          src={addonMatch.configurator_widget}
           props={{
             ...config,
             data: config,
@@ -147,19 +134,18 @@ return (
             permissions,
           }}
         />
-      </div>
-      <div className={`${view === "configure" ? "d-none" : ""}`}>
+      ) : (
         <Widget
-          src={updateWidgetEndpoint(addonMatch.view_widget)}
+          src={addonMatch.view_widget}
           props={{
             ...config,
             data: config,
-            // temporary prop drilling
             handle,
             permissions,
+            transactionHashes: props.transactionHashes,
           }}
         />
-      </div>
+      )}
     </Content>
   </Container>
 );

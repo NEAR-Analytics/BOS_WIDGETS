@@ -14,7 +14,7 @@ const renderSubheader = () => (
   <div className="d-flex align-items-center gap-2 mt-4">
     <Widget
       key="search"
-      src="nui.sking.near/widget/Input.Text"
+      src="nui.sking.near/widget/Input.ExperimentalText"
       props={{
         placeholder: "Search by name",
         type: "search",
@@ -38,10 +38,11 @@ const renderSubheader = () => (
             });
           }, 1500);
         },
-        value: state.search,
+        value: undefined,
         inputProps: {
           autoFocus: true,
         },
+        useTimeout: 600,
       }}
     />
     <Widget

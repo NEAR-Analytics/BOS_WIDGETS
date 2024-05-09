@@ -1,5 +1,5 @@
 const WIDGET_AUTHOR = "sking.near";
-const daoId = props.daoId ?? "multi.sputnik-dao.near";
+const daoId = props.daoId ?? "multi.sputnik-daos.near";
 const proposalsPerPage = props.proposalsPerPage ?? 10; // Number of proposals to fetch at a time
 
 State.init({
@@ -41,7 +41,7 @@ const loadProposals = () => {
 };
 
 const onChangeDAO = (newDaoId) => {
-  console.log("Changing DAO...");
+  console.log("Changing DAOs...");
   State.update({
     daoId: newDaoId,
     proposals: [],
@@ -78,8 +78,8 @@ const PopupWrapper = styled.div`
 return (
   <>
     <div>
-      <div className="d-flex justify-content-between flex-wrap">
-        <h3>DAO Proposals</h3>
+      <div className="d-flex justify-content-between flex-wrap mb-3 align-items-center gap-3 pb-3">
+        <h3 className="my-auto">Proposals</h3>
         <Widget
           src="sking.near/widget/Common.Button"
           props={{
@@ -90,26 +90,33 @@ return (
               </>
             ),
             onClick: () => State.update({ ...state, showCreateProposal: true }),
-            className: "mt-2",
             variant: "success",
           }}
         />
       </div>
 
-      <div className="mb-2">
-        <p className="m-1">Sputnik Contract ID:</p>
-        <input
-          type="text"
-          placeholder="example.sputnik-dao.near"
-          onChange={(e) => onChangeDAO(e.target.value)}
-        />
-      </div>
-      <hr />
+      {!props.daoId && (
+        <div className="mb-2">
+          <p className="m-1">Sputnik Contract ID:</p>
+          <input
+            type="text"
+            placeholder="example.sputnik-daos.near"
+            onChange={(e) => onChangeDAO(e.target.value)}
+          />
+        </div>
+      )}
 
       <InfiniteScroll loadMore={loadProposals} hasMore={state.hasMore}>
-        {state.proposals.map((proposal, i) => (
-          <h1 key={i}>test {proposal.id}</h1>
-        ))}
+        {state.proposals.map((proposal, i) => {
+          if (proposal.status === "Removed") return null;
+          return (
+            <Widget
+              key={i}
+              src={WIDGET_AUTHOR + "/widget/DAO.Proposal"}
+              props={{ daoId: state.daoId, proposal: proposal }}
+            />
+          );
+        })}
       </InfiniteScroll>
     </div>
 

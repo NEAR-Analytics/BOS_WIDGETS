@@ -10,7 +10,7 @@ if (pageFeedsObject === null || pageFeedsArr === null) {
   return "Loading";
 }
 
-console.log("feed", pageFeedsObject);
+// console.log("feed", pageFeedsObject);
 
 // State.init({
 //   account: accountId,
@@ -56,7 +56,7 @@ if (!state.allPageFeeds) {
     ),
     id: `pageFeeds-selector-${Date.now()}`,
   });
-  console.log("we'renot here", allPageFeeds);
+  // console.log("we'renot here", allPageFeeds);
 }
 
 const setPageFeeds = (pageFeeds) => {
@@ -81,10 +81,10 @@ const setPageFeeds = (pageFeeds) => {
 };
 
 disabled && setPageFeeds([]);
-console.log("init", initialPageFeedsObject);
-console.log("feeds", state.pageFeeds);
-console.log("origin", state.originalPageFeeds);
-console.log("new", pageFeedsObject);
+// console.log("init", initialPageFeedsObject);
+// console.log("feeds", state.pageFeeds);
+// console.log("origin", state.originalPageFeeds);
+// console.log("new", pageFeedsObject);
 
 return (
   <>

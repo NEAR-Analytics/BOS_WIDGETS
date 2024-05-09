@@ -20,30 +20,43 @@ const Grid = styled.div`
 
 const Heading = styled.h3`
   color: #151515;
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-style: normal;
   font-weight: 700;
   line-height: 120%; /* 48px */
   margin-bottom: 2rem;
 
   @media screen and (max-width: 768px) {
-    font-size: 2rem;
+    font-size: 1.5rem;
+  }
+`;
+
+const CardContainer = styled.div`
+  transition: all 300ms;
+  border-radius: 1rem;
+
+  &:hover {
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1);
   }
 `;
 
 function BlogCard(postId) {
   return (
     <Link
+      style={{ textDecoration: "none" }}
       to={href({
         widgetSrc: "devgovgigs.near/widget/app",
         params: { page: "blog", id: postId },
       })}
     >
-      <Widget // We need this so the individual posts can make the necessary call for more data
-        src="devgovgigs.near/widget/devhub.entity.post.Postv2"
-        props={{ postKey: postId, template: (p) => <Card {...(p || {})} /> }} // I wonder if this could take list of types, their templates, normalizer functions, etc... and have this all as a module
-      />
-      {/* // so then you could swap between devhub contract or social contract sources, it doesn't matter. */}
+      <CardContainer>
+        <Widget // We need this so the individual posts can make the necessary call for more data
+          src="devgovgigs.near/widget/devhub.entity.post.Postv2"
+          props={{ postKey: postId, template: (p) => <Card {...(p || {})} /> }} // I wonder if this could take list of types, their templates, normalizer functions, etc... and have this all as a module
+        />
+        {/* // so then you could swap between devhub contract or social contract sources, it doesn't matter. */}
+      </CardContainer>
     </Link>
   );
 }

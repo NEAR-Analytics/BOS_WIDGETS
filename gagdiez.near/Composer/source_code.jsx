@@ -9,5 +9,7 @@ return (
 
     <h5>Composing Bye</h5>
     <Widget src={`${myAcc}/widget/Bye`} props={props} />
+
+    <p> This is an example on composing </p>
   </>
 );

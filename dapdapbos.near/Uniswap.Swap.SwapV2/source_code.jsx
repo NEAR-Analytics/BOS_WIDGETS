@@ -354,7 +354,7 @@ return (
 
     <Power>
       {/* <img height={22} src={dexConfig.powerByIcon} /> */}
-      Powered by DapDap & BOS
+      Powered by DapDap & NEAR
     </Power>
 
     {state.displayCurrencySelect && (

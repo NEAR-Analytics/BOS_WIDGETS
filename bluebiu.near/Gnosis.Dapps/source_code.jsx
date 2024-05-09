@@ -3,7 +3,9 @@ const Container = styled.div`
   flex-wrap: wrap;
   gap: 30px 36px;
   color: #fff;
-  padding: 0 12px;
+  @media (max-width:900px) {
+    padding: 0 12px;
+  }
 `;
 
 const Search = styled.div`
@@ -64,11 +66,25 @@ const SearchIcon = (
 
 const dapps = [
   {
+    src: "bluebiu.near/widget/Gnosis.All-in-one",
+    bannerImg:
+      "https://ipfs.near.social/ipfs/bafkreigowyhhbimfdwlf3c47tijf74464pmjaqg2d5chdjefzr53tujqda",
+    icon: "https://ipfs.near.social/ipfs/bafkreibcqclfvk7tnd7nkwfp6wybbju44nz5qx6ppnvla4umot7yr3s2ei",
+    tags: ["Bridge","Dexes","Lending"],
+  },
+  {
     src: "bluebiu.near/widget/Gnosis.Swap.Dex",
     bannerImg:
       "https://ipfs.near.social/ipfs/bafkreigowyhhbimfdwlf3c47tijf74464pmjaqg2d5chdjefzr53tujqda",
     icon: "https://ipfs.near.social/ipfs/bafkreibcqclfvk7tnd7nkwfp6wybbju44nz5qx6ppnvla4umot7yr3s2ei",
     tags: ["Dexes"],
+  },
+  {
+    src: "bluebiu.near/widget/Gnosis.Lending",
+    bannerImg:
+      "https://ipfs.near.social/ipfs/bafkreia5kudzyc34oa3hwlpzt5wiixl27ufcbacz5ijesr7m4lxkyua3xq",
+    icon: "https://ipfs.near.social/ipfs/bafkreid7avlontucqtfo3hppewujp55ats4hldcjdfko5s327domtv65ta",
+    tags: ["Lending"],
   },
 ];
 

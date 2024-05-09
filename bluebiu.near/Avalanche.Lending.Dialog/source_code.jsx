@@ -39,6 +39,8 @@ const Title = styled.div`
   font-size: 16px;
   font-weight: 500;
   color: #fff;
+  display: flex;
+  align-items: center;
 `;
 const Apy = styled.span`
   margin-left: 8px;
@@ -212,6 +214,22 @@ const TopBox = styled.div`
 const BottomBox = styled.div`
   padding: 10px 20px 20px;
 `;
+const RewardApyItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 8px;
+`;
+const RewardIcon = styled.img`
+  width: 14px;
+  height: 14px;
+`;
+const RewardApy = styled.div`
+  font-weight: 400;
+  line-height: 14px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
+`;
 
 const ERC20_ABI = [
   {
@@ -235,23 +253,27 @@ const ERC20_ABI = [
   },
 ];
 
-const { display, data, onClose, onSuccess, onMessage } = props;
+const { display, data, chainId, onClose, onSuccess, source, account } = props;
+
 if (!data) return "";
+
 const actionText = data.actionText;
 const isSupply = ["Deposit", "Withdraw"].includes(actionText);
 const isBorrow = ["Repay", "Borrow"].includes(actionText);
 const isForCollateral = !isSupply && !isBorrow;
-const account = Ethers.send("eth_requestAccounts", [])[0];
+
 const tokenSymbol = data.underlyingToken.symbol;
 State.init({
   amount: "",
   processValue: 0,
 });
-
 const formatBorrowLimit = (digits, round) => {
-  return Big(data.totalCollateralUsd)
-    .minus(data.userTotalBorrowUsd)
-    .toFixed(digits || 2, round || 1);
+  if (Big(data.totalCollateralUsd).gt(data.userTotalBorrowUsd)) {
+    return Big(data.totalCollateralUsd)
+      .minus(data.userTotalBorrowUsd)
+      .toFixed(digits || 2, round || 1);
+  }
+  return "0.00";
 };
 
 const formatBalance = () => {
@@ -261,7 +283,8 @@ const formatBalance = () => {
   if (Big(state.balance).lt(0.0001)) return "<0.0001";
   return Big(state.balance).toFixed(4, 0);
 };
-const handleAmountChange = (amount) => {
+const handleAmountChange = (_amount) => {
+  const amount = _amount.replace(/\s+/g, "");
   if (isNaN(Number(amount))) return;
   const isZero = Big(amount || 0).eq(0);
   if (isZero) {
@@ -288,7 +311,7 @@ const handleAmountChange = (amount) => {
   let isOverSize = false;
   const value = Big(Big(amount).mul(data.underlyingPrice).toFixed(20));
   if (isSupply) {
-    if (actionText === "Withdraw") {
+    if (actionText === "Withdraw" && data.userMerberShip) {
       params.borrowLimit = Big(data.totalCollateralUsd)
         .minus(data.userTotalBorrowUsd)
         .minus(value.mul(data.loanToValue / 100));
@@ -322,16 +345,20 @@ const handleAmountChange = (amount) => {
       isOverSize = value.gt(data.userTotalBorrowUsd);
     }
   }
-  if (params.borrowLimit.lt(0)) {
-    params.borrowLimit = "0.00";
-  } else {
-    params.borrowLimit = params.borrowLimit.toFixed();
+  if (params.borrowLimit) {
+    if (params.borrowLimit.lt(0)) {
+      params.borrowLimit = "0.00";
+    } else {
+      params.borrowLimit = params.borrowLimit.toFixed();
+    }
   }
   params.isBigerThanBalance = Big(amount).gt(state.balance);
   params.buttonClickable = !isOverSize && !params.isBigerThanBalance;
   params.isOverSize = isOverSize;
   params.isEmpty = false;
   State.update(params);
+
+  state.debouncedGetTrade();
 };
 
 const getAvailable = (_balance) => {
@@ -346,11 +373,7 @@ const getBalance = () => {
   State.update({
     balanceLoading: true,
   });
-  if (
-    isUnderlying &&
-    (data.underlyingToken.address === "native" ||
-      data.underlyingToken.description === "native")
-  ) {
+  if (isUnderlying && data.underlyingToken.isNative) {
     Ethers.provider()
       .getBalance(account)
       .then((rawBalance) => {
@@ -361,7 +384,7 @@ const getBalance = () => {
       });
     return;
   }
-  if (isUnderlying) {
+  if (isUnderlying && data.underlyingToken.address) {
     const TokenContract = new ethers.Contract(
       data.underlyingToken.address,
       ERC20_ABI,
@@ -409,13 +432,17 @@ if (Storage.privateGet("prevAddress") !== data.address && display) {
   let buttonClickable = false;
   if (actionText === "Enable as Collateral") {
     borromLimit = _borrowLimit.add(
-      Big(data.loanToValue / 100).mul(data.userSupply || 0)
+      Big(data.loanToValue / 100)
+        .mul(data.userSupply || 0)
+        .mul(data.underlyingPrice)
     );
     buttonClickable = true;
   }
   if (actionText === "Disable as Collateral") {
     borromLimit = _borrowLimit.minus(
-      Big(data.loanToValue / 100).mul(data.userSupply || 0)
+      Big(data.loanToValue / 100)
+        .mul(data.userSupply || 0)
+        .mul(data.underlyingPrice)
     );
 
     buttonClickable = Big(data.userTotalBorrowUsd).eq(0)
@@ -437,10 +464,41 @@ if (Storage.privateGet("prevAddress") !== data.address && display) {
   Storage.privateSet("prevAddress", data.address);
 }
 
+useEffect(() => {
+  const debounce = (fn, wait) => {
+    let timer;
+    return () => {
+      clearTimeout(timer);
+      timer = setTimeout(fn, wait);
+    };
+  };
+
+  const getTrade = () => {
+    State.update({
+      loading: true,
+    });
+  };
+
+  const debouncedGetTrade = debounce(getTrade, 500);
+
+  State.update({
+    debouncedGetTrade,
+    getTrade,
+  });
+}, []);
+
 return (
   <Dialog className={display ? "display" : ""}>
-    <Overlay>
-      <Content>
+    <Overlay
+      onClick={() => {
+        handleClose();
+      }}
+    >
+      <Content
+        onClick={(ev) => {
+          ev.stopPropagation();
+        }}
+      >
         <TopBox className={isForCollateral && "none-border"}>
           <Header>
             <Title>
@@ -448,10 +506,21 @@ return (
                 {isForCollateral ? "Collateral" : actionText}{" "}
                 {!isForCollateral && tokenSymbol}
               </span>
-              {!isForCollateral && (
-                <Apy className={isSupply ? "supply-color" : "borrow-color"}>
-                  APY {isSupply ? data.supplyApy : data.borrowApy}
-                </Apy>
+              {!isForCollateral && source !== "dapp" && (
+                <>
+                  <Apy className={isSupply ? "supply-color" : "borrow-color"}>
+                    APY {isSupply ? data.supplyApy : data.borrowApy}
+                  </Apy>
+                  {data.distributionApy &&
+                    data.distributionApy
+                      .filter((reward) => reward.supply !== "0.00%")
+                      .map((reward) => (
+                        <RewardApyItem key={reward.symbol}>
+                          <RewardIcon src={reward.icon} />
+                          <RewardApy>{reward.supply}</RewardApy>
+                        </RewardApyItem>
+                      ))}
+                </>
               )}
             </Title>
             <CloseIcon>
@@ -467,7 +536,7 @@ return (
                 ? "Disabling"
                 : "Enabling"}
               <Token>
-                <TokenLogo src={data.icon} />
+                <TokenLogo src={data.underlyingToken.icon} />
                 <TokenSymbol>{tokenSymbol}</TokenSymbol>
               </Token>
               as Collateral
@@ -475,20 +544,25 @@ return (
           )}
           {!isForCollateral && (
             <>
-              <AssetWrapper>
-                <AssetLabel>Asset from</AssetLabel>
-                <Dapp>
-                  <DappIcon src={data.dappIcon} />
-                  <DappName>{data.dappName}</DappName>
-                </Dapp>
-              </AssetWrapper>
+              {source !== "dapp" && (
+                <AssetWrapper>
+                  <AssetLabel>Asset from</AssetLabel>
+                  <Dapp>
+                    <DappIcon src={data.dappIcon} />
+                    <DappName>{data.dappName}</DappName>
+                  </Dapp>
+                </AssetWrapper>
+              )}
               <InputWrapper>
                 <Input
                   value={state.amount}
                   onChange={(ev) => {
-                    handleAmountChange(ev.target.value);
+                    if (isNaN(Number(ev.target.value))) return;
+                    handleAmountChange(ev.target.value.replace(/\s+/g, ""));
                     State.update({
-                      isMax: Big(ev.target.value || 0).eq(state.balance),
+                      isMax: Big(ev.target.value.replace(/\s+/g, "") || 0).eq(
+                        state.balance || 0
+                      ),
                     });
                   }}
                   placeholder="0.0"
@@ -505,7 +579,7 @@ return (
                     : "-"}
                 </BalanceValue>
                 <BalanceWrapper
-                  onClick={() => {
+                  onClick={(ev) => {
                     if (state.balanceLoading || isNaN(state.balance)) return;
                     handleAmountChange(state.balance);
                     State.update({
@@ -634,15 +708,43 @@ return (
               actionText,
               amount: state.isMax ? state.balance : state.amount,
               data: data,
+              addAction: props.addAction,
+              toast: props.toast,
+              chainId,
+              unsignedTx: state.unsignedTx,
+              isError: state.isError,
+              loading: state.loading,
+              gas: state.gas,
+              account,
+              onApprovedSuccess: () => {
+                if (!state.gas) state.getTrade();
+              },
               onSuccess: () => {
                 handleClose();
                 onSuccess?.();
               },
-              onMessage: onMessage,
             }}
           />
         </BottomBox>
       </Content>
     </Overlay>
+    {data.config.handler && (
+      <Widget
+        src={data.config.handler}
+        props={{
+          update: state.loading,
+          data: data,
+          amount: state.amount,
+          account,
+          onLoad: (_data) => {
+            console.log(_data);
+            State.update({
+              ..._data,
+              loading: false,
+            });
+          },
+        }}
+      />
+    )}
   </Dialog>
 );

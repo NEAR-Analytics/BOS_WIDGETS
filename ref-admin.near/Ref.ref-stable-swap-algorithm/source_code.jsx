@@ -101,8 +101,6 @@ const getSwappedAmount = (
 
   if (!stablePool) return "0";
 
-  console.log(stablePool, "stable pool");
-
   const in_token_idx = stablePool.token_account_ids.findIndex(
     (id) => id === tokenInId
   );

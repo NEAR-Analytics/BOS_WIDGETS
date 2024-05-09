@@ -6,6 +6,14 @@ if (!page) page = "home";
 
 function Page() {
   switch (page) {
+    case "comments": {
+      return (
+        <Widget
+          src={`ndcdev.near/widget/MDAO.Pages.Comment`}
+          props={passProps}
+        />
+      );
+    }
     case "home": {
       return (
         <Widget
@@ -38,19 +46,19 @@ function Page() {
         />
       );
     }
+    case "guidance": {
+      return (
+        <Widget
+          src={`ndcdev.near/widget/MDAO.Pages.Guidance`}
+          props={passProps}
+        />
+      );
+    }
     case "reports": {
       return (
         <Widget
           src={`ndcdev.near/widget/MDAO.Pages.Proposals.List`}
-          props={{ type: "report" }}
-        />
-      );
-    }
-    case "communities": {
-      return (
-        <Widget
-          src={`ndcdev.near/widget/MDAO.Pages.Communities`}
-          props={{ type: "report" }}
+          props={{ type: "report", ...passProps }}
         />
       );
     }
@@ -58,9 +66,12 @@ function Page() {
       return (
         <Widget
           src={`ndcdev.near/widget/MDAO.Pages.Proposals.List`}
-          props={{ type: "proposal" }}
+          props={{ type: "proposal", ...passProps }}
         />
       );
+    }
+    case "communities": {
+      return <Widget src={`ndcdev.near/widget/MDAO.Pages.Communities`} />;
     }
     case "createProposal": {
       return (

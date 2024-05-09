@@ -4,7 +4,7 @@ let POOLNAME1 = props.poolName1;
 let POOLNAME2 = props.poolName2;
 const setFeeWidth = props.setFeeWidth;
 const closeModal = props.closeModal;
-
+console.log(POOLNAME1, POOLNAME2);
 console.log(props);
 
 if (!state.filterPools) {
@@ -101,10 +101,12 @@ const validateOptions = (fee, width, filterPools) => {
       );
 
   if (existPool.length > 0) {
+    console.log("Existe la pool");
     State.update({
       existPool: true,
     });
   } else {
+    console.log("No existe la pool");
     State.update({
       existPool: false,
     });

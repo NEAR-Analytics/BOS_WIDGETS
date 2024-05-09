@@ -17,9 +17,9 @@ if (!state.contributionIsFetched) {
     "get_contribution",
     { project_id: projectId, vendor_id: vendorId, cid },
     "final",
-    false
+    false,
   ).then((contribution) =>
-    State.update({ contribution, contributionIsFetched: true })
+    State.update({ contribution, contributionIsFetched: true }),
   );
 }
 
@@ -29,7 +29,7 @@ if (!state.requestIsFetched) {
     "get_request",
     { account_id: projectId, cid },
     "final",
-    false
+    false,
   ).then((request) => State.update({ request, requestIsFetched: true }));
 }
 
@@ -74,11 +74,13 @@ const Title = styled.h3`
 const startDate = new Date(
   state.contribution.actions.length > 0
     ? Number(state.contribution.actions[0].start_date.substring(0, 13))
-    : Number(state.contribution.status.Created.substring(0, 13))
+    : Number(state.contribution.status.Created.substring(0, 13)),
 );
 const isCompleted = "Completed" in state.contribution.status;
 const completedDate = new Date(
-  isCompleted ? Number(state.contribution.status.Completed.substring(0, 13)) : 1
+  isCompleted
+    ? Number(state.contribution.status.Completed.substring(0, 13))
+    : 1,
 );
 const completedDateString = `Completed ${
   isCompleted ? completedDate.toLocaleDateString() : "Not yet"

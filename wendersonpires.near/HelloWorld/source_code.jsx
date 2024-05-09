@@ -1,38 +1,57 @@
-const test = Storage.get(
-  "my-storage-key",
-  "wendersonpires.near/widget/NearSocialBridgeTests"
-);
-console.log("Test:", test);
+/**
+ * Suspense Loading to be used as a default Loading for the main Widget
+ * @returns
+ */
+const SuspenseLoading = () => {
+  const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 18%;
+    width: 100%;
+  `;
 
-const test2 = Storage.get(
-  "lastBlockHeight",
-  "mob.near/widget/NotificationFeed"
-);
-console.log("Test2:", test2);
+  const Logo = styled.div`
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 7px;
+    align-items: baseline;
+    text-align: center;
+    color: #2e2e2e;
+    font-size: 23.95px;
+    font-weight: 700;
+    line-height: 23.95px;
+    word-wrap: break-word;
+    text-decoration: none;
+    @media screen and (max-width: 480px) {
+      font-size: 20px;
+    }
+    :hover {
+      text-decoration: none;
+    }
+    img {
+      height: 1em;
+    }
+  `;
+
+  return (
+    <Container>
+      <div className="spinner-border text-secondary" role="status" />
+      <Logo>
+        <img
+          src="https://ipfs.near.social/ipfs/bafkreiafms2jag3gjbypfceafz2uvs66o25qc7m6u6hkxfyrzfoeyvj7ru"
+          alt="logo"
+        />
+        POTLOCK
+      </Logo>
+    </Container>
+  );
+};
 
 return (
-  <>
-    <p>
-      Hello {props.username}. Your age is {props.age}
-    </p>
-  </>
+  <Widget
+    loading={<SuspenseLoading />}
+    src="staging.potlock.near/widget/Index"
+    props={props}
+  />
 );
-
-// // The link provided by thirdapp pointing to the react app stored inside IPFS
-// const externalAppUrl =
-//   "https://bafybeigadizblnffuidc5jmrnhmtd64bfzmapaoohb6twpcmbguluw25kq.ipfs.cf-ipfs.com/";
-
-// asyncFetch(
-//   "https://bafybeigadizblnffuidc5jmrnhmtd64bfzmapaoohb6twpcmbguluw25kq.ipfs.cf-ipfs.com/"
-// ).then((res) => {
-//   console.log("UI:", res);
-// });
-
-// return (
-//   <Widget
-//     src={"wendersonpires.near/widget/NearSocialBridgeCore"}
-//     props={{
-//       externalAppUrl,
-//     }}
-//   />
-// );

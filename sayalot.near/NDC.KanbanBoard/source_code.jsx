@@ -81,8 +81,8 @@ if (!kanbanColumns) {
 }
 
 const CursorPointer = styled.p`
-  cursor: pointer;
-`;
+    cursor: pointer;
+  `;
 
 const articlesPerLabel = kanbanColumns.map((cl) => {
   let articlesOnThisColumn = articles.filter((article) => {
@@ -119,7 +119,10 @@ return (
                   }
                 >
                   <Widget
-                    src={widgets.newStyledComponents.Element.Badge}
+                    src={
+                      widgets.views.standardWidgets.newStyledComponents.Element
+                        .Badge
+                    }
                     props={{
                       children: label,
                       variant: "round info",
@@ -147,7 +150,10 @@ return (
                   }
                 >
                   <Widget
-                    src={widgets.newStyledComponents.Element.Badge}
+                    src={
+                      widgets.views.standardWidgets.newStyledComponents.Element
+                        .Badge
+                    }
                     props={{
                       children: label,
                       variant: "round info",
@@ -174,7 +180,7 @@ return (
                 {col.articles.map((article) => {
                   return (
                     <Widget
-                      src={widgets.compactPost}
+                      src={widgets.views.editableWidgets.compactPost}
                       props={{
                         widgets,
                         article,

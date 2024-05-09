@@ -18,8 +18,10 @@ if (!state.contributionIsFetched) {
     "get_contribution",
     { project_id: projectId, cid, vendor_id: vendorId },
     "final",
-    false
-  ).then((contribution) => State.update({ contribution, contributionIsFetched: true }));
+    false,
+  ).then((contribution) =>
+    State.update({ contribution, contributionIsFetched: true }),
+  );
 }
 
 if (!state.proposalIsFetched) {
@@ -28,7 +30,7 @@ if (!state.proposalIsFetched) {
     "get_proposal",
     { project_id: projectId, cid, vendor_id: vendorId },
     "final",
-    false
+    false,
   ).then((proposal) => State.update({ proposal, proposalIsFetched: true }));
 }
 
@@ -38,11 +40,15 @@ if (!state.requestIsFetched) {
     "get_request",
     { account_id: projectId, cid },
     "final",
-    false
+    false,
   ).then((request) => State.update({ request, requestIsFetched: true }));
 }
 
-if (!state.contributionIsFetched || !state.proposalIsFetched || !state.requestIsFetched) {
+if (
+  !state.contributionIsFetched ||
+  !state.proposalIsFetched ||
+  !state.requestIsFetched
+) {
   return <>Loading...</>;
 }
 

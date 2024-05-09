@@ -1,4 +1,4 @@
-const startTime = props.startTime ?? 1695823300000; // NCR Course Start Time
+const startTime = props.startTime ?? 1709046000000; // NCR Course Start Time
 const endTime = props.endTime ?? 1670880000000; // Final Project Submission Deadline
 const tupe = props.type ?? "";
 // const time = Near.view("nominations.ndc-gwg.near", "active_time", {});

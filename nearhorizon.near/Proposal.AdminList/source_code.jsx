@@ -12,7 +12,7 @@ if (!state.itemsIsFetched) {
     "get_admin_proposals",
     { account_id: context.accountId },
     "final",
-    false
+    false,
   ).then((items) => State.update({ items, itemsIsFetched: true }));
 
   return <>Loading...</>;
@@ -66,6 +66,7 @@ return (
     <Widget
       src={`${ownerId}/widget/List`}
       props={{
+        full: true,
         filter: ([[projectId], vendorId]) =>
           projectId.includes(search) || vendorId.includes(search),
         items: state.items,

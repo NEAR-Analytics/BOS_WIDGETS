@@ -122,7 +122,7 @@ if (!state.isAdminIsFetched) {
       "check_is_vendor_admin",
       { vendor_id: accountId, account_id: context.accountId },
       "final",
-      false
+      false,
     ).then((isAdmin) => State.update({ isAdmin, isAdminIsFetched: true }));
   }
 }

@@ -12,12 +12,11 @@ const Toast = styled.div`
   border-radius: 8px;
   z-index: 10000;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-  &>p{
-    margin:0px;
+  & > p {
+    margin: 0px;
     padding: 0px;
   }
 `;
-
 return (
   <>
     <Toast>

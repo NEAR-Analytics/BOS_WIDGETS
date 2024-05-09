@@ -1,11 +1,10 @@
 const accountId = props.accountId ?? context.accountId;
-const authorId = "manzanal.near";
+const authorId = "meta-pool-official.near";
 const onClose = props.onClose;
 const edit = props.edit;
 const mpip_id = props.mpip_id ?? null;
 const update = props.update;
-const transactionHashes =
-  props.transactionHashes;
+const transactionHashes = props.transactionHashes;
 const title = props.edit ? "Edit proposal" : "Create Proposal";
 const META_VOTE_CONTRACT_ID = "meta-vote.near";
 const contractId = props.contractId || "mpip.meta-pool-dao.near";
@@ -174,7 +173,7 @@ return (
     <Widget
       src={`${authorId}/widget/Common.Modal.RedirectModal`}
       props={{
-        href: `/meta-pool-official.near/widget/ImprovementProposals?tab=home`,
+        href: `/${authorId}/widget/ImprovementProposals?tab=home`,
         description: edit
           ? "Proposal edited successfully. Going back Home"
           : "Proposal created successfully. Going back Home",
@@ -190,7 +189,7 @@ return (
     </div>
     <div className="d-flex flex-column gap-2">
       <Widget
-        src={`meta-pool-official.near/widget/ImprovementProposals.Proposal.Create.Text`}
+        src={`${authorId}/widget/ImprovementProposals.Proposal.Create.Text`}
         props={{ edit, mpip_id, update }}
       />
     </div>

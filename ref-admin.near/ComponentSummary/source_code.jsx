@@ -18,7 +18,7 @@ if (myHomePagePath !== null) {
   });
 }
 if (customHomeLoading) return "";
-const finalSrc = canCustomHome ? myHomePagePath || src : src; // src 取url中的没有的话取默认值
+const finalSrc = canCustomHome ? myHomePagePath || src : src;
 const [accountId, widget, widgetName] = finalSrc.split("/");
 const data = Social.get(`${accountId}/widget/${widgetName}/metadata/**`);
 const metadata = data || {};
@@ -281,7 +281,6 @@ return (
           Share
         </Button>
       </OverlayTrigger>
-      {/* todo */}
       {props.primaryAction && (
         <Widget
           src="ref-admin.near/widget/apply-as-home-button"

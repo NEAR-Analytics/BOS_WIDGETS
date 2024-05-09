@@ -1,5 +1,5 @@
 let raw_data = fetch(
-  "https://api.flipsidecrypto.com/api/v2/queries/c493c7b1-cfcc-4aee-ad79-869b4ed8ca90/data/latest",
+  "https://api.flipsidecrypto.com/api/v2/queries/7e169e51-771c-4864-a674-50ad379bc697/data/latest",
   {
     subscribe: true,
     method: "GET",
@@ -24,6 +24,8 @@ const handleDateRangeChange = (range) => {
 
 const data = raw_data.body || [];
 State.update({ rawData: data });
+
+console.log(raw_data);
 
 let Style = styled.div`
                 `;

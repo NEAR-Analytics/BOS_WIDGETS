@@ -45,7 +45,41 @@ return (
         <div className="py-8">
           <div className="text-7xl">Welcome to NEAR Atlas!</div>
           <div className="text-xl font-light">
-            NEAR Atlas is an analytics platform built on the BOS.
+            NEAR Atlas is an analytics platform built on the BOS. <br />
+            <br />
+            It's open source and built by the team at{" "}
+            <a
+              href="https://github.com/NEAR-Analytics"
+              target="_blank"
+              className="text-yellow-400"
+            >
+              NEAR Analytics
+            </a>
+            ,{" "}
+            <a
+              href="https://github.com/0bserver07"
+              target="_blank"
+              className="text-yellow-400"
+            >
+              Yad
+            </a>
+            ,{" "}
+            <a
+              href="https://github.com/abhishekanirudhan"
+              target="_blank"
+              className="text-yellow-400"
+            >
+              Abhi
+            </a>{" "}
+            and{" "}
+            <a
+              href="https://twitter.com/dw_stein"
+              target="_blank"
+              className="text-yellow-400"
+            >
+              DW
+            </a>
+            <br />
             <br /> Here you will find your guide to NEAR to explore what is
             happening within the ecosystem. This is an evolving project so
             please feel free to leave your feedback at

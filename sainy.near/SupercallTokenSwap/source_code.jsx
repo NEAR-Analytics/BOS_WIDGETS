@@ -1,74 +1,30 @@
-// ====================== User inputs =======================
+// ======== Unchangeable area: Please scroll down to edit  ====================
+const ABI_URLs = {};
+const ABIs = {};
+const calls = [];
 
-// 1. Call Title
-const title = "Token swap";
+function addABIUrl(key, url) {
+  ABI_URLs[key] = url;
+  ABIs[key] = fetch(url).body;
+}
 
-// 2. Call ABI
-const ABI_URL =
-  "https://raw.githubusercontent.com/SainyTK/contract-list/main/abis/UniswapV2Router.json";
+function getABI(key) {
+  return ABIs[key];
+}
 
-// 3. Call data
-const encodeFunctionData = () => {
-  const target = state.router;
-  const functionName = "swapExactTokensForTokens";
-
-  const params = {
-    amount: state.amount,
-    amountOutMin: 0,
-    path:
-      state.token0 && state.token1
-        ? [state.token0.address, state.token1.address]
-        : [],
-    to: Ethers.send("eth_requestAccounts", [])[0],
-    deadline: Math.floor((new Date().valueOf() + 10 * 60) / 100),
-  };
-
-  return {
-    target,
-    functionName,
-    args: Object.values(params),
-  };
-};
-
-// 4. Call interface
-const renderInputs = () => (
-  <>
-    <CallInput title="Router address">
-      <input
-        placeholder="Router address"
-        style={{ border: "1px solid #E9EBED" }}
-        onChange={(e) => State.update({ router: e.target.value })}
-      />
-    </CallInput>
-    <CallInput title="Input token">
-      <Widget
-        src="sainy.near/widget/SelectToken"
-        props={{
-          chainId: props.chainId,
-          onChange: (token) => State.update({ token0: token }),
-        }}
-      />
-    </CallInput>
-    <CallInput title="Output token">
-      <Widget
-        src="sainy.near/widget/SelectToken"
-        props={{
-          chainId: props.chainId,
-          onChange: (token) => State.update({ token1: token }),
-        }}
-      />
-    </CallInput>
-    <CallInput title="Amount">
-      <input
-        placeholder="Amount"
-        style={{ border: "1px solid #E9EBED" }}
-        onChange={(e) => State.update({ amount: e.target.value })}
-      />
-    </CallInput>
-  </>
-);
-
-// ============== Unchangeable area ====================
+function addCall(ABI, target, functionName, params) {
+  try {
+    const iface = new ethers.utils.Interface(ABI);
+    const callData = iface.encodeFunctionData(
+      functionName,
+      Object.values(params)
+    );
+    calls.push({
+      target: target,
+      callData: callData,
+    });
+  } catch (e) {}
+}
 
 const Container = styled.div`
   border-radius: 14px;
@@ -112,23 +68,6 @@ const StyledBoxInput = styled.div`
   margin-bottom: 10px;
 `;
 
-const ABI = fetch(ABI_URL).body;
-
-function buildCall() {
-  try {
-    const iface = new ethers.utils.Interface(ABI);
-    const data = encodeFunctionData();
-    const callData = iface.encodeFunctionData(data.functionName, data.args);
-    const callPayload = {
-      target: data.target,
-      callData: callData,
-    };
-    Storage.set(`callPayload:${props.callId}`, callPayload);
-  } catch (e) {}
-}
-
-buildCall();
-
 const CallInput = (props) => (
   <StyledBoxInput>
     <StyleTextTitle>{props.title}</StyleTextTitle>
@@ -136,7 +75,7 @@ const CallInput = (props) => (
   </StyledBoxInput>
 );
 
-return (
+const MainComponent = () => (
   <Container>
     <ContainerContent>
       <TextHeader>{title}</TextHeader>
@@ -149,4 +88,84 @@ return (
   </Container>
 );
 
-// ============== Unchangeable area ====================
+// ====================== Start edit =======================
+
+// 1. Call Title
+const title = "Token swap";
+
+// 2. Add Contract ABIs - addABIUrl(name, url)
+addABIUrl(
+  "SWAP_ROUTER",
+  "https://raw.githubusercontent.com/SainyTK/contract-list/main/abis/UniswapV2Router.json"
+);
+addABIUrl(
+  "ERC20",
+  "https://raw.githubusercontent.com/SainyTK/contract-list/main/abis/ERC20.json"
+);
+
+// 3. Add calls - addCall(ABI, target, functionName, params)
+const approveParams = {
+  spender: state.router,
+  amount: state.amount,
+};
+addCall(getABI("ERC20"), state.token0.address, "approve", approveParams);
+
+const swapParams = {
+  amount: state.amount,
+  amountOutMin: 0,
+  path:
+    state.token0 && state.token1
+      ? [state.token0.address, state.token1.address]
+      : [],
+  to: Ethers.send("eth_requestAccounts", [])[0],
+  deadline: Math.floor((new Date().valueOf() + 10 * 60) / 100),
+};
+addCall(
+  getABI("SWAP_ROUTER"),
+  state.router,
+  "swapExactTokensForTokens",
+  swapParams
+);
+
+// 4. Call interface
+const renderInputs = () => (
+  <>
+    <CallInput title="Router address">
+      <input
+        placeholder="Router address"
+        style={{ border: "1px solid #E9EBED" }}
+        onChange={(e) => State.update({ router: e.target.value })}
+      />
+    </CallInput>
+    <CallInput title="Input token">
+      <Widget
+        src="sainy.near/widget/SelectToken"
+        props={{
+          chainId: props.chainId,
+          onChange: (token) => State.update({ token0: token }),
+        }}
+      />
+    </CallInput>
+    <CallInput title="Output token">
+      <Widget
+        src="sainy.near/widget/SelectToken"
+        props={{
+          chainId: props.chainId,
+          onChange: (token) => State.update({ token1: token }),
+        }}
+      />
+    </CallInput>
+    <CallInput title="Amount">
+      <input
+        placeholder="Amount"
+        style={{ border: "1px solid #E9EBED" }}
+        onChange={(e) => State.update({ amount: e.target.value })}
+      />
+    </CallInput>
+  </>
+);
+
+// ====================== End edit =======================
+
+Storage.set(`callPayload:${props.callId}`, calls);
+return <MainComponent />;

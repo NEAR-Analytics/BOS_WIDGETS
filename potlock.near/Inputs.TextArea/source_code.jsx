@@ -16,11 +16,11 @@ const Container = styled.div`
 `;
 
 const Label = styled.label`
-  font-style: normal;
-  font-weight: 600;
-  font-size: 0.95em;
-  line-height: 1.25em;
-  color: #344054;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  word-wrap: break-word;
+  color: #2e2e2e;
 `;
 
 const Error = styled.span`
@@ -54,15 +54,19 @@ const Input = styled.textarea`
 `;
 
 return (
-  <Container>
-    <Label>{label}</Label>
+  <Container style={props.containerStyle ?? {}}>
+    {!props.noLabel && <Label style={props.labelStyle ?? {}}>{label}</Label>}
     <Input
       placeholder={placeholder}
       value={value}
       onChange={({ target: { value } }) => onChange(value)}
       onBlur={() => validate()}
-      rows={5}
+      rows={props.inputRows ?? 5}
+      style={props.inputStyle ?? {}}
+      disabled={!!props.disabled}
     />
-    <Error className={error ? "show" : ""}>{error}</Error>
+    <Error style={props.errorStyle ?? {}} className={error ? "show" : ""}>
+      {error}
+    </Error>
   </Container>
 );

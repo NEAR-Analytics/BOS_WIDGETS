@@ -4,44 +4,6 @@ if (!Struct) {
   return <p>Loading modules...</p>;
 }
 
-const defaultFieldUpdate = ({
-  input,
-  lastKnownValue,
-  params: { arrayDelimiter },
-}) => {
-  switch (typeof input) {
-    case "boolean":
-      return input;
-
-    case "object": {
-      if (Array.isArray(input) && typeof lastKnownValue === "string") {
-        return input.join(arrayDelimiter ?? ",");
-      } else {
-        return Array.isArray(lastKnownValue)
-          ? [...lastKnownValue, ...input]
-          : { ...lastKnownValue, ...input };
-      }
-    }
-
-    case "string":
-      return Array.isArray(lastKnownValue)
-        ? input.split(arrayDelimiter ?? ",").map((string) => string.trim())
-        : input;
-
-    default: {
-      if ((input ?? null) === null) {
-        switch (typeof lastKnownValue) {
-          case "boolean":
-            return !lastKnownValue;
-
-          default:
-            return lastKnownValue;
-        }
-      } else return input;
-    }
-  }
-};
-
 const useForm = ({ initialValues, onUpdate, stateKey }) => {
   const initialFormState = {
     hasUnsubmittedChanges: false,
@@ -68,7 +30,7 @@ const useForm = ({ initialValues, onUpdate, stateKey }) => {
             params,
           });
         } else {
-          return defaultFieldUpdate({
+          return Struct.defaultFieldUpdate({
             input: fieldInput?.target?.value ?? fieldInput,
             lastKnownValue: node,
             params,
@@ -188,7 +150,10 @@ const defaultFieldsRender = ({ schema, form, isEditable }) => (
               </ValueView>
             </div>
             <Widget
-              src={`devhub.near/widget/devhub.${fieldParamsByType[fieldType].name}`}
+              src={`devhub.near/widget/devhub.${
+                (fieldParamsByType[fieldType] ?? fieldParamsByType["string"])
+                  .name
+              }`}
               props={{
                 ...fieldProps,
                 className: [
@@ -245,6 +210,7 @@ const Configurator = ({
   schema,
   submitIcon,
   submitLabel,
+  hideSubmitBtn,
 }) => {
   const fieldsRender = customFieldsRender || defaultFieldsRender;
 
@@ -258,7 +224,41 @@ const Configurator = ({
     ? toFormatted(form.values)
     : form.values;
 
-  const isFormValid = isValid ? isValid(formFormattedValues) : true;
+  const internalValidation = () =>
+    Object.keys(schema).every((key) => {
+      const fieldDefinition = schema[key];
+      const value = form.values[key];
+      if (!value || value.length === 0) {
+        return !fieldDefinition.inputProps.required;
+      } else if (
+        fieldDefinition.inputProps.min &&
+        fieldDefinition.inputProps.min > value?.length
+      ) {
+        return false;
+      } else if (
+        fieldDefinition.inputProps.max &&
+        fieldDefinition.inputProps.max < value?.length
+      ) {
+        return false;
+      } else if (
+        fieldDefinition.inputProps.allowCommaAndSpace === false &&
+        /^[^,\s]*$/.test(value) === false
+      ) {
+        return false;
+      } else if (
+        fieldDefinition.inputProps.validUrl === true &&
+        /^(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/.test(
+          value
+        ) === false
+      ) {
+        return false;
+      }
+      return true;
+    });
+
+  const isFormValid = () => {
+    return internalValidation() && (!isValid || isValid(formFormattedValues));
+  };
 
   const onCancelClick = () => {
     form.reset();
@@ -266,7 +266,7 @@ const Configurator = ({
   };
 
   const onSubmitClick = () => {
-    if (onSubmit && isFormValid) {
+    if (onSubmit && isFormValid()) {
       onSubmit(formFormattedValues);
     }
   };
@@ -280,7 +280,7 @@ const Configurator = ({
           schema,
         })}
       </div>
-      {isActive && (
+      {isActive && !hideSubmitBtn && (
         <div className="d-flex align-items-center justify-content-end gap-3 mt-auto">
           {actionsAdditional ? (
             <div className="me-auto">{actionsAdditional}</div>
@@ -298,7 +298,7 @@ const Configurator = ({
             src={"devhub.near/widget/devhub.components.molecule.Button"}
             props={{
               classNames: { root: classNames.submit || "btn-success" },
-              disabled: !form.hasUnsubmittedChanges || !isFormValid,
+              disabled: !form.hasUnsubmittedChanges || !isFormValid(),
               icon: submitIcon || {
                 type: "bootstrap_icon",
                 variant: "bi-check-circle-fill",

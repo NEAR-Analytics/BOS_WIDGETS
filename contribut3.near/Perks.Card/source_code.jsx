@@ -1,5 +1,5 @@
 const ownerId = "contribut3.near";
-const apiUrl = "https://api-op3o.onrender.com";
+const apiUrl = "https://api-staging-fur7.onrender.com";
 /** @type {{id: string; url?: string; code?: string; claimed?: boolean; requirements?: {requirement: string; completed: boolean;}[]; fields: {price:number; name: string; logo: string; about: string; benefit: string; categories: string[]; instructions: string;}}} */
 const perk = props.perk;
 

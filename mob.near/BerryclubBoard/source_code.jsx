@@ -2,6 +2,8 @@ const blockHeight = props.blockHeight
   ? parseInt(props.blockHeight)
   : "optimistic";
 
+const nonce = props.nonce;
+
 const contractId = props.contract ?? "berryclub.ek.near";
 
 const BoardHeight = contractId === "farm-draw.cheddar.near" ? 80 : 50;
@@ -32,7 +34,7 @@ for (let i = 0; i < BoardHeight; ++i) {
   lines.push(i);
 }
 
-const args = { lines };
+const args = { lines, nonce };
 const encodedLines = Near.view(contractId, "get_lines", args, blockHeight);
 
 if (encodedLines === null) {

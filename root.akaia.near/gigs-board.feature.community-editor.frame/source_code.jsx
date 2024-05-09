@@ -51,33 +51,58 @@ function href(widgetName, linkProps) {
   }${linkPropsQuery}`;
 }
 /* END_INCLUDE: "common.jsx" */
-/* INCLUDE: "core/lib/record" */
-const pick = (object, subsetKeys) =>
-  Object.fromEntries(
-    Object.entries(object ?? {}).filter(([key, _]) => subsetKeys.includes(key))
-  );
-/* END_INCLUDE: "core/lib/record" */
+/* INCLUDE: "core/lib/hashmap" */
+const HashMap = {
+  isEqual: (input1, input2) =>
+    input1 !== null &&
+    typeof input1 === "object" &&
+    input2 !== null &&
+    typeof input2 === "object"
+      ? JSON.stringify(HashMap.toOrdered(input1)) ===
+        JSON.stringify(HashMap.toOrdered(input2))
+      : false,
+
+  toOrdered: (input) =>
+    Object.keys(input)
+      .sort()
+      .reduce((output, key) => ({ ...output, [key]: input[key] }), {}),
+
+  pick: (object, subsetKeys) =>
+    Object.fromEntries(
+      Object.entries(object ?? {}).filter(([key, _]) =>
+        subsetKeys.includes(key)
+      )
+    ),
+};
+/* END_INCLUDE: "core/lib/hashmap" */
 /* INCLUDE: "core/adapter/dev-hub" */
-const contractAccountId =
+const devHubAccountId =
   props.nearDevGovGigsContractAccountId ||
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 
 const DevHub = {
   edit_community_github: ({ handle, github }) =>
-    Near.call(contractAccountId, "edit_community_github", { handle, github }) ??
+    Near.call(devHubAccountId, "edit_community_github", { handle, github }) ??
     null,
 
   get_access_control_info: () =>
-    Near.view(contractAccountId, "get_access_control_info") ?? null,
+    Near.view(devHubAccountId, "get_access_control_info") ?? null,
+
+  get_all_authors: () => Near.view(devHubAccountId, "get_all_authors") ?? null,
 
   get_all_communities: () =>
-    Near.view(contractAccountId, "get_all_communities") ?? null,
+    Near.view(devHubAccountId, "get_all_communities") ?? null,
+
+  get_all_labels: () => Near.view(devHubAccountId, "get_all_labels") ?? null,
 
   get_community: ({ handle }) =>
-    Near.view(contractAccountId, "get_community", { handle }) ?? null,
+    Near.view(devHubAccountId, "get_community", { handle }) ?? null,
 
   get_post: ({ post_id }) =>
-    Near.view(contractAccountId, "get_post", { post_id }) ?? null,
+    Near.view(devHubAccountId, "get_post", { post_id }) ?? null,
+
+  get_posts_by_author: ({ author }) =>
+    Near.view(devHubAccountId, "get_posts_by_author", { author }) ?? null,
 
   get_posts_by_label: ({ label }) =>
     Near.view(nearDevGovGigsContractAccountId, "get_posts_by_label", {
@@ -85,61 +110,145 @@ const DevHub = {
     }) ?? null,
 
   get_root_members: () =>
-    Near.view(contractAccountId, "get_root_members") ?? null,
+    Near.view(devHubAccountId, "get_root_members") ?? null,
+
+  useQuery: ({ name, params, initialData }) => {
+    const initialState = { data: null, error: null, isLoading: true };
+
+    const cacheState = useCache(
+      () =>
+        Near.asyncView(devHubAccountId, name, params ?? {})
+          .then((response) => ({
+            ...initialState,
+
+            data:
+              (initialData ?? null) !== null
+                ? { ...initialData, ...(response ?? {}) }
+                : response ?? null,
+
+            isLoading: false,
+          }))
+          .catch((error) => ({
+            ...initialState,
+            error: props?.error ?? error,
+            isLoading: false,
+          })),
+
+      JSON.stringify({ name, params }),
+      { subscribe: true }
+    );
+
+    return cacheState === null ? initialState : cacheState;
+  },
 };
 /* END_INCLUDE: "core/adapter/dev-hub" */
+/* INCLUDE: "entity/viewer" */
+const access_control_info = DevHub.useQuery({
+  name: "get_access_control_info",
+});
 
-const communityDefaults = {
-  handle: "",
+const Viewer = {
+  isDevHubModerator:
+    access_control_info.data === null || access_control_info.isLoading
+      ? false
+      : access_control_info.data.members_list[
+          "team:moderators"
+        ]?.children?.includes?.(context.accountId) ?? false,
+};
+/* END_INCLUDE: "entity/viewer" */
+
+const CommunityDefaults = {
+  handle: null,
+  admins: [context.accountId],
   name: "",
   description: "",
+  bio_markdown: null,
+
+  logo_url:
+    "https://ipfs.near.social/ipfs/bafkreibysr2mkwhb4j36h2t7mqwhynqdy4vzjfygfkfg65kuspd2bawauu",
+
+  banner_url:
+    "https://ipfs.near.social/ipfs/bafkreic4xgorjt6ha5z4s5e3hscjqrowe5ahd7hlfc5p4hb6kdfp6prgy4",
+
   tag: "",
-  bio_markdown: "",
-  admins: [context.accountId],
+  github_handle: null,
+  telegram_handle: null,
+  twitter_handle: null,
+  website_url: null,
+  github: null,
+  sponsorship: null,
+  wiki1: null,
+  wiki2: null,
 };
 
 const CommunityEditorFrame = ({ handle }) => {
-  const accessControlInfo = DevHub.get_access_control_info();
-
-  if (accessControlInfo === null || communityData === null) {
-    return <div>Loading...</div>;
-  }
-
   State.init({
-    activeSection: 0,
+    canEdit: false,
     data: null,
-    isCommunityNew: true,
-    isEditingAllowed: false,
-
-    isSupervisionAllowed:
-      accessControlInfo.members_list["team:moderators"]?.children?.includes?.(
-        context.accountId
-      ) ?? false,
+    hasUnsavedChanges: false,
+    isCommunityNew: typeof handle !== "string",
   });
 
-  if (typeof handle === "string" && state.data === null) {
-    const data = DevHub.get_community({ handle });
+  const community = state.isCommunityNew
+    ? { data: CommunityDefaults, error: null, isLoading: false }
+    : DevHub.useQuery({
+        name: "get_community",
+        params: { handle },
+        initialData: CommunityDefaults,
+      });
 
+  const canEdit =
+    typeof handle !== "string" ||
+    (community.data?.admins ?? []).includes(context.accountId) ||
+    Viewer.isDevHubModerator;
+
+  const isSynced = HashMap.isEqual(state.data, community.data);
+
+  if (state.data === null) {
     State.update((lastKnownState) => ({
       ...lastKnownState,
-      data,
-      isCommunityNew: false,
-      isEditingAllowed: (data?.admins ?? []).includes(context.accountId),
+      data: community.data,
+      hasUnsavedChanges: false,
+      isCommunityNew: typeof handle !== "string",
     }));
-  } else if (typeof handle !== "string" && state.data === null) {
+  } else if (
+    typeof handle === "string" &&
+    !state.hasUnsavedChanges &&
+    !community.isLoading &&
+    !isSynced
+  ) {
     State.update((lastKnownState) => ({
       ...lastKnownState,
-      data: communityDefaults,
-      isCommunityNew: true,
-      isEditingAllowed: true,
+      data: community.data,
+      hasUnsavedChanges: false,
     }));
   }
 
   const onSubformSubmit = (partial) => {
-    State.update((lastKnownState) => ({
-      ...lastKnownState,
-      data: { ...lastKnownState.data, ...partial },
-    }));
+    State.update((lastKnownState) => {
+      const dataUpdate = Object.entries(partial).reduce(
+        (update, [key, value]) => ({
+          ...update,
+
+          [key]:
+            typeof value !== "string" || (value?.length ?? 0) > 0
+              ? value ?? null
+              : null,
+        }),
+        {}
+      );
+
+      const data = {
+        ...lastKnownState.data,
+        ...dataUpdate,
+      };
+
+      return {
+        ...lastKnownState,
+        data,
+        hasUnsavedChanges: !HashMap.isEqual(data, community.data),
+      };
+    });
   };
 
   const onSubmit = () =>
@@ -148,12 +257,12 @@ const CommunityEditorFrame = ({ handle }) => {
       state.isCommunityNew ? "add_community" : "edit_community",
 
       {
-        handle: state.isCommunityNew ? state.data.handle : handle,
+        handle: state.isCommunityNew ? state.data?.handle : handle,
 
         community: {
-          ...state.data,
+          ...(state.data ?? {}),
 
-          admins: state.data.admins.filter(
+          admins: state.data?.admins.filter(
             (maybeAccountId) => maybeAccountId.length > 0
           ),
         },
@@ -163,24 +272,30 @@ const CommunityEditorFrame = ({ handle }) => {
   const onDelete = () =>
     Near.call(nearDevGovGigsContractAccountId, "delete_community", { handle });
 
-  return (
+  return community.isLoading && !state.isCommunityNew ? (
+    <div>Loading...</div>
+  ) : (
     <div className="d-flex flex-column align-items-center gap-4 p-4">
-      {state.data !== null ? (
+      {typeof community.data?.handle === "string" || state.isCommunityNew ? (
         <>
           {widget("feature.community-editor.branding-section", {
-            data: state.data,
-            isEditingAllowed: state.isEditingAllowed,
+            isMutable: canEdit,
             onSubmit: onSubformSubmit,
+            values: state.data,
           })}
 
           {widget("components.organism.form", {
-            classNames: { submitAdornment: "bi-arrow-down-circle-fill" },
-            data: state.data,
+            classNames: {
+              submit: "btn-primary",
+              submitAdornment: "bi-check-circle-fill",
+            },
+
             heading: "Basic information",
             isEditorActive: state.isCommunityNew,
-            isMutable: state.isEditingAllowed || state.isSupervisionAllowed,
+            isMutable: canEdit,
             onSubmit: onSubformSubmit,
-            submitLabel: state.isCommunityNew ? "Next" : "Save",
+            submitLabel: "Accept",
+            values: state.data,
 
             schema: {
               name: {
@@ -243,12 +358,16 @@ const CommunityEditorFrame = ({ handle }) => {
           })}
 
           {widget("components.organism.form", {
-            classNames: { submitAdornment: "bi-arrow-down-circle-fill" },
-            data: state.data,
+            classNames: {
+              submit: "btn-primary",
+              submitAdornment: "bi-check-circle-fill",
+            },
+
             heading: "About",
-            isMutable: state.isEditingAllowed || state.isSupervisionAllowed,
+            isMutable: canEdit,
             onSubmit: onSubformSubmit,
-            submitLabel: state.isCommunityNew ? "Next" : "Save",
+            submitLabel: "Accept",
+            values: state.data,
 
             schema: {
               bio_markdown: {
@@ -294,12 +413,16 @@ const CommunityEditorFrame = ({ handle }) => {
           })}
 
           {widget("components.organism.form", {
-            classNames: { submitAdornment: "bi-arrow-down-circle-fill" },
-            data: state.data,
+            classNames: {
+              submit: "btn-primary",
+              submitAdornment: "bi-check-circle-fill",
+            },
+
             heading: "Permissions",
-            isMutable: state.isEditingAllowed || state.isSupervisionAllowed,
+            isMutable: canEdit,
             onSubmit: onSubformSubmit,
-            submitLabel: state.isCommunityNew ? "Next" : "Save",
+            submitLabel: "Accept",
+            values: state.data,
 
             schema: {
               admins: {
@@ -312,12 +435,16 @@ const CommunityEditorFrame = ({ handle }) => {
           })}
 
           {widget("components.organism.form", {
-            classNames: { submitAdornment: "bi-arrow-down-circle-fill" },
-            data: state.data?.wiki1 ?? {},
+            classNames: {
+              submit: "btn-primary",
+              submitAdornment: "bi-check-circle-fill",
+            },
+
             heading: "Wiki page 1",
-            isMutable: state.isEditingAllowed || state.isSupervisionAllowed,
+            isMutable: canEdit,
             onSubmit: (value) => onSubformSubmit({ wiki1: value }),
-            submitLabel: state.isCommunityNew ? "Next" : "Save",
+            submitLabel: "Accept",
+            values: state.data?.wiki1,
 
             schema: {
               name: {
@@ -335,12 +462,16 @@ const CommunityEditorFrame = ({ handle }) => {
           })}
 
           {widget("components.organism.form", {
-            classNames: { submitAdornment: "bi-arrow-down-circle-fill" },
-            data: state.data?.wiki2 ?? {},
+            classNames: {
+              submit: "btn-primary",
+              submitAdornment: "bi-check-circle-fill",
+            },
+
             heading: "Wiki page 2",
-            isMutable: state.isEditingAllowed || state.isSupervisionAllowed,
+            isMutable: canEdit,
             onSubmit: (value) => onSubformSubmit({ wiki2: value }),
-            submitLabel: state.isCommunityNew ? "Next" : "Save",
+            submitLabel: "Accept",
+            values: state.data?.wiki2,
 
             schema: {
               name: {
@@ -357,54 +488,63 @@ const CommunityEditorFrame = ({ handle }) => {
             },
           })}
 
-          {state.isSupervisionAllowed || state.isEditingAllowed ? (
+          {!state.isCommunityNew && Viewer.isDevHubModerator ? (
             <div
-              className="d-flex justify-content-center p-4 w-100"
+              className="d-flex justify-content-center gap-4 p-4 w-100"
               style={{ maxWidth: 896 }}
             >
-              {state.isSupervisionAllowed && !state.isCommunityNew
-                ? widget("components.atom.button", {
-                    classNames: {
-                      root: "btn-lg btn-outline-danger border-none",
-                    },
+              {widget("components.atom.button", {
+                classNames: {
+                  root: "btn-lg btn-outline-danger border-none",
+                },
 
-                    disabled: !state.isSupervisionAllowed,
-                    label: "Delete community",
-                    onClick: onDelete,
-                  })
-                : null}
+                label: "Delete community",
+                onClick: onDelete,
+              })}
+            </div>
+          ) : null}
 
+          {canEdit && state.hasUnsavedChanges && (
+            <div
+              className="position-fixed end-0 bottom-0 bg-transparent pe-4 pb-4"
+              style={{
+                borderTopLeftRadius: "100%",
+              }}
+            >
               {widget("components.atom.button", {
                 classNames: {
                   root: "btn-lg btn-success",
-                  adornment: [
-                    "bi",
+
+                  adornment: `bi ${
                     state.isCommunityNew
                       ? "bi-rocket-takeoff-fill"
-                      : "bi-cloud-arrow-up-fill",
-                  ].join(" "),
+                      : "bi-exclamation-triangle-fill"
+                  }`,
+
+                  adornmentHover: `bi ${
+                    state.isCommunityNew
+                      ? "bi-rocket-takeoff-fill"
+                      : "bi-sign-merge-right-fill"
+                  }`,
                 },
 
-                disabled: !(state.isCommunityNew
-                  ? true
-                  : state.isSupervisionAllowed || state.isEditingAllowed),
-
+                isCollapsible: true,
                 label: state.isCommunityNew ? "Launch" : "Save",
                 onClick: onSubmit,
               })}
             </div>
-          ) : null}
+          )}
         </>
       ) : (
         <div
           className="d-flex flex-column justify-content-center align-items-center w-100"
           style={{ height: 384 }}
         >
-          <h2 className="h2">Community doesn't exist.</h2>
+          <h2 className="h2">{`Community with handle ${community.handle} not found.`}</h2>
         </div>
       )}
     </div>
   );
 };
 
-return CommunityEditorFrame(props);
+return <CommunityEditorFrame {...props} />;

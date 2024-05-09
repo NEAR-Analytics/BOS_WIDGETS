@@ -4,6 +4,8 @@ const breakpoints = {
   xl: "1300px",
 };
 
+const imgSrc = `https://ipfs.near.social/ipfs/bafkreih5d2mix23e4hqsblgob74chyp3yyoze2ygtdm4cbo7dblt565rwa`;
+
 function Articles() {
   State.init({ page: 1 });
   let mediumPosts = [];
@@ -12,7 +14,7 @@ function Articles() {
     const { key, post } = props;
     return (
       <Card key={key} index={props.index} href={post.url} target="_blank">
-        <CardImage src={post.thumbnail} alt="" />
+        <CardImage src={imgSrc} alt="" />
         <CardContent>
           <CardTitle>
             <a href={post.url} target="_blank">

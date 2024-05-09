@@ -19,7 +19,7 @@ State.init({
 
 const bountiesIndex = Social.index(MAIN_DB_KEY, "bounty", {
   order: "desc",
-  length: 20, // TODO: IDK what is the limit before it breaks, need to implement pagination
+  limit: 100, // TODO: IDK what is the limit before it breaks, need to implement pagination
 });
 
 const result =
@@ -69,18 +69,6 @@ const result =
 // console.log("OUT", result);
 
 // Styles
-const Background = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: -10;
-  background: linear-gradient(0deg, #a8c0ff, #3f2b96);
-  background-size: cover;
-  background-position: center center;
-`;
-
 const Wrapper = styled.div`
   display: flex;
   align-items: stretch;

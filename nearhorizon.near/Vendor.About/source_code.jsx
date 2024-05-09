@@ -35,14 +35,14 @@ if (!state.descriptionIsFetched) {
     "get",
     { keys: [`${accountId}/profile/**`] },
     "final",
-    false
+    false,
   ).then((data) =>
     State.update({
       profile: data[accountId].profile,
       description: data[accountId].profile.description,
       services: data[accountId].profile.services,
       descriptionIsFetched: true,
-    })
+    }),
   );
   return <>Loading...</>;
 }
@@ -169,7 +169,7 @@ return (
             onSave({
               payments: payments.reduce(
                 (acc, { id }) => Object.assign(acc, { [id]: "" }),
-                {}
+                {},
               ),
             }),
           canEdit: isAdmin,
@@ -208,7 +208,7 @@ return (
             onSave({
               work: work.reduce(
                 (acc, { id }) => Object.assign(acc, { [id]: "" }),
-                {}
+                {},
               ),
             }),
           canEdit: isAdmin,

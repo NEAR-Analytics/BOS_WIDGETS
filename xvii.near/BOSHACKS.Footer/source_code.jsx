@@ -127,7 +127,7 @@ const social = (
         title="Official YouTube channel"
         target="_blank"
         rel="noopener"
-        href="https://www.youtube.com/"
+        href="https://www.youtube.com/@ResearchWG"
       >
         <svg
           class="svg-inline--fa fa-youtube fa-w-18"

@@ -8,11 +8,16 @@ const routerAbi = fetch(
   "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/ArbitrumSushiSwapRouter.txt"
 );
 
-if (!routerAbi.ok) {
+const erc20Abi = fetch(
+  "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
+);
+
+if (!routerAbi.ok || !erc20Abi.ok) {
   return "Loading";
 }
 
 const getNetwork = () => {
+  let ArbitrumChainId = 42161;
   Ethers.provider()
     .getNetwork()
     .then((res) => {
@@ -30,7 +35,7 @@ const getNetwork = () => {
 
   // get fee arbitrum chain
   asyncFetch(
-    "https://arb-mainnet.g.alchemy.com/v2/iL1gKyTK1xYrk0cCrSC3lrbGOCVHN2tm",
+    "https://nd-000-364-211.p2pify.com/5b8d22690a57f293b3a1ed8758014e35/",
     {
       method: "POST",
       headers: {
@@ -81,7 +86,7 @@ const swap = () => {
         route,
         overrides
       )
-      .then((res) => { });
+      .then((res) => {});
   } catch (err) {
     console.error(err);
   }
@@ -108,8 +113,20 @@ if (state.balance === undefined && state.sender) {
   Ethers.provider()
     .getBalance(state.sender)
     .then((balance) => {
+      console.log("balance ETH: " + balance);
       State.update({ balance: Big(balance).div(Big(10).pow(18)).toFixed(5) });
     });
+
+  const erc20Contract = new ethers.Contract(
+    MPEthToken,
+    erc20Abi.body,
+    Ethers.provider().getSigner()
+  );
+
+  erc20Contract.balanceOf(state.sender).then((res) => {
+    console.log("balance mpETH: " + res);
+    State.update({ mpETHbalance: Big(res).div(Big(10).pow(18)).toFixed(5) });
+  });
 }
 
 /// set selected token
@@ -156,12 +173,12 @@ const Theme = state.theme;
 
 // OUTPUT UI
 const getSender = () => {
-  return !state.sender
-    ? ""
-    : state.sender.substring(0, 6) +
-    "..." +
-    state.sender.substring(state.sender.length - 4, state.sender.length);
-},
+    return !state.sender
+      ? ""
+      : state.sender.substring(0, 6) +
+          "..." +
+          state.sender.substring(state.sender.length - 4, state.sender.length);
+  },
   mpEthIcon = (
     <svg
       width="24"
@@ -274,191 +291,227 @@ return (
           Sushi Swap
         </a>
       </div>
-      <div class="LidoForm">
-        {state.sender && (
-          <>
-            <p>
-              The price indicated below is a reference, for real-time price take a look at
-              <a
-                href="https://www.sushi.com/pool/42161:0x9C657a4140Ed352f86Dc6D3A8825991431dB2201/positions/7636"
-                target="_blank"
-                style={{ color: "#6c721c" }}
-              >
-                <strong>Sushi Swap</strong>
-              </a>
-            </p>
+      {state.isArbitrum && (
+        <>
+          <div class="LidoForm">
+            {state.sender && (
+              <>
+                <p>
+                  The price indicated below is a reference, for real-time price
+                  take a look at
+                  <a
+                    href="https://www.sushi.com/pool/42161:0x9C657a4140Ed352f86Dc6D3A8825991431dB2201/positions/7636"
+                    target="_blank"
+                    style={{ color: "#6c721c" }}
+                  >
+                    <strong>Sushi Swap</strong>
+                  </a>
+                </p>
 
-            <div class="LidoFormTopContainer">
-              <div
-                class="LidoFormTopContainerLeft"
-                style={{ maxWidth: "max-content" }}
-              >
-                <div class="LidoFormTopContainerLeftContent1">
-                  <div class="LidoFormTopContainerLeftContent1Container">
-                    <span>Available to swap</span>
-                    <div class="LidoFormTopContainerLeftContent1Circle" />
-                  </div>
-                </div>
-                <div class="LidoFormTopContainerLeftContent2">
-                  <span>
-                    {state.balance ?? (!state.sender ? "0" : "...")}&nbsp;{}
-                    {state.tokenSelected == 0 ? "ETH" : "mpETH"}
-                  </span>
-                </div>
+                <div class="LidoFormTopContainer">
+                  <div
+                    class="LidoFormTopContainerLeft"
+                    style={{ maxWidth: "max-content" }}
+                  >
+                    <div class="LidoFormTopContainerLeftContent1">
+                      <div class="LidoFormTopContainerLeftContent1Container">
+                        <span>Available to swap</span>
+                        <div class="LidoFormTopContainerLeftContent1Circle" />
+                      </div>
+                    </div>
+                    <div class="LidoFormTopContainerLeftContent2">
+                      <span>
+                        {state.tokenSelected == 0
+                          ? (state.balance ?? (!state.sender ? "0" : "...")) +
+                            " ETH"
+                          : (state.mpETHbalance ??
+                              (!state.sender ? "0" : "...")) + " mpETH"}
+                      </span>
+                    </div>
 
-                <span style={{ float: "right" }}>
-                  ~ {getEqualPrice(state.balance)}{" "}
-                  {state.tokenSelected == 0 ? "mpETH" : "ETH"}
-                </span>
-              </div>
-
-              <div class="LidoFormTopContainerRight">
-                <div class="LidoFormTopContainerRightContent1">
-                  <div class="LidoFormTopContainerRightContent1Text">
-                    <span style={{ color: "black" }}>
-                      <b>Account:</b> {getSender()}
+                    <span style={{ float: "right" }}>
+                      ~ {getEqualPrice(state.balance)}{" "}
+                      {state.tokenSelected == 0 ? "mpETH" : "ETH"}
                     </span>
                   </div>
+
+                  <div class="LidoFormTopContainerRight">
+                    <div class="LidoFormTopContainerRightContent1">
+                      <div class="LidoFormTopContainerRightContent1Text">
+                        <span style={{ color: "black" }}>
+                          <b>Account:</b> {getSender()}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div class="LidoSplitter" />
-          </>
-        )}
-      </div>
-
-      <div
-        class="LidoStakeForm"
-        style={{
-          "--lidoFormHeight": state.sender ? "150px" : "32px",
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <div class="LidoStakeFormInputContainer">
-          <div class="customSelect">
-            <select
-              name="select"
-              id="token"
-              class="selectCSS"
-              onChange={handleSelect}
-            >
-              <option value="0">ETH</option>
-              <option value="1">mpETH</option>
-            </select>
-
-            {arrowIcon}
-          </div>
-
-          <div class="LidoStakeFormInputContainerSpan2">
-            <div style={{ paddingLeft: "4px", paddingRight: "2px" }}>
-              {state.tokenSelected == 0 ? ethIcon : mpEthIcon}
-            </div>
-
-            <input
-              required
-              class="LidoStakeFormInputContainerSpan2Input"
-              value={state.strEther}
-              type="number"
-              onChange={(e) => State.update({ strEther: e.target.value })}
-              placeholder="Amount"
-            />
-          </div>
-
-          <span
-            class="LidoStakeFormInputContainerSpan3"
-            onClick={() => {
-              const balance = parseFloat(state.balance) - 0.0004;
-              State.update({
-                strEther: balance.toFixed(5).toString(),
-              });
-            }}
-          >
-            {state.sender && (
-              <button
-                class="LidoStakeFormInputContainerSpan3Content"
-                disabled={!state.sender}
-              >
-                <span class="LidoStakeFormInputContainerSpan3Max">MAX</span>
-              </button>
+                <div class="LidoSplitter" />
+              </>
             )}
-          </span>
-        </div>
+          </div>
 
-        <>
-          <span
+          <div
+            class="LidoStakeForm"
             style={{
-              marginTop: "8px",
+              "--lidoFormHeight": state.sender ? "150px" : "32px",
+              display: "flex",
+              flexDirection: "column",
             }}
           >
-            Amount in {state.tokenSelected == 0 ? "mpETH" : "ETH"}
-            {getEqualPrice(state.strEther)}
-          </span>
+            <div class="LidoStakeFormInputContainer">
+              <div class="customSelect">
+                <select
+                  name="select"
+                  id="token"
+                  class="selectCSS"
+                  onChange={handleSelect}
+                >
+                  <option value="0">ETH</option>
+                  <option value="1">mpETH</option>
+                </select>
 
-          {state.sender && <span>Gas Fee {state.gasFee} wei</span>}
-        </>
+                {arrowIcon}
+              </div>
 
-        {!!state.sender ? (
-          <>
-            {state.tokenSelected == 0 ? (
-              /// Stake
-              <button
-                class="LidoStakeFormSubmitContainer"
-                onClick={() => swap()}
-              >
-                <span>Stake</span>
-              </button>
-            ) : (
-              /// Unstake
-              <button
-                class="LidoStakeFormSubmitContainer"
-                style={{ backgroundColor: "#6c721c" }}
-                onClick={() => unswap()}
-              >
-                <span>Unstake - Coming soon</span>
-              </button>
-            )}
+              <div class="LidoStakeFormInputContainerSpan2">
+                <div style={{ paddingLeft: "4px", paddingRight: "2px" }}>
+                  {state.tokenSelected == 0 ? ethIcon : mpEthIcon}
+                </div>
 
-            <div class="row">
-              <div
-                class="col-12"
-                style={{
-                  textAlign: "center",
-                  color: "black",
-                  marginTop: "5px",
-                  fontWeight: "bold",
+                <input
+                  required
+                  class="LidoStakeFormInputContainerSpan2Input"
+                  value={state.strEther}
+                  type="number"
+                  onChange={(e) => State.update({ strEther: e.target.value })}
+                  placeholder="Amount"
+                />
+              </div>
+
+              <span
+                class="LidoStakeFormInputContainerSpan3"
+                onClick={() => {
+                  const balance = parseFloat(state.balance) - 0.0004;
+                  State.update({
+                    strEther: balance.toFixed(5).toString(),
+                  });
                 }}
               >
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginTop: "5px",
-                  }}
-                >
-                  Running on &nbsp;
-                  <a target="_blank" href="https://arbitrum.io/">
-                    Arbitrum
-                  </a>
-                  &nbsp; for lower fees &nbsp;
-                  <img
-                    src="https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/Arbitrum.png"
-                    style={{ width: "20px" }}
-                  ></img>
-                </div>
-              </div>
+                {state.sender && (
+                  <button
+                    class="LidoStakeFormInputContainerSpan3Content"
+                    disabled={!state.sender}
+                  >
+                    <span class="LidoStakeFormInputContainerSpan3Max">MAX</span>
+                  </button>
+                )}
+              </span>
             </div>
-          </>
-        ) : (
-          <Web3Connect
-            className="LidoStakeFormSubmitContainer"
-            connectLabel="CONNECT WITH WEB3"
-          />
-        )}
-      </div>
-    </div>
 
+            <>
+              <span
+                style={{
+                  marginTop: "8px",
+                }}
+              >
+                Amount in {state.tokenSelected == 0 ? "mpETH" : "ETH"}
+                {getEqualPrice(state.strEther)}
+              </span>
+
+              {state.sender && <span>Gas Fee {state.gasFee} wei</span>}
+            </>
+
+            {!!state.sender ? (
+              <>
+                {state.tokenSelected == 0 ? (
+                  /// Stake
+                  <button
+                    class="LidoStakeFormSubmitContainer"
+                    onClick={() => swap()}
+                  >
+                    <span>Stake</span>
+                  </button>
+                ) : (
+                  /// Unstake
+                  <button
+                    class="LidoStakeFormSubmitContainer"
+                    style={{ backgroundColor: "#6c721c" }}
+                    onClick={() => unswap()}
+                  >
+                    <span>Unstake - Coming soon</span>
+                  </button>
+                )}
+
+                <div class="row">
+                  <div
+                    class="col-12"
+                    style={{
+                      textAlign: "center",
+                      color: "black",
+                      marginTop: "5px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginTop: "5px",
+                      }}
+                    >
+                      Running on &nbsp;
+                      <a target="_blank" href="https://arbitrum.io/">
+                        Arbitrum
+                      </a>
+                      &nbsp; for lower fees &nbsp;
+                      <img
+                        src="https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/Arbitrum.png"
+                        style={{ width: "20px" }}
+                      ></img>
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <Web3Connect
+                className="LidoStakeFormSubmitContainer"
+                connectLabel="CONNECT WITH WEB3"
+              />
+            )}
+          </div>
+        </>
+      )}
+      {!state.isArbitrum && (
+        <>
+          <div class="LidoForm" style={{ textAlign: "center" }}>
+            {state.sender && (
+              <>
+                <span>
+                  To proceed, please switch to the
+                  <br />
+                  <div class="LidoFormTopContainerRightContent1">
+                    <div class="LidoFormTopContainerRightContent1Text">
+                      <span
+                        onClick={() => switchNetwork(42161)}
+                        style={{ color: "black", cursor: "pointer" }}
+                      >
+                        <b>Arbitrum Network</b>
+                      </span>
+                    </div>
+                  </div>
+                  using your wallet.
+                </span>
+              </>
+            )}
+            {!state.sender && <Web3Connect
+                className="LidoStakeFormSubmitContainer"
+                connectLabel="CONNECT WITH WEB3"
+              />}
+          </div>
+        </>
+      )}
+    </div>
     {state.isArbitrum && state.sender && (
       <Widget
         src="owa-is-bos.near/widget/SwapETH-mpETH-Transactions"

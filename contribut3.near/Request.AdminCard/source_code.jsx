@@ -1,11 +1,12 @@
 const ownerId = "contribut3.near";
+const apiUrl = "https://api-staging-fur7.onrender.com";
 const accountId = props.accountId;
 const cid = props.cid;
 
 const getDate = (timestamp) => {
   const timestampString = `${timestamp}`;
   return new Date(
-    Number(timestampString.substring(0, 13))
+    Number(timestampString.substring(0, 13)),
   ).toLocaleDateString();
 };
 
@@ -24,22 +25,20 @@ if (!state.requestIsFetched) {
     "get_request",
     { account_id: accountId, cid },
     "final",
-    false
+    false,
   ).then((request) => State.update({ request, requestIsFetched: true }));
-  asyncFetch("https://api-op3o.onrender.com/transactions/all").then(
-    ({ body: txs }) => {
-      const tx = txs.find((tx) => {
-        const start = "EVENT_JSON:";
-        const logData = JSON.parse(tx.log.substring(start.length)).data;
-        return (
-          logData.cid === cid &&
-          tx.method_name === "add_request" &&
-          tx.args.request.project_id === accountId
-        );
-      });
-      State.update({ created_at: tx.timestamp });
-    }
-  );
+  asyncFetch(`${apiUrl}/transactions/all`).then(({ body: txs }) => {
+    const tx = txs.find((tx) => {
+      const start = "EVENT_JSON:";
+      const logData = JSON.parse(tx.log.substring(start.length)).data;
+      return (
+        logData.cid === cid &&
+        tx.method_name === "add_request" &&
+        tx.args.request.project_id === accountId
+      );
+    });
+    State.update({ created_at: tx.timestamp });
+  });
 }
 
 if (!state.proposalsIsFetched) {
@@ -48,7 +47,7 @@ if (!state.proposalsIsFetched) {
     "get_request_proposals",
     { account_id: accountId, cid },
     "final",
-    false
+    false,
   ).then((proposals) => State.update({ proposals, proposalsIsFetched: true }));
 }
 
@@ -58,9 +57,9 @@ if (!state.nameIsFetched) {
     "get",
     { keys: [`${accountId}/profile/name`] },
     "final",
-    false
+    false,
   ).then((data) =>
-    State.update({ name: data[accountId].profile.name, nameIsFetched: true })
+    State.update({ name: data[accountId].profile.name, nameIsFetched: true }),
   );
 }
 

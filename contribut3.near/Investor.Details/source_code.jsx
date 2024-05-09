@@ -35,12 +35,12 @@ if (!state.profileIsFetched) {
     "get",
     { keys: [`${accountId}/profile/**`] },
     "final",
-    false
+    false,
   ).then((profile) =>
     State.update({
       profile: profile[accountId].profile,
       profileIsFetched: true,
-    })
+    }),
   );
   return <>Loading...</>;
 }
@@ -51,7 +51,7 @@ const onSave = (profile) => {
     {
       onCommit: () =>
         State.update({ profile: { ...state.profile, ...profile } }),
-    }
+    },
   );
 };
 
@@ -85,8 +85,25 @@ return (
         label: "Specialization",
         id: "specialization",
         value: state.profile.specialization,
-        options: [{ name: "Venture investments", id: "venture" }],
-        onSave: ([{ id: specialization }]) => onSave({ specialization }),
+        options: [{ value: "Venture investments", text: "venture" }],
+        onSave: ({ value: specialization }) => onSave({ specialization }),
+        canEdit: isAdmin,
+      }}
+    />
+    <Widget
+      src={`${ownerId}/widget/Inputs.Viewable.Verticals`}
+      props={{
+        label: "Verticals",
+        value: state.profile.verticals ?? { [state.profile.category]: "" },
+        onSave: (verticals) =>
+          onSave({
+            profile: {
+              verticals: verticals.reduce(
+                (acc, vertical) => Object.assign(acc, { [vertical]: "" }),
+                {},
+              ),
+            },
+          }),
         canEdit: isAdmin,
       }}
     />

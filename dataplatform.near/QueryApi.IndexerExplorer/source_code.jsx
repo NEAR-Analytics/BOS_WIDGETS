@@ -15,34 +15,32 @@ if (props.tab && props.tab !== state.selectedTab) {
   });
 }
 
-Near.asyncView(`queryapi.dataplatform.near`, "list_indexer_functions").then(
-  (data) => {
-    const indexers = [];
-    const total_indexers = 0;
-    Object.keys(data.All).forEach((accountId) => {
-      Object.keys(data.All[accountId]).forEach((functionName) => {
-        indexers.push({
-          accountId: accountId,
-          indexerName: functionName,
-        });
-        total_indexers += 1;
+Near.asyncView(`queryapi.dataplatform.near`, "list_all").then((data) => {
+  const indexers = [];
+  const total_indexers = 0;
+  Object.keys(data).forEach((accountId) => {
+    Object.keys(data[accountId]).forEach((functionName) => {
+      indexers.push({
+        accountId: accountId,
+        indexerName: functionName,
       });
+      total_indexers += 1;
     });
+  });
 
-    let my_indexers = indexers.filter(
-      (indexer) => indexer.accountId === accountId
-    );
-    // const results = indexers.slice(
-    //   0,
-    //   state.currentPage * limitPerPage + limitPerPage
-    // );
-    State.update({
-      my_indexers: my_indexers,
-      all_indexers: indexers,
-      total_indexers: total_indexers,
-    });
-  }
-);
+  let my_indexers = indexers.filter(
+    (indexer) => indexer.accountId === accountId
+  );
+  // const results = indexers.slice(
+  //   0,
+  //   state.currentPage * limitPerPage + limitPerPage
+  // );
+  State.update({
+    my_indexers: my_indexers,
+    all_indexers: indexers,
+    total_indexers: total_indexers,
+  });
+});
 
 const Wrapper = styled.div`
   display: flex;
@@ -252,17 +250,11 @@ return (
     {state.selectedTab == "my-indexers" && state.my_indexers.length == 0 && (
       <Header>
         <H2>
-          QueryAPI streamlines the process of querying specific data from the
-          Near Blockchain. Explore new Indexers and fork them to try it out!
+          QueryAPI streamlines the process of querying specific data from the Near Blockchain. Explore new Indexers and fork them to try it out!
         </H2>
         <H2>
           To learn more about QueryAPI, visit
-          <TextLink
-            target="_blank"
-            href="https://docs.near.org/bos/community/indexers"
-            as="a"
-            bold
-          >
+          <TextLink target="_blank" href="https://docs.near.org/bos/community/indexers" as="a" bold>
             QueryAPI Docs
           </TextLink>
         </H2>

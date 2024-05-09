@@ -3,6 +3,10 @@
  * Page route gets passed in through params, along with all other page props.
  */
 
+const { onDraftStateChange } = VM.require(
+  "geforcy.near/widget/devhub.entity.post.draft"
+);
+
 const { page, ...passProps } = props;
 
 // Import our modules
@@ -57,10 +61,11 @@ function Page() {
         />
       );
     }
+
     // ?page=community
     case "community": {
       return (
-        // Considering to consolsidate this into a single widget,
+        // Considering to consolidate this into a single widget,
         // where each level handles its own routing.
         // Modularizing a page just like we do with addons
         <Widget
@@ -115,7 +120,33 @@ function Page() {
     case "create": {
       return (
         <Widget
-          src={"geforcy.near/widget/devhub.page.create"}
+          src={"geforcy.near/widget/devhub.entity.post.PostEditor"}
+          props={{ ...passProps, isCreatePostPage: true, onDraftStateChange }}
+        />
+      );
+    }
+
+    case "create-proposal": {
+      return (
+        <Widget
+          src={"geforcy.near/widget/devhub.entity.proposal.Editor"}
+          props={{ ...passProps }}
+        />
+      );
+    }
+
+    case "proposals": {
+      return (
+        <Widget
+          src={"geforcy.near/widget/devhub.page.proposals"}
+          props={passProps}
+        />
+      );
+    }
+    case "proposal": {
+      return (
+        <Widget
+          src={"geforcy.near/widget/devhub.entity.proposal.Proposal"}
           props={passProps}
         />
       );

@@ -17,7 +17,18 @@ const index = {
 const Wrapper = styled.div`
   padding-bottom: 48px;
 
-  > div {
+  padding-inline: 20px;
+
+  div {
+    * {
+       color: #FFFFFF;
+    }
+    a * {
+      color: #0d6efd;
+    }
+
+ 
+        
     > * {
       margin-bottom: 12px;
 
@@ -51,7 +62,8 @@ const renderItem = (item, i) => {
 return (
   <Wrapper>
     <Widget
-      src="adminalpha.near/widget/IndexFeed"
+      // src="saidulbadhon.near/widget/NotificationsSidebar.IndexFeed"
+      src="mob.near/widget/NotificationFeed"
       props={{
         index,
         renderItem,

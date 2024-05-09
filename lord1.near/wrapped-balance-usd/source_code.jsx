@@ -226,7 +226,7 @@ const ChartHasError = () =>
 return (
   <div>
     <div className="row">
-      <div className="col-8">
+      <div className="col-lg-8 col-md-12">
         <Widget src="lord1.near/widget/header-dynamic" props={general_theme} />
         <div
           style={{
@@ -269,7 +269,7 @@ return (
           </div>
         </div>
       </div>
-      <div className="col-4">
+      <div className="col-lg-4 col-md-12">
         <Widget src="lord1.near/widget/header-dynamic" props={general_theme1} />
         <div
           style={{ background: themeColor?.sbt_area?.section_bg }}

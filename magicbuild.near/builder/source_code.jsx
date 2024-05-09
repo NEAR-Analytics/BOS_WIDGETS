@@ -205,7 +205,7 @@ const getPrompt = () => {
     }),
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer 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`,
+      Authorization: `Bearer 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`,
     },
     method: "POST",
   }).then((res) => {
@@ -214,6 +214,7 @@ const getPrompt = () => {
     State.update({ openModalPreview: true });
   });
 };
+
 const openModalCSS = (e, type) => {
   if (type == "show") {
     State.update({ openModalCSS: true, clickedModalCSS: false });

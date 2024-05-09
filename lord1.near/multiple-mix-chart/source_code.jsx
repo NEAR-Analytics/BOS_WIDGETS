@@ -90,30 +90,34 @@ if (series.length > colors.length) {
   }
 }
 const Container = styled.div`
-  .tabContent{
-    display:inline-flex;
-    align-items:center;
+  && {
+    text-align: left;
+  }
+  .tabContent {
+    display: inline-flex;
+    align-items: left;
     background: rgba(26, 46, 51, 0.25);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 10px;
-    padding:3px 4px;
-    list-style-type:none;
+    padding: 3px 4px;
+    list-style-type: none;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    justify-content: center;
   }
-  .tab-item .active{
+  .tab-item .active {
     background: #304352;
   }
-  .tab-item button{
-    background-color:transparent;
+  .tab-item button {
+    background-color: transparent;
     border-radius: 8px;
     font-weight: 500;
     font-size: 14px;
-    color:#fff;
-    height:30px;
-    padding:0 22px;
-    border:none;
-    width:max-content;
+    color: #fff;
+    height: 30px;
+    padding: 0 22px;
+    border: none;
   }
-
 `;
 const chartOption = () => {
   const chart = charts[state.selectedChart - 1];

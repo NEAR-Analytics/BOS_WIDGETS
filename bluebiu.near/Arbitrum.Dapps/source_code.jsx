@@ -66,6 +66,13 @@ const SearchIcon = (
 
 const dapps = [
   {
+    src: "bluebiu.near/widget/Arbitrum.All-in-one",
+    bannerImg:
+      "https://ipfs.near.social/ipfs/bafkreiagman5kszm4uk4znday3gj3sfk74djaqcgj6zl5ortzd7fmlox4a",
+    icon: "https://ipfs.near.social/ipfs/bafkreihtp5vexzm2mul6jaqs2qwdy5th4ctmaj7tcqc6b43tebjq5rocku",
+    tags: ["Bridge","Dexes","Lending"],
+  },
+  {
     src: "bluebiu.near/widget/Arbitrum.Swap.Dex",
     bannerImg:
       "https://ipfs.near.social/ipfs/bafkreiagman5kszm4uk4znday3gj3sfk74djaqcgj6zl5ortzd7fmlox4a",

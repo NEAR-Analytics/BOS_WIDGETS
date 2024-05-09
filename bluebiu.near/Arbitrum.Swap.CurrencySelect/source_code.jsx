@@ -74,7 +74,7 @@ const Empty = styled.div`
   color: #fff;
 `;
 
-const { title, tokens } = props;
+const { title, tokens, account } = props;
 
 State.init({
   tokens: props.tokens || [],
@@ -84,10 +84,10 @@ const handleSearch = (e) => {
   State.update({
     tokens: e.target.value
       ? props.tokens.filter((token) => {
-          console.log(token);
           return (
             token.address === e.target.value ||
-            token.name.toLowerCase().includes(e.target.value?.toLowerCase())
+            token.name.toLowerCase().includes(e.target.value?.toLowerCase()) ||
+            token.symbol.toLowerCase().includes(e.target.value?.toLowerCase())
           );
         })
       : props.tokens,
@@ -96,8 +96,16 @@ const handleSearch = (e) => {
 
 return (
   <Dialog className={props.display ? "display" : ""}>
-    <Overlay>
-      <Content>
+    <Overlay
+      onClick={() => {
+        props.onClose();
+      }}
+    >
+      <Content
+        onClick={(ev) => {
+          ev.stopPropagation();
+        }}
+      >
         <Header>
           <Title>Select a token</Title>
           <Widget
@@ -119,6 +127,7 @@ return (
                 selectedTokenAddress: props.selectedTokenAddress,
                 currency,
                 display: props.display,
+                account,
                 onClick: () => {
                   props.onSelect?.(currency);
                   props.onClose();

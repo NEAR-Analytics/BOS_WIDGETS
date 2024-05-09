@@ -12,7 +12,7 @@ const getFilters = () => {
             [key]: new Set(urlProps[key].split(",")),
           })
         : acc,
-    {}
+    {},
   );
 };
 

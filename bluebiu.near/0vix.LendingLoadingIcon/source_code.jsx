@@ -6,8 +6,8 @@ const Loading = styled.div`
   line-height: ${Size}px;
   animation: loading 1s linear infinite;
   transform-origin: center center;
-  display: inline-block;
-  text-align: center;
+  display: flex;
+  margin: 0 auto;
   @keyframes loading {
     0% {
       transform: rotate(0deg);
@@ -32,12 +32,12 @@ return (
         cx="9"
         cy="9"
         r="8"
-        stroke="white"
+        stroke="currentColor"
         stroke-width="2"
       />
       <path
         d="M1 9C1 13.4183 4.58172 17 9 17C13.4183 17 17 13.4183 17 9C17 4.58172 13.4183 1 9 1"
-        stroke="white"
+        stroke="currentColor"
         stroke-width="2"
         stroke-linecap="round"
       />

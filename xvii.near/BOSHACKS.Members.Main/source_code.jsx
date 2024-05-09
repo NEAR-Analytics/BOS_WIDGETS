@@ -131,6 +131,13 @@ return (
         </TabsButton>
 
         <TabsButton
+          href={`${accountUrl}&memberTab=alumni`}
+          selected={state.selectedTab === "alumni"}
+        >
+          Alumni
+        </TabsButton>
+
+        <TabsButton
           href={`${accountUrl}&memberTab=mentors`}
           selected={state.selectedTab === "mentors"}
         >
@@ -141,6 +148,12 @@ return (
       {state.selectedTab === "hackers" && (
         <>
           <Widget src={`xvii.near/widget/BOSHacks.AddHackersToDAO`} />
+        </>
+      )}
+
+      {state.selectedTab === "alumni" && (
+        <>
+          <Widget src={`xvii.near/widget/NCR.Alumni`} />
         </>
       )}
 

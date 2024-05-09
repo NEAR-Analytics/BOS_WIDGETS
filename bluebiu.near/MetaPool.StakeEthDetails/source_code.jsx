@@ -67,9 +67,8 @@ const handleDetails = () => {
 
   const mpEthPrice = bigMpEthPrice
     .div(Big(10).pow(tokenDecimals))
-    .toFixed(12)
+    .toFixed(6)
     .replace(/\d(?=(\d{3})+\.)/g, "$&,");
-
   const stakeBalance = Storage.privateGet("stakeBalance");
   if (!stakeBalance) {
     State.update({ mpEthPrice });
@@ -79,28 +78,18 @@ const handleDetails = () => {
       .div(Big(10).pow(tokenDecimals))
       .toFixed(6)
       .replace(/\d(?=(\d{3})+\.)/g, "$&,");
-
-    const userMpEthUsd = bigMpEthPrice
+    const userMpEthUsd = Big(mpEthPrice)
       .mul(stakeBalance)
-      .div(Big(10).pow(tokenDecimals))
+      .mul(ethUsdPrice)
       .toFixed(2)
       .replace(/\d(?=(\d{3})+\.)/g, "$&,");
 
     State.update({ mpEthPrice, userMpEthInEth, userMpEthUsd });
   }
-  const timer = Storage.privateGet("timer");
-  clearTimeout(timer);
-  const _timer = setTimeout(() => {
-    handleDetails();
-  }, 1000);
-  Storage.privateGet("timer", _timer);
 };
-if (props.updateStakeBalance) {
-  if (ethUsdPrice && stakingData) {
-    handleDetails();
-    props.onUpdateStakeBalance?.(Date.now());
-    getStakedBalance();
-  }
+if (ethUsdPrice && stakingData) {
+  handleDetails();
+  getStakedBalance();
 }
 
 return (

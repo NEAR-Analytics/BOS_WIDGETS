@@ -1,6 +1,6 @@
 // Initialize variables with default values or from props
 const limit = 20;
-const series = props.series ?? "214";
+const series = props.series ?? "496";
 const title = props.title ?? "Total";
 const showHeader = props.showHeader ?? true;
 const showImage = props.showImage ?? false;
@@ -16,7 +16,7 @@ let isFetching = false; // Lock variable to prevent simultaneous fetches
 
 // Function to fetch tokens
 function fetchTokens() {
-  if (isFetching) return; // Exit if a fetch is already in progress
+  if (isFetching || !state.hasMore) return; // Exit if a fetch is already in progress or no more tokens to fetch
   isFetching = true; // Set lock to true
 
   asyncFetch("https://graph.mintbase.xyz/mainnet", {
@@ -34,10 +34,11 @@ function fetchTokens() {
                 offset: ${state.offset},
                 where: { 
                   nft_contract_id: { _eq: "mint.sharddog.near" }, 
-                  token_id: {_regex: "^${series}:", _neq: "214:1"} 
+                  token_id: {_regex: "^${series}:", _neq: "496:1"} 
                 },
                 order_by: {minted_timestamp: desc}
             ) {
+              token_id
               media
               owner
             }
@@ -49,19 +50,9 @@ function fetchTokens() {
     if (res.ok) {
       const newTokens = res.body.data.mb_views_nft_tokens;
 
-      // Remove duplicates before appending
-      const uniqueNewTokens = newTokens.filter(
-        (newToken) =>
-          !state.tokens.some(
-            (existingToken) =>
-              existingToken.owner === newToken.owner &&
-              existingToken.media === newToken.media
-          )
-      );
-
-      if (uniqueNewTokens.length > 0) {
+      if (newTokens.length > 0) {
         State.update({
-          tokens: [...state.tokens, ...uniqueNewTokens],
+          tokens: [...state.tokens, ...newTokens],
           offset: state.offset + limit,
           hasMore: true,
         });
@@ -127,12 +118,18 @@ const loader = (
   </div>
 );
 
+// Extract "n" from the first fetched token's ID and subtract 1
+const total =
+  state.tokens.length > 0
+    ? parseInt(state.tokens[0].token_id.split(":")[1]) - 1
+    : 0;
+
 // Final rendering
 return (
   <>
     {showHeader && (
       <h1 style={{ marginLeft: "20px" }}>
-        {title}: {state.tokens.length}
+        {title}: {total}
       </h1>
     )}
 

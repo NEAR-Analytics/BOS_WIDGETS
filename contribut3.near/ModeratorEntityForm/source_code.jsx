@@ -38,9 +38,9 @@ State.init({
 });
 
 const allStatuses = ["Active", "Flagged"].map((name) => ({ name }));
-const allAccountIds = (
-  Near.view(ownerId, "get_entities", {}, "final", true) ?? []
-).map(([name]) => ({ name }));
+const allAccountIds = Object.keys(
+  Near.view(ownerId, "get_entities", {}, "final", true) ?? {}
+).map((name) => ({ name }));
 
 const accountIdInput = (
   <Widget
@@ -160,8 +160,9 @@ const body = (
     </div>
 
     <a
-      className={`btn ${state.accountIdValid ? "btn-primary" : "btn-secondary"
-        } mb-2`}
+      className={`btn ${
+        state.accountIdValid ? "btn-primary" : "btn-secondary"
+      } mb-2`}
       onClick={onSubmit}
     >
       Submit
@@ -182,12 +183,12 @@ const footer = (
           entity:
             state.updated || !state.existing
               ? {
-                name: state.name,
-                kind: state.kind[0].name,
-                status: state.entityStatus[0].name,
-                start_date: `${new Date(state.startDate).getTime()}`,
-                end_date: `${new Date(state.endDate).getTime()}`,
-              }
+                  name: state.name,
+                  kind: state.kind[0].name,
+                  status: state.entityStatus[0].name,
+                  start_date: `${new Date(state.startDate).getTime()}`,
+                  end_date: `${new Date(state.endDate).getTime()}`,
+                }
               : state.existing,
         }}
       />

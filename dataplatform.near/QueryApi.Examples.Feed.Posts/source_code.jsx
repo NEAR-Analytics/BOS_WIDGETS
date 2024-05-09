@@ -4,6 +4,7 @@ const GRAPHQL_ENDPOINT =
 const sortOption = props.postsOrderOption || "blockHeight"; // following, blockHeight
 const LIMIT = 25;
 let accountsFollowing =  props.accountsFollowing
+const moderatorAccount = props?.moderatorAccount || "bosmod.near";
 
 if (context.accountId && !accountsFollowing) {
   const graph = Social.keys(`${context.accountId}/graph/follow/*`, "final");
@@ -11,6 +12,42 @@ if (context.accountId && !accountsFollowing) {
     accountsFollowing = Object.keys(graph[context.accountId].graph.follow || {});
   }
 }
+
+let filterUsersRaw = Social.get(
+  `${moderatorAccount}/moderate/users`,
+  "optimistic",
+  {
+    subscribe: true,
+  }
+);
+
+const selfFlaggedPosts = context.accountId
+  ? Social.index("flag", "main", {
+      accountId: context.accountId,
+    })
+  : [];
+
+if (filterUsers === null) {
+  // haven't loaded filter list yet, return early
+  return "";
+}
+
+const filterUsers = filterUsersRaw ? JSON.parse(filterUsersRaw) : [];
+
+// get the full list of posts that the current user has flagged so
+// they can be hidden
+
+const shouldFilter = (item) => {
+  return (
+    filterUsers.includes(item.account_id) ||
+    selfFlaggedPosts.find((flagged) => {
+      return (
+        flagged?.value?.blockHeight === item.block_height &&
+        flagged?.value?.path.includes(item.account_id)
+      );
+    })
+  );
+};
 
 State.init({
   selectedTab: Storage.privateGet("selectedTab") || "all",
@@ -129,8 +166,18 @@ const loadMorePosts = () => {
         const postsCountLeft =
           data.dataplatform_near_social_feed_posts_aggregate.aggregate.count;
         if (newPosts.length > 0) {
+          let filteredPosts = newPosts.filter((i) => !shouldFilter(i));
+          filteredPosts = filteredPosts.map((post) => {
+            const prevComments = post.comments;
+            const filteredComments = post.comments.filter(
+              (comment) => !shouldFilter(comment)
+            );
+            post.comments = filteredComments;
+            return post;
+          });
+
           State.update({
-            posts: [...state.posts, ...newPosts],
+            posts: [...state.posts, ...filteredPosts],
             postsCountLeft,
           });
         }
@@ -251,9 +298,9 @@ const FeedWrapper = styled.div`
 
 const hasMore = state.postsCountLeft != state.posts.length
 
-if(!state.initLoadPostsAll) {
-  loadMorePosts()
-  State.update({initLoadPostsAll: true})
+if (!state.initLoadPostsAll && selfFlaggedPosts && filterUsers) {
+  loadMorePosts();
+  State.update({ initLoadPostsAll: true });
 }
 
 if(state.initLoadPostsAll == true && !state.initLoadPosts && accountsFollowing) {
@@ -297,7 +344,14 @@ return (
       )}
 
       <FeedWrapper>
-      <Widget src={`${APP_OWNER}/widget/QueryApi.Examples.Feed`} props={{ hasMore, loadMorePosts, posts: state.posts}} />
+        <Widget
+          src={`${APP_OWNER}/widget/QueryApi.Examples.Feed`}
+          props={{
+            hasMore,
+            loadMorePosts,
+            posts: state.posts,
+          }}
+        />
       </FeedWrapper>
     </Content>
   </>

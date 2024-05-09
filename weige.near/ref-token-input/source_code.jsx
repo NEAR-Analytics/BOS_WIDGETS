@@ -20,9 +20,12 @@ const ArrowDown = (
 );
 
 const TokenAmount = styled.div`
-  background: #373A53;
+  background: #373a53;
   border-radius: 12px;
   width: 430px;
+  @media (max-width: 736px) {
+    width: 100%;
+  }
   padding: 18px 16px;
   color: white;
   display: flex;
@@ -37,7 +40,7 @@ const Input = styled.input`
   border: none;
   font-size: 20px;
   ::placeholder {
-    color: #7C7F96;
+    color: #7c7f96;
   }
   color: white;
   ::-webkit-outer-spin-button,
@@ -88,12 +91,12 @@ const accountNum = JSON.parse(
   fetch("https://indexer.ref.finance/list-token-price").body
 );
 const getBalanceNum = (token_id) => {
-  if(token_id && token_id.toLowerCase() === 'near'){
-    return accountNum['wrap.near'].price
+  if (token_id && token_id.toLowerCase() === "near") {
+    return accountNum["wrap.near"].price;
   }
 
-  return accountNum[token_id].price
-}
+  return accountNum[token_id].price;
+};
 
 const shrinkToken = (value, decimals) => {
   return new Big(value || 0).div(new Big(10).pow(decimals)).toFixed();
@@ -141,11 +144,11 @@ State.init({
 });
 
 const BalanceWrapper = styled.div`
-  color: #7C7F96;
+  color: #7c7f96;
   font-size: 12px;
   margin-left: 8px;
   padding-top: 4px;
-  display: flex; 
+  display: flex;
   justify-content: space-between;
 `;
 
@@ -196,10 +199,14 @@ return (
       </TokenWrapper>
     </TokenAmount>
     <BalanceWrapper>
-      <div>~$ {formatTokenBig(getBalanceNum(props.token.id) * amount, props.token.decimals)}</div>
       <div>
-        Balance: {accountId ? getBalance(props.token.id) : "-"}
+        ~${" "}
+        {formatTokenBig(
+          getBalanceNum(props.token.id) * amount,
+          props.token.decimals
+        )}
       </div>
+      <div>Balance: {accountId ? getBalance(props.token.id) : "-"}</div>
     </BalanceWrapper>
 
     {SelectToken}

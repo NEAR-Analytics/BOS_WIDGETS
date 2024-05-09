@@ -1,37 +1,54 @@
-
 const path = props.path || "query-api-editor";
-const registry_contract_id =
-  props.registry_contract_id || "queryapi.dataplatform.near";
+const tab = props.tab || "";
+const activeView = props.activeView || "editor";
 let accountId = props.accountId || context.accountId;
-
-let externalAppUrl = `https://queryapi-frontend-vcqilefdcq-ew.a.run.app/${path}?accountId=${accountId}`;
+let externalAppUrl = `https://queryapi-frontend-24ktefolwq-ew.a.run.app/${path}?accountId=${accountId}`;
 
 if (props.indexerName) {
   externalAppUrl += `&indexerName=${props.indexerName}`;
 }
-
 const initialViewHeight = 1000;
-if (!context.accountId) {
-  return "Please sign in to use this widget.";
-}
-const initialPayload = { height: Near.block("optimistic").header.height };
+
+const initialPayload = {
+  height: Near.block("optimistic").header.height,
+  selectedTab: tab,
+  activeView,
+  currentUserAccountId: context.accountId,
+};
+
 const registerFunctionHandler = (request, response) => {
-  const { indexerName, code, schema, blockHeight } = request.payload;
-
   const gas = 200000000000000;
+  const { indexerName, code, schema, startBlock, contractFilter } =
+    request.payload;
 
-  // if (shouldFetchLatestBlockheight == true || blockHeight == null) {
-  //   blockHeight = Near.block("optimistic").header.height;
-  // }
+  const jsonFilter = `{"indexer_rule_kind":"Action","matching_rule":{"rule":"ACTION_ANY","affected_account_id":"${contractFilter || "social.near"}","status":"SUCCESS"}}`
 
   Near.call(
-    registry_contract_id,
-    "register_indexer_function",
+    `queryapi.dataplatform.near`,
+    "register",
     {
       function_name: indexerName,
       code,
       schema,
-      start_block_height: blockHeight,
+      start_block: startBlock,
+      rule: {
+        kind: "ACTION_ANY",
+        affected_account_id: contractFilter,
+        status: "SUCCESS"
+      } 
+    },
+    gas
+  );
+};
+
+let deleteIndexer = (request) => {
+  const { indexerName } = request.payload;
+  const gas = 200000000000000;
+  Near.call(
+    `queryapi.dataplatform.near`,
+    "remove_indexer_function",
+    {
+      function_name: indexerName,
     },
     gas
   );
@@ -44,6 +61,9 @@ const requestHandler = (request, response) => {
   switch (request.type) {
     case "register-function":
       registerFunctionHandler(request, response);
+      break;
+    case "delete-indexer":
+      deleteIndexer(request, response);
       break;
     case "default":
       console.log("default case");

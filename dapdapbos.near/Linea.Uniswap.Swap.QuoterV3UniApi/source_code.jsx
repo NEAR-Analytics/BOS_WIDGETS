@@ -87,7 +87,7 @@ const fetchTradeInfo = () => {
           noPair: data.noPair,
           trade: {
             gasCost: data.gasUseEstimateUSD,
-            priceImpact: data.priceImpact,
+            priceImpact: Number(data.priceImpact) ? data.priceImpact : 0,
             routes: data.route,
           },
         });

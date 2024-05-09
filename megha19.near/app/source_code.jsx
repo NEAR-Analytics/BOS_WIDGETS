@@ -3,6 +3,10 @@
  * Page route gets passed in through params, along with all other page props.
  */
 
+const { onDraftStateChange } = VM.require(
+  "megha19.near/widget/devhub.entity.post.draft"
+);
+
 const { page, ...passProps } = props;
 
 // Import our modules
@@ -36,6 +40,36 @@ if (!page) {
   page = "home";
 }
 
+// Track visits
+
+if ("${REPL_POSTHOG_API_KEY}".length === 47) {
+  useEffect(() => {
+    const hashedUserId = context.accountId
+      ? Array.from(nacl.hash(Buffer.from(context.accountId)))
+          .map((b) => ("00" + b.toString(16)).slice(-2))
+          .join("")
+      : "unauthenticated";
+
+    fetch("https://eu.posthog.com/capture/", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+
+      body: JSON.stringify({
+        api_key: "${REPL_POSTHOG_API_KEY}",
+        event: "devhub_pageview",
+        properties: {
+          distinct_id: hashedUserId,
+          page,
+          ...props,
+        },
+        timestamp: new Date().toISOString(),
+      }),
+    });
+  }, [props]);
+}
+
 // This is our navigation, rendering the page based on the page parameter
 function Page() {
   const routes = page.split(".");
@@ -57,10 +91,19 @@ function Page() {
         />
       );
     }
+    case "announcements": {
+      return (
+        <Widget
+          src={"megha19.near/widget/devhub.page.announcements"}
+          props={passProps}
+        />
+      );
+    }
+
     // ?page=community
     case "community": {
       return (
-        // Considering to consolsidate this into a single widget,
+        // Considering to consolidate this into a single widget,
         // where each level handles its own routing.
         // Modularizing a page just like we do with addons
         <Widget
@@ -115,7 +158,33 @@ function Page() {
     case "create": {
       return (
         <Widget
-          src={"megha19.near/widget/devhub.page.create"}
+          src={"megha19.near/widget/devhub.entity.post.PostEditor"}
+          props={{ ...passProps, isCreatePostPage: true, onDraftStateChange }}
+        />
+      );
+    }
+
+    case "create-proposal": {
+      return (
+        <Widget
+          src={"megha19.near/widget/devhub.entity.proposal.Editor"}
+          props={{ ...passProps }}
+        />
+      );
+    }
+
+    case "proposals": {
+      return (
+        <Widget
+          src={"megha19.near/widget/devhub.page.proposals"}
+          props={passProps}
+        />
+      );
+    }
+    case "proposal": {
+      return (
+        <Widget
+          src={"megha19.near/widget/devhub.entity.proposal.Proposal"}
           props={passProps}
         />
       );
@@ -162,7 +231,14 @@ function Page() {
         />
       );
     }
-
+    case "admin": {
+      return (
+        <Widget
+          src={"megha19.near/widget/devhub.page.admin.index"}
+          props={passProps}
+        />
+      );
+    }
     default: {
       // TODO: 404 page
       return <p>404</p>;

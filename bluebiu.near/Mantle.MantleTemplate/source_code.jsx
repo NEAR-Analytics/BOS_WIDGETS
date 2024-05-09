@@ -3,7 +3,9 @@ const Container = styled.div`
   flex-wrap: wrap;
   gap: 30px 36px;
   color: #fff;
-  padding: 0 12px;
+  @media (max-width: 900px) {
+    padding: 0 12px;
+  }
 `;
 
 const Search = styled.div`
@@ -64,6 +66,16 @@ const SearchIcon = (
 
 const dapps = [
   {
+    src: "bluebiu.near/widget/Mantle.All-in-one",
+    bannerImg:
+      "https://ipfs.near.social/ipfs/bafkreifug44p2exzk6knoyhimjqaztvlvjaj43da3y53ly3iyqtn42ozku",
+    icon: "https://ipfs.near.social/ipfs/bafkreicmbhykgsvj4rdujduh2fujbsrgp3mkqpqlw2weyuxdfqpwtka6la",
+    tags: ["Bridge","Dexes","Lending"],
+    bannerStyle: {
+      background: "#05180A",
+    },
+  },
+  {
     src: "bluebiu.near/widget/Mantle.Swap",
     bannerImg:
       "https://ipfs.near.social/ipfs/bafkreie7a5cb6qj3je2dn5iatdulom3ottpwvtyxc7q2zodqqafizum6ge",
@@ -73,14 +85,20 @@ const dapps = [
       background: "#05180A",
     },
   },
-
+  {
+    src: "bluebiu.near/widget/Mantle.Lending",
+    bannerImg:
+      "https://ipfs.near.social/ipfs/bafkreifug44p2exzk6knoyhimjqaztvlvjaj43da3y53ly3iyqtn42ozku",
+    icon: "https://ipfs.near.social/ipfs/bafkreiccujcoir742fkxiwuxaic57xdcpmj36avz273sxiqaade7ku4wxi",
+    tags: ["Lending"],
+  },
   {
     src: "bluebiu.near/widget/Mantle.GAMMA",
     bannerImg:
       "https://ipfs.near.social/ipfs/bafkreih77ecmgng2fpy6mblk2aipt3agwm3anjldcyktx2j6kssggpelue",
     icon: "https://ipfs.near.social/ipfs/bafkreial4i3eb5uuxkhecn7nwos76km3qvb7jzxmups57rkxizr5i7dyaa",
     tags: ["Liquidity Manager"],
-  },
+  },  
 ];
 
 State.init({

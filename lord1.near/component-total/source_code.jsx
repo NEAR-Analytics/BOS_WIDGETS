@@ -122,8 +122,7 @@ const lightColors = {
     color1brand: "#000",
     color2brand: "#806ce1",
     colordescription: "#806ce1",
-    background:
-      "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
+    background: "linear-gradient(62deg, #d2cafa 0%, #E0C3FC 100%);",
   },
   search_sbt: {
     section_bg: "rgb(235, 231, 253)",
@@ -209,7 +208,7 @@ const lightColors = {
 const tabs = {
   area: "sbt-area",
   info: "sbt-info",
-  search: "search-sbt",
+  growth: "sbt-growth",
   Explorer: "Explorer",
 };
 
@@ -258,69 +257,7 @@ return (
       background: themeColor?.page_bg,
     }}
   >
-    <div style={{ position: "relative", zIndex: 2 }}>
-      <Widget
-        src="lord1.near/widget/sidebar"
-        props={{
-          headerIcon:
-            "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/flipsides.png",
-          headerText: "Flipside",
-          footerIcon:
-            "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/house-solid.svg",
-          footerText: "",
-          headerLink: "test",
-          footerLink: "test",
-          links: [
-            {
-              text: "Home",
-              link: "../../lord1.near/widget/home",
-              image:
-                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/windows.svg",
-            },
-            {
-              text: "Dashboards",
-              link: "../../lord1.near/widget/Flipside-Home-page",
-              image:
-                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/users-solid.svg",
-            },
-            {
-              text: "Contracts",
-              link: "../../leslug.near/widget/NearContractVisualizerV2",
-
-              image:
-                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/people-arrows-solid.svg",
-              title: "Top NEAR projects profiler",
-            },
-            {
-              text: "Im human",
-              link: "../../lord1.near/widget/im-human",
-              title: "I Am Human SBT tracker",
-              image:
-                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/1309168682.svg",
-            },
-            {
-              text: "NDC",
-              link: "../../lord1.near/widget/NDC",
-              title: "NDC tracker",
-
-              image:
-                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/icons8-home.svg",
-            },
-            {
-              text: "Election",
-              link: "../../lord1.near/widget/election",
-              title: "Election tracker",
-
-              image:
-                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/svgexport-9.svg",
-            },
-          ],
-          backgroundColor: themeColor?.sideBar?.sideBar_bg,
-          textcolor: themeColor?.sideBar?.sideBar_color,
-        }}
-      />
-    </div>
-    <div style={{ marginLeft: "6rem" }}>
+    <div>
       <div
         style={{
           backgroundColor: themeColor?.header_bg,
@@ -371,6 +308,15 @@ return (
               </li>
               <li className="tab-item">
                 <button
+                  className={`${state.tab === tabs.growth ? "active" : ""}`}
+                  aria-current="page"
+                  onClick={() => setTab(tabs.growth)}
+                >
+                  Developer's Growth
+                </button>
+              </li>
+              <li className="tab-item">
+                <button
                   className={`${state.tab === tabs.info ? "active" : ""}`}
                   aria-current="page"
                   onClick={() => setTab(tabs.info)}
@@ -387,6 +333,12 @@ return (
           {state.tab === "sbt-area" && (
             <Widget
               src="lord1.near/widget/component"
+              props={{ themeColor: themeColor }}
+            />
+          )}
+          {state.tab === "sbt-growth" && (
+            <Widget
+              src="lord1.near/widget/component-growth"
               props={{ themeColor: themeColor }}
             />
           )}

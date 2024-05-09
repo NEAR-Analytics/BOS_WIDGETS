@@ -30,7 +30,7 @@ if (!state.proposalIsFetched) {
     "get_proposal",
     { project_id: projectId, cid, vendor_id: vendorId },
     "final",
-    false
+    false,
   ).then((proposal) => State.update({ proposal, proposalIsFetched: true }));
 }
 
@@ -40,9 +40,9 @@ if (!state.contributionIsFetched) {
     "get_contribution",
     { project_id: projectId, cid, vendor_id: vendorId },
     "final",
-    false
+    false,
   ).then((contribution) =>
-    State.update({ contribution, contributionIsFetched: true })
+    State.update({ contribution, contributionIsFetched: true }),
   );
 }
 
@@ -52,9 +52,9 @@ if (!state.isProjectAdminIsFetched && context.accountId) {
     "check_is_project_admin",
     { project_id: projectId, account_id: context.accountId },
     "final",
-    false
+    false,
   ).then((isProjectAdmin) =>
-    State.update({ isProjectAdmin, isProjectAdminIsFetched: true })
+    State.update({ isProjectAdmin, isProjectAdminIsFetched: true }),
   );
 }
 
@@ -64,9 +64,9 @@ if (!state.isVendorAdminIsFetched && context.accountId) {
     "check_is_vendor_admin",
     { vendor_id: vendorId, account_id: context.accountId },
     "final",
-    false
+    false,
   ).then((isVendorAdmin) =>
-    State.update({ isVendorAdmin, isVendorAdminIsFetched: true })
+    State.update({ isVendorAdmin, isVendorAdminIsFetched: true }),
   );
 }
 

@@ -1,8 +1,10 @@
 const Banner = styled.div`
     width: 100%;
-    height: 200px;
-    margin-bottom: 10px;
+    margin-bottom: 70px;
     margin-top: 24px;
+    @media screen and (max-width: 1150px) {
+      margin-top: 0;
+    }
 `;
 const Logo = styled.img`
     width: 70px;
@@ -11,16 +13,11 @@ const Logo = styled.img`
     box-shadow:rgba(68, 152, 224, 0.5) -6px 2px 24px;
     margin-right: 30px;
     margin-left: 30px;
+    @media screen and (max-width: 1150px) {
+      width: 35px;
+    }
 `;
 
-const Lines = styled.div`
-    width: 100%;
-    height: 200px;
-    background: url("https://ipfs.near.social/ipfs/bafybeibrijoowwlrlhxn54skisw2uitt3bex54yirua74nlbo2gkee5d2a");
-    background-size: contain;
-    background-repeat: no-repeat;
-    -webkit-mask-image:-webkit-gradient(linear, 50% center, left center, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
-`;
 
 const Header = styled.div`
   display: flex;
@@ -28,22 +25,46 @@ const Header = styled.div`
   h1 {
     font-size: 50px;
   }
+  @media screen and (max-width: 1150px) { 
+    h1 {
+      font-size: 30px;
+      margin-block-start: 0;
+      margin-block-end: 0;
+    }
+  }
 `;
+
+const SubtitleContainer = styled.h2 `
+  margin-top: 16px;
+  font-size: 20px; 
+  color: #78788b;
+  img {
+    width: 50px; 
+    border-radius: 50%;
+    box-shadow: rgba(68, 152, 224, 0.5) -6px 2px 24px;
+  }
+  @media screen and (max-width: 1150px) {
+    img {
+      width: 20px;
+    }
+    font-size: 11px !important;
+  }
+`
 
 return (
     <Banner role="banner">
         <Header>
             <Logo src="https://pbs.twimg.com/profile_images/1409918699230744584/6kUQ-4xH_400x400.jpg" />
             <h1>Sputnik BOS</h1>
-
         </Header>
-        <h2 style={{marginTop: '20px'}}>A complete dashboard and interface for any Sputnik DAO provided by
+        <SubtitleContainer>
+            <span>A complete dashboard and interface for any Sputnik DAO provided by</span>
             <a href={'https://pikespeak.ai'} target={'_blank'}>
+                pikespeak.ai
                 <img
                     src={'https://pbs.twimg.com/profile_images/1539950049316278273/RoyRevrB_400x400.jpg'}
-                    style={{width: "80px", borderRadius: '50%'}}
                 />
             </a>
-        </h2>
+        </SubtitleContainer>
     </Banner>
 );

@@ -225,6 +225,8 @@ const lendingIcon = (
   </svg>
 );
 
+const { swapConfig, ...restProps } = props;
+
 return (
   <Layout>
     <Container>
@@ -257,16 +259,6 @@ return (
           <span className="icon">{liquidityIcon}</span>
           Liquidity
         </div>
-
-        <div
-          className={`item ${activeMenu == "Lending" ? "active" : ""}`}
-          onClick={() => {
-            changeTab("Lending");
-          }}
-        >
-          <span className="icon">{lendingIcon}</span>
-          Lending
-        </div>
       </MenuContainer>
       <div className="flex-grow contentOut">
         {activeMenu == "Bridge" ? (
@@ -275,7 +267,7 @@ return (
               src="guessme.near/widget/ZKEVMSwap.zkevm-bridge"
               props={{
                 layout: "center",
-                ...props,
+                ...restProps,
               }}
             />
           </>
@@ -283,10 +275,11 @@ return (
         {activeMenu == "swap" ? (
           <>
             <Widget
-              src="guessme.near/widget/ZKEVMSwap.zkevm-swap"
+              src="bluebiu.near/widget/PolygonZkevm.Swap.Dex"
               props={{
                 layout: "center",
-                ...props,
+                ...swapConfig,
+                ...restProps,
               }}
             />
           </>
@@ -295,13 +288,8 @@ return (
           <>
             <Widget
               src="bluebiu.near/widget/ZKEVM.GAMMA"
-              props={{ ...props }}
+              props={{ ...restProps }}
             />
-          </>
-        ) : null}
-        {activeMenu == "Lending" ? (
-          <>
-            <Widget src="bluebiu.near/widget/0vix.Lending" props={props} />
           </>
         ) : null}
       </div>

@@ -11,10 +11,12 @@ State.init({
       "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/file-contract-solid.svg",
   },
   descriptions: {
-    AMOUNT_NEAR: "Total developers' transaction volume",
-    fee: "Total developer' transaction fees (in NEAR)",
+    AMOUNT_NEAR:
+      "Total developers' transaction volume in the whole Near ecosystem",
+    fee: "Total developer' transaction fees (in NEAR) in the whole Near ecosystem",
     active_users: "Number of developer",
-    transactions: "Number of developer' transactions",
+    transactions:
+      "Number of developer' transactions in the whole Near ecosystem",
   },
 });
 const data = fetch(

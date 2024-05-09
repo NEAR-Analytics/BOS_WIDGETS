@@ -7,60 +7,37 @@ let {
   accountId,
   sharedArticleId,
   sharedCommentId,
+  sharedSearchInputValue,
   topicShared,
 } = props;
 
-//Duplicated(lib.SBT)
-const sbtWhiteList =
-  context.networkId === "testnet"
-    ? [
-        "fractal-v2.i-am-human.testnet - class 1",
-        "community-v2.i-am-human.testnet - class 1",
-      ]
-    : [
-        "fractal.i-am-human.near - class 1",
-        "community.i-am-human.near - class 1",
-        "community.i-am-human.near - class 2",
-        "community.i-am-human.near - class 3",
-        "elections.ndc-gwg.near - class 2",
-        "elections.ndc-gwg.near - class 3",
-        "elections.ndc-gwg.near - class 4",
-        "public",
-      ];
+const initLibsCalls = {
+  SBT: [
+    {
+      functionName: "getSBTWhiteList",
+      key: "sbtWhiteList",
+      props: {},
+    },
+  ],
+};
+
+State.init({
+  functionsToCallByLibrary: initLibsCalls,
+  usersSBTs: [],
+});
+
+const usersSBTs = state.usersSBTs;
+
+let newLibsCalls = state.functionsToCallByLibrary;
+
+State.update({ libsCalls: newLibsCalls });
+
+const sbtWhiteList = state.sbtWhiteList
+  ? state.sbtWhiteList.map((sbt) => sbt.value)
+  : undefined;
 
 function createSbtOptions() {
-  return sbtWhiteList.map((option, i) => {
-    const title = "";
-
-    if (option === "fractal.i-am-human.near - class 1") {
-      title = "General";
-    } else if (option === "community.i-am-human.near - class 1") {
-      title = "OG";
-    } else if (option === "community.i-am-human.near - class 2") {
-      title = "Contributor";
-    } else if (option === "community.i-am-human.near - class 3") {
-      title = "Core Contributor";
-    } else if (option === "elections.ndc-gwg.near - class 2") {
-      title = "HoM";
-    } else if (option === "elections.ndc-gwg.near - class 3") {
-      title = "CoA";
-    } else if (option === "elections.ndc-gwg.near - class 4") {
-      title = "TC";
-    } else if (option === "fractal-v2.i-am-human.testnet - class 1") {
-      title = "Fractal";
-    } else if (option === "community-v2.i-am-human.testnet - class 1") {
-      title = "Community";
-    } else {
-      title = "Public";
-    }
-
-    if (i == 0) {
-      //The first options is always the default one
-      return { title, default: true, value: option };
-    } else {
-      return { title, value: option };
-    }
-  });
+  return state.sbtWhiteList;
 }
 
 // const componentsOwner =
@@ -76,60 +53,89 @@ const authorForWidget = "sayalot.near";
 const configWidget = "SayALot";
 
 const widgets = {
-  thisForum: `${authorForWidget}/widget/${configWidget}`,
+  // thisForum: `${authorForWidget}/widget/${configWidget}`, //////////////////////////////////////////////////////
+  thisForum: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/${configWidget}`, //////////////////////////////////////////////////////
 
-  //Editable widgets
-  // ndcForum: `${componentsOwner}/widget/NDC.Forum`,
-  ndcForum: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.Forum`,
-  create: `${componentsOwner}/widget/NDC.Forum.Create`,
-  header: `${componentsOwner}/widget/NDC.NavBar`,
-  // showArticlesList: `${componentsOwner}/widget/NDC.Forum.AllArticlesList`,
-  showArticlesList: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.Forum.AllArticlesList`,
-  showArticlesListSortedByAuthors: `${componentsOwner}/widget/NDC.AllArticlesSortByAuthors`,
-  articlesByAuthorCard: `${componentsOwner}/widget/NDC.ArticlesByAuthorCard`,
-  generalCard: `${componentsOwner}/widget/NDC.GeneralCard`,
-  articleView: `${componentsOwner}/widget/NDC.ArticleView`,
-  reactions: `${componentsOwner}/widget/NDC.Reactions`,
-  addComment: `${componentsOwner}/widget/NDC.AddComment`,
-  commentView: `${componentsOwner}/widget/NDC.CommentView`,
-  upVoteButton: `${componentsOwner}/widget/NDC.UpVoteButton`,
-  profileShortInlineBlock: `${componentsOwner}/widget/Profile.ShortInlineBlock`,
-  tagsEditor: `${componentsOwner}/widget/TagsEditor`,
-  kanbanBoard: `${componentsOwner}/widget/NDC.KanbanBoard`,
-  compactPost: `${componentsOwner}/widget/NDC.CompactPost`,
-
-  //Libs
-  libSBT: `sayalot.near/widget/lib.SBT`,
-  libComment: `sayalot.near/widget/lib.comment`,
-  libArticle: `sayalot.near/widget/lib.article`,
-  libEmojis: `sayalot.near/widget/lib.emojis`,
-  libUpVotes: `sayalot.near/widget/lib.upVotes`,
-  libNotifications: `sayalot.near/widget/lib.notifications`,
-
-  //Standard widgets
-  fasterTextInput: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/fasterTextInput`,
-  markownEditorIframe: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/MarkdownEditorIframe`,
-  styledComponents: "rubycop.near/widget/NDC.StyledComponents",
-  newStyledComponents: {
-    Element: {
-      Badge: "nearui.near/widget/Element.Badge",
-      User: "nearui.near/widget/Element.User",
+  views: {
+    editableWidgets: {
+      //   ndcForum: `${componentsOwner}/widget/NDC.Forum`, //////////////////////////////////////////////////////
+      ndcForum: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.Forum`, //////////////////////////////////////////////////////
+      // create: `${componentsOwner}/widget/NDC.Forum.Create`,//////////////////////////////////////////////////////
+      create: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.Forum.Create`, //////////////////////////////////////////////////////
+      // header: `${componentsOwner}/widget/NDC.NavBar`, //////////////////////////////////////////////////////
+      header: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.NavBar`, //////////////////////////////////////////////////////
+      // showArticlesList: `${componentsOwner}/widget/NDC.Forum.AllArticlesList`, //////////////////////////////////////////////////////
+      showArticlesList: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.Forum.AllArticlesList`, //////////////////////////////////////////////////////
+      // showArticlesListSortedByAuthors: `${componentsOwner}/widget/NDC.AllArticlesSortByAuthors`, //////////////////////////////////////////////////////
+      showArticlesListSortedByAuthors: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.AllArticlesSortByAuthors`, //////////////////////////////////////////////////////
+      // articlesByAuthorCard: `${componentsOwner}/widget/NDC.ArticlesByAuthorCard`, //////////////////////////////////////////////////////
+      articlesByAuthorCard: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.ArticlesByAuthorCard`, //////////////////////////////////////////////////////
+      // generalCard: `${componentsOwner}/widget/NDC.GeneralCard`, //////////////////////////////////////////////////////
+      generalCard: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.GeneralCard`, //////////////////////////////////////////////////////
+      // articleView: `${componentsOwner}/widget/NDC.ArticleView`, //////////////////////////////////////////////////////
+      articleView: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.ArticleView`, //////////////////////////////////////////////////////
+      // reactions: `${componentsOwner}/widget/NDC.Reactions`, //////////////////////////////////////////////////////
+      reactions: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.Reactions`, //////////////////////////////////////////////////////
+      // addComment: `${componentsOwner}/widget/NDC.AddComment`, //////////////////////////////////////////////////////
+      addComment: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.AddComment`, //////////////////////////////////////////////////////
+      // commentView: `${componentsOwner}/widget/NDC.CommentView`, //////////////////////////////////////////////////////
+      commentView: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.CommentView`, //////////////////////////////////////////////////////
+      // upVoteButton: `${componentsOwner}/widget/NDC.UpVoteButton`, //////////////////////////////////////////////////////
+      upVoteButton: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.UpVoteButton`, //////////////////////////////////////////////////////
+      // profileShortInlineBlock: `${componentsOwner}/widget/Profile.ShortInlineBlock`, //////////////////////////////////////////////////////
+      profileShortInlineBlock: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/Profile.ShortInlineBlock`, //////////////////////////////////////////////////////
+      // tagsEditor: `${componentsOwner}/widget/TagsEditor`, //////////////////////////////////////////////////////
+      tagsEditor: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/TagsEditor`, //////////////////////////////////////////////////////
+      // kanbanBoard: `${componentsOwner}/widget/NDC.KanbanBoard`, //////////////////////////////////////////////////////
+      kanbanBoard: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.KanbanBoard`, //////////////////////////////////////////////////////
+      // compactPost: `${componentsOwner}/widget/NDC.CompactPost`, //////////////////////////////////////////////////////
+      compactPost: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.CompactPost`, //////////////////////////////////////////////////////
+      // articleHistory: `${componentsOwner}/widget/NDC.ArticleHistory.Handler`, //////////////////////////////////////////////////////
+      articleHistory: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.ArticleHistory.Handler`, //////////////////////////////////////////////////////
     },
-    Feedback: {
-      Spinner: "nearui.near/widget/Feedback.Spinner",
-    },
-    Input: {
-      Button: "nearui.near/widget/Input.Button",
-      Checkbox: "nearui.near/widget/Input.Checkbox",
-      Select: "nearui.near/widget/Input.Select",
+    standardWidgets: {
+      fasterTextInput: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/fasterTextInput`,
+      markownEditorIframe: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/MarkdownEditorIframe`,
+      styledComponents: "rubycop.near/widget/NDC.StyledComponents",
+      newStyledComponents: {
+        Element: {
+          Badge: "nearui.near/widget/Element.Badge",
+          User: "nearui.near/widget/Element.User",
+        },
+        Feedback: {
+          Spinner: "nearui.near/widget/Feedback.Spinner",
+        },
+        Input: {
+          Button: "nearui.near/widget/Input.Button",
+          Checkbox: "nearui.near/widget/Input.Checkbox",
+          Select: "nearui.near/widget/Input.Select",
+        },
+      },
+      socialMarkdown: "mob.near/widget/SocialMarkdown",
+      profileOverlayTrigger: "mob.near/widget/Profile.OverlayTrigger",
+      profileImage: "mob.near/widget/ProfileImage",
+      wikiOnSocialDB_TooltipProfiles: `testwiki.near/widget/WikiOnSocialDB_TooltipProfiles`,
+      navBarImg: "mob.near/widget/Image",
     },
   },
-  socialMarkdown: "mob.near/widget/SocialMarkdown",
-  profileOverlayTrigger: "mob.near/widget/Profile.OverlayTrigger",
-  profileImage: "mob.near/widget/ProfileImage",
-  wikiOnSocialDB_TooltipProfiles: `testwiki.near/widget/WikiOnSocialDB_TooltipProfiles`,
-  navBarImg: "mob.near/widget/Image",
+
+  libs: {
+    //   libSBT: `sayalot.near/widget/lib.SBT`, //////////////////////////////////////////////////////
+    libSBT: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.SBT`, //////////////////////////////////////////////////////
+    // libComment: `sayalot.near/widget/lib.comment`, //////////////////////////////////////////////////////
+    libComment: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.comment`, //////////////////////////////////////////////////////
+    // libArticle: `sayalot.near/widget/lib.article`, //////////////////////////////////////////////////////
+    libArticle: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.article`, //////////////////////////////////////////////////////
+    // libEmojis: `sayalot.near/widget/lib.emojis`, //////////////////////////////////////////////////////
+    libEmojis: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.emojis`, //////////////////////////////////////////////////////
+    // libUpVotes: `sayalot.near/widget/lib.upVotes`, //////////////////////////////////////////////////////
+    libUpVotes: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.upVotes`, //////////////////////////////////////////////////////
+    // libNotifications: `sayalot.near/widget/lib.notifications`, //////////////////////////////////////////////////////
+    libNotifications: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.notifications`, //////////////////////////////////////////////////////
+  },
 };
+
+const libSrcArray = [widgets.libs.libSBT];
 
 const brand = {
   brandName: "Say a lot",
@@ -151,26 +157,81 @@ const kanbanColumns = ["Open", "Claimed", "In Work", "Closed"];
 const kanbanRequiredTags = [];
 const kanbanExcludedTags = [];
 
+const CallLibrary = styled.div`
+  display: none;
+`;
+
+function mainStateUpdate(obj) {
+  State.update(obj);
+}
+
+function callLibs(
+  src,
+  stateUpdate,
+  functionsToCallByLibrary,
+  extraProps,
+  callerWidget
+) {
+  return (
+    <Widget
+      src={src}
+      props={{
+        mainStateUpdate,
+        isTest,
+        stateUpdate,
+        functionsToCallByLibrary,
+        callLibs,
+        widgets,
+        callerWidget,
+        ...extraProps,
+        usersSBTs,
+      }}
+    />
+  );
+}
+
 return (
-  <Widget
-    src={widgets.ndcForum}
-    props={{
-      sharedBlockHeight,
-      tagShared,
-      isTest,
-      accountId,
-      sbtWhiteList,
-      authorForWidget,
-      widgets,
-      brand,
-      baseActions,
-      createSbtOptions,
-      kanbanColumns,
-      kanbanRequiredLabels,
-      kanbanExcludedLabels,
-      sharedArticleId,
-      sharedCommentId,
-      topicShared,
-    }}
-  />
+  <>
+    {sbtWhiteList ? (
+      <Widget
+        src={widgets.views.editableWidgets.ndcForum}
+        props={{
+          sharedBlockHeight,
+          tagShared,
+          isTest,
+          accountId,
+          sbtWhiteList,
+          authorForWidget,
+          widgets,
+          brand,
+          baseActions,
+          createSbtOptions,
+          kanbanColumns,
+          kanbanRequiredLabels,
+          kanbanExcludedLabels,
+          sharedArticleId,
+          sharedCommentId,
+          sharedSearchInputValue,
+          topicShared,
+          callLibs,
+          mainStateUpdate,
+        }}
+      />
+    ) : (
+      <Widget
+        src={widgets.views.standardWidgets.newStyledComponents.Feedback.Spinner}
+      />
+    )}
+    <CallLibrary>
+      {libSrcArray.map((src) => {
+        return callLibs(
+          src,
+          mainStateUpdate,
+          state.functionsToCallByLibrary,
+          { baseAction: baseActions.articlesBaseAction, kanbanColumns },
+          "SayALot"
+        );
+      })}
+    </CallLibrary>
+  </>
 );

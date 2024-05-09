@@ -24,8 +24,12 @@ const getMembers = (accountId) => {
     )?.[accountId]?.graph?.follow || {}
   );
 
-  let members = [...new Set(following.filter((item) => followers.has(item)))];
-
+  let members = [];
+  if (accountId == "rc-dao.near") {
+    members = following;
+  } else {
+    members = [...new Set(following.filter((item) => followers.has(item)))];
+  }
   // The RC account is part of members
   members.push(accountId);
 
@@ -161,30 +165,47 @@ const dates = sortedData.map((entry) => entry["year_month"]);
 fetchData();
 </script>
 `;
+  // handle data null from flipside
+  if (data == "null") {
+    return (
+      <Widget
+        src="contribut3.near/widget/Card"
+        props={{
+          header: header,
+          body: (
+            <div style={{ margin: "auto" }}>
+              Data not found. Empty data from flipside.
+            </div>
+          ),
+        }}
+      />
+    );
+  }
   return (
     <Widget
       src="contribut3.near/widget/Card"
       props={{
         header: header,
-        body: staticDisplay ? (
-          <div style={{ margin: "auto" }}>{staticDisplay}</div>
-        ) : data ? (
-          <iframe
-            className="w-100"
-            style={{ height: "300px" }}
-            srcDoc={srcDoc}
-          />
-        ) : (
-          <div style={{ margin: "auto" }}>
-            <Widget src="flashui.near/widget/Loading" props={{}} />
-          </div>
-        ),
+        body:
+          staticDisplay != undefined ? (
+            <div style={{ margin: "auto" }}>{staticDisplay}</div>
+          ) : data ? (
+            <iframe
+              className="w-100"
+              style={{ height: "300px" }}
+              srcDoc={srcDoc}
+            />
+          ) : (
+            <div style={{ margin: "auto" }}>
+              <Widget src="flashui.near/widget/Loading" props={{}} />
+            </div>
+          ),
       }}
     />
   );
 };
 
-const chartDappUsage = ({ data, header, label }) => {
+const chartDappUsage = ({ data, header, valueLabel, label, barColor }) => {
   const srcDoc = `
 <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
@@ -208,11 +229,89 @@ const title = tempData.map((entry) => entry["dapp"]);
           datasets: [
           {
               label: "${label}",
-              data: tempData.map(entry => entry.txs)
+              data: tempData.map(entry => entry["${valueLabel}"]),
+              backgroundColor: "${barColor}"
           }
           ]
       }
   });
+}
+
+fetchData();
+</script>
+`;
+  return (
+    <Widget
+      src="contribut3.near/widget/Card"
+      props={{
+        header: header,
+        body: data ? (
+          <iframe
+            className="w-100"
+            style={{ height: "750px" }}
+            srcDoc={srcDoc}
+          />
+        ) : (
+          <div style={{ margin: "auto" }}>
+            <Widget src="flashui.near/widget/Loading" props={{}} />
+          </div>
+        ),
+      }}
+    />
+  );
+};
+
+const chartDappTimeline = ({ data, header }) => {
+  const srcDoc = `
+<script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<canvas id="myChart" style="position: relative; height:80vh; width:80vw"></canvas>
+
+<script>
+async function fetchData() {
+
+const tempData = ${data};
+
+const sortedData = tempData.sort((a, b) => {
+      return new Date(a["date"]) - new Date(b["date"]);
+    });
+
+    const dates = Array.from(new Set(sortedData.map((entry) => entry["date"])));
+
+    const dapps = Array.from(new Set(sortedData.map((entry) => entry["dapp"])));
+    const datasets = dapps.map((dapp) => {
+      return {
+        label: dapp,
+        data: dates.map((date) => {
+          return (
+            sortedData.find(
+              (entry) => entry["date"] == date && entry["dapp"] == dapp
+            )?.txs || 0
+          );
+        }),
+      };
+    });
+
+    var ctx = document.getElementById("myChart").getContext("2d");
+    var myChart = new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: dates.map(date => new Date(date).toLocaleDateString()),
+        datasets: datasets,
+      },
+      options: {
+        scales: {
+          x: {
+            stacked: true,
+          },
+          y: {
+            stacked: true,
+          },
+        },
+      },
+    });
 }
 
 fetchData();
@@ -244,35 +343,39 @@ const widgetRank = (members) => {
 
   const starCountsByWidget = {};
 
-  Object.keys(data).forEach((user) => {
-    const userData = data[user];
-    const widgetData = userData?.graph?.star;
+  if (data)
+    Object.keys(data).forEach((user) => {
+      const userData = data[user];
+      const widgetData = userData?.graph?.star;
 
-    if (widgetData) {
-      members.map((widgetCreator) => {
-        const widgetList = widgetData[widgetCreator]?.widget;
+      if (widgetData) {
+        members.map((widgetCreator) => {
+          const widgetList = widgetData[widgetCreator]?.widget;
 
-        if (widgetList) {
-          Object.keys(widgetList).forEach((widgetName) => {
-            const widgetPath = `${widgetCreator}/widget/${widgetName}`;
+          if (widgetList) {
+            Object.keys(widgetList).forEach((widgetName) => {
+              const widgetPath = `${widgetCreator}/widget/${widgetName}`;
 
-            if (!starCountsByWidget[widgetPath]) {
-              starCountsByWidget[widgetPath] = 0;
-            }
+              if (!starCountsByWidget[widgetPath]) {
+                starCountsByWidget[widgetPath] = 0;
+              }
 
-            if (typeof widgetList[widgetName] !== "undefined") {
-              starCountsByWidget[widgetPath]++;
-            }
-          });
-        }
-      });
-    }
-  });
+              if (typeof widgetList[widgetName] !== "undefined") {
+                starCountsByWidget[widgetPath]++;
+              }
+            });
+          }
+        });
+      }
+    });
 
   const rankedWidgets = Object.entries(starCountsByWidget)
     .filter(([widgetName, totalStars]) => typeof totalStars !== "undefined")
     .sort((a, b) => b[1] - a[1]);
 
+  if (rankedWidgets.length == 0) {
+    return <p>Widgets created by members have not been starred.</p>;
+  }
   return (
     <div>
       <h3>Top Widgets by Members</h3>
@@ -297,46 +400,71 @@ const widgetRank = (members) => {
   );
 };
 
+function wait(delay) {
+  return new Promise((resolve) => setTimeout(resolve, delay));
+}
+
+function fetchRetry(url, delay, tries, stateKey) {
+  function onError(err) {
+    console.log("err", err);
+    let triesLeft = tries - 1;
+    if (!triesLeft) {
+      throw err;
+    }
+    return wait(delay).then(() => fetchRetry(url, delay, triesLeft));
+  }
+  return asyncFetch(url).then((result) => {
+    if (result.ok === true) {
+      return State.update({ [stateKey]: JSON.stringify(result.body) });
+    } else {
+      onError(result.body);
+    }
+  });
+}
+
 const generateMAU = (accountId) => {
   const queryParams = `account_id=${accountId}&stats_type=mau`;
-  const result = fetch(`${API_URL}?${queryParams}`);
-  return State.update({ mauChartData: JSON.stringify(result.body) });
+  fetchRetry(`${API_URL}?${queryParams}`, 1000, 10, "mauChartData");
 };
 
 const generateDAU = (accountId) => {
   const queryParams = `account_id=${accountId}&stats_type=dau`;
-  const result = fetch(`${API_URL}?${queryParams}`);
-  return State.update({ dauChartData: JSON.stringify(result.body) });
+  fetchRetry(`${API_URL}?${queryParams}`, 1000, 10, "dauChartData");
 };
 
 const generateGithubActivities = (accountId) => {
   const queryParams = `account_id=${accountId}&stats_type=github_activities`;
-  const result = fetch(`${API_URL}?${queryParams}`);
-  State.update({ githubChartData: JSON.stringify(result.body) });
+  fetchRetry(`${API_URL}?${queryParams}`, 1000, 10, "githubChartData");
 };
 
 const generateTotalLikes = (accountId) => {
   const queryParams = `account_id=${accountId}&stats_type=total_likes`;
-  const result = fetch(`${API_URL}?${queryParams}`);
-  State.update({ totalLikes: JSON.stringify(result.body) });
+  fetchRetry(`${API_URL}?${queryParams}`, 1000, 10, "totalLikes");
 };
 
 const generateTotalWalletsCreated = (accountId) => {
   const queryParams = `account_id=${accountId}&stats_type=total_wallets_created`;
-  const result = fetch(`${API_URL}?${queryParams}`);
-  State.update({ totalWallets: JSON.stringify(result.body) });
+  fetchRetry(`${API_URL}?${queryParams}`, 1000, 10, "totalWallets");
 };
 
 const generateNFTMints = (accountId) => {
   const queryParams = `account_id=${accountId}&stats_type=nft_mints`;
-  const result = fetch(`${API_URL}?${queryParams}`);
-  State.update({ nftMintsChartData: JSON.stringify(result.body) });
+  fetchRetry(`${API_URL}?${queryParams}`, 1000, 10, "nftMintsChartData");
 };
 
 const generateDappUsage = (accountId) => {
   const queryParams = `account_id=${accountId}&stats_type=dapp_usage`;
-  const result = fetch(`${API_URL}?${queryParams}`);
-  State.update({ dappUsageChartData: JSON.stringify(result.body) });
+  fetchRetry(`${API_URL}?${queryParams}`, 1000, 10, "dappUsageChartData");
+};
+
+const generateDappTimeline = (accountId) => {
+  const queryParams = `account_id=${accountId}&stats_type=dapp_timeline`;
+  fetchRetry(`${API_URL}?${queryParams}`, 1000, 10, "dappTimelineChartData");
+};
+
+const generateDappVolume = (accountId) => {
+  const queryParams = `account_id=${accountId}&stats_type=dapp_volume`;
+  fetchRetry(`${API_URL}?${queryParams}`, 1000, 10, "dappVolumeChartData");
 };
 
 State.update({
@@ -353,8 +481,11 @@ if (state.menu === "overview" || state.menu === "dapp")
 if (state.menu === "overview")
   generateTotalWalletsCreated(state.selectedCommunityAccount);
 if (state.menu === "nft") generateNFTMints(state.selectedCommunityAccount);
-if (state.menu === "dapp") generateDappUsage(state.selectedCommunityAccount);
-
+if (state.menu === "dapp") {
+  generateDappUsage(state.selectedCommunityAccount);
+  generateDappTimeline(state.selectedCommunityAccount);
+  generateDappVolume(state.selectedCommunityAccount);
+}
 if (state.menu === "all-overview") {
   State.update({
     allMembers: rcDaoMembers.flatMap((rcAccountId) => getMembers(rcAccountId)),
@@ -365,8 +496,6 @@ if (state.menu === "all-overview") {
   generateMAU("rc-dao.near");
   generateGithubActivities("rc-dao.near");
 }
-
-console.log("mauchartdata", state["mauChartData"]);
 
 return (
   <div className="container">
@@ -387,6 +516,8 @@ return (
           dauChartData: null,
           nftMintsChartData: null,
           dappUsageChartData: null,
+          dappTimelineChartData: null,
+          dappVolumeChartData: null,
           totalWallets: null,
         })
       }
@@ -400,7 +531,7 @@ return (
         }
         hidden={state.selectedCommunityAccount !== null}
       >
-        List of RCs
+        All Regional Communities
       </button>
       <button
         onClick={() => State.update({ menu: "all-overview" })}
@@ -411,6 +542,14 @@ return (
         hidden={state.selectedCommunityAccount !== null}
       >
         Overview Stats
+      </button>
+      <button
+        onClick={() =>
+          State.update({ menu: "all-rc", selectedCommunityAccount: null })
+        }
+        hidden={state.selectedCommunityAccount === null}
+      >
+        🏠
       </button>
       <button
         onClick={() => State.update({ menu: "overview" })}
@@ -615,15 +754,55 @@ return (
       </>
     )}
     {state.menu === "dapp" && (
-      <div>
-        {chartDappUsage({
-          data: state["dappUsageChartData"],
-          header: <b>Dapp Usage</b>,
-          valueLabel: "txs",
-          label: "Total Transactions",
-          barColor: "rgb(85, 85, 180)",
-        })}
-      </div>
+      <>
+        <div>
+          {chartDappTimeline({
+            data: state["dappTimelineChartData"],
+            header: (
+              <b>
+                Popular dApps in terms of number of interactions on a weekly
+                basis
+              </b>
+            ),
+          })}
+        </div>
+        <div>
+          {chartDappUsage({
+            data: state["dappUsageChartData"],
+            header: <b>Interaction statistics with dapps (txs)</b>,
+            valueLabel: "txs",
+            label: "Total Transactions",
+            barColor: "rgb(85, 85, 180)",
+          })}
+        </div>
+        <div>
+          {chartDappUsage({
+            data: state["dappUsageChartData"],
+            header: <b>Activity Days</b>,
+            valueLabel: "activity days",
+            label: "Activity Days",
+            barColor: "rgb(85, 192, 192)",
+          })}
+        </div>
+        <div>
+          {chartDappUsage({
+            data: state["dappUsageChartData"],
+            header: <b>Transaction per Day</b>,
+            valueLabel: "transaction per day",
+            label: "Transaction per Day",
+            barColor: "rgb(85, 192, 192)",
+          })}
+        </div>
+        <div>
+          {chartDappUsage({
+            data: state["dappVolumeChartData"],
+            header: <b>Dapp Volume in NEAR</b>,
+            valueLabel: "volume_near",
+            label: "Volume in NEAR",
+            barColor: "rgb(85, 85, 180)",
+          })}
+        </div>
+      </>
     )}
 
     {state.menu === "widget-list" && (

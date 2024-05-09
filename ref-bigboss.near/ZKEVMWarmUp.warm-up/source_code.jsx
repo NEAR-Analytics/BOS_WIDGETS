@@ -151,6 +151,9 @@ const Wrapper = styled.div`
     gap: 6px;
     font-size: 14px;
     padding: 6px 0px;
+    :hover {
+      text-decoration: none;
+    }
   }
 
   .trend-card {
@@ -226,7 +229,7 @@ return (
     <Widget src="ref-bigboss.near/widget/ZKEVMWarmUp.generage-uuid" />
 
     <div className="header">
-      <div className="header-title">Participate in zkEvm easily</div>
+      <div className="header-title">Participate In zkEVM Easily</div>
 
       <div className="header-description">
         Keep track of your activity and loyalty, make sure we are ready for any
@@ -242,9 +245,12 @@ return (
         My Quest
       </div>
 
-      <div className="execute-records">
-        <span>Execute Records</span>
-      </div>
+      <a
+        href="/ref-bigboss.near/widget/ZKEVM.ExecuteRecords"
+        className="execute-records"
+      >
+        Execute Records
+      </a>
     </div>
 
     <Widget src="ref-bigboss.near/widget/ZKEVMWarmUp.quest-list" />
@@ -255,7 +261,10 @@ return (
         Quest Trends{" "}
       </div>
 
-      <a className="view-all" href="/ref-bigboss.near/widget/ZKEVM.QuestionList">
+      <a
+        className="view-all"
+        href="/ref-bigboss.near/widget/ZKEVM.QuestionList"
+      >
         <span>View All</span>
         {ArrowRight}
       </a>
@@ -274,21 +283,20 @@ return (
       <Widget
         src="ref-bigboss.near/widget/ZKEVMWarmUp.hot-dapp-card"
         props={{
+          background: "linear-gradient(180deg, #8C36D8 0%, #24264C 100%)",
+          dappName: "Polygon zkEVM All-in-one",
+          creator: "ref-admin.near",
+          widgetSrc: "ref-bigboss.near/widget/ZKEVMSwap.zkevm-swap",
+          src: "https://assets.ref.finance/images/zkevm-swap.png",
+        }}
+      />
+      <Widget
+        src="ref-bigboss.near/widget/ZKEVMWarmUp.hot-dapp-card"
+        props={{
           background: "linear-gradient(180deg, #7347DA 0%, #202445 100%)",
           dappName: "ZkEvm-bridge",
           creator: "ref-admin.near",
           widgetSrc: "ref-bigboss.near/widget/ZKEVMSwap.zkevm-bridge",
-          src: "https://assets.ref.finance/images/zkevm-swap.png",
-        }}
-      />
-
-      <Widget
-        src="ref-bigboss.near/widget/ZKEVMWarmUp.hot-dapp-card"
-        props={{
-          background: "linear-gradient(180deg, #8C36D8 0%, #24264C 100%)",
-          dappName: "ZkEvm",
-          creator: "ref-admin.near",
-          widgetSrc: "ref-bigboss.near/widget/ZKEVMSwap.zkevm-swap",
           src: "https://assets.ref.finance/images/zkevm-swap.png",
         }}
       />

@@ -18,11 +18,11 @@ const Container = styled.div`
 `;
 
 const Label = styled.label`
-  font-style: normal;
-  font-weight: 600;
-  font-size: 0.95em;
-  line-height: 1.25em;
-  color: #344054;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  word-wrap: break-word;
+  color: #2e2e2e;
 `;
 
 const Error = styled.span`
@@ -48,10 +48,11 @@ const Input = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 0.5em 0.75em;
-  gap: 0.5em;
+  gap: 10px;
   background: #ffffff;
   border: 1px solid #d0d5dd;
-  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  // box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  boxshadow: 0px -2px 0px rgba(93, 93, 93, 0.24) inset;
   border-radius: 4px;
   color: #101828;
   width: 100%;
@@ -129,20 +130,20 @@ const Item = styled.button`
 `;
 
 return (
-  <Container>
+  <Container style={props.containerStyles || {}}>
     {noLabel ? <></> : <Label>{label}</Label>}
     <Select.Root
       value={value?.value}
-      onValueChange={(value) =>
-        onChange(options.find((option) => option.value === value))
-      }
+      onValueChange={(value) => onChange(options.find((option) => option.value === value))}
     >
       <Select.Trigger asChild={true}>
-        <Input>
+        <Input style={props.inputStyles || {}}>
+          {props.iconLeft && props.iconLeft}
           <Select.Value
             aria-label={value.value}
             placeholder={<Placeholder>{placeholder}</Placeholder>}
           />
+
           <Select.Icon>
             <svg
               width="12"
@@ -152,11 +153,8 @@ return (
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                d="M1 1.5L6 6.5L11 1.5"
-                stroke="currentColor"
-                stroke-width="1.66667"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                d="M10.59 0.295044L6 4.87504L1.41 0.295044L0 1.70504L6 7.70504L12 1.70504L10.59 0.295044Z"
+                fill="#7B7B7B"
               />
             </svg>
           </Select.Icon>

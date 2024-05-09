@@ -13,12 +13,12 @@ if (!state.profileIsFetched) {
     "get",
     { keys: [`${accountId}/profile/**`] },
     "final",
-    false
+    false,
   ).then((profile) =>
     State.update({
       profile: profile[accountId].profile,
       profileIsFetched: true,
-    })
+    }),
   );
   return <>Loading...</>;
 }
@@ -29,6 +29,7 @@ const Container = styled.div`
   align-items: flex-start;
   justify-content: flex-start;
   gap: 1em;
+  width: 100%;
 `;
 
 const Details = styled.div`
@@ -37,7 +38,15 @@ const Details = styled.div`
   align-items: flex-start;
   justify-content: flex-start;
   gap: 0.5em;
+  width: 100%;
 `;
+
+const onSave = (data) => {
+  Social.set(data, {
+    onCommit: () =>
+      State.update({ profile: { ...state.profile, ...data.profile } }),
+  });
+};
 
 return (
   <Container>
@@ -50,11 +59,7 @@ return (
           isProject: false,
           id: "image",
           onSave: (image) =>
-            Near.call("social.near", "set", {
-              data: {
-                [accountId]: { profile: { image: { ipfs_cid: image.cid } } },
-              },
-            }),
+            onSave({ profile: { image: { ipfs_cid: image.cid } } }),
           canEdit: props.isAdmin,
         }}
       />
@@ -66,10 +71,7 @@ return (
           value: state.profile.name,
           id: "name",
           accountId,
-          onSave: (name) =>
-            Near.call("social.near", "set", {
-              data: { [accountId]: { profile: { name } } },
-            }),
+          onSave: (name) => onSave({ profile: { name } }),
           canEdit: props.isAdmin,
         }}
       />
@@ -78,10 +80,7 @@ return (
         props={{
           value: state.profile.tagline,
           id: "tagline",
-          onSave: (tagline) =>
-            Near.call("social.near", "set", {
-              data: { [accountId]: { profile: { tagline } } },
-            }),
+          onSave: (tagline) => Social.set({ profile: { tagline } }),
           canEdit: props.isAdmin,
         }}
       />

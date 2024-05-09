@@ -13,7 +13,7 @@ State.init({
 if (!state.fetched) {
   Near.asyncView(
     ownerId,
-    isEntity ? "get_project" : "get_vendor",
+    isEntity ? "get_entity" : "get_contributor",
     { account_id: accountId },
     "final",
     false
@@ -21,14 +21,10 @@ if (!state.fetched) {
 }
 
 if (!state.profileFetched) {
-  Near.asyncView(
-    "social.near",
-    "get",
-    { keys: [`${accountId}/profile/**`] },
-    "final",
-    false
-  ).then((profile) => State.update({ profile: profile[accountId].profile, profileFetched: true }));
-  return <>Loading...</>;
+  const profile = Social.get(`${accountId}/profile/**`, "final", {
+    subscribe: false,
+  });
+  State.update({ profile, profileFetched: true });
 }
 
 const fullName = state.profile.name || state.data.name || accountId;
@@ -41,7 +37,7 @@ const url =
 const imageSrc = `https://i.near.social/thumbnail/${url}`;
 
 const ImageCircle = styled.img`
-  border-radius: ${({ isEntity }) => isEntity ? "8px" : "100%"};
+  border-radius: 100%;
   object-fit: cover;
   width: 100%;
   height: 100%;
@@ -56,6 +52,6 @@ const ImageContainer = styled.div`
 
 return (
   <ImageContainer title={`${fullName} @${accountId}`} size={size}>
-    <ImageCircle src={imageSrc} isEntity={isEntity} alt="profile image" />
+    <ImageCircle src={imageSrc} alt="profile image" />
   </ImageContainer>
 );

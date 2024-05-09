@@ -16,42 +16,44 @@ const AccessKey = Storage.get(
   "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
 );
 
-const trend_url = "https://test-api.dapdap.net/api/action/get-special-action";
+const trend_url = "/dapdap/api/action/get-special-action";
 
-let trendList = [];
+useEffect(() => {
+  asyncFetch(trend_url, {
+    headers: { Authorization: AccessKey },
+  }).then((res) => {
+    const resTrend = res.body;
+    if (Number(resTrend.code) == 0) {
+      resTrend.data[0].action_title = "Bridge 0.01 ETH to Polygon zkEVM";
 
-const resTrend = fetch(trend_url, {
-  headers: { Authorization: AccessKey },
-}).body;
-console.log("resTrend: ", resTrend);
+      resTrend.data[0].action_amount = "0.01";
 
-if (Number(resTrend.code) == 0) {
-  resTrend.data[0].action_title = "Bridge 0.01 ETH to Polygon zkEVM";
+      resTrend.data[0].template = "ETH-Polygon zkEVM Bridge";
 
-  resTrend.data[0].action_amount = "0.01";
+      resTrend.data[1].action_title = "Swap 0.01 ETH to USDC on QuickSwap";
 
-  resTrend.data[0].template = "ETH-Polygon zkEVM Bridge";
+      resTrend.data[1].action_amount = "0.01";
 
-  resTrend.data[1].action_title = "Swap 0.01 ETH to USDC on QuickSwap";
+      resTrend.data[1].template = "Polygon zkEVM Dex";
 
-  resTrend.data[1].action_amount = "0.01";
+      resTrend.data[2].action_title = "Supply 0.01 ETH on 0vix";
 
-  resTrend.data[1].template = "Polygon zkEVM Dex";
+      resTrend.data[2].action_amount = "0.01";
 
-  resTrend.data[2].action_title = "Supply 0.01 ETH on 0vix";
+      resTrend.data[2].template = "0vix Lending";
 
-  resTrend.data[2].action_amount = "0.01";
+      resTrend.data[3].template = "Gamma";
 
-  resTrend.data[2].template = "0vix Lending";
-
-  resTrend.data[3].template = "Gamma";
-
-  trendList = resTrend.data;
-}
+      State.update({
+        trendList: resTrend.data,
+      });
+    }
+  });
+}, []);
 
 return (
   <CardListWrapper>
-    {(trendList || []).map((item) => {
+    {(state.trendList || []).map((item) => {
       return (
         <Widget
           src="guessme.near/widget/ZKEVMWarmUp.trend-card"

@@ -3,20 +3,27 @@ const tokenDecimals = 24;
 const contractId = "meta-pool.near";
 const GAS = "200000000000000";
 const ONE_NEAR = new BN("1" + "0".repeat(24));
-const { isSignedIn, update, state, handleInputstNear, onClickMaxstNear } =
+const { isSignedIn, update, state, handleInputStNear, onClickMaxstNear } =
   props;
 
 const onSubmitFastUnstake = () => {
   // manage register stNEAR - should make a call attached
-  const l = Big(state.value).mul(Big(10).pow(tokenDecimals)).toFixed(0);
-  const e = l.mul(state.metrics.st_near_price_usd);
+  const amount = state.isStNearMaxSelected ? state.stNearBalance : state.value;
+  const stNearToBurn = Big(amount).mul(Big(10).pow(tokenDecimals));
+  const minExpectedNear =
+    state.contractState && state.feeBP
+      ? (((amount * state.metrics.st_near_price * (10000 - state.feeBP)) /
+          10000) *
+          99) /
+        100
+      : 0;
   const tx = {
     contractName: contractId,
     methodName: "liquid_unstake",
     deposit: 0,
     args: {
-      st_near_to_burn: l.toFixed(0),
-      min_expected_near: e.sub(ONE_NEAR.divn(10)).toFixed(0),
+      st_near_to_burn: stNearToBurn.toFixed(0),
+      min_expected_near: minExpectedNear.sub(ONE_NEAR.divn(10)).toFixed(0),
     },
   };
   Near.call([tx]);
@@ -193,7 +200,12 @@ return (
             </StakeFormTopContainerLeftContent1>
             <StakeFormTopContainerLeftContent2>
               <span>
-                {state.stNearBalance}
+                {state.stNearBalance
+                  ? (
+                      Math.trunc(parseFloat(state.stNearBalance) * 100000) /
+                      100000
+                    ).toFixed(5)
+                  : ""}
                 stNEAR
               </span>
             </StakeFormTopContainerLeftContent2>
@@ -239,7 +251,7 @@ return (
               : "0",
           placeholder: "Enter stNEAR amount",
           value: state.value,
-          onChange: (e) => handleInputstNear(e.target.value),
+          onChange: (e) => handleInputStNear(e.target.value),
           onClickMax: onClickMaxstNear,
           inputError: state.validation !== "",
           balance: stNearBalance ?? "-",
@@ -255,8 +267,14 @@ return (
         src={`${authorId}/widget/MetaPoolStake.Common.YouWillGet`}
         props={{
           value:
-            state.metrics && state.value && parseFloat(state.value) > 0
-              ? (state.value / state.metrics?.st_near_price_usd).toFixed(5)
+            state.metrics &&
+            state.value &&
+            state.feeBP &&
+            parseFloat(state.value) > 0
+              ? (
+                  ((state.value * state.metrics?.st_near_price) / 10000) *
+                  (10000 - state.feeBP)
+                ).toFixed(5)
               : 0,
           iconName: "NEAR",
           token: "stNEAR",
@@ -273,6 +291,17 @@ return (
           text: isSignedIn ? "Unstake" : "Connect wallet",
         }}
       />
+      <p
+        style={{
+          width: "100%",
+          backgroundColor: "rgb(206, 255, 26)",
+          textAlign: "center",
+          fontWeight: "700",
+          padding: "8px 0",
+        }}
+      >
+        Fee is {(state.feeBP / 100).toFixed(2)}%
+      </p>
     </StakeFormWrapper>
     <Widget
       src={`${authorId}/widget/MetaPoolStake.Common.Popup.Index`}

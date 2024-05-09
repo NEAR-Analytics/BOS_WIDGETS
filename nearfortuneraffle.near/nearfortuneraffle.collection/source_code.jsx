@@ -423,9 +423,7 @@ return (
                 <NftTitle>{nft.title}</NftTitle>
                 <NftName>{nft.name}</NftName>
                 <NfttBtn>
-                  <a href="https://near.org/nearfortuneraffle.near/widget/nearfortuneraffle.raffle">
-                    Enter
-                  </a>
+                  <a href="https://nearfortune.netlify.app/raffle">Enter</a>
                 </NfttBtn>
                 <RaffleStatus>{nft.status}</RaffleStatus>
                 <NftRaffleUnits>Units: {nft.unit}</NftRaffleUnits>
@@ -439,7 +437,7 @@ return (
                 <RaffleListImg src={nft.media} alt={nft.name} />
                 <NftTitle>{nft.title}</NftTitle>
                 <NftName>{nft.name}</NftName>
-                <NfttBtn href="https://near.org/nearfortuneraffle.near/widget/nearfortuneraffle.raffle">
+                <NfttBtn href="https://nearfortune.netlify.app/raffle">
                   Enter
                 </NfttBtn>
                 <RaffleStatus>{nft.status}</RaffleStatus>

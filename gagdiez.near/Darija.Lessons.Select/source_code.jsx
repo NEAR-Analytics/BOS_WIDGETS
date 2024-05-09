@@ -1,3 +1,5 @@
+const { shuffle, SelectionStyle: Selection } = VM.require('gagdiez.near/widget/Darija.Lessons.Utils');
+
 if (context.loading) return <div>Loading...</div>;
 
 const knowledge = props.knowledge;
@@ -17,31 +19,19 @@ const [result, setResult] = useState("secondary");
 const [step, setStep] = useState("verify");
 const [toTestAgain, setToTest] = useState([]);
 
-function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const tmp = array[i];
-    array[i] = array[j];
-    array[j] = tmp;
-  }
-  return array;
-}
-
 const createOptions = (answer) => {
   if(!answer) return;
 
   // the answer is one of the options
   let options = [answer];
 
-  // add 3 random options
-  while (options.length < 4) {
-    const rIdx = Math.floor(Math.random() * knowledge.length);
-    if (!options.some((e, i, a) => e[language] === knowledge[rIdx][language])) {
-      options.push(knowledge[rIdx]);
-    }
-  }
+  // shuffle all the options that are not the answer
+  const no_answer = shuffle(knowledge.filter( e => e[learn_lang] !== answer[learn_lang]));
 
-  // store a shuffled version
+  // pick 3
+  options.push(...no_answer.slice(0, 3));
+
+  // shuffle again
   setPossibleOptions(shuffle(options));
 };
 
@@ -50,7 +40,7 @@ const passNext = () => {
 
   let answer = (id < knowledge.length)? knowledge[id] : toTestAgain.pop();
 
-  if (result === "danger") setLives(lives - 1);
+  (result === "danger") && setLives(lives - 1);
 
   setIdx(id);
   setEvaluating(answer);
@@ -88,25 +78,6 @@ const Restart = () => {
   setResult("secondary");
   createOptions(knowledge[0]);
 };
-
-const Selection = styled.div`
-  &:hover {
-    cursor: pointer;
-    background-color: rgb(216 244 255);
-  }
-
-  &.selected {
-    background-color: rgb(216 244 255);
-  }
-
-  &.success {
-    background-color: rgb(216 255 216);
-  }
-
-  &.danger {
-    background-color: rgb(255 216 216);
-  }
-`;
 
 if (lives === 0) {
   return (
@@ -155,9 +126,9 @@ return (
                 } ${opt[language] === wordSelected[language] && result}`}
               onClick={() => { step === "verify" && setSelected(opt) }}
             >
-              <h5 className="card-title pt-2">
+              <h6 className="card-title pt-2 px-2">
                 {opt.emoji} {opt[otherLanguage(language)]}
-              </h5>
+              </h6>
             </Selection>
           </div>
         ))}

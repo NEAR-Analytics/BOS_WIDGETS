@@ -149,7 +149,7 @@ raw1 as (
  SELECT livequery.live.udf_api(
   'GET',
   'https://api.pikespeak.ai/sbt/sbt-by-owner?holder={{singer}}&registry=registry.i-am-human.near',
-  {'accept': 'application/json', 'x-api-key':'cbaac313-78d0-4d69-b2f8-6d5e2af58b6e'},
+  {'accept': 'application/json', 'x-api-key':'716bd858-852e-4866-9099-becd83d5e0d2'},
   {}
  ) as response)
 
@@ -436,14 +436,27 @@ const transactions1 = {
     themeColor?.dynamic_header?.background ||
     "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
 };
+const onHandelId = (id) => {
+  let customId = "";
+  if (id.length > 20) {
+    customId += id.substring(0, 5);
+    customId += "...";
+    customId += id.substring(id.length - 3);
+    return customId;
+  } else {
+    return id;
+  }
+};
 const hellosinger = {
-  height: "90px",
+  height: "110px",
   align: "center",
   brand: "Hello",
   description: "Thank you for being a valued user of Near throughout 2023",
   fontsize: "25px",
   fontweight: "25px",
-  afterbrand: `${state.result.query4?.data[0]?.signer || "Nearman"}`,
+  afterbrand: `${
+    onHandelId(state.result.query4?.data[0]?.signer) || "Nearman"
+  }`,
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
   fontbrand: " Arial, sans-serif",
   color1brand: themeColor?.dynamic_header?.color1brand || "#000",
@@ -661,12 +674,11 @@ const min_time = {
 //---------------------------------------------------------------------------------------------------
 
 // state ####################################
-
 State.init({
   searchedSinger: "",
   searchedInterval: "",
   result: {},
-  loader: [],
+  //loader: [],
   isLoading: false,
   error: [],
   queriesRuned: false,
@@ -680,13 +692,19 @@ const checkNewSinger = () => {
     State.update({
       searchedSinger: singer,
       searchedInterval: interval,
-      loader: [],
+      //loader: [],
+      loader: false,
       result: {},
       isLoading: true,
       queriesRuned: false,
     });
   }
+  return true;
 };
+if (checkNewSinger()) {
+  return <div>loading...</div>;
+}
+
 checkNewSinger();
 // handle hashed data #############################
 const handleHasedData = ({ hash, id }) => {
@@ -750,6 +768,7 @@ const fetchData = (hash) => {
     error: (data && !data.ok && (data.status || data.error)) || null,
     isLoading: !data && !error,
   };
+  console.log(result);
   return result;
 };
 // handle runed data ###################################
@@ -783,13 +802,13 @@ const updateResultState = ({ data, error, isLoading, queryRunId, id }) => {
         id: id,
       },
     };
-    const newLoader = loader.filter(({ id: loaderId }) => loaderId !== id);
+    //const newLoader = loader.filter(({ id: loaderId }) => loaderId !== id);
     if (error) {
       const queryError = `query${id} : ${error}`;
       return {
         ...state,
         result: { ...newResult },
-        loader: newLoader.length === 0 ? [] : newLoader,
+        // loader: newLoader.length === 0 ? [] : newLoader,
         error: [...state.error, queryError],
       };
     } else {
@@ -802,7 +821,7 @@ const updateResultState = ({ data, error, isLoading, queryRunId, id }) => {
       return {
         ...state,
         result: { ...newResult },
-        ...(data && { loader: newLoader.length === 0 ? [] : newLoader }),
+        // ...(data && { loader: newLoader.length === 0 ? [] : newLoader }),
       };
     }
   });

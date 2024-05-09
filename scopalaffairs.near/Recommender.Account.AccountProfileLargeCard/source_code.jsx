@@ -1,7 +1,7 @@
 const accountId = props.accountId;
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
 const tags = Object.keys(profile.tags || {});
-const profileUrl = `#/near/widget/ProfilePage?accountId=${accountId}`;
+const profileUrl = `#/scopalaffairs.near/widget/ProfilePage?accountId=${accountId}`;
 
 const abbreviateNumber = (value) => {
   let newValue = value;
@@ -51,7 +51,7 @@ const CurrentUserProfile = styled.div`
 `;
 
 const NoTags = styled.div`
-  height: 20px;
+  height: 13px;
 `;
 
 const Score = styled.li`
@@ -81,26 +81,6 @@ const Scores = styled.ul`
 const TagsWrapper = styled.div`
   max-width: 80%;
   margin-top: -5px;
-`;
-
-const TextLink = styled.a`
-  display: block;
-  margin: 0;
-  font-size: 14px;
-  line-height: 18px;
-  color: ${(p) => (p.bold ? "#11181C !important" : "#687076 !important")};
-  font-weight: ${(p) => (p.bold ? "600" : "400")};
-  font-size: ${(p) => (p.small ? "12px" : "14px")};
-  overflow: ${(p) => (p.ellipsis ? "hidden" : "visible")};
-  text-overflow: ${(p) => (p.ellipsis ? "ellipsis" : "unset")};
-  white-space: nowrap;
-  outline: none;
-  max-width: 230px;
-
-  &:focus,
-  &:hover {
-    text-decoration: underline;
-  }
 `;
 
 const ProfileListContainer = styled.div`
@@ -153,39 +133,40 @@ const LargeCard = styled.div`
   padding: 24px 0px 13px;
 `;
 
-const CenteredLinksWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 14px;
-`;
-
 return (
   <LargeCard>
-      <Avatar href={profileUrl}>
-        <Widget
-          src="mob.near/widget/Image"
-          props={{
-            image: props.profileImage || profile.image,
-            alt: props.profileName || profile.name,
-            fallbackUrl:
-              "https://ipfs.near.social/ipfs/bafkreibiyqabm3kl24gcb2oegb7pmwdi6wwrpui62iwb44l7uomnn3lhbi",
-          }}
-        />
-      </Avatar>
-      <CenteredLinksWrapper>
-        <TextLink href={profileUrl} ellipsis bold>
-          {props.profileName || profile.name || accountId.split(".near")[0]}
-        </TextLink>
-        <TextLink href={profileUrl} ellipsis>
-          @{accountId}
-        </TextLink>
-      </CenteredLinksWrapper>
-    {tags.length > 0 ? (
-      <TagsWrapper>
-        <Widget src="near/widget/Tags" props={{ tags, scroll: true }} />
-      </TagsWrapper>
-    ) : (
+    <Avatar href={profileUrl}>
+      <Widget
+        src="scopalaffairs.near/widget/Recommender.Engagement.ImageTracked"
+        props={{
+          accountId: props.accountId,
+          accountIdRank: props.accountIdRank,
+          fromContext: props.fromContext,
+          profileImage: props.profileImage || profile.image,
+          profileImageAlt: props.profileName || profile.name,
+        }}
+      />
+    </Avatar>
+    <Widget
+      src="scopalaffairs.near/widget/Recommender.Engagement.CenteredLinksWrapperTracked"
+      props={{
+        accountId: props.accountId,
+        accountIdRank: props.accountIdRank,
+        fromContext: props.fromContext,
+        profileName:
+          props.profileName || profile.name || accountId.split(".near")[0],
+        profileUrl: profileUrl,
+      }}
+    />
+
+    <TagsWrapper>
+      <Widget
+        src="scopalaffairs.near/widget/Tags"
+        props={{ tags, scroll: true }}
+      />
+    </TagsWrapper>
+
+    {tags.length == 0 && (
       <TagsWrapper>
         <NoTags></NoTags>
       </TagsWrapper>
@@ -245,16 +226,16 @@ return (
     )}
 
     {context.accountId && context.accountId !== props.accountId ? (
-      <>
-        <Button>
-          <Widget
-            src="scopalaffairs.near/widget/FollowButton"
-            props={{
-              accountId: props.accountId,
-            }}
-          />
-        </Button>
-        </>
+      <Button>
+        <Widget
+          src="scopalaffairs.near/widget/Recommender.Engagement.FollowButtonTracked"
+          props={{
+            accountIdRank: props.accountIdRank || null,
+            accountId: accountId || props.accountId,
+            fromContext: props.fromContext,
+          }}
+        />
+      </Button>
     ) : (
       <Button>
         <CurrentUserProfile></CurrentUserProfile>

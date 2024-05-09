@@ -1,13 +1,11 @@
 /**
  * This should be primary view
  */
-
-const path = props.path || "everycanvas.near";
+const path = props.path || context.accountId || "every.near";
 
 const parts = path.split("/");
-
 if (parts.length === 1) {
-  path = `${path}/thing/canvas`;
+  path = `${path}/canvas/main`;
 }
 
 const creatorId = parts[0];
@@ -17,47 +15,39 @@ const Container = styled.div`
   width: 100%;
 `;
 
-// what about when an account doesn't have this?
 const hyperfile = JSON.parse(Social.get(path, "final") || "null");
-let data; // what is an empty snapshot?
+let data;
 
 if (hyperfile.adapter) {
-  const { get } =
-    VM.require(hyperfile.adapter) || (() => {});
+  const { get } = VM.require(hyperfile.adapter) || (() => {});
   if (get) {
     data = get(hyperfile.reference) || null;
   } else {
-    return <p>{`Loading or adapter not found : ${hyperfile.adapter}`}</p>;
+    return (
+      <p>{`Data not found from reference: ${hyperfile.reference} and adapter: ${hyperfile.adapter}`}</p>
+    );
   }
+} else {
+  console.log(`Invalid data: ${hyperfile}`);
+  return (
+    <Container key={path}>
+      <Canvas persistance={path} autoFocus={true} isReadOnly={!(creatorId === context.accountId)} />
+    </Container>
+  );
 }
 
-// // button to select and load a specific canvas.
-// // what is the multiples example?
+if (creatorId === context.accountId) {
+  // use local persistance
+  return (
+    <Container key={path}>
+      <Canvas persistance={path} autoFocus={true} isReadOnly={false} />
+    </Container>
+  );
+}
 
 if (!data) {
   return <p>{`Loading or canvas not found : ${hyperfile.adapter}`}</p>;
 }
-
-// this can come from user or app settings
-const plugins = [
-  {
-    "hyperfile": {
-      src: "everycanvas.near/widget/create.hyperfile",
-      description: "able to create hyperfiles",
-      layout: "sharezone",
-      authors: ["hack.near", "flowscience.near", "efiz.near"]
-    }
-  },
-  {
-    "magic": {
-      src: "everycanvas.near/widget/magic",
-      description: "use open ai",
-      layout: "action",
-      isModalOpen: true,
-      authors: ["petersalomonsen.near"]
-    }
-  }
-]
 
 return (
   <Container key={path}>
@@ -65,7 +55,7 @@ return (
       initialSnapshot={data}
       persistance={path}
       autoFocus={true}
-      plugins={plugins}
+      isReadOnly={true} // read only
     />
   </Container>
 );

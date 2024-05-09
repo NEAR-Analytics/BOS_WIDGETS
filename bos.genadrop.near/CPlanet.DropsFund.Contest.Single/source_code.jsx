@@ -15,26 +15,24 @@ const checkSvg = (
     />
   </svg>
 );
-
 const Container = styled.div`
   background: #f8f8f8;
   min-height: 100vh;
 `;
-
 const Root = styled.div`
   padding: 10px;
   margin-left: auto;
   margin-right: auto;
   max-width: 1400px;
   width: 100%;
-  margin-top: 40px;
+  padding-top: 40px;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 30px;
   @media (max-width: 500px) {
     flex-direction: column;
-    margin-top: 30px;
+    padding-top: 30px;
     .left,
     .right {
       width: 100%;
@@ -75,7 +73,6 @@ const Root = styled.div`
     }
   }
 `;
-
 const Status = styled.div`
   display: flex;
   flex-direction: row;
@@ -132,11 +129,10 @@ const Status = styled.div`
     box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0);
   }
 `;
-
 const Username = styled.div`
   display: flex;
   flex-direction: row;
-  p {
+  a {
     overflow: hidden;
     color: #b0b0b0;
     text-overflow: ellipsis;
@@ -153,7 +149,6 @@ const Username = styled.div`
     margin-top: 3px;
   }
 `;
-
 const Desc = styled.div`
   p {
     color: #808080;
@@ -165,7 +160,6 @@ const Desc = styled.div`
     letter-spacing: -0.16px;
   }
 `;
-
 const PriceBucket = styled.div`
   display: flex;
   justify-content: space-between;
@@ -174,7 +168,7 @@ const PriceBucket = styled.div`
   width: 100%;
   padding: 16px 48px 20px 32px;
   justify-content: space-between;
-  max-width: 920px;
+  max-width: 1000px;
   align-items: flex-start;
   border-radius: 8px;
   border: 1px solid #b0b0b0;
@@ -250,34 +244,59 @@ const PriceBucket = styled.div`
     }
   }
 `;
-
 const contestId = props.contestId;
+const testContract = props?.status === "true" ? true : false;
 const [userSubmitted, setUserSubmitted] = useState(false);
-
-const contest = Near.view("fund-v1.genadrop.near", "get_contest_detail", {
-  contest_id: Number(contestId),
-  subscribe: true,
-});
-
-const contestArts = Near.view("fund-v1.genadrop.near", "get_contest_arts", {
-  contest_id: Number(contestId),
-  subscribe: true,
-});
-
+if (!contestId) {
+  return (
+    <div>
+      No ContestId Provided, Please Redirect to the Contest Overview page and
+      Select a Contest
+    </div>
+  );
+}
+const contest = Near.view(
+  testContract ? "fund-beta.genadrop.near" : "contest.genadrop.near",
+  "get_contest_detail",
+  {
+    contest_id: Number(contestId),
+    subscribe: true,
+  }
+);
+if (!contestId && !contest) {
+  return (
+    <div>
+      No ContestId Provided, Please Redirect to the Contest Overview page and
+      Select a Contest
+    </div>
+  );
+}
+const contestArts = Near.view(
+  testContract ? "fund-beta.genadrop.near" : "contest.genadrop.near",
+  "get_contest_arts",
+  {
+    contest_id: Number(contestId),
+    subscribe: true,
+  }
+);
+if (!contest) {
+  return (
+    <div>
+      No Contest Details Found, Please make sure you're Navigating from a Valid
+      Contest
+    </div>
+  );
+}
 const formatTime = (time) => {
   const timestamp = time * 1000; // Convert seconds to milliseconds
   const date = new Date(timestamp);
-
   // Format the date to "Month day, year" (e.g., "Oct 31, 2023")
   const options = { month: "short", day: "numeric", year: "numeric" };
   const formattedDate = date.toLocaleDateString("en-US", options);
-
   return formattedDate;
 };
-
 const isOpen = contest?.submission_end_time > Date.now() / 1000;
 const isClosed = contest?.voting_end_time < Date.now() / 1000;
-
 useEffect(() => {
   if (contestArts) {
     const submitted = contestArts?.some(
@@ -286,7 +305,22 @@ useEffect(() => {
     setUserSubmitted(submitted);
   }
 }, [contestArts]);
-
+const getUsdValue = (price) => {
+  const res = fetch(
+    `https://api.coingecko.com/api/v3/simple/price?ids=near&vs_currencies=usd`
+  );
+  if (res.ok) {
+    const multiplyBy = Object.values(res?.body)[0]?.usd;
+    const value = multiplyBy * price.toFixed(2);
+    return value.toFixed(4) !== "NaN" ? `$${value.toFixed(2)}` : 0;
+  }
+};
+const policy = Near.view(contest?.dao_id, "get_policy");
+const councilMembers =
+  policy &&
+  policy?.roles?.filter(
+    (data) => data?.name === "council" || data?.name === "Council"
+  )[0]?.kind?.Group;
 return (
   <Container>
     <Root>
@@ -296,7 +330,7 @@ return (
             {formatTime(contest?.submission_start_time)} -{" "}
             {formatTime(contest?.voting_end_time)}
           </span>
-          <h1>{contest.title ?? "Lorem Ipsum Contest"}</h1>
+          <h1>{contest.title ?? "No Title"}</h1>
         </div>
         <Status>
           <p className={isClosed ? "closed" : "submission"}>
@@ -316,11 +350,15 @@ return (
           </p>
         </Status>
         <Username>
-          <p>CREATIVE DAO</p>
+          <a
+            href={`#/bos.genadrop.near/widget/CPlanet.DAO.Index?daoId=${contest?.dao_id}`}
+          >
+            {contest?.dao_id}
+          </a>
           {checkSvg}
         </Username>
         <Desc>
-          <p>-- No Description --</p>
+          <p>{contest?.description ?? "-- No Description --"}</p>
         </Desc>
         <PriceBucket>
           <div className="amountSec">
@@ -330,19 +368,25 @@ return (
                 src="https://ipfs.near.social/ipfs/bafkreierjvmroeb6tnfu3ckrfmet7wpx7k3ubjnc6gcdzauwqkxobnu57e"
                 alt=""
               />
-              <p className="first-span">1000</p>
-              <span className="last-span">$1686.01</span>
+              <p className="first-span">{contest?.prize}</p>
+              <span className="last-span">{getUsdValue(contest?.prize)}</span>
             </div>
           </div>
           <div className="amountSec">
-            <span>Prize per winner</span>
+            <span>Prize per Place</span>
             <div className="amount">
               <img
                 src="https://ipfs.near.social/ipfs/bafkreierjvmroeb6tnfu3ckrfmet7wpx7k3ubjnc6gcdzauwqkxobnu57e"
                 alt=""
               />
-              <p className="first-span">1000</p>
-              <span className="last-span">$1686.01</span>
+              <p className="first-span">
+                {contest?.places ? contest?.prize / contest.places ?? 0 : 0}
+              </p>
+              <span className="last-span">
+                {getUsdValue(
+                  contest?.places ? contest?.prize / contest.places ?? 0 : 0
+                )}
+              </span>
             </div>
           </div>
           <div className="amountSec">
@@ -378,8 +422,12 @@ return (
           props={{
             usersArts: contestArts,
             isOpen,
+            contestName: contest?.title,
             winners: contest.winners,
+            daoId: contest.dao_id,
+            testContract,
             isClosed,
+            councilMembers: councilMembers,
             userSubmitted,
             contestId,
           }}
@@ -391,7 +439,9 @@ return (
           props={{
             isClosed,
             isOpen,
+            testContract,
             winners: contest.winners,
+            usersArts: contestArts,
             contestId,
             userSubmitted,
           }}

@@ -1,3 +1,6 @@
+/**
+ * Modal can be moved to its own module
+ */
 const ModalBackdrop = styled.div`
   position: fixed;
   top: 0;
@@ -13,6 +16,8 @@ const ModalBackdrop = styled.div`
 
 const ModalBox = styled.div`
   background: white;
+  min-width: 400px;
+  max-width: 600px;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
@@ -55,6 +60,19 @@ function Modal({ onClose, children }) {
   );
 }
 
+const [isModalOpen, setModalOpen] = useState(false);
+const [activePluginId, setActivePluginId] = useState(null);
+
+const toggleModal = (pluginId) => {
+  setModalOpen(!isModalOpen);
+  setActivePluginId(pluginId);
+};
+
+const Button = styled.button`
+  // this could take in theme
+  padding: 10px 20px;
+`;
+
 const {
   getSelectedShapes,
   getSnapshot,
@@ -66,43 +84,102 @@ const {
   asSvg,
   asPng,
   asDataUrl,
-  snapshot,
+  path,
 } = props;
 
-const [isModalOpen, setModalOpen] = useState(false);
+const parts = path.split("/");
+const creatorId = parts[0];
 
-const save = () => {
-  Social.set({
-    thing: {
-      canvas: {
-        "": JSON.stringify(getSnapshot()),
-        metadata: {
-          type: "canvas",
-        },
-      },
+const snapshot = getSnapshot();
+const selectedShapes = getSelectedShapes();
+
+const plugins = [
+  {
+    id: "canvas.save",
+    button: {
+      icon: "bi bi-save",
+      label: "save canvas",
     },
-  });
-};
+    interface: {
+      src: "everycanvas.near/widget/create.hyperfile",
+      props: {
+        // Prop hydration (?)
+        creatorId: creatorId, // requester?
+        source: "tldraw", // hardcoded Props
+        type: "canvas",
+        filename: "main",
+        data: JSON.stringify(snapshot), // vs dynamic
+      },
+      attribution: ["hack.near", "flowscience.near"], // this should come from widget metadata
+      isVisible: context.accountId === creatorId,
+    },
+  },
+  // {
+  //   id: "canvas.request.merge",
+  //   button: {
+  //     icon: "bi bi-sign-merge-right",
+  //     label: "request merge",
+  //   },
+  //   interface: {
+  //     src: "james.near/widget/update",
+  //     props: {},
+  //     attribution: ["james.near"],
+  //     isVisible: context.accountId !== creatorId,
+  //   },
+  // },
+  // {
+  //   id: "canvas.post",
+  //   button: {
+  //     icon: "bi bi-send",
+  //     label: "post",
+  //     // disabled: selectedShapes.length === 0,
+  //   },
+  //   interface: {
+  //     src: "everycanvas.near/widget/canvas.post",
+  //     props: {
+  //       shapes: JSON.stringify(selectedShapes),
+  //       item: {
+  //         type: "social",
+  //         path: path,
+  //       },
+  //     },
+  //     attribution: ["efiz.near"],
+  //     isVisible: context.accountId,
+  //   },
+  // },
+];
 
-const Button = styled.button`
-  padding: 10px 20px;
-`;
-
-const toggleModal = () => {
-  setModalOpen(!isModalOpen);
-};
+const activePlugin = plugins.find((plugin) => plugin.id === activePluginId);
 
 return (
   <>
-    {context.accountId && (
-      <Button className="classic" onClick={save}>
-        <i class="bi bi-save"></i> save canvas
-      </Button>
+    {plugins.map(
+      (plugin) =>
+        plugin.interface.isVisible && (
+          <Button
+            className="classic"
+            onClick={() => toggleModal(plugin.id)}
+            disabled={plugin.button.disabled}
+          >
+            <>
+              <i className={plugin.button.icon} />
+              {plugin.button.label}
+            </>
+          </Button>
+        )
     )}
     {isModalOpen && (
       <Modal onClose={toggleModal}>
-        <Widget src="hack.near/widget/create.hyperfile" />
-        <button onClick={save}>save</button>
+        <div className="w-100">
+          <Widget
+            src={activePlugin.interface.src}
+            props={activePlugin.interface.props}
+          />
+        </div>
+        <Widget
+          src="miraclx.near/widget/Attribution"
+          props={{ dep: true, authors: activePlugin.interface.attribution }}
+        />
       </Modal>
     )}
   </>

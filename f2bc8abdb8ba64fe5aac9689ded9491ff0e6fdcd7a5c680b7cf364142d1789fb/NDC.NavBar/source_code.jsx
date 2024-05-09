@@ -21,25 +21,25 @@ function stateUpdate(obj) {
   State.update(obj);
 }
 /*
-======================================================PILLS EXAMPLE====================================================
-    *Note: the first pill allways has to be the first one displayed*
-    pills: [{
-        id: string,
-        title: string,
-    }]    
-============(When modified to be web app we should delete action to replace it with a propper State.update)============
-
-======================================================BRAND EXAMPLE====================================================
-    brand: {
-        homePageId: string,
-        brandName: string,
-        logoHref: string,
-        logoRemWidth: number/string,
-        logoRemHeight: number/string,
-    }
-    
-============(When modified to be web app we should delete action to replace it with a propper State.update)============
-*/
+  ======================================================PILLS EXAMPLE====================================================
+      *Note: the first pill allways has to be the first one displayed*
+      pills: [{
+          id: string,
+          title: string,
+      }]    
+  ============(When modified to be web app we should delete action to replace it with a propper State.update)============
+  
+  ======================================================BRAND EXAMPLE====================================================
+      brand: {
+          homePageId: string,
+          brandName: string,
+          logoHref: string,
+          logoRemWidth: number/string,
+          logoRemHeight: number/string,
+      }
+      
+  ============(When modified to be web app we should delete action to replace it with a propper State.update)============
+  */
 
 const loggedUserAccountId = context.accountId;
 
@@ -85,40 +85,40 @@ if (
 
 //============================================Styled components==================================================
 const BrandLogoContainer = styled.div`
-    width: ${logoRemWidth ?? "4rem"};
-    height: ${logoRemHeight ?? "4rem"};
-    cursor: pointer;
-`;
+      width: ${logoRemWidth ?? "4rem"};
+      height: ${logoRemHeight ?? "4rem"};
+      cursor: pointer;
+  `;
 
 const activeColor = "#9333EA";
 
 const Pill = styled.div`
-    font-family: system-ui;
-    font-weight: 500;
-    font-size: 1.2rem;
-    line-height: 24px;
-    color: black;
-    cursor: pointer;
-    user-select: none;
-
-    &:hover {
-        color: ${activeColor};
-    }
-`;
+      font-family: system-ui;
+      font-weight: 500;
+      font-size: 1.2rem;
+      line-height: 24px;
+      color: black;
+      cursor: pointer;
+      user-select: none;
+  
+      &:hover {
+          color: ${activeColor};
+      }
+  `;
 
 const StylessATag = styled.a`
-    &:hover {
-        text-decoration: none;
-    }
-`;
+      &:hover {
+          text-decoration: none;
+      }
+  `;
 
 const BackButton = styled.div`
-  cursor: pointer;
-`;
+    cursor: pointer;
+  `;
 
 const CallLibrary = styled.div`
-  display: none;
-`;
+    display: none;
+  `;
 //============================================End styled components==============================================
 
 //=================================================Components====================================================
@@ -126,7 +126,7 @@ const CallLibrary = styled.div`
 const renderButton = (button, i) => {
   return (
     <Widget
-      src={widgets.styledComponents}
+      src={widgets.views.standardWidgets.styledComponents}
       props={{
         Button: {
           size: "big",
@@ -174,7 +174,7 @@ return (
             onClick={handleGoHomeButton}
           >
             <Widget
-              src={widgets.navBarImg}
+              src={widgets.views.standardWidgets.navBarImg}
               props={{
                 // image: metadata.image,
                 className: "w-100 h-100",
@@ -238,17 +238,17 @@ return (
                 );
               })}
             {/*navigationButtons &&
-            loggedUserAccountId &&
-            canLoggedUserCreateArticle &&
-            navigationButtons.map((button, i) => {
-              return !(button.id + "") || !button.title ? (
-                <p className="text-danger border">Button passed wrong</p>
-              ) : (
-                <div className="d-block d-md-none">
-                  {renderButton(button, i)}
-                </div>
-              );
-            })*/}
+              loggedUserAccountId &&
+              canLoggedUserCreateArticle &&
+              navigationButtons.map((button, i) => {
+                return !(button.id + "") || !button.title ? (
+                  <p className="text-danger border">Button passed wrong</p>
+                ) : (
+                  <div className="d-block d-md-none">
+                    {renderButton(button, i)}
+                  </div>
+                );
+              })*/}
           </ul>
         </div>
         {

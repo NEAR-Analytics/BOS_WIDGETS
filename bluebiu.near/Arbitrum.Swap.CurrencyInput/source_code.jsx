@@ -4,16 +4,15 @@ const Wrapper = styled.div`
   flex-wrap: nowrap;
   justify-content: space-between;
   padding: 5px 0px;
+  gap: 8px;
 `;
 const InputField = styled.div`
-  margin-right: 8px;
-  @media (max-width: 768px) {
-    width: calc(100% - 115px);
-  }
+  flex-shrink: 1;
+  flex-grow: 1;
 `;
 const InputWarpper = styled.div`
   height: 46px;
-  border-bottom: 1px solid var(--input-border-color);
+  border-bottom: 1px solid #373a53;
   padding: 10px 0px;
   @media (max-width: 900px) {
     height: 40px;
@@ -27,6 +26,7 @@ const Input = styled.input`
   outline: none;
   border: none;
   height: 40px;
+  width: 100%;
   vertical-align: bottom;
   @media (max-width: 900px) {
     font-size: 20px;
@@ -39,19 +39,13 @@ const Value = styled.div`
   font-size: 14px;
   line-height: 16px;
 `;
-const CurrencyField = styled.div`
-  min-width: 160px;
-  flex-shrink: 0;
-  flex-grow: 1;
-  @media (max-width: 768px) {
-    min-width: 115px;
-  }
-`;
+const CurrencyField = styled.div``;
 const CurrencySelect = styled.div`
   display: flex;
   justify-content: space-between;
+  gap: 8px;
   align-items: center;
-  border: 1px solid var(--input-border-color);
+  border: 1px solid #373a53;
   border-radius: 24px;
   padding: 6px 12px 6px 6px;
   cursor: pointer;
@@ -70,9 +64,6 @@ const CurrencyWrapper = styled.div`
   display: flex;
   align-items: center;
   height: 32px;
-  @media (max-width: 768px) {
-    width: calc(100% - 12px);
-  }
 `;
 const CurrencyIcon = styled.img`
   width: 32px;
@@ -112,77 +103,42 @@ const Amount = styled.div`
 // styled area end
 
 State.init({
-  balanceLoaded: false,
   balance: "0",
 });
 
 const utils = {
   balanceFormated: () => {
     if (!props.currency?.address) return "-";
-    if (!state.balanceLoaded) return "Loading";
     if (state.balance === "0" || Big(state.balance).eq(0)) return "0";
     if (Big(state.balance).lt(0.0001)) return "<0.0001";
-    return Big(state.balance).toFixed(4, 0);
-  },
-  valueFormated: (amount) => {
-    const prices = Storage.privateGet("tokensPrice");
-    const price = prices[props.currency?.symbol];
-    if (!price) return "-";
-    const value = Big(price).mul(amount || 0);
-    if (value.lt(0.01)) return value.toPrecision(1);
-    return value.toFixed(2);
+    return Big(state.balance).toFixed(4);
   },
 };
 
 const handlers = {
   handleDisplayCurrencySelect: () => {
-    State.update({
-      balanceLoaded: false,
-    });
     props?.onCurrencySelectOpen();
   },
   handleInputChange: (ev) => {
     if (isNaN(Number(ev.target.value))) return;
-    props.onAmountChange?.(ev.target.value);
+    props.onAmountChange?.(ev.target.value.replace(/\s+/g, ""));
   },
 };
 
-const DELAY = 1000 * 60 * 5;
-const timer = Storage.privateGet("priceTimer");
-const AccessKey = Storage.get(
-  "AccessKey",
-  "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
-);
-function getPrice() {
-  asyncFetch("https://test-api.dapdap.net/get-token-price-by-dapdap", {
-    Authorization: AccessKey,
-  })
-    .then((res) => {
-      const data = JSON.parse(res.body);
-      data.native = data.aurora;
-      delete data.aurora;
-      Storage.privateSet("tokensPrice", data);
-      setTimeout(getPrice, DELAY);
-    })
-    .catch((err) => {
-      setTimeout(getPrice, DELAY);
-    });
-}
-if (!Storage.privateGet("priceTimer")) {
-  getPrice();
-  Storage.privateSet("priceTimer", 1);
-}
+const tokenPrice =
+  props.prices[props.currency.priceKey || props.currency.symbol];
 
 return (
   <Wrapper>
     <Widget
       src="bluebiu.near/widget/Arbitrum.Swap.CurrencyBalance"
       props={{
+        account: props.account,
         address: props.currency?.address,
+        updateTokenBalance: props.updateTokenBalance,
         onLoad: (balance) => {
           State.update({
             balance: ethers.utils.formatUnits(balance, props.currency.decimals),
-            balanceLoaded: true,
           });
           props?.onUpdateCurrencyBalance(balance);
         },
@@ -196,7 +152,14 @@ return (
           onChange={handlers.handleInputChange}
         />
       </InputWarpper>
-      <Value>≈ ${utils.valueFormated(props.amount)}</Value>
+      <Value>
+        ≈{" "}
+        {tokenPrice && props.amount
+          ? `$${Big(props.amount || 0)
+              .mul(tokenPrice)
+              .toFixed(2)}`
+          : "-"}
+      </Value>
     </InputField>
     <CurrencyField>
       <CurrencySelect onClick={handlers.handleDisplayCurrencySelect}>

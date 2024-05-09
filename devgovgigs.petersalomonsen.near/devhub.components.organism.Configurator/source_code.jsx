@@ -1,46 +1,8 @@
-const Struct = VM.require("${REPL_DEVHUB}/widget/core.lib.struct");
+const Struct = VM.require("devgovgigs.petersalomonsen.near/widget/core.lib.struct");
 
 if (!Struct) {
   return <p>Loading modules...</p>;
 }
-/* INCLUDE: "core/lib/gui/form" */
-const defaultFieldUpdate = ({
-  input,
-  lastKnownValue,
-  params: { arrayDelimiter },
-}) => {
-  switch (typeof input) {
-    case "boolean":
-      return input;
-
-    case "object": {
-      if (Array.isArray(input) && typeof lastKnownValue === "string") {
-        return input.join(arrayDelimiter ?? ",");
-      } else {
-        return Array.isArray(lastKnownValue)
-          ? [...lastKnownValue, ...input]
-          : { ...lastKnownValue, ...input };
-      }
-    }
-
-    case "string":
-      return Array.isArray(lastKnownValue)
-        ? input.split(arrayDelimiter ?? ",").map((string) => string.trim())
-        : input;
-
-    default: {
-      if ((input ?? null) === null) {
-        switch (typeof lastKnownValue) {
-          case "boolean":
-            return !lastKnownValue;
-
-          default:
-            return lastKnownValue;
-        }
-      } else return input;
-    }
-  }
-};
 
 const useForm = ({ initialValues, onUpdate, stateKey }) => {
   const initialFormState = {
@@ -68,7 +30,7 @@ const useForm = ({ initialValues, onUpdate, stateKey }) => {
             params,
           });
         } else {
-          return defaultFieldUpdate({
+          return Struct.defaultFieldUpdate({
             input: fieldInput?.target?.value ?? fieldInput,
             lastKnownValue: node,
             params,
@@ -107,7 +69,6 @@ const useForm = ({ initialValues, onUpdate, stateKey }) => {
     update: formUpdate,
   };
 };
-/* END_INCLUDE: "core/lib/gui/form" */
 
 const ValueView = styled.div`
   & > p {
@@ -117,16 +78,16 @@ const ValueView = styled.div`
 
 const fieldParamsByType = {
   array: {
-    name: "components.molecule.text-input",
+    name: "components.molecule.Input",
     inputProps: { type: "text" },
   },
 
   boolean: {
-    name: "components.atom.toggle",
+    name: "components.atom.Toggle",
   },
 
   string: {
-    name: "components.molecule.text-input",
+    name: "components.molecule.Input",
     inputProps: { type: "text" },
   },
 };
@@ -176,9 +137,8 @@ const defaultFieldsRender = ({ schema, form, isEditable }) => (
                   </span>
                 ) : (fieldValue?.length ?? 0) > 0 ? (
                   <Widget
-                    // TODO: LEGACY.
                     src={
-                      "${REPL_DEVHUB}/widget/devhub.components.molecule.MarkdownViewer"
+                      "devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.MarkdownViewer"
                     }
                     props={{
                       text: fieldValue,
@@ -190,11 +150,12 @@ const defaultFieldsRender = ({ schema, form, isEditable }) => (
               </ValueView>
             </div>
             <Widget
-              // TODO: LEGACY.
-              src={`${REPL_DEVHUB}/widget/gigs-board.${fieldParamsByType[fieldType].name}`}
+              src={`devgovgigs.petersalomonsen.near/widget/devhub.${
+                (fieldParamsByType[fieldType] ?? fieldParamsByType["string"])
+                  .name
+              }`}
               props={{
                 ...fieldProps,
-
                 className: [
                   "w-100",
                   fieldProps.className ?? "",
@@ -249,6 +210,7 @@ const Configurator = ({
   schema,
   submitIcon,
   submitLabel,
+  hideSubmitBtn,
 }) => {
   const fieldsRender = customFieldsRender || defaultFieldsRender;
 
@@ -262,7 +224,41 @@ const Configurator = ({
     ? toFormatted(form.values)
     : form.values;
 
-  const isFormValid = isValid ? isValid(formFormattedValues) : true;
+  const internalValidation = () =>
+    Object.keys(schema).every((key) => {
+      const fieldDefinition = schema[key];
+      const value = form.values[key];
+      if (!value || value.length === 0) {
+        return !fieldDefinition.inputProps.required;
+      } else if (
+        fieldDefinition.inputProps.min &&
+        fieldDefinition.inputProps.min > value?.length
+      ) {
+        return false;
+      } else if (
+        fieldDefinition.inputProps.max &&
+        fieldDefinition.inputProps.max < value?.length
+      ) {
+        return false;
+      } else if (
+        fieldDefinition.inputProps.allowCommaAndSpace === false &&
+        /^[^,\s]*$/.test(value) === false
+      ) {
+        return false;
+      } else if (
+        fieldDefinition.inputProps.validUrl === true &&
+        /^(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/.test(
+          value
+        ) === false
+      ) {
+        return false;
+      }
+      return true;
+    });
+
+  const isFormValid = () => {
+    return internalValidation() && (!isValid || isValid(formFormattedValues));
+  };
 
   const onCancelClick = () => {
     form.reset();
@@ -270,7 +266,7 @@ const Configurator = ({
   };
 
   const onSubmitClick = () => {
-    if (onSubmit && isFormValid) {
+    if (onSubmit && isFormValid()) {
       onSubmit(formFormattedValues);
     }
   };
@@ -284,14 +280,14 @@ const Configurator = ({
           schema,
         })}
       </div>
-      {isActive && (
+      {isActive && !hideSubmitBtn && (
         <div className="d-flex align-items-center justify-content-end gap-3 mt-auto">
           {actionsAdditional ? (
             <div className="me-auto">{actionsAdditional}</div>
           ) : null}
 
           <Widget
-            src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
+            src={"devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.Button"}
             props={{
               classNames: { root: "btn-outline-danger shadow-none border-0" },
               label: cancelLabel || "Cancel",
@@ -299,10 +295,10 @@ const Configurator = ({
             }}
           />
           <Widget
-            src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
+            src={"devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.Button"}
             props={{
               classNames: { root: classNames.submit || "btn-success" },
-              disabled: !form.hasUnsubmittedChanges || !isFormValid,
+              disabled: !form.hasUnsubmittedChanges || !isFormValid(),
               icon: submitIcon || {
                 type: "bootstrap_icon",
                 variant: "bi-check-circle-fill",

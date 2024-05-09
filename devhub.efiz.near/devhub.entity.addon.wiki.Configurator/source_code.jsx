@@ -77,8 +77,7 @@ return (
       >
         <div style={{ position: "absolute", top: 10, right: 0 }}>
           <Widget
-            // LEGACY
-            src="devhub.efiz.near/widget/gigs-board.components.molecule.button-switch"
+            src="devhub.efiz.near/widget/devhub.components.molecule.Switch"
             props={{
               currentValue: textAlign,
               key: "textAlign",
@@ -112,7 +111,7 @@ return (
             <Widget
               src="devhub.efiz.near/widget/devhub.components.molecule.Input"
               props={{
-                label: "Description",
+                label: "Subtitle",
                 className: "flex-grow-1",
                 onChange: (e) => setSubtitle(e.target.value),
                 value: subtitle,

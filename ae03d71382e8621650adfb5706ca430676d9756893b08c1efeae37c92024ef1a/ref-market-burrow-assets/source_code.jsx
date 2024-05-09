@@ -1,62 +1,62 @@
 const Container = styled.div`
-   background: #1A2E33;
-    .table{
-        margin:0;
-    }
-    .noBorder{
-      border:none;
-    }
-    .table thead tr{
-        height:50px;
-        border:hidden;
-    }
-    .table tbody tr{
-        height:50px;
-    }
-     .table.click tbody tr:hover{
-        background: rgba(0, 0, 0, 0.1);
-     }
-    .table th{
-        color: #7E8A93;
-        font-size:14px;
-        vertical-align: middle;
-    }
-    .table td{
-        color: #fff;
-        font-size:14px;
-        vertical-align: middle;
-        border: none;
-    }
-    .tokenIcon{
-      width: 26px;
-      height: 26px;
-      border-radius:100px;
-      margin-right:8px;
-    }
-    .rewardIcon{
-      width: 16px;
-      height: 16px;
-      border-radius:100px;
-    }
-    .text_red_color{
-      color:#FF6BA9;
-    }
-    .ml_4_ne{
-        margin-left:-4px;
-    }
-    .flex_center{
-      display:flex;
-      align-items:center;
-    }
-    .font-18{
-      font-size:18px;
-    }
-    .flex-end{
-      display:flex;
-      align-items:center;
-      justify-content:end;
-      height:50px;
-    }
+  background: #1a2e33;
+  .table {
+    margin: 0;
+  }
+  .noBorder {
+    border: none;
+  }
+  .table thead tr {
+    height: 50px;
+    border: hidden;
+  }
+  .table tbody tr {
+    height: 50px;
+  }
+  .table.click tbody tr:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
+  .table th {
+    color: #7e8a93;
+    font-size: 14px;
+    vertical-align: middle;
+  }
+  .table td {
+    color: #fff;
+    font-size: 14px;
+    vertical-align: middle;
+    border: none;
+  }
+  .tokenIcon {
+    width: 26px;
+    height: 26px;
+    border-radius: 100px;
+    margin-right: 8px;
+  }
+  .rewardIcon {
+    width: 16px;
+    height: 16px;
+    border-radius: 100px;
+  }
+  .text_red_color {
+    color: #ff6ba9;
+  }
+  .ml_4_ne {
+    margin-left: -4px;
+  }
+  .flex_center {
+    display: flex;
+    align-items: center;
+  }
+  .font-18 {
+    font-size: 18px;
+  }
+  .flex-end {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    height: 50px;
+  }
 `;
 /** base tool start  */
 let accountId = context.accountId;

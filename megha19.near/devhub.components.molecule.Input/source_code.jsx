@@ -11,8 +11,51 @@ const TextInput = ({
   value,
   skipPaddingGap,
   style,
+  error,
   ...otherProps
 }) => {
+  State.init({
+    data: value,
+    error: error,
+  });
+
+  useEffect(() => {
+    const inputError = "";
+    if (value !== state.data) {
+      // check for input number error (since type: number doesn't work on firefox/safari)
+      if (inputProps.inputmode === "numeric") {
+        const inputValue = state.data;
+        if (!inputValue) {
+          return;
+        }
+        let isValidInteger = /^[1-9][0-9]*$/.test(inputValue);
+        if (!isValidInteger) {
+          inputError = "Please enter the nearest positive whole number.";
+        }
+        State.update({ error: inputError });
+      }
+      const handler = setTimeout(() => {
+        onChange({ target: { value: state.data }, error: inputError });
+      }, 30);
+
+      return () => {
+        clearTimeout(handler);
+      };
+    }
+  }, [state.data]);
+
+  useEffect(() => {
+    if (value !== state.data) {
+      State.update({ data: value });
+    }
+  }, [value]);
+
+  useEffect(() => {
+    if (error !== state.error) {
+      State.update({ error: error });
+    }
+  }, [error]);
+
   const typeAttribute =
     type === "text" ||
     type === "password" ||
@@ -22,21 +65,21 @@ const TextInput = ({
       : "text";
 
   const isValid = () => {
-    if (!value || value.length === 0) {
+    if (!state.data || state.data.length === 0) {
       return !inputProps.required;
-    } else if (inputProps.min && inputProps.min > value?.length) {
+    } else if (inputProps.min && inputProps.min > state.data?.length) {
       return false;
-    } else if (inputProps.max && inputProps.max < value?.length) {
+    } else if (inputProps.max && inputProps.max < state.data?.length) {
       return false;
     } else if (
       inputProps.allowCommaAndSpace === false &&
-      /^[^,\s]*$/.test(value) === false
+      /^[^,\s]*$/.test(state.data) === false
     ) {
       return false;
     } else if (
       inputProps.validUrl === true &&
       /^(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/.test(
-        value
+        state.data
       ) === false
     ) {
       return false;
@@ -72,9 +115,11 @@ const TextInput = ({
       <span
         className={`d-inline-flex ${isValid() ? "text-muted" : "text-danger"}`}
         style={{ fontSize: 12 }}
-      >{`${value?.length ?? 0} / ${inputProps.max}`}</span>
+      >{`${state.data?.length ?? 0} / ${inputProps.max}`}</span>
     ) : null,
   ].filter((label) => label !== null);
+
+  const onKeyDown = props.onKeyDown ?? (() => {});
 
   return (
     <div
@@ -96,33 +141,62 @@ const TextInput = ({
       ) : null}
 
       {!multiline ? (
-        <div className="input-group">
-          {inputProps.prefix && (
-            <span className="input-group-text">{inputProps.prefix}</span>
-          )}
-          <input
-            aria-describedby={key}
-            aria-label={label}
-            className={["form-control border border-2", inputClassName].join(
-              " "
+        <div className="w-100">
+          <div className="input-group">
+            {inputProps.prefix && (
+              <span className="input-group-text bg-white border-end-0">
+                {inputProps.prefix}
+              </span>
             )}
-            type={typeAttribute}
-            maxLength={inputProps.max}
-            {...{ onChange, placeholder, value, ...inputProps }}
-          />
+            <input
+              aria-describedby={key}
+              data-testid={key}
+              aria-label={label}
+              className={[
+                "form-control border",
+                inputClassName,
+                inputProps.prefix ? "border-start-0" : "",
+              ].join(" ")}
+              type={typeAttribute}
+              maxLength={inputProps.max}
+              value={state.data}
+              onChange={(e) => State.update({ data: e.target.value })}
+              onBlur={(e) => {
+                if (props.onBlur) {
+                  onBlur({ target: { value: e.target.value } });
+                }
+              }}
+              onKeyDown={onKeyDown}
+              {...{ placeholder, ...inputProps }}
+            />
+          </div>
+          {state.error && (
+            <div style={{ color: "red" }} className="text-sm">
+              {state.error}
+            </div>
+          )}
         </div>
       ) : (
         <textarea
           aria-describedby={key}
+          data-testid={key}
           aria-label={label}
-          className={["form-control border border-2", inputClassName].join(" ")}
+          className={["form-control border", inputClassName].join(" ")}
           placeholder={
             placeholder + (inputProps.required ? " ( required )" : "")
           }
           style={{ resize: inputProps.resize ?? "vertical" }}
           type={typeAttribute}
           maxLength={inputProps.max}
-          {...{ onChange, placeholder, value, ...inputProps }}
+          value={state.data}
+          onChange={(e) => State.update({ data: e.target.value })}
+          onBlur={(e) => {
+            if (props.onBlur) {
+              onBlur({ target: { value: e.target.value } });
+            }
+          }}
+          onKeyDown={onKeyDown}
+          {...{ placeholder, ...inputProps }}
         />
       )}
     </div>

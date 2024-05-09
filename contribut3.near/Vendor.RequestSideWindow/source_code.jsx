@@ -24,9 +24,20 @@ return (
     src={`${ownerId}/widget/SideWindow`}
     props={{
       title: "Request a contribution",
-      description: <Widget src={`${ownerId}/widget/SelectedLine`} props={{ accountId, label: "Vendor", isProject: false }} />,
+      description: (
+        <Widget
+          src={`${ownerId}/widget/SelectedLine`}
+          props={{ accountId, label: "Vendor", isProject: false }}
+        />
+      ),
       trigger: <>{personPlus}Request contribution</>,
-      children: <Widget src={`${ownerId}/widget/Vendor.RequestForm`} props={{ accountId }} />,
+      children: (
+        <Widget
+          src={`${ownerId}/widget/Vendor.RequestForm`}
+          props={{ accountId }}
+        />
+      ),
+      minWidth: "600px",
     }}
   />
 );
