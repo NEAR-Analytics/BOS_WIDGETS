@@ -52,7 +52,7 @@ const adapters = [
   // },
   {
     title: "IPFS",
-    value: "everycanvas.near/widget/adapter.ipfs",
+    value: "hyperfiles.near/widget/adapter.ipfs",
   },
   {
     title: "GitHub",
@@ -252,12 +252,6 @@ return (
             </Select>
           </FormGroup>
           {rawAdapter && <>{parseAdapter(rawAdapter)}</>}
-          {adapter === "hyperfiles.near/widget/adapter.github" && (
-            <Widget
-              src="flowscience.near/widget/GitHubSearchSelect"
-              onSelectRepository={handleSelectRepository}
-            ></Widget>
-          )}
         </Form>
       </div>
     </div>
