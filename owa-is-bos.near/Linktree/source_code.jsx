@@ -158,7 +158,24 @@ const Stats = styled.div`
 
 const SocialLinks = styled.div`
   display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 9px;
+  marginTop: 10px;
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+  height: 100%;
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+    grid-row-gap: 20px;
+    grid-column-gap: 20px;
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: repeat(1, 1fr);
+    grid-row-gap: 7px;
+  }
+
 `;
 
 const Verifications = styled.div`
@@ -245,16 +262,7 @@ return (
         "align-items": "center",
       }}
     >
-      <SocialLinks
-        style={{
-          marginTop: "10px",
-          display: "grid",
-          "grid-template-columns": "repeat(4, 1fr)",
-          "grid-column-gap": "10px",
-          "grid-row-gap": "10px",
-          height: "100%",
-        }}
-      >
+      <SocialLinks>
         <a href={`https://ow.academy/`} target="_blank">
           <Button>
             <i className="bi bi-globe mx-1"></i> Website
