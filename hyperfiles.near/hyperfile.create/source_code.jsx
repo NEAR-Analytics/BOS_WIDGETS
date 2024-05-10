@@ -222,10 +222,10 @@ return (
             <Label>Input Your Data</Label>
             <FormContainer>
               <Widget
-                src="efiz.near/widget/create"
+                src="hyperfiles.near/widget/create"
                 props={{
                   item: {
-                    type: props.selectedSchema,
+                    type: selectedSchema,
                     value: state.data,
                   },
                   onChange: handleOnChange,
