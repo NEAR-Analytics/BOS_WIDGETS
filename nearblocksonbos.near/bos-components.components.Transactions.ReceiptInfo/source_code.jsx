@@ -207,6 +207,11 @@ function MainComponent(props) {
         '0',
       );
 
+  const getPreCharged = (receipt) =>
+    Big(receipt?.outcome?.tokensBurnt || '0')
+      .plus(getRefund(receipt?.outcome?.nestedReceipts))
+      .toString();
+
   return (
     <div className="flex flex-col ">
       <Tabs.Root defaultValue={'output'}>
@@ -435,6 +440,30 @@ function MainComponent(props) {
                     !loading &&
                     convertToMetricPrefix(getGasAttached(receipt?.actions))
                   }gas`}</td>
+                </tr>
+                <tr>
+                  <td className="flex items-center py-2 pr-4">
+                    <Tooltip.Provider>
+                      <Tooltip.Root>
+                        <Tooltip.Trigger asChild>
+                          <div>
+                            <Question className="w-4 h-4 fill-current mr-1" />
+                          </div>
+                        </Tooltip.Trigger>
+                        <Tooltip.Content
+                          className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
+                          align="start"
+                          side="bottom"
+                        >
+                          Fees Pre-charged on Receipt
+                        </Tooltip.Content>
+                      </Tooltip.Root>
+                    </Tooltip.Provider>
+                    Pre-charged Fee
+                  </td>
+                  <td className="py-2 pl-4">{`${
+                    !loading && yoctoToNear(getPreCharged(receipt), true)
+                  } Ⓝ`}</td>
                 </tr>
                 <tr>
                   <td className="flex items-center py-2 pr-4">
