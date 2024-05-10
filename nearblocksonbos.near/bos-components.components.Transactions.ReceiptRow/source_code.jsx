@@ -470,6 +470,11 @@ const CreateAccount = (props) => {
   );
 };
 
+
+
+
+
+
 const DeleteAccount = (props) => {
   const { shortenAddress } = VM.require(
     `${props.ownerId}/widget/includes.Utils.libs`,
@@ -926,6 +931,9 @@ const Transfer = (props) => {
 
 const TransactionActions = (props) => {
   const { action, receiver, t, ownerId } = props;
+  const { mapRpcActionToAction } = VM.require(
+    `${ownerId}/widget/includes.Utils.near`,
+  );
 
   switch (action.action_kind) {
     case 'ADD_KEY':
@@ -1002,6 +1010,30 @@ const TransactionActions = (props) => {
           t={t}
           ownerId={ownerId}
         />
+      );
+    case 'Delegate':
+    case 'DELEGATE':
+      const delegateAction =
+        action?.args?.delegate_action?.actions &&
+        action?.args?.delegate_action?.actions?.map((txn) =>
+          mapRpcActionToAction(txn),
+        );
+      return (
+        delegateAction &&
+        delegateAction.map((subAction, i) => (
+          <div className="flex flex-col" key={i}>
+            <p className="text-sm font-semibold">
+              Actions delegated for {receiver}
+            </p>
+            <TransactionActions
+              key={i}
+              action={subAction}
+              receiver={action?.args?.delegate_action?.receiver_id}
+              t={t}
+              ownerId={ownerId}
+            />
+          </div>
+        ))
       );
 
     default:
