@@ -8,7 +8,9 @@
  * @param {string} [id] - The account identifier passed as a string.
  * @param {ContractInfo} [contract] - Object containing information about the associated contract.
  * @param {string} ownerId - The identifier of the owner of the component.
+ * @param {boolean} [isLocked] - Boolean indicating whether the account or contract with full access key or not.
  */
+
 
 
 
@@ -44,7 +46,7 @@ const Question = (props) => {
 
 
 function MainComponent(props) {
-  const { network, id, contract, ownerId } = props;
+  const { network, id, contract, ownerId, isLocked } = props;
 
   const { convertToUTC } = VM.require(
     `${ownerId}/widget/includes.Utils.formats`,
@@ -202,7 +204,7 @@ function MainComponent(props) {
             <Loader wrapperClassName="w-32" />
           ) : (
             <div className="w-full md:w-3/4 break-words">
-              {contract?.locked ? 'Yes' : 'No'}
+              {contract?.code_base64 && isLocked ? 'Yes' : 'No'}
             </div>
           )}
         </div>
