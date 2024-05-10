@@ -202,6 +202,9 @@ function MainComponent() {
   }
 
   function fiatValue(big, price) {
+    if (big === '0') {
+      return '0';
+    }
     const value = Big(big).mul(Big(price));
     const stringValue = value.toFixed(6); // Set the desired maximum fraction digits
 
