@@ -8,6 +8,7 @@ const EditableList = () => {
   useEffect(() => {
     setData(initialData);
   }, [initialData]);
+
   const handleNameChange = (id, newName) => {
     setData((prevData) =>
       prevData.map((item) =>
@@ -35,11 +36,21 @@ const EditableList = () => {
   const getTotalAmountOwed = () => {
     return data.reduce((total, person) => total + person.amountOwed, 0);
   };
+
+  const handleAddRow = () => {
+    const newId = data.length > 0 ? data[data.length - 1].id + 1 : 1;
+    setData([...data, { id: newId, name: "", amountOwed: 0, editable: true }]);
+  };
+
+  const handleRemoveRow = (id) => {
+    setData(data.filter((item) => item.id !== id));
+  };
+
   const handleSubmit = () => {
-    // Handle submission logic here
     console.log("Form submitted!");
     Social.set({ collectionList: { data } });
   };
+
   return (
     <>
       <h2>Editable List</h2>
@@ -86,6 +97,9 @@ const EditableList = () => {
                 <button onClick={() => toggleEdit(person.id)}>
                   {person.editable ? "Save" : "Edit"}
                 </button>
+                <button onClick={() => handleRemoveRow(person.id)}>
+                  Remove
+                </button>
               </td>
             </tr>
           ))}
@@ -95,6 +109,7 @@ const EditableList = () => {
           </tr>
         </tbody>
       </table>
+      <button onClick={handleAddRow}>Add Row</button>
       <button onClick={handleSubmit}>Submit</button>
     </>
   );
