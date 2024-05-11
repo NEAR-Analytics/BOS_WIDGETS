@@ -13,6 +13,7 @@ useEffect(() => {
 }, []);
 
 const typeCreators = Object.keys(typesObject);
+const types = Object.entries(typesObject);
 
 const onChangeInput = (creator) => {
   setCreator(creator);
@@ -29,6 +30,23 @@ const filtered_types = filteredTypes.length;
 return (
   <>
     <div className="m-2">
+      <ul>
+        {types.map((typeEntry, index) => {
+          // Extract the root identifier (e.g., "devs.near")
+          const rootIdentifier = typeEntry[0];
+
+          // Access the 'type' object that may contain multiple keys
+          const typesObject = typeEntry[1].type;
+
+          // Extract each type name and create list items for each
+          return Object.keys(typesObject).map((typeName) => {
+            // Construct the path string for each type
+            const path = `${rootIdentifier}/type/${typeName}`;
+
+            return <li key={`${rootIdentifier}-${typeName}`}>{path}</li>;
+          });
+        })}
+      </ul>
       <h3 className="mb-3">Explore Types</h3>
       <input
         type="text"
