@@ -171,7 +171,7 @@ useEffect(() => {
     formatData();
   }
 }, [markets, currentDapp]);
-
+console.log("YOURS--", state);
 return (
   <>
     <Yours>
