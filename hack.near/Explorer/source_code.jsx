@@ -2,7 +2,7 @@ const [typesObject, setTypesObject] = useState(
   Social.get("*/type/*", "final") || null
 );
 
-const [creator, setCreator] = useState("");
+const [creator, setCreator] = useState(props.accountId || "*");
 
 useEffect(() => {
   function fetchTypes() {
