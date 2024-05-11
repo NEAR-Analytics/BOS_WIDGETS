@@ -146,6 +146,8 @@ const {
   prices,
 } = props;
 
+const { formatUnits, parseUnits } = ethers.utils;
+
 useEffect(() => {
   if (!multicallAddress || !unitrollerAddress || !update || !account) return "";
 
@@ -161,6 +163,19 @@ useEffect(() => {
   let count = 0;
   let oTokensLength = Object.values(markets).length;
 
+  const calcApy = (rateAsNumber) => {
+    const blocksPerMin = 30;
+    const daysPerYear = 365;
+    const blocksPerDay = blocksPerMin * 60 * 24;
+    const dailyGrowthRate = Big(rateAsNumber || 0)
+      .mul(blocksPerDay)
+      .toString();
+    const annualGrowth =
+      Math.exp(daysPerYear * Math.log1p(dailyGrowthRate)) - 1;
+    const apy = Big(annualGrowth).mul(100);
+    return apy;
+  };
+
   const formatedData = (key) => {
     console.log(`${name}-${key}`, count);
     if (count < 6) return;
@@ -174,7 +189,12 @@ useEffect(() => {
     const markets = {};
     Object.values(_cTokensData).forEach((market) => {
       // const underlyingPrice = _underlyPrice[market.address] || 1;
-      const underlyingPrice = prices[market.underlyingToken.symbol] || 1;
+
+      let underlyingPrice =
+        market.underlyingToken.symbol === "weETH.mode"
+          ? prices["weETH"]
+          : prices[market.underlyingToken.symbol];
+      underlyingPrice = underlyingPrice || 1;
 
       const marketSupplyUsd = Big(market.totalSupply || 0).mul(underlyingPrice);
       const marketBorrowUsd = Big(market.totalBorrows || 0).mul(
@@ -196,19 +216,10 @@ useEffect(() => {
             .div(100)
         );
       }
-      const supplyApy = Big(market.supplyRatePerBlock)
-        .mul(60 * 60 * 24)
-        .plus(1)
-        .pow(365)
-        .minus(1)
-        .mul(100);
 
-      const borrowApy = Big(market.borrowRatePerBlock)
-        .mul(60 * 60 * 24)
-        .plus(1)
-        .pow(365)
-        .minus(1)
-        .mul(100);
+      const supplyApy = calcApy(market.supplyRatePerBlock);
+
+      const borrowApy = calcApy(market.borrowRatePerBlock);
 
       markets[market.address] = {
         ...market,
