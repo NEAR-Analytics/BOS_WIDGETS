@@ -4,7 +4,7 @@ const [accountId, setAccountId] = useState(
 const [type, setType] = useState(props.type ?? "type");
 const [id, setId] = useState(props.id ?? "*");
 
-const path = props.path ?? `${accountId}/${type}/${id}`;
+const path = `${accountId}/${type}/${id}`;
 
 const [data, setData] = useState(null);
 const [error, setError] = useState(null);
@@ -30,20 +30,18 @@ const text = data
 
 return (
   <>
-    {!props.hide && (
-      <div className="m-2">
-        <h5>
-          {accountId}/{type}/___
-        </h5>
-        <input
-          type="text"
-          value={id}
-          label={`${accountId}/${type}/_____`}
-          onChange={handleInputChange}
-          placeholder={`explore ${context.accountId ? "your" : "our"} data`}
-        />
-      </div>
-    )}
+    <div className="m-2">
+      <h5>
+        {accountId}/{type}/___
+      </h5>
+      <input
+        type="text"
+        value={id}
+        label={`${accountId}/${type}/_____`}
+        onChange={handleInputChange}
+        placeholder={`explore ${context.accountId ? "your" : "our"} data`}
+      />
+    </div>
     <div className="m-3">
       <Markdown text={text} />
     </div>
