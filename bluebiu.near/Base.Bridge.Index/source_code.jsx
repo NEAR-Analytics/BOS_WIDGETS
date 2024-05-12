@@ -4,6 +4,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  position: relative;
 `;
 const Panel = styled.div`
   width: 100%;
