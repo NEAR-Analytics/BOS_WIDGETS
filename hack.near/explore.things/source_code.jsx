@@ -112,7 +112,6 @@ return (
                             width: "1.888em",
                           },
                           imageClassName: "",
-                          tooltip: true,
                         }}
                       />
                     </span>
