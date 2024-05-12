@@ -90,39 +90,40 @@ return (
           onChange={handleInputChange}
           placeholder={`🔭  Search for a type of things...`}
         />
-        {filteredResults.map(({ id, accounts, count }) => (
-          <div key={count} className="m-3 mt-4">
-            <div className="d-flex flex-row justify-content-between align-items-center">
-              <h5 className="mt-1">
-                <b>{id}</b>
-              </h5>
-              <div className="mt-3">
-                {accounts.map((creator) => (
-                  <Profiles
-                    key={creator}
-                    onClick={() => toggleModal(`${creator}/${type}/${id}`)}
-                  >
-                    <span className="d-inline-block">
-                      <Widget
-                        src="mob.near/widget/ProfileImage"
-                        props={{
-                          accountId: creator,
-                          imageStyle: {
-                            height: "1.888em",
-                            width: "1.888em",
-                          },
-                          imageClassName: "",
-                          tooltip: true,
-                        }}
-                      />
-                    </span>
-                  </Profiles>
-                ))}
+        {filteredResults &&
+          filteredResults.map(({ id, accounts, count }) => (
+            <div key={id} className="m-3 mt-4">
+              <div className="d-flex flex-row justify-content-between align-items-center">
+                <h5 className="mt-1">
+                  <b>{id}</b>
+                </h5>
+                <div className="mt-3">
+                  {accounts.map((creator) => (
+                    <Profiles
+                      key={creator}
+                      onClick={() => toggleModal(`${creator}/${type}/${id}`)}
+                    >
+                      <span className="d-inline-block">
+                        <Widget
+                          src="mob.near/widget/ProfileImage"
+                          props={{
+                            accountId: creator,
+                            imageStyle: {
+                              height: "1.888em",
+                              width: "1.888em",
+                            },
+                            imageClassName: "",
+                            tooltip: true,
+                          }}
+                        />
+                      </span>
+                    </Profiles>
+                  ))}
+                </div>
               </div>
+              <hr />
             </div>
-            <hr />
-          </div>
-        ))}
+          ))}
       </div>
     )}
   </>
