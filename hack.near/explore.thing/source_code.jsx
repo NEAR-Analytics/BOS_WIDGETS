@@ -1,7 +1,7 @@
 if (typeof props.path !== "string") return "send {path} as string in props";
 
 State.init({
-  selectedTab: "connect",
+  selectedTab: "explore",
   selectedBlockHeight: null,
 });
 
@@ -135,10 +135,10 @@ return (
             type="button"
             onClick={() =>
               State.update({
-                selectedTab: "render",
+                selectedTab: "explore",
               })
             }
-            selected={state.selectedTab == "render"}
+            selected={state.selectedTab == "explore"}
           >
             Explore
           </TabsButton>
@@ -156,7 +156,7 @@ return (
           </div>
         )}
 
-        {state.selectedTab == "render" && (
+        {state.selectedTab == "explore" && (
           <div>{blockHeightToWidgetRender(state.selectedBlockHeight)}</div>
         )}
       </div>
