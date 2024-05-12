@@ -4,7 +4,7 @@ const [accountId, setAccountId] = useState(
 const [type, setType] = useState(props.type ?? "type");
 const [id, setId] = useState(props.id ?? "*");
 
-const path = `${accountId}/${type}/${id}`;
+const path = props.path ?? `${accountId}/${type}/${id}`;
 
 const [data, setData] = useState(null);
 const [error, setError] = useState(null);
