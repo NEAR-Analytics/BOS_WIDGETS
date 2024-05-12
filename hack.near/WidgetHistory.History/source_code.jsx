@@ -1,26 +1,17 @@
-/*
----props---
-
-widgetPath: string,
-count(count: number)?: function,
-
-*/
-
-if (typeof props.widgetPath !== "string")
-  return "send {widgetPath} as string in props";
+if (typeof props.path !== "string") return "send {path} as string in props";
 
 State.init({
   selectedTab: "render",
   selectedBlockHeight: null,
 });
 
-const historyBlocksRequest = Social.keys(`${props.widgetPath}`, "final", {
+const historyBlocksRequest = Social.keys(`${props.path}`, "final", {
   return_type: "History",
 });
 
 if (historyBlocksRequest === null) return "loading...";
 
-const [widgetAccountId, _, widgetName] = props.widgetPath.split("/");
+const [widgetAccountId, _, widgetName] = props.path.split("/");
 
 let blocksChanges =
   historyBlocksRequest[widgetAccountId]?.["widget"]?.[widgetName];
@@ -62,7 +53,7 @@ function blockHeightToWidgetCode(blockHeight) {
         key={blockHeight}
         src={`bozon.near/widget/WidgetHistory.CodeHistoryCard`}
         props={{
-          pathToWidget: props.widgetPath,
+          pathToWidget: props.path,
           currentBlockHeight: blockHeight,
           prevBlockHeight: blocksChanges[index + 1],
         }}
@@ -79,7 +70,7 @@ function blockHeightToWidgetRender(blockHeight) {
       key={blockHeight}
       src={`bozon.near/widget/WidgetHistory.RenderCode`}
       props={{
-        pathToWidget: props.widgetPath,
+        pathToWidget: props.path,
         currentBlockHeight: blockHeight,
         prevBlockHeight: blocksChanges[index + 1],
       }}
@@ -125,7 +116,7 @@ const TabsButton = styled.button`
 return (
   <div>
     {!blocksChanges ? (
-      <div>incorrent widget path</div>
+      <div>invalid path</div>
     ) : (
       <div>
         <Tabs>
