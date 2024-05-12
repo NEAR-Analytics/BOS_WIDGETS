@@ -30,18 +30,20 @@ const text = data
 
 return (
   <>
-    <div className="m-2">
-      <h5>
-        {accountId}/{type}/___
-      </h5>
-      <input
-        type="text"
-        value={id}
-        label={`${accountId}/${type}/_____`}
-        onChange={handleInputChange}
-        placeholder={`explore ${context.accountId ? "your" : "our"} data`}
-      />
-    </div>
+    {!props.hide && (
+      <div className="m-2">
+        <h5>
+          {accountId}/{type}/___
+        </h5>
+        <input
+          type="text"
+          value={id}
+          label={`${accountId}/${type}/_____`}
+          onChange={handleInputChange}
+          placeholder={`explore ${context.accountId ? "your" : "our"} data`}
+        />
+      </div>
+    )}
     <div className="m-3">
       <Markdown text={text} />
     </div>
