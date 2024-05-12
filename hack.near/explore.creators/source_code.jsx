@@ -63,82 +63,37 @@ const Profiles = styled.a`
 
 return (
   <>
-    {showModal ? (
-      <div>
-        <div className="d-flex flex-row justify-content-between align-items-center">
-          <h5>{selectedPath.split("/").pop()}</h5>
-          {filteredResults.map(({ id, accounts, count }) => (
-            <div key={id} className="m-3 mt-4">
-              <div className="d-flex flex-row justify-content-between align-items-center">
-                <h5 className="mt-2">
-                  <b>{id}</b>
-                </h5>
-                <div className="mt-3">
-                  {accounts.map((creator) => (
-                    <Profiles
-                      key={creator}
-                      onClick={() => toggleModal(`${creator}/${type}/${id}`)}
-                    >
-                      <span className="d-inline-block">
-                        <Widget
-                          src="mob.near/widget/ProfileImage"
-                          props={{
-                            accountId: creator,
-                            imageStyle: {
-                              height: "38px",
-                              width: "38px",
-                            },
-                            imageClassName: "",
-                            tooltip: true,
-                          }}
-                        />
-                      </span>
-                    </Profiles>
-                  ))}
-                </div>
-              </div>
-              <hr />
-            </div>
-          ))}
-          <button className="m-2 btn-sm" onClick={() => toggleModal("")}>
-            Reset
-          </button>
-        </div>
-        <Widget
-          src="hack.near/widget/explore.view"
-          props={{ path: selectedPath, showInput: false }}
-        />
-      </div>
-    ) : (
-      <div className="m-3">
-        {filteredResults.map(({ id, accounts, count }) => (
-          <div className="d-flex flex-row justify-content-between">
-            <div>
-              {accounts.map((creator) => (
-                <Profiles
-                  key={creator}
-                  onClick={() => toggleModal(`${creator}/${type}/${id}`)}
-                >
-                  <span className="d-inline-block">
-                    <Widget
-                      src="mob.near/widget/ProfileImage"
-                      props={{
-                        accountId: creator,
-                        imageStyle: {
-                          height: "38px",
-                          width: "38px",
-                        },
-                        imageClassName: "",
-                        tooltip: true,
-                      }}
-                    />
-                  </span>
-                </Profiles>
-              ))}
-            </div>
+    {filteredResults.map(({ id, accounts, count }) => (
+      <div key={id}>
+        <div className="d-flex flex-row justify-content-between">
+          <h5 className="mt-2">
+            <b>{id}</b>
+          </h5>
+          <div>
+            {accounts.map((creator) => (
+              <Profiles
+                key={creator}
+                onClick={() => toggleModal(`${creator}/${type}/${id}`)}
+              >
+                <span className="d-inline-block">
+                  <Widget
+                    src="mob.near/widget/ProfileImage"
+                    props={{
+                      accountId: creator,
+                      imageStyle: {
+                        height: "38px",
+                        width: "38px",
+                      },
+                      imageClassName: "",
+                      tooltip: true,
+                    }}
+                  />
+                </span>
+              </Profiles>
+            ))}
           </div>
-        ))}
+        </div>
       </div>
-    )}
+    ))}
   </>
 );
