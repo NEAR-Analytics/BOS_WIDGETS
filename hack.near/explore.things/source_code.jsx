@@ -91,7 +91,7 @@ return (
           placeholder={`🔭  Search for a type of things...`}
         />
         {filteredResults.map(({ id, accounts, count }) => (
-          <div key={id} className="m-3 mt-4">
+          <div key={count} className="m-3 mt-4">
             <div className="d-flex flex-row justify-content-between align-items-center">
               <h5 className="mt-1">
                 <b>{id}</b>
@@ -112,6 +112,7 @@ return (
                             width: "1.888em",
                           },
                           imageClassName: "",
+                          tooltip: true,
                         }}
                       />
                     </span>
