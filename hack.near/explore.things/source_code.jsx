@@ -8,11 +8,9 @@ const [object, setObject] = useState(Social.get(`*/${type}/*`, "final") || {});
 const [filteredResults, setFilteredResults] = useState([]);
 
 useEffect(() => {
-  const things = Object.entries(object);
   const results = {};
-
-  things.forEach(([creator, detail]) => {
-    const entries = detail.type || {};
+  Object.entries(object).forEach(([creator, detail]) => {
+    const entries = detail[type] || {};
     Object.keys(entries).forEach((id) => {
       const path = `${creator}/${type}/${id}`;
       if (path.toLowerCase().includes(searchTerm.toLowerCase())) {
@@ -25,16 +23,14 @@ useEffect(() => {
     });
   });
 
-  const sortedResults = Object.entries(results).sort(
-    (a, b) => b[1].count - a[1].count
-  );
-
   setFilteredResults(
-    sortedResults.map(([id, data]) => ({
-      id,
-      accounts: Array.from(data.accounts),
-      count: data.count,
-    }))
+    Object.entries(results)
+      .sort((a, b) => b[1].count - a[1].count)
+      .map(([id, data]) => ({
+        id,
+        accounts: Array.from(data.accounts),
+        count: data.count,
+      }))
   );
 }, [searchTerm, object]);
 
@@ -64,65 +60,62 @@ const Profiles = styled.a`
 `;
 
 return (
-  <>
-    <div className="m-3">
-      <div className="d-flex flex-row justify-content-between align-items-center">
-        {showModal && (
-          <button className="m-2 btn-sm" onClick={() => toggleModal("")}>
-            Reset
-          </button>
-        )}
-      </div>
-    </div>
+  <div className="m-3">
+    <input
+      type="text"
+      value={searchTerm}
+      onChange={handleInputChange}
+      placeholder={`🔭  Search for a type of things...`}
+    />
     {showModal ? (
-      <div className="m-1">
+      <div className="m-3 mt-4">
         <Widget
-          src="hack.near/widget/explore.view"
-          props={{ path: selectedPath, showInput: false }}
+          src="hack.near/widget/explore.creators"
+          props={{ id: selectedPath.split("/").pop() }}
         />
+        <button className="m-2 btn-sm" onClick={() => toggleModal("")}>
+          Reset
+        </button>
+        <div>
+          <Widget
+            src="hack.near/widget/explore.view"
+            props={{ path: selectedPath, showInput: false }}
+          />
+        </div>
       </div>
     ) : (
-      <div className="m-1">
-        <input
-          type="text"
-          value={searchTerm}
-          onChange={handleInputChange}
-          placeholder={`🔭  Search for a type of things...`}
-        />
+      <div className="m-3 mt-4">
         {filteredResults.map(({ id, accounts, count }) => (
-          <div key={id} className="m-3 mt-4">
-            <div className="d-flex flex-row justify-content-between align-items-center">
-              <h5 className="mt-1">
-                <b>{id}</b>
-              </h5>
-              <div className="mt-3">
-                {accounts.map((creator) => (
-                  <Profiles
-                    key={creator}
-                    onClick={() => toggleModal(`${creator}/${type}/${id}`)}
-                  >
-                    <span className="d-inline-block">
-                      <Widget
-                        src="mob.near/widget/ProfileImage"
-                        props={{
-                          accountId: creator,
-                          imageStyle: {
-                            height: "1.888em",
-                            width: "1.888em",
-                          },
-                          imageClassName: "",
-                          tooltip: true,
-                        }}
-                      />
-                    </span>
-                  </Profiles>
-                ))}
-              </div>
+          <div className="d-flex flex-row justify-content-between">
+            <h5 className="mt-2">
+              <b>{id}</b>
+            </h5>
+            <div>
+              {accounts.map((creator) => (
+                <Profiles
+                  key={creator}
+                  onClick={() => toggleModal(`${creator}/${type}/${id}`)}
+                >
+                  <span className="d-inline-block">
+                    <Widget
+                      src="mob.near/widget/ProfileImage"
+                      props={{
+                        accountId: creator,
+                        imageStyle: {
+                          height: "38px",
+                          width: "38px",
+                        },
+                        imageClassName: "",
+                        tooltip: true,
+                      }}
+                    />
+                  </span>
+                </Profiles>
+              ))}
             </div>
-            <hr />
           </div>
         ))}
       </div>
     )}
-  </>
+  </div>
 );
