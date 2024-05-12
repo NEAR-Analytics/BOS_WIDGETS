@@ -67,7 +67,6 @@ return (
   <>
     <div className="m-3">
       <div className="d-flex flex-row justify-content-between align-items-center">
-        <h3 className="m-1">Explore</h3>
         {showModal && (
           <button className="m-2 btn-sm" onClick={() => toggleModal("")}>
             Reset
