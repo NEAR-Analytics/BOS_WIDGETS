@@ -1,5 +1,3 @@
-const accountId = props.accountId ?? context.accountId ?? "buildcommons.near";
-
 const GraphContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -7,21 +5,11 @@ const GraphContainer = styled.div`
   width: 100%;
   height: ${(props) => props.height || "325px"};
 `;
-const ProfileContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-  gap: 19px;
-  width: 100%;
-`;
 
 const [accountIds, setAccountIds] = useState(
   props.accountIds || [
-    accountId,
-    "every.near",
-    "hack.near",
     "buildcommons.near",
+    `${context.accountId || "every.near"}`,
   ]
 );
 
@@ -41,8 +29,7 @@ const paths = generatePaths();
 const data = Social.getr(paths, "final");
 
 const [nodesState, setNodesState] = useState(null);
-const [focus, setFocus] = useState(null);
-
+const [selectedAccountId, setSelectedAccountId] = useState(null);
 const debug = false;
 
 useEffect(() => {
@@ -52,8 +39,6 @@ useEffect(() => {
 if (!nodesState) {
   return <GraphContainer></GraphContainer>;
 }
-
-const [selectedAccountId, setSelectedAccountId] = useState(accountId);
 
 const [message, setMessage] = useState(null);
 
@@ -115,63 +100,29 @@ useEffect(() => {
       setAccountIds([...accountIds, selectedAccountId]);
     }
   }
+  setSelectedAccountId(null);
 }, [selectedAccountId]);
-
-const commons = Social.getr(`${accountId}/graph/commons`);
-
-const graphEdge = Social.keys(
-  `${context.accountId}/graph/${graphId}/${accountId}`,
-  undefined,
-  {
-    values_only: true,
-  }
-);
-
-const inverseEdge = Social.keys(
-  `${accountId}/graph/${graphId}/${context.accountId}`,
-  undefined,
-  {
-    values_only: true,
-  }
-);
-
-const loading = graphEdge === null || inverseEdge === null;
-const attested = graphEdge && Object.keys(graphEdge).length;
-const inverse = inverseEdge && Object.keys(inverseEdge).length;
-
-const type = attested ? "undo" : graphId;
-
-const attestation = props.attestation ?? {
-  graph: { [graphId]: { [accountId]: attested ? null : "" } },
-};
-
-const attest = () => {
-  Social.set(data);
-};
 
 let height = props.height || 325;
 
 const code = `
 <!DOCTYPE html>
 <meta charset="utf-8">
-
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v6.js"></script>
+    <div class="container">
+      <svg id="graph" width="100%" height="auto" viewBox="0 0 650 325" preserveAspectRatio="xMidYMid meet" style="display: block; margin: auto;">
+    </div>
 
-<div class="container">
-  <svg id="graph" width="100%" height="auto" viewBox="0 0 650 325" preserveAspectRatio="xMidYMid meet" style="display: block; margin: auto;">
-</div>
-
-<style>
-    .container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        width: 100%;
-    }
-</style>
-
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100%;
+        }
+    </style>
 <script>
 
 const run = (data) => {
@@ -201,7 +152,7 @@ const run = (data) => {
   const svg = d3.select("#graph")
       .attr("width", width)
       .attr("height", height)
-      .attr("viewBox", [0, 0, width, height])
+      .attr("viewBox", [0, 0, width, height])  
       .attr("style", "max-width: 100%; height: auto;");
 
   // Add a line for each link, and a circle for each node.
@@ -213,7 +164,6 @@ const run = (data) => {
     .join("line")
       .attr("stroke-width", 1);
 
-
 const node = svg.append("g")
   .selectAll("g")
   .data(nodes)
@@ -222,7 +172,7 @@ const node = svg.append("g")
 
   node
     .append("image")
-    .attr("xlink:href", (d) => \`https://i.near.social/magic/thumbnail/https://near.social/magic/img/account/\${d.id}\`) // Set the image URL based on your data
+    .attr("xlink:href", (d) => \`https://i.near.social/magic/thumbnail/https://near.social/magic/img/account/\${d.id}\`)
     .attr("x", (d) => -Math.sqrt(d.size) - 5)
     .attr("y", (d) => -Math.sqrt(d.size) - 5)
     .attr("clip-path", d => \`circle(\${Math.sqrt(d.size) + 5}px at \${Math.sqrt(d.size) + 5} \${Math.sqrt(d.size) + 5})\`)
@@ -248,7 +198,7 @@ const node = svg.append("g")
 
   function handleMouseClick(e) {
     const d = e.target.__data__;
-    window.top.postMessage({ handler: "click", data:  d.id }, "*");
+    window.top.postMessage(d.id, "*");
   }
 
   function handleMouseOver(d) {
@@ -260,8 +210,6 @@ const node = svg.append("g")
     node.attr("opacity", function (n) {
         return n === d || isConnected(d, n) ? 1: 0.3;
     });
-
-    window.top.postMessage({ handler: "mouseover", data:  d.id }, "*");
 }
 
 function handleMouseOut() {
@@ -272,8 +220,6 @@ function handleMouseOut() {
     link
       .attr("stroke-opacity", 0.6);
     node.attr("opacity", 1);
-
-    window.top.postMessage({ handler: "mouseout", data:  "out" }, "*");
 }
 
 function isConnected(a, b) {
@@ -319,11 +265,6 @@ function isConnected(a, b) {
     handleMouseOut();
   }
 
-  // When this cell is re-run, stop the previous simulation. (This doesn’t
-  // really matter since the target alpha is zero and the simulation will
-  // stop naturally, but it’s a good practice.)
-  // invalidation.then(() => simulation.stop());
-
   return simulation;
 };
 
@@ -345,48 +286,26 @@ window.addEventListener("message", (event) => {
 const [onMessage] = useState(() => {
   return (data) => {
     if (data) {
-      switch (data.handler) {
-        case "click":
-          setSelectedAccountId(data.data);
-          break;
-      }
+      setSelectedAccountId(data);
     }
   };
 });
 
 return (
-  <>
-    <GraphContainer height={height}>
-      <iframe
-        className="w-100 h-100"
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          minHeight: "325px",
-          maxWidth: "888px",
-          width: "100%",
-        }}
-        srcDoc={code}
-        message={message}
-        onMessage={onMessage}
-      />
-    </GraphContainer>
-    <ProfileContainer>
-      {commons ? (
-        <Widget
-          src="hack.near/widget/profile.create"
-          props={{ accountId: selectedAccountId ?? accountId }}
-        />
-      ) : (
-        <h5 style={{ fontFamily: "Courier" }} className="m-1">
-          JOIN
-        </h5>
-      )}
-      <Widget
-        src="hack.near/widget/attest"
-        props={{ accountId: selectedAccountId ?? accountId }}
-      />
-    </ProfileContainer>
-  </>
+  <GraphContainer height={height}>
+    <iframe
+      className="w-100 h-100"
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "325px",
+        maxWidth: "888px",
+        width: "100%",
+      }}
+      srcDoc={code}
+      message={message}
+      onMessage={onMessage}
+    />
+  </GraphContainer>
 );
