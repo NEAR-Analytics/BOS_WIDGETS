@@ -12,8 +12,8 @@ const SliderRoot = ({ className, orientation, ...props }) => {
       {...props}
     >
       <Slider.Track
-        className={`relative h-1.5 ${
-          orientation === "vertical" ? "h-full" : "w-full"
+        className={`relative ${
+          orientation === "vertical" ? "h-full w-1.5" : "w-full h-1.5"
         } grow overflow-hidden rounded-full bg-uin-primary/20`}
       >
         <Slider.Range
