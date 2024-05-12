@@ -54,6 +54,23 @@ const renderBlockChangesLink = (blockHeight) => {
   );
 };
 
+function blockHeightToWidgetCode(blockHeight) {
+  const index = blocksChanges.findIndex((el) => el == blockHeight);
+  return (
+    <div class="mb-3">
+      <Widget
+        key={blockHeight}
+        src={`bozon.near/widget/WidgetHistory.CodeHistoryCard`}
+        props={{
+          pathToWidget: props.widgetPath,
+          currentBlockHeight: blockHeight,
+          prevBlockHeight: blocksChanges[index + 1],
+        }}
+      />
+    </div>
+  );
+}
+
 function blockHeightToWidgetRender(blockHeight) {
   const index = blocksChanges.findIndex((el) => el == blockHeight);
   return (
