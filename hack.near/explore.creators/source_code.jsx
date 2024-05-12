@@ -64,7 +64,7 @@ const Profiles = styled.a`
 return (
   <>
     {showModal ? (
-      <div className="m-3">
+      <div>
         <div className="d-flex flex-row justify-content-between align-items-center">
           <h5>{selectedPath.split("/").pop()}</h5>
           {filteredResults.map(({ id, accounts, count }) => (
