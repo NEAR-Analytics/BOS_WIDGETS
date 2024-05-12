@@ -95,25 +95,12 @@ return (
                 </h5>
                 <div className="mt-3">
                   {accounts.map((creator) => (
-                    <Profiles
+                    <button
                       key={creator}
                       onClick={() => toggleModal(`${creator}/${type}/${id}`)}
                     >
-                      <span className="d-inline-block">
-                        <Widget
-                          src="mob.near/widget/ProfileImage"
-                          props={{
-                            accountId: creator,
-                            imageStyle: {
-                              height: "1.888em",
-                              width: "1.888em",
-                            },
-                            imageClassName: "",
-                            tooltip: true,
-                          }}
-                        />
-                      </span>
-                    </Profiles>
+                      view
+                    </button>
                   ))}
                 </div>
               </div>
