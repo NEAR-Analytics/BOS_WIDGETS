@@ -123,12 +123,12 @@ return (
             type="button"
             onClick={() =>
               State.update({
-                selectedTab: "start",
+                selectedTab: "connect",
               })
             }
-            selected={state.selectedTab == "start"}
+            selected={state.selectedTab == "connect"}
           >
-            Start
+            Connect
           </TabsButton>
 
           <TabsButton
@@ -146,13 +146,13 @@ return (
 
         {state.selectedTab == "" && (
           <div className="m-2">
-            <Widget src="hack.near/widget/explore.things" />
+            <Widget src="hack.near/widget/explore.social" />
           </div>
         )}
 
-        {state.selectedTab == "code" && (
+        {state.selectedTab == "connect" && (
           <div className="m-2">
-            {blockHeightToWidgetCode(state.selectedBlockHeight)}
+            <Widget src="hack.near/widget/explore" />
           </div>
         )}
 
