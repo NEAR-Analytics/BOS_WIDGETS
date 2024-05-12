@@ -69,14 +69,13 @@ return (
     />
     {showModal ? (
       <div className="m-3 mt-4">
-        <div className="d-flex flex-row justify-content-between">
-          <h5 className="mt-2">
-            <b>{selectedPath.split("/").pop()}</b>
-          </h5>
-          <button className="m-2 btn-sm" onClick={() => toggleModal("")}>
-            Reset
-          </button>
-        </div>
+        <Widget
+          src="hack.near/widget/explore.creators"
+          props={{ id: selectedPath.split("/").pop() }}
+        />
+        <button className="m-2 btn-sm" onClick={() => toggleModal("")}>
+          Reset
+        </button>
         <Widget
           src="hack.near/widget/explore.view"
           props={{ path: selectedPath, showInput: false }}
@@ -105,7 +104,6 @@ return (
                           width: "38px",
                         },
                         imageClassName: "",
-                        tooltip: true,
                       }}
                     />
                   </span>
