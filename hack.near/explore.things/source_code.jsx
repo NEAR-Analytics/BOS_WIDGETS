@@ -76,10 +76,12 @@ return (
       </div>
     </div>
     {showModal ? (
-      <Widget
-        src="hack.near/widget/explore.view"
-        props={{ path: selectedPath, showInput: false }}
-      />
+      <div className="m-3">
+        <Widget
+          src="hack.near/widget/explore.view"
+          props={{ path: selectedPath, showInput: false }}
+        />
+      </div>
     ) : (
       <div className="m-3">
         <input
@@ -110,6 +112,7 @@ return (
                             width: "1.888em",
                           },
                           imageClassName: "",
+                          tooltip: true,
                         }}
                       />
                     </span>
