@@ -75,14 +75,14 @@ return (
       </div>
     </div>
     {showModal ? (
-      <div className="m-3">
+      <div className="m-1">
         <Widget
           src="hack.near/widget/explore.view"
           props={{ path: selectedPath, showInput: false }}
         />
       </div>
     ) : (
-      <div className="m-3">
+      <div className="m-1">
         <input
           type="text"
           value={searchTerm}
