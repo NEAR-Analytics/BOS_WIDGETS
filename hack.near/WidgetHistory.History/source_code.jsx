@@ -1,7 +1,7 @@
 if (typeof props.path !== "string") return "send {path} as string in props";
 
 State.init({
-  selectedTab: "render",
+  selectedTab: "",
   selectedBlockHeight: null,
 });
 
@@ -123,12 +123,12 @@ return (
             type="button"
             onClick={() =>
               State.update({
-                selectedTab: "code",
+                selectedTab: "start",
               })
             }
-            selected={state.selectedTab == "code"}
+            selected={state.selectedTab == "start"}
           >
-            Code
+            Start
           </TabsButton>
 
           <TabsButton
@@ -140,12 +140,20 @@ return (
             }
             selected={state.selectedTab == "render"}
           >
-            Render
+            Explore
           </TabsButton>
         </Tabs>
 
+        {state.selectedTab == "" && (
+          <div className="m-2">
+            <Widget src="hack.near/widget/explore.things" />
+          </div>
+        )}
+
         {state.selectedTab == "code" && (
-          <div>{blockHeightToWidgetCode(state.selectedBlockHeight)}</div>
+          <div className="m-2">
+            {blockHeightToWidgetCode(state.selectedBlockHeight)}
+          </div>
         )}
 
         {state.selectedTab == "render" && (
