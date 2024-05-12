@@ -41,7 +41,6 @@ useEffect(() => {
 
 return (
   <div className="m-2 p-1">
-    <h5 className="m-2 mb-3">Commons Graph</h5>
     <div className="m-2">
       <Widget src="hack.near/widget/commons.add" />
     </div>
