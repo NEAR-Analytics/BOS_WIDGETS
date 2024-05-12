@@ -1,7 +1,7 @@
 if (typeof props.path !== "string") return "send {path} as string in props";
 
 State.init({
-  selectedTab: "render",
+  selectedTab: "code",
   selectedBlockHeight: null,
 });
 
@@ -124,18 +124,6 @@ return (
             type="button"
             onClick={() =>
               State.update({
-                selectedTab: "code",
-              })
-            }
-            selected={state.selectedTab == "code"}
-          >
-            Code
-          </TabsButton>
-
-          <TabsButton
-            type="button"
-            onClick={() =>
-              State.update({
                 selectedTab: "render",
               })
             }
@@ -144,10 +132,6 @@ return (
             Render
           </TabsButton>
         </Tabs>
-
-        {state.selectedTab == "code" && (
-          <div>{blockHeightToWidgetCode(state.selectedBlockHeight)}</div>
-        )}
 
         {state.selectedTab == "render" && (
           <div>{blockHeightToWidgetRender(state.selectedBlockHeight)}</div>
