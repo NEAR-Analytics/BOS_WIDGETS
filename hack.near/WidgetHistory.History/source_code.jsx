@@ -1,7 +1,7 @@
 if (typeof props.path !== "string") return "send {path} as string in props";
 
 State.init({
-  selectedTab: "connect",
+  selectedTab: null,
   selectedBlockHeight: null,
 });
 
@@ -144,15 +144,15 @@ return (
           </TabsButton>
         </Tabs>
 
-        {state.selectedTab == "connect" && (
+        {!state.selectedTab && (
           <div className="m-2">
-            <Widget src="hack.near/widget/explore.connect" />
+            <p>Hello</p>
           </div>
         )}
 
         {state.selectedTab == "explore" && (
           <div className="m-2">
-            <Widget src="hack.near/widget/explore.things" />
+            <Widget src="hack.near/widget/explore.connect" />
           </div>
         )}
 
