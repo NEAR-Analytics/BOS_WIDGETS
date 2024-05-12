@@ -1,5 +1,5 @@
 const sliderRootClassname =
-  "relative flex w-full touch-none select-none items-center";
+  "relative flex w-full touch-none select-none items-center justify-center";
 
 const SliderRoot = ({ className, ...props }) => (
   <Slider.Root
