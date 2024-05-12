@@ -44,7 +44,7 @@ useEffect(() => {
 }, [data]);
 
 if (!nodesState) {
-  return "Loading...";
+  return <GraphContainer></GraphContainer>;
 }
 
 const [message, setMessage] = useState(null);
@@ -62,7 +62,7 @@ useEffect(() => {
     if (!(accountId in nodes)) {
       nodes[accountId] = {
         id: accountId,
-        size: 10,
+        size: 139,
       };
     }
     Object.values(graphData).forEach((links) => {
@@ -71,7 +71,7 @@ useEffect(() => {
         if (!(memberId in nodes)) {
           nodes[memberId] = {
             id: memberId,
-            size: 10,
+            size: 139,
           };
         }
         edges.push({
@@ -141,6 +141,8 @@ const attest = () => {
   Social.set(data);
 };
 
+let height = props.height || 325;
+
 const code = `
 <!DOCTYPE html>
 <meta charset="utf-8">
@@ -153,8 +155,8 @@ const code = `
 <script>
 
 const run = (data) => {
-  const width = 555;
-  const height = 333;
+  const width = 650;
+  const height = \`${height}\`;
   let dragIsOn = false;
 
   // The force simulation mutates links and nodes, so create a copy
@@ -165,14 +167,14 @@ const run = (data) => {
   // Create a simulation with several forces.
   const simulation = d3.forceSimulation(nodes)
       .force("link", d3.forceLink(links).id(d => d.id))
-      .force("charge", d3.forceManyBody())
-      .force("collide", d3.forceCollide())
+      .force("charge", d3.forceManyBody().strength(-500))
+      .force("collide", d3.forceCollide().radius(d => Math.sqrt(d.size) ))
       .force("center", d3.forceCenter(width / 2, height / 2))
       .on("tick", ticked);
 
   simulation.force("collide")
         .strength(.7)
-        .radius(d => Math.sqrt(d.size) + 5)
+        .radius(d => Math.sqrt(d.size))
         .iterations(1);
 
   // Create the SVG container.
@@ -191,12 +193,12 @@ const run = (data) => {
     .join("line")
       .attr("stroke-width", 1);
 
-  const node = svg.append("g")
-      .attr("stroke", "#fff")
-      .attr("stroke-width", 1.5)
-    .selectAll()
-    .data(nodes)
-    .join("g");
+
+const node = svg.append("g")
+  .selectAll("g")
+  .data(nodes)
+  .enter()
+  .append("g");
 
   node
     .append("image")
@@ -251,7 +253,7 @@ function handleMouseOut() {
       .attr("stroke-opacity", 0.6);
     node.attr("opacity", 1);
 
-    window.top.postMessage({ handler: "mouseout", data:  "yo" }, "*");
+    window.top.postMessage({ handler: "mouseout", data:  "out" }, "*");
 }
 
 function isConnected(a, b) {
@@ -328,14 +330,6 @@ const [onMessage] = useState(() => {
           setAccountId(data.data);
           setSelectedAccountId(data.data);
           break;
-        case "mouseover": {
-          setFocus(data.data);
-          break;
-        }
-        case "mouseout": {
-          setFocus(null);
-          break;
-        }
       }
     }
   };
