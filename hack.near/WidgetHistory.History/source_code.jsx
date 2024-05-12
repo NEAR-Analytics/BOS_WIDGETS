@@ -1,17 +1,26 @@
-if (typeof props.path !== "string") return "send {path} as string in props";
+/*
+---props---
+
+widgetPath: string,
+count(count: number)?: function,
+
+*/
+
+if (typeof props.widgetPath !== "string")
+  return "send {widgetPath} as string in props";
 
 State.init({
-  selectedTab: null,
+  selectedTab: "render",
   selectedBlockHeight: null,
 });
 
-const historyBlocksRequest = Social.keys(`${props.path}`, "final", {
+const historyBlocksRequest = Social.keys(`${props.widgetPath}`, "final", {
   return_type: "History",
 });
 
 if (historyBlocksRequest === null) return "loading...";
 
-const [widgetAccountId, _, widgetName] = props.path.split("/");
+const [widgetAccountId, _, widgetName] = props.widgetPath.split("/");
 
 let blocksChanges =
   historyBlocksRequest[widgetAccountId]?.["widget"]?.[widgetName];
@@ -53,7 +62,7 @@ function blockHeightToWidgetCode(blockHeight) {
         key={blockHeight}
         src={`bozon.near/widget/WidgetHistory.CodeHistoryCard`}
         props={{
-          pathToWidget: props.path,
+          pathToWidget: props.widgetPath,
           currentBlockHeight: blockHeight,
           prevBlockHeight: blocksChanges[index + 1],
         }}
@@ -70,7 +79,7 @@ function blockHeightToWidgetRender(blockHeight) {
       key={blockHeight}
       src={`bozon.near/widget/WidgetHistory.RenderCode`}
       props={{
-        pathToWidget: props.path,
+        pathToWidget: props.widgetPath,
         currentBlockHeight: blockHeight,
         prevBlockHeight: blocksChanges[index + 1],
       }}
@@ -78,6 +87,7 @@ function blockHeightToWidgetRender(blockHeight) {
   );
 }
 
+//styles forked from calebjacob.near/widget/Activity
 const Tabs = styled.div`
   display: flex;
   padding: 0 12px;
@@ -115,20 +125,49 @@ const TabsButton = styled.button`
 return (
   <div>
     {!blocksChanges ? (
-      <div>invalid path</div>
+      <div>incorrent widget path</div>
     ) : (
       <div>
+        <div div class="card mb-3">
+          <h3 class="card-header">{blocksChanges.length} Commits</h3>
+
+          <div class="list-group">
+            {blocksChanges
+              .slice(0, 5)
+              .map((height) => renderBlockChangesLink(height))}
+
+            <div class="collapse" id="collapseExample">
+              {blocksChanges
+                .slice(5)
+                .map((height) => renderBlockChangesLink(height))}
+            </div>
+
+            {blocksChanges.length > 5 && (
+              <button
+                class="list-group-item active"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseExample"
+                aria-expanded="false"
+                aria-controls="collapseExample"
+              >
+                Show all
+              </button>
+            )}
+          </div>
+        </div>
+
         <Tabs>
           <TabsButton
             type="button"
             onClick={() =>
               State.update({
-                selectedTab: "connect",
+                selectedTab: "code",
               })
             }
-            selected={state.selectedTab == "connect"}
+            selected={state.selectedTab == "code"}
           >
-            Connect
+            Code
           </TabsButton>
 
           <TabsButton
@@ -140,20 +179,12 @@ return (
             }
             selected={state.selectedTab == "render"}
           >
-            Explore
+            Render
           </TabsButton>
         </Tabs>
 
-        {!state.selectedTab && (
-          <div className="m-2">
-            <p>Hello</p>
-          </div>
-        )}
-
-        {state.selectedTab == "connect" && (
-          <div className="m-2">
-            <Widget src="hack.near/widget/explore.connect" />
-          </div>
+        {state.selectedTab == "code" && (
+          <div>{blockHeightToWidgetCode(state.selectedBlockHeight)}</div>
         )}
 
         {state.selectedTab == "render" && (
