@@ -1,7 +1,7 @@
 if (typeof props.path !== "string") return "send {path} as string in props";
 
 State.init({
-  selectedTab: "code",
+  selectedTab: "render",
   selectedBlockHeight: null,
 });
 
@@ -78,7 +78,6 @@ function blockHeightToWidgetRender(blockHeight) {
   );
 }
 
-//styles forked from calebjacob.near/widget/Activity
 const Tabs = styled.div`
   display: flex;
   padding: 0 12px;
@@ -124,6 +123,18 @@ return (
             type="button"
             onClick={() =>
               State.update({
+                selectedTab: "code",
+              })
+            }
+            selected={state.selectedTab == "code"}
+          >
+            Code
+          </TabsButton>
+
+          <TabsButton
+            type="button"
+            onClick={() =>
+              State.update({
                 selectedTab: "render",
               })
             }
@@ -132,6 +143,10 @@ return (
             Render
           </TabsButton>
         </Tabs>
+
+        {state.selectedTab == "code" && (
+          <div>{blockHeightToWidgetCode(state.selectedBlockHeight)}</div>
+        )}
 
         {state.selectedTab == "render" && (
           <div>{blockHeightToWidgetRender(state.selectedBlockHeight)}</div>
