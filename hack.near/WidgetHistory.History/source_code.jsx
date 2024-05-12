@@ -150,7 +150,7 @@ return (
           </div>
         )}
 
-        {state.selectedTab == "explore" && (
+        {state.selectedTab == "connect" && (
           <div className="m-2">
             <Widget src="hack.near/widget/explore.connect" />
           </div>
