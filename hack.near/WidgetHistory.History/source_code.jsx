@@ -10,7 +10,7 @@ if (typeof props.widgetPath !== "string")
   return "send {widgetPath} as string in props";
 
 State.init({
-  selectedTab: "render",
+  selectedTab: "code",
   selectedBlockHeight: null,
 });
 
