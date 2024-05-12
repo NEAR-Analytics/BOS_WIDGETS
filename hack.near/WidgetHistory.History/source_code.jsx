@@ -146,7 +146,7 @@ return (
 
         {state.selectedTab == "connect" && (
           <div className="m-2">
-            <Widget src="hack.near/widget/explore" />
+            <Widget src="hack.near/widget/commons.builders" />
           </div>
         )}
 
