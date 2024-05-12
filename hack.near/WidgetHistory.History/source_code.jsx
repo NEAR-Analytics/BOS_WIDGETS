@@ -128,35 +128,6 @@ return (
       <div>incorrent widget path</div>
     ) : (
       <div>
-        <div div class="card mb-3">
-          <h3 class="card-header">{blocksChanges.length} Commits</h3>
-
-          <div class="list-group">
-            {blocksChanges
-              .slice(0, 5)
-              .map((height) => renderBlockChangesLink(height))}
-
-            <div class="collapse" id="collapseExample">
-              {blocksChanges
-                .slice(5)
-                .map((height) => renderBlockChangesLink(height))}
-            </div>
-
-            {blocksChanges.length > 5 && (
-              <button
-                class="list-group-item active"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseExample"
-                aria-expanded="false"
-                aria-controls="collapseExample"
-              >
-                Show all
-              </button>
-            )}
-          </div>
-        </div>
-
         <Tabs>
           <TabsButton
             type="button"
