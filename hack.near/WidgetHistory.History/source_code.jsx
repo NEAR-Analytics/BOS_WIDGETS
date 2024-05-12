@@ -150,6 +150,12 @@ return (
           </div>
         )}
 
+        {state.selectedTab == "explore" && (
+          <div className="m-2">
+            <Widget src="hack.near/widget/explore.things" />
+          </div>
+        )}
+
         {state.selectedTab == "render" && (
           <div>{blockHeightToWidgetRender(state.selectedBlockHeight)}</div>
         )}
