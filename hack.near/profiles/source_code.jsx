@@ -1,14 +1,13 @@
 const accountId = props.accountId || context.accountId || "every.near";
 const limit = props.limit || 888;
 
-let buildersObject =
-  props.builders || Social.get(`*/graph/commons/${accountId}`, "final");
+let buildersObject = Social.get(`*/graph/commons/${accountId}`, "final");
 
 if (!buildersObject) {
   return "";
 }
 
-const builders = Object.keys(buildersObject);
+const builders = props.builders || Object.keys(buildersObject);
 
 const Faces = styled.span`
   .face {
