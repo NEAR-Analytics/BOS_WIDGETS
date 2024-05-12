@@ -8,35 +8,31 @@ const [object, setObject] = useState(Social.get(`*/${type}/*`, "final") || {});
 const [filteredResults, setFilteredResults] = useState([]);
 
 useEffect(() => {
+  const newResults = {};
   const things = Object.entries(object);
-  const results = {};
 
   things.forEach(([creator, detail]) => {
     const entries = detail.type || {};
     Object.keys(entries).forEach((id) => {
       const path = `${creator}/${type}/${id}`;
-      if (path.toLowerCase().includes(searchTerm.toLowerCase())) {
-        if (!results[id]) {
-          results[id] = { count: 0, accounts: new Set() };
+      if (path.includes(searchTerm.toLowerCase())) {
+        if (!newResults[id]) {
+          newResults[id] = { count: 0, accounts: [] };
         }
-        results[id].count++;
-        results[id].accounts.add(creator);
+        newResults[id].count++;
+        newResults[id].accounts.push(creator);
       }
     });
   });
 
-  const sortedResults = Object.entries(results).sort(
-    (a, b) => b[1].count - a[1].count
-  );
-
   setFilteredResults(
-    sortedResults.map(([id, data]) => ({
+    Object.entries(newResults).map(([id, data]) => ({
       id,
-      accounts: Array.from(data.accounts),
+      accounts: data.accounts,
       count: data.count,
     }))
   );
-}, [searchTerm, object]);
+}, [object, searchTerm]);
 
 const handleInputChange = (event) => {
   setSearchTerm(event.target.value);
