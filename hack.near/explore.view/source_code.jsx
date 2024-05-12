@@ -3,10 +3,11 @@ const showInput = props.showInput ?? true;
 const [path, setPath] = useState(props.path || "every.near/type/core");
 
 const value = Social.get(path, "final");
+const thing = JSON.parse(value);
 
 const text = `
 \`\`\`json
-${JSON.stringify(value, undefined, 2)}
+${JSON.stringify(thing, null, 2)}
 \`\`\`
 `;
 
