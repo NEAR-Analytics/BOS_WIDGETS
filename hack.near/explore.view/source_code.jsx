@@ -1,4 +1,4 @@
-const showInput = props.showInput || true;
+const showInput = props.showInput ?? true;
 
 const [path, setPath] = useState(props.path || "every.near/type/core");
 
