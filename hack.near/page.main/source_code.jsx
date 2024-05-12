@@ -17,14 +17,14 @@ const contentMap = {
     />
   ),
   network: (
-    <div>
+    <div className="m-3 mt-5">
       <Widget src="hack.near/widget/commons" />
     </div>
   ),
   states: (
     <a
       href="https://blocklive.io/event/network-states-atx"
-      className="m-3"
+      className="m-3 mt-5"
       style={{
         display: "flex",
         justifyContent: "center",
