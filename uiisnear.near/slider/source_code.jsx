@@ -1,5 +1,5 @@
 const sliderRootClassname =
-  "relative flex w-full touch-none select-none items-center justify-center";
+  "relative flex w-full touch-none select-none items-center justify-center w-1.5";
 
 const SliderRoot = ({ className, orientation, ...props }) => {
   orientation = orientation ?? "horizontal";
@@ -13,7 +13,7 @@ const SliderRoot = ({ className, orientation, ...props }) => {
     >
       <Slider.Track
         className={`relative ${
-          orientation === "vertical" ? "h-full w-1.5" : "w-full h-1.5"
+          orientation === "vertical" ? "h-full" : "w-full h-1.5"
         } grow overflow-hidden rounded-full bg-uin-primary/20`}
       >
         <Slider.Range
