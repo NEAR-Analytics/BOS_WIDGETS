@@ -1,3 +1,19 @@
+const GraphContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: ${(props) => props.height || "325px"};
+`;
+const ProfileContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 23px;
+  width: 100%;
+`;
+
 const [accountIds, setAccountIds] = useState(
   props.accountIds || [`${"hack.near"}`]
 );
@@ -326,27 +342,29 @@ const [onMessage] = useState(() => {
 });
 
 return (
-  <div className="d-flex flex-column align-items-center">
-    <iframe
-      className="w-100 h-100"
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: "325px",
-        maxWidth: "888px",
-        width: "100%",
-      }}
-      srcDoc={code}
-      message={message}
-      onMessage={onMessage}
-    />
-    <div className="d-flex align-items-center gap-4">
+  <>
+    <GraphContainer height={height}>
+      <iframe
+        className="w-100 h-100"
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "325px",
+          maxWidth: "888px",
+          width: "100%",
+        }}
+        srcDoc={code}
+        message={message}
+        onMessage={onMessage}
+      />
+    </GraphContainer>
+    <ProfileContainer>
       <Widget
         src="hack.near/widget/profile"
         props={{ accountId: focus ?? accountId }}
       />
       <Widget src="hack.near/widget/attest" props={{ accountId }} />
-    </div>
-  </div>
+    </ProfileContainer>
+  </>
 );
