@@ -32,7 +32,7 @@ if (!nodesState) {
 }
 
 const [message, setMessage] = useState(null);
-const [showModal, setShowModal] = useState(false);
+const [selectedAccountId, setSelectedAccountId] = useState(null);
 
 useEffect(() => {
   if (!nodesState) {
@@ -83,6 +83,17 @@ useEffect(() => {
     edges,
   });
 }, [nodesState, accountIds]);
+
+useEffect(() => {
+  if (selectedAccountId) {
+    if (accountIds.includes(selectedAccountId)) {
+      setAccountIds(accountIds.filter((it) => it !== selectedAccountId));
+    } else {
+      setAccountIds([...accountIds, selectedAccountId]);
+    }
+  }
+  setSelectedAccountId(null);
+}, [selectedAccountId]);
 
 const graphEdge = Social.keys(
   `${context.accountId}/graph/${graphId}/${accountId}`,
@@ -299,6 +310,7 @@ const [onMessage] = useState(() => {
       switch (data.handler) {
         case "click":
           setAccountId(data.data);
+          setSelectedAccountId(data.data);
           break;
         case "mouseover": {
           setFocus(data.data);
