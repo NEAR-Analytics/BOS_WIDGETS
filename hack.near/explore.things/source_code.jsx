@@ -8,31 +8,35 @@ const [object, setObject] = useState(Social.get(`*/${type}/*`, "final") || {});
 const [filteredResults, setFilteredResults] = useState([]);
 
 useEffect(() => {
-  const newResults = {};
   const things = Object.entries(object);
+  const results = {};
 
   things.forEach(([creator, detail]) => {
     const entries = detail.type || {};
     Object.keys(entries).forEach((id) => {
       const path = `${creator}/${type}/${id}`;
-      if (path.includes(searchTerm.toLowerCase())) {
-        if (!newResults[id]) {
-          newResults[id] = { count: 0, accounts: [] };
+      if (path.toLowerCase().includes(searchTerm.toLowerCase())) {
+        if (!results[id]) {
+          results[id] = { count: 0, accounts: new Set() };
         }
-        newResults[id].count++;
-        newResults[id].accounts.push(creator);
+        results[id].count++;
+        results[id].accounts.add(creator);
       }
     });
   });
 
+  const sortedResults = Object.entries(results).sort(
+    (a, b) => b[1].count - a[1].count
+  );
+
   setFilteredResults(
-    Object.entries(newResults).map(([id, data]) => ({
+    sortedResults.map(([id, data]) => ({
       id,
-      accounts: data.accounts,
+      accounts: Array.from(data.accounts),
       count: data.count,
     }))
   );
-}, [object, searchTerm]);
+}, [searchTerm, object]);
 
 const handleInputChange = (event) => {
   setSearchTerm(event.target.value);
@@ -86,27 +90,39 @@ return (
           onChange={handleInputChange}
           placeholder={`🔭  Search for a type of things...`}
         />
-        {filteredResults &&
-          filteredResults.map(({ id, accounts, count }) => (
-            <div key={id} className="m-3 mt-4">
-              <div className="d-flex flex-row justify-content-between align-items-center">
-                <h5 className="mt-1">
-                  <b>{id}</b>
-                </h5>
-                <div className="mt-3">
-                  {accounts.map((creator) => (
-                    <button
-                      key={creator}
-                      onClick={() => toggleModal(`${creator}/${type}/${id}`)}
-                    >
-                      view
-                    </button>
-                  ))}
-                </div>
+        {filteredResults.map(({ id, accounts, count }) => (
+          <div key={id} className="m-3 mt-4">
+            <div className="d-flex flex-row justify-content-between align-items-center">
+              <h5 className="mt-1">
+                <b>{id}</b>
+              </h5>
+              <div className="mt-3">
+                {accounts.map((creator) => (
+                  <Profiles
+                    key={creator}
+                    onClick={() => toggleModal(`${creator}/${type}/${id}`)}
+                  >
+                    <span className="d-inline-block">
+                      <Widget
+                        src="mob.near/widget/ProfileImage"
+                        props={{
+                          accountId: creator,
+                          imageStyle: {
+                            height: "1.888em",
+                            width: "1.888em",
+                          },
+                          imageClassName: "",
+                          tooltip: true,
+                        }}
+                      />
+                    </span>
+                  </Profiles>
+                ))}
               </div>
-              <hr />
             </div>
-          ))}
+            <hr />
+          </div>
+        ))}
       </div>
     )}
   </>
