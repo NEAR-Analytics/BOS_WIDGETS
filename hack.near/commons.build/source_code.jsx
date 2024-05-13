@@ -34,7 +34,6 @@ const paths = generatePaths();
 const data = Social.getr(paths, "final");
 
 const [nodesState, setNodesState] = useState(null);
-const [accountId, setAccountId] = useState(props.accountId || "every.near");
 const [focus, setFocus] = useState(null);
 
 const debug = false;
@@ -47,8 +46,9 @@ if (!nodesState) {
   return <GraphContainer></GraphContainer>;
 }
 
-const [message, setMessage] = useState(null);
 const [selectedAccountId, setSelectedAccountId] = useState(null);
+
+const [message, setMessage] = useState(null);
 
 useEffect(() => {
   if (!nodesState) {
@@ -108,7 +108,6 @@ useEffect(() => {
       setAccountIds([...accountIds, selectedAccountId]);
     }
   }
-  setSelectedAccountId(null);
 }, [selectedAccountId]);
 
 const graphEdge = Social.keys(
@@ -339,7 +338,6 @@ const [onMessage] = useState(() => {
     if (data) {
       switch (data.handler) {
         case "click":
-          setAccountId(data.data);
           setSelectedAccountId(data.data);
           break;
       }
@@ -368,9 +366,12 @@ return (
     <ProfileContainer>
       <Widget
         src="hack.near/widget/profile"
-        props={{ accountId: focus ?? accountId }}
+        props={{ accountId: selectedAccountId }}
       />
-      <Widget src="hack.near/widget/attest" props={{ accountId }} />
+      <Widget
+        src="hack.near/widget/attest"
+        props={{ accountId: selectedAccountId }}
+      />
     </ProfileContainer>
   </>
 );
