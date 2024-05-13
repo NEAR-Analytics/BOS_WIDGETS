@@ -110,19 +110,9 @@ const code = `
 <meta charset="utf-8">
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v6.js"></script>
-    <div class="container">
-      <svg id="graph" width="100%" height="auto" viewBox="0 0 650 325" preserveAspectRatio="xMidYMid meet" style="display: block; margin: auto;">
-    </div>
 
-    <style>
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            width: 100%;
-        }
-    </style>
+<svg id="graph"></svg>
+
 <script>
 
 const run = (data) => {
