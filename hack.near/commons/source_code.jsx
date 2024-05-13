@@ -40,10 +40,8 @@ useEffect(() => {
 }, []);
 
 return (
-  <div className="m-2 p-1">
-    <div className="m-2">
-      <Widget src="hack.near/widget/commons.add" />
-    </div>
+  <div className="m-2">
+    <Widget src="hack.near/widget/commons.add" />
     <div className="m-2">
       {builders.map((a) => (
         <div
@@ -59,8 +57,11 @@ return (
                 }}
               />
             )}
-            <span className="ms-3">
-              <Widget src="hack.near/widget/profile" props={{ accountId: a }} />
+            <span className="ms-2">
+              <Widget
+                src="hack.near/widget/profiles"
+                props={{ builders: [a] }}
+              />
             </span>
           </div>
           <div className="m-2 d-flex align-items-center">
