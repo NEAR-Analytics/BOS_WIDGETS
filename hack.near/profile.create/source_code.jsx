@@ -1,4 +1,4 @@
-const accountId = props.accountId ?? context.accountId ?? "every.near";
+const accountId = props.accountId ?? context.accountId ?? "buildcommons.near";
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 const fast = props.fast ?? !props.profile;
@@ -48,10 +48,11 @@ return (
     <div className="me-2 d-inline-block">
       {state.img || image ? (
         <img
-          className="rounded me-1"
+          className="me-1"
           style={{
             height: "3em",
             width: "3em",
+            borderRadius: "50%",
             objectFit: "cover",
           }}
           src={`https://ipfs.near.social/ipfs/${
@@ -95,7 +96,7 @@ return (
         </span>
         <Widget src="hack.near/widget/BuilderHat" props={{ accountId }} />
       </div>
-      {context.accountId && name && (
+      {name && (
         <small>
           <span className="text-truncate text-muted font-monospace">
             @{accountId}
