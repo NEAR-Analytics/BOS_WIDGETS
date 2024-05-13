@@ -365,7 +365,7 @@ return (
     </GraphContainer>
     <ProfileContainer>
       <Widget
-        src="hack.near/widget/profile"
+        src="hack.near/widget/profile.create"
         props={{ accountId: selectedAccountId }}
       />
       <Widget
