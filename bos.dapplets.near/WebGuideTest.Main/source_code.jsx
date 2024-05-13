@@ -73,6 +73,23 @@ const guideConfig = {
         },
       ],
     },
+    {
+      id: "RecursiveCallout",
+      type: 'callout',
+      namespace: "mweb",
+      contextType: "wg-chapter",
+      injectTo: "hidden",
+      if: { id: { eq: "RecursiveCallout" } },
+      arrowTo: "context",
+      pages: [
+        {
+          id: "RecursiveCallout/1",
+          status: [],
+          title: "Recursive Callout",
+          content: 'Callout in Callout.',
+        },
+      ],
+    },
   ],
 }
 
@@ -117,9 +134,6 @@ const handleClickNext = () => {
 }
 
 const CalloutsWrapper = (arrowTo) => ({ children, attachContextRef, attachInsPointRef }) => {
-
-  console.log({ children, attachContextRef, attachInsPointRef })
-
   const currentChapter = guideConfig?.chapters[chapterCounter]
   const pages = currentChapter?.pages
   const currentPage = pages[pageCounter]
@@ -155,6 +169,7 @@ const CalloutsWrapper = (arrowTo) => ({ children, attachContextRef, attachInsPoi
       src="bos.dapplets.near/widget/WebGuideTest.OverlayTrigger"
       loading={children}
       props={{
+        chapterId: currentChapter?.id,
         type: currentChapter?.type,
         placement: currentChapter?.placement,
         strategy: currentChapter?.strategy,
