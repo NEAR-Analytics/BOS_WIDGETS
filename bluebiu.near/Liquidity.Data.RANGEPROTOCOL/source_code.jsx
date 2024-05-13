@@ -206,7 +206,7 @@ function getLiquidity() {
 function getFee() {
   for (let i = 0; i < dataList.length; i++) {
     const data = dataList[i];
-    dataList[i].fee = Big(data.fee).div(10000).toFixed(2)
+    dataList[i].fee = Big(data?.fee ?? 0).div(10000).toFixed(2)
   }
   formatedData('getFee')
 }
@@ -254,7 +254,6 @@ function getTvl() {
           balance1
         } = result[i].data.vault
         const data = dataList[i]
-        console.log('token0===', data.token0, '=balance0', balance0, 'token1===', data.token1, '=balance1', balance1, "=prices", prices)
         dataList[i].tvlUSD = Big(ethers.utils.formatUnits(balance0, data.decimals0))
           .times(prices[data.token0] ?? 0)
           .plus(Big(ethers.utils.formatUnits(balance1, data.decimals1)).times(prices[data.token1] ?? 0))
