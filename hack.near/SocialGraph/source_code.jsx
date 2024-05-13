@@ -1,4 +1,4 @@
-const accountId = props.accountId ?? context.accountId ?? "every.near";
+const accountId = props.accountId ?? context.accountId ?? "buildcommons.near";
 
 const GraphContainer = styled.div`
   display: flex;
