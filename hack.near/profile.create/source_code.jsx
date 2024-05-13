@@ -47,18 +47,9 @@ return (
   <div className="d-flex flex-row">
     <div className="me-2 d-inline-block">
       {state.img || image ? (
-        <img
-          className="me-1"
-          style={{
-            height: "3em",
-            width: "3em",
-            borderRadius: "50%",
-            objectFit: "cover",
-          }}
-          src={`https://ipfs.near.social/ipfs/${
-            state.img.cid || image.ipfs_cid
-          }`}
-          alt="profile"
+        <Widget
+          src="hack.near/widget/profile.image"
+          props={{ image, accountId }}
         />
       ) : (
         <Files
