@@ -52,16 +52,27 @@ return (
         {state.profiles.map(({ accountId }, i) => (
           <div
             key={accountId}
-            className="d-flex justify-content-between align-items-center mb-3"
+            className="m-2 d-flex flex-row justify-content-between align-items-center"
           >
-            <div className="me-2 text-truncate">
-              <Widget
-                src="mob.near/widget/N.ProfileLine"
-                props={{ accountId }}
-              />
+            <div className="m-2 d-flex align-items-center">
+              {context.accountId && (
+                <Widget
+                  key={accountId}
+                  src="hack.near/widget/attest"
+                  props={{
+                    accountId,
+                  }}
+                />
+              )}
+              <span className="ms-2">
+                <Widget
+                  src="hack.near/widget/profiles"
+                  props={{ builders: [accountId] }}
+                />
+              </span>
             </div>
-            <div className="d-none text-nowrap d-md-block">
-              <Widget src="hack.near/widget/attest" props={{ accountId }} />
+            <div className="m-2 d-flex align-items-center">
+              <Widget src="hack.near/widget/profiles" props={{ accountId }} />
             </div>
           </div>
         ))}
