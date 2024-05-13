@@ -42,7 +42,7 @@ useEffect(() => {
 return (
   <div className="m-2">
     <Widget src="hack.near/widget/commons.add" />
-    <div className="m-2">
+    <div style={{ minWidth: "333px" }} className="m-2">
       {builders.map((a) => (
         <div
           key={a}
