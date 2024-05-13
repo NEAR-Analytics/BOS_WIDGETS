@@ -57,7 +57,6 @@ return (
             <div className="m-2 d-flex align-items-center">
               {context.accountId && (
                 <Widget
-                  key={accountId}
                   src="hack.near/widget/attest"
                   props={{
                     accountId,
