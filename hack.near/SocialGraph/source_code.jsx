@@ -5,12 +5,17 @@ const GraphContainer = styled.div`
   width: 100%;
   height: ${(props) => props.height || "325px"};
 `;
+const ProfileContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 23px;
+  width: 100%;
+`;
 
 const [accountIds, setAccountIds] = useState(
-  props.accountIds || [
-    "buildcommons.near",
-    `${context.accountId || "every.near"}`,
-  ]
+  props.accountIds || ["buildcommons.near"]
 );
 
 const graphId = props.graphId ?? "commons";
@@ -30,6 +35,8 @@ const data = Social.getr(paths, "final");
 
 const [nodesState, setNodesState] = useState(null);
 const [selectedAccountId, setSelectedAccountId] = useState(null);
+const [focus, setFocus] = useState(null);
+
 const debug = false;
 
 useEffect(() => {
@@ -100,7 +107,6 @@ useEffect(() => {
       setAccountIds([...accountIds, selectedAccountId]);
     }
   }
-  setSelectedAccountId(null);
 }, [selectedAccountId]);
 
 let height = props.height || 325;
@@ -294,20 +300,32 @@ const [onMessage] = useState(() => {
 });
 
 return (
-  <GraphContainer height={height}>
-    <iframe
-      className="w-100 h-100"
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: "325px",
-        maxWidth: "888px",
-        width: "100%",
-      }}
-      srcDoc={code}
-      message={message}
-      onMessage={onMessage}
-    />
-  </GraphContainer>
+  <>
+    <GraphContainer height={height}>
+      <iframe
+        className="w-100 h-100"
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "325px",
+          maxWidth: "888px",
+          width: "100%",
+        }}
+        srcDoc={code}
+        message={message}
+        onMessage={onMessage}
+      />
+    </GraphContainer>
+    <ProfileContainer>
+      <Widget
+        src="hack.near/widget/profile"
+        props={{ accountId: selectedAccountId }}
+      />
+      <Widget
+        src="hack.near/widget/attest"
+        props={{ accountId: selectedAccountId }}
+      />
+    </ProfileContainer>
+  </>
 );
