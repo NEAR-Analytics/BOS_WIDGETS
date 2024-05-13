@@ -119,7 +119,7 @@ const handleClickNext = () => {
 const CalloutsWrapper = (arrowTo) => ({ children, attachContextRef, attachInsPointRef }) => {
 
   console.log({ children, attachContextRef, attachInsPointRef })
-  
+
   const currentChapter = guideConfig?.chapters[chapterCounter]
   const pages = currentChapter?.pages
   const currentPage = pages[pageCounter]
@@ -152,7 +152,7 @@ const CalloutsWrapper = (arrowTo) => ({ children, attachContextRef, attachInsPoi
 
   return  (
     <Widget
-      src="bos.dapplets.near/widget/WebGuide.OverlayTrigger"
+      src="bos.dapplets.near/widget/WebGuideTest.OverlayTrigger"
       loading={children}
       props={{
         type: currentChapter?.type,
@@ -223,7 +223,7 @@ const InfoBoxesWrapper = () => {
 
   return (
     <Widget
-      src="bos.dapplets.near/widget/WebGuide.InfoBox"
+      src="bos.dapplets.near/widget/WebGuideTest.InfoBox"
       props={{
         type: currentPage.type,
         navi: {
@@ -253,7 +253,7 @@ return showApp ? (guideConfig?.chapters[chapterCounter]?.type === 'infobox' ? (
     </DappletOverlay>
   </OverlayTriggerWrapper>
   ) : (
-  <MuWebWrapperPortal
+  <DappletPortal
     target={{
       namespace: guideConfig?.chapters[chapterCounter]?.namespace,
       contextType: guideConfig?.chapters[chapterCounter]?.contextType,
