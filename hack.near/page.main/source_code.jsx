@@ -10,7 +10,7 @@ const [activeWord, setActiveWord] = useState(null);
 const contentMap = {
   social: (
     <Widget
-      src="hack.near/widget/commons.build"
+      src="hack.near/widget/SocialGraph"
       props={{
         height: 325,
       }}
@@ -222,7 +222,6 @@ return (
             key={accountId}
             src="hack.near/widget/SocialGraph"
             props={{
-              accountIds: [`${accountId || "buildcommons.near"}`],
               height: 325,
             }}
           />
