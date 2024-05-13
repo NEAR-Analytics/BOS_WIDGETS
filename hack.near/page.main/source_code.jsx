@@ -1,27 +1,28 @@
-const [accountId, setAccountId] = useState(null);
-const [attestorId, setAttestorId] = useState(context.accountId || "every.near");
+const accountId = context.accountId ?? "buildcommons.near";
 
 const [highlightIndex, setHighlightIndex] = useState(null);
 const words = ["Social", "Network", "States", "SN", "NS"];
 
-const [activeContent, setActiveContent] = useState(null);
 const [activeWord, setActiveWord] = useState(null);
+const [activeContent, setActiveContent] = useState(null);
 
 const contentMap = {
-  social: (
+  Social: (
     <Widget
+      key={accountId}
       src="hack.near/widget/SocialGraph"
       props={{
+        accountId,
         height: 325,
       }}
     />
   ),
-  network: (
+  Network: (
     <div className="m-3 mt-4">
       <Widget src="hack.near/widget/commons" />
     </div>
   ),
-  states: (
+  States: (
     <a
       href="https://blocklive.io/event/network-states-atx"
       className="m-3 mt-4 mb-2"
@@ -35,9 +36,28 @@ const contentMap = {
       <img
         style={{ maxWidth: "80%" }}
         src="https://builders.mypinata.cloud/ipfs/QmYxc5XbVU8TMojf98Yti8ctzAkGLd383f7LtpnjHhEMbJ"
-        alt="Building Network States: Austin"
+        alt="Building Network States"
       />
     </a>
+  ),
+  SN: (
+    <Widget
+      key={accountId}
+      src="hack.near/widget/SocialGraph"
+      props={{
+        accountId,
+        height: 325,
+      }}
+    />
+  ),
+  NS: (
+    <Widget
+      src="hack.near/widget/SocialGraph"
+      props={{
+        accountId: "buildcommons.near",
+        height: 325,
+      }}
+    />
   ),
 };
 
@@ -97,7 +117,7 @@ const H1 = styled.h1`
   }
 `;
 
-const Word = styled.span`
+const LeftWord = styled.span`
   font-family: "Courier", sans-serif;
   font-size: 23px;
   font-style: bold;
@@ -105,8 +125,17 @@ const Word = styled.span`
   color: #212428;
   padding: 0.2em 0.6em;
   display: inline-block;
+  height: 42px;
   background-color: ${(props) => (props.highlight ? "#EDFF00" : "transparent")};
-  border-radius: 8px;
+  border-radius: ${() => {
+    if (activeWord === "SN") {
+      return "8px 0 0 8px";
+    } else if (activeWord === "NS") {
+      return "8px";
+    } else {
+      return "8px";
+    }
+  }};
   transition: background-color 0.3s;
   cursor: pointer;
 
@@ -119,23 +148,96 @@ const Word = styled.span`
   }
 `;
 
-const Space = styled.span`
+const MiddleWord = styled.span`
+  font-family: "Courier", sans-serif;
+  font-size: 23px;
+  font-style: bold;
+  font-weight: 555;
+  color: #212428;
+  padding: 0.2em 0.6em;
+  height: 42px;
+  display: inline-block;
+  background-color: ${(props) => (props.highlight ? "#EDFF00" : "transparent")};
+  border-radius: ${() => {
+    if (activeWord === "SN") {
+      return "0 8px 8px 0";
+    } else if (activeWord === "NS") {
+      return "8px 0 0 8px";
+    } else {
+      return "8px";
+    }
+  }};
+  transition: background-color 0.3s;
+  cursor: pointer;
+
+    @media (max-width: 900px) {
+    font-size: 18px;
+
+    span {
+      border-radius: 5px;
+    }
+  }
+`;
+
+const RightWord = styled.span`
+  font-family: "Courier", sans-serif;
+  font-size: 23px;
+  font-style: bold;
+  font-weight: 555;
+  color: #212428;
+  padding: 0.2em 0.6em;
+  height: 42px;
+  display: inline-block;
+  background-color: ${(props) => (props.highlight ? "#EDFF00" : "transparent")};
+  border-radius: ${() => {
+    if (activeWord === "SN") {
+      return "8px";
+    } else if (activeWord === "NS") {
+      return "0 8px 8px 0";
+    } else {
+      return "8px";
+    }
+  }};
+  transition: background-color 0.3s;
+  cursor: pointer;
+
+    @media (max-width: 900px) {
+    font-size: 18px;
+
+    span {
+      border-radius: 5px;
+    }
+  }
+`;
+
+const FirstSpace = styled.span`
   width: 19px;
-  height: 30px;
+  height: 42px;
+  padding: 0.3em 0.7em;
+  border: #EDFF00;
+  background-color: ${(props) => (props.highlight ? "#EDFF00" : "transparent")};
   display: inline-block;
   cursor: pointer;
 `;
 
-const handleWordClick = (word) => {
-  setActiveWord(word);
-  setActiveContent(contentMap[word]);
-  setAccountId(null);
-};
+const SecondSpace = styled.span`
+  width: 19px;
+  height: 42px;
+  padding: 0.3em 0.7em;
+  border: #EDFF00;
+  background-color: ${(props) => (props.highlight ? "#EDFF00" : "transparent")};
+  display: inline-block;
+  cursor: pointer;
+`;
 
-const handleSpaceClick = (newAccountId) => {
-  setAccountId(newAccountId);
-  setActiveContent(null);
-  setActiveWord(null);
+const handleClick = (word) => {
+  if (activeWord === word) {
+    setActiveWord(null);
+    setActiveContent(null);
+  } else {
+    setActiveWord(word);
+    setActiveContent(contentMap[word]);
+  }
 };
 
 return (
@@ -161,72 +263,79 @@ return (
         justifyContent: "center",
       }}
     >
-      <Word
+      <LeftWord
         highlight={
           highlightIndex === 0 ||
           highlightIndex === 3 ||
-          activeWord === "social" ||
-          accountId === context.accountId
+          activeWord === "Social" ||
+          activeWord === "SN"
         }
         onMouseEnter={() => setHighlightIndex(0)}
         onMouseLeave={() => setHighlightIndex(-1)}
-        onClick={() => handleWordClick("social")}
+        onClick={() => handleClick("Social")}
       >
         Social
-      </Word>
-      <Space
+      </LeftWord>
+      <FirstSpace
+        highlight={activeWord === "SN"}
         onMouseEnter={() => setHighlightIndex(3)}
         onMouseLeave={() => setHighlightIndex(-1)}
-        onClick={() => handleSpaceClick(context.accountId || "hack.near")}
+        onClick={() => handleClick("SN")}
       />
-      <Word
+      <MiddleWord
         highlight={
           highlightIndex === 1 ||
           highlightIndex === 3 ||
           highlightIndex === 4 ||
-          activeWord === "network" ||
-          accountId === "buildcommons.near" ||
-          accountId === context.accountId
+          activeWord === "Network" ||
+          activeWord === "SN" ||
+          activeWord === "NS"
         }
         onMouseEnter={() => setHighlightIndex(1)}
         onMouseLeave={() => setHighlightIndex(-1)}
-        onClick={() => handleWordClick("network")}
+        onClick={() => handleClick("Network")}
       >
         Network
-      </Word>
-      <Space
+      </MiddleWord>
+      <SecondSpace
+        highlight={activeWord === "NS"}
         onMouseEnter={() => setHighlightIndex(4)}
         onMouseLeave={() => setHighlightIndex(-1)}
-        onClick={() => handleSpaceClick("buildcommons.near")}
+        onClick={() => handleClick("NS")}
       />
-      <Word
+      <RightWord
         highlight={
           highlightIndex === 2 ||
           highlightIndex === 4 ||
-          activeWord === "states" ||
-          accountId === "buildcommons.near"
+          activeWord === "States" ||
+          activeWord === "NS"
         }
         onMouseEnter={() => setHighlightIndex(2)}
         onMouseLeave={() => setHighlightIndex(-1)}
-        onClick={() => handleWordClick("states")}
+        onClick={() => handleClick("States")}
       >
         States
-      </Word>
+      </RightWord>
     </div>
-    {activeWord ? (
-      contentMap[activeWord]
+    {activeContent ? (
+      activeContent
     ) : (
-      <>
-        {!context.loading && (
-          <Widget
-            key={accountId}
-            src="hack.near/widget/SocialGraph"
-            props={{
-              height: 325,
-            }}
-          />
-        )}
-      </>
+      <a
+        href="https://blocklive.io/event/network-states-atx"
+        className="m-3 mt-4 mb-2"
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+        }}
+      >
+        <img
+          style={{ maxWidth: "80%" }}
+          src="https://builders.mypinata.cloud/ipfs/QmYxc5XbVU8TMojf98Yti8ctzAkGLd383f7LtpnjHhEMbJ"
+          alt="Building Network States"
+        />
+      </a>
     )}
   </Wrapper>
 );
