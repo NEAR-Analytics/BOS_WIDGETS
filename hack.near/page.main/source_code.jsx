@@ -141,12 +141,18 @@ const handleSpaceClick = (newAccountId) => {
 return (
   <Wrapper>
     <H1>
-      <span>
-        Build
-        <svg viewBox="0 0 25 23" fill="none" aria-hidden="true"></svg>
-      </span>
+      <a
+        style={{ textDecoration: "none", color: "#212428" }}
+        href="https://commons.build"
+      >
+        <span>
+          Build
+          <svg viewBox="0 0 25 23" fill="none" aria-hidden="true"></svg>
+        </span>
+      </a>
       Commons
     </H1>
+
     <div
       className="mt-3 align-items-center"
       style={{
@@ -220,34 +226,6 @@ return (
               height: 325,
             }}
           />
-        )}
-        {!context.loading && (
-          <div>
-            {context.accountId ? (
-              <div className="m-3 mt-4 d-flex flex-row justify-content-center">
-                <div className="m-1 me-3">
-                  <Widget
-                    src="buildcommons.near/widget/profile.builder"
-                    props={{ accountId: context.accountId }}
-                  />
-                </div>
-                <div className="m-2 ms-2">
-                  <Widget
-                    src="buildcommons.near/widget/graph.join"
-                    props={{
-                      attestorId,
-                      accountId,
-                      defaultBuilder,
-                    }}
-                  />
-                </div>
-              </div>
-            ) : (
-              <div className="m-3">
-                <Widget src="buildcommons.near/widget/connect" />
-              </div>
-            )}
-          </div>
         )}
       </>
     )}
