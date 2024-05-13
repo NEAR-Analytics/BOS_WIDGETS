@@ -31,33 +31,27 @@ return (
   <>
     <Faces className="ms-2">
       {builders.map((accountId, i) => (
-        <a
-          key={i}
-          href={`https:///${accountId}.social`}
-          className="text-decoration-none d-inline-block"
-        >
-          <Widget
-            src="hack.near/widget/overlay.trigger"
-            props={{
-              accountId,
-              src: "hack.near/widget/profile.overlay",
-              children: (
-                <Widget
-                  src="mob.near/widget/ProfileImage"
-                  props={{
-                    metadata,
-                    accountId,
-                    style: { zIndex: 10 - i },
-                    className: "face",
-                    tooltip: false,
-                    imageStyle: {},
-                    imageClassName: "",
-                  }}
-                />
-              ),
-            }}
-          />
-        </a>
+        <Widget
+          src="hack.near/widget/overlay.trigger"
+          props={{
+            accountId,
+            src: "hack.near/widget/profile.overlay",
+            children: (
+              <Widget
+                src="mob.near/widget/ProfileImage"
+                props={{
+                  metadata,
+                  accountId,
+                  style: { zIndex: 10 - i },
+                  className: "face",
+                  tooltip: false,
+                  imageStyle: {},
+                  imageClassName: "",
+                }}
+              />
+            ),
+          }}
+        />
       ))}
     </Faces>
   </>
