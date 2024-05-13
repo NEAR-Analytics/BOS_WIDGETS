@@ -391,8 +391,7 @@ const {
 } = props
 
 const overlay = (
-  <CustomTooltip bsPrefix="wg-tooltip" data-mweb-context-type="wg-chapter" data-mweb-context-parsed={JSON.stringify({ id: props.chapterId })}>
-    <div data-mweb-insertion-point="hidden" style={{ display: 'none' }}/>
+  <CustomTooltip bsPrefix="wg-tooltip">
     <Callout>
       <Header>
         <TopLine>
