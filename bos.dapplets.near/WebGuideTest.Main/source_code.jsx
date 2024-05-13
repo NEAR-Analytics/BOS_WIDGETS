@@ -117,6 +117,9 @@ const handleClickNext = () => {
 }
 
 const CalloutsWrapper = (arrowTo) => ({ children, attachContextRef, attachInsPointRef }) => {
+
+  console.log({ children, attachContextRef, attachInsPointRef })
+  
   const currentChapter = guideConfig?.chapters[chapterCounter]
   const pages = currentChapter?.pages
   const currentPage = pages[pageCounter]
