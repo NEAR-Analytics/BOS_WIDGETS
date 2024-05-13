@@ -5,7 +5,7 @@ function NewsletterCard() {
 
   const data = fetch(
     `https://nearweek.com/api/md/editions?populate=deep&sort=createdAt:desc&pagination[pageSize]=${
-      state.page * 9
+      state.page * 5
     }`,
     {
       method: "GET",
