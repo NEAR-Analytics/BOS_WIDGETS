@@ -37,7 +37,7 @@ const data = props.data ?? {
 };
 
 return (
-  <div className="m-1">
+  <div className="m-2 p-1">
     <div className="mb-3">
       <Widget
         src="hack.near/widget/ProfileSearch"
