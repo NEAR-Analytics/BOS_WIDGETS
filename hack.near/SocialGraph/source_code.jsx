@@ -1,3 +1,5 @@
+const accountId = props.accountId ?? context.accountId ?? "every.near";
+
 const GraphContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -14,9 +16,7 @@ const ProfileContainer = styled.div`
   width: 100%;
 `;
 
-const [accountIds, setAccountIds] = useState(
-  props.accountIds || ["buildcommons.near"]
-);
+const [accountIds, setAccountIds] = useState(props.accountIds || [accountId]);
 
 const graphId = props.graphId ?? "commons";
 
