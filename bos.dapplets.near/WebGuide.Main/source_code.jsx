@@ -178,6 +178,12 @@ const [showApp, setShowApp] = useState(true)
 const [chapterCounter, setChapterCounter] = useState(0)
 const [pageCounter, setPageCounter] = useState(0)
 
+if (
+  !guideConfig
+  || !guideConfig.chapters?.length
+  || !guideConfig.chapters[0].pages?.length
+) return <></>
+
 const handleClose = () => {
   setShowApp(false)
 }
@@ -186,15 +192,15 @@ const handleChapterDecrement = () => {
   if (chapterCounter !== 0) {
     setChapterCounter((val) => val - 1)
     setPageCounter(
-      guideConfig?.chapters[chapterCounter - 1]?.pages?.length
-        ? guideConfig?.chapters[chapterCounter - 1]?.pages?.length - 1
+      guideConfig.chapters[chapterCounter - 1]?.pages?.length
+        ? guideConfig.chapters[chapterCounter - 1]?.pages?.length - 1
         : 0
     )
   }
 }
 
 const handleChapterIncrement = () => {
-  setChapterCounter((val) => Math.min(val + 1, guideConfig?.chapters?.length - 1))
+  setChapterCounter((val) => Math.min(val + 1, guideConfig.chapters.length - 1))
   setPageCounter(0)
 }
 
@@ -207,18 +213,27 @@ const handleClickPrev = () => {
 }
 
 const handleClickNext = () => {
-  if (pageCounter === guideConfig?.chapters[chapterCounter]?.pages.length - 1) {
+  if (pageCounter === guideConfig.chapters[chapterCounter]?.pages?.length - 1) {
     handleChapterIncrement()
   } else {
     setPageCounter((val) => val + 1)
   }
 }
 
-const CalloutsWrapper = (arrowTo) => ({ children, attachContextRef, attachInsPointRef }) => {
-  const currentChapter = guideConfig?.chapters[chapterCounter]
-  const pages = currentChapter?.pages
+const chapterComponentIdByTypes = {
+  infobox: "bos.dapplets.near/widget/WebGuide.InfoBox",
+  callout: "bos.dapplets.near/widget/WebGuide.OverlayTrigger",
+}
+
+const ChapterWrapper = (props) => {
+  const currentChapter = guideConfig.chapters[chapterCounter]
+  if (!currentChapter) return <></>
+  const pages = currentChapter.pages
+  if (!pages) return <></>
   const currentPage = pages[pageCounter]
-  const status = currentPage?.status.length && Object.entries(currentPage?.status[0])[0] // ToDo: mocked!!!
+  if (!currentPage) return <></>
+
+  const status = currentPage.status.length&& Object.entries(currentPage.status[0])[0] // ToDo: mocked!!!
 
   const buttons = []
   if (chapterCounter || pageCounter) {
@@ -229,7 +244,7 @@ const CalloutsWrapper = (arrowTo) => ({ children, attachContextRef, attachInsPoi
       label: "Prev",
     })
   }
-  if (chapterCounter === guideConfig?.chapters?.length - 1 && pageCounter === guideConfig?.chapters[chapterCounter]?.pages.length - 1) {
+  if (chapterCounter === guideConfig.chapters.length - 1 && pageCounter === pages.length - 1) {
     buttons.push({
       variant: "primary",
       disabled: false,
@@ -247,15 +262,15 @@ const CalloutsWrapper = (arrowTo) => ({ children, attachContextRef, attachInsPoi
 
   return  (
     <Widget
-      src="bos.dapplets.near/widget/WebGuide.OverlayTrigger"
-      loading={children}
+      src={chapterComponentIdByTypes[currentChapter.type]}
+      loading={props?.children}
       props={{
-        type: currentChapter?.type,
-        placement: currentChapter?.placement,
-        strategy: currentChapter?.strategy,
+        type: currentChapter.type,
+        placement: currentChapter.placement,
+        strategy: currentChapter.strategy,
         navi: {
           currentChapterIndex: chapterCounter,
-          totalChapters: guideConfig?.chapters?.length,
+          totalChapters: guideConfig.chapters.length,
           currentPageIndex: pageCounter,
           totalPages: pages.length,
         },
@@ -265,97 +280,42 @@ const CalloutsWrapper = (arrowTo) => ({ children, attachContextRef, attachInsPoi
           type: status[0],
           text: status[1],
         },
-        title: currentPage?.title,
-        content: currentPage?.content,
+        title: currentPage.title,
+        content: currentPage.content,
         showChecked: currentChapter.showChecked,
-        children:
-          arrowTo === "context"
+        children: currentChapter.type === 'callout'
+          && currentChapter.arrowTo === "context"
             ? ({ ref }) => {
-                attachContextRef(ref);
-                return children;
+                props.attachContextRef(ref);
+                return props.children;
               }
-            : arrowTo === "insPoint"
+            : currentChapter.arrowTo === "insPoint"
             ? ({ ref }) => {
-                attachInsPointRef(ref);
-                return children;
+                props.attachInsPointRef(ref);
+                return props.children;
               }
-            : children,
+            : props.children,
       }}
     />
   )
 }
 
-const InfoBoxesWrapper = () => {
-  const currentChapter = guideConfig?.chapters[chapterCounter]
-  const pages = currentChapter?.pages
-  const currentPage = pages[pageCounter]
-  const status = currentPage?.status.length && Object.entries(currentPage?.status[0])[0] // ToDo: mocked!!!
 
-  const buttons = []
-  if (chapterCounter || pageCounter) {
-    buttons.push({
-      variant: "secondary",
-      disabled: false,
-      onClick: handleClickPrev,
-      label: "Prev",
-    })
-  }
-  if (chapterCounter === guideConfig?.chapters?.length - 1 && pageCounter === guideConfig?.chapters[chapterCounter]?.pages.length - 1) {
-    buttons.push({
-      variant: "primary",
-      disabled: false,
-      onClick: handleClose,
-      label: "Finish",
-    })
-  } else (
-    buttons.push({
-      variant: "primary",
-      disabled: false,
-      onClick: handleClickNext,
-      label: "Next",
-    })
-  )
-
-  return (
-    <Widget
-      src="bos.dapplets.near/widget/WebGuide.InfoBox"
-      props={{
-        type: currentPage.type,
-        navi: {
-          currentChapterIndex: chapterCounter,
-          totalChapters: guideConfig?.chapters?.length,
-          currentPageIndex: pageCounter,
-          totalPages: pages.length,
-        },
-        onClose: handleClose,
-        buttons,
-        status: status && {
-          type: status[0],
-          text: status[1],
-        },
-        title: currentPage?.title,
-        content: currentPage?.content,
-        showChecked: currentChapter.showChecked,
-      }}
-    />
-  )
-}
-
-return showApp ? (guideConfig?.chapters[chapterCounter]?.type === 'infobox' ? (
+return showApp ? (guideConfig.chapters[chapterCounter]?.type === 'infobox' ? (
   <OverlayTriggerWrapper>
     <DappletOverlay>
-      <InfoBoxesWrapper />
+      <ChapterWrapper/>
     </DappletOverlay>
   </OverlayTriggerWrapper>
-  ) : (
+) : (
   <MuWebWrapperPortal
     target={{
-      namespace: guideConfig?.chapters[chapterCounter]?.namespace,
-      contextType: guideConfig?.chapters[chapterCounter]?.contextType,
-      injectTo: guideConfig?.chapters[chapterCounter]?.injectTo,
-      if: guideConfig?.chapters[chapterCounter]?.if,
-      insteadOf: guideConfig?.chapters[chapterCounter]?.insteadOf,
+      namespace: guideConfig.chapters[chapterCounter]?.namespace,
+      contextType: guideConfig.chapters[chapterCounter]?.contextType,
+      injectTo: guideConfig.chapters[chapterCounter]?.injectTo,
+      if: guideConfig.chapters[chapterCounter]?.if,
+      insteadOf: guideConfig.chapters[chapterCounter]?.insteadOf,
     }}
-    component={CalloutsWrapper(guideConfig?.chapters[chapterCounter]?.arrowTo)}
+    component={ChapterWrapper}
   />
 )) : <></>
