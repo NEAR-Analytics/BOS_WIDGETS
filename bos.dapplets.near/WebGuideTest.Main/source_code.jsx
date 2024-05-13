@@ -37,111 +37,13 @@ const guideConfig = {
       ]
     },
     {
-      id: "bos.dapplets.near/gateway/MutableWebExtensionNotch",
-      type: 'callout',
-      placement: 'right',
-      strategy: 'fixed',
-      namespace: "mweb",
-      contextType: "notch",
-      injectTo: "hidden",
-      if: { id: { eq: "notch" } },
-      arrowTo: "context",
-      pages: [
-        {
-          id: "bos.dapplets.near/gateway/MutableWebExtensionNotch/Notch",
-          title: "Mutation switch",
-          status: [{ info: 'Click on the dropdown box' }],
-          content: "Mutation switch allows user to choose between applications’ sets.",
-        },
-      ]
-    },
-    {
-      id: "bos.dapplets.near/gateway/MutableWebExtensionDropdown/1",
-      type: 'callout',
-      placement: 'right',
-      strategy: 'fixed',
-      namespace: "mweb",
-      contextType: "notch",
-      injectTo: "recently-used-mutations",
-      if: { id: { eq: "recently-used-mutations" } },
-      arrowTo: "context",
-      pages: [
-        {
-          id: "bos.dapplets.near/gateway/MutableWebExtensionDropdown/1/1",
-          title: "The list of recently used mutations (1/2)",
-          status: [],
-          content: "The current mutation is highlighted with a “star” symbol. To add “favorite” status to a mutation on the current page, just click on the star. Now this mutation is active even if a new tab with the current site is open.",
-        },
-        {
-          id: "bos.dapplets.near/gateway/MutableWebExtensionDropdown/1/2",
-          title: "The list of recently used mutations (2/2)",
-          status: [{ info: 'Click on the dropdown box below' }],
-          content: "The “trash” removes the mutation from the “recently used” list.",
-        },
-      ]
-    },
-    {
-      id: "bos.dapplets.near/gateway/MutableWebExtensionDropdown/2",
-      type: 'callout',
-      strategy: 'fixed',
-      placement: 'right',
-      namespace: "mweb",
-      contextType: "notch",
-      injectTo: "hidden",
-      if: { id: { eq: "unused-mutations-title" } },
-      arrowTo: "context",
-      pages: [
-        {
-          id: "bos.dapplets.near/gateway/MutableWebExtensionDropdown/2/1",
-          title: "All mutations",
-          status: [],
-          content: "This is the list of all available, previously unused mutations.",
-        },
-      ]
-    },
-    {
-      id: "bos.dapplets.near/gateway/MutableWebExtensionDropdown/3",
-      type: 'callout',
-      strategy: 'fixed',
-      namespace: "mweb",
-      contextType: "notch",
-      injectTo: "hidden",
-      if: { id: { eq: "mutate-button" } },
-      arrowTo: "context",
-      pages: [
-        {
-          id: "bos.dapplets.near/gateway/MutableWebExtensionDropdown/3/1",
-          title: '"Mutate" button',
-          status: [],
-          content: 'The "Mutate" button allows users to create, fork, and edit mutations.',
-        },
-      ]
-    },
-    {
-      id: "bos.dapplets.near/app/Tipping/1",
-      type: 'callout',
-      namespace: "bos.dapplets.near/parser/twitter",
-      contextType: "post",
-      injectTo: "avatar",
-      if: { id: { eq: "1694995344461894022" } },
-      arrowTo: "insPoint",
-      pages: [
-        {
-          id: "bos.dapplets.near/app/Tipping/1/1",
-          status: [],
-          title: "Tipping app",
-          content: "If you want to modestly thank the author of the tweet you like...",
-        },
-      ],
-    },
-    {
       id: "bos.dapplets.near/app/Tipping/2",
       type: "callout",
       namespace: "mweb",
       contextType: "injected-widget",
       injectTo: "hidden",
       if: {
-        parentContextId: { eq: "1694995344461894022" },
+        parentContextId: { eq: "dapplets.near/104755842" },
         widgetSrc: { eq: "bos.dapplets.near/widget/Tipping.Main" },
       },
       arrowTo: "context",
@@ -160,7 +62,7 @@ const guideConfig = {
       namespace: "mweb",
       contextType: "ear-trigger",
       injectTo: "hidden",
-      if: { id: { eq: "1694995344461894022" } },
+      if: { id: { eq: "dapplets.near/104755842" } },
       arrowTo: "context",
       pages: [
         {
