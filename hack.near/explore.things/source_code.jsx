@@ -1,8 +1,8 @@
-const type = props.type || "type";
+const type = props.type ?? "type";
 
 const [searchTerm, setSearchTerm] = useState("");
-const [showModal, setShowModal] = useState(false);
-const [selectedPath, setSelectedPath] = useState("");
+const [hideDetails, setHideDetails] = useState(true);
+const [selectedPath, setSelectedPath] = useState(null);
 
 const [object, setObject] = useState(Social.get(`*/${type}/*`, "final") || {});
 const [filteredResults, setFilteredResults] = useState([]);
@@ -13,7 +13,7 @@ useEffect(() => {
     const entries = detail[type] || {};
     Object.keys(entries).forEach((id) => {
       const path = `${creator}/${type}/${id}`;
-      if (path.toLowerCase().includes(searchTerm.toLowerCase())) {
+      if (path.includes(searchTerm)) {
         if (!results[id]) {
           results[id] = { count: 0, accounts: new Set() };
         }
@@ -40,7 +40,7 @@ const handleInputChange = (event) => {
 
 const toggleModal = (path) => {
   setSelectedPath(path);
-  setShowModal(!showModal);
+  setHideDetails(!hideDetails);
 };
 
 const Profiles = styled.a`
@@ -67,7 +67,7 @@ return (
       onChange={handleInputChange}
       placeholder={`🔭  Search for a type of things...`}
     />
-    {showModal ? (
+    {!hideDetails ? (
       <div className="m-3 mt-4">
         <Widget
           src="hack.near/widget/explore.creators"
