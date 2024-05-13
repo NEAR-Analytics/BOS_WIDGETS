@@ -31,16 +31,9 @@ const {
   BalancePrice,
   StyledButtonList,
   StyledButton,
-  StyledLoading
 } = VM.require('bluebiu.near/widget/Liquidity.Handler.Styles')
 
 
-const iconCircle = (
-  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-    <path d="M8 15C11.866 15 15 11.866 15 8C15 4.13401 11.866 1 8 1C4.13401 1 1 4.13401 1 8" stroke="#1E2028" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-  </svg>
-
-)
 const defaultDeposit = props.tab === "deposit" || !props.tab;
 
 // const curPositionUSD = userPositions[data.vaultAddress]?.balanceUSD;
@@ -137,7 +130,7 @@ const updateBalance = (token) => {
     tokenContract.balanceOf(sender).then((balanceBig) => {
       const adjustedBalance = Big(
         ethers.utils.formatUnits(balanceBig, decimals)
-      ).toString();
+      ).toFixed();
       State.update({
         balances: {
           ...state.balances,
@@ -831,7 +824,7 @@ return (
                     <StyledButton disabled={isLoading || !amount0 || !amount1} onClick={handleDeposit}>
                       {
                         isLoading ? (
-                          <StyledLoading>{iconCircle}</StyledLoading>
+                          <Widget src="bluebiu.near/widget/Liquidity.Bridge.Loading" />
                         ) : (
                           "Deposit"
                         )
@@ -841,7 +834,7 @@ return (
                     <>
                       <StyledButton disabled={isToken0Approved || isToken0Approving} onClick={() => handleApprove(true)}>{
                         isToken0Approving ? (
-                          <StyledLoading>{iconCircle}</StyledLoading>
+                          <Widget src="bluebiu.near/widget/Liquidity.Bridge.Loading" />
                         ) : (
                           <>
                             {isToken0Approved ? "Approved" : "Approve"} {token0}
@@ -850,7 +843,7 @@ return (
                       </StyledButton>
                       <StyledButton disabled={isToken1Approved || isToken1Approving} onClick={() => handleApprove(false)}>{
                         isToken1Approving ? (
-                          <StyledLoading>{iconCircle}</StyledLoading>
+                          <Widget src="bluebiu.near/widget/Liquidity.Bridge.Loading" />
                         ) : (
                           <>
                             {isToken1Approved ? "Approved" : "Approve"} {token1}
@@ -932,7 +925,7 @@ return (
                   onClick={handleWithdraw}
                 >
                   {isLoading ? (
-                    <StyledLoading>{iconCircle}</StyledLoading>
+                    <Widget src="bluebiu.near/widget/Liquidity.Bridge.Loading" />
                   ) : (
                     <>
                       {isWithdrawInsufficient ? "InSufficient Balance" : "Withdraw"}
