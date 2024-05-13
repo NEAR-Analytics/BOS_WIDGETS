@@ -26,7 +26,7 @@ const TooltipContent = ({ className, sideOffset, children, ...props }) => (
 
 return {
   TooltipProvider,
-  Tooltip: TooltipRoot,
+  TooltipR: TooltipRoot,
   TooltipTrigger,
   TooltipContent,
   tooltipContentClassname,
