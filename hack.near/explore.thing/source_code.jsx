@@ -2,7 +2,7 @@ if (typeof props.path !== "string") return "send {path} as string in props";
 
 State.init({
   selectedTab: "explore",
-  selectedBlockHeight: null,
+  selectedBlockHeight: "final",
 });
 
 const historyBlocksRequest = Social.keys(`${props.path}`, "final", {
