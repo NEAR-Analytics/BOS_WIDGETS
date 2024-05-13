@@ -34,7 +34,6 @@ const paths = generatePaths();
 const data = Social.getr(paths, "final");
 
 const [nodesState, setNodesState] = useState(null);
-const [selectedAccountId, setSelectedAccountId] = useState(null);
 const [focus, setFocus] = useState(null);
 
 const debug = false;
@@ -46,6 +45,8 @@ useEffect(() => {
 if (!nodesState) {
   return <GraphContainer></GraphContainer>;
 }
+
+const [selectedAccountId, setSelectedAccountId] = useState(null);
 
 const [message, setMessage] = useState(null);
 
@@ -109,11 +110,42 @@ useEffect(() => {
   }
 }, [selectedAccountId]);
 
+const graphEdge = Social.keys(
+  `${context.accountId}/graph/${graphId}/${accountId}`,
+  undefined,
+  {
+    values_only: true,
+  }
+);
+
+const inverseEdge = Social.keys(
+  `${accountId}/graph/${graphId}/${context.accountId}`,
+  undefined,
+  {
+    values_only: true,
+  }
+);
+
+const loading = graphEdge === null || inverseEdge === null;
+const attested = graphEdge && Object.keys(graphEdge).length;
+const inverse = inverseEdge && Object.keys(inverseEdge).length;
+
+const type = attested ? "undo" : graphId;
+
+const attestation = props.attestation ?? {
+  graph: { [graphId]: { [accountId]: attested ? null : "" } },
+};
+
+const attest = () => {
+  Social.set(data);
+};
+
 let height = props.height || 325;
 
 const code = `
 <!DOCTYPE html>
 <meta charset="utf-8">
+
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v6.js"></script>
 
@@ -160,7 +192,7 @@ const run = (data) => {
   const svg = d3.select("#graph")
       .attr("width", width)
       .attr("height", height)
-      .attr("viewBox", [0, 0, width, height])  
+      .attr("viewBox", [0, 0, width, height])
       .attr("style", "max-width: 100%; height: auto;");
 
   // Add a line for each link, and a circle for each node.
@@ -172,6 +204,7 @@ const run = (data) => {
     .join("line")
       .attr("stroke-width", 1);
 
+
 const node = svg.append("g")
   .selectAll("g")
   .data(nodes)
@@ -180,7 +213,7 @@ const node = svg.append("g")
 
   node
     .append("image")
-    .attr("xlink:href", (d) => \`https://i.near.social/magic/thumbnail/https://near.social/magic/img/account/\${d.id}\`)
+    .attr("xlink:href", (d) => \`https://i.near.social/magic/thumbnail/https://near.social/magic/img/account/\${d.id}\`) // Set the image URL based on your data
     .attr("x", (d) => -Math.sqrt(d.size) - 5)
     .attr("y", (d) => -Math.sqrt(d.size) - 5)
     .attr("clip-path", d => \`circle(\${Math.sqrt(d.size) + 5}px at \${Math.sqrt(d.size) + 5} \${Math.sqrt(d.size) + 5})\`)
@@ -206,7 +239,7 @@ const node = svg.append("g")
 
   function handleMouseClick(e) {
     const d = e.target.__data__;
-    window.top.postMessage(d.id, "*");
+    window.top.postMessage({ handler: "click", data:  d.id }, "*");
   }
 
   function handleMouseOver(d) {
@@ -218,6 +251,8 @@ const node = svg.append("g")
     node.attr("opacity", function (n) {
         return n === d || isConnected(d, n) ? 1: 0.3;
     });
+
+    window.top.postMessage({ handler: "mouseover", data:  d.id }, "*");
 }
 
 function handleMouseOut() {
@@ -228,6 +263,8 @@ function handleMouseOut() {
     link
       .attr("stroke-opacity", 0.6);
     node.attr("opacity", 1);
+
+    window.top.postMessage({ handler: "mouseout", data:  "out" }, "*");
 }
 
 function isConnected(a, b) {
@@ -273,6 +310,11 @@ function isConnected(a, b) {
     handleMouseOut();
   }
 
+  // When this cell is re-run, stop the previous simulation. (This doesn’t
+  // really matter since the target alpha is zero and the simulation will
+  // stop naturally, but it’s a good practice.)
+  // invalidation.then(() => simulation.stop());
+
   return simulation;
 };
 
@@ -294,7 +336,11 @@ window.addEventListener("message", (event) => {
 const [onMessage] = useState(() => {
   return (data) => {
     if (data) {
-      setSelectedAccountId(data);
+      switch (data.handler) {
+        case "click":
+          setSelectedAccountId(data.data);
+          break;
+      }
     }
   };
 });
