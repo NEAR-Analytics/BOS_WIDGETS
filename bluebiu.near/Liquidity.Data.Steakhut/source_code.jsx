@@ -116,7 +116,6 @@ function formatedData() {
 function getDataList() {
   pairs.forEach(pair => {
     const findIndex = allData.findIndex(data => pair.poolAddress === data.id)
-    console.log('=findIndex', findIndex)
     if (findIndex > -1) {
       dataList.push({
         ...pair,
