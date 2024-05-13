@@ -15,7 +15,7 @@ const tooltipContentClassname =
 
 const TooltipContent = ({ className, sideOffset, children, ...props }) => (
   <Tooltip.Content
-    ref={ref}
+    ref="forwardedRef"
     sideOffset={sideOffset ?? 4}
     className={className ?? tooltipContentClassname}
     {...props}
