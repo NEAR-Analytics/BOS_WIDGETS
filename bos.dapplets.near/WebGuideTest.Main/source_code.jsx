@@ -151,8 +151,6 @@ const handleClickNext = () => {
 }
 
 const ChapterWrapper = (props) => {
-  console.log(props, guideConfig)
-
   const currentChapter = guideConfig.chapters[chapterCounter]
   if (!currentChapter) return <></>
   const pages = currentChapter.pages
@@ -227,7 +225,6 @@ const ChapterWrapper = (props) => {
     />
   )
 }
-
 
 return showApp ? (guideConfig.chapters[chapterCounter]?.type === 'infobox' ? (
   <OverlayTriggerWrapper>
