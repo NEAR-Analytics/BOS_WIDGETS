@@ -130,7 +130,7 @@ useEffect(() => {
   })
     .then((res) => {
       const data = res.body?.data;
-      if (!data) throw Error;
+      if (!data || data.noPair) throw Error;
       let priceImpact = null;
 
       if (
