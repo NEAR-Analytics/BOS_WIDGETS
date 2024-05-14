@@ -24,7 +24,6 @@ const flattenObject = (obj) => {
   } catch (e) {}
   return paths;
 };
-// devs.near/project/name-of-the-project
 const fetchProjects = () => {
   const keys = Social.keys(`*/${app}/${type}/*`, "final", {
     order: "desc",
@@ -105,11 +104,19 @@ const [filters, setFilters] = useState({
 });
 const [showFilterModal, setShowFilterModal] = useState(false);
 const [showCreateModal, setShowCreateModal] = useState(false);
+const [showCreateOptionsModal, setShowCreateOptionsModal] = useState(false);
+const [showImportModal, setShowImportModal] = useState(false);
 const toggleFilterModal = () => {
   setShowFilterModal((prev) => !prev);
 };
 const toggleCreateModal = () => {
   setShowCreateModal((prev) => !prev);
+};
+const toggleImportModal = () => {
+  setShowImportModal((prev) => !prev);
+};
+const toggleCreateOptionsModal = () => {
+  setShowCreateOptionsModal((prev) => !prev);
 };
 const filteredProjects = useMemo(() => {
   let filtered = projects;
@@ -159,7 +166,7 @@ return (
     data-bs-theme="dark"
   >
     <Widget
-      src="buildhub.near/widget/components.modals.FilterProjects"
+      src="buildhub.near/widget/components.modals.projects.Filters"
       loading=""
       props={{
         showModal: showFilterModal,
@@ -170,14 +177,35 @@ return (
       }}
     />
     <Widget
-      src="buildhub.near/widget/components.modals.CreateProject"
+      src="buildhub.near/widget/components.modals.projects.ImportAndCreate"
+      loading=""
+      props={{
+        showModal: showCreateOptionsModal,
+        toggleModal: toggleCreateOptionsModal,
+        onClickImport: () => {
+          setShowCreateOptionsModal(false);
+          setShowImportModal(true);
+        },
+        onClickCreate: () => {
+          setShowCreateOptionsModal(false);
+          setShowCreateModal(true);
+        },
+      }}
+    />
+    <Widget
+      src="buildhub.near/widget/components.modals.projects.PotlockImport"
+      loading=""
+      props={{
+        showModal: showImportModal,
+        toggleModal: toggleImportModal,
+      }}
+    />
+    <Widget
+      src="buildhub.near/widget/components.modals.projects.Create"
       loading=""
       props={{
         showModal: showCreateModal,
         toggleModal: toggleCreateModal,
-        filters: filters,
-        setFilters: setFilters,
-        tagFilters,
       }}
     />
     <div className="my-3 d-flex align-items-center justify-content-between">
@@ -185,7 +213,10 @@ return (
         Projects
       </h2>
       {context.accountId && (
-        <Button variant="primary" onClick={() => setShowCreateModal(true)}>
+        <Button
+          variant="primary"
+          onClick={() => setShowCreateOptionsModal(true)}
+        >
           Create Project
         </Button>
       )}
