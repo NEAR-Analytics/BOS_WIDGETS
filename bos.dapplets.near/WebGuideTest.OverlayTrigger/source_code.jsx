@@ -564,7 +564,10 @@ const navButtons = props.type === 'callout' ? (
 
 const callout = (
   <CustomTooltip bsPrefix="wg-tooltip">
-    <Callout>
+    <Callout 
+      data-mweb-context-type="wg-chapter" 
+      data-mweb-context-parsed={JSON.stringify({ id: props.id })}
+    >
       {header}
       {props.status?.text ? statuses : null}
       <Title $type={props.type}>
