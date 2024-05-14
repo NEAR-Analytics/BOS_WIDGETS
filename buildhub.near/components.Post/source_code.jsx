@@ -260,8 +260,6 @@ const contentWidget = (
           disable: permissions.disableRepost,
           notifyAccountId,
           item,
-          // indexKey,
-          // groupId,
         }}
       />
       <span>Repost Feed</span>
@@ -337,8 +335,6 @@ return (
                       disable: permissions.disableRepost,
                       notifyAccountId,
                       item,
-                      // indexKey,
-                      // groupId,
                     }}
                   />
                 </RepostWidgetDesktop>
