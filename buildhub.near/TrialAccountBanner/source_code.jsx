@@ -4,18 +4,6 @@ const { Button, Avatar } = VM.require("buildhub.near/widget/components") || {
 };
 const [loading, setLoading] = useState(false);
 const [btnText, setBtnText] = useState("Create Trial Account");
-// const TaglineSmall = styled.h2`
-//     max-width: 700px;
-//     text-align: center;
-//     font-size: 1.1rem;
-//     font-style: normal;
-//     font-weight: 400;
-//     line-height: 130%; /* 57.6px */
-//     margin: 0;
-//     text-wrap: balance;
-//     span.muted {
-//         color: rgba(255, 255, 255, 0.7);
-//     }
 const Container = styled.div`
   background-color: #000000;
   color: #fff;
