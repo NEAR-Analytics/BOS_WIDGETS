@@ -4,7 +4,7 @@ const accountId = context.accountId;
 
 // Declaring variables
 const voteId = props.vote && props.vote;
-// const voteId = 113239184;
+// const voteId = 118863372;
 
 // All the votes
 const allVotes = Social.index("voteChainTest", "vote")
@@ -34,11 +34,21 @@ useEffect(() => {
 // Set the value of votetorender by adding other parties and candidates to it
 function getValue() {
   console.log(otherCandidates, "this");
+  console.log(
+    allVotes,
+    voteId,
+    allVotes.find((vote) => vote.blockHeight === voteId),
+    "vote___"
+  );
   var temp = allVotes.find((vote) => vote.blockHeight === voteId);
   var votesOnThis = votes.filter(
     (vote) => vote.value.voteId === voteId && vote.value.by && vote.value.party
   );
-  console.log(temp, allVotes, voteId, "temp");
+  console.log(
+    temp,
+    allVotes.find((vote) => vote.blockHeight === voteId),
+    "temp___"
+  );
   return {
     ...temp,
     value: {
