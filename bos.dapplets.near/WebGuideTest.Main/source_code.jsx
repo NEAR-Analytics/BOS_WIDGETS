@@ -83,7 +83,7 @@ const nestedCalloutConfig = {
     namespace: "mweb",
     contextType: "wg-chapter",
     injectTo: "hidden",
-    if: { id: { eq: "bos.dapplets.near/mutation/EarTrigger" } }, // ID of the last chapter
+    if: { id: { eq: "bos.dapplets.near/app/Tipping/2" } }, // ID of the last chapter
     arrowTo: "context",
     pages: [
       {
