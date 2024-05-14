@@ -151,6 +151,8 @@ const handleClickNext = () => {
 }
 
 const ChapterWrapper = (props) => {
+  console.log(props)
+  
   const currentChapter = guideConfig.chapters[chapterCounter]
   if (!currentChapter) return <></>
   const pages = currentChapter.pages
