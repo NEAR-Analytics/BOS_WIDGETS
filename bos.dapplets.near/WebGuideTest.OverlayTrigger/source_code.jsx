@@ -1,7 +1,3 @@
-/**
- * Based on: mob.near/widget/N.Common.OverlayTrigger
- */
-
 const CustomTooltip = styled("DappletTooltip")`
   z-index: 9999999; // over the notch
 
@@ -49,6 +45,40 @@ const CustomTooltip = styled("DappletTooltip")`
   }
 `
 
+const InfoBox = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 546px;
+  height: 656px;
+  background: #fffffe;
+  border: 1px solid #02193A;
+  border-radius: 20px;
+  padding: 20px;
+  gap: 20px;
+  z-index: 1000;
+  box-shadow: none;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  align-items: center;
+  justify-content: center;
+
+  animation: falling-animation 0.3s linear forwards;
+
+  @keyframes falling-animation {
+    from {
+      transform: translate(-50%, -200%);
+    }
+
+    to {
+      transform: translate(-50%, -50%);
+    }
+  }
+`
+
 const Callout = styled.div`
   display: flex;
   width: 320px;
@@ -60,36 +90,18 @@ const Callout = styled.div`
   border-radius: 10px;
   border: 1px solid #02193a;
   background: #fffffe;
-  font-family: sans-serif;
-`
-
-const CalloutTitle = styled.div`
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  color: #02193a;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 149%; /* 26.82px */
-`
-
-const CalloutDescription = styled.div`
-  color: #7a818b;
-  text-align: center;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 149%; /* 17.88px */
 `
 
 const Header = styled.div`
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  color: #02193a;
   position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
   justify-content: center;
   align-items: center;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  color: #02193A;
 `
 
 const TopLine = styled.div`
@@ -116,7 +128,7 @@ const CalloutHeaderCaption = styled.div`
   line-height: 149%;
 `
 
-const Container = styled.div`
+const PagesIndicators = styled.div`
   width: auto;
   height: 24px;
   padding: 4px;
@@ -145,13 +157,15 @@ const Close = styled.button`
   cursor: pointer;
 `
 
-const Arrow = styled.button`
-  position: absolute;
-  top: -5px;
-  right: -46px;
-  background: inherit;
-  border: none;
-  outline: none;
+const Title = styled.div`
+  padding: 0;
+  margin: 0 0 -10px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  color: #02193a;
+  font-size: ${(props) => (props.$type === "infobox" ? "32px" : "18px")};
+  font-style: normal;
+  font-weight: 600;
+  line-height: 149%;
 `
 
 const WrapperAlert = styled.div`
@@ -189,9 +203,92 @@ const TextAlert = styled.span`
 
 const IconAlert = styled.span``
 
+const Card = styled.div`
+  position: relative;
+  overflow: auto;
+  display: flex;
+  flex: 1;
+  height: 100%;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 12px 20px;
+  gap: 10px;
+  border: none;
+  border-radius: 20px;
+  background: rgba(248, 249, 255, 1);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  overflow-x: hidden;
+`
+
+const MarkdownWrapper = styled.div`
+  h3 {
+    padding: 8px 0 0;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    color: #121212;
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+    text-indent: 16px;
+  }
+
+  img {
+    position: relative;
+    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+    height: auto !important;
+    border-radius: 10px;
+    flex: none;
+    flex-grow: 0;
+    border: 1px solid rgb(207, 217, 222);
+  }
+
+  p {
+    padding: 0;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 149%;
+    color: #777777;
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+  }
+
+  a {
+    padding: 0;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 149%;
+    text-decoration-line: underline !important;
+    color: #384BFF;
+    cursor: 'poiner';
+  }
+`
+
+const Footer = styled.div`
+  display: flex;
+  position: relative;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  gap: 20px;
+`
+
 const ContainerCheckbox = styled.div`
   display: flex;
-  align-items: center;
+  align-items: ${(props) => (props.$type === "infobox" ? "flex-end" : "flex-start")};
 `
 
 const CheckboxInput = styled.input`
@@ -208,23 +305,27 @@ const Label = styled.label`
   line-height: 17.88px;
   color: #7a818b;
   cursor: pointer;
+  width: max-content;
 `
 
 const ActionsGroup = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: ${(props) => (props.$type === "infobox" ? "row-reverse" : "row")};
+  justify-content: ${(props) => (props.$type === "infobox" ? "space-between" : "center")};;
   align-items: center;
   gap: 10px;
   align-self: stretch;
+  flex-grow: 1;
 `
 
 const ActionButton = styled.div`
   display: flex;
+  box-sizing: border-box;
+  width: 180px;
   height: 42px;
   padding: 0px 20px;
   justify-content: center;
   align-items: center;
-  flex: 1 0 0;
   border-radius: 90px;
   text-align: center;
   font-size: 14px;
@@ -390,81 +491,130 @@ const {
   onDoNotShowChange,
 } = props
 
-const overlay = (
+const header = (
+  <Header>
+    <TopLine>
+      <CalloutHeaderCaption>
+        Step {navi?.currentChapterIndex + 1} of {navi?.totalChapters}
+      </CalloutHeaderCaption>
+      <PagesIndicators>
+        {navi.totalPages > 1 && [...Array(navi?.totalPages)].map(
+          (_, index) => (
+            <Navi
+              key={index}
+              $active={index == navi?.currentPageIndex ? true : false}
+            />
+          )
+        )}
+      </PagesIndicators>
+      <Close onClick={onClose}>{iconClose}</Close>
+    </TopLine>
+  </Header>
+)
+
+const statuses = (
+  <WrapperAlert $status={props.status.type}>
+    <IconAlert>
+      {props.status.type === "warning"
+        ? warningIcon
+        : props.status.type === "error"
+        ? errorIcon
+        : infoIcon}
+    </IconAlert>
+    <TextAlert>{props.status.text}</TextAlert>
+  </WrapperAlert>
+)
+
+const checkbox = (
+  <ContainerCheckbox $type={props.type}>
+    <CheckboxInput
+      type="checkbox"
+      checked={checked}
+      onChange={onDoNotShowChange}
+    />
+    <Label htmlFor="checkbox">Don't show this guide again</Label>
+  </ContainerCheckbox>
+)
+
+const actionButton = (btn) => (
+  <ActionButton
+    key={btn.label}
+    $primary={btn.variant == "primary" ? true : false}
+    onClick={btn.onClick}
+    disabled={btn.disabled}
+  >
+    {btn.label}
+  </ActionButton>
+)
+
+const navButtons = props.type === 'callout' ? (
+  <ActionsGroup $type={props.type}>
+    {buttons.map((btn) => actionButton(btn))}
+  </ActionsGroup>
+) : buttons?.length > 1 ? (
+  <ActionsGroup $type={props.type}>
+    {actionButton(buttons[1])}
+    {actionButton(buttons[0])}
+  </ActionsGroup>
+) : buttons?.length === 1 ? (
+  <ActionsGroup $type={props.type}>
+    {actionButton(buttons[0])}
+  </ActionsGroup>
+) : <></>
+
+const callout = (
   <CustomTooltip bsPrefix="wg-tooltip">
     <Callout>
-      <Header>
-        <TopLine>
-          <CalloutHeaderCaption>
-            Step {navi?.currentChapterIndex + 1} of {navi?.totalChapters}
-          </CalloutHeaderCaption>
-          <Container>
-            {navi.totalPages > 1 && [...Array(navi?.totalPages)].map((_, index) => (
-              <Navi
-                key={index}
-                $active={index == navi?.currentPageIndex ? true : false}
-              />
-            ))}
-          </Container>
-          <Close onClick={onClose}>{iconClose}</Close>
-        </TopLine>
-      </Header>
-
-      {props.status && props.status.text ? (
-        <WrapperAlert $status={props.status.type}>
-          <IconAlert>
-            {props.status.type === "warning"
-              ? warningIcon
-              : props.status.type === "error"
-              ? errorIcon
-              : infoIcon}
-          </IconAlert>
-          <TextAlert>{props.status.text}</TextAlert>
-        </WrapperAlert>
-      ) : null}
-
-      <CalloutTitle>{title}</CalloutTitle>
-
-      <Markdown text={content} />
-      {showChecked ? (
-        <ContainerCheckbox>
-          <CheckboxInput
-            type="checkbox"
-            checked={checked}
-            onChange={onDoNotShowChange}
-          />
-          <Label htmlFor="checkbox">Don't show this guide again</Label>
-        </ContainerCheckbox>
-      ) : null}
-
-      <ActionsGroup>
-        {buttons.map((btn, index) => (
-          <ActionButton
-            key={index}
-            $primary={btn.variant == "primary" ? true : false}
-            onClick={btn.onClick}
-            disabled={btn.disabled}
-          >
-            {btn.label}
-          </ActionButton>
-        ))}
-      </ActionsGroup>
+      {header}
+      {props.status?.text ? statuses : null}
+      <Title $type={props.type}>
+        {title}
+      </Title>
+      <MarkdownWrapper>
+        <Markdown text={content}/>
+      </MarkdownWrapper>
+      {showChecked ? checkbox : null}
+      {navButtons}
     </Callout>
   </CustomTooltip>
 )
 
-return (
-  <DappletOverlayTrigger
-    show={true}
-    overlay={overlay}
-    placement={props.placement ?? "auto"}
-    offset={[0, 20]}
-    popperConfig={{ strategy: props.strategy ?? 'absolute' }}
-  >
-    {typeof props.children === "function" ? (
-      props.children
-    ) : (
-      <span>{props.children}</span>
-    )}
-  </DappletOverlayTrigger>
+const infobox = (
+  <InfoBox>
+    {header}
+    <Title $type={props.type}>
+      {title}
+    </Title>
+    <Card>
+      {props.status?.text ? statuses : null}
+      <MarkdownWrapper>
+        <Markdown text={content}/>
+      </MarkdownWrapper>
+    </Card>
+    <Footer>
+      {showChecked ? checkbox : null}
+      {navButtons}
+    </Footer>
+  </InfoBox>
 )
+
+const overlayByType = {
+  callout: (
+    <DappletOverlayTrigger
+      show={true}
+      overlay={callout}
+      placement={props.placement ?? "auto"}
+      offset={[0, 20]}
+      popperConfig={{ strategy: props.strategy ?? 'absolute' }}
+    >
+      {typeof props.children === "function" ? (
+        props.children
+      ) : (
+        <span>{props.children}</span>
+      )}
+    </DappletOverlayTrigger>
+  ),
+  infobox,
+}
+
+return overlayByType[props.type]
