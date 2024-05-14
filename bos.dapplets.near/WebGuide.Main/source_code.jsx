@@ -220,11 +220,6 @@ const handleClickNext = () => {
   }
 }
 
-const chapterComponentIdByTypes = {
-  infobox: "bos.dapplets.near/widget/WebGuide.InfoBox",
-  callout: "bos.dapplets.near/widget/WebGuide.OverlayTrigger",
-}
-
 const ChapterWrapper = (props) => {
   const currentChapter = guideConfig.chapters[chapterCounter]
   if (!currentChapter) return <></>
@@ -262,7 +257,7 @@ const ChapterWrapper = (props) => {
 
   return  (
     <Widget
-      src={chapterComponentIdByTypes[currentChapter.type]}
+      src='bos.dapplets.near/widget/WebGuide.OverlayTrigger'
       loading={props?.children}
       props={{
         type: currentChapter.type,
