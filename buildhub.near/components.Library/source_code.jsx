@@ -676,6 +676,7 @@ const renderMenuItem = (c, i) => {
 const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
+  background: var(--bg-1, #000000);
   gap: 1rem;
   .main {
     grid-column: span 4 / span 4;
