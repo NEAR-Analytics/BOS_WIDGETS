@@ -43,33 +43,29 @@ const Wrapper = styled.div`
 
 return (
   <Wrapper>
-    <div className="aside card text-center">
+    <div className="card text-center">
       <div id="tabs" className="card-header">
         <ul className="nav nav-tabs card-header-tabs">
-          <li class="nav-item">
-            <a
-              href="https://near.social/abnakore.near/widget/VoteChain"
-              className={`nav-item  ${
-                active === "https://near.social/abnakore.near/widget/VoteChain"
-                  ? "active"
-                  : ""
-              }`}
-            >
-              <i class="bi bi-house-fill fs-4"></i>
-            </a>
-          </li>
+          <a
+            href="https://near.social/abnakore.near/widget/VoteChain"
+            className={`nav-item  ${
+              active === "https://near.social/abnakore.near/widget/VoteChain"
+                ? "active"
+                : ""
+            }`}
+          >
+            <i class="bi bi-house-fill fs-4"></i>
+          </a>
           {/* Render the objs as links */}
           {props.objs.map((obj) =>
             obj.type === "button" ? (
-              <li key={obj.link} class="nav-item">
-                <a
-                  class={`nav-link tab ${active === obj.link ? "active" : ""}`}
-                  aria-current={active === obj.link}
-                  href={obj.link}
-                >
-                  <button>{obj.name}</button>
-                </a>
-              </li>
+              <a
+                class={`nav-link tab ${active === obj.link ? "active" : ""}`}
+                aria-current={active === obj.link}
+                href={obj.link}
+              >
+                <button>{obj.name}</button>
+              </a>
             ) : (
               <li key={obj.link} class="nav-item">
                 <a
