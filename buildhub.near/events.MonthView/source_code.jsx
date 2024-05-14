@@ -341,6 +341,13 @@ return (
           >
             Join Now
           </Button>
+          <Widget
+            src="buildhub.near/widget/events.GoogleCalendarJoin"
+            loading=""
+            props={{
+              data: data,
+            }}
+          />
           {eventAuthor === context.accountId && (
             <Button
               onClick={handleDelete}
