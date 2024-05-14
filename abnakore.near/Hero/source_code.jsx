@@ -34,14 +34,9 @@ const Styled = styled.div`
 .hero {
   position: relative;
   /* For background animation */
-  height: 100vh;
+  height: 100%;
+  width: 100%
   /* Full viewport height */
-  text-align: center;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   /* Contain animation */
 }
 
@@ -87,6 +82,15 @@ const Styled = styled.div`
   color: #fff;
   opacity: 0;
   animation: fade-in 1s ease-in forwards;
+  width: 100%;
+  height: 100%;
+
+  text-align: center;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 @keyframes fade-in {
   from {
