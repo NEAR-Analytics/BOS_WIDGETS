@@ -104,7 +104,8 @@ return (
           body: (
             <div className="main-body">
               <div className="body-contents">
-                <div className="two-sides">
+                <Widget src="abnakore.near/widget/Hero" props={{}} />
+                <div id="votes" className="two-sides">
                   <Widget
                     src="abnakore.near/widget/Aside"
                     props={{ objs: pages, active: "/admin/manage_candidates" }}
