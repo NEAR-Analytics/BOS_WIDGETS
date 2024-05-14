@@ -1,10 +1,7 @@
-const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK");
+const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => {});
 const { InputField } = VM.require("buildhub.near/widget/components") || {
   InputField: <></>,
 };
-if (!DaoSDK) {
-  return <></>;
-}
 const [groupsAndMembers, setGroupsAndMembers] = useState([]);
 const [selectedRoles, setSelectedRoles] = useState({}); // { role:boolean }
 const daoId = props.daoId || "build.sputnik-dao.near";
@@ -16,6 +13,9 @@ const [message, setMessage] = useState(
 );
 const bootstrapTheme = props.bootstrapTheme || "dark";
 const sdk = DaoSDK(daoId);
+if (!sdk) {
+  return <></>;
+}
 const group = sdk.getGroupsAndMembers();
 if (group === null || !group.length) {
   return;
