@@ -38,7 +38,7 @@ function getValue() {
   var votesOnThis = votes.filter(
     (vote) => vote.value.voteId === voteId && vote.value.by && vote.value.party
   );
-  console.log(temp, "temp");
+  console.log(temp, allVotes, voteId, "temp");
   return {
     ...temp,
     value: {
