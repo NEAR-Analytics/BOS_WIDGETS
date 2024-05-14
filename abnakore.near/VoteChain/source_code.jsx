@@ -119,8 +119,13 @@ return (
                             src="abnakore.near/widget/VoteCard"
                             props={{
                               ...vote.value,
-                              candidates:
-                                vote.value.candidates.concat(otherCandidates),
+                              candidates: vote.value.candidates.concat(
+                                otherCandidates.filter(
+                                  (candidate) =>
+                                    parseFloat(candidate.value.voteId) ===
+                                    parseFloat(vote.blockHeight)
+                                )
+                              ),
                               style: {},
                             }}
                           />
