@@ -19,6 +19,9 @@ const memoizedKey = useMemo((editorKey) => editorKey, [editorKey]);
 const selectedDAO = props.selectedDAO;
 const [notificationsData, setNotificationData] = useState(null);
 const sdk = DaoSDK(selectedDAO);
+if (!sdk) {
+  return <></>;
+}
 const MarkdownEditor = `
   html {
     background: #23242b;
