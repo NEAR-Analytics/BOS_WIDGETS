@@ -119,34 +119,34 @@ useEffect(() => {
     setPages([
       {
         name: "Voting Page",
-        link: `https://near.org/abnakore.near/widget/App.jsx?vote=${voteToRender.blockHeight}`,
+        link: `https://near.social/abnakore.near/widget/App.jsx?vote=${voteToRender.blockHeight}`,
       },
       {
         name: "Result",
-        link: `https://near.org/abnakore.near/widget/Result.jsx?vote=${voteToRender.blockHeight}`,
+        link: `https://near.social/abnakore.near/widget/Result.jsx?vote=${voteToRender.blockHeight}`,
       },
       {
         name: "Admin Home",
-        link: `https://near.org/abnakore.near/widget/AdminHome?vote=${voteToRender.blockHeight}`,
+        link: `https://near.social/abnakore.near/widget/AdminHome?vote=${voteToRender.blockHeight}`,
       },
       {
         name: "Manage Candidates",
-        link: `https://near.org/abnakore.near/widget/ManageCandidates?vote=${voteToRender.blockHeight}`,
+        link: `https://near.social/abnakore.near/widget/ManageCandidates?vote=${voteToRender.blockHeight}`,
       },
       {
         name: "Mange Parties",
-        link: `https://near.org/abnakore.near/widget/ManageParties?vote=${voteToRender.blockHeight}`,
+        link: `https://near.social/abnakore.near/widget/ManageParties?vote=${voteToRender.blockHeight}`,
       },
     ]);
   } else {
     setPages([
       {
         name: "Voting Page",
-        link: `https://near.org/abnakore.near/widget/App.jsx?vote=${voteToRender.blockHeight}`,
+        link: `https://near.social/abnakore.near/widget/App.jsx?vote=${voteToRender.blockHeight}`,
       },
       {
         name: "Result",
-        link: `https://near.org/abnakore.near/widget/Result.jsx?vote=${voteToRender.blockHeight}`,
+        link: `https://near.social/abnakore.near/widget/Result.jsx?vote=${voteToRender.blockHeight}`,
       },
     ]);
   }
