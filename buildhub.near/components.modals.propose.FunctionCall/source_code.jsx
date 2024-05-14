@@ -2,9 +2,6 @@ const { Button } = VM.require("buildhub.near/widget/components") || {
   Button: () => <></>,
 };
 const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => {});
-if (!DaoSDK) {
-  return <></>;
-}
 const [contract, setContract] = useState("");
 const [method, setMethod] = useState("");
 const [args, setArgs] = useState("{}");
@@ -26,6 +23,9 @@ useEffect(() => {
 const memoizedKey = useMemo((editorKey) => editorKey, [editorKey]);
 const selectedDAO = props.selectedDAO;
 const sdk = DaoSDK(selectedDAO);
+if (!sdk) {
+  return <></>;
+}
 const regex = /.{1}\.near$/;
 useEffect(() => {
   if (regex.test(contract) || contract === "") {
