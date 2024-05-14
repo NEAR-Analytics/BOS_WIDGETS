@@ -4,7 +4,7 @@ const accountId = context.accountId;
 
 // Declaring variables
 const voteId = props.vote && props.vote;
-// const voteId = 118863372;
+// const voteId = "118863372";
 
 // All the votes
 const allVotes = Social.index("voteChainTest", "vote")
@@ -37,14 +37,23 @@ function getValue() {
   console.log(
     allVotes,
     voteId,
-    allVotes.find((vote) => vote.blockHeight === voteId),
+    allVotes.find(
+      (vote) => parseFloat(vote.blockHeight) === parseFloat(voteId)
+    ),
     "vote___"
   );
-  var temp = allVotes.find((vote) => vote.blockHeight === voteId)
-    ? allVotes.find((vote) => vote.blockHeight === voteId)
+  var temp = allVotes.find(
+    (vote) => parseFloat(vote.blockHeight) === parseFloat(voteId)
+  )
+    ? allVotes.find(
+        (vote) => parseFloat(vote.blockHeight) === parseFloat(voteId)
+      )
     : {};
   var votesOnThis = votes.filter(
-    (vote) => vote.value.voteId === voteId && vote.value.by && vote.value.party
+    (vote) =>
+      parseFloat(vote.value.voteId) === parseFloat(voteId) &&
+      vote.value.by &&
+      vote.value.party
   );
   console.log(
     temp,
