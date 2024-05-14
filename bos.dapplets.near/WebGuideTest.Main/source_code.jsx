@@ -159,7 +159,7 @@ const ChapterWrapper = (props) => {
 
   return  (
     <Widget
-      src='bos.dapplets.near/widget/WebGuide.OverlayTrigger'
+      src='bos.dapplets.near/widget/WebGuideTest.OverlayTrigger'
       loading={props?.children}
       props={{
         type: currentChapter.type,
