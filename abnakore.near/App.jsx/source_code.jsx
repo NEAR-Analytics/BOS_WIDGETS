@@ -40,7 +40,9 @@ function getValue() {
     allVotes.find((vote) => vote.blockHeight === voteId),
     "vote___"
   );
-  var temp = allVotes.find((vote) => vote.blockHeight === voteId);
+  var temp = allVotes.find((vote) => vote.blockHeight === voteId)
+    ? allVotes.find((vote) => vote.blockHeight === voteId)
+    : {};
   var votesOnThis = votes.filter(
     (vote) => vote.value.voteId === voteId && vote.value.by && vote.value.party
   );
@@ -53,7 +55,7 @@ function getValue() {
     ...temp,
     value: {
       ...temp.value,
-      parties: temp.value.parties.concat(
+      parties: temp.value?.parties?.concat(
         otherParties
           .filter(
             (party) =>
@@ -66,8 +68,8 @@ function getValue() {
             acronym: party.value.acronym,
           }))
       ),
-      candidates: temp.value.candidates
-        .concat(
+      candidates: temp.value?.candidates
+        ?.concat(
           // Add other candidates to the list of all candidates
           otherCandidates
             .filter(
