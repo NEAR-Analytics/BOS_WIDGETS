@@ -374,6 +374,13 @@ const EventGroup = ({ date }) => {
                   >
                     Join Now
                   </Button>
+                  <Widget
+                    src="buildhub.near/widget/events.GoogleCalendarJoin"
+                    loading=""
+                    props={{
+                      data: event,
+                    }}
+                  />
                   {eventAuthor === context.accountId && (
                     <Button
                       onClick={handleDelete}
