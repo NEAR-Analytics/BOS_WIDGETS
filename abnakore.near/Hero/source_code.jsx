@@ -37,6 +37,12 @@ const Styled = styled.div`
   height: 100vh;
   width: 100vw;
   /* Full viewport height */
+  text-align: center;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   /* Contain animation */
 }
 
@@ -82,15 +88,6 @@ const Styled = styled.div`
   color: #fff;
   opacity: 0;
   animation: fade-in 1s ease-in forwards;
-  width: 100%;
-  height: 100%;
-
-  text-align: center;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 @keyframes fade-in {
   from {
@@ -158,10 +155,8 @@ return (
         <div class="">
           <h2>Vote with confidence. Vote with power. Vote decentralized.</h2>
           <div class="hero-buttons">
-            <a href="https://near.social/abnakore.near/widget/CreateVote">
-              Create a Vote
-            </a>
-            <a href="#votes">Cast Your Vote</a>
+            <a href="#">Create a Vote</a>
+            <a href="#">Learn More</a>
           </div>
         </div>
       </div>
