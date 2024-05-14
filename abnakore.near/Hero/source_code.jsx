@@ -60,11 +60,6 @@ const Styled = styled.div`
   z-index: -1;
   height: 100%;
   background: url(https://ipfs.near.social/ipfs/bafybeihp7g44qet2eaiklsccug3gerjt3dxbqw5wblij7s3zh7zpdnez7a) center/cover no-repeat;
-   
-  
-  ${
-    /*background: url(https://s3.amazonaws.com/snwceomedia/dpn/3d4362fd-de19-4e00-9495-6f75674ee861.sized-1000x1000.gif?w=1000) center/cover no-repeat;*/ ""
-  }
   
 }
 .hero-background .overlay {
@@ -133,10 +128,6 @@ const Styled = styled.div`
 }
 `;
 
-// const videoUrl =
-//   "https://media.istockphoto.com/id/1401456149/video/people-voting.mp4?s=mp4-640x640-is&k=20&c=jPBUgwMnXQH40jRM5FkgRwEdPR_TBMX0u4S6thg1WH4=";
-const videoUrl =
-  "http://127.0.0.1:5501/vote-chain/src/assets/tests/istockphoto-1401456149-640_adpp_is-ezgif.com-video-to-gif-converter.gif";
 return (
   <Styled>
     <div class="hero">
