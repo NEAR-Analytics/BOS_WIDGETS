@@ -578,6 +578,7 @@ const callout = (
       </MarkdownWrapper>
       {showChecked ? checkbox : null}
       {navButtons}
+      <div data-mweb-insertion-point="hidden" style={{ display: 'none' }}/>
     </Callout>
   </CustomTooltip>
 )
