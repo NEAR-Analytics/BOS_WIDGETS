@@ -3,8 +3,8 @@ const accountId = context.accountId;
 
 // Declaring variables
 // !!!
-// const voteId = props.vote && props.vote;
-const voteId = 113239184;
+const voteId = props.vote && props.vote;
+// const voteId = 113239184;
 
 // All the votes
 const allVotes = Social.index("voteChainTest", "vote")
