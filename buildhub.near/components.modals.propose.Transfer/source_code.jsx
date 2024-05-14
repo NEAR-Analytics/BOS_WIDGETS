@@ -2,9 +2,6 @@ const { Button } = VM.require("buildhub.near/widget/components") || {
   Button: () => <></>,
 };
 const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => {});
-if (!DaoSDK) {
-  return <></>;
-}
 const [recipient, setRecipient] = useState("");
 const [token, setToken] = useState("");
 const [amount, setAmount] = useState(0);
@@ -25,6 +22,9 @@ useEffect(() => {
 const memoizedKey = useMemo((editorKey) => editorKey, [editorKey]);
 const selectedDAO = props.selectedDAO;
 const sdk = DaoSDK(selectedDAO);
+if (!sdk) {
+  return <></>;
+}
 const res = fetch(`https://api.nearblocks.io/v1/account/${selectedDAO}/tokens`);
 const NearTokenId = "NEAR";
 const tokensData = [
