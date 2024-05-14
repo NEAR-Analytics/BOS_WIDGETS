@@ -46,6 +46,12 @@ return (
     <div className="aside">
       <div id="tabs">
         {/* Render the objs as links */}
+        <a
+          href="https://near.social/abnakore.near/widget/VoteChain"
+          className={`tab ${active === obj.link ? "active" : ""}`}
+        >
+          <i class="bi bi-house-fill fs-4"></i>
+        </a>
         {props.objs.map((obj) =>
           obj.type === "button" ? (
             <a
@@ -65,6 +71,7 @@ return (
             </a>
           )
         )}
+
         {/* <Link to='/' className="tab">Vote Page</Link>
                     <Link to='/result' className="tab">Results</Link>
                     <Link to='/' className="tab">Login/Logout</Link> */}
@@ -72,6 +79,7 @@ return (
     </div>
   </Wrapper>
 );
+//
 
 // .aside {
 //   position: fixed;
