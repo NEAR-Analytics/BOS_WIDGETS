@@ -12,7 +12,7 @@ const uploadFile = (files) => {
   });
 
   setImg(file.body.cid);
-  //   setMsg("Upload an Image");
+  setMsg("Upload an Image");
 };
 
 return (
