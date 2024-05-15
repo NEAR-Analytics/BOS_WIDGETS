@@ -303,7 +303,7 @@ return showApp ? (guideConfig.chapters[chapterCounter]?.type === 'infobox' ? (
     </DappletOverlay>
   </OverlayTriggerWrapper>
 ) : (
-  <MuWebWrapperPortal
+  <DappletPortal
     target={{
       namespace: guideConfig.chapters[chapterCounter]?.namespace,
       contextType: guideConfig.chapters[chapterCounter]?.contextType,
