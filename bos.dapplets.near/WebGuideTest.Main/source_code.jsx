@@ -1,5 +1,3 @@
-console.log(props.link.id)
-
 const twitterConfig = {
   chapters: [
     {
