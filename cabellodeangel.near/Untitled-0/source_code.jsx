@@ -3,10 +3,12 @@ const [count, setCount] = useState(1);
 
 return (
   <div>
-    <p>
-      {" "}
-      {count} aplausos para {name}!{" "}
-    </p>
+    <div style={{ paddingLeft: "20px" }}>
+      <p>
+        {" "}
+        {count} aplausos para {name}!{" "}
+      </p>
+    </div>
     <button onClick={() => setCount(count + 1)}>Aplaudir!</button>
   </div>
 );
