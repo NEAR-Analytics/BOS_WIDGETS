@@ -644,7 +644,11 @@ function handleBorrow() {
     Ethers.provider().getSigner()
   );
   contract
-    .borrowAsset(parseUnits(amount, tokenDecimals), 0, account)
+    .borrowAsset(
+      parseUnits(Number(amount).toFixed(6), tokenDecimals),
+      0,
+      account
+    )
     .then((tx) => {
       tx.wait()
         .then((res) => {
