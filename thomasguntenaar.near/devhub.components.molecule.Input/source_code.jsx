@@ -6,7 +6,6 @@ const TextInput = ({
   label,
   multiline,
   onChange,
-  debounceTimeout,
   placeholder,
   type,
   value,
@@ -15,7 +14,6 @@ const TextInput = ({
   error,
   ...otherProps
 }) => {
-  onChange = typeof onChange === "function" ? onChange : () => {};
   State.init({
     data: value,
     error: error,
@@ -38,7 +36,7 @@ const TextInput = ({
       }
       const handler = setTimeout(() => {
         onChange({ target: { value: state.data }, error: inputError });
-      }, debounceTimeout ?? 30);
+      }, 30);
 
       return () => {
         clearTimeout(handler);
@@ -155,17 +153,19 @@ const TextInput = ({
               data-testid={key}
               aria-label={label}
               className={
-                inputClassName ||
-                `form-control border ${
-                  inputProps.prefix ? "border-start-0" : ""
-                }`
+                inputClassName
+                  ? inputClassName
+                  : [
+                      "form-control border",
+                      inputProps.prefix ? "border-start-0" : "",
+                    ].join(" ")
               }
               type={typeAttribute}
               maxLength={inputProps.max}
               value={state.data}
               onChange={(e) => State.update({ data: e.target.value })}
               onBlur={(e) => {
-                if (typeof onBlur === "function") {
+                if (props.onBlur) {
                   onBlur({ target: { value: e.target.value } });
                 }
               }}
@@ -194,7 +194,7 @@ const TextInput = ({
           value={state.data}
           onChange={(e) => State.update({ data: e.target.value })}
           onBlur={(e) => {
-            if (typeof onBlur === "function") {
+            if (props.onBlur) {
               onBlur({ target: { value: e.target.value } });
             }
           }}
