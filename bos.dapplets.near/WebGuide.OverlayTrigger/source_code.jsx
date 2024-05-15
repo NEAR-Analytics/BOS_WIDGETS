@@ -1,4 +1,4 @@
-const CustomTooltip = styled("DappletTooltip")`
+const CustomTooltip = styled("Tooltip")`
   z-index: 9999999; // over the notch
 
   &[data-popper-reference-hidden="true"] {
@@ -600,7 +600,7 @@ const infobox = (
 
 const overlayByType = {
   callout: (
-    <DappletOverlayTrigger
+    <OverlayTrigger
       show={true}
       overlay={callout}
       placement={props.placement ?? "auto"}
@@ -612,7 +612,7 @@ const overlayByType = {
       ) : (
         <span>{props.children}</span>
       )}
-    </DappletOverlayTrigger>
+    </OverlayTrigger>
   ),
   infobox,
 }
