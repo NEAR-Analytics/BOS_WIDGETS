@@ -829,6 +829,7 @@ const TitleComponent = useMemo(() => {
         skipPaddingGap: true,
         inputProps: {
           max: 80,
+          required: true,
         },
       }}
     />
@@ -849,6 +850,7 @@ const SummaryComponent = useMemo(() => {
         skipPaddingGap: true,
         inputProps: {
           max: 500,
+          required: true,
         },
       }}
     />
