@@ -1,4 +1,17 @@
-// TODO issue 599
-const { Sidebar, Content, editData, onSubmit, BlogPostSettings } = props;
+const { parametersData, onSubmitSettings, onHideSettings } = props;
 
-// Show something lik
+return (
+  <div className="d-flex gap-1 align-items-end justify-content-end">
+    <button className="btn btn-light" onClick={onHideSettings}>
+      Cancel
+    </button>
+    <Widget
+      src={"thomasguntenaar.near/widget/devhub.components.molecule.BlogControl"}
+      props={{
+        title: "Save Settings",
+        onClick: () => onSubmitSettings(),
+        testId: "save-settings-button",
+      }}
+    />
+  </div>
+);
