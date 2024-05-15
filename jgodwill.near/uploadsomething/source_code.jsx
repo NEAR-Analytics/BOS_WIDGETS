@@ -22,6 +22,7 @@ const uploadFile = (files) => {
       return response.body;
     })
     .then((data) => {
+      console.log(data);
       setImg(data.cid);
     })
     .catch((error) => {
