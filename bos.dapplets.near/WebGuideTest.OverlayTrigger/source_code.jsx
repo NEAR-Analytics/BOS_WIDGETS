@@ -564,10 +564,7 @@ const navButtons = props.type === 'callout' ? (
 
 const callout = (
   <CustomTooltip bsPrefix="wg-tooltip">
-    <Callout 
-      data-mweb-context-type="wg-chapter" 
-      data-mweb-context-parsed={JSON.stringify({ id: props.id })}
-    >
+    <Callout>
       {header}
       {props.status?.text ? statuses : null}
       <Title $type={props.type}>
@@ -578,7 +575,6 @@ const callout = (
       </MarkdownWrapper>
       {showChecked ? checkbox : null}
       {navButtons}
-      <div data-mweb-insertion-point="hidden" style={{ display: 'none' }}/>
     </Callout>
   </CustomTooltip>
 )
