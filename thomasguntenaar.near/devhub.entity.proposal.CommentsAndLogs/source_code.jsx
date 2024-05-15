@@ -81,7 +81,7 @@ State.init({
 });
 
 function sortTimelineAndComments() {
-  const comments = Social.index("comment", props.item, { subscribe: true });
+  const comments = Social.index("comment", props.item);
 
   if (state.changedKeysListWithValues === null) {
     const changedKeysListWithValues = snapshotHistory
@@ -260,8 +260,6 @@ function parseTimelineKeyAndValue(timeline, originalValue, modifiedValue) {
           </span>
         )
       );
-    case "payouts":
-      return <span>updated the funding payment links.</span>;
     // we don't have this step for now
     // case "request_for_trustees_created":
     //   return !oldValue && newValue && <span>successfully created request for trustees</span>;
@@ -390,7 +388,7 @@ const Log = ({ timestamp }) => {
   }
 
   return valuesArray.map((i, index) => {
-    if (i.key && i.key !== "timestamp" && i.key !== "proposal_body_version") {
+    if (i.key && i.key !== "timestamp") {
       return (
         <LogIconContainer
           className="d-flex gap-3 align-items-center"
