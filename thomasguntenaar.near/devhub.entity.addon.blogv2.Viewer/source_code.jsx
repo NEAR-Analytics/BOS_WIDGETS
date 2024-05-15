@@ -2,9 +2,13 @@ const { Card } =
   VM.require("thomasguntenaar.near/widget/devhub.entity.addon.blogv2.Card") ||
   (() => <></>);
 
+if (!Card) {
+  return <p>Loading modules...</p>;
+}
+
 const { href } = VM.require("thomasguntenaar.near/widget/core.lib.url") || (() => {});
 
-const { handle, hideTitle, communityAddonId } = props;
+const { data, handle, hideTitle, communityAddonId } = props;
 
 const Grid = styled.div`
   display: grid;
@@ -42,16 +46,14 @@ const CardContainer = styled.div`
   }
 `;
 
-const blogData =
-  Social.get(
-    [
-      // `${handle}.community.devhub.near/blog/**`,
-      "thomasguntenaar.near/blog/**",
-    ],
-    "final"
-  ) || {};
+if (!handle) {
+  return <div>Missing handle</div>;
+}
 
-const reshapedData = Object.keys(blogData)
+const blogData =
+  Social.get([`${handle}.community.devhub.near/blog/**`], "final") || {};
+
+const processedData = Object.keys(blogData)
   .map((key) => {
     return {
       ...blogData[key].metadata,
@@ -68,8 +70,7 @@ const reshapedData = Object.keys(blogData)
     return new Date(blog2.publishedAt) - new Date(blog1.publishedAt);
   });
 
-function BlogCard(flattenedBlog) {
-  console.log("BlogCard handle", handle);
+function BlogCardWithLink(flattenedBlog) {
   return (
     <Link
       style={{ textDecoration: "none" }}
@@ -78,21 +79,32 @@ function BlogCard(flattenedBlog) {
         params: { page: "blogv2", id: flattenedBlog.id, community: handle },
       })}
     >
-      <CardContainer>
-        <Card data={flattenedBlog} />
-      </CardContainer>
+      {BlogCard(flattenedBlog)}
     </Link>
   );
 }
-console.log("VIEWER blogdata", blogData);
+
+function BlogCard(flattenedBlog) {
+  return (
+    <CardContainer>
+      <Card data={flattenedBlog} />
+    </CardContainer>
+  );
+}
 
 return (
   <div class="w-100">
-    {!hideTitle && <Heading>Latest Blog Posts</Heading>}
+    {!hideTitle && <Heading> Latest Blog Posts</Heading>}
     <Grid>
-      {(reshapedData || []).map((flattenedBlog) => {
-        return BlogCard(flattenedBlog);
-      })}
+      {processedData && processedData.length > 0
+        ? processedData.map((flattenedBlog) => BlogCardWithLink(flattenedBlog))
+        : BlogCard({
+            category: "Category",
+            title: "Placeholder",
+            subtitle: "No blog data yet",
+            publishedAt: new Date().toISOString(),
+            id: "new",
+          })}
     </Grid>
   </div>
 );
