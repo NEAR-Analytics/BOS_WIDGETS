@@ -137,6 +137,7 @@ return (
     <CardBody>
       <Thumbnail>
         <Widget
+         loading={<></>}
           src="mob.near/widget/Image"
           props={{
             image: metadata.image,
