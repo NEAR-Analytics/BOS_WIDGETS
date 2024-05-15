@@ -1,5 +1,6 @@
 const {
   pairs,
+  sender,
   addresses,
   allData,
   stakingPoolsData,
@@ -8,7 +9,7 @@ const {
   curChain,
   FEE_APR_URL,
   multicallAddress,
-  prices
+  prices,
 } = props
 
 const MULTICALL_ABI = [
@@ -128,7 +129,7 @@ function asyncFetchWithPromise(url, options) {
     asyncFetch(url, options || {}).then(result => {
       try {
         if (result.ok) {
-          resolve(JSON.parse(result.body))
+          resolve(typeof result.body === 'string' ? JSON.parse(result.body) : result.body)
         } else {
           reject(result.status)
         }
@@ -182,7 +183,7 @@ function getTvlUSD() {
       token0Balance,
       token1Balance,
     } = data.initialData
-    dataList[i].tvlUSD = Big(ethers.utils.formatUnits(token0Balance, data.decimals0)).times(prices[data.token0]).plus(Big(ethers.utils.formatUnits(token1Balance, data.decimals1)).times(prices[data.token1])).toFixed(2)
+    dataList[i].tvlUSD = Big(ethers.utils.formatUnits(token0Balance ?? 0, data.decimals0)).times(prices[data.token0]).plus(Big(ethers.utils.formatUnits(token1Balance ?? 0, data.decimals1)).times(prices[data.token1])).toFixed(2)
   }
   formatedData('getTvlUSD')
 }
@@ -196,63 +197,27 @@ function handleGetBaseApr(baseAprUrl) {
   })
 }
 function getFeeApr() {
-
-  const totalSupplyCalls = []
-  const getTotalAmountsColls = []
-  const balanceOfColls = []
   const baseAprUrl = []
   dataList.forEach(data => {
-    totalSupplyCalls.push({
-      address: addresses[data.id],
-      name: 'totalSupply'
-    })
-    getTotalAmountsColls.push({
-      address: addresses[data.id],
-      name: "getTotalAmounts",
-    })
-    balanceOfColls.push({
-      address: addresses[data.id],
-      name: "balanceOf",
-      params: [data.stakingAddress]
-    })
     baseAprUrl.push(`${FEE_APR_URL}?address=${addresses[data.id]}&chain=${curChain.chain_id}&interval=604800`)
   })
   const promiseArray = []
-  if (curChain.chain_id === 169) {
-    promiseArray.push(multicallv2WithPromise(ERC20_ABI, totalSupplyCalls, {}))
-    promiseArray.push(multicallv2WithPromise(ERC20_ABI, getTotalAmountsColls, {}))
-    promiseArray.push(multicallv2WithPromise(ERC20_ABI, balanceOfColls, {}))
-  }
   promiseArray.push(handleGetBaseApr(baseAprUrl))
+  promiseArray.push(asyncFetchWithPromise(`https://api.angle.money/v2/merkl?chainIds[]=${curChain.chain_id}&user=${sender}`))
   Promise.all(promiseArray).then(result => {
+    const [baseAprResult, merklResult] = result
     for (let i = 0; i < dataList.length; i++) {
-      const data = dataList[i]
-      if (curChain.chain_id === 169) {
-        // first value
-        const staking = stakingPoolsData.find(pool => pool.stakingPool.toLowerCase() === data.stakingAddress.toLowerCase())
-        const {
-          dailyEmissionRewardA, dailyEmissionRewardB, rewardTokenADetail, rewardTokenBDetail
-        } = staking
-        const firstValue = Big(Big(dailyEmissionRewardA).times(prices[rewardTokenADetail.symbol])
-          .plus(Big(dailyEmissionRewardB).times(prices[rewardTokenBDetail.symbol]))).times(365)
-        // second value
-        const [totalSupplyResult, getTotalAmountsResult, balanceOfResult, baseAprResult] = result
-        const total0 = ethers.utils.formatUnits(getTotalAmountsResult[i][0], data.decimals0)
-        const total1 = ethers.utils.formatUnits(getTotalAmountsResult[i][1], data.decimals1)
-        const totalSupply = ethers.utils.formatUnits(totalSupplyResult[i][0], 18)
-        const priceLp = Big(Big(total0)
-          .times(prices[data.token0])
-          .plus(Big(total1).times(prices[data.token1]))
-        ).div(totalSupply)
-        const amountLp = ethers.utils.formatUnits(balanceOfResult[i][0], 18)
-        const secondValue = Big(priceLp).times(amountLp)
-        const stakingAPR = Big(firstValue).div(secondValue).times(100)
-        console.log('=stakingAPR', stakingAPR.toString(), '=baseAprResult[i]?.apr', baseAprResult[i]?.apr)
-        dataList[i].feeApr = Big(stakingAPR).plus(baseAprResult[i]?.apr ?? 0).toFixed(2) + '%'
-      } else {
-        const [baseAprResult] = result
-        dataList[i].feeApr = Big(baseAprResult[i]?.apr ?? 0).toFixed(2) + '%'
+      const vaultAddress = addresses[dataList[i].id]
+      const poolAddress = dataList[i].poolAddress
+      let almAPR = null
+      try {
+        const merkl = merklResult[curChain.chain_id]?.pools[ethers.utils.getAddress(poolAddress)]
+        const alm = merkl?.alm[ethers.utils.getAddress(vaultAddress)]
+        almAPR = alm?.almAPR ?? 0
+      } catch (error) {
+        almAPR = 0
       }
+      dataList[i].feeApr = Big(baseAprResult[i]?.apr ?? 0).plus(almAPR).toFixed(2) + '%'
     }
     formatedData("getFeeApr")
   }).catch(error => {
@@ -311,7 +276,7 @@ function getBalance() {
     (result) => {
       for (let i = 0; i < result.length; i++) {
         const element = result[i];
-        dataList[i].balance = Big(ethers.utils.formatUnits(element[0], 18)).toFixed(4)
+        dataList[i].balance = ethers.utils.formatUnits(element[0], 18)
       }
       formatedData('getBalance')
       getLiquidity()
