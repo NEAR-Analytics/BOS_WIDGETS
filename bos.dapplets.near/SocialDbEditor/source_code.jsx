@@ -50,7 +50,7 @@ const handleSaveClick = () => {
 };
 
 return (
-  <div class="container">
+  <div>
     <div style={{ marginBottom: "1rem" }}>
       <label for="query">Contract ID</label>
       <input
@@ -68,7 +68,6 @@ return (
         className="form-control"
         value={modifiedJson}
         onChange={(e) => setModifiedJson(e.target.value)}
-        style={{ fontFamily: "monospace", fontSize: 14 }}
         rows="15"
       ></textarea>
     </div>
