@@ -293,7 +293,7 @@ const nearSocialConfig = {
           id: "bos.dapplets.near/mutation/EarTrigger/copy/1",
           status: [],
           title: "Apps control panel",
-          content: '[See other Mutable Web facilities on X](https://augm.link/mutate/?t=https%3A%2F%2Ftwitter.com%2FMrConCreator&m=bos.dapplets.near%2FSandbox)',
+          content: '[See other Mutable Web facilities on X](https://augm.link/mutate/?t=https%3A%2F%2Ftwitter.com%2FMrConCreator&m=bos.dapplets.near%2Fmutation%2FSandbox)',
         },
       ],
     },
