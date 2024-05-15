@@ -1,14 +1,15 @@
 function getRootMembers() {
-  return Near.view("devgovgigs.near", "get_root_members") ?? null;
+  return Near.view("devhub.near", "get_root_members") ?? null;
 }
 
 function removeMember(member) {
-  return Near.call("devgovgigs.near", "remove_member", { member });
+  return Near.call("devhub.near", "remove_member", { member });
 }
 
 function hasModerator({ account_id }) {
   return (
-    Near.view("devgovgigs.near", "has_moderator", { account_id }) ?? null
+    Near.view("devhub.near", "has_moderator", { account_id }) ??
+    null
   );
 }
 
@@ -86,7 +87,9 @@ function getAllAddons() {
 }
 
 function getAccessControlInfo() {
-  return Near.view("devgovgigs.near", "get_access_control_info") ?? null;
+  return (
+    Near.view("devhub.near", "get_access_control_info") ?? null
+  );
 }
 
 function getAllAuthors() {
