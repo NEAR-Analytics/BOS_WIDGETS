@@ -191,10 +191,14 @@ const progress = Big(totalSupply)
   .mul(100)
   .div(Big("576167000").mul(Big(10).pow(tokenDecimals)))
   .toFixed(3);
-const price = fetch(
-  "https://api.dexscreener.com/latest/dex/pairs/near/refv1-4369"
-).body.pair.priceUsd;
-const marketCap = Big(price).mul("576167000").toFixed(2);
+const price = JSON.parse(
+  fetch("https://api.ref.finance/get-token-price?token_id=token.0xshitzu.near")
+    .body
+).price;
+const marketCap = Big(price)
+  .mul(totalSupply)
+  .div(Big(10).pow(tokenDecimals))
+  .toFixed(2);
 
 const Wrapper = styled.div`
     display: flex;
@@ -233,10 +237,7 @@ return (
     <Progress progress={progress}>{progress}% complete</Progress>
 
     <h5>Market Cap: {marketCap}$</h5>
-    <span>
-      (mcap calculation includes all SHITZUv1 & v2, so it assumes that all
-      SHITZU will be migrated at some point.)
-    </span>
+    <span>(mcap calculation only includes SHITZUv2)</span>
 
     <a
       style={{ alignSelf: "center" }}
@@ -248,8 +249,8 @@ return (
 
     <Text>
       This BOS component lets you migrate SHITZU from Aurora to the new contract
-      on Near. This migration will run indefinitely and you can migrate SHITZU
-      1:1 for the new token. The old SHITZU has address
+      on Near. The migration will close on June 15th 0:00am UTC. Until then you
+      can migrate SHITZU 1:1 for the new token. The old SHITZU has address
       0x68e401B61eA53889505cc1366710f733A60C2d41 and can be bought at{" "}
       <a href="https://www.trisolaris.io/" target="_blank">
         Trisolaris
