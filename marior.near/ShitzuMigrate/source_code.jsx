@@ -20,6 +20,7 @@ const shitzuDaoAddress = "shitzu.sputnik-dao.near";
 const shitzuContractAddress = "0x68e401B61eA53889505cc1366710f733A60C2d41";
 const migrateContractAddress = "0xA6f40A8Ca2CE1A5D570A52BD34897aBDF75438FF";
 const tokenDecimals = 18;
+const migrationEndTime = new Date("2024-06-15T00:00:00.000Z");
 
 const migrateAbi = fetch(
   "https://raw.githubusercontent.com/Shitzu-Apes/token/main/abi/ShitzuMigrate.abi"
@@ -229,12 +230,56 @@ const Progress = styled.div`
   background: ${({ progress }) =>
     `linear-gradient(to right, lightblue 0% ${progress}%, lightgrey ${progress}% 100%)`};
 `;
+const Countdown = styled.div`
+  border: 1px solid #f00;
+  border-radius: 0.6rem;
+  background: #fcc;
+  padding: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+`;
+
+if (state.migrationEndDiff === undefined) {
+  State.update({
+    migrationEndDiff: Math.trunc(
+      (migrationEndTime.valueOf() - Date.now()) / 1_000
+    ),
+  });
+  return "";
+}
+setTimeout(() => {
+  State.update({
+    migrationEndDiff: Math.trunc(
+      (migrationEndTime.valueOf() - Date.now()) / 1_000
+    ),
+  });
+}, 1_000);
+
+const seconds = String(state.migrationEndDiff.valueOf() % 60).padStart(2, "00");
+const minutes = String(
+  Math.trunc((state.migrationEndDiff.valueOf() / 60) % 60)
+).padStart(2, "00");
+const hours = String(
+  Math.trunc((state.migrationEndDiff.valueOf() / (60 * 60)) % 24)
+).padStart(2, "00");
+const days = String(
+  Math.trunc(state.migrationEndDiff.valueOf() / (60 * 60 * 24))
+);
 
 return (
   <Wrapper>
     <h2 style={{ alignSelf: "center" }}>SHITZU Migration</h2>
 
-    <Progress progress={progress}>{progress}% complete</Progress>
+    <Countdown>
+      <h3>Migration will close indefinitely in:</h3>
+      {days}:{hours}:{minutes}:{seconds}
+    </Countdown>
+
+    <Progress progress={progress}>{progress}% migrated</Progress>
 
     <h5>Market Cap: {marketCap}$</h5>
     <span>(mcap calculation only includes SHITZUv2)</span>
