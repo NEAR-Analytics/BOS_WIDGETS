@@ -334,7 +334,7 @@ const nestedCalloutConfig = {
 
 // ToDo: move to a smart contract
 const guideConfigByLinkId = {
-  'e4a93c289e9a2f042489a8c9fd827a31': twitterConfig,
+  // 'e4a93c289e9a2f042489a8c9fd827a31': twitterConfig,
   '114a78557d9044ff8c6e0177bcbe690a': nearSocialConfig,
   '0b492fd62c72d7ad87c7658e2b3a4f1e': nestedCalloutConfig
 }
