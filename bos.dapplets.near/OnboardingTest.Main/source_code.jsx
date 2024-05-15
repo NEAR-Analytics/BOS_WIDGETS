@@ -178,6 +178,7 @@ return (
       <DappletOverlay>
         <Onboarding>
           <Widget
+           loading={<></>}
             props={{
               handleClose,
               data,
