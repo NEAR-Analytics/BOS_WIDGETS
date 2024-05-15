@@ -5,32 +5,6 @@ const { data, editPostId, handleItemClick, selectedItem } = props;
 const options = { year: "numeric", month: "short", day: "numeric" };
 const formattedDate = (date) => new Date(date).toLocaleString("en-US", options);
 
-// TODO move this to the provider
-const reshapedData =
-  Object.keys(data || {}).map((key) => {
-    return {
-      id: key,
-      content: data[key][""],
-      createdAt: formattedDate(data[key].metadata.createdAt),
-      updatedAt: formattedDate(data[key].metadata.updatedAt),
-      publishedAt: formattedDate(data[key].metadata.publishedAt),
-      ...data[key].metadata,
-      // title: data[key].metadata.title,
-      // status: data[key].metadata.status,
-      // author: data[key].metadata.author,
-      // description: data[key].metadata.description,
-      // subtitle: data[key].metadata.subtitle,
-      // category: data[key].metadata.category,
-    };
-  }) ||
-  // .sort((blog1, blog2) => {
-  //   // sort by published date
-  //   return new Date(blog2.publishedAt) - new Date(blog1.publishedAt);
-  // })
-  [];
-
-console.log("reshapedData", reshapedData);
-
 const blogData = [
   {
     id: "new",
@@ -38,34 +12,42 @@ const blogData = [
     status: "DRAFT",
     createdAt: new Date().toISOString().slice(0, 10),
     updatedAt: new Date().toISOString().slice(0, 10),
-    publishedAt: "mm-dd-yyyy",
+    publishedAt: "yyyy-MM-dd",
     content: "",
     author: "",
     description: "",
     subtitle: "",
   },
-  ...reshapedData,
+  ...data,
 ];
 
 return (
   <table
     id="manage-blog-table"
-    className={`table table-hover table-sm ${props.hideColumns && "mt-5"}`}
+    className={`w-full table-auto text-sm text-left ${
+      props.hideColumns && "mt-5"
+    }`}
   >
-    <thead>
+    <thead className="bg-gray-50 text-gray-600 font-medium border-b">
       <tr>
-        <th scope="col">Name</th>
+        <th className="py-3 px-6">Name</th>
         {props.hideColumns ? null : (
           <>
-            <th scope="col">Status</th>
-            <th scope="col">Created At</th>
-            <th scope="col">Updated At</th>
-            <th scope="col">Visible Publish Date</th>
+            <th className="py-3 px-6">Status</th>
+            <th className="py-3 px-6" data-testid="createdAt">
+              Created At
+            </th>
+            <th className="py-3 px-6" data-testid="updatedAt">
+              Updated At
+            </th>
+            <th className="py-3 px-6" data-testid="publishedAt">
+              Visible Publish Date
+            </th>
           </>
         )}
       </tr>
     </thead>
-    <tbody>
+    <tbody className="text-gray-600 divide-y">
       {(blogData || []).map((it) => {
         // Hide the new blog post item unless selectedItem is new
         if (it.id === "new" && selectedItem !== "new") {
@@ -78,23 +60,40 @@ return (
             key={it.id}
             onClick={() => handleItemClick(it)}
           >
-            <td
-              scope="row"
-              className={
-                it.id === selectedItem.id ||
-                (it.id === "new" && selectedItem === "new")
-                  ? "table-success"
-                  : ""
-              }
-            >
-              {it.title}
+            <td scope="row" className={`px-6 py-4 whitespace-nowrap`}>
+              {it.id === selectedItem.id ||
+              (it.id === "new" && selectedItem === "new") ? (
+                <span
+                  className={`px-3 py-2 rounded-full font-semibold text-xs ${"text-green-600 bg-green-50"}`}
+                >
+                  {it.title}
+                </span>
+              ) : (
+                it.title
+              )}
             </td>
             {!props.hideColumns ? (
               <>
-                <td>{it.status}</td>
-                <td>{it.createdAt}</td>
-                <td>{it.updatedAt}</td>
-                <td>{it.publishedAt}</td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span
+                    className={`px-3 py-2 rounded-full font-semibold text-xs ${
+                      it.status == "PUBLISH"
+                        ? "text-green-600 bg-green-50"
+                        : "text-blue-600 bg-blue-50"
+                    }`}
+                  >
+                    {it.status == "PUBLISH" ? "Published" : "Draft"}
+                  </span>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {formattedDate(it.createdAt)}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {formattedDate(it.updatedAt)}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {formattedDate(it.publishedAt)}
+                </td>
               </>
             ) : null}
           </tr>
