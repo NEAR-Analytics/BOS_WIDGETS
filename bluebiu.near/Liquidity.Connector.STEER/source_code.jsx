@@ -38,7 +38,6 @@ const {
   connectProps,
   prices,
 } = props
-
 const formatFiat = (value) => {
   const number = Number(value).toLocaleString("en", {
     currency: "USD",
@@ -277,7 +276,7 @@ const columnList = [{
     return (
       <>
         <TdTxt>{Big(data?.liquidity ?? 0).gt(0) ? `${formatFiat(data.liquidity)}` : "-"}</TdTxt>
-        {Big(data?.balance ?? 0).gt(0) && <TdTxt className="gray">{data.balance} LP</TdTxt>}
+        {Big(data?.balance ?? 0).gt(0) && <TdTxt className="gray">{Big(data?.balance ?? 0).lt(0.01) ? '<0.01' : Big(data.balance).toFixed(2)} LP</TdTxt>}
         <SvgIcon className={["icon-right", index === state.dataIndex ? "rotate" : ""]}>
           {IconRight}
         </SvgIcon>
@@ -293,6 +292,7 @@ return state.loading ? <Widget src="bluebiu.near/widget/0vix.LendingSpinner" /> 
         src={"bluebiu.near/widget/Liquidity.Data.STEER"}
         props={{
           pairs,
+          sender,
           addresses,
           allData: state.allData,
           stakingPoolsData: state.stakingPoolsData,
@@ -328,6 +328,7 @@ return state.loading ? <Widget src="bluebiu.near/widget/0vix.LendingSpinner" /> 
         prices,
         refetch,
         columnList,
+        curChain,
         userPositions: state.userPositions,
         dataIndex: state.dataIndex,
         onChangeDataIndex: handleChangeDataIndex,
