@@ -54,46 +54,7 @@ tab = normalize(tab);
 
 const [isLinkCopied, setLinkCopied] = useState(false);
 
-// TODO
-// CommunityAddOn
-const blogv2 = {
-  addon_id: "blogv2",
-  display_name: "BlogV2",
-  enabled: true,
-  id: "blogv2",
-  parameters: "{}",
-};
-
-// TODO remove
-const blog = {
-  addon_id: "blog",
-  display_name: "BlogV1",
-  enabled: true,
-  id: "blog",
-  parameters: "{}",
-};
-
-// TODO remove
-const tabs = [
-  {
-    title: "BlogV2",
-    view: "thomasguntenaar.near/widget/devhub.page.addon",
-    params: {
-      addon: blogv2,
-      handle: community.handle,
-      transactionHashes: props.transactionHashes,
-    },
-  },
-  {
-    title: "BlogV1",
-    view: "thomasguntenaar.near/widget/devhub.page.addon",
-    params: {
-      addon: blog,
-      handle: community.handle,
-      transactionHashes: props.transactionHashes,
-    },
-  },
-];
+const tabs = [];
 
 (community.addons || []).map((addon) => {
   addon.enabled &&
@@ -387,7 +348,6 @@ return (
           props={{
             ...currentTab.params,
             view, // default view for an addon, can come as a prop from a community or from a direct link to page.addon
-
             // below is temporary prop drilling until kanban and github are migrated
             permissions,
             handle: community.handle,
