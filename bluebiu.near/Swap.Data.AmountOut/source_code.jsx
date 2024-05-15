@@ -123,7 +123,7 @@ useEffect(() => {
         inputCurrency,
         outputCurrency,
         inputAmount: inputCurrencyAmount,
-        slippage,
+        slippage: slippage || 0.5,
         account,
       }),
     }),
