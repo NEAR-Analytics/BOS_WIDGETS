@@ -82,6 +82,7 @@ return (
                     props={{
                       onClick: () => handleRemoveWidget(widget.linkId),
                     }}
+                    loading={<></>}
                   />
                 )
               ) : null}
@@ -95,7 +96,7 @@ return (
               widgetSrc: widget.src,
             })}
           >
-            <Widget src={widget.src} props={widget.props} />
+            <Widget src={widget.src} props={widget.props} loading={<></>} />
             <div
               data-mweb-insertion-point="hidden"
               style={{ display: "none" }}
