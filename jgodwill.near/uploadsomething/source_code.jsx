@@ -12,12 +12,12 @@ const uploadFile = (files) => {
     headers: {
       "Content-Type": file.type, // Set content type based on file
     },
-    body: file, // Assuming direct file upload is supported
+    body: file,
   })
     .then((response) => {
       if (!response.ok) {
         setMsg("Upload failed!");
-        return Promise.reject(new Error("Upload failed")); // Reject with error message
+        return Promise.reject(new Error("Upload failed"));
       }
       return response.body;
     })
@@ -32,7 +32,6 @@ const uploadFile = (files) => {
       setMsg(<UploadField />);
     });
 
-  // Handle the promise if needed (optional)
   uploadPromise
     .then(() => {
       console.log("Upload successful!");
