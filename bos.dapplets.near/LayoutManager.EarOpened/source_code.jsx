@@ -89,7 +89,7 @@ return (
       top: suitableWidgets.length ? "" : "-20px",
     }}
   >
-    <Widget src="bos.dapplets.near/widget/LayoutManager.SupportingSpan" />
+    <Widget  loading={<></>} src="bos.dapplets.near/widget/LayoutManager.SupportingSpan" />
     <ActionsWrapper
       style={{
         backgroundColor: suitableWidgets.length ? "" : "#DB504A!important",
@@ -99,6 +99,7 @@ return (
         <ActionBlock key={widget.linkId}>
           {isEditMode ? (
             <Widget
+             loading={<></>}
               src="bos.dapplets.near/widget/LayoutManager.WidgetBadgeWrapper"
               props={{
                 widget,
@@ -106,27 +107,30 @@ return (
               }}
             />
           ) : null}
-          <Widget src={widget.src} props={widget.props} />
+          <Widget  loading={<></>} src={widget.src} props={widget.props} />
         </ActionBlock>
       ))}
       {isEditMode ? (
         <Widget
+         loading={<></>}
           src="bos.dapplets.near/widget/LayoutManager.Buttons.Apply"
           props={{ onClick: disableEditMode }}
         />
       ) : isMyLinksInjected ? (
         <Widget
+         loading={<></>}
           src="bos.dapplets.near/widget/LayoutManager.Buttons.Edit"
           props={{ onClick: enableEditMode }}
         />
       ) : null}
       <Widget
+       loading={<></>}
         src="bos.dapplets.near/widget/LayoutManager.Buttons.Plus"
         props={{ widgets: suitableWidgets, onClick: handleOpenMenu }}
       />
     </ActionsWrapper>
     {suitableWidgets.length ? (
-      <Widget src="bos.dapplets.near/widget/LayoutManager.SupportingSpan" />
+      <Widget  loading={<></>} src="bos.dapplets.near/widget/LayoutManager.SupportingSpan" />
     ) : null}
   </TriggerShowPanel>
 );
