@@ -115,7 +115,7 @@ const isVisibleStep = storageStepIndex === currentStepIndex;
 
 const callout = (
   <DappletCallout
-    arrow={<Widget src="bos.dapplets.near/widget/Onboarding.Arrow" />}
+    arrow={<Widget  loading={<></>} src="bos.dapplets.near/widget/Onboarding.Arrow" />}
   >
     <Callout>
       <CalloutHeader>
