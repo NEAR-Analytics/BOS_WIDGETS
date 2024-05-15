@@ -7,7 +7,7 @@ const SliderRoot = ({ className, orientation, ...props }) => {
   return (
     <Slider.Root
       ref="forwardedRef"
-      className={className ?? sliderRootClassname}
+      className={className ?? sliderClassname}
       orientation={orientation}
       {...props}
     >
