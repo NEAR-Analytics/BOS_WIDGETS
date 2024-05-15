@@ -58,7 +58,7 @@ function createEditTeam({
     if (!membersAndTeams.includes(member)) {
       // Add member
       txn.push({
-        contractName: "devgovgigs.near",
+        contractName: "devhub.near",
         methodName: "add_member",
         args: {
           member: member,
@@ -79,7 +79,7 @@ function createEditTeam({
   Near.call([
     ...txn,
     {
-      contractName: "devgovgigs.near",
+      contractName: "devhub.near",
       methodName: contractCall, // add_member || edit_member
       args: {
         member: `team:${teamName}`,
