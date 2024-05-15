@@ -448,9 +448,9 @@ return <Transactions>
     </div> : null
   }
 
-  {/* <div style={{ display: 'none' }}>
+  <div style={{ display: 'none' }}>
     <Widget
       src="bluebiu.near/widget/Mode.BridgeAuthority.Util"
     />
-  </div> */}
+  </div>
 </Transactions>;
