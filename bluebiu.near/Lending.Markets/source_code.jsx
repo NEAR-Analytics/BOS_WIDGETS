@@ -93,6 +93,7 @@ return (
           account,
           prices,
           totalCollateralUsd,
+          userTotalBorrowUsd,
         }}
       />
     ))}
