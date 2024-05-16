@@ -102,7 +102,7 @@ const ErrorMessage = ({ icons, message, mutedText }) => {
         {message}
       </h3>
 
-      <p className="mb-0 py-4 font-bold break-words px-2">{mutedText}</p>
+      <p className="mb-0 py-1 font-bold break-words px-2">{mutedText}</p>
     </div>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/ErrorMessage.jsx" */
@@ -382,27 +382,26 @@ function MainComponent({
       key: '',
       cell: (row) =>
         row?.description?.country_code ? (
-          <Tooltip.Provider>
-            <Tooltip.Root>
-              <Tooltip.Trigger asChild>
-                <img
-                  src={`https://flagcdn.com/48x36/${row?.description?.country_code?.toLowerCase()}.png`}
-                  alt={row?.description?.country}
-                  width={20}
-                  height={20}
-                />
-              </Tooltip.Trigger>
-              {row?.description?.country && (
-                <Tooltip.Content
-                  className=" h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words"
-                  align="center"
-                  side="top"
-                >
+          <OverlayTrigger
+            placement="top"
+            delay={{ show: 500, hide: 0 }}
+            overlay={
+              row?.description?.country ? (
+                <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words">
                   {row?.description?.country}
-                </Tooltip.Content>
-              )}
-            </Tooltip.Root>
-          </Tooltip.Provider>
+                </Tooltip>
+              ) : (
+                <></>
+              )
+            }
+          >
+            <img
+              src={`https://flagcdn.com/48x36/${row?.description?.country_code?.toLowerCase()}.png`}
+              alt={row?.description?.country}
+              width={20}
+              height={20}
+            />
+          </OverlayTrigger>
         ) : (
           <div className="w-4 h-4 bg-gray-300 text-black flex items-center justify-center text-xs dark:bg-black-200 dark:text-white">
             ?
@@ -456,20 +455,17 @@ function MainComponent({
               </Tooltip.Content>
             </Tooltip.Root>
           </Tooltip.Provider>
-          <Tooltip.Provider>
-            <Tooltip.Root>
-              <Tooltip.Trigger asChild>
-                <div>{row.publicKey ? shortenAddress(row.publicKey) : ''}</div>
-              </Tooltip.Trigger>
-              <Tooltip.Content
-                className=" h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words"
-                align="start"
-                side="bottom"
-              >
+          <OverlayTrigger
+            placement="bottom-start"
+            delay={{ show: 500, hide: 0 }}
+            overlay={
+              <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words">
                 {row.publicKey}
-              </Tooltip.Content>
-            </Tooltip.Root>
-          </Tooltip.Provider>
+              </Tooltip>
+            }
+          >
+            <div>{row.publicKey ? shortenAddress(row.publicKey) : ''}</div>
+          </OverlayTrigger>
         </>
       ),
       tdClassName: 'px-4 py-2 text-sm text-nearblue-600 dark:text-neargray-10',
@@ -647,27 +643,24 @@ function MainComponent({
                 className="bg-gray-50 dark:bg-black-600 pl-8 py-2"
               >
                 <div className="flex flex-wrap text-xs text-left font-semibold text-nearblue-600 dark:text-neargray-10 tracking-wider py-2">
-                  <Tooltip.Provider>
-                    <Tooltip.Root>
-                      <Tooltip.Trigger asChild>
-                        <div className="flex uppercase">
-                          <div>Uptime</div>
-                          <div>
-                            <Question className="w-4 h-4 fill-current ml-1" />
-                          </div>
-                        </div>
-                      </Tooltip.Trigger>
-                      <Tooltip.Content
-                        className=" h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words"
-                        align="start"
-                        side="top"
-                      >
+                  <OverlayTrigger
+                    placement="top-start"
+                    delay={{ show: 500, hide: 0 }}
+                    overlay={
+                      <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words">
                         {
                           'Uptime is estimated by the ratio of the number of produced blocks to the number of expected blocks. '
                         }
-                      </Tooltip.Content>
-                    </Tooltip.Root>
-                  </Tooltip.Provider>
+                      </Tooltip>
+                    }
+                  >
+                    <div className="flex uppercase">
+                      <div>Uptime</div>
+                      <div>
+                        <Question className="w-4 h-4 fill-current ml-1" />
+                      </div>
+                    </div>
+                  </OverlayTrigger>
                 </div>
                 <div className="flex flex-wrap text-xs text-left font-bold text-nearblue-600 dark:text-neargray-10 tracking-wider">
                   {!isNaN(productivityRatio)
@@ -684,27 +677,24 @@ function MainComponent({
                 className="bg-gray-50 dark:bg-black-600 px-4 py-2"
               >
                 <div className="flex flex-wrap text-xs text-left font-semibold text-nearblue-600 dark:text-neargray-10 tracking-wider py-2">
-                  <Tooltip.Provider>
-                    <Tooltip.Root>
-                      <Tooltip.Trigger asChild>
-                        <div className="flex uppercase whitespace-nowrap">
-                          <div>Latest block</div>
-                          <div>
-                            <Question className="w-4 h-4 fill-current ml-1" />
-                          </div>
-                        </div>
-                      </Tooltip.Trigger>
-                      <Tooltip.Content
-                        className=" h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words"
-                        align="start"
-                        side="top"
-                      >
+                  <OverlayTrigger
+                    placement="top-start"
+                    delay={{ show: 500, hide: 0 }}
+                    overlay={
+                      <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words">
                         {
                           'The block height the validation node reported in the most recent telemetry heartbeat.'
                         }
-                      </Tooltip.Content>
-                    </Tooltip.Root>
-                  </Tooltip.Provider>
+                      </Tooltip>
+                    }
+                  >
+                    <div className="flex uppercase whitespace-nowrap">
+                      <div>Latest block</div>
+                      <div>
+                        <Question className="w-4 h-4 fill-current ml-1" />
+                      </div>
+                    </div>
+                  </OverlayTrigger>
                 </div>
                 <div
                   className={`flex flex-wrap text-xs text-left font-bold  tracking-wider  ${
@@ -1125,24 +1115,21 @@ function MainComponent({
                       <Skeleton className="h-4 w-16 break-words" />
                     ) : (
                       <>
-                        <Tooltip.Provider>
-                          <Tooltip.Root>
-                            <Tooltip.Trigger asChild>
-                              <span>
-                                {TotalSupply && formatNumber
-                                  ? formatNumber(TotalSupply)
-                                  : ''}
-                              </span>
-                            </Tooltip.Trigger>
-                            <Tooltip.Content
-                              className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words"
-                              align="center"
-                              side="top"
-                            >
+                        <OverlayTrigger
+                          placement="top"
+                          delay={{ show: 500, hide: 0 }}
+                          overlay={
+                            <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words">
                               {totalSuppy + ' yoctoⓃ'}
-                            </Tooltip.Content>
-                          </Tooltip.Root>
-                        </Tooltip.Provider>{' '}
+                            </Tooltip>
+                          }
+                        >
+                          <span>
+                            {TotalSupply && formatNumber
+                              ? formatNumber(TotalSupply)
+                              : ''}
+                          </span>
+                        </OverlayTrigger>{' '}
                       </>
                     )}
                   </div>
