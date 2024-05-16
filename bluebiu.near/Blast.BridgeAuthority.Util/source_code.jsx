@@ -144,7 +144,7 @@ const getWithdrawalStatus = (hash, account) => {
                 if (res.status === 429) {
                     return 
                 }
-                return getWithdrawalStatus(hash, account)
+                // return getWithdrawalStatus(hash, account)
             }
             
             return res.body
