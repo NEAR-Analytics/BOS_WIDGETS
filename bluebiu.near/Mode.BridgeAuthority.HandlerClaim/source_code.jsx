@@ -255,6 +255,10 @@ function getAllStatus(txs) {
           currentTx.status = 1
         }
 
+        if (key === '0x3f56616a5ef981a38e28425b48b4779cd2a5952a0ef21609018eeeb1aa202d6f') {
+          currentTx.status = 1
+        }
+
 
         if (currentTx.fromChainId === 34443) {
             getETHWithdrawalsFromOp(account, currentTx.symbol === 'ETH' ? 1 : 2, currentTx.hash, (proveData) => {
