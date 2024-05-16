@@ -404,7 +404,7 @@ const getBalance = () => {
   }
   if (actionText === "Withdraw") {
     State.update({
-      balance: Big(data.userSupply).toFixed(6),
+      balance: Big(data.userSupply).toFixed(6, 0),
       balanceLoading: false,
     });
     return;
