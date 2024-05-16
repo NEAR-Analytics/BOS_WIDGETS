@@ -193,7 +193,7 @@ function handleProve(hash) {
   })
 }
 
-function handleWithdraw() {
+function handleWithdraw(hash) {
   if (currentChainId !== mainnet.id) {
     switchChain()
     return
@@ -236,7 +236,7 @@ function handleWithdraw() {
   })
 }
 
-function handleClaimUSDB() {
+function handleClaimUSDB(hash) {
   if (currentChainId !== mainnet.id) {
     switchChain()
     return
@@ -286,6 +286,7 @@ function getAllStatus(txs) {
     })
     const pArray = []
     let needFold = true
+
     pArray = Object.keys(txs).map(key => {
       const currentTx = txs[key]
       if (!currentTx.status) {
