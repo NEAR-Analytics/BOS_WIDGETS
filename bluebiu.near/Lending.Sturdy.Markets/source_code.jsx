@@ -12,7 +12,7 @@ const {
   prices,
 } = props;
 
-console.log("Markets--", props, markets);
+// console.log("Markets--", props, markets);
 
 const COLUMNS = [
   {
