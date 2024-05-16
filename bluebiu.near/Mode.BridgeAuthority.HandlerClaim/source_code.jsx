@@ -20,6 +20,7 @@ const {
   handleWithdrawalProve,
   checkOutputFinalized,
   handleWithdrawalClaim,
+  checkMessageOutput,
 } = VM.require('bluebiu.near/widget/Mode.BridgeAuthority.Util');
 
 const Transactions = styled.div`
@@ -160,7 +161,6 @@ function handleProve(tx) {
 
 
   handleWithdrawalProve(tx.proveData, () => {
-    console.log('success')
     toast?.dismiss(toastId);
     delete state.isLoadingTx[tx.hash]
     // getAllStatus(txs)
@@ -203,7 +203,6 @@ function handleCliaim(tx) {
   });
 
   handleWithdrawalClaim(tx.proveData, () => {
-    console.log('success')
     toast?.dismiss(toastId);
     delete state.isLoadingTx[tx.hash]
     // getAllStatus(txs)
@@ -256,17 +255,23 @@ function getAllStatus(txs) {
           currentTx.status = 1
         }
 
+
         if (currentTx.fromChainId === 34443) {
             getETHWithdrawalsFromOp(account, currentTx.symbol === 'ETH' ? 1 : 2, currentTx.hash, (proveData) => {
+              // console.log('proveData:', proveData)
+              
               currentTx.proveData = proveData
               if (currentTx.status === 1) { 
-                currentTx.status = 3 // need prove
-                resolve(currentTx)
+                checkMessageOutput(proveData.blockNumber, (l2OutputIndex) => {
+                  if (l2OutputIndex) {
+                    currentTx.status = 3 // need prove
+                  } 
+                  resolve(currentTx)
+                })
               }
 
               if (currentTx.status === 4) { // wating 7 days 
                 checkOutputFinalized(proveData, (isFinalized) => {
-                  console.log('isFinalized:', isFinalized)
                   if (isFinalized) {
                     currentTx.status = 5 // can cliam
                   }
@@ -310,7 +315,7 @@ useEffect(() => {
 
 useEffect(() => {
   const inter = setInterval(() => {
-    getAllStatus(txs)
+    // getAllStatus(txs)
   }, 30000)
 
   return () => {
