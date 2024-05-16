@@ -1487,24 +1487,21 @@ function MainComponent(props) {
 
         <div className="flex flex-wrap p-4">
           <div className="flex items-center w-full md:w-1/4 mb-2 md:mb-0">
-            <Tooltip.Provider>
-              <Tooltip.Root>
-                <Tooltip.Trigger asChild>
-                  <div>
-                    <Question className="w-4 h-4 fill-current mr-1" />
-                  </div>
-                </Tooltip.Trigger>
-                <Tooltip.Content
-                  className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                  align="start"
-                  side="bottom"
-                >
+            <OverlayTrigger
+              placement="bottom-start"
+              delay={{ show: 500, hide: 0 }}
+              overlay={
+                <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
                   {t
                     ? t('txns:txn.hash.tooltip')
                     : 'Unique identifier (hash) of this transaction.'}
-                </Tooltip.Content>
-              </Tooltip.Root>
-            </Tooltip.Provider>
+                </Tooltip>
+              }
+            >
+              <div>
+                <Question className="w-4 h-4 fill-current mr-1" />
+              </div>
+            </OverlayTrigger>
             {t ? t('txns:txn.hash.text.0') : 'Txn Hash'}
           </div>
           {loading ? (
@@ -1519,24 +1516,21 @@ function MainComponent(props) {
         </div>
         <div className="flex flex-wrap items-start p-4">
           <div className="flex items-center w-full md:w-1/4 mb-2 md:mb-0">
-            <Tooltip.Provider>
-              <Tooltip.Root>
-                <Tooltip.Trigger asChild>
-                  <div>
-                    <Question className="w-4 h-4 fill-current mr-1" />
-                  </div>
-                </Tooltip.Trigger>
-                <Tooltip.Content
-                  className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                  align="start"
-                  side="bottom"
-                >
+            <OverlayTrigger
+              placement="bottom-start"
+              delay={{ show: 500, hide: 0 }}
+              overlay={
+                <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
                   {t
                     ? t('txns:txn.status.tooltip')
                     : 'The status of the transaction.'}
-                </Tooltip.Content>
-              </Tooltip.Root>
-            </Tooltip.Provider>
+                </Tooltip>
+              }
+            >
+              <div>
+                <Question className="w-4 h-4 fill-current mr-1" />
+              </div>
+            </OverlayTrigger>
             {t ? t('txns:txn.status.text.0') : 'Status'}
           </div>
           {loading ? (
@@ -1558,24 +1552,21 @@ function MainComponent(props) {
         </div>
         <div className="flex flex-wrap p-4">
           <div className="flex items-center w-full md:w-1/4 mb-2 md:mb-0">
-            <Tooltip.Provider>
-              <Tooltip.Root>
-                <Tooltip.Trigger asChild>
-                  <div>
-                    <Question className="w-4 h-4 fill-current mr-1" />
-                  </div>
-                </Tooltip.Trigger>
-                <Tooltip.Content
-                  className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                  align="start"
-                  side="bottom"
-                >
+            <OverlayTrigger
+              placement="bottom-start"
+              delay={{ show: 500, hide: 0 }}
+              overlay={
+                <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
                   {t
                     ? t('txns:txn.block.tooltip')
                     : 'The number of the block in which the transaction was recorded.'}
-                </Tooltip.Content>
-              </Tooltip.Root>
-            </Tooltip.Provider>
+                </Tooltip>
+              }
+            >
+              <div>
+                <Question className="w-4 h-4 fill-current mr-1" />
+              </div>
+            </OverlayTrigger>
             {t ? t('txns:txn.block.text.0') : 'Block Height'}
           </div>
           {loading ? (
@@ -1601,24 +1592,21 @@ function MainComponent(props) {
         </div>
         <div className="flex flex-wrap p-4">
           <div className="flex items-center w-full md:w-1/4 mb-2 md:mb-0">
-            <Tooltip.Provider>
-              <Tooltip.Root>
-                <Tooltip.Trigger asChild>
-                  <div>
-                    <Question className="w-4 h-4 fill-current mr-1" />
-                  </div>
-                </Tooltip.Trigger>
-                <Tooltip.Content
-                  className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                  align="start"
-                  side="bottom"
-                >
+            <OverlayTrigger
+              placement="bottom-start"
+              delay={{ show: 500, hide: 0 }}
+              overlay={
+                <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
                   {t
                     ? t('txns:txn.timestamp.tooltip')
                     : 'Timestamp of when this transaction was submitted.'}
-                </Tooltip.Content>
-              </Tooltip.Root>
-            </Tooltip.Provider>
+                </Tooltip>
+              }
+            >
+              <div>
+                <Question className="w-4 h-4 fill-current mr-1" />
+              </div>
+            </OverlayTrigger>
             {t ? t('txns:txn.timestamp.text.0') : 'Timestamp'}
           </div>
           {loading ? (
@@ -1640,22 +1628,19 @@ function MainComponent(props) {
         </div>
         <div className="flex flex-wrap p-4">
           <div className="flex items-center w-full md:w-1/4 mb-2 md:mb-0">
-            <Tooltip.Provider>
-              <Tooltip.Root>
-                <Tooltip.Trigger asChild>
-                  <div>
-                    <Question className="w-4 h-4 fill-current mr-1" />
-                  </div>
-                </Tooltip.Trigger>
-                <Tooltip.Content
-                  className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                  align="start"
-                  side="bottom"
-                >
+            <OverlayTrigger
+              placement="bottom-start"
+              delay={{ show: 500, hide: 0 }}
+              overlay={
+                <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
                   The shard number in which the transaction was executed in
-                </Tooltip.Content>
-              </Tooltip.Root>
-            </Tooltip.Provider>
+                </Tooltip>
+              }
+            >
+              <div>
+                <Question className="w-4 h-4 fill-current mr-1" />
+              </div>
+            </OverlayTrigger>
             Shard Number
           </div>
           {loading ? (
@@ -1676,22 +1661,19 @@ function MainComponent(props) {
         >
           <div className="flex items-start flex-wrap p-4">
             <div className="flex items-center w-full md:w-1/4 mb-2 md:mb-0 leading-7">
-              <Tooltip.Provider>
-                <Tooltip.Root>
-                  <Tooltip.Trigger asChild>
-                    <div>
-                      <Question className="w-4 h-4 fill-current mr-1" />
-                    </div>
-                  </Tooltip.Trigger>
-                  <Tooltip.Content
-                    className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                    align="start"
-                    side="bottom"
-                  >
+              <OverlayTrigger
+                placement="bottom-start"
+                delay={{ show: 500, hide: 0 }}
+                overlay={
+                  <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
                     Highlighted events of the transaction
-                  </Tooltip.Content>
-                </Tooltip.Root>
-              </Tooltip.Provider>
+                  </Tooltip>
+                }
+              >
+                <div>
+                  <Question className="w-4 h-4 fill-current mr-1" />
+                </div>
+              </OverlayTrigger>
               Transaction Actions
             </div>
             {loading ? (
@@ -1741,24 +1723,21 @@ function MainComponent(props) {
       <div className="bg-white dark:bg-black-600 text-sm text-nearblue-600 dark:text-neargray-10">
         <div className="flex flex-wrap p-4">
           <div className="flex items-center w-full md:w-1/4 mb-2 md:mb-0">
-            <Tooltip.Provider>
-              <Tooltip.Root>
-                <Tooltip.Trigger asChild>
-                  <div>
-                    <Question className="w-4 h-4 fill-current mr-1" />
-                  </div>
-                </Tooltip.Trigger>
-                <Tooltip.Content
-                  className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                  align="start"
-                  side="bottom"
-                >
+            <OverlayTrigger
+              placement="bottom-start"
+              delay={{ show: 500, hide: 0 }}
+              overlay={
+                <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
                   {t
                     ? t('txns:txn.from.tooltip')
                     : 'Account that signed and sent the transaction'}
-                </Tooltip.Content>
-              </Tooltip.Root>
-            </Tooltip.Provider>
+                </Tooltip>
+              }
+            >
+              <div>
+                <Question className="w-4 h-4 fill-current mr-1" />
+              </div>
+            </OverlayTrigger>
             {t ? t('txns:txn.from.text.0') : 'From'}
           </div>
           {loading ? (
@@ -1780,24 +1759,21 @@ function MainComponent(props) {
         </div>
         <div className="flex flex-wrap p-4">
           <div className="flex items-center w-full md:w-1/4 mb-2 md:mb-0">
-            <Tooltip.Provider>
-              <Tooltip.Root>
-                <Tooltip.Trigger asChild>
-                  <div>
-                    <Question className="w-4 h-4 fill-current mr-1" />
-                  </div>
-                </Tooltip.Trigger>
-                <Tooltip.Content
-                  className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                  align="start"
-                  side="bottom"
-                >
+            <OverlayTrigger
+              placement="bottom-start"
+              delay={{ show: 500, hide: 0 }}
+              overlay={
+                <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
                   {t
                     ? t('txns:txn.to.tooltip')
                     : 'Account receiving the transaction.'}
-                </Tooltip.Content>
-              </Tooltip.Root>
-            </Tooltip.Provider>
+                </Tooltip>
+              }
+            >
+              <div>
+                <Question className="w-4 h-4 fill-current mr-1" />
+              </div>
+            </OverlayTrigger>
             {isContract
               ? 'Interacted With (To)'
               : t
@@ -1825,22 +1801,19 @@ function MainComponent(props) {
       {(fts?.length > 0 || nfts?.length > 0) && (
         <div className="flex items-start flex-wrap p-4">
           <div className="flex items-center w-full md:w-1/4 mb-2 md:mb-0 leading-7">
-            <Tooltip.Provider>
-              <Tooltip.Root>
-                <Tooltip.Trigger asChild>
-                  <div>
-                    <Question className="w-4 h-4 fill-current mr-1" />
-                  </div>
-                </Tooltip.Trigger>
-                <Tooltip.Content
-                  className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                  align="start"
-                  side="bottom"
-                >
+            <OverlayTrigger
+              placement="bottom-start"
+              delay={{ show: 500, hide: 0 }}
+              overlay={
+                <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
                   List of tokens transferred in the transaction
-                </Tooltip.Content>
-              </Tooltip.Root>
-            </Tooltip.Provider>
+                </Tooltip>
+              }
+            >
+              <div>
+                <Question className="w-4 h-4 fill-current mr-1" />
+              </div>
+            </OverlayTrigger>
             Tokens Transferred
           </div>
           {loading ? (
@@ -2149,24 +2122,21 @@ function MainComponent(props) {
       <div className="bg-white dark:bg-black-600 text-sm text-nearblue-600 dark:text-neargray-10">
         <div className="flex flex-wrap p-4">
           <div className="flex items-center w-full md:w-1/4 mb-2 md:mb-0">
-            <Tooltip.Provider>
-              <Tooltip.Root>
-                <Tooltip.Trigger asChild>
-                  <div>
-                    <Question className="w-4 h-4 fill-current mr-1" />
-                  </div>
-                </Tooltip.Trigger>
-                <Tooltip.Content
-                  className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                  align="start"
-                  side="bottom"
-                >
+            <OverlayTrigger
+              placement="bottom-start"
+              delay={{ show: 500, hide: 0 }}
+              overlay={
+                <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
                   {t
                     ? t('txns:txn.deposit.tooltip')
                     : 'Sum of all NEAR tokens transferred from the Signing account to the Receiver account. This includes tokens sent in a Transfer action(s), and as deposits on Function Call action(s).'}
-                </Tooltip.Content>
-              </Tooltip.Root>
-            </Tooltip.Provider>
+                </Tooltip>
+              }
+            >
+              <div>
+                <Question className="w-4 h-4 fill-current mr-1" />
+              </div>
+            </OverlayTrigger>
             {t ? t('txns:txn.deposit.text.0') : 'Deposit Value'}
           </div>
           {loading ? (
@@ -2175,54 +2145,48 @@ function MainComponent(props) {
             </div>
           ) : (
             <div className="w-full md:w-3/4 break-words">
-              <Tooltip.Provider>
-                <Tooltip.Root>
-                  <Tooltip.Trigger asChild>
-                    <span>
-                      {txn.actions_agg?.deposit
-                        ? yoctoToNear(txn.actions_agg?.deposit, true)
-                        : txn.actions_agg?.deposit ?? ''}{' '}
-                      Ⓝ
-                      {currentPrice && network === 'mainnet'
-                        ? ` ($${fiatValue(
-                            yoctoToNear(txn.actions_agg?.deposit ?? 0, false),
-                            currentPrice,
-                          )})`
-                        : ''}
-                    </span>
-                  </Tooltip.Trigger>
-                  <Tooltip.Content
-                    className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                    align="start"
-                    side="bottom"
-                  >
+              <OverlayTrigger
+                placement="bottom-start"
+                delay={{ show: 500, hide: 0 }}
+                overlay={
+                  <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
                     {t
                       ? t('txns:txn.deposit.tooltip')
                       : 'Sum of all NEAR tokens transferred from the Signing account to the Receiver account. This includes tokens sent in a Transfer action(s), and as deposits on Function Call action(s).'}
-                  </Tooltip.Content>
-                </Tooltip.Root>
-              </Tooltip.Provider>
+                  </Tooltip>
+                }
+              >
+                <span>
+                  {txn.actions_agg?.deposit
+                    ? yoctoToNear(txn.actions_agg?.deposit, true)
+                    : txn.actions_agg?.deposit ?? ''}{' '}
+                  Ⓝ
+                  {currentPrice && network === 'mainnet'
+                    ? ` ($${fiatValue(
+                        yoctoToNear(txn.actions_agg?.deposit ?? 0, false),
+                        currentPrice,
+                      )})`
+                    : ''}
+                </span>
+              </OverlayTrigger>
             </div>
           )}
         </div>
         <div className="flex flex-wrap p-4">
           <div className="flex items-center w-full md:w-1/4 mb-2 md:mb-0">
-            <Tooltip.Provider>
-              <Tooltip.Root>
-                <Tooltip.Trigger asChild>
-                  <Question className="w-4 h-4 fill-current mr-1" />
-                </Tooltip.Trigger>
-                <Tooltip.Content
-                  className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                  align="start"
-                  side="bottom"
-                >
+            <OverlayTrigger
+              placement="bottom-start"
+              delay={{ show: 500, hide: 0 }}
+              overlay={
+                <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
                   {t
                     ? t('txns:txn.fee.tooltip')
                     : 'Total fee paid in NEAR to execute this transaction.'}
-                </Tooltip.Content>
-              </Tooltip.Root>
-            </Tooltip.Provider>
+                </Tooltip>
+              }
+            >
+              <Question className="w-4 h-4 fill-current mr-1" />
+            </OverlayTrigger>
             {t ? t('txns:txn.fee.text.0') : 'Transaction fee'}
           </div>
           {loading ? (
@@ -2248,22 +2212,19 @@ function MainComponent(props) {
       {network === 'mainnet' && date && (
         <div className="flex flex-wrap p-4">
           <div className="flex items-center w-full md:w-1/4 mb-2 md:mb-0">
-            <Tooltip.Provider>
-              <Tooltip.Root>
-                <Tooltip.Trigger asChild>
-                  <Question className="w-4 h-4 fill-current mr-1" />
-                </Tooltip.Trigger>
-                <Tooltip.Content
-                  className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                  align="start"
-                  side="bottom"
-                >
+            <OverlayTrigger
+              placement="bottom-start"
+              delay={{ show: 500, hide: 0 }}
+              overlay={
+                <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
                   {t
                     ? t('txns:txn.price.tooltip')
                     : 'Closing price of Ⓝ on date of transaction'}
-                </Tooltip.Content>
-              </Tooltip.Root>
-            </Tooltip.Provider>
+                </Tooltip>
+              }
+            >
+              <Question className="w-4 h-4 fill-current mr-1" />
+            </OverlayTrigger>
             {t ? t('txns:txn.price.text.0') : 'Ⓝ Price'}
           </div>
           {loading ? (
@@ -2304,22 +2265,19 @@ function MainComponent(props) {
             <div>
               <div className="flex flex-wrap p-4">
                 <div className="flex items-center w-full md:w-1/4 mb-2 md:mb-0">
-                  <Tooltip.Provider>
-                    <Tooltip.Root>
-                      <Tooltip.Trigger asChild>
-                        <Question className="w-4 h-4 fill-current mr-1" />
-                      </Tooltip.Trigger>
-                      <Tooltip.Content
-                        className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                        align="start"
-                        side="bottom"
-                      >
+                  <OverlayTrigger
+                    placement="bottom-start"
+                    delay={{ show: 500, hide: 0 }}
+                    overlay={
+                      <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
                         {t
                           ? t('txns:txn.gas.tooltip')
                           : 'Maximum amount of gas allocated for the transaction & the amount eventually used.'}
-                      </Tooltip.Content>
-                    </Tooltip.Root>
-                  </Tooltip.Provider>
+                      </Tooltip>
+                    }
+                  >
+                    <Question className="w-4 h-4 fill-current mr-1" />
+                  </OverlayTrigger>
                   {t ? t('txns:txn.gas.text.0') : 'Gas Limit & Usage by Txn'}
                 </div>
                 {loading ? (
@@ -2342,22 +2300,19 @@ function MainComponent(props) {
               </div>
               <div className="flex flex-wrap p-4">
                 <div className="flex items-center w-full md:w-1/4 mb-2 md:mb-0">
-                  <Tooltip.Provider>
-                    <Tooltip.Root>
-                      <Tooltip.Trigger asChild>
-                        <Question className="w-4 h-4 fill-current mr-1" />
-                      </Tooltip.Trigger>
-                      <Tooltip.Content
-                        className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                        align="start"
-                        side="bottom"
-                      >
+                  <OverlayTrigger
+                    placement="bottom-start"
+                    delay={{ show: 500, hide: 0 }}
+                    overlay={
+                      <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
                         {t
                           ? t('txns:txn.burnt.tooltip')
                           : 'Total amount of Gas & Token burnt from this transaction.'}
-                      </Tooltip.Content>
-                    </Tooltip.Root>
-                  </Tooltip.Provider>
+                      </Tooltip>
+                    }
+                  >
+                    <Question className="w-4 h-4 fill-current mr-1" />
+                  </OverlayTrigger>
                   {t ? t('txns:txn.burnt.text.0') : 'Burnt Gas & Tokens by Txn'}
                 </div>
                 {loading ? (
