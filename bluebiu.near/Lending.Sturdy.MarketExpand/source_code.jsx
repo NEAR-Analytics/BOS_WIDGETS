@@ -405,7 +405,7 @@ return (
               props={{
                 icon: data.TOKEN_A.icon,
                 symbol: data.TOKEN_A.symbol,
-                balance: data.yourCollateraled,
+                balance: data.yourCollateral,
                 price: prices[data.TOKEN_A.symbol],
                 amount: state.amount,
                 onChange: (val) => {
