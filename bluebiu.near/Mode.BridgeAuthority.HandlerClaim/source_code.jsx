@@ -304,19 +304,18 @@ function getAllStatus(txs) {
   }
 }
 
-
 useEffect(() => {
   getAllStatus(txs)
 }, [txs])
 
 useEffect(() => {
-  // const inter = setInterval(() => {
-  //   getAllStatus(txs)
-  // }, 30000)
+  const inter = setInterval(() => {
+    getAllStatus(txs)
+  }, 30000)
 
-  // return () => {
-  //   clearInterval(inter)
-  // }
+  return () => {
+    clearInterval(inter)
+  }
 }, [txs])
 
 
