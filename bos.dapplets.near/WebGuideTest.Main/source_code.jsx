@@ -334,9 +334,15 @@ const nestedCalloutConfig = {
 
 // ToDo: move to a smart contract
 const guideConfigByLinkId = {
+  // production (bos.dapplets.near/mutation/sandbox)
+  '9a6537b6efbb98ad4c12ef747c7e29e9': twitterConfig,
+  '8a1ca0a9eb03ce2725db7a553a9bcab7': nearSocialConfig,
+  "5c105a6a05975423d39a1e0d9447a22d": nestedCalloutConfig,
+  
+  // testing (bos.dapplets.near/mutation/testing2)
   'b3777e928bd7ce9ad30eb636857a1853': twitterConfig,
   '114a78557d9044ff8c6e0177bcbe690a': nearSocialConfig,
-  '0b492fd62c72d7ad87c7658e2b3a4f1e': nestedCalloutConfig
+  '0b492fd62c72d7ad87c7658e2b3a4f1e': nestedCalloutConfig,
 }
 
 const OverlayTriggerWrapper = styled.div`
