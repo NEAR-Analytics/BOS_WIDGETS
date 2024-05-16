@@ -65,8 +65,9 @@ State.update({
 const _amountIn = Big(inputCurrencyAmount)
   .mul(Big(10).pow(inputCurrency.decimals))
   .toFixed();
+
 const fetchTradeInfo = () => {
-  asyncFetch(`https://api.dapdap.net/api/uniswap/v2/quote`, {
+  asyncFetch(`/dapdap/uniswap/v2/quote`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -113,7 +114,7 @@ const fetchTradeInfo = () => {
       }
       setTimeout(() => {
         fetchTradeInfo();
-      }, 2000);
+      }, 5000);
     })
     .catch(() => {
       onError();
