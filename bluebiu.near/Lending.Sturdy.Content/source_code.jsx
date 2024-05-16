@@ -50,8 +50,8 @@ useEffect(() => {
     loading: !chainIdNotSupport,
   });
 }, [chainIdNotSupport]);
-console.log("PROPS:", props);
-console.log("STATE:", state);
+// console.log("PROPS:", props);
+// console.log("STATE:", state);
 return (
   <Wrap>
     <Summary>
