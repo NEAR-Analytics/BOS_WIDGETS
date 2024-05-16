@@ -107,85 +107,72 @@ const getETHWithdrawalsFromOp = (account, type, hash, callback) => {
             filter
         )
         .then((events) => {
-            console.log('events:', events)
 
-            events
-                .sort((a, b) => b.blockNumber - a.blockNumber)
-                .forEach((event) => {
-                    const { args, blockNumber, transactionHash } = event;
-                    console.log('blockNumber2:', blockNumber)
+            const event = events.filter(item => item.transactionHash === hash)[0]
 
-                    const messagePasserAbi = [
-                        "event MessagePassed (uint256 indexed nonce, address indexed sender, address indexed target, uint256 value, uint256 gasLimit, bytes data, bytes32 withdrawalHash)",
-                    ];
+            const { args, blockNumber, transactionHash } = event;
 
-                    const messagePasserContract = new ethers.Contract(
-                        L2_L1_MESSAGE_PASSER_CONTRACT,
-                        messagePasserAbi,
-                        balstProvider
-                    );
+            const messagePasserAbi = [
+                "event MessagePassed (uint256 indexed nonce, address indexed sender, address indexed target, uint256 value, uint256 gasLimit, bytes data, bytes32 withdrawalHash)",
+            ];
 
-                    messagePasserContract
-                        .queryFilter(
-                            messagePasserContract.filters.MessagePassed(
-                                undefined,
-                                undefined,
-                                L1_CROSS_DOMAIN_MESSENGER_CONTRACT,
-                                undefined,
-                                undefined,
-                                undefined,
-                                undefined
-                            ),
-                            blockNumber - 150,
-                            blockNumber
-                        )
-                        .then((events) => {
-                            console.log('events2: ', events)
+            const messagePasserContract = new ethers.Contract(
+                L2_L1_MESSAGE_PASSER_CONTRACT,
+                messagePasserAbi,
+                balstProvider
+            );
 
-                            const event = events.filter(
-                                ({ transactionHash }) => {
-                                    return hash === transactionHash
-                                }
-                            )[0];
+            messagePasserContract
+                .queryFilter(
+                    messagePasserContract.filters.MessagePassed(
+                        undefined,
+                        undefined,
+                        L1_CROSS_DOMAIN_MESSENGER_CONTRACT,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined
+                    ),
+                    blockNumber - 150,
+                    blockNumber
+                )
+                .then((events) => {
 
-                            // console.log('event3: ', event)
+                    const event = events.filter(
+                        ({ transactionHash }) => {
+                            return hash === transactionHash
+                        }
+                    )[0];
 
-                            const [
-                                messageNonce,
-                                sender,
-                                target,
-                                value,
-                                minGasLimit,
-                                message,
-                                withdrawalHash,
-                            ] = event.args;
+                    const [
+                        messageNonce,
+                        sender,
+                        target,
+                        value,
+                        minGasLimit,
+                        message,
+                        withdrawalHash,
+                    ] = event.args;
 
-                            let withdrawal = {
-                                blockNumber,
-                                transactionHash,
-                                messageNonce,
-                                sender,
-                                target,
-                                value,
-                                minGasLimit,
-                                message,
-                                withdrawalHash,
-                            };
+                    let withdrawal = {
+                        blockNumber,
+                        transactionHash,
+                        messageNonce,
+                        sender,
+                        target,
+                        value,
+                        minGasLimit,
+                        message,
+                        withdrawalHash,
+                    };
 
-                            console.log('withdrawal:', withdrawal)
-
-                            balstProvider.getBlock(blockNumber).then((res) => {
-                                const { timestamp } = res;
-                                // withdrawals.push({
-                                //     ...withdrawal,
-                                //     timestamp: timestamp * 1000,
-                                // });
-                                callback && callback({
-                                    ...withdrawal,
-                                    timestamp: timestamp * 1000,
-                                })
-                            });
-                        });
+                    balstProvider.getBlock(blockNumber).then((res) => {
+                        const { timestamp } = res;
+                        callback && callback({
+                            ...withdrawal,
+                            timestamp: timestamp * 1000,
+                        })
+                    });
                 });
         }).catch((e) => {
             console.log(e)
@@ -425,12 +412,10 @@ const getMessageBedrockOutput = (l2BlockNumber, callback, onError) => {
     contract
         .getL2OutputIndexAfter(l2BlockNumber)
         .then((l2OutputIndex) => {
-            console.log("l2OutputIndex:", l2OutputIndex.toString());
 
             contract
                 .getL2Output(l2OutputIndex.toString())
                 .then((proposal) => {
-                    console.log("proposal data:", proposal);
 
                     callback({
                         outputRoot: proposal[0],
@@ -492,12 +477,10 @@ const getBedrockMessageProof = (l2BlockNumber, slot, callback) => {
                 storageValue: Big(parseInt(proof.storageProof[0].value)),
                 storageRoot: proof.storageHash,
             };
-            console.log("stateTrieProof", stateTrieProof);
 
             opProvider
                 .send("eth_getBlockByNumber", [l2BlockNumber, false])
                 .then((block) => {
-                    console.log("block", block);
 
                     callback({
                         outputRootProof: {
@@ -514,16 +497,11 @@ const getBedrockMessageProof = (l2BlockNumber, slot, callback) => {
 };
 
 const handleWithdrawalProve = (withdrawal, onSuccess, onError) => {
-    console.log("handleWithdrawalProve", withdrawal,onError);
 
     getMessageBedrockOutput(withdrawal.blockNumber, (output) => {
-        console.log("getMessageBedrockOutput:", output);
         const hash = hashLowLevelMessage(withdrawal);
-        console.log("hash", hash);
         const messageSlot = hashMessageHash(hash);
-        console.log("messageSlot", messageSlot);
         const l2BlockNumber = ethers.utils.hexlify(output.l2BlockNumber);
-        console.log("l2BlockNumber", l2BlockNumber);
 
         getBedrockMessageProof(l2BlockNumber, messageSlot, (proof) => {
             const args = [
@@ -545,8 +523,6 @@ const handleWithdrawalProve = (withdrawal, onSuccess, onError) => {
                 proof.withdrawalProof,
             ];
 
-            console.log("proof args:", args);
-
             const contract = new ethers.Contract(
                 L1_OPTIMISM_PORTAL_CONTRACT,
                 proofAbi,
@@ -557,7 +533,6 @@ const handleWithdrawalProve = (withdrawal, onSuccess, onError) => {
                 .proveWithdrawalTransaction(...args)
                 .then((tx) => {
                     tx.wait().then(onSuccess).catch(onError);
-                    console.log("tx output:", tx);
                 })
                 .catch((e) => {
                     onError();
@@ -575,8 +550,6 @@ function checkOutputFinalized(withdrawal, onSuccess, onError) {
             mainnetProvider
         );
 
-        console.log('output:', output)    
-
         contract.isOutputFinalized(output.l2OutputIndex).then(isFinalized => {
             onSuccess(isFinalized)
         }).catch(onError)
@@ -585,39 +558,54 @@ function checkOutputFinalized(withdrawal, onSuccess, onError) {
 }
 
 const handleWithdrawalClaim = (withdrawal, onSuccess, onError) => {
-    console.log("handleWithdrawalClaim", withdrawal);
-  
-    const args = [
-      withdrawal.messageNonce,
-      withdrawal.sender,
-      withdrawal.target,
-      withdrawal.value,
-      withdrawal.minGasLimit,
-      withdrawal.message,
-    ];
-  
-    const contract = new ethers.Contract(
-      L1_OPTIMISM_PORTAL_CONTRACT,
-      proofAbi,
-      Ethers.provider().getSigner()
-    );
-  
-    contract
-      .finalizeWithdrawalTransaction(args)
-      .then((tx) => {
-        console.log("tx output:", tx);
-        tx.wait().then(onSuccess).catch(onError);
-      })
-      .catch((e) => {
-        console.log("error", e);
-        onError();
-      });
-  };
 
+    const args = [
+        withdrawal.messageNonce,
+        withdrawal.sender,
+        withdrawal.target,
+        withdrawal.value,
+        withdrawal.minGasLimit,
+        withdrawal.message,
+    ];
+
+    const contract = new ethers.Contract(
+        L1_OPTIMISM_PORTAL_CONTRACT,
+        proofAbi,
+        Ethers.provider().getSigner()
+    );
+
+    contract
+        .finalizeWithdrawalTransaction(args)
+        .then((tx) => {
+            tx.wait().then(onSuccess).catch(onError);
+        })
+        .catch((e) => {
+            console.log("error", e);
+            onError();
+        });
+};
+
+const checkMessageOutput = (l2BlockNumber, callback) => {
+    const contract = new ethers.Contract(
+        L2_OUTPUT_ORACLE_CONTRACT,
+        outputAbi,
+        mainnetProvider
+    );
+
+    contract
+        .getL2OutputIndexAfter(l2BlockNumber)
+        .then((l2OutputIndex) => {
+            callback(l2OutputIndex)
+        })
+        .catch(e => {
+            callback(null)
+        })
+}
 
 return {
     getETHWithdrawalsFromOp,
     handleWithdrawalProve,
     checkOutputFinalized,
     handleWithdrawalClaim,
+    checkMessageOutput,
 }
