@@ -226,23 +226,23 @@ const nearSocialConfig = {
         },
       ]
     },
-    {
-      id: "bos.dapplets.near/app/Tipping/1",
-      type: 'callout',
-      namespace: "bos.dapplets.near/parser/near-social-json",
-      contextType: "post",
-      injectTo: "avatar",
-      if: { id: { eq: "dappletsproject.near/104105338" } },
-      arrowTo: "insPoint",
-      pages: [
-        {
-          id: "bos.dapplets.near/app/Tipping/1/1",
-          status: [],
-          title: "Tipping app",
-          content: "If you want to modestly thank the author of the post you like...",
-        },
-      ],
-    },
+    // {
+    //   id: "bos.dapplets.near/app/Tipping/1",
+    //   type: 'callout',
+    //   namespace: "bos.dapplets.near/parser/near-social-json",
+    //   contextType: "post",
+    //   injectTo: "avatar",
+    //   if: { id: { eq: "dappletsproject.near/119034910" } },
+    //   arrowTo: "insPoint",
+    //   pages: [
+    //     {
+    //       id: "bos.dapplets.near/app/Tipping/1/1",
+    //       status: [],
+    //       title: "Tipping app",
+    //       content: "If you want to modestly thank the author of the post you like...",
+    //     },
+    //   ],
+    // },
     {
       id: "bos.dapplets.near/app/Tipping/2",
       type: "callout",
@@ -250,7 +250,7 @@ const nearSocialConfig = {
       contextType: "injected-widget",
       injectTo: "hidden",
       if: {
-        parentContextId: { eq: "dappletsproject.near/104105338" },
+        parentContextId: { eq: "dappletsproject.near/119034910" },
         widgetSrc: { eq: "bos.dapplets.near/widget/Tipping.Main" },
       },
       arrowTo: "context",
@@ -259,7 +259,7 @@ const nearSocialConfig = {
           id: "bos.dapplets.near/app/Tipping/2/1",
           status: [],
           title: "Tipping app",
-          content: "... you can send them a tip through our application.",
+          content: "If you want to modestly thank the author of the post you like, you can send them a tip through our application.",
         },
       ],
     },
@@ -269,7 +269,7 @@ const nearSocialConfig = {
       namespace: "mweb",
       contextType: "ear-trigger",
       injectTo: "hidden",
-      if: { id: { eq: "dappletsproject.near/104105338" } },
+      if: { id: { eq: "dappletsproject.near/119034910" } },
       arrowTo: "context",
       pages: [
         {
@@ -286,7 +286,7 @@ const nearSocialConfig = {
       namespace: "mweb",
       contextType: "ear-trigger",
       injectTo: "hidden",
-      if: { id: { eq: "dappletsproject.near/104105338" } },
+      if: { id: { eq: "dappletsproject.near/119034910" } },
       arrowTo: "context",
       pages: [
         {
