@@ -41,6 +41,7 @@ const {
   account,
   prices,
   totalCollateralUsd,
+  userTotalBorrowUsd,
 } = props;
 
 State.init({
@@ -51,7 +52,7 @@ let _borrowLimit = 0;
 // for Ionic
 if (dexConfig.name === "Ionic") {
   _borrowLimit = Big(totalCollateralUsd)
-    .minus(Big(data.userCollateralUSD))
+    .minus(Big(userTotalBorrowUsd))
     .toFixed(6);
 } else {
   _borrowLimit = borrowLimit;
