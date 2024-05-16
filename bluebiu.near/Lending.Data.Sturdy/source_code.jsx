@@ -6,7 +6,6 @@ const {
   dexConfig,
   update,
   onLoad,
-  isChainSupported,
 } = props;
 const { rawMarkets, TOKENS } = dexConfig;
 
@@ -151,8 +150,7 @@ const ABI = [
 ];
 const { formatUnits } = ethers.utils;
 useEffect(() => {
-  if (!isChainSupported || !account || !update || !multicallAddress) return;
-  console.log("rawMarkets--", rawMarkets);
+  if (!account || !update || !multicallAddress) return;
   let count = 0;
   let _balanceRes = [];
   let _totalBorrowRes = [];
@@ -165,8 +163,9 @@ useEffect(() => {
   let _yourLends = [];
 
   function formatData(params) {
+    console.log(params, count);
     if (count < 9) return;
-
+    count = 0;
     for (let i = 0; i < rawMarkets.length; i++) {
       rawMarkets[i].totalSupplied = formatUnits(
         _totalSupplyRes[i][0],
@@ -255,7 +254,7 @@ useEffect(() => {
         console.log("getTotalBorrow_res", res);
         _totalBorrowRes = res;
         count++;
-        formatData();
+        formatData("getTotalBorrow");
       })
       .catch((err) => {
         console.log("getTotalAssets_error:", err);
@@ -279,7 +278,7 @@ useEffect(() => {
         console.log("getTotalAssets--", res);
         _totalAssetsRes = res;
         count++;
-        formatData();
+        formatData("getTotalAssets");
       })
       .catch((err) => {
         console.log("getTotalAssets_error:", err);
@@ -304,7 +303,7 @@ useEffect(() => {
         console.log("get cleanLiquidationFee--", res);
         _liquidationFeeRes = res;
         count++;
-        formatData();
+        formatData("getLiquidationFee");
       })
       .catch((err) => {
         console.log("getcleanLiquidationFee_error:", err);
@@ -329,7 +328,7 @@ useEffect(() => {
         console.log("get getMaxLTV--", res);
         _maxLTVRes = res;
         count++;
-        formatData();
+        formatData("getMaxLTV");
       })
       .catch((err) => {
         console.log("get MaxLTV_error:", err);
@@ -352,7 +351,7 @@ useEffect(() => {
         console.log("getTotalSupply--", res);
         _totalSupplyRes = res;
         count++;
-        formatData();
+        formatData("getTotalSupply");
       })
       .catch((err) => {
         console.log("getTotalSupply-error:", err);
@@ -398,7 +397,7 @@ useEffect(() => {
           // console.log("convertToAssets--", res);
           _yourBorrows = res;
           count++;
-          formatData();
+          formatData("getUserSnapshot");
         });
         return snapshot;
       })
@@ -423,7 +422,7 @@ useEffect(() => {
           console.log("convertToAssets--", res);
           _yourCollaterals = res;
           count++;
-          formatData();
+          formatData("convertToAssets");
         });
       })
       .catch((err) => {
@@ -468,7 +467,7 @@ useEffect(() => {
           console.log("convertToAssets--", res);
           _yourLends = res;
           count++;
-          formatData();
+          formatData("getUserLends");
         });
       })
 
@@ -517,7 +516,7 @@ useEffect(() => {
         console.log("get_wallet_bal_res:", res);
         _balanceRes = res;
         count++;
-        formatData();
+        formatData("getWalletBalance");
       })
       .catch((err) => {
         console.log("getWalletBalance_error", err);
