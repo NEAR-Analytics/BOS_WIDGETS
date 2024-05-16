@@ -249,6 +249,15 @@ const onAmountChange = (amount) => {
     });
     return;
   }
+  if (dexConfig.name === "Ionic") {
+    if (Big(amount).lt(data.minBorrowAmount)) {
+      State.update({
+        amount,
+        buttonClickable: false,
+      });
+      return;
+    }
+  }
   const params = { amount };
   const value = Big(Big(amount).mul(data.underlyingPrice).toFixed(20));
   if (state.tab === "Supply") {
@@ -340,6 +349,16 @@ return (
                 {data.underlyingToken?.symbol}
               </div>
             </StyledInfoItem>
+
+            {dexConfig.name === "Ionic" && (
+              <StyledInfoItem>
+                <div>Min Borrow</div>
+                <div>
+                  <span className="white">{data.minBorrowAmount}</span>{" "}
+                  {data.underlyingToken?.symbol}
+                </div>
+              </StyledInfoItem>
+            )}
             <StyledInfoTips>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
