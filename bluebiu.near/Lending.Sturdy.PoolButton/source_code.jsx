@@ -253,7 +253,7 @@ function formatAddAction(actionText, _amount, status, transactionHash) {
   });
 }
 
-function handleWithdraw() {
+function handleConvertToShares(_assets) {
   State.update({
     pending: true,
   });
@@ -264,76 +264,118 @@ function handleWithdraw() {
         inputs: [
           {
             internalType: "uint256",
-            name: "_shares",
+            name: "_assets",
             type: "uint256",
           },
-          {
-            internalType: "address",
-            name: "_receiver",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "_owner",
-            type: "address",
-          },
         ],
-        name: "redeem",
+        name: "convertToShares",
         outputs: [
           {
             internalType: "uint256",
-            name: "_amountToReturn",
+            name: "_shares",
             type: "uint256",
           },
         ],
-        stateMutability: "nonpayable",
+        stateMutability: "view",
         type: "function",
       },
     ],
     Ethers.provider().getSigner()
   );
 
-  contract
-    .redeem(parseUnits(amount, tokenDecimals), account, account, {
-      gasLimit: 4000000,
-    })
-    .then((tx) => {
-      tx.wait()
-        .then((res) => {
-          const { status, transactionHash } = res;
-          toast?.dismiss(toastId);
-          if (status !== 1) throw new Error("");
-          State.update({
-            pending: false,
-          });
-          onSuccess();
-          formatAddAction(actionText, amount, status, transactionHash);
-          toast?.success({
-            title: `${actionText} Successfully!`,
-            text: `${actionText} ${Big(amount).toFixed(2)} ${tokenSymbol}`,
-            tx: transactionHash,
-            chainId,
-          });
-        })
-        .catch((err) => {
-          console.log("handleWithdraw-error:", err);
-          State.update({
-            pending: false,
-          });
-        });
+  return contract
+    .convertToShares(_assets)
+    .then((_shares) => {
+      return _shares;
     })
     .catch((err) => {
-      State.update({
-        pending: false,
-      });
-      toast?.dismiss(toastId);
-      toast?.fail({
-        title: `${actionText} Failed!`,
-        text: err?.message?.includes("user rejected transaction")
-          ? "User rejected transaction"
-          : ``,
-      });
+      console.log("handleConvertToShares-error", err);
     });
+}
+
+function handleWithdraw() {
+  State.update({
+    pending: true,
+  });
+  handleConvertToShares(parseUnits(amount, tokenDecimals)).then((_shares) => {
+    const contract = new ethers.Contract(
+      data.POOL_MANAGER,
+      [
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "_shares",
+              type: "uint256",
+            },
+            {
+              internalType: "address",
+              name: "_receiver",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "_owner",
+              type: "address",
+            },
+          ],
+          name: "redeem",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "_amountToReturn",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+      ],
+      Ethers.provider().getSigner()
+    );
+
+    contract
+      .redeem(_shares, account, account, {
+        gasLimit: 4000000,
+      })
+      .then((tx) => {
+        tx.wait()
+          .then((res) => {
+            const { status, transactionHash } = res;
+            toast?.dismiss(toastId);
+            if (status !== 1) throw new Error("");
+            State.update({
+              pending: false,
+            });
+            onSuccess();
+            formatAddAction(actionText, amount, status, transactionHash);
+            toast?.success({
+              title: `${actionText} Successfully!`,
+              text: `${actionText} ${Big(amount).toFixed(2)} ${tokenSymbol}`,
+              tx: transactionHash,
+              chainId,
+            });
+          })
+          .catch((err) => {
+            console.log("handleWithdraw-error:", err);
+            State.update({
+              pending: false,
+            });
+          });
+      })
+      .catch((err) => {
+        State.update({
+          pending: false,
+        });
+        toast?.dismiss(toastId);
+        toast?.fail({
+          title: `${actionText} Failed!`,
+          text: err?.message?.includes("user rejected transaction")
+            ? "User rejected transaction"
+            : ``,
+        });
+      });
+  });
 }
 function handleDeposit() {
   State.update({
