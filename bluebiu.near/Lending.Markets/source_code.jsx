@@ -92,6 +92,7 @@ return (
           onSuccess,
           account,
           prices,
+          totalCollateralUsd,
         }}
       />
     ))}
