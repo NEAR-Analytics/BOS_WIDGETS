@@ -155,6 +155,26 @@ const guideConfig = {
       ],
     },
     {
+      id: "bos.dapplets.near/app/Paywall",
+      type: "callout",
+      namespace: "mweb",
+      contextType: "injected-widget",
+      injectTo: "hidden",
+      if: {
+        parentContextId: { eq: "1694995303642939408" },
+        widgetSrc: { eq: "bos.dapplets.near/widget/Paywall.Main" },
+      },
+      arrowTo: "context",
+      pages: [
+        {
+          id: "bos.dapplets.near/app/Paywall/1",
+          status: [],
+          title: "Paywall app",
+          content: "Paywall app allows users to add pictures to posts and sell an access to them.",
+        },
+      ],
+    },
+    {
       id: "bos.dapplets.near/mutation/EarTrigger",
       type: 'callout',
       namespace: "mweb",
