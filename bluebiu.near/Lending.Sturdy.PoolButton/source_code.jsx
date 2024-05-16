@@ -292,8 +292,11 @@ function handleWithdraw() {
     ],
     Ethers.provider().getSigner()
   );
+
   contract
-    .redeem(parseUnits(amount, tokenDecimals), account, account)
+    .redeem(parseUnits(amount, tokenDecimals), account, account, {
+      gasLimit: 4000000,
+    })
     .then((tx) => {
       tx.wait()
         .then((res) => {
