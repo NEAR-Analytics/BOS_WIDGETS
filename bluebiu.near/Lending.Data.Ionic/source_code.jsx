@@ -178,7 +178,7 @@ useEffect(() => {
 
   const formatedData = (key) => {
     console.log(`${name}-${key}`, count);
-    if (count < 6) return;
+    if (count < 5) return;
     count = 0;
     oTokensLength = Object.values(markets).length;
     let totalSupplyUsd = Big(0);
@@ -187,6 +187,7 @@ useEffect(() => {
     let userTotalBorrowUsd = Big(0);
     let totalCollateralUsd = Big(0);
     const markets = {};
+
     Object.values(_cTokensData).forEach((market) => {
       // const underlyingPrice = _underlyPrice[market.address] || 1;
 
@@ -208,24 +209,27 @@ useEffect(() => {
       userTotalBorrowUsd = userTotalBorrowUsd.plus(
         Big(market.userBorrow).mul(underlyingPrice)
       );
-      if (_userMerberShip[market.address]) {
-        totalCollateralUsd = totalCollateralUsd.plus(
-          Big(market.userSupply)
-            .mul(underlyingPrice)
-            .mul(_loanToValue[market.address])
-            .div(100)
-        );
-      }
 
+      // if (_userMerberShip[market.address]) {
+      totalCollateralUsd = totalCollateralUsd.plus(
+        Big(market.userSupply).mul(underlyingPrice).mul(market["loanToValue"])
+      );
+      // }
+      // for ionic, every token's collateral usd
+      const _userCollateralUSD = Big(market.userSupply)
+        .mul(underlyingPrice)
+        .mul(market["loanToValue"])
+        .toString();
       const supplyApy = calcApy(market.supplyRatePerBlock);
 
       const borrowApy = calcApy(market.borrowRatePerBlock);
 
       markets[market.address] = {
         ...market,
-        loanToValue: _loanToValue[market.address],
+        // loanToValue: _loanToValue[market.address],
         liquidity: _liquidity[market.address],
         underlyingPrice: underlyingPrice,
+        userCollateralUSD: _userCollateralUSD,
         userUnderlyingBalance: _underlyingBalance[market.address],
         userMerberShip: _collateralMap[market.address] ? true : false,
         // userMerberShip: _userMerberShip[market.address],
@@ -244,59 +248,7 @@ useEffect(() => {
       totalCollateralUsd: totalCollateralUsd.toString(),
     });
   };
-  const getUnitrollerData = () => {
-    const calls = [];
-    const oTokens = Object.values(markets);
-    oTokens.forEach((token) => {
-      calls.push({
-        address: unitrollerAddress,
-        name: "markets",
-        params: [token.address],
-      });
-      if (account) {
-        calls.push({
-          address: unitrollerAddress,
-          name: "checkMembership",
-          params: [account, token.address],
-        });
-      }
-    });
 
-    multicall({
-      abi: UNITROLLER_ABI,
-      calls,
-      options: {},
-      multicallAddress,
-      provider: Ethers.provider(),
-    })
-      .then((res) => {
-        _loanToValue = {};
-        _userMerberShip = {};
-        for (let i = 0, len = res.length; i < len; i++) {
-          const index = Math.floor(i / (account ? 2 : 1));
-          const mod = i % (account ? 2 : 1);
-          switch (mod) {
-            case 0:
-              _loanToValue[oTokens[index].address] = res[i]
-                ? ethers.utils.formatUnits(res[i][1]._hex, 16)
-                : 0;
-              break;
-            case 1:
-              _userMerberShip[oTokens[index].address] = res[i][0] || false;
-              break;
-            default:
-          }
-        }
-        count++;
-        formatedData("getUnitrollerData");
-      })
-      .catch((err) => {
-        console.log("error-getUnitrollerData", err);
-        // setTimeout(() => {
-        //   getUnitrollerData();
-        // }, 1000);
-      });
-  };
   const getUnderlyPrice = () => {
     if (!oracleAddress) return;
     const oTokens = Object.keys(markets);
@@ -580,7 +532,7 @@ useEffect(() => {
       });
   };
 
-  getUnitrollerData();
+  // getUnitrollerData();
   getUnderlyPrice();
   getOTokenLiquidity();
   getWalletBalance();
