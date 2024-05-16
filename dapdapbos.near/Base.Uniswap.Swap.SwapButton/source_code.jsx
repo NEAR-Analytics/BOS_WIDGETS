@@ -7,8 +7,8 @@ const SwapButtonConnectWrapper = styled.div`
     width: 100%;
     height: 60px;
     border-radius: 10px;
-    background-color: var(--button-no-account-bg);
-    color: var(--button-no-account-text);
+    background: var(--button-bg-color);
+    color: var(--button-text-color);
     font-size: 18px;
     line-height: 22px;
     border: none;
