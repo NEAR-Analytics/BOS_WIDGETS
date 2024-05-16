@@ -420,9 +420,9 @@ return (
               props={{
                 icon: data.TOKEN_B.icon,
                 symbol: data.TOKEN_B.symbol,
-                balance: state.borrowLimitUSD.div(
-                  Big(getPrice(data.TOKEN_B.symbol))
-                ),
+                balance: state.borrowLimitUSD
+                  .div(Big(getPrice(data.TOKEN_B.symbol)))
+                  .toFixed(6, 0),
                 price: prices[data.TOKEN_B.symbol],
                 amount: state.amount,
                 onChange: (val) => {
