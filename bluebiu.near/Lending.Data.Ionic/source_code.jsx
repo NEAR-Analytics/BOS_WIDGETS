@@ -160,6 +160,7 @@ useEffect(() => {
   let _underlyingBalance = null;
   let _userMerberShip = null;
   let _collateralMap = {};
+  let _minBorrowMap = {};
   let count = 0;
   let oTokensLength = Object.values(markets).length;
 
@@ -178,7 +179,7 @@ useEffect(() => {
 
   const formatedData = (key) => {
     console.log(`${name}-${key}`, count);
-    if (count < 5) return;
+    if (count < 6) return;
     count = 0;
     oTokensLength = Object.values(markets).length;
     let totalSupplyUsd = Big(0);
@@ -212,17 +213,25 @@ useEffect(() => {
 
       // if (_userMerberShip[market.address]) {
       totalCollateralUsd = totalCollateralUsd.plus(
-        Big(market.userSupply).mul(underlyingPrice).mul(market["loanToValue"])
+        Big(market.userSupply)
+          .mul(underlyingPrice)
+          .mul(market["COLLATERAL_FACTOR"])
       );
       // }
       // for ionic, every token's collateral usd
       const _userCollateralUSD = Big(market.userSupply)
         .mul(underlyingPrice)
-        .mul(market["loanToValue"])
         .toString();
       const supplyApy = calcApy(market.supplyRatePerBlock);
 
       const borrowApy = calcApy(market.borrowRatePerBlock);
+
+      const _minBorrowAmount = Big(
+        formatUnits(_minBorrowMap[market.address][0])
+      )
+        .times(Big(prices["ETH"] || 0))
+        .div(underlyingPrice)
+        .toFixed(6, 0);
 
       markets[market.address] = {
         ...market,
@@ -235,6 +244,7 @@ useEffect(() => {
         // userMerberShip: _userMerberShip[market.address],
         supplyApy: supplyApy.toFixed(2) + "%",
         borrowApy: borrowApy.toFixed(2) + "%",
+        minBorrowAmount: _minBorrowAmount,
         dapp: name,
       };
     });
@@ -531,6 +541,58 @@ useEffect(() => {
         console.log("CATCH_getCollateralStatus_ERROR:", err);
       });
   };
+  const getMinBorrow = () => {
+    const cTokens = Object.keys(markets);
+
+    const calls = cTokens.map((_cToken) => ({
+      address: "0x8ea3fc79D9E463464C5159578d38870b770f6E57",
+      name: "getMinBorrowEth",
+      params: [_cToken],
+    }));
+    multicall({
+      abi: [
+        {
+          inputs: [
+            {
+              internalType: "contract ICErc20",
+              name: "_ctoken",
+              type: "address",
+            },
+          ],
+          name: "getMinBorrowEth",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+      ],
+      calls,
+      options: {},
+      multicallAddress,
+      provider: Ethers.provider(),
+    })
+      .then((res) => {
+        console.log("getMinBorrow-res:", res);
+
+        if (Array.isArray(res) && res.length) {
+          _minBorrowMap = {};
+          res.forEach((_rawMinAmount, index) => {
+            _minBorrowMap[cTokens[index]] = _rawMinAmount;
+          });
+        }
+
+        count++;
+        formatedData("getMinBorrow");
+      })
+      .catch((err) => {
+        console.log("CATCH_getMinBorrow_ERROR:", err);
+      });
+  };
 
   // getUnitrollerData();
   getUnderlyPrice();
@@ -538,4 +600,5 @@ useEffect(() => {
   getWalletBalance();
   getCTokensData();
   getCollateralStatus();
+  getMinBorrow();
 }, [update, account]);
