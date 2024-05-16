@@ -149,13 +149,16 @@ const formatData = () => {
       });
     }
   });
+
+  let _userBorrowLimit = Big(userTotalBorrowUsd || 0)
+    .div(totalCollateralUsd.eq(0) ? 1 : totalCollateralUsd)
+    .mul(100);
+  _userBorrowLimit = _userBorrowLimit.gt(100) ? Big(100) : _userBorrowLimit;
+
   State.update({
     userTotalSupplyUsd: userTotalSupplyUsd.toString(),
     userTotalBorrowUsd: userTotalBorrowUsd.toString(),
-    userBorrowLimit: Big(userTotalBorrowUsd || 0)
-      .div(totalCollateralUsd.eq(0) ? 1 : totalCollateralUsd)
-      .mul(100)
-      .toFixed(2),
+    userBorrowLimit: _userBorrowLimit.toFixed(2),
     supplies,
     borrows,
     rewards,
