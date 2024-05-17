@@ -169,6 +169,23 @@ const twitterConfig = {
         },
       ],
     },
+    {
+      id: "bos.dapplets.near/mutation/EarTrigger/copy",
+      type: 'callout',
+      namespace: "mweb",
+      contextType: "ear-trigger",
+      injectTo: "hidden",
+      if: { id: { eq: "1694995344461894022" } },
+      arrowTo: "context",
+      pages: [
+        {
+          id: "bos.dapplets.near/mutation/EarTrigger/copy/1",
+          status: [],
+          title: "Apps control panel",
+          content: '[See other Mutable Web facilities on NEAR Social](https://social.dapplets.org/mob.near/widget/ProfilePage?accountId=dappletsproject.near)',
+        },
+      ],
+    },
   ],
 }
 
@@ -207,25 +224,25 @@ const nearSocialConfig = {
         },
       ]
     },
-    {
-      id: "bos.dapplets.near/gateway/MutableWebDropdown/2",
-      type: 'callout',
-      strategy: 'fixed',
-      placement: 'right',
-      namespace: "mweb",
-      contextType: "mweb-gateway",
-      injectTo: "mutations-list",
-      if: { id: { eq: "mutations-list" } },
-      arrowTo: "context",
-      pages: [
-        {
-          id: "bos.dapplets.near/gateway/MutableWebDropdown/2/1",
-          title: "All mutations",
-          status: [],
-          content: "Each mutation defines the set of applications. Select it from the list.",
-        },
-      ]
-    },
+    // {
+    //   id: "bos.dapplets.near/gateway/MutableWebDropdown/2",
+    //   type: 'callout',
+    //   strategy: 'fixed',
+    //   placement: 'right',
+    //   namespace: "mweb",
+    //   contextType: "mweb-gateway",
+    //   injectTo: "mutations-list",
+    //   if: { id: { eq: "mutations-list" } },
+    //   arrowTo: "context",
+    //   pages: [
+    //     {
+    //       id: "bos.dapplets.near/gateway/MutableWebDropdown/2/1",
+    //       title: "All mutations",
+    //       status: [],
+    //       content: "Each mutation defines the set of applications. Select it from the list.",
+    //     },
+    //   ]
+    // },
     // {
     //   id: "bos.dapplets.near/app/Tipping/1",
     //   type: 'callout',
@@ -338,6 +355,7 @@ const guideConfigByLinkId = {
   '9a6537b6efbb98ad4c12ef747c7e29e9': twitterConfig,
   '8a1ca0a9eb03ce2725db7a553a9bcab7': nearSocialConfig,
   "5c105a6a05975423d39a1e0d9447a22d": nestedCalloutConfig,
+  '84998d899f0b75b6ca47197c66baf3ca': nestedCalloutConfig, // twitter
   
   // testing (bos.dapplets.near/mutation/testing2)
   'b3777e928bd7ce9ad30eb636857a1853': twitterConfig,
