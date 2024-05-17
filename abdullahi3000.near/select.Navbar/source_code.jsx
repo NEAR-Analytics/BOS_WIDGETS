@@ -218,9 +218,9 @@ function Navbar(props) {
         <Left>
           <Link
             to={href({
-              widgetSrc: "abdullahi3000.near/widget/app",
+              widgetSrc: routes.path,
               params: {
-                page: "home",
+                page: "help",
               },
             })}
             className="d-flex align-items-center"
@@ -243,7 +243,7 @@ function Navbar(props) {
                     key={`desktop=${k}`}
                     style={{ textDecoration: "none" }}
                     to={href({
-                      widgetSrc: "abdullahi3000.near/widget/app",
+                      widgetSrc: route.path,
                       params: {
                         page: k,
                       },
@@ -280,9 +280,9 @@ function Navbar(props) {
         <MobileNavigation>
           <Link
             to={href({
-              widgetSrc: "abdullahi3000.near/widget/app",
+              widgetSrc: routes.path,
               params: {
-                page: "home",
+                page: "help",
               },
             })}
           >
@@ -310,9 +310,9 @@ function Navbar(props) {
           <MobileNavigation>
             <Link
               to={href({
-                widgetSrc: "abdullahi3000.near/widget/app",
+                widgetSrc: routes.path,
                 params: {
-                  page: "home",
+                  page: "help",
                 },
               })}
             >
@@ -346,7 +346,7 @@ function Navbar(props) {
                         key={`mobile=${k}`}
                         style={{ textDecoration: "none" }}
                         to={href({
-                          widgetSrc: "abdullahi3000.near/widget/app",
+                          widgetSrc: route.path,
                           params: {
                             page: k,
                           },
