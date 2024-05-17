@@ -1,14 +1,14 @@
 return {
   type: "app",
   routes: {
-    home: {
+    help: {
       path: "abdullahi3000.near/widget/select.help",
       blockHeight: "final",
       init: {
         name: "Help",
       },
     },
-    governance: {
+    create: {
       path: "abdullahi3000.near/widget/trialDropDeploy",
       blockHeight: "final",
       init: {
