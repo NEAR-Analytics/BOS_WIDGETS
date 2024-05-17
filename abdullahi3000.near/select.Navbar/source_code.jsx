@@ -218,9 +218,9 @@ function Navbar(props) {
         <Left>
           <Link
             to={href({
-              widgetSrc: routes.path,
+              widgetSrc: "abdullahi3000.near/widget/app",
               params: {
-                page: "help",
+                page: "home",
               },
             })}
             className="d-flex align-items-center"
@@ -280,9 +280,9 @@ function Navbar(props) {
         <MobileNavigation>
           <Link
             to={href({
-              widgetSrc: routes.path,
+              widgetSrc: abdullahi3000.near / widget / app,
               params: {
-                page: "help",
+                page: "home",
               },
             })}
           >
@@ -291,7 +291,7 @@ function Navbar(props) {
               onClick={() => setDropdown(false)}
               src="https://res.cloudinary.com/dtt0cjt51/image/upload/v1711122280/cafg8h33bpq15uugd8ta.png"
               style={{ height: 40 }}
-              alt="BuildDAO"
+              alt="Harmonic Guild"
             />
           </Link>
           <Button
@@ -310,9 +310,9 @@ function Navbar(props) {
           <MobileNavigation>
             <Link
               to={href({
-                widgetSrc: routes.path,
+                widgetSrc: "abdullahi3000.near/widget/app",
                 params: {
-                  page: "help",
+                  page: "home",
                 },
               })}
             >
@@ -320,7 +320,7 @@ function Navbar(props) {
                 onClick={() => setDropdown(false)}
                 src="https://res.cloudinary.com/dtt0cjt51/image/upload/v1711122280/cafg8h33bpq15uugd8ta.png"
                 style={{ height: 40 }}
-                alt="BuildDAO"
+                alt="Harmonic Guild"
               />
             </Link>
             <Button
