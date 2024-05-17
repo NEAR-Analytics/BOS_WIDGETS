@@ -128,7 +128,7 @@ return trade ? (
           <div className="gray">Price impact</div>
           <div
             style={{
-              color: props.showPriceImpactWarning ? "#FF75BF" : "#101010",
+              color: props.showPriceImpactWarning ? "#FF75BF" : "#fff",
             }}
           >
             {trade.priceImpact}%
