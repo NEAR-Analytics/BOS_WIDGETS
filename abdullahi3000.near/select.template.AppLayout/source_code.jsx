@@ -25,7 +25,7 @@ const ContentContainer = styled.div`
 
 const Header = ({ page, routes, ...props }) => (
   <Widget
-    src="abdullahi3000.near/widget/components.Navbar"
+    src="abdullahi3000.near/widget/select.Navbar"
     loading=""
     props={{ page, routes, ...props }}
   />
