@@ -461,7 +461,7 @@ return (
           </svg>
           <div className="view-code-text">View Code</div>
         </div>
-        <div>Powered by DapDap & NEAR</div>
+        <Widget src="dapdapbos.near/widget/Base.Uniswap.Swap.PowerBy" />
       </Power>
       {state.displayCurrencySelect && (
         <Widget
