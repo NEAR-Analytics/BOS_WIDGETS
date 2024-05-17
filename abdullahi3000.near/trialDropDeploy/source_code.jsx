@@ -234,6 +234,7 @@ const deployTrialAccount = () => {
 
 return (
   <>
+    <Widget src={"abdullahi3000.near/widget/Select.nav"} />
     <div className="d-flex overflow-hidden">
       <div className="py-4 flex-1 d-lg-flex justify-content-center h-100 overflow-auto">
         <div className="max-w-lg flex-1 mx-auto px-4 text-secondary">
