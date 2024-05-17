@@ -2,7 +2,7 @@ return {
   type: "app",
   routes: {
     home: {
-      path: "abdullahi3000.near/widget/page.home",
+      path: "abdullahi3000.near/widget/select.help",
       blockHeight: "final",
       init: {
         name: "Help",
