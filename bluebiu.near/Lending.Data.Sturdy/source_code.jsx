@@ -148,7 +148,57 @@ const ABI = [
     type: "function",
   },
 ];
-const { formatUnits } = ethers.utils;
+
+const RATE_ABI = [
+  {
+    inputs: [],
+    name: "MAX_FULL_UTIL_RATE",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_deltaTime",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_utilization",
+        type: "uint256",
+      },
+      {
+        internalType: "uint64",
+        name: "_oldFullUtilizationInterest",
+        type: "uint64",
+      },
+    ],
+    name: "getNewRate",
+    outputs: [
+      {
+        internalType: "uint64",
+        name: "_newRatePerSec",
+        type: "uint64",
+      },
+      {
+        internalType: "uint64",
+        name: "_newFullUtilizationInterest",
+        type: "uint64",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+];
+const { formatUnits, parseUnits } = ethers.utils;
 useEffect(() => {
   if (!account || !update || !multicallAddress) return;
   let count = 0;
@@ -161,6 +211,8 @@ useEffect(() => {
   let _yourBorrows = [];
   let _yourCollaterals = [];
   let _yourLends = [];
+  let _maxRateRes = [];
+  // let _ratePerSecRes = [];
 
   function formatData(params) {
     console.log(params, count);
@@ -204,13 +256,19 @@ useEffect(() => {
       rawMarkets[i].yourLendsUSD = Big(yourLends)
         .times(Big(prices[rawMarkets[i].TOKEN_B.symbol] || 1))
         .toFixed();
+
+      rawMarkets[i].MAX_FULL_UTIL_RATE = _maxRateRes[i] ? _maxRateRes[i][0] : 0;
     }
     for (let i = 0; i < rawMarkets.length; i++) {
       rawMarkets[i].Utilization = Big(rawMarkets[i].totalBorrows)
         .div(Big(rawMarkets[i].totalAssets))
         .toFixed(4);
     }
+    getNewRates(rawMarkets);
 
+    // for (let i = 0; i < rawMarkets.length; i++) {
+    //   rawMarkets[i].ratePerSecRes = _ratePerSecRes[i][0];
+    // }
     for (let i = 0; i < _balanceRes.length; i++) {
       TOKENS[i].balance = formatUnits(
         _balanceRes[i] ? _balanceRes[i][0] : 0,
@@ -522,7 +580,161 @@ useEffect(() => {
         console.log("getWalletBalance_error", err);
       });
   }
+  function getRate() {
+    // RATE_CONTRACT
 
+    const contract = new ethers.Contract(
+      "0xAE610460522F3e71c40Ad6a2c70f486341B88Daf",
+      [
+        {
+          inputs: [],
+          name: "MAX_FULL_UTIL_RATE",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "_deltaTime",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "_utilization",
+              type: "uint256",
+            },
+            {
+              internalType: "uint64",
+              name: "_oldFullUtilizationInterest",
+              type: "uint64",
+            },
+          ],
+          name: "getNewRate",
+          outputs: [
+            {
+              internalType: "uint64",
+              name: "_newRatePerSec",
+              type: "uint64",
+            },
+            {
+              internalType: "uint64",
+              name: "_newFullUtilizationInterest",
+              type: "uint64",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+      ],
+      Ethers.provider().getSigner()
+    );
+    contract
+      .getNewRate(0, 0, 0)
+      .then((res) => {
+        console.log(111, res, res[1].toString());
+
+        // _totalBorrowRes = res;
+        count++;
+        formatData("getRate");
+      })
+      .catch((err) => {
+        console.log(222, err);
+      });
+  }
+
+  function getMaxRates() {
+    const calls = rawMarkets.map((item) => ({
+      address: item.RATE_CONTRACT,
+      name: "MAX_FULL_UTIL_RATE",
+      // params: [],
+    }));
+
+    multicall({
+      abi: RATE_ABI,
+      calls,
+      options: {},
+      multicallAddress,
+      provider: Ethers.provider(),
+    })
+      .then((res) => {
+        console.log("getMaxRates--", res);
+        _maxRateRes = res;
+        count++;
+        formatData("getMaxRates");
+      })
+      .catch((err) => {
+        console.log("getRates-error:", err);
+      });
+  }
+  function getNewRates(rawMarkets) {
+    const calls = rawMarkets.map((item) => {
+      return {
+        address: item.RATE_CONTRACT,
+        name: "getNewRate",
+        params: [0, parseUnits(item.Utilization, 5), item.MAX_FULL_UTIL_RATE],
+      };
+    });
+
+    multicall({
+      abi: RATE_ABI,
+      calls,
+      options: {},
+      multicallAddress,
+      provider: Ethers.provider(),
+    })
+      .then((res) => {
+        console.log("getNewRates--", res);
+
+        for (let index = 0; index < res.length; index++) {
+          let _ratePerSec = res[index][0].toString();
+          const { borrowAPR, lendAPR } = caLcSiLoAPYS(
+            _ratePerSec,
+            rawMarkets[index].Utilization,
+            rawMarkets[index].protocolFee
+          );
+          rawMarkets[index].borrowAPR = borrowAPR;
+          rawMarkets[index].lendAPR = lendAPR;
+        }
+        onLoad({
+          markets: rawMarkets,
+        });
+      })
+      .catch((err) => {
+        console.log("getNewRates-error:", err);
+      });
+  }
+
+  function caLcSiLoAPYS(ratePerSec, utilizationRate, protocolFee) {
+    const FEE_PRECISION = 100_000;
+    const RATE_PRECISION = Math.pow(10, 18);
+    const SECONDS_PER_YEAR = 60 * 60 * 24 * 365;
+
+    const interestPerSecond = Big(ratePerSec).div(RATE_PRECISION);
+    const fee = Big(protocolFee).div(FEE_PRECISION).toNumber();
+
+    const borrowAPR = interestPerSecond.times(SECONDS_PER_YEAR).toString();
+    // const borrowAPY =
+    //   (1 + interestPerSecond) ** SECONDS_PER_YEAR.toNumber() - 1;
+    const lendAPR = Big(borrowAPR)
+      .times(1 - fee)
+      .times(utilizationRate)
+      .toString();
+    // const lendAPY = borrowAPY * (1 - fee) * utilizationRate;
+    return {
+      borrowAPR,
+      lendAPR,
+      //  borrowAPY, lendAPY,
+    };
+  }
+  caLcSiLoAPYS(7503944640, 0.8184, 0.1);
   getTotalBorrow();
   getTotalAssets();
   getLiquidationFee();
@@ -531,4 +743,5 @@ useEffect(() => {
   getUserSnapshot();
   getUserLends();
   getWalletBalance();
+  getMaxRates();
 }, [account, update]);
