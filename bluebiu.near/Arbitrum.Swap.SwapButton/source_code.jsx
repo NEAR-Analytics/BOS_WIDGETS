@@ -189,7 +189,7 @@ const getAllowance = () => {
   });
 };
 
-if (!inputCurrency.isNative) {
+if (!inputCurrency.isNative || inputCurrency.chainId === 1088) {
   getAllowance();
 } else {
   State.update({ isApproved: true });
