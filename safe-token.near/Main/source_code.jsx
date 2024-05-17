@@ -97,7 +97,7 @@ const TabContainer = styled.div`
 `;
 
 const TabItem = styled("Link")`
-  color: black;
+  color: white;
   cursor: pointer;
   font-size: 18px;
   font-weight: 600;
