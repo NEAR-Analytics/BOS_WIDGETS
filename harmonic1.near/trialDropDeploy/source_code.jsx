@@ -201,12 +201,12 @@ const deployTrialAccount = () => {
 };
 
 return (
-  <Tailwind>
-    <div className="flex overflow-hidden">
-      <div className="py-12 flex-1 lg:flex lg:justify-center lg:h-screen lg:overflow-auto">
-        <div className="max-w-lg flex-1 mx-auto px-4 text-gray-600">
+  <>
+    <div className="d-flex overflow-hidden">
+      <div className="py-4 flex-1 d-lg-flex justify-content-center h-100 overflow-auto">
+        <div className="max-w-lg flex-1 mx-auto px-4 text-secondary">
           <div>
-            <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl">
+            <h3 className="text-dark display-4 font-weight-semibold">
               Create Trials for your dApps
             </h3>
             <p className="mt-3">
@@ -214,47 +214,41 @@ return (
             </p>
           </div>
           {context.accountId ? (
-            <div className="space-y-5 mt-12 lg:pb-12">
-              <div>
-                <label className="font-medium">Callable Contract</label>
+            <div className="mt-3 pb-lg-5">
+              <div className="form-group">
+                <label className="font-weight-medium">Callable Contract</label>
                 <input
                   type="text"
                   placeholder="social.near"
                   value={callableContract}
-                  //onChange={handleCallableContractChange}
                   onChange={(e) => setCallableContract(e.target.value)}
-                  //required
-                  className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-gray-800 shadow-sm rounded-lg"
+                  className="form-control mt-2"
                 />
               </div>
-              <div>
-                <label className="font-medium">Callable Methods</label>
+              <div className="form-group">
+                <label className="font-weight-medium">Callable Methods</label>
                 <input
-                  //type="email"
-                  placeholder="set,get (comma seperated method names)"
-                  //onChange={(e) => setCallableContract(e.target.value)}
-                  //required
-                  className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-gray-800 shadow-sm rounded-lg"
+                  type="text"
+                  placeholder="set,get (comma separated method names)"
+                  className="form-control mt-2"
                 />
               </div>
-              <div>
-                <label className="font-medium">Starting Balance</label>
+              <div className="form-group">
+                <label className="font-weight-medium">Starting Balance</label>
                 <input
-                  //type="text"
+                  type="text"
                   placeholder="0.1"
                   onChange={(e) => setStartingBalance(e.target.value)}
-                  //required
-                  className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-gray-800 shadow-sm rounded-lg"
+                  className="form-control mt-2"
                 />
               </div>
-              <div>
-                <label className="font-medium">Trial End Floor</label>
+              <div className="form-group">
+                <label className="font-weight-medium">Trial End Floor</label>
                 <input
-                  //type="email"
+                  type="text"
                   placeholder="0.01"
                   onChange={(e) => setTrialEndFloor(e.target.value)}
-                  //required
-                  className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-gray-800 shadow-sm rounded-lg"
+                  className="form-control mt-2"
                 />
               </div>
 
@@ -262,20 +256,20 @@ return (
                 onClick={async () => {
                   deployTrialAccount();
                 }}
-                className="w-full px-4 py-2 text-white font-medium bg-gray-800 hover:bg-gray-700 active:bg-gray-900 rounded-lg duration-150"
+                className="btn btn-dark w-100 mt-3"
               >
                 Create Drop
               </button>
             </div>
           ) : (
-            <h2 className="text-gray-800 text-3xl font-semibold sm:text-4xl">
+            <h2 className="text-dark display-4 font-weight-semibold">
               Please sign in with your account
             </h2>
           )}
         </div>
       </div>
     </div>
-  </Tailwind>
+  </>
 );
 
 // <Tailwind>
