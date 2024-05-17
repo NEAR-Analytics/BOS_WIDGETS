@@ -91,6 +91,7 @@ return (
     className="container-fluid justify-content-center align-items-center"
     style={{ backgroundColor: "#151718", overflowY: "auto", height: "100vh" }}
   >
+    <Widget src={"abdullahi3000.near/widget/Select.nav"} />
     <iframe
       className="w-100 h-100"
       style={{ border: "none" }}
