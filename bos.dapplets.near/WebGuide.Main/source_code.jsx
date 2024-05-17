@@ -182,7 +182,7 @@ const twitterConfig = {
           id: "bos.dapplets.near/mutation/EarTrigger/copy/1",
           status: [],
           title: "Apps control panel",
-          content: '[See other Mutable Web facilities on X](https://augm.link/mutate/?t=https%3A%2F%2Ftwitter.com%2FMrConCreator&m=bos.dapplets.near%2Fmutation%2FSandbox)',
+          content: '[See other Mutable Web facilities on NEAR Social](https://social.dapplets.org/mob.near/widget/ProfilePage?accountId=dappletsproject.near)',
         },
       ],
     },
