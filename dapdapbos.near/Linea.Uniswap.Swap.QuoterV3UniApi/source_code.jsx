@@ -90,6 +90,10 @@ const fetchTradeInfo = () => {
             gasCost: data.gasUseEstimateUSD,
             priceImpact: Number(data.priceImpact) ? data.priceImpact : 0,
             routes: data.route,
+            gas: Big(data.gasPriceWei || 0)
+              .mul(data.gasUseEstimate)
+              .div(Big(10).pow(18))
+              .toString(),
           },
         });
         setTimeout(() => {
