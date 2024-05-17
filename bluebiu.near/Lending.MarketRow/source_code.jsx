@@ -49,9 +49,15 @@ State.init({
 });
 
 let _borrowLimit = 0;
+
 // for Ionic
 if (dexConfig.name === "Ionic") {
+  const currentTokenCollateralUSD = Big(data.userCollateralUSD || 0).times(
+    Big(data.COLLATERAL_FACTOR)
+  );
+
   _borrowLimit = Big(totalCollateralUsd)
+    .minus(currentTokenCollateralUSD)
     .minus(Big(userTotalBorrowUsd))
     .toFixed(6);
 } else {
