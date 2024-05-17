@@ -1,4 +1,4 @@
-const CustomTooltip = styled("DappletTooltip")`
+const CustomTooltipDefault = styled("DappletTooltip")`
   z-index: 9999999; // over the notch
 
   &[data-popper-reference-hidden="true"] {
@@ -45,6 +45,53 @@ const CustomTooltip = styled("DappletTooltip")`
   }
 `
 
+const CustomTooltipMeta = styled("DappletTooltip")`
+  z-index: 9999999; // over the notch
+
+  &[data-popper-reference-hidden="true"] {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .tooltip-arrow::before {
+    border: none;
+    display: inline-block;
+    content: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='19' height='38' viewBox='18 0 20 38' fill='none' ><path d='M34.3818 22.1845L19.5654 36.0575L19.5654 1.8284L34.3715 15.6052C36.2802 17.3812 36.285 20.4025 34.3818 22.1845Z' fill='%234E77E1' stroke='%234E77E1' /><path d='M16.5693 2.96185L20.0642 2.96185L21.0642 3.96185L21.0642 33.9619L20.0642 34.9619H16.5693L16.5693 2.96185Z' fill='%234E77E1' /></svg>");
+  }
+
+  &.bs-tooltip-top .tooltip-arrow {
+    bottom: -29px;
+
+    &::before {
+      transform: rotate(90deg);
+    }
+  }
+
+  &.bs-tooltip-end .tooltip-arrow {
+    left: -18px;
+
+    &::before {
+      transform: rotate(180deg);
+    }
+  }
+
+  &.bs-tooltip-bottom .tooltip-arrow {
+    top: -29px;
+
+    &::before {
+      transform: rotate(-90deg);
+    }
+  }
+
+  &.bs-tooltip-start .tooltip-arrow {
+    right: -18px;
+
+    &::before {
+      transform: rotate(0deg);
+    }
+  }
+`
+
 const InfoBox = styled.div`
   position: absolute;
   top: 50%;
@@ -55,8 +102,8 @@ const InfoBox = styled.div`
   box-sizing: border-box;
   width: 546px;
   height: 656px;
-  background: #fffffe;
-  border: 1px solid #02193A;
+  border: 1px solid ${(props) => props.$border};
+  background: ${(props) => props.$bg};
   border-radius: 20px;
   padding: 20px;
   gap: 20px;
@@ -88,14 +135,14 @@ const Callout = styled.div`
   align-items: center;
   gap: 20px;
   border-radius: 10px;
-  border: 1px solid #02193a;
-  background: #fffffe;
+  border: 1px solid ${(props) => props.$border};
+  background: ${(props) => props.$bg};
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 `
 
 const Header = styled.div`
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  color: #02193a;
+  color: ${(props) => props.$col};
   position: relative;
   display: flex;
   flex-direction: column;
@@ -121,7 +168,7 @@ const CalloutHeaderCaption = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: #02193a;
+  color: ${(props) => props.$col};
   font-size: 12px;
   font-style: normal;
   font-weight: 600;
@@ -146,8 +193,8 @@ const Navi = styled.div`
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: ${(props) => (props.$active ? "#384BFF" : "#E3E3E3")};
-  border: none;
+  background: ${(props) => (props.$active ? props.$navActive : props.$navInactiveBg)};
+  border: ${(props) => (props.$active ? 'none' : `1px solid ${props.$navInactiveBorder}`)};
 `
 
 const Close = styled.button`
@@ -161,7 +208,7 @@ const Title = styled.div`
   padding: 0;
   margin: 0 0 -10px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  color: #02193a;
+  color: ${(props) => props.$col};
   font-size: ${(props) => (props.$type === "infobox" ? "32px" : "18px")};
   font-style: normal;
   font-weight: 600;
@@ -182,26 +229,33 @@ const WrapperAlert = styled.div`
       ? "rgba(255, 248, 235, 1)"
       : props.$status === "error"
       ? "rgba(246, 240, 246, 1)"
-      : "rgba(234, 241, 255, 1)"};
+      : "rgba(255, 255, 255, 0.2)"};
 
   color: ${(props) =>
     props.$status === "warning"
       ? "rgba(208, 145, 26, 1)"
       : props.$status === "error"
       ? "rgba(219, 80, 74, 1)"
-      : "rgba(36, 110, 253, 1)"};
+      : "white"};
 
   outline: none;
 `
 
-const TextAlert = styled.span`
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 17.88px;
-  text-align: left;
+const IconAlert = styled.div`
+  margin: 0;
+  padding: 0;
+  position: relative;
+  display: flex;
+  width: 16px;
 `
 
-const IconAlert = styled.span``
+const TextAlert = styled.div`
+  font-size: 12px;
+  font-weight: 400;
+  text-align: left;
+  margin: 0;
+  padding: 0;
+`
 
 const Card = styled.div`
   position: relative;
@@ -215,7 +269,7 @@ const Card = styled.div`
   gap: 10px;
   border: none;
   border-radius: 20px;
-  background: rgba(248, 249, 255, 1);
+  background: ${(props) => props.$bg};
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   overflow-x: hidden;
 `
@@ -229,7 +283,7 @@ const MarkdownWrapper = styled.div`
     font-weight: 500;
     font-size: 16px;
     line-height: 19px;
-    color: #121212;
+    color: ${(props) => props.$colH};
     flex: none;
     align-self: stretch;
     flex-grow: 0;
@@ -249,14 +303,14 @@ const MarkdownWrapper = styled.div`
   }
 
   p {
-    padding: 0;
-    margin: 0;
+    margin-block-start: 0.5em;
+    margin-block-end: .5em;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
     line-height: 149%;
-    color: #777777;
+    color: ${(props) => props.$colP};
     flex: none;
     align-self: stretch;
     flex-grow: 0;
@@ -271,7 +325,7 @@ const MarkdownWrapper = styled.div`
     font-size: 14px;
     line-height: 149%;
     text-decoration-line: underline !important;
-    color: #384BFF;
+    color: ${(props) => props.$colH};
     cursor: 'poiner';
   }
 `
@@ -330,20 +384,24 @@ const ActionButton = styled.div`
   text-align: center;
   font-size: 14px;
   cursor: pointer;
-  border: ${(props) => (props.$primary ? "initial" : "1px solid #E2E2E5")};
-  background: ${(props) => (props.$primary ? "#02193A" : "initial")};
-  color: ${(props) => (props.$primary ? "#fff" : "initial")};
+  border: ${(props) => (props.$primary ? "initial" : `1px solid ${props.$secBorderCol}`)};
+  background: ${(props) => (props.$primary ? props.$primBg : "initial")};
+  color: ${(props) => (props.$primary ? props.$primCol : props.$secCol)};
+  -webkit-user-select: none; /* Chrome/Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE/Edge */
+  user-select: none;
 
   &:hover {
-    background: ${(props) => (props.$primary ? "#1c3559" : "#eee")};
+    background: ${(props) => (props.$primary ? props.$primBgH : props.$secBgH)};
   }
 
   &:active {
-    background: ${(props) => (props.$primary ? "#020c19" : "#ddd")};
+    background: ${(props) => (props.$primary ? props.$primBgA : props.$secBgA)};
   }
 `
 
-const iconClose = (
+const iconClose = (color) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
@@ -353,14 +411,14 @@ const iconClose = (
   >
     <path
       d="M18 6L6 18"
-      stroke="#02193A"
+      stroke={color}
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M6 6.5L18 18.5"
-      stroke="#02193A"
+      stroke={color}
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -418,21 +476,24 @@ const infoIcon = (
     <g clipPath="url(#clip0_358_90)">
       <path
         d="M9.99996 18.3333C14.6023 18.3333 18.3333 14.6024 18.3333 10C18.3333 5.39763 14.6023 1.66667 9.99996 1.66667C5.39759 1.66667 1.66663 5.39763 1.66663 10C1.66663 14.6024 5.39759 18.3333 9.99996 18.3333Z"
-        stroke="#246EFD"
+        // stroke="#246EFD"
+        stroke="white"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M10 13.3333V10"
-        stroke="#246EFD"
+        // stroke="#246EFD"
+        stroke="white"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M10 6.66667H10.0088"
-        stroke="#246EFD"
+        // stroke="#246EFD"
+        stroke="white"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -478,6 +539,45 @@ const warningIcon = (
   </svg>
 )
 
+const themes = {
+  DEFAULT: {
+    bgMain: '#fffffe',
+    colorMain: '#02193a',
+    colorP: '#777777',
+    border: '#02193a',
+    cardBg: 'rgba(248, 249, 255, 1)',
+    navActive: "#384BFF",
+    navInactiveBg: "#E3E3E3",
+    navInactiveBorder: 'none',
+    primBtnCol: 'white',
+    primBtnBg: '#02193a',
+    primBtnBgH: "#1c3559",
+    primBtnBgA: "#020c19",
+    secBtnCol: '#02193a',
+    secBtnBorderCol: '#E2E2E5',
+    secBtnBgH: "#eee",
+    secBtnBgA: "#ddd",
+  },
+  'META_GUIDE': {
+    bgMain: '#4E77E1',
+    colorMain: 'white',
+    colorP: 'rgba(248, 249, 255, 1)',
+    border: '#4E77E1',
+    cardBg: 'rgba(255, 255, 255, 0.1)',
+    navActive: "white",
+    navInactiveBg: "#4E77E1",
+    navInactiveBorder: 'white',
+    primBtnCol: '#4E77E1',
+    primBtnBgH: 'rgb(242 243 255)',
+    primBtnBgA: 'rgb(222 225 255)',
+    primBtnBg: 'white',
+    secBtnCol: 'white',
+    secBtnBorderCol: 'white',
+    secBtnBgH: '#5f84e4',
+    secBtnBgA: '#6c8ee5',
+  },
+}
+
 const {
   children,
   content,
@@ -489,12 +589,13 @@ const {
   showChecked,
   checked,
   onDoNotShowChange,
+  skin,
 } = props
 
 const header = (
-  <Header>
+  <Header $col={themes[skin].colorMain}>
     <TopLine>
-      <CalloutHeaderCaption>
+      <CalloutHeaderCaption $col={themes[skin].colorMain}>
         Step {navi?.currentChapterIndex + 1} of {navi?.totalChapters}
       </CalloutHeaderCaption>
       <PagesIndicators>
@@ -503,11 +604,14 @@ const header = (
             <Navi
               key={index}
               $active={index == navi?.currentPageIndex ? true : false}
+              $navActive={themes[skin].navActive}
+              $navInactiveBg={themes[skin].navInactiveBg}
+              $navInactiveBorder={themes[skin].navInactiveBorder}
             />
           )
         )}
       </PagesIndicators>
-      <Close onClick={onClose}>{iconClose}</Close>
+      <Close onClick={onClose}>{iconClose(themes[skin].colorMain)}</Close>
     </TopLine>
   </Header>
 )
@@ -540,6 +644,14 @@ const actionButton = (btn) => (
   <ActionButton
     key={btn.label}
     $primary={btn.variant == "primary" ? true : false}
+    $primCol={themes[skin].primBtnCol}
+    $primBg={themes[skin].primBtnBg}
+    $primBgH={themes[skin].primBtnBgH}
+    $primBgA={themes[skin].primBtnBgA}
+    $secCol={themes[skin].secBtnCol}
+    $secBorderCol={themes[skin].secBtnBorderCol}
+    $secBgH={themes[skin].secBtnBgH}
+    $secBgA={themes[skin].secBtnBgA}
     onClick={btn.onClick}
     disabled={btn.disabled}
   >
@@ -563,35 +675,51 @@ const navButtons = props.type === 'callout' ? (
 ) : <></>
 
 const callout = (
-  <CustomTooltip bsPrefix="wg-tooltip">
-    <Callout 
-      data-mweb-context-type="wg-chapter" 
-      data-mweb-context-parsed={JSON.stringify({ id: props.id })}
-    >
-      {header}
-      {props.status?.text ? statuses : null}
-      <Title $type={props.type}>
-        {title}
-      </Title>
-      <MarkdownWrapper>
-        <Markdown text={content}/>
-      </MarkdownWrapper>
-      {showChecked ? checkbox : null}
-      {navButtons}
-      <div data-mweb-insertion-point="hidden" style={{ display: 'none' }}/>
-    </Callout>
-  </CustomTooltip>
-)
-
-const infobox = (
-  <InfoBox>
+  <Callout 
+    data-mweb-context-type="wg-chapter" 
+    data-mweb-context-parsed={JSON.stringify({ id: props.id })}
+    $border={themes[skin].border}
+    $bg={themes[skin].bgMain}
+  >
     {header}
-    <Title $type={props.type}>
+    {props.status?.text ? statuses : null}
+    <Title $type={props.type} $col={themes[skin].colorMain}>
       {title}
     </Title>
-    <Card>
+    <MarkdownWrapper $colH={themes[skin].colorMain} $colP={themes[skin].colorP}>
+      <Markdown text={content}/>
+    </MarkdownWrapper>
+    {showChecked ? checkbox : null}
+    {navButtons}
+    <div data-mweb-insertion-point="hidden" style={{ display: 'none' }}/>
+  </Callout>
+)
+
+const calloutTooltip = {
+  DEFAULT: (
+    <CustomTooltipDefault bsPrefix="wg-tooltip">
+      {callout}
+    </CustomTooltipDefault>
+  ),
+  'META_GUIDE': (
+    <CustomTooltipMeta bsPrefix="wg-tooltip">
+      {callout}
+    </CustomTooltipMeta>
+  ),
+}
+
+const infobox = (
+  <InfoBox
+    $border={themes[skin].border}
+    $bg={themes[skin].bgMain}
+  >
+    {header}
+    <Title $type={props.type} $col={themes[skin].colorMain}>
+      {title}
+    </Title>
+    <Card $bg={themes[skin].cardBg}>
       {props.status?.text ? statuses : null}
-      <MarkdownWrapper>
+      <MarkdownWrapper $colH={themes[skin].colorMain} $colP={themes[skin].colorP}>
         <Markdown text={content}/>
       </MarkdownWrapper>
     </Card>
@@ -606,7 +734,7 @@ const overlayByType = {
   callout: (
     <DappletOverlayTrigger
       show={true}
-      overlay={callout}
+      overlay={calloutTooltip[skin]}
       placement={props.placement ?? "auto"}
       offset={[0, 20]}
       popperConfig={{ strategy: props.strategy ?? 'absolute' }}
