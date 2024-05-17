@@ -90,6 +90,7 @@ const {
   loading: estimating,
   gas,
   isBigerThanBalance,
+  dexConfig,
 } = props;
 
 const { parseUnits, formatUnits } = ethers.utils;
