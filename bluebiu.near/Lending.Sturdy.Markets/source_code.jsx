@@ -33,12 +33,12 @@ const COLUMNS = [
     width: "16%",
     type: "AMOUNT",
   },
-  {
-    key: "collateralAPY",
-    label: "Collateral APY",
-    width: "16%",
-    type: "PERCENT",
-  },
+  // {
+  //   key: "collateralAPY",
+  //   label: "Collateral APY",
+  //   width: "16%",
+  //   type: "PERCENT",
+  // },
   {
     key: "borrowAPR",
     label: "Borrow APR",
