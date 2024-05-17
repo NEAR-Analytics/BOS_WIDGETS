@@ -207,25 +207,25 @@ const nearSocialConfig = {
         },
       ]
     },
-    {
-      id: "bos.dapplets.near/gateway/MutableWebDropdown/2",
-      type: 'callout',
-      strategy: 'fixed',
-      placement: 'right',
-      namespace: "mweb",
-      contextType: "mweb-gateway",
-      injectTo: "mutations-list",
-      if: { id: { eq: "mutations-list" } },
-      arrowTo: "context",
-      pages: [
-        {
-          id: "bos.dapplets.near/gateway/MutableWebDropdown/2/1",
-          title: "All mutations",
-          status: [],
-          content: "Each mutation defines the set of applications. Select it from the list.",
-        },
-      ]
-    },
+    // {
+    //   id: "bos.dapplets.near/gateway/MutableWebDropdown/2",
+    //   type: 'callout',
+    //   strategy: 'fixed',
+    //   placement: 'right',
+    //   namespace: "mweb",
+    //   contextType: "mweb-gateway",
+    //   injectTo: "mutations-list",
+    //   if: { id: { eq: "mutations-list" } },
+    //   arrowTo: "context",
+    //   pages: [
+    //     {
+    //       id: "bos.dapplets.near/gateway/MutableWebDropdown/2/1",
+    //       title: "All mutations",
+    //       status: [],
+    //       content: "Each mutation defines the set of applications. Select it from the list.",
+    //     },
+    //   ]
+    // },
     // {
     //   id: "bos.dapplets.near/app/Tipping/1",
     //   type: 'callout',
