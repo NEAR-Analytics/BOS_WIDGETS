@@ -85,18 +85,26 @@ const code = `
 </html>
 
 `;
+const ContentContainer = styled.div`
+  z-index: 10;
+  top: 100%;
+  position: absolute
+  width: 100%
+`;
 
 return (
-  <div
-    className="container-fluid justify-content-center align-items-center"
-    style={{ backgroundColor: "#151718", overflowY: "auto", height: "100vh" }}
-  >
+  <ContentContainer>
     <Widget src={"abdullahi3000.near/widget/Select.nav"} />
-    <iframe
-      className="w-100 h-100"
-      style={{ border: "none" }}
-      srcDoc={code}
-      title="PDF Viewer"
-    />
-  </div>
+    <div
+      className="container-fluid justify-content-center align-items-center"
+      style={{ height: "100vh" }}
+    >
+      <iframe
+        className="w-100 h-100"
+        style={{ border: "none" }}
+        srcDoc={code}
+        title="PDF Viewer"
+      />
+    </div>
+  </ContentContainer>
 );
