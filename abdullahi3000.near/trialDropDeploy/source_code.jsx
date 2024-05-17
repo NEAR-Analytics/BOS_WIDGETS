@@ -141,9 +141,10 @@ const deployTrialAccount = () => {
   const attachableForMapping = parseNearAmount("0.002"); // put the equivent yocto amount
 
   // Generate the proper args for setup:
-  let actualContracts = callableContractValuesArray.map(
+  let mappedVal = callableContractValuesArray.map(
     (value) => value + ",v1.mapping.keypom.near"
   );
+  let actualContracts = mappedVal.join(",");
   let actualAmounts =
     maxAttachableYoctoPerContract + "," + attachableForMapping;
   let actualMethods = callableMethods + "," + "set";
