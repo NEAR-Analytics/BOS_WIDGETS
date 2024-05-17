@@ -9,10 +9,11 @@ const twitterConfig = {
         {
           id: "bos.dapplets.near/gateway/MutableWebExtension/Welcome",
           title: "You’re entering Mutable Web",
-          status: [{ info: 'You must be logged in to make all features available' }],
-          content: "\nMutable Web is a new web3 paradigm that allows anyone to add custom functionality to existing websites and share it with your community— no matter who owns the website.\n\nBecome a co-owner of any website you are use!\n\n### Mutation switch\n\n![](https://raw.githubusercontent.com/dapplets/bos-components/main/assets/onboarding-video-001.webp)\n\nYou can switch between website mutations created by different communities.\n\n[See more examples in our playground](https://twitter.com/MrConCreator)\n",
+          status: [],
+          content: "\nMutable Web is a new web3 paradigm that allows anyone to add custom functionality to existing websites and share it with your community— no matter who owns the website.\n\nBecome a co-owner of any website you are use!\n\n### Mutation switch\n\n![](https://raw.githubusercontent.com/dapplets/bos-components/main/assets/onboarding-video-001.webp)\n\nYou can switch between website mutations created by different communities.",
         },
-      ]
+      ],
+      skin: 'META_GUIDE',
     },
     {
       id: "bos.dapplets.near/gateway/MutableWebExtensionNotch",
@@ -31,7 +32,8 @@ const twitterConfig = {
           status: [{ info: 'Click on the dropdown box' }],
           content: "Mutation switch allows user to choose between application sets.",
         },
-      ]
+      ],
+      skin: 'META_GUIDE',
     },
     {
       id: "bos.dapplets.near/gateway/MutableWebExtensionDropdown/1",
@@ -56,7 +58,8 @@ const twitterConfig = {
           status: [{ info: 'Click on the dropdown box below' }],
           content: "The “Trash” removes the mutation from the “Recentt” list.",
         },
-      ]
+      ],
+      skin: 'META_GUIDE',
     },
     {
       id: "bos.dapplets.near/gateway/MutableWebExtensionDropdown/2",
@@ -75,7 +78,8 @@ const twitterConfig = {
           status: [],
           content: "This is the list of all available, previously unused mutations.",
         },
-      ]
+      ],
+      skin: 'META_GUIDE',
     },
     {
       id: "bos.dapplets.near/gateway/MutableWebExtensionDropdown/3",
@@ -93,7 +97,8 @@ const twitterConfig = {
           status: [],
           content: 'The "Mutate" button allows users to create, fork, and edit mutations.',
         },
-      ]
+      ],
+      skin: 'META_GUIDE',
     },
     {
       id: "bos.dapplets.near/app/Tipping/1",
@@ -111,6 +116,7 @@ const twitterConfig = {
           content: "If you want to thank the author of the tweet you like...",
         },
       ],
+      skin: 'META_GUIDE',
     },
     {
       id: "bos.dapplets.near/app/Tipping/2",
@@ -131,6 +137,7 @@ const twitterConfig = {
           content: "... you can send them a tip through our application.",
         },
       ],
+      skin: 'META_GUIDE',
     },
     {
       id: "bos.dapplets.near/app/Paywall",
@@ -151,6 +158,7 @@ const twitterConfig = {
           content: "Paywall app allows users to add images to posts and sell access to them.",
         },
       ],
+      skin: 'META_GUIDE',
     },
     {
       id: "bos.dapplets.near/mutation/EarTrigger",
@@ -168,6 +176,7 @@ const twitterConfig = {
           content: 'We add the app control panel to each post. You can add widgets to the post or panel to extend the functionality of the site.',
         },
       ],
+      skin: 'META_GUIDE',
     },
     {
       id: "bos.dapplets.near/mutation/EarTrigger/copy",
@@ -185,6 +194,7 @@ const twitterConfig = {
           content: '[See other Mutable Web facilities on NEAR Social](https://social.dapplets.org/mob.near/widget/ProfilePage?accountId=dappletsproject.near)',
         },
       ],
+      skin: 'META_GUIDE',
     },
   ],
 }
@@ -200,10 +210,11 @@ const nearSocialConfig = {
         {
           id: "bos.dapplets.near/gateway/MutableWeb/Welcome",
           title: "You’re entering Mutable Web",
-          status: [{ info: 'You must be logged in to make all features available' }],
-          content: "Mutable Web is a new web3 paradigm that allows anyone to add custom functionality to existing websites and share them within your community — no matter who owns the website.\n\nBecome the co-owner of any website you are using!\n\n### Mutation switch\n\n![](https://raw.githubusercontent.com/dapplets/bos-components/main/assets/onboarding-008.png)\n\nYou can switch between website mutations created by different communities.\n\n[Mutable Web also runs on X](https://augm.link/mutate/?t=https%3A%2F%2Ftwitter.com%2FMrConCreator&m=bos.dapplets.near%2Fmutation%2FSandbox). Сheck its’ Web Guide there!",
+          status: [],
+          content: "[Mutable Web also runs on Legacy Web2.](https://augm.link/mutate/?t=https%3A%2F%2Ftwitter.com%2FMrConCreator&m=bos.dapplets.near%2Fmutation%2FSandbox) Check its’ Web Guide there!\n\nMutable Web is a new web3 paradigm that allows anyone to add custom functionality to existing websites and share them within your community — no matter who owns the website.\n\nBecome the co-owner of any website you are using!\n\n### Mutation switch\n\n![](https://raw.githubusercontent.com/dapplets/bos-components/main/assets/onboarding-008.png)\n\nYou can switch between website mutations created by different communities.",
         },
-      ]
+      ],
+      skin: 'META_GUIDE',
     },
     {
       id: "bos.dapplets.near/gateway/MutableWebDropdown/1",
@@ -222,7 +233,8 @@ const nearSocialConfig = {
           status: [{ info: 'Click on the dropdown box' }],
           content: "This is a mutation switcher to select the desired set of applications.",
         },
-      ]
+      ],
+      skin: 'META_GUIDE',
     },
     // {
     //   id: "bos.dapplets.near/gateway/MutableWebDropdown/2",
@@ -241,7 +253,8 @@ const nearSocialConfig = {
     //       status: [],
     //       content: "Each mutation defines the set of applications. Select it from the list.",
     //     },
-    //   ]
+    //   ],
+    //   skin: 'META_GUIDE',
     // },
     // {
     //   id: "bos.dapplets.near/app/Tipping/1",
@@ -259,6 +272,7 @@ const nearSocialConfig = {
     //       content: "If you want to thank the author of the post you like...",
     //     },
     //   ],
+    //   skin: 'META_GUIDE',
     // },
     {
       id: "bos.dapplets.near/app/Tipping/2",
@@ -279,6 +293,7 @@ const nearSocialConfig = {
           content: "If you want to thank the author of the post you like, you can send them a tip through our application.",
         },
       ],
+      skin: 'META_GUIDE',
     },
     {
       id: "bos.dapplets.near/mutation/EarTrigger",
@@ -296,6 +311,7 @@ const nearSocialConfig = {
           content: 'We’ve added a special container to all posts. This allows users to attach widgets that extend the possibilities of Near Social.',
         },
       ],
+      skin: 'META_GUIDE',
     },
     {
       id: "bos.dapplets.near/mutation/EarTrigger/copy",
@@ -313,6 +329,7 @@ const nearSocialConfig = {
           content: '[See other Mutable Web facilities on X](https://augm.link/mutate/?t=https%3A%2F%2Ftwitter.com%2FMrConCreator&m=bos.dapplets.near%2Fmutation%2FSandbox)',
         },
       ],
+      skin: 'META_GUIDE',
     },
   ],
 }
@@ -504,6 +521,7 @@ const ChapterWrapper = (props) => {
                 return props.children;
               }
             : props.children,
+        skin: currentChapter.skin ?? 'DEFAULT',
       }}
     />
   )
