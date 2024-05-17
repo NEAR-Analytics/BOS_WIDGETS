@@ -141,10 +141,9 @@ const deployTrialAccount = () => {
   const attachableForMapping = parseNearAmount("0.002"); // put the equivent yocto amount
 
   // Generate the proper args for setup:
-  let mappedVal = callableContractValuesArray.map(
+  let actualContracts = callableContractValuesArray.map(
     (value) => value + ",v1.mapping.keypom.near"
   );
-  let actualContracts = mappedVal.join(",");
   let actualAmounts =
     maxAttachableYoctoPerContract + "," + attachableForMapping;
   let actualMethods = callableMethods + "," + "set";
@@ -232,88 +231,77 @@ const deployTrialAccount = () => {
   );
 };
 
-const ContentContainer = styled.div`
-  z-index: 10;
-  top: 100%;
-  position: absolute
-`;
-
 return (
   <>
-    <Widget src={"abdullahi3000.near/widget/Select.nav"} />
-    <ContentContainer>
-      <div className="d-flex overflow-hidden">
-        <div className="py-4 flex-1 d-lg-flex justify-content-center h-100 overflow-auto">
-          <div className="max-w-lg flex-1 mx-auto px-4 text-secondary">
-            <div>
-              <h3 className="text-dark display-4 font-weight-semibold">
-                Create Trials for your dApps
-              </h3>
-              <p className="mt-3">
-                Configure your unique trial experience powered by Keypom.
-              </p>
-            </div>
-            {context.accountId ? (
-              <div className="mt-3 pb-lg-5">
-                <div className="form-group">
-                  <label className="font-weight-medium">
-                    Callable Contract
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="social.near"
-                    value={callableContract}
-                    onChange={handleCallableContractInput}
-                    className="form-control mt-2"
-                  />
-                </div>
-                <div className="form-group">
-                  <label className="font-weight-medium">Callable Methods</label>
-                  <input
-                    type="text"
-                    value={callableMethods}
-                    onChange={handleCallableMethodsInput}
-                    placeholder="set,get (comma separated method names)"
-                    className="form-control mt-2"
-                  />
-                </div>
-                <div className="form-group">
-                  <label className="font-weight-medium">Starting Balance</label>
-                  <input
-                    type="text"
-                    placeholder="0.1"
-                    onChange={(e) => setStartingBalance(e.target.value)}
-                    className="form-control mt-2"
-                  />
-                </div>
-                <div className="form-group">
-                  <label className="font-weight-medium">Trial End Floor</label>
-                  <input
-                    type="text"
-                    placeholder="0.01"
-                    onChange={(e) => setTrialEndFloor(e.target.value)}
-                    className="form-control mt-2"
-                  />
-                </div>
-
-                <button
-                  onClick={async () => {
-                    deployTrialAccount();
-                  }}
-                  className="btn btn-dark w-100 mt-3"
-                >
-                  Create Drop
-                </button>
-              </div>
-            ) : (
-              <h2 className="text-dark display-4 font-weight-semibold">
-                Please sign in with your account
-              </h2>
-            )}
+    <div className="d-flex overflow-hidden">
+      <div className="py-4 flex-1 d-lg-flex justify-content-center h-100 overflow-auto">
+        <div className="max-w-lg flex-1 mx-auto px-4 text-secondary">
+          <div>
+            <h3 className="text-dark display-4 font-weight-semibold">
+              Create Trials for your dApps
+            </h3>
+            <p className="mt-3">
+              Configure your unique trial experience powered by Keypom.
+            </p>
           </div>
+          {context.accountId ? (
+            <div className="mt-3 pb-lg-5">
+              <div className="form-group">
+                <label className="font-weight-medium">Callable Contract</label>
+                <input
+                  type="text"
+                  placeholder="social.near"
+                  value={callableContract}
+                  onChange={handleCallableContractInput}
+                  className="form-control mt-2"
+                />
+              </div>
+              <div className="form-group">
+                <label className="font-weight-medium">Callable Methods</label>
+                <input
+                  type="text"
+                  value={callableMethods}
+                  onChange={handleCallableMethodsInput}
+                  placeholder="set,get (comma separated method names)"
+                  className="form-control mt-2"
+                />
+              </div>
+              <div className="form-group">
+                <label className="font-weight-medium">Starting Balance</label>
+                <input
+                  type="text"
+                  placeholder="0.1"
+                  onChange={(e) => setStartingBalance(e.target.value)}
+                  className="form-control mt-2"
+                />
+              </div>
+              <div className="form-group">
+                <label className="font-weight-medium">Trial End Floor</label>
+                <input
+                  type="text"
+                  placeholder="0.01"
+                  onChange={(e) => setTrialEndFloor(e.target.value)}
+                  className="form-control mt-2"
+                />
+              </div>
+
+              <button
+                onClick={async () => {
+                  deployTrialAccount();
+                }}
+                className="btn btn-dark w-100 mt-3"
+              >
+                Create Drop
+              </button>
+            </div>
+          ) : (
+            <h2 className="text-dark display-4 font-weight-semibold">
+              Please sign in with your account
+            </h2>
+          )}
         </div>
       </div>
-    </ContentContainer>
+    </div>
   </>
 );
 
