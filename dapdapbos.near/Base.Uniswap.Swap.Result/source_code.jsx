@@ -78,7 +78,17 @@ return trade ? (
         }}
       >
         {!state.showContent && (
-          <span className="gray">Gas ${trade.gasCost}</span>
+          <span className="gray">
+            Gas{" "}
+            <Widget
+              src="dapdapbos.near/widget/Linea.Uniswap.Swap.FormatValue"
+              props={{
+                symbol: "ETH",
+                amount: trade.gas,
+                prev: "$",
+              }}
+            />
+          </span>
         )}
         {props.showPriceImpactWarning && (
           <svg
@@ -137,7 +147,14 @@ return trade ? (
         <Row className="item">
           <div className="gray">Network cost</div>
           <Token>
-            <div>${trade.gasCost}</div>
+            <Widget
+              src="dapdapbos.near/widget/Linea.Uniswap.Swap.FormatValue"
+              props={{
+                symbol: "ETH",
+                amount: trade.gas,
+                prev: "$",
+              }}
+            />
           </Token>
         </Row>
         <Row
