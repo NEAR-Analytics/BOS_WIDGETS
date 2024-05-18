@@ -1,4 +1,4 @@
-const accountId = props.accountId ?? context.accountId ?? "buildcommons.near";
+const accountId = props.accountId ?? context.accountId ?? "identity.near";
 
 const GraphContainer = styled.div`
   display: flex;
@@ -46,7 +46,7 @@ if (!nodesState) {
   return <GraphContainer></GraphContainer>;
 }
 
-const [selectedAccountId, setSelectedAccountId] = useState(null);
+const [selectedAccountId, setSelectedAccountId] = useState(accountId);
 
 const [message, setMessage] = useState(null);
 
@@ -366,11 +366,7 @@ return (
     <ProfileContainer>
       <Widget
         src="hack.near/widget/profile.create"
-        props={{ accountId: selectedAccountId }}
-      />
-      <Widget
-        src="hack.near/widget/attest"
-        props={{ accountId: selectedAccountId }}
+        props={{ accountId: selectedAccountId ?? accountId }}
       />
     </ProfileContainer>
   </>
