@@ -55,7 +55,7 @@ return (
             {context.accountId && (
               <Widget src="hack.near/widget/attest" props={{ accountId: a }} />
             )}
-            <span className="ms-3">
+            <span style={{ fontFamily: "Courier" }} className="ms-3">
               <Widget src="hack.near/widget/profile" props={{ accountId: a }} />
             </span>
           </div>
