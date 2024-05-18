@@ -45,7 +45,11 @@ return (
             }`}
             onClick={attest}
           >
-            <i className="bi bi-plus"></i>
+            {attested ? (
+              <i className="bi bi-x"></i>
+            ) : (
+              <i className="bi bi-plus"></i>
+            )}
           </button>
         ) : (
           <>
