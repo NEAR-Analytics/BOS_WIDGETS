@@ -37,37 +37,17 @@ return (
   <>
     {context.accountId && (
       <>
-        {commons ? (
-          <button
-            disabled={loading ?? !context.accountId}
-            className={`btn btn-sm ${
-              attested ? "btn-dark" : "btn-outline-dark"
-            }`}
-            onClick={attest}
-          >
-            {attested ? (
-              <i className="bi bi-x"></i>
-            ) : (
-              <i className="bi bi-plus"></i>
-            )}
-          </button>
-        ) : (
-          <>
-            <button
-              disabled={loading ?? !context.accountId}
-              className={`btn btn-sm ${
-                attested ? "btn-dark" : "btn-outline-dark"
-              }`}
-              onClick={attest}
-            >
-              {attested ? (
-                <i className="bi bi-x"></i>
-              ) : (
-                <i className="bi bi-plus"></i>
-              )}
-            </button>
-          </>
-        )}
+        <button
+          disabled={loading ?? !context.accountId}
+          className={`btn btn-sm ${attested ? "btn-dark" : "btn-outline-dark"}`}
+          onClick={attest}
+        >
+          {attested ? (
+            <i className="bi bi-x"></i>
+          ) : (
+            <i className="bi bi-plus"></i>
+          )}
+        </button>
       </>
     )}
   </>
