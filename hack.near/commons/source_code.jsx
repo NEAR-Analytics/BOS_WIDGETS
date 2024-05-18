@@ -42,7 +42,7 @@ useEffect(() => {
 return (
   <div className="m-2">
     <Widget src="hack.near/widget/commons.add" />
-    <div style={{ minWidth: "333px" }}>
+    <div>
       {builders.map((a) => (
         <div
           key={a}
@@ -50,7 +50,12 @@ return (
         >
           <div
             className="m-1 d-flex align-items-center"
-            style={{ maxWidth: "50%", overflow: "hidden" }}
+            style={{
+              maxWidth: "50%",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
           >
             {context.accountId && (
               <Widget src="hack.near/widget/attest" props={{ accountId: a }} />
