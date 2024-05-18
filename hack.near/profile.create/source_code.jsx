@@ -1,4 +1,4 @@
-const accountId = props.accountId ?? context.accountId ?? "every.near";
+const accountId = props.accountId ?? context.accountId ?? "buildcommons.near";
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 const fast = props.fast ?? !props.profile;
@@ -62,7 +62,7 @@ return (
               accepts={["image/*"]}
               minFileSize={1}
               clickable
-              className="btn mt-1"
+              className="btn mt-3"
               onChange={filesOnChange}
             >
               {state.img?.uploading ? (
@@ -81,7 +81,7 @@ return (
           {name ? (
             name
           ) : (
-            <div className="m-1 d-flex flex-row">
+            <div className="m-1 mt-3 d-flex flex-row">
               <input
                 type="text"
                 placeholder="input name"
