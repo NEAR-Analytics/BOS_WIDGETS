@@ -1,10 +1,11 @@
 const accountId = props.accountId ?? context.accountId ?? "buildcommons.near";
 
-const profile = props.profile ?? Social.getr(`${accountId}/profile`);
-const fast = props.fast ?? !props.profile;
+const data = props.profile ?? Social.getr(`${accountId}`);
 
-const name = profile.name;
-const image = profile.image;
+const fast = props.fast ?? !props.data.profile;
+
+const name = data.profile.name;
+const image = data.profile.image;
 
 State.init({ img: null });
 
@@ -30,7 +31,7 @@ const imgWrapperStyle = { height: "3em", width: "3em" };
 
 const [profileName, setProfileName] = useState("");
 
-const data = {
+const metadata = {
   profile: {
     name: profileName,
     image: {
@@ -40,7 +41,7 @@ const data = {
 };
 
 const handleSave = () => {
-  Social.set(data);
+  Social.set(metadata);
 };
 
 return (
