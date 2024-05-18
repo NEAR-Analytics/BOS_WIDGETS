@@ -46,7 +46,7 @@ return (
     <div className="me-2">
       {state.img ? (
         <img
-          className="mt-3"
+          className="m-1 mt-3"
           style={{ height: "3em", width: "3em" }}
           src={`https://ipfs.near.social/ipfs/${state.img.cid}`}
         />
