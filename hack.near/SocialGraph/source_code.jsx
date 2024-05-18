@@ -1,4 +1,4 @@
-const accountId = props.accountId ?? context.accountId ?? "identity.near";
+const accountId = props.accountId ?? context.accountId ?? "buildcommons.near";
 
 const GraphContainer = styled.div`
   display: flex;
@@ -12,11 +12,18 @@ const ProfileContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: row;
-  gap: 23px;
+  gap: 19px;
   width: 100%;
 `;
 
-const [accountIds, setAccountIds] = useState(props.accountIds || [accountId]);
+const [accountIds, setAccountIds] = useState(
+  props.accountIds || [
+    accountId,
+    "every.near",
+    "hack.near",
+    "buildcommons.near",
+  ]
+);
 
 const graphId = props.graphId ?? "commons";
 
@@ -109,6 +116,8 @@ useEffect(() => {
     }
   }
 }, [selectedAccountId]);
+
+const commons = Social.getr(`${accountId}/graph/commons`);
 
 const graphEdge = Social.keys(
   `${context.accountId}/graph/${graphId}/${accountId}`,
@@ -364,8 +373,18 @@ return (
       />
     </GraphContainer>
     <ProfileContainer>
+      {commons ? (
+        <Widget
+          src="hack.near/widget/profile.create"
+          props={{ accountId: selectedAccountId ?? accountId }}
+        />
+      ) : (
+        <h5 style={{ fontFamily: "Courier" }} className="m-1">
+          JOIN
+        </h5>
+      )}
       <Widget
-        src="hack.near/widget/profile.create"
+        src="hack.near/widget/attest"
         props={{ accountId: selectedAccountId ?? accountId }}
       />
     </ProfileContainer>
