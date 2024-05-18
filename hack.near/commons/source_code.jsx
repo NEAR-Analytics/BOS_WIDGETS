@@ -42,29 +42,24 @@ useEffect(() => {
 return (
   <div className="m-2">
     <Widget src="hack.near/widget/commons.add" />
-    <div style={{ minWidth: "333px" }} className="m-2">
+    <div style={{ minWidth: "333px" }}>
       {builders.map((a) => (
         <div
           key={a}
-          className="m-2 d-flex flex-row justify-content-between align-items-center"
+          className="m-2 d-flex flex-row justify-content-between align-items-center my-2"
         >
-          <div className="m-2 d-flex align-items-center">
+          <div
+            className="m-1 d-flex align-items-center"
+            style={{ maxWidth: "50%", overflow: "hidden" }}
+          >
             {context.accountId && (
-              <Widget
-                src="hack.near/widget/attest"
-                props={{
-                  accountId: a,
-                }}
-              />
+              <Widget src="hack.near/widget/attest" props={{ accountId: a }} />
             )}
-            <span className="ms-2">
-              <Widget
-                src="hack.near/widget/profiles"
-                props={{ builders: [a] }}
-              />
+            <span className="ms-3">
+              <Widget src="hack.near/widget/profile" props={{ accountId: a }} />
             </span>
           </div>
-          <div className="m-2 d-flex align-items-center">
+          <div>
             <Widget src="hack.near/widget/profiles" props={{ accountId: a }} />
           </div>
         </div>
