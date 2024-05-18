@@ -39,7 +39,7 @@ return (
       <>
         {commons ? (
           <button
-            disabled={loading}
+            disabled={loading ?? !context.accountId}
             className={`btn btn-sm ${
               attested ? "btn-dark" : "btn-outline-dark"
             }`}
@@ -50,7 +50,7 @@ return (
         ) : (
           <>
             <button
-              disabled={loading}
+              disabled={loading ?? !context.accountId}
               className={`btn btn-sm ${
                 attested ? "btn-dark" : "btn-outline-dark"
               }`}
