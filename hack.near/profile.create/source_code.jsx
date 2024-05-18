@@ -81,7 +81,7 @@ return (
           {name ? (
             name
           ) : (
-            <div className="m-1 mt-4 d-flex flex-row">
+            <div className="m-2 mt-4 d-flex flex-row">
               <input
                 type="text"
                 placeholder="input name"
