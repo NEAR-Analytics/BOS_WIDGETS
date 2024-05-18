@@ -62,7 +62,7 @@ return (
               accepts={["image/*"]}
               minFileSize={1}
               clickable
-              className="btn mt-3"
+              className="btn mt-4"
               onChange={filesOnChange}
             >
               {state.img?.uploading ? (
@@ -81,7 +81,7 @@ return (
           {name ? (
             name
           ) : (
-            <div className="m-1 mt-3 d-flex flex-row">
+            <div className="m-1 mt-4 d-flex flex-row">
               <input
                 type="text"
                 placeholder="input name"
