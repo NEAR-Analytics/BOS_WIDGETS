@@ -1,4 +1,4 @@
-const accountId = props.accountId ?? context.accountId ?? "buildcommons.near";
+const accountId = props.accountId ?? context.accountId ?? "every.near";
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 const fast = props.fast ?? !props.profile;
@@ -26,8 +26,6 @@ const filesOnChange = (files) => {
   }
 };
 
-const imgWrapperStyle = { height: "3em", width: "3em" };
-
 const [profileName, setProfileName] = useState("");
 
 const data = {
@@ -45,23 +43,36 @@ const handleSave = () => {
 
 return (
   <div className="d-flex flex-row">
-    <div className="me-2 d-inline-block">
-      {state.img || image ? (
-        <Widget
-          src="hack.near/widget/profile.image"
-          props={{ image, accountId }}
+    <div className="me-2">
+      {state.img ? (
+        <img
+          style={{ height: "3em", width: "3em" }}
+          src={`https://ipfs.near.social/ipfs/${state.img.cid}`}
         />
       ) : (
-        <Files
-          multiple={false}
-          accepts={["image/*"]}
-          minFileSize={1}
-          clickable
-          className="btn btn-sm mt-2"
-          onChange={filesOnChange}
-        >
-          {state.img?.uploading ? <></> : <i class="bi bi-pencil-fill"></i>}
-        </Files>
+        <>
+          {image ? (
+            <Widget
+              src="hack.near/widget/profile.image"
+              props={{ accountId }}
+            />
+          ) : (
+            <Files
+              multiple={false}
+              accepts={["image/*"]}
+              minFileSize={1}
+              clickable
+              className="btn mt-1"
+              onChange={filesOnChange}
+            >
+              {state.img?.uploading ? (
+                <></>
+              ) : (
+                <i class="bi bi-person-circle"></i>
+              )}
+            </Files>
+          )}
+        </>
       )}
     </div>
     <div className="text-truncate">
