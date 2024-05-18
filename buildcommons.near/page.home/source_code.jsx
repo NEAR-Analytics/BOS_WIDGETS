@@ -31,8 +31,8 @@ const contentMap = {
       }}
     >
       <img
-        style={{ width: "80%" }}
-        src="https://builders.mypinata.cloud/ipfs/QmWjSibAaevGqVgYMaT1eSYtopEkYgd5XJVqnSwfTEXqCQ"
+        style={{ maxWidth: "80%" }}
+        src="https://builders.mypinata.cloud/ipfs/QmYxc5XbVU8TMojf98Yti8ctzAkGLd383f7LtpnjHhEMbJ"
         alt="Building Network States"
       />
     </a>
@@ -62,7 +62,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 12px;
+  padding: 19px;
   margin: auto;
   background: #fff;
 `;
@@ -296,24 +296,22 @@ return (
     {activeContent ? (
       activeContent
     ) : (
-      <>
-        <a
-          href="https://blocklive.io/event/network-states-atx"
-          className="m-3 mt-4 mb-2"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100%",
-          }}
-        >
-          <img
-            style={{ width: "80%" }}
-            src="https://builders.mypinata.cloud/ipfs/QmY7ax5UNKnbZr2mBZdKQExfgWF9hNQHDhPtZ4x6cZVvAv"
-            alt="build_austin"
-          />
-        </a>
-      </>
+      <a
+        href="https://blocklive.io/event/network-states-atx"
+        className="m-3 mt-4 mb-2"
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+        }}
+      >
+        <img
+          style={{ maxWidth: "80%" }}
+          src="https://builders.mypinata.cloud/ipfs/QmYxc5XbVU8TMojf98Yti8ctzAkGLd383f7LtpnjHhEMbJ"
+          alt="Building Network States"
+        />
+      </a>
     )}
   </Wrapper>
 );
