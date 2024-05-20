@@ -4,7 +4,6 @@ const metadataId =
 const extractedContactId = metadataId.split(":")[0];
 const contractId =
   props.contractId || extractedContactId || "nft.herewallet.near";
-console.log({ contractId });
 const Navbar = styled.div`
   display: flex;
   flex-direction: row;
@@ -208,7 +207,7 @@ return (
         <Modal>
           {modalState === "SELL" && (
             <Widget
-              src="/*__@appAccount__*//widget/Mintbase.NFT.MBSellOption"
+              src={`bos.genadrop.near/widget/Mintbase.NFT.MBSellOption`}
               props={{
                 data: state.infoNFT,
                 isDarkModeOn,
@@ -218,7 +217,7 @@ return (
           )}
           {modalState === "TRANSFER" && (
             <Widget
-              src="/*__@appAccount__*//widget/Mintbase.NFT.TransferOption"
+              src={`bos.genadrop.near/widget/Mintbase.NFT.TransferOption`}
               props={{
                 data: state.infoNFT,
                 isDarkModeOn,
@@ -228,7 +227,7 @@ return (
           )}
           {modalState === "BURN" && (
             <Widget
-              src="/*__@appAccount__*//widget/Mintbase.NFT.Burn"
+              src={`bos.genadrop.near/widget/Mintbase.NFT.Burn`}
               props={{
                 data: state.infoNFT,
                 type: "BURN",
@@ -239,7 +238,7 @@ return (
           )}
           {modalState === "MULTIPLY" && (
             <Widget
-              src="/*__@appAccount__*//widget/Mintbase.NFT.Burn"
+              src={`bos.genadrop.near/widget/Mintbase.NFT.Burn`}
               props={{
                 data: state.infoNFT,
                 type: "MULTIPLY",
