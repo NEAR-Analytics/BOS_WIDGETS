@@ -249,7 +249,7 @@ const onAmountChange = (amount) => {
     });
     return;
   }
-  if (dexConfig.name === "Ionic") {
+  if (dexConfig.name === "Ionic" && state.tab === "Borrow") {
     if (Big(amount).lt(data.minBorrowAmount)) {
       State.update({
         amount,
