@@ -297,7 +297,7 @@ useEffect(() => {
     .minus(borrowUSD);
   console.log("borrowLimitUSD--", _borrowLimitUSD.toFixed());
   State.update({
-    borrowLimitUSD: _borrowLimitUSD.lte(0) ? 0 : _borrowLimitUSD,
+    borrowLimitUSD: _borrowLimitUSD.lte(0) ? Big(0) : _borrowLimitUSD,
   });
 }, [data]);
 
