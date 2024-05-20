@@ -244,7 +244,7 @@ function formatAddAction(actionText, _amount, status, transactionHash) {
     type: "Lending",
     action: actionText,
     token: {
-      symbol,
+      symbol: tokenSymbol,
     },
     amount: _amount,
     template: dexConfig.name,
