@@ -744,12 +744,12 @@ return (
       <Widget
         src={data.config.handler}
         props={{
-          update: state.loading,
+          update: new Date().getTime(),
           data: data,
           amount: state.amount,
           account,
           onLoad: (_data) => {
-            console.log(_data);
+            console.log("Dialog-handler-onLoad--", _data);
             State.update({
               ..._data,
               loading: false,
