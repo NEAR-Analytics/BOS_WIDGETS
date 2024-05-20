@@ -29,6 +29,7 @@ State.init({
 const IS_ETHOS_DAPP = dexConfig.name === "Ethos Finance" ? true : false;
 const IS_PREON_DAPP = dexConfig.name === "Preon Finance" ? true : false;
 const IS_GRAVITA_DAPP = dexConfig.name === "Gravita Protocol" ? true : false;
+const IS_LYVE_DAPP = dexConfig.name === "Lyve" ? true : false;
 
 useEffect(() => {
   State.update({
@@ -46,6 +47,7 @@ return (
           IS_ETHOS_DAPP,
           IS_PREON_DAPP,
           IS_GRAVITA_DAPP,
+          IS_LYVE_DAPP,
           dexConfig: {
             ...dexConfig,
             markets: state.newMarkets,
@@ -89,6 +91,7 @@ return (
         IS_ETHOS_DAPP,
         IS_PREON_DAPP,
         IS_GRAVITA_DAPP,
+        IS_LYVE_DAPP,
         onLoad: (data) => {
           State.update({
             loading: false,
