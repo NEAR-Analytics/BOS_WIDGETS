@@ -51,7 +51,7 @@ useEffect(() => {
         for (let i = 0, len = res.length; i < len; i++) {
           const _vesselStatus = res[i] ? "ACTIVE" : "INACTIVE";
           const _vesselDebt =
-            res[i] && res[i][0] ? ethers.utils.formatUnits(res[i][0]) - 20 : 0;
+            res[i] && res[i][0] ? ethers.utils.formatUnits(res[i][0]) : 0;
           markets[tokens[i]].vesselStatus = _vesselStatus;
           markets[tokens[i]].vesselDebt = _vesselDebt;
         }
@@ -268,10 +268,60 @@ useEffect(() => {
         console.log("getWalletBalance_error", err);
       });
   }
+  function getMinted() {
+    const underlyingTokens = Object.values(markets);
+
+    const calls = underlyingTokens.map((item) => ({
+      address: VesselManagerOperations,
+      name: "getEntireSystemDebt",
+      params: [item.underlyingToken.address],
+    }));
+
+    multicall({
+      abi: [
+        {
+          inputs: [
+            { internalType: "address", name: "_asset", type: "address" },
+          ],
+          name: "getEntireSystemDebt",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "entireSystemDebt",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+      ],
+      calls,
+      options: {},
+      multicallAddress,
+      provider: Ethers.provider(),
+    })
+      .then((res) => {
+        console.log("getMinted_res", res);
+        for (let i = 0, len = res.length; i < len; i++) {
+          markets[underlyingTokens[i].underlyingToken.address]["MINTED"] = res[
+            i
+          ][0]
+            ? ethers.utils.formatUnits(res[i][0]._hex)
+            : "0";
+        }
+        onLoad({
+          newMarkets: markets,
+        });
+      })
+      .catch((err) => {
+        console.log("getMinted_err", err);
+      });
+  }
 
   getStableDeposit();
   getMarketDeposit();
   getInfo();
   getDebt();
   getWalletBalance();
+  getMinted();
 }, [account, update]);
