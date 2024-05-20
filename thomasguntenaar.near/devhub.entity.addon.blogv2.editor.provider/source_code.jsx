@@ -102,15 +102,12 @@ const handleOnDelete = (id) => {
             author: null,
             id: null,
             category: null,
+            communityAddonId: null,
           },
         },
       },
     },
   });
-};
-
-const handleOnSubmitSettings = (v) => {
-  console.log("Implement saving blog settings issue 599");
 };
 
 return (
@@ -119,6 +116,5 @@ return (
     getData={handleGetData}
     onSubmit={handleOnSubmit}
     onDelete={handleOnDelete}
-    onSubmitSettings={handleOnSubmitSettings}
   />
 );
