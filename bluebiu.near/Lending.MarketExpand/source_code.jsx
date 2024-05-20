@@ -301,7 +301,7 @@ return (
         <StyledInfo>
           <StyledInfoContent>
             <StyledInfoTitle>Your info</StyledInfoTitle>
-            <StyledInfoItem>
+            {/* <StyledInfoItem>
               <div>Your borrow limit</div>
               <div className="white">
                 {" "}
@@ -314,7 +314,7 @@ return (
                   }}
                 />
               </div>
-            </StyledInfoItem>
+            </StyledInfoItem> */}
             <StyledInfoItem>
               <div>Available to Supply</div>
               <div>
@@ -403,7 +403,7 @@ return (
             }}
           />
           <StyledDetailPanel>
-            {state.tab === "Supply" && (
+            {state.tab === "Supply" && dexConfig.name !== "Ionic" && (
               <StyledDetailItem>
                 <div>Collateral factor</div>
                 <div className="white">
