@@ -13,6 +13,7 @@ const {
   prices,
   IS_ETHOS_DAPP,
   IS_GRAVITA_DAPP,
+  IS_LYVE_DAPP,
   IS_PREON_DAPP,
 } = props;
 const data = Object.values(dexConfig.markets || {});
@@ -30,7 +31,7 @@ const COLUMNS = [
     width: "15%",
     // type: "amount",
   },
-  IS_GRAVITA_DAPP || IS_PREON_DAPP
+  IS_GRAVITA_DAPP || IS_PREON_DAPP || IS_LYVE_DAPP
     ? {
         key: "MAX_LTV",
         label: "MAX LTV",
@@ -59,7 +60,7 @@ const COLUMNS = [
     // type: "apy",
     // type: "amount",
   },
-  IS_GRAVITA_DAPP || IS_PREON_DAPP
+  IS_GRAVITA_DAPP || IS_PREON_DAPP || IS_LYVE_DAPP
     ? {
         key: "MINTED_CAP",
         label: "MINTED/CAP",
