@@ -58,8 +58,10 @@ if (dexConfig.name === "Ionic") {
 
   _borrowLimit = Big(totalCollateralUsd)
     .minus(currentTokenCollateralUSD)
-    .minus(Big(userTotalBorrowUsd))
-    .toFixed(6);
+    .div(1.07)
+    .minus(Big(userTotalBorrowUsd));
+
+  _borrowLimit = _borrowLimit.lte(0) ? 0 : _borrowLimit.toFixed(6);
 } else {
   _borrowLimit = borrowLimit;
 }
