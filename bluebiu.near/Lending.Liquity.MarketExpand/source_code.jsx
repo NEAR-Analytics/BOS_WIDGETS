@@ -225,8 +225,8 @@ const {
   multicall,
   multicallAddress,
 } = props;
-
 const data = props.data || {};
+console.log("LyveMarketExpand--", data);
 const vesselStatus = data.vesselStatus; //ACTIVE INACTIVE
 let TABS = [];
 switch (vesselStatus) {
@@ -310,6 +310,12 @@ function getVesselManager(_amount) {
       console.log("error:", err);
     });
 }
+// for Lyve
+function calcLTV(totalDebtUSD, totalDepositUSD) {
+  if (isNaN(Number(totalDebtUSD)) || isNaN(Number(totalDepositUSD))) return "-";
+  if (Big(totalDebtUSD).eq(0) || Big(totalDepositUSD).eq(0)) return "-";
+  return Big(totalDebtUSD).div(Big(totalDepositUSD)).toFixed(2);
+}
 
 useEffect(() => {
   if (state.tab === "Close") return;
@@ -320,7 +326,7 @@ useEffect(() => {
     return;
   const price = prices[data.underlyingToken.symbol];
 
-  if (IS_GRAVITA_DAPP || IS_LYVE_DAPP) {
+  if (IS_GRAVITA_DAPP) {
     let assetInUSD,
       totalDebt,
       _yourLTV,
@@ -376,6 +382,78 @@ useEffect(() => {
       if (totalDebt) {
         borrowingFee = Big(state.borrowAmount || 0)
           .mul(0.02)
+          .toFixed(2);
+        liquidationPrice = totalDebt
+          .div(Big(data.vesselDeposit).plus(state.amount || 0))
+          .div(Big(data["MAX_LTV"]))
+          .toFixed(2);
+      }
+    }
+
+    State.update({
+      totalDebt: Big(totalDebt || 0).toFixed(2),
+      yourLTV: Big(_yourLTV || 0).toFixed(2),
+      borrowingFee,
+      liquidationPrice,
+      borrowTokenBal,
+      maxBorrowAmount,
+    });
+  }
+  if (IS_LYVE_DAPP) {
+    let assetInUSD,
+      totalDebt,
+      _yourLTV,
+      borrowingFee,
+      liquidationPrice,
+      maxBorrowAmount,
+      borrowTokenBal;
+    if (state.tab === "Borrow") {
+      if (Big(state.borrowAmount || 0).gt(Big(state.borrowTokenBal || 0)))
+        return;
+      if (isNaN(Number(state.amount)) || !Number(state.amount)) return;
+      assetInUSD = Big(state.amount).mul(price).mul(Big(data["MAX_LTV"]));
+      if (state.borrowAmount) {
+        _yourLTV = Big(state.borrowAmount).div(assetInUSD);
+        borrowingFee = Big(state.borrowAmount).mul(0.01).toFixed(2);
+      }
+      if (_yourLTV) {
+        totalDebt = Big(state.amount).mul(price).mul(_yourLTV);
+      }
+      if (assetInUSD) {
+        borrowTokenBal = assetInUSD
+          .minus(20)
+          .minus(assetInUSD.minus(20).mul(0.02))
+          .toFixed(2);
+      }
+      if (totalDebt) {
+        liquidationPrice = totalDebt
+          .div(state.amount)
+          .div(Big(data["MAX_LTV"]))
+          .toFixed(2);
+      }
+    }
+    if (state.tab === "Adjust") {
+      // if (isNaN(Number(state.amount)) || !Number(state.amount)) return;
+      assetInUSD = Big(state.amount || 0)
+        .plus(data.vesselDeposit)
+        .mul(price);
+      _yourLTV = Big(state.borrowAmount || 0)
+        .plus(data.vesselDebt)
+        .div(assetInUSD);
+
+      maxBorrowAmount = Big(assetInUSD)
+        .mul(Big(data["MAX_LTV"]))
+        .minus(data.vesselDebt)
+        .minus(assetInUSD.minus(20).mul(0.02))
+        .toFixed();
+
+      if (_yourLTV) {
+        totalDebt = Big(state.borrowAmount || 0).plus(data.vesselDebt);
+      }
+
+      if (totalDebt) {
+        borrowingFee = Big(state.borrowAmount || 0)
+          .mul(0.01)
           .toFixed(2);
         liquidationPrice = totalDebt
           .div(Big(data.vesselDeposit).plus(state.amount || 0))
@@ -578,7 +656,9 @@ return (
               <StyledInfoItem>
                 <div>Your Collateral</div>
                 <div className="white">
-                  {data.vesselDeposit}
+                  {Big(data.vesselDeposit || 0)
+                    .plus(Big(state.amount || 0))
+                    .toFixed(2)}
                   {data.underlyingToken?.symbol}
                 </div>
               </StyledInfoItem>
@@ -812,6 +892,10 @@ return (
                       if (!state.gas) state.getTrade();
                     },
                     onSuccess: () => {
+                      State.update({
+                        amount: "",
+                        borrowAmount: "",
+                      });
                       onSuccess?.();
                     },
                   }}
