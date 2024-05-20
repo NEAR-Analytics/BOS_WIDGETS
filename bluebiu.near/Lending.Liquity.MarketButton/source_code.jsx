@@ -98,6 +98,7 @@ const {
   IS_ETHOS_DAPP,
   IS_PREON_DAPP,
   IS_GRAVITA_DAPP,
+  IS_LYVE_DAPP,
   _maxFeePercentage,
   GAS_LIMIT_RECOMMENDATIONS,
   isCloseDisabled,
@@ -129,7 +130,7 @@ useEffect(() => {
 }, [account, gas]);
 
 function makeCloseContract() {
-  if (IS_PREON_DAPP || IS_GRAVITA_DAPP) {
+  if (IS_PREON_DAPP || IS_GRAVITA_DAPP || IS_LYVE_DAPP) {
     const contract = new ethers.Contract(
       data.config.BorrowerOperations,
       [
@@ -256,7 +257,7 @@ if (!_assetAmount) {
   );
 }
 
-if (IS_GRAVITA_DAPP && IS_PREON_DAPP) {
+if (IS_GRAVITA_DAPP && IS_PREON_DAPP && IS_LYVE_DAPP) {
   if (isDebtBigerThanBalance) {
     return (
       <Button disabled={true} className={actionText.toLowerCase()}>
@@ -397,7 +398,7 @@ if (!state.isApproved) {
 }
 
 function makeOpenContract() {
-  if (IS_PREON_DAPP || IS_GRAVITA_DAPP) {
+  if (IS_PREON_DAPP || IS_GRAVITA_DAPP || IS_LYVE_DAPP) {
     const _asset = data.underlyingToken.address;
     const _assetAmount = ethers.utils.parseUnits(
       _assetAmount,
