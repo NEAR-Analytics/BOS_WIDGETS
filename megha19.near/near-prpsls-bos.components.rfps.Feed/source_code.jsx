@@ -3,22 +3,87 @@ License: MIT
 Author: devhub.near
 Homepage: https://github.com/NEAR-DevHub/near-prpsls-bos#readme
 */
-/* INCLUDE: "includes//common.jsx" */
+/* INCLUDE: "includes/common.jsx" */
 const REPL_DEVHUB = "devhub.near";
 const REPL_INFRASTRUCTURE_COMMITTEE = "megha19.near";
 const REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT = "truedove38.near";
 const REPL_RPC_URL = "https://rpc.mainnet.near.org";
 const REPL_NEAR = "near";
-const RFPImage =
+const RFP_IMAGE =
   "https://ipfs.near.social/ipfs/bafkreicbygt4kajytlxij24jj6tkg2ppc2dw3dlqhkermkjjfgdfnlizzy";
 
-const TIMELINE_STATUS = {
+const RFP_FEED_INDEXER_QUERY_NAME =
+  "polyprogrammist_near_devhub_objects_s_rfps_with_latest_snapshot";
+
+const RFP_INDEXER_QUERY_NAME =
+  "polyprogrammist_near_devhub_objects_s_rfp_snapshots";
+
+const PROPOSAL_FEED_INDEXER_QUERY_NAME =
+  "polyprogrammist_near_devhub_objects_s_proposals_with_latest_snapshot";
+
+const PROPOSAL_QUERY_NAME =
+  "polyprogrammist_near_devhub_objects_s_proposal_snapshots";
+const RFP_TIMELINE_STATUS = {
   ACCEPTING_SUBMISSIONS: "ACCEPTING_SUBMISSIONS",
   EVALUATION: "EVALUATION",
   PROPOSAL_SELECTED: "PROPOSAL_SELECTED",
   CANCELLED: "CANCELLED",
 };
-/* END_INCLUDE: "includes//common.jsx" */
+
+const PROPOSAL_TIMELINE_STATUS = {
+  DRAFT: "DRAFT",
+  REVIEW: "REVIEW",
+  APPROVED: "APPROVED",
+  REJECTED: "REJECTED",
+  CANCELED: "CANCELLED",
+  APPROVED_CONDITIONALLY: "APPROVED_CONDITIONALLY",
+  PAYMENT_PROCESSING: "PAYMENT_PROCESSING",
+  FUNDED: "FUNDED",
+};
+
+const QUERYAPI_ENDPOINT = `https://near-queryapi.api.pagoda.co/v1/graphql`;
+
+async function fetchGraphQL(operationsDoc, operationName, variables) {
+  return asyncFetch(QUERYAPI_ENDPOINT, {
+    method: "POST",
+    headers: { "x-hasura-role": `polyprogrammist_near` },
+    body: JSON.stringify({
+      query: operationsDoc,
+      variables: variables,
+      operationName: operationName,
+    }),
+  });
+}
+
+const CANCEL_RFP_OPTIONS = {
+  CANCEL_PROPOSALS: "CANCEL_PROPOSALS",
+  UNLINK_PROPOSALS: "UNLINK_PROPOSALSS",
+  NONE: "NONE",
+};
+
+function parseJSON(json) {
+  if (typeof json === "string") {
+    try {
+      return JSON.parse(json);
+    } catch (error) {
+      return json;
+    }
+  } else {
+    return json;
+  }
+}
+
+function isNumber(value) {
+  return typeof value === "number";
+}
+
+const PROPOSALS_APPROVED_STATUS_ARRAY = [
+  PROPOSAL_TIMELINE_STATUS.APPROVED,
+  PROPOSAL_TIMELINE_STATUS.APPROVED_CONDITIONALLY,
+  PROPOSAL_TIMELINE_STATUS.PAYMENT_PROCESSING,
+  PROPOSAL_TIMELINE_STATUS.FUNDED,
+];
+/* END_INCLUDE: "includes/common.jsx" */
 
 const { href } = VM.require(`${REPL_DEVHUB}/widget/core.lib.url`);
 href || (href = () => {});
@@ -156,7 +221,7 @@ const FeedItem = ({ rfp, index }) => {
         }
       >
         <div className="d-flex gap-4 w-100">
-          <img src={RFPImage} height={35} width={35} />
+          <img src={RFP_IMAGE} height={35} width={35} />
           <div className="d-flex flex-column gap-2 w-100 text-wrap">
             <div className="d-flex gap-2 align-items-center flex-wrap w-100">
               <div className="h6 mb-0 text-black">{rfp.name}</div>
@@ -205,6 +270,7 @@ const FeedItem = ({ rfp, index }) => {
                   height={30}
                   width={30}
                 />
+                {rfp.linked_proposals.length ?? 0}
                 proposals
               </div>
               <div className="d-flex align-items-center">
@@ -241,23 +307,20 @@ const getRfp = (rfp_id) => {
 };
 
 const FeedPage = () => {
-  const QUERYAPI_ENDPOINT = `https://near-queryapi.api.pagoda.co/v1/graphql`;
-
   State.init({
     data: [],
     cachedItems: {},
     stage: "",
     sort: "",
-    category: "",
+    label: "",
     input: "",
     loading: false,
     loadingMore: false,
-    aggregatedCount: 0,
+    aggregatedCount: null,
     currentlyDisplaying: 0,
   });
 
-  const queryName =
-    "polyprogrammist_near_devhub_rfps_rfps_with_latest_snapshot";
+  const queryName = RFP_FEED_INDEXER_QUERY_NAME;
   const query = `query GetLatestSnapshot($offset: Int = 0, $limit: Int = 10, $where: ${queryName}_bool_exp = {}) {
     ${queryName}(
       offset: $offset
@@ -268,7 +331,6 @@ const FeedPage = () => {
       author_id
       block_height
       name
-      category
       summary
       editor_id
       rfp_id
@@ -276,6 +338,7 @@ const FeedPage = () => {
       views
       labels
       submission_deadline
+      linked_proposals
     }
     ${queryName}_aggregate(
       order_by: {rfp_id: desc}
@@ -286,18 +349,6 @@ const FeedPage = () => {
       }
     }
   }`;
-
-  function fetchGraphQL(operationsDoc, operationName, variables) {
-    return asyncFetch(QUERYAPI_ENDPOINT, {
-      method: "POST",
-      headers: { "x-hasura-role": `polyprogrammist_near` },
-      body: JSON.stringify({
-        query: operationsDoc,
-        variables: variables,
-        operationName: operationName,
-      }),
-    });
-  }
 
   function separateNumberAndText(str) {
     const numberRegex = /\d+/;
@@ -314,8 +365,8 @@ const FeedPage = () => {
   const buildWhereClause = () => {
     let where = {};
 
-    if (state.category) {
-      where = { category: { _eq: state.category }, ...where };
+    if (state.label) {
+      where = { labels: { _contains: state.label }, ...where };
     }
 
     if (state.stage) {
@@ -381,7 +432,7 @@ const FeedPage = () => {
       key={item.rfp_id}
       className={
         (index !== state.data.length - 1 && "border-bottom ") + index === 0 &&
-        " rounded-top-2"
+        " rounded-top-2 rfp-item-container"
       }
     >
       <FeedItem rfp={item} index={index} />
@@ -405,7 +456,7 @@ const FeedPage = () => {
 
   useEffect(() => {
     fetchRfps();
-  }, [state.sort, state.category, state.stage]);
+  }, [state.input, state.sort, state.label, state.stage]);
 
   const mergeItems = (newItems) => {
     const items = [
@@ -497,6 +548,15 @@ const FeedPage = () => {
               },
             }}
           />
+          <Widget
+            src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.molecule.FilterByLabel`}
+            props={{
+              onStateChange: (select) => {
+                State.update({ label: select.value });
+              },
+              availableOptions: rfpLabelOptions,
+            }}
+          />
           <div className="d-flex gap-4 align-items-center">
             <Widget
               src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.rfps.StageDropdown`}
@@ -522,7 +582,7 @@ const FeedPage = () => {
                   label: (
                     <div className="d-flex gap-2 align-items-center">
                       <div>
-                        <i class="bi bi-plus-circle-fill"></i>
+                        <i className="bi bi-plus-circle-fill"></i>
                       </div>
                       Create RFP
                     </div>
@@ -543,7 +603,7 @@ const FeedPage = () => {
               <div className="bg-blue text-sm mt-2 p-3 rounded-3">
                 <p className="d-flex gap-3 align-items-center mb-0">
                   <div>
-                    <i class="bi bi-info-circle"></i>
+                    <i className="bi bi-info-circle"></i>
                   </div>
                   <div>
                     <span className="fw-bold">
@@ -560,7 +620,7 @@ const FeedPage = () => {
                 </p>
               </div>
               <div className="mt-4 border rounded-2">
-                {state.data.length > 0 ? (
+                {state.data.length > 0 || state.aggregatedCount === 0 ? (
                   <InfiniteScroll
                     pageStart={0}
                     loadMore={makeMoreItems}
