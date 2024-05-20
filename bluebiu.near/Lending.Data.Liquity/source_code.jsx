@@ -366,7 +366,5 @@ useEffect(() => {
   getInfo();
   getDebt();
   getWalletBalance();
-  if (!IS_ETHOS_DAPP) {
-    getMinted();
-  }
+  getMinted();
 }, [account, update]);
