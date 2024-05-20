@@ -89,6 +89,7 @@ const fetchStoreFrontData = (nftId) => {
                 splits
                 royalties_percent
                 royalties
+                reference
                 title
                 nft_contract_id
                 owner
