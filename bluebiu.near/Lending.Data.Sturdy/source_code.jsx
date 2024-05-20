@@ -244,6 +244,7 @@ useEffect(() => {
       const yourCollateral = _yourCollaterals[i]
         ? formatUnits(_yourCollaterals[i][0], rawMarkets[i].TOKEN_A.decimals)
         : 0;
+      console.log("yourCollateral--", yourCollateral, rawMarkets[i]);
       rawMarkets[i].yourCollateral = yourCollateral;
       rawMarkets[i].yourCollateralUSD = Big(yourCollateral)
         .times(Big(prices[rawMarkets[i].TOKEN_A.symbol] || 1))
