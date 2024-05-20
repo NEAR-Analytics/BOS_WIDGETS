@@ -268,12 +268,24 @@ State.init({
   processValue: 0,
 });
 const formatBorrowLimit = (digits, round) => {
-  if (Big(data.totalCollateralUsd).gt(data.userTotalBorrowUsd)) {
-    return Big(data.totalCollateralUsd)
-      .minus(data.userTotalBorrowUsd)
-      .toFixed(digits || 2, round || 1);
+  if (data.config.name === "Ionic") {
+    const currentTokenCollateralUSD = Big(data.userCollateralUSD || 0).times(
+      Big(data.COLLATERAL_FACTOR)
+    );
+
+    let _borrowLimit = Big(data.totalCollateralUsd)
+      .minus(currentTokenCollateralUSD)
+      .div(1.07)
+      .minus(Big(data.userTotalBorrowUsd));
+    return _borrowLimit.lte(0) ? 0 : _borrowLimit.toFixed(6);
+  } else {
+    if (Big(data.totalCollateralUsd).gt(data.userTotalBorrowUsd)) {
+      return Big(data.totalCollateralUsd)
+        .minus(data.userTotalBorrowUsd)
+        .toFixed(digits || 2, round || 1);
+    }
+    return "0.00";
   }
-  return "0.00";
 };
 
 const formatBalance = () => {
