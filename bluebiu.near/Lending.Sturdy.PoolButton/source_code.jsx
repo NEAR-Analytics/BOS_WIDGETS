@@ -479,6 +479,7 @@ function handleAddCollateral() {
             pending: false,
           });
           onSuccess();
+          formatAddAction(actionText, amount, status, transactionHash);
           toast?.success({
             title: `${actionText} Successfully!`,
             text: `${actionText} ${Big(amount).toFixed(2)} ${tokenSymbol}`,
@@ -547,6 +548,7 @@ function handleRemoveCollateral() {
             pending: false,
           });
           onSuccess();
+          formatAddAction(actionText, amount, status, transactionHash);
           toast?.success({
             title: `${actionText} Successfully!`,
             text: `${actionText} ${Big(amount).toFixed(2)} ${tokenSymbol}`,
