@@ -1,30 +1,30 @@
-export const REPL_DEVHUB = "devhub.near";
-export const REPL_INFRASTRUCTURE_COMMITTEE = "megha19.near";
-export const REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT = "truedove38.near";
-export const REPL_RPC_URL = "https://rpc.mainnet.near.org";
-export const REPL_NEAR = "near";
-export const RFP_IMAGE =
+const REPL_DEVHUB = "devhub.near";
+const REPL_INFRASTRUCTURE_COMMITTEE = "megha19.near";
+const REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT = "truedove38.near";
+const REPL_RPC_URL = "https://rpc.mainnet.near.org";
+const REPL_NEAR = "near";
+const RFP_IMAGE =
   "https://ipfs.near.social/ipfs/bafkreicbygt4kajytlxij24jj6tkg2ppc2dw3dlqhkermkjjfgdfnlizzy";
 
-export const RFP_FEED_INDEXER_QUERY_NAME =
+const RFP_FEED_INDEXER_QUERY_NAME =
   "polyprogrammist_near_devhub_objects_s_rfps_with_latest_snapshot";
 
-export const RFP_INDEXER_QUERY_NAME =
+const RFP_INDEXER_QUERY_NAME =
   "polyprogrammist_near_devhub_objects_s_rfp_snapshots";
 
-export const PROPOSAL_FEED_INDEXER_QUERY_NAME =
+const PROPOSAL_FEED_INDEXER_QUERY_NAME =
   "polyprogrammist_near_devhub_objects_s_proposals_with_latest_snapshot";
 
-export const PROPOSAL_QUERY_NAME =
+const PROPOSAL_QUERY_NAME =
   "polyprogrammist_near_devhub_objects_s_proposal_snapshots";
-export const RFP_TIMELINE_STATUS = {
+const RFP_TIMELINE_STATUS = {
   ACCEPTING_SUBMISSIONS: "ACCEPTING_SUBMISSIONS",
   EVALUATION: "EVALUATION",
   PROPOSAL_SELECTED: "PROPOSAL_SELECTED",
   CANCELLED: "CANCELLED",
 };
 
-export const PROPOSAL_TIMELINE_STATUS = {
+const PROPOSAL_TIMELINE_STATUS = {
   DRAFT: "DRAFT",
   REVIEW: "REVIEW",
   APPROVED: "APPROVED",
@@ -37,7 +37,7 @@ export const PROPOSAL_TIMELINE_STATUS = {
 
 const QUERYAPI_ENDPOINT = `https://near-queryapi.api.pagoda.co/v1/graphql`;
 
-export async function fetchGraphQL(operationsDoc, operationName, variables) {
+async function fetchGraphQL(operationsDoc, operationName, variables) {
   return asyncFetch(QUERYAPI_ENDPOINT, {
     method: "POST",
     headers: { "x-hasura-role": `polyprogrammist_near` },
@@ -49,13 +49,13 @@ export async function fetchGraphQL(operationsDoc, operationName, variables) {
   });
 }
 
-export const CANCEL_RFP_OPTIONS = {
+const CANCEL_RFP_OPTIONS = {
   CANCEL_PROPOSALS: "CANCEL_PROPOSALS",
   UNLINK_PROPOSALS: "UNLINK_PROPOSALSS",
   NONE: "NONE",
 };
 
-export function parseJSON(json) {
+function parseJSON(json) {
   if (typeof json === "string") {
     try {
       return JSON.parse(json);
@@ -67,11 +67,11 @@ export function parseJSON(json) {
   }
 }
 
-export function isNumber(value) {
+function isNumber(value) {
   return typeof value === "number";
 }
 
-export const PROPOSALS_APPROVED_STATUS_ARRAY = [
+const PROPOSALS_APPROVED_STATUS_ARRAY = [
   PROPOSAL_TIMELINE_STATUS.APPROVED,
   PROPOSAL_TIMELINE_STATUS.APPROVED_CONDITIONALLY,
   PROPOSAL_TIMELINE_STATUS.PAYMENT_PROCESSING,
