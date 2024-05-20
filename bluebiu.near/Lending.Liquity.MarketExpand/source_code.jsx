@@ -221,6 +221,7 @@ const {
   IS_ETHOS_DAPP,
   IS_PREON_DAPP,
   IS_GRAVITA_DAPP,
+  IS_LYVE_DAPP,
   multicall,
   multicallAddress,
 } = props;
@@ -312,11 +313,14 @@ function getVesselManager(_amount) {
 
 useEffect(() => {
   if (state.tab === "Close") return;
-  if ((IS_GRAVITA_DAPP || IS_PREON_DAPP) && state.isDebtBigerThanBalance)
+  if (
+    (IS_GRAVITA_DAPP || IS_PREON_DAPP || IS_LYVE_DAPP) &&
+    state.isDebtBigerThanBalance
+  )
     return;
   const price = prices[data.underlyingToken.symbol];
 
-  if (IS_GRAVITA_DAPP) {
+  if (IS_GRAVITA_DAPP || IS_LYVE_DAPP) {
     let assetInUSD,
       totalDebt,
       _yourLTV,
@@ -547,7 +551,7 @@ return (
               <StyledInfoTitle>Adjust Your Position</StyledInfoTitle>
             )}
             {(state.tab === "Borrow" || state.tab === "Adjust") &&
-            (IS_GRAVITA_DAPP || IS_PREON_DAPP) ? (
+            (IS_GRAVITA_DAPP || IS_PREON_DAPP || IS_LYVE_DAPP) ? (
               <StyledInfoItem>
                 <div>Your LTV</div>
                 <div className="white">
