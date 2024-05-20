@@ -3,22 +3,87 @@ License: MIT
 Author: devhub.near
 Homepage: https://github.com/NEAR-DevHub/near-prpsls-bos#readme
 */
-/* INCLUDE: "includes//common.jsx" */
+/* INCLUDE: "includes/common.jsx" */
 const REPL_DEVHUB = "devhub.near";
 const REPL_INFRASTRUCTURE_COMMITTEE = "megha19.near";
 const REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT = "truedove38.near";
 const REPL_RPC_URL = "https://rpc.mainnet.near.org";
 const REPL_NEAR = "near";
-const RFPImage =
+const RFP_IMAGE =
   "https://ipfs.near.social/ipfs/bafkreicbygt4kajytlxij24jj6tkg2ppc2dw3dlqhkermkjjfgdfnlizzy";
 
-const TIMELINE_STATUS = {
+const RFP_FEED_INDEXER_QUERY_NAME =
+  "polyprogrammist_near_devhub_objects_s_rfps_with_latest_snapshot";
+
+const RFP_INDEXER_QUERY_NAME =
+  "polyprogrammist_near_devhub_objects_s_rfp_snapshots";
+
+const PROPOSAL_FEED_INDEXER_QUERY_NAME =
+  "polyprogrammist_near_devhub_objects_s_proposals_with_latest_snapshot";
+
+const PROPOSAL_QUERY_NAME =
+  "polyprogrammist_near_devhub_objects_s_proposal_snapshots";
+const RFP_TIMELINE_STATUS = {
   ACCEPTING_SUBMISSIONS: "ACCEPTING_SUBMISSIONS",
   EVALUATION: "EVALUATION",
   PROPOSAL_SELECTED: "PROPOSAL_SELECTED",
   CANCELLED: "CANCELLED",
 };
-/* END_INCLUDE: "includes//common.jsx" */
+
+const PROPOSAL_TIMELINE_STATUS = {
+  DRAFT: "DRAFT",
+  REVIEW: "REVIEW",
+  APPROVED: "APPROVED",
+  REJECTED: "REJECTED",
+  CANCELED: "CANCELLED",
+  APPROVED_CONDITIONALLY: "APPROVED_CONDITIONALLY",
+  PAYMENT_PROCESSING: "PAYMENT_PROCESSING",
+  FUNDED: "FUNDED",
+};
+
+const QUERYAPI_ENDPOINT = `https://near-queryapi.api.pagoda.co/v1/graphql`;
+
+async function fetchGraphQL(operationsDoc, operationName, variables) {
+  return asyncFetch(QUERYAPI_ENDPOINT, {
+    method: "POST",
+    headers: { "x-hasura-role": `polyprogrammist_near` },
+    body: JSON.stringify({
+      query: operationsDoc,
+      variables: variables,
+      operationName: operationName,
+    }),
+  });
+}
+
+const CANCEL_RFP_OPTIONS = {
+  CANCEL_PROPOSALS: "CANCEL_PROPOSALS",
+  UNLINK_PROPOSALS: "UNLINK_PROPOSALSS",
+  NONE: "NONE",
+};
+
+function parseJSON(json) {
+  if (typeof json === "string") {
+    try {
+      return JSON.parse(json);
+    } catch (error) {
+      return json;
+    }
+  } else {
+    return json;
+  }
+}
+
+function isNumber(value) {
+  return typeof value === "number";
+}
+
+const PROPOSALS_APPROVED_STATUS_ARRAY = [
+  PROPOSAL_TIMELINE_STATUS.APPROVED,
+  PROPOSAL_TIMELINE_STATUS.APPROVED_CONDITIONALLY,
+  PROPOSAL_TIMELINE_STATUS.PAYMENT_PROCESSING,
+  PROPOSAL_TIMELINE_STATUS.FUNDED,
+];
+/* END_INCLUDE: "includes/common.jsx" */
 
 const stepsArray = [1, 2, 3];
 const timeline = props.timeline;
@@ -28,24 +93,24 @@ const setTimeline = props.setTimeline ?? (() => {});
 const TimelineStatusOptions = [
   {
     label: "Accepting Submissions",
-    value: { status: TIMELINE_STATUS.ACCEPTING_SUBMISSIONS },
+    value: { status: RFP_TIMELINE_STATUS.ACCEPTING_SUBMISSIONS },
   },
   {
     label: "Evaluation",
     value: {
-      status: TIMELINE_STATUS.EVALUATION,
+      status: RFP_TIMELINE_STATUS.EVALUATION,
     },
   },
   {
     label: "Proposal Selected",
     value: {
-      status: TIMELINE_STATUS.PROPOSAL_SELECTED,
+      status: RFP_TIMELINE_STATUS.PROPOSAL_SELECTED,
     },
   },
   {
     label: "Cancelled",
     value: {
-      status: TIMELINE_STATUS.CANCELLED,
+      status: RFP_TIMELINE_STATUS.CANCELLED,
     },
   },
 ];
@@ -113,8 +178,8 @@ const TimelineItems = ({ title, children, value, values }) => {
   // cancelled
   if (
     statusIndex === 2 &&
-    (values ?? []).includes(TIMELINE_STATUS.CANCELLED) &&
-    timeline.status === TIMELINE_STATUS.CANCELLED
+    (values ?? []).includes(RFP_TIMELINE_STATUS.CANCELLED) &&
+    timeline.status === RFP_TIMELINE_STATUS.CANCELLED
   ) {
     color = "#F4F4F4";
   }
@@ -164,8 +229,8 @@ return (
           const current = statusIndex === indexOfCurrentItem;
           const completed =
             statusIndex > indexOfCurrentItem ||
-            timeline.status === TIMELINE_STATUS.PROPOSAL_SELECTED ||
-            timeline.status === TIMELINE_STATUS.CANCELLED;
+            timeline.status === RFP_TIMELINE_STATUS.PROPOSAL_SELECTED ||
+            timeline.status === RFP_TIMELINE_STATUS.CANCELLED;
           return (
             <div className="d-flex flex-column align-items-center gap-1">
               <div
@@ -180,7 +245,7 @@ return (
                     className="d-flex justify-content-center align-items-center"
                     style={{ height: "120%" }}
                   >
-                    <i class="bi bi-check"></i>
+                    <i className="bi bi-check"></i>
                   </div>
                 )}
               </div>
@@ -200,11 +265,14 @@ return (
       <div className="d-flex flex-column gap-3">
         <TimelineItems
           title="1) Accepting Submissions"
-          value={TIMELINE_STATUS.ACCEPTING_SUBMISSIONS}
+          value={RFP_TIMELINE_STATUS.ACCEPTING_SUBMISSIONS}
         >
           <div>During this stage, the RFP is still open for submissions.</div>
         </TimelineItems>
-        <TimelineItems title="2) Evaluation" value={TIMELINE_STATUS.EVALUATION}>
+        <TimelineItems
+          title="2) Evaluation"
+          value={RFP_TIMELINE_STATUS.EVALUATION}
+        >
           <div>
             This RFP is closed for submissions. All submitted proposals are
             under review.
@@ -213,8 +281,8 @@ return (
         <TimelineItems
           title="3) Decision"
           values={[
-            TIMELINE_STATUS.PROPOSAL_SELECTED,
-            TIMELINE_STATUS.CANCELLED,
+            RFP_TIMELINE_STATUS.PROPOSAL_SELECTED,
+            RFP_TIMELINE_STATUS.CANCELLED,
           ]}
         >
           <div className="d-flex flex-column gap-2">
@@ -226,11 +294,11 @@ return (
                 label: <div className="fw-bold">Proposal Selected</div>,
                 disabled: disabled,
                 isChecked:
-                  timeline.status === TIMELINE_STATUS.PROPOSAL_SELECTED,
+                  timeline.status === RFP_TIMELINE_STATUS.PROPOSAL_SELECTED,
                 onClick: (v) => {
                   if (v) {
                     setTimeline({
-                      status: TIMELINE_STATUS.PROPOSAL_SELECTED,
+                      status: RFP_TIMELINE_STATUS.PROPOSAL_SELECTED,
                     });
                   }
                 },
@@ -242,11 +310,11 @@ return (
                 value: "",
                 disabled: disabled,
                 label: <div className="fw-bold">RFP Cancelled</div>,
-                isChecked: timeline.status === TIMELINE_STATUS.CANCELLED,
+                isChecked: timeline.status === RFP_TIMELINE_STATUS.CANCELLED,
                 onClick: (v) => {
                   if (v) {
                     setTimeline({
-                      status: TIMELINE_STATUS.CANCELLED,
+                      status: RFP_TIMELINE_STATUS.CANCELLED,
                     });
                   }
                 },
