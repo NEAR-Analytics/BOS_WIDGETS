@@ -1,6 +1,19 @@
 const Wrapper = styled.div`
-  max-width: 400px;
   margin: 0 auto;
+  max-width: 400px;
+  font-size: 1rem;
+
+  h3 {
+    text-transform: capitalize;
+  }
+
+  button {
+    background: #2f80ed;
+    text-shadow: none !important;
+    color: white;
+    border-radius: 8px !important;
+    margin: 1rem 0;
+  }
 `;
 
 const TabContent = styled.div`
@@ -18,10 +31,6 @@ const Label = styled.label`
   font-weight: bold;
 `;
 
-const Input = styled.input`
-  padding: 5px;
-`;
-
 const Select = styled.select`
   padding: 8px;
 `;
@@ -35,7 +44,7 @@ const { makeEmptyResponseShape, populateResponseShape } = props;
 
 const Button = styled.button``;
 
-const [path, setPath] = useState("");
+const [path, setPath] = useState(props.path ?? "");
 
 const handleEmbed = () => {
   const responseShapeId = makeEmptyResponseShape();
@@ -47,17 +56,17 @@ return (
   <Wrapper>
     <h3>embed</h3>
     <Form>
-      <FormGroup>
-        <Label>path</Label>
-        <Input
+      <div className="form-group">
+        <input
+          placeholder="Path"
           type="text"
           value={path}
           onChange={(e) => setPath(e.target.value)}
         />
-      </FormGroup>
+      </div>
     </Form>
     <FormGroup>
-      <button className="btn btn-success m-2" onClick={handleEmbed}>
+      <button style={{ color: "white" }} className="btn btn-primary" onClick={handleEmbed}>
         Submit
       </button>
     </FormGroup>
