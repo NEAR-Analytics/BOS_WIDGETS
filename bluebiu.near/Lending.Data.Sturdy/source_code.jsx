@@ -640,8 +640,6 @@ useEffect(() => {
     contract
       .getNewRate(0, 0, 0)
       .then((res) => {
-        console.log(111, res, res[1].toString());
-
         // _totalBorrowRes = res;
         count++;
         formatData("getRate");
