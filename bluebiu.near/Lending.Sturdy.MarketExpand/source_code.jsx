@@ -295,7 +295,7 @@ useEffect(() => {
     .times(Big(data.maxLTV || 0))
     .div(1.06)
     .minus(borrowUSD);
-  console.log("borrowLimitUSD--", _borrowLimitUSD);
+  console.log("borrowLimitUSD--", _borrowLimitUSD.toFixed());
   State.update({
     borrowLimitUSD: _borrowLimitUSD.lte(0) ? 0 : _borrowLimitUSD,
   });
