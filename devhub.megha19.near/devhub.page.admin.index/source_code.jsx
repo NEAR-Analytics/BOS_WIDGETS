@@ -1,5 +1,5 @@
 const { hasModerator, getRootMembers, getAccessControlInfo } = VM.require(
-  "${REPL_DEVHUB}/widget/core.adapter.devhub-contract"
+  "devhub.megha19.near/widget/core.adapter.devhub-contract"
 );
 
 if (!hasModerator || !getRootMembers || !getAccessControlInfo) {
@@ -58,7 +58,7 @@ function createEditTeam({
     if (!membersAndTeams.includes(member)) {
       // Add member
       txn.push({
-        contractName: "${REPL_DEVHUB_CONTRACT}",
+        contractName: "devhub.near",
         methodName: "add_member",
         args: {
           member: member,
@@ -79,7 +79,7 @@ function createEditTeam({
   Near.call([
     ...txn,
     {
-      contractName: "${REPL_DEVHUB_CONTRACT}",
+      contractName: "devhub.near",
       methodName: contractCall, // add_member || edit_member
       args: {
         member: `team:${teamName}`,
@@ -169,7 +169,7 @@ return (
           role="tabpanel"
           aria-labelledby="home-tab"
         >
-          <Widget src="${REPL_DEVHUB}/widget/devhub.page.admin.homepageTab" />
+          <Widget src="devhub.megha19.near/widget/devhub.page.admin.homepageTab" />
         </div>
         <div
           class="tab-pane fade"
@@ -178,7 +178,7 @@ return (
           aria-labelledby="profile-tab"
         >
           <Widget
-            src="${REPL_DEVHUB}/widget/devhub.page.admin.moderatorsTab"
+            src="devhub.megha19.near/widget/devhub.page.admin.moderatorsTab"
             props={{
               accessControlInfo,
               createEditTeam,
@@ -192,7 +192,7 @@ return (
           aria-labelledby="contact-tab"
         >
           <Widget
-            src="${REPL_DEVHUB}/widget/devhub.page.admin.restrictedLabelsTab"
+            src="devhub.megha19.near/widget/devhub.page.admin.restrictedLabelsTab"
             props={{
               accessControlInfo,
               createEditTeam,
