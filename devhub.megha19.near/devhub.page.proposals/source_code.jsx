@@ -1,6 +1,6 @@
 return (
   <Widget
-    src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.Feed"}
+    src={"devhub.megha19.near/widget/devhub.entity.proposal.Feed"}
     props={{}}
   />
 );
