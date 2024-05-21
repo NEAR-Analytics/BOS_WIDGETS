@@ -1,42 +1,5 @@
 const StyledContainer = styled.div``;
 
-const COLUMNS = [
-  {
-    key: "DEPOSIT",
-    label: "DEPOSIT",
-    width: "20%",
-  },
-  {
-    key: "TVL",
-    label: "TVL",
-    width: "14%",
-    // type: "amount",
-  },
-  {
-    key: "LIQUIDATION-BONUS",
-    label: "LIQUIDATION BONUS",
-    width: "20%",
-    // type: "apy",
-  },
-  {
-    key: "YOUR-DEPOSITS",
-    label: "YOUR DEPOSITS",
-    width: "20%",
-    // type: "amount",
-  },
-  {
-    key: "CLAIMABLE",
-    label: "CLAIMABLE",
-    width: "12%",
-    // type: "apy",
-    // type: "amount",
-  },
-  {
-    key: "handler",
-    width: "2%",
-  },
-];
-
 const {
   addAction,
   toast,
@@ -48,9 +11,78 @@ const {
   prices,
   tvl,
   deposits,
+  IS_ETHOS_DAPP,
+  IS_PREON_DAPP,
+  IS_GRAVITA_DAPP,
+  IS_LYVE_DAPP,
 } = props;
 
 const { BORROW_TOKEN, BORROW_URL } = dexConfig;
+let COLUMNS;
+if (IS_ETHOS_DAPP || IS_PREON_DAPP || IS_GRAVITA_DAPP) {
+  COLUMNS = [
+    {
+      key: "DEPOSIT",
+      label: "DEPOSIT",
+      width: "20%",
+    },
+    {
+      key: "TVL",
+      label: "TVL",
+      width: "14%",
+      // type: "amount",
+    },
+    {
+      key: "LIQUIDATION-BONUS",
+      label: "LIQUIDATION BONUS",
+      width: "20%",
+      // type: "apy",
+    },
+    {
+      key: "YOUR-DEPOSITS",
+      label: "YOUR DEPOSITS",
+      width: "20%",
+      // type: "amount",
+    },
+    {
+      key: "CLAIMABLE",
+      label: "CLAIMABLE",
+      width: "12%",
+      // type: "apy",
+      // type: "amount",
+    },
+    {
+      key: "handler",
+      width: "2%",
+    },
+  ];
+}
+if (IS_LYVE_DAPP) {
+  COLUMNS = [
+    {
+      key: "DEPOSIT",
+      label: "DEPOSIT",
+      width: "30%",
+    },
+    {
+      key: "TVL",
+      label: "TVL",
+      width: "30%",
+      // type: "amount",
+    },
+    {
+      key: "YOUR-DEPOSITS",
+      label: "YOUR DEPOSITS",
+      width: "30%",
+      // type: "amount",
+    },
+    {
+      key: "handler",
+      width: "2%",
+    },
+  ];
+}
+
 const data = [
   {
     BORROW_TOKEN,
