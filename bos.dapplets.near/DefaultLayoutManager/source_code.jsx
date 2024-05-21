@@ -51,7 +51,7 @@ const WidgetBadgeWrapper = styled.div`
 `;
 
 return (
-  <Container>
+  <Container id='default-layout-manager'>
     {props.widgets
       .filter((w) => w.isSuitable === undefined || w.isSuitable === true)
       .map((widget) => (
