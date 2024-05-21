@@ -1,4 +1,5 @@
 const twitterConfig = {
+  action: true,
   chapters: [
     {
       id: "bos.dapplets.near/gateway/MutableWebExtension",
@@ -200,6 +201,7 @@ const twitterConfig = {
 }
 
 const nearSocialConfig = {
+  action: true,
   chapters: [
     {
       id: "bos.dapplets.near/gateway/MutableWeb",
@@ -418,6 +420,12 @@ const handleClose = () => {
   setShowApp(false)
 }
 
+const handleAction = () => {
+  setShowApp((val) => !val)
+  setChapterCounter(0)
+  setPageCounter(0)
+}
+
 const handleChapterDecrement = () => {
   if (chapterCounter !== 0) {
     setChapterCounter((val) => val - 1)
@@ -527,21 +535,43 @@ const ChapterWrapper = (props) => {
   )
 }
 
-return showApp ? (guideConfig.chapters[chapterCounter]?.type === 'infobox' ? (
-  <OverlayTriggerWrapper>
-    <DappletOverlay>
-      <ChapterWrapper/>
-    </DappletOverlay>
-  </OverlayTriggerWrapper>
-) : (
-  <DappletPortal
-    target={{
-      namespace: guideConfig.chapters[chapterCounter]?.namespace,
-      contextType: guideConfig.chapters[chapterCounter]?.contextType,
-      injectTo: guideConfig.chapters[chapterCounter]?.injectTo,
-      if: guideConfig.chapters[chapterCounter]?.if,
-      insteadOf: guideConfig.chapters[chapterCounter]?.insteadOf,
-    }}
-    component={ChapterWrapper}
-  />
-)) : <></>
+return (
+  <>
+    {guideConfig.action ? (
+      <DappletPortal
+        target={{
+          namespace: "mweb",
+          contextType: "mweb-overlay",
+          injectTo: "mweb-actions-panel",
+          if: { id: { eq: "mweb-overlay" } },
+          arrowTo: "context",
+        }}
+        component={() => <Widget
+          src='bos.dapplets.near/widget/WebGuide.Action'
+          props={{
+            isActive: showApp,
+            handleAction,
+          }}
+        />}
+      />
+    ) : null}
+    {showApp ? (guideConfig.chapters[chapterCounter]?.type === 'infobox' ? (
+      <OverlayTriggerWrapper>
+        <DappletOverlay>
+          <ChapterWrapper/>
+        </DappletOverlay>
+      </OverlayTriggerWrapper>
+    ) : (
+      <DappletPortal
+        target={{
+          namespace: guideConfig.chapters[chapterCounter]?.namespace,
+          contextType: guideConfig.chapters[chapterCounter]?.contextType,
+          injectTo: guideConfig.chapters[chapterCounter]?.injectTo,
+          if: guideConfig.chapters[chapterCounter]?.if,
+          insteadOf: guideConfig.chapters[chapterCounter]?.insteadOf,
+        }}
+        component={ChapterWrapper}
+      />
+    )) : null}
+  </>
+)
