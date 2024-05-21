@@ -1,4 +1,4 @@
-const { href } = VM.require("${REPL_DEVHUB}/widget/core.lib.url") || (() => {});
+const { href } = VM.require("devhub.megha19.near/widget/core.lib.url") || (() => {});
 
 const nearDevGovBadgesContractId = "neardevgov.near";
 
@@ -36,7 +36,7 @@ const renderedBadgesList = badges.map(({ token_id: tokenId, metadata }) => (
     title={`NEAR DevGov Badge - ${metadata.title}`}
   >
     <Widget
-      src="${REPL_MOB}/widget/NftImage"
+      src="mob.near/widget/NftImage"
       props={{
         style,
         nft: {
