@@ -1,6 +1,5 @@
-const accountId = props.accountId || "bos.genadrop.near";
 const { disabled, label, value, id, checked, ref, onChange } = props;
-const { getFontType } = VM.require(`${accountId}/widget/Mintbase.Theme`);
+const { getFontType } = VM.require(`bos.genadrop.near/widget/Mintbase.Theme`);
 const mode = props.mode || Storage.get("mode");
 const IsDarkModeOn = mode === "dark";
 const RadioButton = styled.div`
