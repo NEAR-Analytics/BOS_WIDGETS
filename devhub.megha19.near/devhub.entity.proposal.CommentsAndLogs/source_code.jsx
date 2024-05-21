@@ -145,7 +145,7 @@ const Comment = ({ commentItem }) => {
       <div className="d-flex gap-2 flex-1">
         <div className="d-none d-sm-flex">
           <Widget
-            src={"devhub.megha19.near/widget/devhub.entity.proposal.Profile"}
+            src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.Profile"}
             props={{
               accountId: accountId,
             }}
@@ -162,7 +162,7 @@ const Comment = ({ commentItem }) => {
               </Link>
               commented ･{" "}
               <Widget
-                src="near/widget/TimeAgo"
+                src="${REPL_NEAR}/widget/TimeAgo"
                 props={{
                   blockHeight: blockHeight,
                 }}
@@ -171,7 +171,7 @@ const Comment = ({ commentItem }) => {
             {context.accountId && (
               <div className="menu">
                 <Widget
-                  src="near/widget/Posts.Menu"
+                  src="${REPL_NEAR}/widget/Posts.Menu"
                   props={{
                     accountId: accountId,
                     blockHeight: blockHeight,
@@ -185,7 +185,7 @@ const Comment = ({ commentItem }) => {
           <div className="p-2 px-3">
             <Widget
               src={
-                "devhub.megha19.near/widget/devhub.components.molecule.MarkdownViewer"
+                "${REPL_DEVHUB}/widget/devhub.components.molecule.MarkdownViewer"
               }
               props={{
                 text: content.text,
@@ -194,14 +194,14 @@ const Comment = ({ commentItem }) => {
 
             <div className="d-flex gap-2 align-items-center mt-4">
               <Widget
-                src="devhub.megha19.near/widget/devhub.entity.proposal.LikeButton"
+                src="${REPL_DEVHUB}/widget/devhub.entity.proposal.LikeButton"
                 props={{
                   item: item,
                   notifyAccountId: accountId,
                 }}
               />
               <Widget
-                src="near/widget/CopyUrlButton"
+                src="${REPL_NEAR}/widget/CopyUrlButton"
                 props={{
                   url: link,
                 }}
@@ -229,14 +229,14 @@ function parseTimelineKeyAndValue(timeline, originalValue, modifiedValue) {
           <span className="inline-flex">
             moved proposal from{" "}
             <Widget
-              src={"devhub.megha19.near/widget/devhub.entity.proposal.StatusTag"}
+              src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.StatusTag"}
               props={{
                 timelineStatus: oldValue,
               }}
             />
             to{" "}
             <Widget
-              src={"devhub.megha19.near/widget/devhub.entity.proposal.StatusTag"}
+              src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.StatusTag"}
               props={{
                 timelineStatus: newValue,
               }}
@@ -272,7 +272,7 @@ const AccountProfile = ({ accountId }) => {
   return (
     <span className="inline-flex fw-bold text-black">
       <Widget
-        src={"devhub.megha19.near/widget/devhub.entity.proposal.Profile"}
+        src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.Profile"}
         props={{
           accountId: accountId,
           size: "sm",
@@ -413,7 +413,7 @@ const Log = ({ timestamp }) => {
             {parseProposalKeyAndValue(i.key, i.modifiedValue, i.originalValue)}
             {i.key !== "timeline" && "･"}
             <Widget
-              src="near/widget/TimeAgo"
+              src="${REPL_NEAR}/widget/TimeAgo"
               props={{
                 blockTimestamp: timestamp * 1000000,
               }}
