@@ -10,7 +10,7 @@ const StyledHeader = styled.div`
 `;
 
 State.init({
-  tab: "market",
+  tab: "Stake",
   chainId: -1,
 });
 
@@ -34,9 +34,9 @@ const {
 const { type } = dexConfig;
 
 const tabsArray = [
-  { key: "STAKE", label: "Stake" },
-  { key: "UNSTAKE", label: "Unstake" },
-  { key: "WITHDRAW", label: "Withdraw" },
+  { key: "Stake", label: "Stake" },
+  { key: "Unstake", label: "Unstake" },
+  { key: "Withdraw", label: "Withdraw" },
 ];
 
 return (
@@ -69,23 +69,13 @@ return (
         }}
       />
     </StyledHeader>
-    {/* <Widget
+    <Widget
       src="bluebiu.near/widget/Staking.Kelp.Content"
       props={{
-        dexConfig,
-        wethAddress,
-        multicallAddress,
-        multicall,
-        prices,
-        chainIdNotSupport: !isChainSupported,
-        account,
-        addAction,
-        toast,
-        chainId,
-        nativeCurrency,
+        ...props,
         tab: state.tab,
       }}
-    /> */}
+    />
 
     {!isChainSupported && (
       <Widget
