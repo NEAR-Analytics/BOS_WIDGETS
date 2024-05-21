@@ -293,7 +293,7 @@ useEffect(() => {
   );
   const _borrowLimitUSD = collateralUSD
     .times(Big(data.maxLTV || 0))
-    .div(1.06)
+    .div(1.07)
     .minus(borrowUSD);
   console.log("borrowLimitUSD--", _borrowLimitUSD.toFixed());
   State.update({
