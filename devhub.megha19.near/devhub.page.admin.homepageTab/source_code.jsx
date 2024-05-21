@@ -2,10 +2,10 @@ const {
   getFeaturedCommunities,
   setFeaturedCommunities,
   getAllCommunitiesMetadata,
-} = VM.require("${REPL_DEVHUB}/widget/core.adapter.devhub-contract");
+} = VM.require("devhub.megha19.near/widget/core.adapter.devhub-contract");
 
 const { Tile } =
-  VM.require("${REPL_DEVHUB}/widget/devhub.components.molecule.Tile") ||
+  VM.require("devhub.megha19.near/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
 
 if (
@@ -46,7 +46,7 @@ function handleSubmit() {
 return (
   <>
     <Widget
-      src="${REPL_DEVHUB}/widget/devhub.components.atom.Alert"
+      src="devhub.megha19.near/widget/devhub.components.atom.Alert"
       props={{
         onClose: () => setCommunityMessage(""),
         message: communityMessage,
@@ -55,7 +55,7 @@ return (
     <Tile className="p-3 mb-3">
       <h3> Manage featured communities</h3>
       <Widget
-        src="${REPL_DEVHUB}/widget/devhub.components.molecule.ListEditor"
+        src="devhub.megha19.near/widget/devhub.components.molecule.ListEditor"
         props={{
           data: {
             maxLength: 5,
@@ -78,7 +78,7 @@ return (
         className={"d-flex align-items-center justify-content-end gap-3 mt-4"}
       >
         <Widget
-          src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
+          src={"devhub.megha19.near/widget/devhub.components.molecule.Button"}
           props={{
             classNames: {
               root: "btn-outline-danger shadow-none border-0",
@@ -88,7 +88,7 @@ return (
           }}
         />
         <Widget
-          src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
+          src={"devhub.megha19.near/widget/devhub.components.molecule.Button"}
           props={{
             classNames: { root: "btn" },
             icon: {
@@ -102,7 +102,7 @@ return (
       </div>
     </Tile>
     <Widget
-      src={"${REPL_DEVHUB}/widget/devhub.components.molecule.PostControls"}
+      src={"devhub.megha19.near/widget/devhub.components.molecule.PostControls"}
       props={{
         onClick: () => setPreviewConnect(!previewConnect),
         icon: previewConnect ? "bi bi-toggle-on" : "bi bi-toggle-off",
@@ -113,7 +113,7 @@ return (
     <div class="mt-3">
       {previewConnect && (
         <Widget
-          src="${REPL_DEVHUB}/widget/devhub.components.island.connect"
+          src="devhub.megha19.near/widget/devhub.components.island.connect"
           props={{ ...props }}
         />
       )}
