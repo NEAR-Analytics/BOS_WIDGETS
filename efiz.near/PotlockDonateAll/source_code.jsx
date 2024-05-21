@@ -15,8 +15,10 @@ const handleDonateAll = () => {
     const amountIndivisible = Big(parseFloat(AMOUNT)).mul(Big(10).pow(24));
     const args = {};
 
-    args.recipient_id = projectId;
+    args.project_id = projectId;
     args.referrer_id = referrer_id;
+    args.bypass_protocol_fee = false;
+    args.message = "";
 
     transactions.push({
       contractName: POT_ID,
