@@ -37,7 +37,7 @@ return (
           style={{ transform: "translateY(7rem)" }}
         >
           <Widget
-            src="mob.near/widget/NftImage"
+            src="${REPL_MOB}/widget/NftImage"
             props={{
               style: { width: "10em", height: "10em" },
               className: "rounded-circle w-100 h-100 img-thumbnail d-block",
