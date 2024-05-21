@@ -4,10 +4,6 @@ const { href } = VM.require("devhub.near/widget/core.lib.url") || {
 const { readableDate } = VM.require(
   "devhub.near/widget/core.lib.common"
 ) || { readableDate: () => {} };
-const { getDepositAmountForWriteAccess } = VM.require(
-  "devhub.near/widget/core.lib.common"
-);
-getDepositAmountForWriteAccess || (getDepositAmountForWriteAccess = () => {});
 
 const accountId = context.accountId;
 /*
