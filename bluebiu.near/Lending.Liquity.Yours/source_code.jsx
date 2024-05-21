@@ -46,6 +46,10 @@ const {
   tvl,
   deposits,
   tokenBal,
+  IS_ETHOS_DAPP,
+  IS_PREON_DAPP,
+  IS_GRAVITA_DAPP,
+  IS_LYVE_DAPP,
 } = props;
 
 return (
@@ -58,6 +62,10 @@ return (
         tvl: tvl,
         deposits: deposits,
         tokenBal: tokenBal,
+        IS_ETHOS_DAPP,
+        IS_PREON_DAPP,
+        IS_GRAVITA_DAPP,
+        IS_LYVE_DAPP,
       }}
     />
   </>
