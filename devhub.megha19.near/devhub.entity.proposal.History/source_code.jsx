@@ -5,14 +5,14 @@ props.newTab: boolean;
 props.timestamp: number;
 props.referral: any;
 */
-const { href } = VM.require("${REPL_DEVHUB}/widget/core.lib.url") || {
+const { href } = VM.require("devhub.megha19.near/widget/core.lib.url") || {
   href: () => {},
 };
 const { readableDate } = VM.require(
-  "${REPL_DEVHUB}/widget/core.lib.common"
+  "devhub.megha19.near/widget/core.lib.common"
 ) || { readableDate: () => {} };
 const proposalId = props.id ?? (props.id ? parseInt(props.id) : 0);
-const proposal = Near.view("${REPL_DEVHUB_CONTRACT}", "get_proposal", {
+const proposal = Near.view("devhub.near", "get_proposal", {
   proposal_id: proposalId,
 });
 if (!proposal || !proposal.snapshot_history) {
@@ -70,7 +70,7 @@ const history = (
               <a
                 class="dropdown-item"
                 href={href({
-                  widgetSrc: "${REPL_DEVHUB}/widget",
+                  widgetSrc: "devhub.megha19.near/widget",
                   params: {
                     page: "proposal",
                     id: proposalId,
@@ -84,7 +84,7 @@ const history = (
                 {readableDate(item.timestamp / 1000000)}
 
                 <Widget
-                  src="${REPL_MOB}/widget/ProfileImage"
+                  src="mob.near/widget/ProfileImage"
                   props={{
                     accountId: item.editor_id,
                     style: {
@@ -102,7 +102,7 @@ const history = (
             <a
               class="dropdown-item"
               href={href({
-                widgetSrc: "${REPL_DEVHUB}/widget/app",
+                widgetSrc: "devhub.megha19.near/widget/app",
                 params: {
                   page: "proposal",
                   id: proposalId,
