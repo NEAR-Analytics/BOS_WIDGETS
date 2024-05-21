@@ -1,8 +1,8 @@
 const { getAllAddons } =
-  VM.require("${REPL_DEVHUB}/widget/core.adapter.devhub-contract") ||
+  VM.require("devhub.megha19.near/widget/core.adapter.devhub-contract") ||
   (() => {});
 
-const { href } = VM.require("${REPL_DEVHUB}/widget/core.lib.url") || (() => {});
+const { href } = VM.require("devhub.megha19.near/widget/core.lib.url") || (() => {});
 
 const availableAddons = getAllAddons() || [];
 
@@ -130,7 +130,7 @@ const AddonItem = ({
       </Cell>
       <Cell>
         <Widget
-          src="${REPL_DEVHUB}/widget/devhub.components.molecule.Input"
+          src="devhub.megha19.near/widget/devhub.components.molecule.Input"
           props={{
             label: " ",
             value: data.display_name,
@@ -150,7 +150,7 @@ const AddonItem = ({
           }
         >
           <Widget
-            src={"${REPL_DEVHUB}/widget/devhub.components.atom.Toggle"}
+            src={"devhub.megha19.near/widget/devhub.components.atom.Toggle"}
             props={{
               value: data.enabled,
               onChange: handleEnableChange,
@@ -272,7 +272,7 @@ const AddonsConfigurator = ({ data, onSubmit }) => {
         <div className="d-flex justify-content-center pt-2">
           <div className="d-flex gap-2 flex-grow-1 px-4">
             <Widget
-              src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Select"}
+              src={"devhub.megha19.near/widget/devhub.components.molecule.Select"}
               props={{
                 className: "flex-grow-1",
                 options: availableAddons.map((addon) => ({
@@ -302,7 +302,7 @@ const AddonsConfigurator = ({ data, onSubmit }) => {
           className={"d-flex align-items-center justify-content-end gap-3 mt-4"}
         >
           <Widget
-            src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
+            src={"devhub.megha19.near/widget/devhub.components.molecule.Button"}
             props={{
               classNames: { root: "btn-success" },
               disabled: !changesMade,
