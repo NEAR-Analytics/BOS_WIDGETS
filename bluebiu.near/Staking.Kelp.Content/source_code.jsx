@@ -1,5 +1,97 @@
 const StyledContainer = styled.div`
   padding-top: 18px;
+  width: 478px;
+  border: 1px solid rgba(55, 58, 83, 1);
+  border-radius: 16px;
+  margin: 50px auto 0;
+  padding: 20px 0 0px;
+  position: relative;
+`;
+const Content = styled.div`
+  padding: 0 15px;
+`;
+const Wrapper = styled.div``;
+const Blur = styled.div``;
+const Summary = styled.div`
+  display: flex;
+  padding: 0 20px 20px;
+  border-bottom: 1px solid rgba(55, 58, 83, 1);
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const SummaryItem = styled.div`
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.8px;
+  .title {
+    color: rgba(151, 154, 190, 1);
+  }
+  .amount {
+    margin-top: 5px;
+    color: rgba(255, 255, 255, 1);
+  }
+`;
+const Panel = styled.div`
+  height: 100px;
+  border-radius: 12px;
+  border: 1px solid rgba(55, 58, 83, 1);
+  background-color: rgba(46, 49, 66, 1);
+  padding: 15px;
+  margin: 15px 0;
+  .title {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16.8px;
+    color: rgba(151, 154, 190, 1);
+  }
+  .body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .foot {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 14.4px;
+    color: rgba(151, 154, 190, 1);
+  }
+`;
+const Input = styled.input`
+  color: #fff;
+  font-size: 20px;
+  font-weight: 500;
+  border: none;
+  height: 24px;
+  width: 200px;
+  outline: none;
+  background-color: transparent;
+  padding: 0;
+  &:focus {
+    color: #fff;
+    background-color: transparent;
+    border-color: transparent;
+    outline: none;
+    box-shadow: none;
+  }
+`;
+const List = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 15px;
+  .keys {
+    color: rgba(151, 154, 190, 1);
+  }
+  .values {
+    color: #fff;
+  }
 `;
 
 const {
@@ -17,82 +109,183 @@ const {
   tab,
 } = props;
 
-const { markets, VesselManagerOperations } = dexConfig;
+const { StakeTokens, ExchangeToken } = dexConfig;
 
+const options = StakeTokens.map((item) => ({
+  text: item.symbol,
+  value: item.symbol,
+}));
 State.init({
-  newMarkets: "",
-  tvl: "",
-  deposits: "",
-  tokenBal: "",
+  stakeAmount: "",
+  curToken: "", // token symbol
+  exchangeRate: "",
+  options,
 });
-
-const IS_ETHOS_DAPP = dexConfig.name === "Ethos Finance" ? true : false;
-const IS_PREON_DAPP = dexConfig.name === "Preon Finance" ? true : false;
-const IS_GRAVITA_DAPP = dexConfig.name === "Gravita Protocol" ? true : false;
-const IS_LYVE_DAPP = dexConfig.name === "Lyve" ? true : false;
 
 useEffect(() => {
   State.update({
     loading: !chainIdNotSupport,
+    curToken: options[0].value,
   });
 }, []);
+console.log("state--", state);
+
+const clickBalance = (_bal) => {
+  State.update({
+    stakeAmount: Big(_bal).toFixed(4, 0),
+  });
+};
+function getExchangeRate(symbol) {
+  const url = `https://universe.kelpdao.xyz/rseth/exchangeRate/?lrtToken=${symbol}`;
+  return asyncFetch(url)
+    .then((res) => {
+      return res.body.value;
+    })
+    .catch((err) => {
+      console.log("Catch - getExchangeRate--", err);
+    });
+}
+useEffect(() => {
+  if (!state.curToken) return;
+
+  getExchangeRate(state.curToken).then((_rate) => {
+    State.update({
+      exchangeRate: _rate,
+    });
+  });
+}, [state.curToken]);
 
 return (
   <StyledContainer>
-    {tab === "market" && (
-      <Widget
-        src="bluebiu.near/widget/Lending.Liquity.Markets"
-        props={{
-          ...props,
-          IS_ETHOS_DAPP,
-          IS_PREON_DAPP,
-          IS_GRAVITA_DAPP,
-          IS_LYVE_DAPP,
-          dexConfig: {
-            ...dexConfig,
-            markets: state.newMarkets,
-          },
-          tokenBal: state.tokenBal,
-          deposits: state.deposits,
-          onSuccess: () => {
-            State.update({
-              loading: true,
-            });
-          },
-        }}
-      />
-    )}
-    {tab === "yours" && (
-      <Widget
-        src="bluebiu.near/widget/Lending.Liquity.Yours"
-        props={{
-          ...props,
-          tvl: state.tvl,
-          deposits: state.deposits,
-          tokenBal: state.tokenBal,
-          dexConfig: {
-            ...dexConfig,
-            markets: state.newMarkets,
-          },
-          onSuccess: () => {
-            // fresh balance..
-            State.update({
-              loading: true,
-            });
-          },
-        }}
-      />
-    )}
+    {state.StakeTokens ? (
+      <Wrapper>
+        <Summary>
+          <SummaryItem>
+            <div className="title">TVL</div>
+            <div className="amount">
+              $
+              <Widget
+                src="bluebiu.near/widget/Utils.FormatNumber"
+                props={{
+                  number: state.TVL,
+                }}
+              />
+            </div>
+          </SummaryItem>
+          <SummaryItem>
+            <div className="title">APR</div>
+            <div className="amount">{state.APY}</div>
+          </SummaryItem>
+        </Summary>
+        <Content>
+          <Blur>
+            <Panel>
+              <div className="title">{tab}</div>
+              <div className="body">
+                <Input
+                  type="text"
+                  placeholder="0"
+                  value={state.stakeAmount}
+                  onChange={(ev) => {
+                    if (isNaN(Number(ev.target.value))) return;
+                    let amount = ev.target.value.replace(/\s+/g, "");
+                    let _bal = state.StakeTokens.find(
+                      (item) => item.symbol === state.curToken
+                    ).balance;
+                    if (Big(amount || 0).gt(Big(_bal || 0))) {
+                      amount = Big(_bal || 0).toFixed(4, 0);
+                    }
+                    State.update({
+                      stakeAmount: amount,
+                    });
+                  }}
+                />
+                <Widget
+                  src="bluebiu.near/widget/UI.Select.Index"
+                  props={{
+                    options,
+                    value: state.options.find(
+                      (obj) => obj.value === state.curToken
+                    ),
+                    onChange: (option) => {
+                      console.log("onchange--", option);
+                      State.update({
+                        curToken: option.value,
+                      });
+                    },
+                  }}
+                />
+              </div>
+              <div className="foot">
+                <div class="prices">
+                  $
+                  {Big(state.stakeAmount || 0)
+                    .times(Big(prices[state.curToken] || 1))
+                    .toFixed(2, 0)}
+                </div>
+                <div class="balance">
+                  Balance:
+                  <Widget
+                    src="bluebiu.near/widget/Staking.Kelp.Balance"
+                    props={{
+                      value: state.StakeTokens
+                        ? state.StakeTokens.find(
+                            (item) => item.symbol === state.curToken
+                          ).balance
+                        : 0,
+                      digit: 4,
+                      onClick: clickBalance,
+                      symbol: state.curToken,
+                    }}
+                  />
+                </div>
+              </div>
+            </Panel>
+            <List>
+              <span className="keys">You will get</span>
+              <span className="values">
+                {Big(state.stakeAmount || 0)
+                  .div(state.exchangeRate || 1)
+                  .toFixed(4, 0)}{" "}
+                {ExchangeToken.symbol}
+              </span>
+            </List>
+            <List>
+              <span className="keys">Exchange rate</span>
+              <span className="values">
+                1 {ExchangeToken.symbol} ={" "}
+                {Big(state.exchangeRate || 0).toFixed(4, 0)} {state.curToken}
+              </span>
+            </List>
+          </Blur>
+          <Widget
+            src="bluebiu.near/widget/Staking.Kelp.Button"
+            props={{
+              ...props,
+              actionText: tab,
+              amount: state.stakeAmount,
+              curToken: state.curToken,
+              stakeToken: state.StakeTokens
+                ? state.StakeTokens.find(
+                    (item) => item.symbol === state.curToken
+                  )
+                : {},
+              onSuccess: () => {
+                State.update({ loading: true, stakeAmount: "" });
+              },
+            }}
+          />
+        </Content>
+      </Wrapper>
+    ) : null}
+    {state.loading && <Widget src="bluebiu.near/widget/Lending.Spinner" />}
     <Widget
       src={dexConfig.data}
       props={{
-        update: state.loading,
         ...props,
-        IS_ETHOS_DAPP,
-        IS_PREON_DAPP,
-        IS_GRAVITA_DAPP,
-        IS_LYVE_DAPP,
+        update: state.loading,
         onLoad: (data) => {
+          console.log("onLoad--", data);
           State.update({
             loading: false,
             timestamp: Date.now(),
@@ -101,26 +294,5 @@ return (
         },
       }}
     />
-    {/* <Widget
-      src="bluebiu.near/widget/Avalanche.Lending.Dialog"
-      props={{
-        display: state.showDialog,
-        data: state.tableButtonClickData,
-        chainId,
-        addAction,
-        toast,
-        source: "dapp",
-        onClose: () => {
-          State.update({
-            showDialog: false,
-          });
-        },
-        onSuccess: () => {
-          State.update({
-            loading: true,
-          });
-        },
-      }}
-    /> */}
   </StyledContainer>
 );
