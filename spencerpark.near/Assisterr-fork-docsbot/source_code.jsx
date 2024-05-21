@@ -33,6 +33,7 @@ const submitQuestion = () => {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
+      Authentication: credential,
     },
     body: `openai_key=${credential}&question=${question}`,
   })
