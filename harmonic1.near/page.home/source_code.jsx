@@ -1,6 +1,4 @@
-const { SidebarLayout } = VM.require(
-  "buildhub.near/widget/template.SidebarLayout"
-) || {
+const { SidebarLayout } = VM.require("harmonic1.near/widget/SidebarLayout") || {
   SidebarLayout: () => <></>,
 };
 const config = {
