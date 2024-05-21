@@ -1,3 +1,8 @@
+const ParentContainer = styled.div`
+  div[data-component="devhub.near/widget/devhub.components.templates.AppLayout"] {
+    position: relative !important;
+  }
+`;
 const Theme = styled.div`
   position: fixed;
   inset: 73px 0px 0px;
@@ -13,9 +18,6 @@ const Theme = styled.div`
 `;
 
 const Container = styled.div`
-  div[data-component="devhub.near/widget/devhub.components.templates.AppLayout"] {
-    position: relative !important;
-  }
   width: 100%;
 `;
 
