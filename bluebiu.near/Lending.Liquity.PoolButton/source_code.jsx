@@ -90,7 +90,12 @@ const {
   gas,
   onApprovedSuccess,
   isBigerThanBalance,
+  IS_ETHOS_DAPP,
+  IS_PREON_DAPP,
+  IS_GRAVITA_DAPP,
+  IS_LYVE_DAPP,
 } = props;
+
 // for Yours
 const account = Ethers.send("eth_requestAccounts", [])[0];
 
@@ -134,7 +139,13 @@ if (isBigerThanBalance) {
 }
 
 const tokenAddr = data.config.borrowTokenAddress;
-const spender = data.config.BorrowerOperations;
+let spender;
+if (IS_ETHOS_DAPP || IS_PREON_DAPP || IS_GRAVITA_DAPP) {
+  spender = data.config.BorrowerOperations;
+}
+if (IS_LYVE_DAPP) {
+  spender = data.config.StabilityPool;
+}
 
 console.log("APPROVE: ", tokenAddr, spender, props);
 
@@ -241,7 +252,7 @@ function handleClick() {
   });
   console.log("click:", actionText, data);
   let abi;
-  if (data.BORROW_TOKEN === "GRAI") {
+  if (data.BORROW_TOKEN === "GRAI" || data.BORROW_TOKEN === "LYU") {
     abi = [
       {
         inputs: [
@@ -296,6 +307,10 @@ function handleClick() {
   if (data.BORROW_TOKEN === "GRAI") {
     params = [_amount, tokenArray];
   }
+  if (data.BORROW_TOKEN === "LYU") {
+    params = [_amount, ["0xe5D7C2a44FfDDf6b295A15c148167daaAf5Cf34f"]];
+  }
+
   if (data.BORROW_TOKEN === "STAR" || data.BORROW_TOKEN === "ERN") {
     params = [_amount];
   }
