@@ -37,7 +37,7 @@ useEffect(() => {
 return (
   <div>
     <Widget
-      src="${REPL_DEVHUB}/widget/devhub.components.molecule.Input"
+      src="devhub.megha19.near/widget/devhub.components.molecule.Input"
       props={{
         className: "flex-grow-1",
         value: account,
@@ -60,7 +60,7 @@ return (
     {showAccountAutocomplete && (
       <AutoComplete>
         <Widget
-          src="${REPL_DEVHUB}/widget/devhub.components.molecule.AccountAutocomplete"
+          src="devhub.megha19.near/widget/devhub.components.molecule.AccountAutocomplete"
           props={{
             term: account,
             onSelect: (id) => {
