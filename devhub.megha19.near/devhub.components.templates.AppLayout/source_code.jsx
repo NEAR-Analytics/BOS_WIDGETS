@@ -1,4 +1,5 @@
 const Theme = styled.div`
+  position: fixed;
   inset: 73px 0px 0px;
   width: 100%;
   display: flex;
@@ -12,6 +13,9 @@ const Theme = styled.div`
 `;
 
 const Container = styled.div`
+  div[data-component="devhub.near/widget/devhub.components.templates.AppLayout"] {
+    position: relative !important;
+  }
   width: 100%;
 `;
 
