@@ -74,6 +74,10 @@ return (
             ...dexConfig,
             markets: state.newMarkets,
           },
+          IS_ETHOS_DAPP,
+          IS_PREON_DAPP,
+          IS_GRAVITA_DAPP,
+          IS_LYVE_DAPP,
           onSuccess: () => {
             // fresh balance..
             State.update({
