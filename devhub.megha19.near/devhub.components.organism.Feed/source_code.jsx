@@ -1,4 +1,4 @@
-const { Feed } = VM.require("${REPL_DEVS}/widget/Feed");
+const { Feed } = VM.require("devs.near/widget/Feed");
 Feed = Feed || (() => <></>);
 const setPostExists = props.setPostExists ?? (() => {});
 const showFlagAccountFeature = props.showFlagAccountFeature ?? false;
@@ -102,7 +102,7 @@ return (
 
           return (
             <Widget
-              src="${REPL_NEAR}/widget/v1.Posts.Post"
+              src="near/widget/v1.Posts.Post"
               loading={<div className="w-100" style={{ height: "200px" }} />}
               props={{
                 accountId: item.accountId,
@@ -115,7 +115,7 @@ return (
       />
     ) : (
       <Widget
-        src={`${REPL_DEVHUB}/widget/devhub.components.organism.Feed.NearQueryApi`}
+        src={`devhub.megha19.near/widget/devhub.components.organism.Feed.NearQueryApi`}
         props={{
           GRAPHQL_ENDPOINT,
           filteredAccountIds: filteredAccountIds,
