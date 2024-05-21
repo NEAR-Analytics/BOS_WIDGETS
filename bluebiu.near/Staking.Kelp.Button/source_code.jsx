@@ -112,12 +112,14 @@ const ethChainId = 1;
 const switchChain = () => {
   onSwitchChain?.({ chainId: `0x${ethChainId.toString(16)}` });
 };
-if (actionText === "Unstake" || (actionText === "Withdraw" && chainId !== 1)) {
-  return (
-    <Button className={actionText.toLowerCase()} onClick={switchChain}>
-      {`Switch to Ethereum to ${actionText}`}
-    </Button>
-  );
+if (actionText === "Unstake" || actionText === "Withdraw") {
+  if (chainId !== 1) {
+    return (
+      <Button className={actionText.toLowerCase()} onClick={switchChain}>
+        {`Switch to Ethereum to ${actionText}`}
+      </Button>
+    );
+  }
 }
 if (!amount) {
   return (
