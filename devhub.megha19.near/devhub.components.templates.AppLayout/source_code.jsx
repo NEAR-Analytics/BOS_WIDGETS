@@ -13,7 +13,7 @@ const Theme = styled.div`
 `;
 
 const Container = styled.div`
-  div[data-component="devhub.near/widget/devhub.components.templates.AppLayout"] {
+  [data-component="devhub.near/widget/devhub.components.templates.AppLayout"] {
     position: relative !important;
   }
   width: 100%;
