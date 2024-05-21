@@ -35,7 +35,7 @@ return (
     <div className="d-flex gap-2 align-items-center">
       <Avatar className={size}>
         <Widget
-          src="${REPL_MOB}/widget/Image"
+          src="mob.near/widget/Image"
           props={{
             image: profile.image,
             alt: profile.name,
