@@ -60,7 +60,7 @@ const CenteredMessage = styled.div`
 const { addon, permissions, handle } = props;
 
 const { getAllAddons, setCommunityAddon } = VM.require(
-  "${REPL_DEVHUB}/widget/core.adapter.devhub-contract"
+  "devhub.megha19.near/widget/core.adapter.devhub-contract"
 );
 
 if (!getAllAddons || !setCommunityAddon) {
@@ -90,14 +90,14 @@ const ButtonRow = styled.div`
 
 const [view, setView] = useState(props.view || "viewer");
 
-if ("${REPL_DEVHUB}" !== "devhub.near") {
+if ("devhub.megha19.near" !== "devhub.near") {
   addonMatch.configurator_widget = addonMatch.configurator_widget.replace(
     "devhub.near/",
-    "${REPL_DEVHUB}/"
+    "devhub.megha19.near/"
   );
   addonMatch.view_widget = addonMatch.view_widget.replace(
     "devhub.near/",
-    "${REPL_DEVHUB}/"
+    "devhub.megha19.near/"
   );
 }
 
