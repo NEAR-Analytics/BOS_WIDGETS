@@ -42,7 +42,7 @@ const setSelected = props.onStateChange ?? (() => {});
 return (
   <div>
     <Widget
-      src="devhub.megha19.near/widget/devhub.components.molecule.DropDown"
+      src="${REPL_DEVHUB}/widget/devhub.components.molecule.DropDown"
       props={{
         options: options,
         label: "Category",
