@@ -51,7 +51,7 @@ if (!accountId) {
     >
       <Link to="https://near.org/signup">
         <Widget
-          src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
+          src={"devhub.megha19.near/widget/devhub.components.molecule.Button"}
           props={{
             classNames: { root: "grey-btn" },
             label: "Sign up",
@@ -156,7 +156,7 @@ useEffect(() => {
 return (
   <div className="d-flex gap-2">
     <Widget
-      src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.Profile"}
+      src={"devhub.megha19.near/widget/devhub.entity.proposal.Profile"}
       props={{
         accountId: accountId,
       }}
@@ -164,7 +164,7 @@ return (
     <div className="d-flex flex-column gap-2 w-100">
       <b className="mt-1">Add a comment</b>
       <Widget
-        src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Compose"}
+        src={"devhub.megha19.near/widget/devhub.components.molecule.Compose"}
         props={{
           data: comment,
           onChange: setComment,
@@ -177,7 +177,7 @@ return (
       />
       <div className="d-flex gap-2 align-content-center justify-content-end">
         <Widget
-          src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
+          src={"devhub.megha19.near/widget/devhub.components.molecule.Button"}
           props={{
             label: "Comment",
             disabled: !comment,
