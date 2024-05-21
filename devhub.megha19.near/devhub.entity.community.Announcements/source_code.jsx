@@ -1,6 +1,6 @@
 const { handle } = props;
 const { getCommunity, setCommunitySocialDB } = VM.require(
-  "${REPL_DEVHUB}/widget/core.adapter.devhub-contract"
+  "devhub.megha19.near/widget/core.adapter.devhub-contract"
 );
 
 getCommunity = getCommunity || (() => <></>);
@@ -14,7 +14,7 @@ const [lastQueryRequestTimestamp, setLastQueryRequestTimestamp] = useState(
 );
 const [submittedAnnouncementData, setSubmittedAnnouncementData] =
   useState(null);
-const communityAccountId = `${handle}.community.${REPL_DEVHUB_CONTRACT}`;
+const communityAccountId = `${handle}.community.devhub.near`;
 
 let checkIndexerInterval;
 const onNewUnseenPosts = (newUnseenPosts) => {
@@ -26,7 +26,7 @@ const onNewUnseenPosts = (newUnseenPosts) => {
 useEffect(() => {
   if (submittedAnnouncementData) {
     const checkForAnnouncementInSocialDB = () => {
-      Near.asyncView("${REPL_SOCIAL_CONTRACT}", "get", {
+      Near.asyncView("social.near", "get", {
         keys: [`${communityAccountId}/post/**`],
       }).then((result) => {
         try {
@@ -123,13 +123,13 @@ return (
             (communityData?.admins ?? []).includes(context.accountId) && (
               <div className="card p-4">
                 <Widget
-                  src={"${REPL_DEVHUB}/widget/devhub.entity.community.Compose"}
+                  src={"devhub.megha19.near/widget/devhub.entity.community.Compose"}
                   props={{
                     onSubmit: (v) => {
                       setSubmittedAnnouncementData(v);
                       setCommunitySocialDB({ handle, data: v });
                     },
-                    profileAccountId: `${handle}.community.${REPL_DEVHUB_CONTRACT}`,
+                    profileAccountId: `${handle}.community.devhub.near`,
                     isFinished: () => submittedAnnouncementData === null,
                   }}
                 />
@@ -167,7 +167,7 @@ return (
           )}
           <div className={postsExists && "card p-4"}>
             <Widget
-              src="${REPL_DEVHUB}/widget/devhub.components.organism.Feed"
+              src="devhub.megha19.near/widget/devhub.components.organism.Feed"
               props={{
                 filteredAccountIds: [communityAccountId],
                 sort: sort,
@@ -197,7 +197,7 @@ return (
                 style={{ fontWeight: 500 }}
               >
                 <Widget
-                  src="${REPL_DEVHUB}/widget/devhub.components.molecule.ProfileCard"
+                  src="devhub.megha19.near/widget/devhub.components.molecule.ProfileCard"
                   props={{ accountId }}
                 />
               </div>
