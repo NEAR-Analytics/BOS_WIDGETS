@@ -1,5 +1,5 @@
 const { getPost } =
-  VM.require("${REPL_DEVHUB}/widget/core.adapter.devhub-contract") ||
+  VM.require("devhub.megha19.near/widget/core.adapter.devhub-contract") ||
   (() => {});
 
 const { postKey, template } = props;
