@@ -13,13 +13,13 @@ const Theme = styled.div`
 `;
 
 const Container = styled.div`
+  div[data-component="devhub.near/widget/devhub.components.templates.AppLayout"] {
+    position: relative !important;
+  }
   width: 100%;
 `;
 
 const ContentContainer = styled.div`
-  div[data-component="devhub.near/widget/devhub.components.templates.AppLayout"] {
-    position: relative !important;
-  }
   flex: 1;
   display: flex;
   flex-direction: column;
