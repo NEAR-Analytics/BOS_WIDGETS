@@ -1,4 +1,4 @@
-const { normalize } = VM.require("devhub.megha19.near/widget/core.lib.stringUtils");
+const { normalize } = VM.require("${REPL_DEVHUB}/widget/core.lib.stringUtils");
 
 normalize || (normalize = () => {});
 
@@ -40,7 +40,7 @@ const NavUnderline = styled.ul`
 
 const { tab, permissions, community, view } = props;
 
-const { href } = VM.require("devhub.megha19.near/widget/core.lib.url");
+const { href } = VM.require("${REPL_DEVHUB}/widget/core.lib.url");
 
 if (!href) {
   return <></>;
@@ -60,7 +60,7 @@ const tabs = [];
   addon.enabled &&
     tabs.push({
       title: addon.display_name,
-      view: "devhub.megha19.near/widget/devhub.page.addon",
+      view: "${REPL_DEVHUB}/widget/devhub.page.addon",
       params: {
         addon,
         handle: community.handle,
@@ -74,7 +74,7 @@ const onShareClick = () =>
     .writeText(
       href({
         gateway: "near.social",
-        widgetSrc: "devhub.megha19.near/widget/app",
+        widgetSrc: "${REPL_DEVHUB}/widget/app",
         params: { page: "community", handle: community.handle },
       })
     )
@@ -222,10 +222,10 @@ return (
       <div className="d-flex align-items-end gap-3 ms-auto mb-md-5 me-4">
         {permissions.can_configure && (
           <Link
-            to={`/devhub.megha19.near/widget/app?page=community.configuration&handle=${community.handle}`}
+            to={`/${REPL_DEVHUB}/widget/app?page=community.configuration&handle=${community.handle}`}
           >
             <Widget
-              src={"devhub.megha19.near/widget/devhub.components.molecule.Button"}
+              src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
               props={{
                 classNames: { root: "btn-outline-light text-dark shadow-none" },
                 notRounded: true,
@@ -249,7 +249,7 @@ return (
           </Link>
         )}
         <Widget
-          src={"devhub.megha19.near/widget/devhub.components.molecule.Button"}
+          src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
           props={{
             classNames: { root: "btn-outline-light text-dark shadow-none" },
             notRounded: true,
@@ -279,7 +279,7 @@ return (
               <li className="nav-item" key={title}>
                 <Link
                   to={href({
-                    widgetSrc: "devhub.megha19.near/widget/app",
+                    widgetSrc: "${REPL_DEVHUB}/widget/app",
                     params: {
                       page: "community",
                       handle: community.handle,
@@ -308,12 +308,12 @@ return (
               <span>Required tags:</span>
               <Link
                 to={href({
-                  widgetSrc: "devhub.megha19.near/widget/app",
+                  widgetSrc: "${REPL_DEVHUB}/widget/app",
                   params: { page: "feed", tag: community.tag },
                 })}
               >
                 <Widget
-                  src={"devhub.megha19.near/widget/devhub.components.atom.Tag"}
+                  src={"${REPL_DEVHUB}/widget/devhub.components.atom.Tag"}
                   props={{
                     tag: community.tag,
                   }}
@@ -324,12 +324,12 @@ return (
           {context.accountId && (
             <Widget
               src={
-                "devhub.megha19.near/widget/devhub.components.molecule.PostControls"
+                "${REPL_DEVHUB}/widget/devhub.components.molecule.PostControls"
               }
               props={{
                 title: "Post",
                 href: href({
-                  widgetSrc: "devhub.megha19.near/widget/app",
+                  widgetSrc: "${REPL_DEVHUB}/widget/app",
                   params: {
                     page: "create",
                     labels: [community.tag],
