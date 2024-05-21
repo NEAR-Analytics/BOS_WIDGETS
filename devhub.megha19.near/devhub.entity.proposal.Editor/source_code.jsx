@@ -1,4 +1,4 @@
-const { href } = VM.require("${REPL_DEVHUB}/widget/core.lib.url");
+const { href } = VM.require("devhub.megha19.near/widget/core.lib.url");
 const draftKey = "PROPOSAL_EDIT";
 href || (href = () => {});
 
@@ -11,14 +11,14 @@ const FundingDocs =
 
 if (!author) {
   return (
-    <Widget src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.LoginScreen"} />
+    <Widget src={"devhub.megha19.near/widget/devhub.entity.proposal.LoginScreen"} />
   );
 }
 let editProposalData = null;
 let draftProposalData = null;
 
 if (isEditPage) {
-  editProposalData = Near.view("${REPL_DEVHUB_CONTRACT}", "get_proposal", {
+  editProposalData = Near.view("devhub.near", "get_proposal", {
     proposal_id: parseInt(id),
   });
 }
@@ -377,7 +377,7 @@ useEffect(() => {
     editProposalData.snapshot.linked_proposals.map((item) => {
       useCache(
         () =>
-          Near.asyncView("${REPL_DEVHUB_CONTRACT}", "get_proposal", {
+          Near.asyncView("devhub.near", "get_proposal", {
             proposal_id: parseInt(item),
           }).then((proposal) => {
             setLinkedProposals([
@@ -425,7 +425,7 @@ useEffect(() => {
       }
     } else {
       const proposalIds = Near.view(
-        "${REPL_DEVHUB_CONTRACT}",
+        "devhub.near",
         "get_all_proposal_ids"
       );
       if (Array.isArray(proposalIds) && !proposalIdsArray) {
@@ -449,7 +449,7 @@ useEffect(() => {
     setLoading(true);
     useCache(
       () =>
-        asyncFetch("${REPL_RPC_URL}", {
+        asyncFetch("https://rpc.mainnet.near.org", {
           method: "POST",
           headers: {
             "content-type": "application/json",
@@ -478,7 +478,7 @@ useEffect(() => {
             useCache(
               () =>
                 Near.asyncView(
-                  "${REPL_DEVHUB_CONTRACT}",
+                  "devhub.near",
                   "get_all_proposal_ids"
                 ).then((proposalIdsArray) => {
                   setProposalId(
@@ -745,7 +745,7 @@ const onSubmit = ({ isDraft, isCancel }) => {
 
   Near.call([
     {
-      contractName: "${REPL_DEVHUB_CONTRACT}",
+      contractName: "devhub.near",
       methodName: isEditPage ? "edit_proposal" : "add_proposal",
       args: args,
       gas: 270000000000000,
@@ -764,7 +764,7 @@ if (loading) {
       className="d-flex justify-content-center align-items-center w-100"
     >
       <Widget
-        src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Spinner"}
+        src={"devhub.megha19.near/widget/devhub.components.molecule.Spinner"}
       />
     </div>
   );
@@ -807,7 +807,7 @@ const CollapsibleContainer = ({ title, children, noPaddingTop }) => {
 const CategoryDropdown = useMemo(() => {
   return (
     <Widget
-      src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.CategoryDropdown"}
+      src={"devhub.megha19.near/widget/devhub.entity.proposal.CategoryDropdown"}
       props={{
         selectedValue: category,
         onChange: setCategory,
@@ -819,7 +819,7 @@ const CategoryDropdown = useMemo(() => {
 const TitleComponent = useMemo(() => {
   return (
     <Widget
-      src="${REPL_DEVHUB}/widget/devhub.components.molecule.Input"
+      src="devhub.megha19.near/widget/devhub.components.molecule.Input"
       props={{
         className: "flex-grow-1",
         value: title,
@@ -839,7 +839,7 @@ const TitleComponent = useMemo(() => {
 const SummaryComponent = useMemo(() => {
   return (
     <Widget
-      src="${REPL_DEVHUB}/widget/devhub.components.molecule.Input"
+      src="devhub.megha19.near/widget/devhub.components.molecule.Input"
       props={{
         className: "flex-grow-1",
         value: summary,
@@ -860,7 +860,7 @@ const SummaryComponent = useMemo(() => {
 const DescriptionComponent = useMemo(() => {
   return (
     <Widget
-      src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Compose"}
+      src={"devhub.megha19.near/widget/devhub.components.molecule.Compose"}
       props={{
         data: description,
         onChange: setDescription,
@@ -876,7 +876,7 @@ const ConsentComponent = useMemo(() => {
   return (
     <div className="d-flex flex-column gap-2">
       <Widget
-        src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Checkbox"}
+        src={"devhub.megha19.near/widget/devhub.components.molecule.Checkbox"}
         props={{
           value: "toc",
           label: (
@@ -904,7 +904,7 @@ const ConsentComponent = useMemo(() => {
         }}
       />
       <Widget
-        src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Checkbox"}
+        src={"devhub.megha19.near/widget/devhub.components.molecule.Checkbox"}
         props={{
           value: "coc",
           label: (
@@ -953,7 +953,7 @@ const LinkedProposalsComponent = useMemo(() => {
         Link any relevant proposals (e.g. previous milestones).
       </div>
       <Widget
-        src="${REPL_DEVHUB}/widget/devhub.entity.proposal.LinkedProposalsDropdown"
+        src="devhub.megha19.near/widget/devhub.entity.proposal.LinkedProposalsDropdown"
         props={{
           onChange: setLinkedProposals,
           linkedProposals: linkedProposals,
@@ -966,7 +966,7 @@ const LinkedProposalsComponent = useMemo(() => {
 const ReceiverAccountComponent = useMemo(() => {
   return (
     <Widget
-      src="${REPL_DEVHUB}/widget/devhub.entity.proposal.AccountInput"
+      src="devhub.megha19.near/widget/devhub.entity.proposal.AccountInput"
       props={{
         value: receiverAccount,
         placeholder: devdaoAccount,
@@ -979,7 +979,7 @@ const ReceiverAccountComponent = useMemo(() => {
 const AmountComponent = useMemo(() => {
   return (
     <Widget
-      src="${REPL_DEVHUB}/widget/devhub.components.molecule.Input"
+      src="devhub.megha19.near/widget/devhub.components.molecule.Input"
       props={{
         className: "flex-grow-1",
         value: requestedSponsorshipAmount,
@@ -1001,7 +1001,7 @@ const AmountComponent = useMemo(() => {
 const CurrencyComponent = useMemo(() => {
   return (
     <Widget
-      src="${REPL_DEVHUB}/widget/devhub.components.molecule.DropDown"
+      src="devhub.megha19.near/widget/devhub.components.molecule.DropDown"
       props={{
         options: tokensOptions,
         selectedValue: requestedSponsorshipToken,
@@ -1016,7 +1016,7 @@ const CurrencyComponent = useMemo(() => {
 const SponsorComponent = useMemo(() => {
   return (
     <Widget
-      src="${REPL_DEVHUB}/widget/devhub.entity.proposal.AccountInput"
+      src="devhub.megha19.near/widget/devhub.entity.proposal.AccountInput"
       props={{
         value: requestedSponsor,
         placeholder: "DevDAO",
@@ -1029,7 +1029,7 @@ const SponsorComponent = useMemo(() => {
 const SupervisorComponent = useMemo(() => {
   return (
     <Widget
-      src="${REPL_DEVHUB}/widget/devhub.entity.proposal.AccountInput"
+      src="devhub.megha19.near/widget/devhub.entity.proposal.AccountInput"
       props={{
         value: supervisor,
         onUpdate: setSupervisor,
@@ -1041,7 +1041,7 @@ const SupervisorComponent = useMemo(() => {
 if (showProposalPage) {
   return (
     <Widget
-      src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.Proposal"}
+      src={"devhub.megha19.near/widget/devhub.entity.proposal.Proposal"}
       props={{ id: proposalId, ...props }}
     />
   );
@@ -1052,7 +1052,7 @@ if (showProposalPage) {
         {isEditPage ? "Edit" : "Create"} Proposal
       </Heading>
       <Widget
-        src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.ConfirmReviewModal"}
+        src={"devhub.megha19.near/widget/devhub.entity.proposal.ConfirmReviewModal"}
         props={{
           isOpen: isReviewModalOpen,
           onCancelClick: () => setReviewModal(false),
@@ -1064,7 +1064,7 @@ if (showProposalPage) {
         }}
       />
       <Widget
-        src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.ConfirmCancelModal"}
+        src={"devhub.megha19.near/widget/devhub.entity.proposal.ConfirmCancelModal"}
         props={{
           isOpen: isCancelModalOpen,
           onCancelClick: () => setCancelModal(false),
@@ -1083,7 +1083,7 @@ if (showProposalPage) {
             <div className="d-flex gap-2 w-100">
               <div className="d-none d-sm-flex">
                 <Widget
-                  src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.Profile"}
+                  src={"devhub.megha19.near/widget/devhub.entity.proposal.Profile"}
                   props={{
                     accountId: author,
                   }}
@@ -1154,7 +1154,7 @@ if (showProposalPage) {
                   <div>
                     {isEditPage && (
                       <Widget
-                        src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Button`}
+                        src={`devhub.megha19.near/widget/devhub.components.molecule.Button`}
                         props={{
                           classNames: {
                             root: "btn-outline-danger shadow-none border-0 btn-sm",
@@ -1174,14 +1174,14 @@ if (showProposalPage) {
                       to={
                         isEditPage
                           ? href({
-                              widgetSrc: "${REPL_DEVHUB}/widget/app",
+                              widgetSrc: "devhub.megha19.near/widget/app",
                               params: {
                                 page: "proposal",
                                 id: parseInt(id),
                               },
                             })
                           : href({
-                              widgetSrc: "${REPL_DEVHUB}/widget/app",
+                              widgetSrc: "devhub.megha19.near/widget/app",
                               params: {
                                 page: "proposals",
                               },
@@ -1189,7 +1189,7 @@ if (showProposalPage) {
                       }
                     >
                       <Widget
-                        src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Button`}
+                        src={`devhub.megha19.near/widget/devhub.components.molecule.Button`}
                         props={{
                           classNames: {
                             root: "d-flex h-100 text-muted fw-bold btn-outline shadow-none border-0 btn-sm",
@@ -1256,7 +1256,7 @@ if (showProposalPage) {
                   >
                     <div className="border border-1 p-3 rounded-2">
                       <Widget
-                        src="${REPL_DEVHUB}/widget/devhub.entity.proposal.VerificationStatus"
+                        src="devhub.megha19.near/widget/devhub.entity.proposal.VerificationStatus"
                         props={{
                           receiverAccount: receiverAccount,
                           showGetVerifiedBtn: true,
