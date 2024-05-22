@@ -32,6 +32,23 @@ const {
   account,
 } = props;
 const { type } = dexConfig;
+const SUPPOR_CHAINS = [...CHAIN_LIST?.map((item) => item.chain_id), 1];
+
+State.init({
+  isSupport: true,
+});
+useEffect(() => {
+  Ethers.provider()
+    .getNetwork()
+    .then((res) => {
+      State.update({
+        isSupport: SUPPOR_CHAINS.includes(res.chainId),
+      });
+    })
+    .catch((err) => {
+      console.log("catch-getNetwork-error--", err);
+    });
+}, []);
 
 const tabsArray = [
   { key: "Stake", label: "Stake" },
@@ -77,7 +94,7 @@ return (
       }}
     />
 
-    {!isChainSupported && (
+    {!state.isSupport && (
       <Widget
         src="bluebiu.near/widget/Swap.ChainWarnigBox"
         props={{
