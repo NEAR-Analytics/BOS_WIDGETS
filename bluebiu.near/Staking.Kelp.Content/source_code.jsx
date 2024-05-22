@@ -117,28 +117,38 @@ const {
   chainId,
   nativeCurrency,
   tab,
+  StakeTokens,
+  ExchangeToken,
 } = props;
+const { parseUnits, formatUnits } = ethers.utils;
+console.log("Content--", props);
 
-const { StakeTokens, ExchangeToken } = dexConfig;
-console.log(22, StakeTokens);
-const options = StakeTokens.map((item) => ({
-  text: item.symbol,
-  value: item.symbol,
-}));
 State.init({
   stakeAmount: "",
   curToken: "", // token symbol
   exchangeRate: "",
-  options,
+  options: [],
+
+  tokenBal: 0,
 });
 
 useEffect(() => {
   State.update({
     loading: !chainIdNotSupport,
-    curToken: options[0].value,
   });
 }, []);
-console.log("state--", state);
+
+useEffect(() => {
+  console.log("tab--", tab);
+  const options = StakeTokens?.map((item) => ({
+    text: item.symbol,
+    value: item.symbol,
+  }));
+  State.update({
+    options,
+    curToken: options[0].value,
+  });
+}, [tab]);
 
 const clickBalance = (_bal) => {
   State.update({
@@ -155,6 +165,39 @@ function getExchangeRate(symbol) {
       console.log("Catch - getExchangeRate--", err);
     });
 }
+function fetchData(url) {
+  return asyncFetch(url);
+}
+function getAPY() {
+  const url = `https://universe.kelpdao.xyz/rseth/apy`;
+  fetchData(url)
+    .then((res) => {
+      State.update({
+        APY: res.body.value || "-",
+      });
+    })
+    .catch((err) => {
+      console.log("Catch-getAPY--", err);
+    });
+}
+function getTVL() {
+  const url = `https://universe.kelpdao.xyz/rseth/tvl/?lrtToken`;
+  fetchData(url)
+    .then((res) => {
+      State.update({
+        TVL: res.body.usdTvl || "-",
+      });
+    })
+    .catch((err) => {
+      console.log("Catch-getTVL--", err);
+    });
+}
+
+useEffect(() => {
+  getAPY();
+  getTVL();
+}, []);
+
 useEffect(() => {
   if (!state.curToken) return;
 
@@ -163,31 +206,87 @@ useEffect(() => {
       exchangeRate: _rate,
     });
   });
-}, [state.curToken]);
+
+  if (tab === "Stake") {
+    const _bal = StakeTokens.find(
+      (item) => item.symbol === state.curToken
+    ).balance;
+
+    State.update({
+      tokenBal: _bal,
+    });
+  }
+}, [state.curToken, tab]);
+
+// rsETH balance
+function getTokenBalance() {
+  const contract = new ethers.Contract(
+    ExchangeToken.address,
+    [
+      {
+        inputs: [{ internalType: "address", name: "account", type: "address" }],
+        name: "balanceOf",
+        outputs: [{ internalType: "uint256", name: "value", type: "uint256" }],
+        stateMutability: "view",
+        type: "function",
+      },
+    ],
+    Ethers.provider().getSigner()
+  );
+  contract
+    .balanceOf(account)
+    .then((_balance) => {
+      const _bal = formatUnits(_balance, ExchangeToken.decimals);
+      console.log("get-resETH-balance--", _balance, balance);
+      State.update({
+        tokenBal: _bal,
+      });
+    })
+    .catch((err) => {
+      console.log("Catch-getTokenBalance-error--", err);
+    });
+}
+useEffect(() => {
+  // ethereum unstake
+  if (chainId !== 1) return;
+  if (tab === "Unstake") {
+    getTokenBalance();
+
+    const options = StakeTokens?.map((item) => ({
+      text: item.symbol,
+      value: item.symbol,
+    })).filter((item) => item.value !== "ETH");
+    State.update({
+      options,
+      curToken: options[0].value,
+    });
+  }
+}, [tab]);
+// console.log(state.curToken, prices[state.curToken]);
 
 return (
   <div>
-    {state.StakeTokens ? (
-      <StyledContainer>
-        <Wrapper>
-          <Summary>
-            <SummaryItem>
-              <div className="title">TVL</div>
-              <div className="amount">
-                $
-                <Widget
-                  src="bluebiu.near/widget/Utils.FormatNumber"
-                  props={{
-                    number: state.TVL,
-                  }}
-                />
-              </div>
-            </SummaryItem>
-            <SummaryItem>
-              <div className="title">APR</div>
-              <div className="amount">{state.APY}</div>
-            </SummaryItem>
-          </Summary>
+    <StyledContainer>
+      <Wrapper>
+        <Summary>
+          <SummaryItem>
+            <div className="title">TVL</div>
+            <div className="amount">
+              $
+              <Widget
+                src="bluebiu.near/widget/Utils.FormatNumber"
+                props={{
+                  number: state.TVL,
+                }}
+              />
+            </div>
+          </SummaryItem>
+          <SummaryItem>
+            <div className="title">APY</div>
+            <div className="amount">{state.APY}%</div>
+          </SummaryItem>
+        </Summary>
+        {(tab === "Unstake" || tab === "Stake") && (
           <Content>
             <BlurWrap>
               {chainId !== 1 && (tab === "Unstake" || tab === "Withdraw") ? (
@@ -204,11 +303,9 @@ return (
                     onChange={(ev) => {
                       if (isNaN(Number(ev.target.value))) return;
                       let amount = ev.target.value.replace(/\s+/g, "");
-                      let _bal = state.StakeTokens.find(
-                        (item) => item.symbol === state.curToken
-                      ).balance;
-                      if (Big(amount || 0).gt(Big(_bal || 0))) {
-                        amount = Big(_bal || 0).toFixed(4, 0);
+
+                      if (Big(amount || 0).gt(Big(state.tokenBal || 0))) {
+                        amount = Big(state.tokenBal || 0).toFixed(4, 0);
                       }
                       State.update({
                         stakeAmount: amount,
@@ -218,7 +315,7 @@ return (
                   <Widget
                     src="bluebiu.near/widget/UI.Select.Index"
                     props={{
-                      options,
+                      options: state.options,
                       value: state.options.find(
                         (obj) => obj.value === state.curToken
                       ),
@@ -243,14 +340,13 @@ return (
                     <Widget
                       src="bluebiu.near/widget/Staking.Kelp.Balance"
                       props={{
-                        value: state.StakeTokens
-                          ? state.StakeTokens.find(
-                              (item) => item.symbol === state.curToken
-                            ).balance
-                          : 0,
+                        value: state.tokenBal,
                         digit: 4,
                         onClick: clickBalance,
-                        symbol: state.curToken,
+                        symbol:
+                          tab === "Stake"
+                            ? state.curToken
+                            : ExchangeToken.symbol,
                       }}
                     />
                   </div>
@@ -262,14 +358,15 @@ return (
                   {Big(state.stakeAmount || 0)
                     .div(state.exchangeRate || 1)
                     .toFixed(4, 0)}{" "}
-                  {ExchangeToken.symbol}
+                  {tab === "Stake" ? ExchangeToken.symbol : state.curToken}
                 </span>
               </List>
               <List>
                 <span className="keys">Exchange rate</span>
                 <span className="values">
-                  1 {ExchangeToken.symbol} ={" "}
-                  {Big(state.exchangeRate || 0).toFixed(4, 0)} {state.curToken}
+                  1 {ExchangeToken?.symbol} ={" "}
+                  {Big(state.exchangeRate || 0).toFixed(4, 0)}{" "}
+                  {tab === "Stake" ? ExchangeToken.symbol : state.curToken}
                 </span>
               </List>
             </BlurWrap>
@@ -280,10 +377,8 @@ return (
                 actionText: tab,
                 amount: state.stakeAmount,
                 curToken: state.curToken,
-                stakeToken: state.StakeTokens
-                  ? state.StakeTokens.find(
-                      (item) => item.symbol === state.curToken
-                    )
+                stakeToken: StakeTokens
+                  ? StakeTokens.find((item) => item.symbol === state.curToken)
                   : {},
                 onSuccess: () => {
                   State.update({ loading: true, stakeAmount: "" });
@@ -291,12 +386,14 @@ return (
               }}
             />
           </Content>
-        </Wrapper>
+        )}
+        {tab === "Withdraw" && <div>null</div>}
+      </Wrapper>
 
-        {/* {state.loading && <Widget src="bluebiu.near/widget/Lending.Spinner" />} */}
-      </StyledContainer>
-    ) : null}
-    <Widget
+      {/* {state.loading && <Widget src="bluebiu.near/widget/Lending.Spinner" />} */}
+    </StyledContainer>
+
+    {/* <Widget
       src={dexConfig.data}
       props={{
         ...props,
@@ -310,6 +407,6 @@ return (
           });
         },
       }}
-    />
+    /> */}
   </div>
 );
