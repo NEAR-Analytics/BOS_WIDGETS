@@ -1,4 +1,5 @@
 const {
+  CHAIN_LIST,
   multicallAddress,
   multicall,
   account,
@@ -8,7 +9,19 @@ const {
   onLoad,
 } = props;
 const { StakeTokens } = dexConfig;
-
+useEffect(() => {
+  Ethers.provider()
+    .getNetwork()
+    .then((res) => {
+      State.update({
+        isSupport: SUPPOR_CHAINS.includes(res.chainId),
+      });
+    })
+    .catch((err) => {
+      console.log("catch-getNetwork-error--", err);
+    });
+}, []);
+console.log(111, StakeTokens);
 const ABI = [
   {
     inputs: [],
