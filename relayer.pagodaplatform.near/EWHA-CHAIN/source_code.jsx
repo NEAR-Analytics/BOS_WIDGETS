@@ -1,1 +1,13 @@
-return <h1>안녕하세요! 저는 이화체인 {props.name}입니다.</h1>;
+const user = "gagdiez.near";
+const props = { name: "Anna" };
+
+return (
+  <>
+    <div class="container min-vw-100">
+      <h5> Components can be composed </h5>
+      <hr />
+
+      <Widget src={`${user}/widget/Greetings`} props={props} />
+    </div>
+  </>
+);
