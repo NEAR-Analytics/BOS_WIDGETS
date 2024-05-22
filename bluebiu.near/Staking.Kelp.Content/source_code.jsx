@@ -120,7 +120,7 @@ const {
 } = props;
 
 const { StakeTokens, ExchangeToken } = dexConfig;
-
+console.log(22, StakeTokens);
 const options = StakeTokens.map((item) => ({
   text: item.symbol,
   value: item.symbol,
