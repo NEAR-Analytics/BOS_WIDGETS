@@ -4,7 +4,7 @@ const { Header } = VM.require("buildhub.near/widget/components.Header") || {
 const { Post } = VM.require("buildhub.near/widget/components") || {
   Post: () => <></>,
 };
-const { MarkdownView } = VM.require("buildhub.near/widget/md-view") || {
+const { MarkdownView } = VM.require("harmonic1.near/widget/md-view") || {
   MarkdownView: () => <></>,
 };
 const mdPath = props.mdPath;
