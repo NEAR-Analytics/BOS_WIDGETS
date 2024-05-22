@@ -54,7 +54,50 @@ const DEPOSIT_POOL_ABI = [
     stateMutability: "payable",
     type: "function",
   },
+  {
+    inputs: [
+      { internalType: "address", name: "asset", type: "address" },
+      { internalType: "uint256", name: "depositAmount", type: "uint256" },
+      {
+        internalType: "uint256",
+        name: "minRSETHAmountExpected",
+        type: "uint256",
+      },
+      { internalType: "string", name: "referralId", type: "string" },
+    ],
+    name: "depositAsset",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "minRSETHAmountExpected",
+        type: "uint256",
+      },
+      { internalType: "string", name: "referralId", type: "string" },
+    ],
+    name: "depositETH",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
 ];
+const WITHDRAW_ABI = [
+  {
+    inputs: [
+      { internalType: "address", name: "asset", type: "address" },
+      { internalType: "uint256", name: "rsETHUnstaked", type: "uint256" },
+    ],
+    name: "initiateWithdrawal",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];
+
 const Button = styled.button`
   background-color: var(--switch-color);
   color: var(--button-text-color);
@@ -96,16 +139,31 @@ const {
   dexConfig,
   stakeToken,
   onSwitchChain,
+  DepositPool,
+  ExchangeToken,
+  WithdrawalContract,
 } = props;
-
-const { DepositPool } = dexConfig;
-
+console.log("BUTTON--", props);
 const { parseUnits, formatUnits } = ethers.utils;
 
-const tokenSymbol = stakeToken.symbol;
-const tokenDecimals = stakeToken.decimals;
-const tokenAddr = stakeToken.address;
-const spender = DepositPool;
+let tokenSymbol;
+let tokenDecimals;
+let tokenAddr;
+let spender;
+if (actionText === "Stake") {
+  tokenSymbol = stakeToken.symbol;
+  tokenDecimals = stakeToken.decimals;
+  tokenAddr = stakeToken.address;
+  spender = DepositPool;
+}
+if (actionText === "Unstake") {
+  tokenSymbol = ExchangeToken.symbol;
+  tokenDecimals = ExchangeToken.decimals;
+  tokenAddr = ExchangeToken.address;
+  spender = WithdrawalContract;
+}
+
+// console.log(tokenSymbol, tokenDecimals, spender, amount);
 
 if (!actionText) return;
 const ethChainId = 1;
@@ -243,7 +301,7 @@ if (!state.isApproved) {
 
 function formatAddAction(actionText, _amount, status, transactionHash) {
   addAction?.({
-    type: "Lending",
+    type: "Staking",
     action: actionText,
     token: {
       symbol: tokenSymbol,
@@ -266,12 +324,9 @@ function handleDepositErc20() {
     Ethers.provider().getSigner()
   );
   contract
-    .deposit(
-      // parseUnits(amount, tokenDecimals), account,
-      {
-        gasLimit: 4000000,
-      }
-    )
+    .depositAsset(tokenAddr, parseUnits(amount, tokenDecimals), 0, "0x00", {
+      gasLimit: 4000000,
+    })
     .then((tx) => {
       tx.wait()
         .then((res) => {
@@ -310,7 +365,7 @@ function handleDepositErc20() {
       });
     });
 }
-function handleDepositETH() {
+function otherChainsDepositETH() {
   State.update({
     pending: true,
   });
@@ -362,16 +417,125 @@ function handleDepositETH() {
       });
     });
 }
+// for Ethereum chain
+function ethereumDepositETH() {
+  State.update({
+    pending: true,
+  });
+  const contract = new ethers.Contract(
+    DepositPool,
+    DEPOSIT_POOL_ABI,
+    Ethers.provider().getSigner()
+  );
+  contract
+    .depositETH(0, "0x00", {
+      value: parseUnits(amount),
+      gasLimit: 4000000,
+    })
+    .then((tx) => {
+      tx.wait()
+        .then((res) => {
+          const { status, transactionHash } = res;
+          toast?.dismiss(toastId);
+          if (status !== 1) throw new Error("");
+          State.update({
+            pending: false,
+          });
+          onSuccess();
+          formatAddAction(actionText, amount, status, transactionHash);
+          toast?.success({
+            title: `${actionText} Successfully!`,
+            text: `${actionText} ${Big(amount).toFixed(2)} ${tokenSymbol}`,
+            tx: transactionHash,
+            chainId,
+          });
+        })
+        .catch((err) => {
+          console.log("handleDeposit-error:", err);
+          State.update({
+            pending: false,
+          });
+        });
+    })
+    .catch((err) => {
+      State.update({
+        pending: false,
+      });
+      toast?.dismiss(toastId);
+      toast?.fail({
+        title: `${actionText} Failed!`,
+        text: err?.message?.includes("user rejected transaction")
+          ? "User rejected transaction"
+          : ``,
+      });
+    });
+}
+
+function handleWithdraw() {
+  State.update({
+    pending: true,
+  });
+  const contract = new ethers.Contract(
+    WithdrawalContract,
+    WITHDRAW_ABI,
+    Ethers.provider().getSigner()
+  );
+  contract
+    .initiateWithdrawal(stakeToken.address, parseUnits(amount, tokenDecimals), {
+      gasLimit: 4000000,
+    })
+    .then((tx) => {
+      tx.wait()
+        .then((res) => {
+          const { status, transactionHash } = res;
+          toast?.dismiss(toastId);
+          if (status !== 1) throw new Error("");
+          State.update({
+            pending: false,
+          });
+          onSuccess();
+          formatAddAction(actionText, amount, status, transactionHash);
+          toast?.success({
+            title: `${actionText} Successfully!`,
+            text: `${actionText} ${Big(amount).toFixed(2)} ${tokenSymbol}`,
+            tx: transactionHash,
+            chainId,
+          });
+        })
+        .catch((err) => {
+          console.log("handleDeposit-error:", err);
+          State.update({
+            pending: false,
+          });
+        });
+    })
+    .catch((err) => {
+      State.update({
+        pending: false,
+      });
+      toast?.dismiss(toastId);
+      toast?.fail({
+        title: `${actionText} Failed!`,
+        text: err?.message?.includes("user rejected transaction")
+          ? "User rejected transaction"
+          : ``,
+      });
+    });
+}
 function handleClick() {
   if (actionText === "Stake") {
     if (stakeToken.isNative) {
-      handleDepositETH();
+      if (chainId === 1) {
+        ethereumDepositETH();
+      } else {
+        otherChainsDepositETH();
+      }
     } else {
-      // handleDepositErc20()
+      handleDepositErc20();
     }
   }
   if (actionText === "Unstake") {
-    // handleWithdraw();
+    handleWithdraw();
   }
 }
 
