@@ -308,7 +308,7 @@ useEffect(() => {
     _maxWithdraw = Big(data.yourCollateralUSD)
       .minus(shouldRemainedCollateral)
       .div(prices[data.TOKEN_A.symbol])
-      .toFixed();
+      .toFixed(18, 0);
   } else {
     _maxWithdraw = 0;
   }
