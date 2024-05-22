@@ -3,12 +3,13 @@ const { SidebarLayout } = VM.require("harmonic1.near/widget/SidebarLayout") || {
 };
 const config = {
   theme: {},
-  // layout: {
-  //   src: "buildhub.near/widget/Layout",
-  //   props: {
-  //     variant: "standard",
-  //   },
-  // },
+  layout: {
+    //The layout at BuildDAO is not available
+    src: "devs.near/widget/Layout",
+    props: {
+      variant: "standard",
+    },
+  },
   blocks: {
     // these get passed to the layout and children
     Header: () => <></>,
@@ -24,15 +25,18 @@ const config = {
           feedName: "Guide",
           name: "Guide",
           icon: "bi-map",
+          //mdPath: "https://raw.githubusercontent.com/NEARBuilders/gateway/main/resources.md",
           mdPath:
-            "https://raw.githubusercontent.com/NEARBuilders/gateway/main/resources.md",
+            "https://raw.githubusercontent.com/Harmonic-Guild/trials.near/main/README.md",
         },
         default: "true",
       },
     },
   },
 };
-const Root = styled.div``;
+const Root = styled.div`
+  margin-top: -2%;
+`;
 return (
   <Root>
     <SidebarLayout
@@ -41,7 +45,7 @@ return (
       routes={config.router.routes}
     >
       <Widget
-        src="buildhub.near/widget/app.view"
+        src="harmonic1.near/widget/app.view"
         props={{ config, ...props }}
       />
     </SidebarLayout>
