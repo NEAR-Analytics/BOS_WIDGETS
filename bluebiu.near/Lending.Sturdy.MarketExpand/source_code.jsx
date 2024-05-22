@@ -243,6 +243,7 @@ State.init({
   // infos: [],
   contentStatus: "",
   borrowLimitUSD: 0,
+  maxWithdraw: 0,
 });
 
 const Infos = [
@@ -295,9 +296,25 @@ useEffect(() => {
     .times(Big(data.maxLTV || 0))
     .div(1.11)
     .minus(borrowUSD);
-  console.log("borrowLimitUSD--", _borrowLimitUSD.toFixed());
+  // console.log("borrowLimitUSD--", _borrowLimitUSD.toFixed());
+  let _maxWithdraw;
+  if (Big(data.yourCollateralUSD).gt(0)) {
+    const shouldRemainedCollateral = Big(data.yourBorrowUSD || 0)
+      .times(1.0001)
+      .div(data.maxLTV)
+      .div(1.018)
+      // .div(data.exchangeRate)
+      .times(1.05);
+    _maxWithdraw = Big(data.yourCollateralUSD)
+      .minus(shouldRemainedCollateral)
+      .div(prices[data.TOKEN_A.symbol])
+      .toFixed();
+  } else {
+    _maxWithdraw = 0;
+  }
   State.update({
     borrowLimitUSD: _borrowLimitUSD.lte(0) ? Big(0) : _borrowLimitUSD,
+    maxWithdraw: _maxWithdraw,
   });
 }, [data]);
 
@@ -405,7 +422,7 @@ return (
               props={{
                 icon: data.TOKEN_A.icon,
                 symbol: data.TOKEN_A.symbol,
-                balance: data.yourCollateral,
+                balance: state.maxWithdraw,
                 price: prices[data.TOKEN_A.symbol],
                 amount: state.amount,
                 onChange: (val) => {
