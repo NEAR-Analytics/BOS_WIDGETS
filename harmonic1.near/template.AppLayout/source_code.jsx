@@ -24,13 +24,13 @@ const Header = ({ page, routes, ...props }) => (
     props={{ page, routes, ...props }}
   />
 );
-const Footer = (props) => {};
+const Footer = () => <Widget src="harmonic1.near/widget/navigation.Footer" />;
 function AppLayout({ routes, page, children, ...props }) {
   return (
     <Container>
       <Header page={page} routes={routes} {...props} />
       <ContentContainer key={page}>{children}</ContentContainer>
-      <Footer page={page} />
+      <Footer />
       {/* <Widget src="hack.near/widget/src.footer" /> */}
     </Container>
   );
