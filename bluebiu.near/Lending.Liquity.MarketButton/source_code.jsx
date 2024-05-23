@@ -517,7 +517,7 @@ function handleBorrow() {
             action: actionText,
             token: data.underlyingToken,
             amount: _assetAmount,
-            template: data.dappName,
+            template: data.config.name,
             add: false,
             status,
             transactionHash,
