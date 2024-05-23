@@ -12,7 +12,9 @@
  * @param {string} [pageTab] - The page tab being displayed. (Optional)
  *                                 Example: If provided, tab=overview in the url it will select the overview tab of transaction details.
  * @param {string} ownerId - The identifier of the owner of the component.
+ * @param {Function} [requestSignInWithWallet] - Function to initiate sign-in with a wallet.
  */
+
 
 
 
@@ -61,7 +63,15 @@ const FileSlash = () => {
 
 
 function MainComponent(props) {
-  const { t, network, hash, onHandleTab, pageTab, ownerId } = props;
+  const {
+    t,
+    network,
+    hash,
+    onHandleTab,
+    pageTab,
+    ownerId,
+    requestSignInWithWallet,
+  } = props;
 
   const { getConfig, handleRateLimit } = VM.require(
     `${ownerId}/widget/includes.Utils.libs`,
@@ -282,6 +292,7 @@ function MainComponent(props) {
                     path: `nearblocks.io/txns/${hash}`,
                     limit: 10,
                     ownerId,
+                    requestSignInWithWallet,
                   }}
                 />
               </div>
