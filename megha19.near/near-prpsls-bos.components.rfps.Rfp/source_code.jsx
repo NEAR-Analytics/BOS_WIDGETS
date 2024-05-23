@@ -92,6 +92,10 @@ const { readableDate } = VM.require(
   `${REPL_DEVHUB}/widget/core.lib.common`
 ) || { readableDate: () => {} };
 
+const { getGlobalLabels } = VM.require(
+  `${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.core.lib.contract`
+) || { getGlobalLabels: () => {} };
+
 const accountId = context.accountId;
 /*
   ---props---
@@ -323,10 +327,7 @@ const Avatar = styled.div`
   }
 `;
 
-const rfpLabelOptions = Near.view(
-  REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT,
-  "get_global_labels"
-);
+const rfpLabelOptions = getGlobalLabels();
 
 const LinkProfile = ({ account, children }) => {
   return (
@@ -390,7 +391,7 @@ useEffect(() => {
   fetchSnapshotHistory();
 }, [id]);
 
-if (!rfp || !snapshotHistory?.length) {
+if (!rfp) {
   return (
     <div
       style={{ height: "50vh" }}
