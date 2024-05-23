@@ -17,7 +17,9 @@
  *                                    Example: onTab={onHandleTab} where onHandleTab is a function to change tab on the page.
  * @param {string} [pageTab] - The page tab being displayed. (Optional)
  *                                 Example: If provided, tab=transfer in the url it will select the transfer tab of token details.
+ * @param {Function} [requestSignInWithWallet] - Function to initiate sign-in with a wallet.
  */
+
 
 
 
@@ -342,6 +344,7 @@ function MainComponent({
   ownerId,
   onHandleTab,
   pageTab,
+  requestSignInWithWallet,
 }) {
   const { dollarFormat, dollarNonCentFormat, localFormat, getTimeAgoString } =
     VM.require(`${ownerId}/widget/includes.Utils.formats`);
@@ -948,6 +951,7 @@ function MainComponent({
                         path: `nearblocks.io/ft/${id}`,
                         limit: 10,
                         ownerId,
+                        requestSignInWithWallet,
                       }}
                     />
                   }
