@@ -122,8 +122,6 @@ if (actionText === "Stake") {
   spender = DepositPool;
 }
 
-// console.log(tokenSymbol, tokenDecimals, spender, amount);
-
 if (!actionText) return;
 
 if (!amount) {
@@ -322,8 +320,9 @@ function handleWithdraw() {
     WITHDRAW_ABI,
     Ethers.provider().getSigner()
   );
+
   contract
-    .instantWithdrawal(parseUnits(amount, tokenDecimals), {
+    .instantWithdrawal(parseUnits(amount, ExchangeToken.decimals), {
       gasLimit: 4000000,
     })
     .then((tx) => {
