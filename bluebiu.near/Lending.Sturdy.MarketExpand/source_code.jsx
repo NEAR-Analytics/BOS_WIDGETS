@@ -297,7 +297,7 @@ function calcMaxWithdraw(collateralAmount, borrowAmount, maxLTV, exchangeRate) {
   if (!Big(collateralAmount).gt(0)) return 0;
   const EXCHANGE_PRECISION = 1000000000000000000;
   const LTV_PRECISION = 100000;
-  const MIN_HF = 1.05;
+  const MIN_HF = 1.259;
   const shouldRemainedCollateral = Big(borrowAmount)
     .times(1.0001)
     // .times(LTV_PRECISION)
