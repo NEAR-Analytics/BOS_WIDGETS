@@ -749,7 +749,7 @@ return (
           amount: state.amount,
           account,
           onLoad: (_data) => {
-            console.log("Dialog-handler-onLoad--", _data);
+            // console.log("Dialog-handler-onLoad--", _data);
             State.update({
               ..._data,
               loading: false,
