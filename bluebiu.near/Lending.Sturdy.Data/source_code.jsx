@@ -249,8 +249,8 @@ useEffect(() => {
   // let _ratePerSecRes = [];
 
   function formatData(params) {
-    console.log(params, count);
     if (count < 10) return;
+
     count = 0;
     for (let i = 0; i < rawMarkets.length; i++) {
       rawMarkets[i].totalSupplied = formatUnits(
@@ -266,13 +266,16 @@ useEffect(() => {
 
       rawMarkets[i].liquidationFee = formatUnits(_liquidationFeeRes[i][0], 5);
       rawMarkets[i].maxLTV = formatUnits(_maxLTVRes[i][0], 5);
-      rawMarkets[i].exchangeRate = formatUnits(
-        _exchangeRateRes[i][_exchangeRateRes[i].length - 1]
-      );
+      rawMarkets[i].exchangeRate =
+        _exchangeRateRes[i][_exchangeRateRes[i].length - 1].toString();
+      // formatUnits(
+      //   _exchangeRateRes[i][_exchangeRateRes[i].length - 1]
+      // );
 
       const yourBorrow = _yourBorrows[i]
         ? formatUnits(_yourBorrows[i][0], rawMarkets[i].TOKEN_B.decimals)
         : 0;
+      console.log("yourBorrow--", yourBorrow, _yourBorrows[i], _yourBorrows);
       rawMarkets[i].yourBorrow = yourBorrow;
       rawMarkets[i].yourBorrowUSD = Big(yourBorrow)
         .times(Big(prices[rawMarkets[i].TOKEN_B.symbol] || 1))
@@ -281,7 +284,12 @@ useEffect(() => {
       const yourCollateral = _yourCollaterals[i]
         ? formatUnits(_yourCollaterals[i][0], rawMarkets[i].TOKEN_A.decimals)
         : 0;
-      console.log("yourCollateral--", yourCollateral, rawMarkets[i]);
+      console.log(
+        "yourCollateral--",
+        yourCollateral,
+        _yourCollaterals[i],
+        _yourCollaterals
+      );
       rawMarkets[i].yourCollateral = yourCollateral;
       rawMarkets[i].yourCollateralUSD = Big(yourCollateral)
         .times(Big(prices[rawMarkets[i].TOKEN_A.symbol] || 1))
@@ -507,7 +515,7 @@ useEffect(() => {
           };
         });
 
-        multicall({
+        return multicall({
           abi: ABI,
           calls,
           options: {},
@@ -516,10 +524,10 @@ useEffect(() => {
         }).then((res) => {
           console.log("_yourBorrows--", res);
           _yourBorrows = res;
-          count++;
-          formatData("getUserSnapshot");
+          // count++;
+          // formatData("getUserSnapshot");
+          return snapshot;
         });
-        return snapshot;
       })
       .then((snapshot) => {
         const calls = rawMarkets.map((item, index) => {
@@ -539,10 +547,10 @@ useEffect(() => {
           multicallAddress,
           provider: Ethers.provider(),
         }).then((res) => {
-          console.log("convertToAssets--", res);
+          console.log("_yourCollaterals--", res);
           _yourCollaterals = res;
           count++;
-          formatData("convertToAssets");
+          formatData("getBorrow&Collateral");
         });
       })
       .catch((err) => {
