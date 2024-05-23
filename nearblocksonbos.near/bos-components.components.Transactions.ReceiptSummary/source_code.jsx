@@ -222,7 +222,7 @@ function MainComponent(props) {
                     scope="col"
                     className="px-4 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase whitespace-nowrap tracking-wider"
                   >
-                    Gass Limit
+                    Gas Limit
                   </th>
                 </tr>
               </thead>
