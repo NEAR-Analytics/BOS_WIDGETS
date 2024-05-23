@@ -234,7 +234,10 @@ function MainComponent(props) {
               </Tabs.Trigger>
             ))}
         </Tabs.List>
-        <Tabs.Content value={hashes[0]} className={'w-full'}>
+        <Tabs.Content
+          value={hashes[0]}
+          className={'w-full focus:border-none focus:outline-none'}
+        >
           <div className="flex flex-col my-4 ml-6">
             <div className="">
               <h2 className="flex items-center text-sm font-medium">
@@ -291,7 +294,10 @@ function MainComponent(props) {
             </div>
           </div>
         </Tabs.Content>
-        <Tabs.Content value={hashes[1]} className={'w-fit'}>
+        <Tabs.Content
+          value={hashes[1]}
+          className={'w-fit focus:border-none focus:outline-none'}
+        >
           <div className="overflow-x-auto">
             <table className="my-4 mx-6 whitespace-nowrap table-auto">
               <tbody>
