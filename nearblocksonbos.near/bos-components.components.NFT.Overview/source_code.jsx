@@ -8,7 +8,9 @@
  * @param {string} [id] - The token identifier passed as a string
  * @param {string} ownerId - The identifier of the owner of the component.
  * @param {Function} [t] - A function for internationalization (i18n) provided by the next-translate package.
+ * @param {Function} [requestSignInWithWallet] - Function to initiate sign-in with a wallet.
  */
+
 
 
 
@@ -262,7 +264,13 @@ const WarningIcon = (props) => {
 
 const tabs = ['Transfers', 'Holders', 'Inventory', 'Comments'];
 
-function MainComponent({ network, id, ownerId, t }) {
+function MainComponent({
+  network,
+  id,
+  ownerId,
+  t,
+  requestSignInWithWallet,
+}) {
   const { localFormat, getTimeAgoString } = VM.require(
     `${ownerId}/widget/includes.Utils.formats`,
   );
@@ -655,6 +663,7 @@ function MainComponent({ network, id, ownerId, t }) {
                         path: `nearblocks.io/nft/${id}`,
                         limit: 10,
                         ownerId,
+                        requestSignInWithWallet,
                       }}
                     />
                   }
