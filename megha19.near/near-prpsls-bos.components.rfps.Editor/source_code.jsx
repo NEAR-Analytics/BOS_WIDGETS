@@ -1052,7 +1052,7 @@ if (showRFPPage) {
                       }
                       setTimeline(v);
                     },
-                    disabled: false,
+                    disabled: isEditPage ? false : true,
                   }}
                 />
               </CollapsibleContainer>
