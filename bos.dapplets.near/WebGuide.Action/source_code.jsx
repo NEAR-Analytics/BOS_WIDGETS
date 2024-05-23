@@ -14,17 +14,17 @@ const ButtonActionWrapper = styled.button`
   border-radius: 4px;
   box-shadow: 0 4px 5px 0 rgba(45, 52, 60, 0.1);
   transition: all 0.2s ease;
-  border: ${(props) => (props.$isActive ? "none" : "1px solid rgba(226, 226, 229, 1)")};
+  border: ${(props) => (props.$isActive ? "rgba(56, 75, 255, 1)" : "1px solid rgba(226, 226, 229, 1)")};
   background: ${(props) => (props.$isActive ? "rgba(56, 75, 255, 1)" : "rgba(248, 249, 255, 1)")};
 
   &:hover {
     background: ${(props) => (props.$isActive ? "#AFB7FF" : "#FFFFFF")};
-    border: none;
+    border: ${(props) => (props.$isActive ? "#AFB7FF" : "#FFFFFF")};
   }
 
   &:active {
     background: ${(props) => (props.$isActive ? "#9199E1" : "#EEEFF5")};
-    border: none;
+    border: ${(props) => (props.$isActive ? "#9199E1" : "#EEEFF5")};
   }
 `;
 
