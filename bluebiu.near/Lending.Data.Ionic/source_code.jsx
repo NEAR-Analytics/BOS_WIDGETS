@@ -161,6 +161,7 @@ useEffect(() => {
   let _userMerberShip = null;
   let _collateralMap = {};
   let _minBorrowMap = {};
+  let _borrowCapsRes = {};
   let count = 0;
   let oTokensLength = Object.values(markets).length;
 
@@ -179,7 +180,7 @@ useEffect(() => {
 
   const formatedData = (key) => {
     console.log(`${name}-${key}`, count);
-    if (count < 6) return;
+    if (count < 7) return;
     count = 0;
     oTokensLength = Object.values(markets).length;
     let totalSupplyUsd = Big(0);
@@ -233,6 +234,16 @@ useEffect(() => {
         .div(underlyingPrice)
         .toFixed(6, 0);
 
+      // const _borrowCaps = _borrowCapsRes[market.address]
+      //   ? _borrowCapsRes[market.address].toString()
+      //   : 0;
+
+      const _borrowCaps = _borrowCapsRes[market.address]
+        ? ethers.utils.formatUnits(
+            _borrowCapsRes[market.address][0],
+            market.decimals
+          )
+        : 0;
       markets[market.address] = {
         ...market,
         // loanToValue: _loanToValue[market.address],
@@ -245,6 +256,7 @@ useEffect(() => {
         supplyApy: supplyApy.toFixed(2) + "%",
         borrowApy: borrowApy.toFixed(2) + "%",
         minBorrowAmount: _minBorrowAmount,
+        borrowCaps: _borrowCaps,
         dapp: name,
       };
     });
@@ -541,6 +553,57 @@ useEffect(() => {
         console.log("CATCH_getCollateralStatus_ERROR:", err);
       });
   };
+  const getBorrowCaps = () => {
+    const cTokens = Object.keys(markets);
+    const calls = cTokens.map((_cToken) => ({
+      address: collateralAddress,
+      name: "borrowCaps",
+      params: [_cToken],
+    }));
+    multicall({
+      abi: [
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          name: "borrowCaps",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+      ],
+      calls,
+      options: {},
+      multicallAddress,
+      provider: Ethers.provider(),
+    })
+      .then((res) => {
+        console.log("getBorrowCaps-res:", res);
+
+        if (Array.isArray(res) && res.length) {
+          _borrowCapsRes = {};
+          res.forEach((amount, index) => {
+            _borrowCapsRes[cTokens[index]] = amount;
+          });
+        }
+
+        count++;
+        formatedData("getBorrowCaps");
+      })
+      .catch((err) => {
+        console.log("CATCH_getBorrowCaps_ERROR:", err);
+      });
+  };
   const getMinBorrow = () => {
     const cTokens = Object.keys(markets);
 
@@ -596,6 +659,7 @@ useEffect(() => {
 
   // getUnitrollerData();
   getUnderlyPrice();
+  getBorrowCaps();
   getOTokenLiquidity();
   getWalletBalance();
   getCTokensData();
