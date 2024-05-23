@@ -272,8 +272,13 @@ const onAmountChange = (amount) => {
     params.isBigerThanBalance = false;
 
     params.isOverSize = value.gt(borrowLimit || 0);
+
+    if (Big(data.totalBorrows).gt(Big(data.borrowCaps))) {
+      params.isBorrowCapsFull = true;
+    }
   }
-  params.buttonClickable = !params.isOverSize && !params.isBigerThanBalance;
+  params.buttonClickable =
+    !params.isOverSize && !params.isBigerThanBalance && !isBorrowCapsFull;
   State.update(params);
 
   state.debouncedGetTrade();
