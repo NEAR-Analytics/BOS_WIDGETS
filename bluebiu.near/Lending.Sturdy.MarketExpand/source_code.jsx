@@ -285,6 +285,42 @@ function getPrice(symbol) {
   }
   return prices[symbol] || 1;
 }
+
+function calcMaxWithdraw(collateralAmount, borrowAmount, maxLTV, exchangeRate) {
+  console.log(
+    "calcMaxWithdraw--",
+    collateralAmount,
+    borrowAmount,
+    maxLTV,
+    exchangeRate
+  );
+  if (!Big(collateralAmount).gt(0)) return 0;
+  const EXCHANGE_PRECISION = 1000000000000000000;
+  const LTV_PRECISION = 100000;
+  const MIN_HF = 1.05;
+  const shouldRemainedCollateral = Big(borrowAmount)
+    .times(1.0001)
+    // .times(LTV_PRECISION)
+    .times(exchangeRate)
+    .div(EXCHANGE_PRECISION)
+    .div(maxLTV)
+    .times(MIN_HF);
+  // ((borrowAmount * 1.0001 * LTV_PRECISION * exchangeRate) /
+  //   EXCHANGE_PRECISION /
+  //   maxLTV) *
+  // MIN_HF;
+  console.log(
+    "shouldRemainedCollateral---",
+    shouldRemainedCollateral.toString()
+  );
+
+  const maxWithdrawAmount = Big(collateralAmount).minus(
+    shouldRemainedCollateral
+  );
+  console.log("maxWithdrawAmount---", maxWithdrawAmount.toFixed(18, 0));
+  return maxWithdrawAmount.toFixed(data.TOKEN_A.decimals, 0);
+}
+
 useEffect(() => {
   const collateralUSD = Big(data.yourCollateral || 0).times(
     Big(getPrice(data.TOKEN_A.symbol))
@@ -297,21 +333,26 @@ useEffect(() => {
     .div(1.11)
     .minus(borrowUSD);
   // console.log("borrowLimitUSD--", _borrowLimitUSD.toFixed());
-  let _maxWithdraw;
-  if (Big(data.yourCollateralUSD).gt(0)) {
-    const shouldRemainedCollateral = Big(data.yourBorrowUSD || 0)
-      .times(1.0001)
-      .div(data.maxLTV)
-      .div(1.018)
-      // .div(data.exchangeRate)
-      .times(1.05);
-    _maxWithdraw = Big(data.yourCollateralUSD)
-      .minus(shouldRemainedCollateral)
-      .div(prices[data.TOKEN_A.symbol])
-      .toFixed(18, 0);
-  } else {
-    _maxWithdraw = 0;
-  }
+  let _maxWithdraw = calcMaxWithdraw(
+    data.yourCollateral,
+    data.yourBorrow,
+    data.maxLTV,
+    data.exchangeRate
+  );
+  // if (Big(data.yourCollateralUSD).gt(0)) {
+  //   const shouldRemainedCollateral = Big(data.yourBorrowUSD || 0)
+  //     .times(1.0001)
+  //     .div(data.maxLTV)
+  //     .div(1.018)
+  //     // .div(data.exchangeRate)
+  //     .times(1.05);
+  //   _maxWithdraw = Big(data.yourCollateralUSD)
+  //     .minus(shouldRemainedCollateral)
+  //     .div(prices[data.TOKEN_A.symbol])
+  //     .toFixed(18, 0);
+  // } else {
+  //   _maxWithdraw = 0;
+  // }
   State.update({
     borrowLimitUSD: _borrowLimitUSD.lte(0) ? Big(0) : _borrowLimitUSD,
     maxWithdraw: _maxWithdraw,
