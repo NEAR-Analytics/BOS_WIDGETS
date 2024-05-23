@@ -10,7 +10,7 @@ const {
 } = props;
 
 const { formatUnits, parseUnits } = ethers.utils;
-console.log(111, props);
+
 useEffect(() => {
   if (!account || !update || !multicallAddress) return;
 
