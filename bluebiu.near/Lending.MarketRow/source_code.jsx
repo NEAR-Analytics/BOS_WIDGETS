@@ -42,6 +42,7 @@ const {
   prices,
   totalCollateralUsd,
   userTotalBorrowUsd,
+  userTotalCollateralUsd,
 } = props;
 
 State.init({
@@ -57,8 +58,8 @@ if (dexConfig.name === "Ionic") {
   );
 
   _borrowLimit = Big(totalCollateralUsd)
+    .div(1.03)
     .minus(currentTokenCollateralUSD)
-    .div(1.15)
     .minus(Big(userTotalBorrowUsd));
 
   _borrowLimit = _borrowLimit.lte(0) ? 0 : _borrowLimit.toFixed(6);
