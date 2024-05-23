@@ -294,7 +294,9 @@ return (
               ) : null}
 
               <Panel>
-                <div className="title">{tab}</div>
+                <div className="title">
+                  {tab === "Unstake" ? "Withdraw rsETH as" : tab}
+                </div>
                 <div className="body">
                   <Input
                     type="text"
