@@ -178,7 +178,7 @@ function MainComponent(props) {
     <Fragment key="hash">
       {error || (!isLoading && !txn) ? (
         <div className="bg-white dark:bg-black-600 soft-shadow rounded-xl pb-1">
-          <div className="text-sm text-nearblue-600 dark:text-neargray-10 divide-solid dark:divide-black-200 divide-gray-200 divide-y">
+          <div className="text-sm text-nearblue-600 dark:text-neargray-10 divide-solid dark:divide-black-200 divide-gray-200 !divide-y">
             <ErrorMessage
               icons={<FileSlash />}
               message="Sorry, We are unable to locate this TxnHash"
@@ -214,6 +214,12 @@ function MainComponent(props) {
                 NEW
               </div>
             </button>{' '}
+            <button
+              onClick={() => onTab('tree')}
+              className={buttonStyles('tree')}
+            >
+              <h2 className="p-2">Tree Plan</h2>
+            </button>
             <button
               onClick={() => onTab('summary')}
               className={buttonStyles('summary')}
@@ -260,6 +266,19 @@ function MainComponent(props) {
             <div className={`${pageTab === 'enhanced' ? '' : 'hidden'} `}>
               <Widget
                 src={`${ownerId}/widget/bos-components.components.Transactions.Execution`}
+                props={{
+                  network: network,
+                  t: t,
+                  txn: txn,
+                  rpcTxn: rpcTxn,
+                  loading: isLoading,
+                  ownerId,
+                }}
+              />
+            </div>
+            <div className={`${pageTab === 'tree' ? '' : 'hidden'} `}>
+              <Widget
+                src={`${ownerId}/widget/bos-components.components.Transactions.Tree`}
                 props={{
                   network: network,
                   t: t,
