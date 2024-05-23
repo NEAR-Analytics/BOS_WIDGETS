@@ -187,6 +187,7 @@ useEffect(() => {
     let totalBorrowUsd = Big(0);
     let userTotalSupplyUsd = Big(0);
     let userTotalBorrowUsd = Big(0);
+    let userTotalCollateralUsd = Big(0);
     let totalCollateralUsd = Big(0);
     const markets = {};
 
@@ -217,6 +218,9 @@ useEffect(() => {
           Big(market.userSupply)
             .mul(underlyingPrice)
             .mul(market["COLLATERAL_FACTOR"])
+        );
+        userTotalCollateralUsd = userTotalCollateralUsd.plus(
+          Big(market.userSupply).mul(underlyingPrice)
         );
       }
       // for ionic, every token's collateral usd
@@ -250,6 +254,7 @@ useEffect(() => {
         liquidity: _liquidity[market.address],
         underlyingPrice: underlyingPrice,
         userCollateralUSD: _userCollateralUSD,
+
         userUnderlyingBalance: _underlyingBalance[market.address],
         userMerberShip: _collateralMap[market.address] ? true : false,
         // userMerberShip: _userMerberShip[market.address],
@@ -267,6 +272,7 @@ useEffect(() => {
       totalBorrowUsd: totalBorrowUsd.toString(),
       userTotalSupplyUsd: userTotalSupplyUsd.toString(),
       userTotalBorrowUsd: userTotalBorrowUsd.toString(),
+      userTotalCollateralUsd: userTotalCollateralUsd.toString(),
       totalCollateralUsd: totalCollateralUsd.toString(),
     });
   };
