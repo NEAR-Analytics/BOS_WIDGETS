@@ -87,6 +87,9 @@ const PROPOSALS_APPROVED_STATUS_ARRAY = [
 
 const { href } = VM.require(`${REPL_DEVHUB}/widget/core.lib.url`);
 href || (href = () => {});
+const { getGlobalLabels } = VM.require(
+  `${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.core.lib.contract`
+) || { getGlobalLabels: () => {} };
 
 const { readableDate } = VM.require(
   `${REPL_DEVHUB}/widget/core.lib.common`
@@ -399,7 +402,7 @@ useEffect(() => {
   fetchSnapshotHistory();
 }, [id]);
 
-if (!proposal || !snapshotHistory.length) {
+if (!proposal) {
   return (
     <div
       style={{ height: "50vh" }}
@@ -445,10 +448,7 @@ const SidePanelItem = ({ title, children, hideBorder, ishidden }) => {
   );
 };
 
-const rfpLabelOptions = Near.view(
-  REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT,
-  "get_global_labels"
-);
+const rfpLabelOptions = getGlobalLabels();
 
 const proposalStatusOptions = [
   {
