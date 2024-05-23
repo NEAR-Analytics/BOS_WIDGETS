@@ -131,7 +131,7 @@ return (
         }}
       />
     </div>
-    <Tile className="p-3">
+    <Tile className="p-3" style={{ background: "white" }}>
       {editModerators ? (
         <>
           <Widget
