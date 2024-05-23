@@ -98,7 +98,7 @@ return (
         }}
       />
       {
-        ![5000, 169, 534352].includes(chainId) && (
+        ![5000, 169, 534352].includes(curChain.chain_id) && (
           <BridgeBanner
             onClick={() => {
               if (!isChainSupported) return;
