@@ -212,17 +212,17 @@ useEffect(() => {
         Big(market.userBorrow).mul(underlyingPrice)
       );
 
-      // if (_userMerberShip[market.address]) {
-      totalCollateralUsd = totalCollateralUsd.plus(
-        Big(market.userSupply)
-          .mul(underlyingPrice)
-          .mul(market["COLLATERAL_FACTOR"])
-      );
-      // }
+      if (_collateralMap[market.address]) {
+        totalCollateralUsd = totalCollateralUsd.plus(
+          Big(market.userSupply)
+            .mul(underlyingPrice)
+            .mul(market["COLLATERAL_FACTOR"])
+        );
+      }
       // for ionic, every token's collateral usd
-      const _userCollateralUSD = Big(market.userSupply)
-        .mul(underlyingPrice)
-        .toString();
+      const _userCollateralUSD = _collateralMap[market.address]
+        ? Big(market.userSupply).mul(underlyingPrice).toString()
+        : 0;
       const supplyApy = calcApy(market.supplyRatePerBlock);
 
       const borrowApy = calcApy(market.borrowRatePerBlock);
