@@ -119,7 +119,7 @@ const updateBalance = () => {
     contract.balanceOf(sender).then((balanceBig) => {
       const adjustedBalance = Big(
         ethers.utils.formatUnits(balanceBig, decimals)
-      ).toString();
+      ).toFixed();
       State.update({
         balances: {
           ...state.balances,
