@@ -126,9 +126,6 @@ function Articles() {
   margin-bottom: 20px;
 
   @media screen and (min-width: 1300px) {
-    #display: flex;
-    #gap:10px;
-    #flex-wrap: wrap;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem;
