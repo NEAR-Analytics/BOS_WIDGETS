@@ -21,6 +21,7 @@ const {
   refetch,
   dataList,
   dataIndex,
+  defaultDex,
   columnList,
   onChangeDataIndex,
   addresses,
@@ -84,6 +85,7 @@ return (
                         refetch,
                         addresses,
                         addAction,
+                        defaultDex,
                         storeAddress,
                         ICON_VAULT_MAP
                       }}
