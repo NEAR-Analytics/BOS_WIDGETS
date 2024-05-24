@@ -53,37 +53,6 @@ State.init({
   showPairs: false,
 });
 
-const getFromDepositAmount = (depositAmount, tokenDecimal) => {
-  let a = new Big(depositAmount[0].toString());
-  let b = new Big(depositAmount[1].toString());
-
-  if (a.eq(0) && b.eq(0)) return "0";
-
-  let diff;
-  let midpoint;
-  if (a.gt(b)) {
-    diff = a.minus(b);
-    midpoint = diff.div(new Big(2)).plus(b);
-  } else {
-    diff = b.minus(a);
-    midpoint = diff.div(new Big(2)).plus(a);
-  }
-
-  for (let i = tokenDecimal; i > 0; i--) {
-    const midpointFixed = midpoint
-      .div(new Big(10).pow(tokenDecimal))
-      .toFixed(i);
-    if (
-      a.div(Big(10).pow(tokenDecimal)).lte(midpointFixed) &&
-      b.div(Big(10).pow(tokenDecimal)).gte(midpointFixed)
-    ) {
-      return midpointFixed;
-    }
-  }
-
-  return "0";
-};
-
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 const { token0, token1, decimals0, decimals1, id, poolAddress, liquidity } = data || defaultPair;
 
@@ -109,7 +78,7 @@ const updateBalance = (token) => {
     Ethers.provider()
       .getBalance(sender)
       .then((balanceBig) => {
-        const adjustedBalance = ethers.utils.formatEther(balanceBig);
+        const adjustedBalance = Big(ethers.utils.formatEther(balanceBig)).toFixed();
         State.update({
           balances: {
             ...state.balances,
@@ -204,6 +173,7 @@ const handleTokenChange = (amount, symbol) => {
   State.update({
     [symbol === token0 ? 'amount0' : 'amount1']: amount
   })
+  console.log('==amount', amount)
   if (Number(amount) === 0) {
     State.update({
       [symbol === token0 ? 'amount1' : 'amount0']: "",
@@ -225,7 +195,8 @@ const handleTokenChange = (amount, symbol) => {
     .mul(Big(10).pow(decimals)).toFixed(0) : '1157920892373161954235709850086879078532699846656405'
   const amount1Max = symbol === token1 ? Big(amount)
     .mul(Big(10).pow(decimals)).toFixed(0) : '1157920892373161954235709850086879078532699846656405'
-
+  console.log('=amount0Max', amount0Max)
+  console.log('=amount1Max', amount1Max)
   const abi = [{
     "inputs": [
       {
@@ -268,13 +239,10 @@ const handleTokenChange = (amount, symbol) => {
   contract
     .getMintAmounts(amount0Max, amount1Max)
     .then((response) => {
+      console.log('=response', response)
       const amountX = ethers.utils.formatUnits(response[0], otherDecimals)
       const amountY = ethers.utils.formatUnits(response[1], otherDecimals)
       const otherAmount = symbol === token0 ? amountY : amountX
-      // State.update({
-      //   [symbol === token0 ? 'amount1' : 'amount0']: otherAmount
-      // })
-      console.log('==response[2]', Big(response[2]).toFixed())
       State.update({
         isLoading: false,
         [symbol === token0 ? 'amount1' : 'amount0']: otherAmount,
@@ -283,6 +251,7 @@ const handleTokenChange = (amount, symbol) => {
       checkApproval(amount, otherAmount, symbol);
     })
     .catch((e) => {
+      console.log('=e', e)
       State.update({
         isLoading: true,
         isError: true,
