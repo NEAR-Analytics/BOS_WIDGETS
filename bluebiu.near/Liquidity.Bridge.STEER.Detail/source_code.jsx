@@ -57,36 +57,6 @@ State.init({
   showPairs: false,
 });
 
-const getFromDepositAmount = (depositAmount, tokenDecimal) => {
-  let a = new Big(depositAmount[0].toString());
-  let b = new Big(depositAmount[1].toString());
-
-  if (a.eq(0) && b.eq(0)) return "0";
-
-  let diff;
-  let midpoint;
-  if (a.gt(b)) {
-    diff = a.minus(b);
-    midpoint = diff.div(new Big(2)).plus(b);
-  } else {
-    diff = b.minus(a);
-    midpoint = diff.div(new Big(2)).plus(a);
-  }
-
-  for (let i = tokenDecimal; i > 0; i--) {
-    const midpointFixed = midpoint
-      .div(new Big(10).pow(tokenDecimal))
-      .toFixed(i);
-    if (
-      a.div(Big(10).pow(tokenDecimal)).lte(midpointFixed) &&
-      b.div(Big(10).pow(tokenDecimal)).gte(midpointFixed)
-    ) {
-      return midpointFixed;
-    }
-  }
-
-  return "0";
-};
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 const { token0, token1, decimals0, decimals1, id, poolAddress, liquidity } = data || defaultPair;
@@ -131,7 +101,7 @@ const updateBalance = (token) => {
     tokenContract.balanceOf(sender).then((balanceBig) => {
       const adjustedBalance = Big(
         ethers.utils.formatUnits(balanceBig, decimals)
-      ).toString();
+      ).toFixed();
       State.update({
         balances: {
           ...state.balances,
@@ -234,10 +204,10 @@ const handleTokenChange = (amount, symbol) => {
       const total1 = ethers.utils.formatUnits(response[1], decimals1)
       const otherAmount = (symbol === token0 ?
         Big(amount).times(total1).div(total0) :
-        Big(amount).times(total0).div(total1)).toString()
+        Big(amount).times(total0).div(total1)).toFixed()
       State.update({
         isLoading: false,
-        [symbol === token0 ? 'amount1' : 'amount0']: otherAmount.toString(),
+        [symbol === token0 ? 'amount1' : 'amount0']: otherAmount.toFixed(),
       })
       checkApproval(amount, otherAmount, symbol);
     })
