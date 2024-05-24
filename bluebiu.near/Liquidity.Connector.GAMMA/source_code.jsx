@@ -60,14 +60,15 @@ const formatPercent = (value) => {
 };
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
-if (!sender) {
+if (!sender || !isChainSupported) {
   return (
     <Widget
-      style={dexConfig.theme}
-      src="bluebiu.near/widget/Arbitrum.Swap.ConnectButton"
+      src="bluebiu.near/widget/Swap.ChainWarnigBox"
       props={{
-        ...connectProps,
-        isWrongNetwork: false,
+        chain: curChain,
+        onSwitchChain: onSwitchChain,
+        switchingChain: switchingChain,
+        theme: dexConfig.theme?.button,
       }}
     />
   );
