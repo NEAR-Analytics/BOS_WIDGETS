@@ -56,37 +56,6 @@ State.init({
   showPairs: false,
 });
 
-const getFromDepositAmount = (depositAmount, tokenDecimal) => {
-  let a = new Big(depositAmount[0].toString());
-  let b = new Big(depositAmount[1].toString());
-
-  if (a.eq(0) && b.eq(0)) return "0";
-
-  let diff;
-  let midpoint;
-  if (a.gt(b)) {
-    diff = a.minus(b);
-    midpoint = diff.div(new Big(2)).plus(b);
-  } else {
-    diff = b.minus(a);
-    midpoint = diff.div(new Big(2)).plus(a);
-  }
-
-  for (let i = tokenDecimal; i > 0; i--) {
-    const midpointFixed = midpoint
-      .div(new Big(10).pow(tokenDecimal))
-      .toFixed(i);
-    if (
-      a.div(Big(10).pow(tokenDecimal)).lte(midpointFixed) &&
-      b.div(Big(10).pow(tokenDecimal)).gte(midpointFixed)
-    ) {
-      return midpointFixed;
-    }
-  }
-
-  return "0";
-};
-
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 const { token0, token1, decimals0, decimals1, id, poolAddress } = data || defaultPair;
 
@@ -198,7 +167,7 @@ const changeMode = (isDeposit) => {
 
 const handleMax = (isToken0) => {
   if (isToken0) handleTokenChange(balances[token0], token0);
-  else handleToken1Change(balances[token1], token1);
+  else handleTokenChange(balances[token1], token1);
 };
 
 const handleTokenChange = (amount, symbol) => {
@@ -270,12 +239,10 @@ const handleTokenChange = (amount, symbol) => {
   contract
     .calcSharesAndAmounts(amountXDesired, amountYDesired)
     .then((response) => {
+      console.log('=response', response)
       const amountX = ethers.utils.formatUnits(response[1], otherDecimals)
       const amountY = ethers.utils.formatUnits(response[2], otherDecimals)
-      const otherAmount = symbol === token0 ? amountY : amountX // getFromDepositAmount(depositAmount, otherDecimals);
-      State.update({
-        [symbol === token0 ? 'amount1' : 'amount0']: otherAmount
-      })
+      const otherAmount = symbol === token0 ? amountY : amountX
       State.update({
         isLoading: false,
         [symbol === token0 ? 'amount1' : 'amount0']: otherAmount
@@ -428,10 +395,10 @@ const handleDeposit = () => {
     loadingMsg: "Depositing...",
   });
 
-  const amountX = Big(amount0)
+  const amountX = Big(amount0 ?? 0)
     .mul(Big(10).pow(decimals0))
     .toFixed(0);
-  const amountY = Big(amount1)
+  const amountY = Big(amount1 ?? 0)
     .mul(Big(10).pow(decimals1))
     .toFixed(0);
 
