@@ -417,6 +417,16 @@ const StyledLoading = styled.div`
     }
   }
 `
+const StyledEmptyTips = styled.div`
+  text-align: center;
+  padding-top: 82px;
+  color: #979ABE;
+  font-family: Gantari;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+`
 return {
   StyledFont,
   StyledFlex,
@@ -451,5 +461,6 @@ return {
   BalancePrice,
   StyledButtonList,
   StyledButton,
-  StyledLoading
+  StyledLoading,
+  StyledEmptyTips
 }
