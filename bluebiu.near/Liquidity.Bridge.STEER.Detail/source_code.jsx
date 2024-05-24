@@ -10,6 +10,7 @@ const {
   addresses,
   proxyAddress,
   addAction,
+  defaultDex,
   userPositions,
   ICON_VAULT_MAP
 } = props;
@@ -421,7 +422,7 @@ const handleDeposit = () => {
         token0,
         token1,
         amount: amount0,
-        template: "Steer",
+        template: defaultDex,
         status: status,
         transactionHash,
         chain_id: props.chainId,
@@ -534,7 +535,7 @@ const handleWithdraw = () => {
         token0,
         token1,
         amount: lpAmount,
-        template: "Arrakis",
+        template: defaultDex,
         status: status,
         transactionHash,
         chain_id: state.chainId,
