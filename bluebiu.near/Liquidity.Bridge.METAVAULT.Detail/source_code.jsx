@@ -6,6 +6,7 @@ const {
   refetch,
   addresses,
   addAction,
+  defaultDex,
   storeAddress,
   ICON_VAULT_MAP
 } = props;
@@ -217,16 +218,16 @@ const handleDeposit = () => {
     })
     .then((receipt) => {
       const { status, transactionHash } = receipt;
-      // addAction?.({
-      //   type: "Liquidity",
-      //   action: "Deposit",
-      //   token,
-      //   amount,
-      //   template: "Metavault",
-      //   status: status,
-      //   transactionHash,
-      //   chain_id: props.chainId,
-      // });
+      addAction?.({
+        type: "Liquidity",
+        action: "Deposit",
+        token,
+        amount,
+        template: defaultDex,
+        status: status,
+        transactionHash,
+        chain_id: props.chainId,
+      });
 
       State.update({
         isLoading: false,
@@ -310,16 +311,16 @@ const handleWithdraw = () => {
 
       const { status, transactionHash } = receipt;
 
-      // addAction?.({
-      //   type: "Liquidity",
-      //   action: "Withdraw",
-      //   token,
-      //   amount: lpAmount,
-      //   template: "Metavault",
-      //   status: status,
-      //   transactionHash,
-      //   chain_id: state.chainId,
-      // });
+      addAction?.({
+        type: "Liquidity",
+        action: "Withdraw",
+        token,
+        amount: lpAmount,
+        template: defaultDex,
+        status: status,
+        transactionHash,
+        chain_id: state.chainId,
+      });
 
       setTimeout(() => State.update({ isPostTx: false }), 10_000);
 
