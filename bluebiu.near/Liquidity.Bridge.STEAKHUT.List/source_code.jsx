@@ -25,6 +25,7 @@ const {
   onChangeDataIndex,
   addresses,
   addAction,
+  defaultDex,
   proxyAddress,
   userPositions,
   ICON_VAULT_MAP
@@ -85,6 +86,7 @@ return (
                         refetch,
                         addresses,
                         addAction,
+                        defaultDex,
                         proxyAddress,
                         userPositions,
                         ICON_VAULT_MAP
