@@ -14,7 +14,7 @@ function Articles() {
     const { key, post } = props;
     return (
       <Card key={key} index={props.index} href={post.url} target="_blank">
-        <CardImage src={imgSrc} alt="" />
+        <CardImage src={post.thumbnail} alt="" />
         <CardContent>
           <CardTitle>
             <a href={post.url} target="_blank">
@@ -60,7 +60,9 @@ function Articles() {
       mediumPosts.push({
         title: item.title,
         url: item.link,
-        thumbnail: item.thumbnail || fetchMedium?.body?.feed.image,
+        thumbnail:
+          item["description"].toString().match(/<img[^>]+src="([^">]+)"/)[1] ??
+          imgSrc,
         createdAt: item.pubDate,
         categories: item.categories,
         author: item.author,
