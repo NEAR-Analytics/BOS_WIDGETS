@@ -180,6 +180,35 @@ const ABI = [
     stateMutability: "view",
     type: "function",
   },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_shares",
+        type: "uint256",
+      },
+      {
+        internalType: "bool",
+        name: "_roundUp",
+        type: "bool",
+      },
+      {
+        internalType: "bool",
+        name: "_previewInterest",
+        type: "bool",
+      },
+    ],
+    name: "toBorrowAmount",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "_amount",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
 ];
 
 const RATE_ABI = [
@@ -510,8 +539,8 @@ useEffect(() => {
           const [rest, borrowShares, collateralShares] = snapshotItem;
           return {
             address: item.POOL_MANAGER,
-            name: "convertToAssets",
-            params: [borrowShares],
+            name: "toBorrowAmount",
+            params: [borrowShares, true, true],
           };
         });
 
