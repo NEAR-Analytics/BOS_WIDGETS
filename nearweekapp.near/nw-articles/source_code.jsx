@@ -125,7 +125,7 @@ function Articles() {
   background: hsla(0, 0%, 100%, 1);
   margin-bottom: 20px;
 
-  @media screen and (min-width: ${breakpoints.lg}) {
+  @media screen and (min-width: ${breakpoints.xl}) {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem;
