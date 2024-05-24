@@ -37,8 +37,6 @@ const {
 
 const defaultDeposit = props.tab === "deposit" || !props.tab;
 
-// const curPositionUSD = userPositions[data.vaultAddress]?.balanceUSD;
-
 State.init({
   isDeposit: defaultDeposit,
   lpBalance: "",
@@ -58,37 +56,6 @@ State.init({
   isPostTx: false,
   showPairs: false,
 });
-
-const getFromDepositAmount = (depositAmount, tokenDecimal) => {
-  let a = new Big(depositAmount[0].toString());
-  let b = new Big(depositAmount[1].toString());
-
-  if (a.eq(0) && b.eq(0)) return "0";
-
-  let diff;
-  let midpoint;
-  if (a.gt(b)) {
-    diff = a.minus(b);
-    midpoint = diff.div(new Big(2)).plus(b);
-  } else {
-    diff = b.minus(a);
-    midpoint = diff.div(new Big(2)).plus(a);
-  }
-
-  for (let i = tokenDecimal; i > 0; i--) {
-    const midpointFixed = midpoint
-      .div(new Big(10).pow(tokenDecimal))
-      .toFixed(i);
-    if (
-      a.div(Big(10).pow(tokenDecimal)).lte(midpointFixed) &&
-      b.div(Big(10).pow(tokenDecimal)).gte(midpointFixed)
-    ) {
-      return midpointFixed;
-    }
-  }
-
-  return "0";
-};
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 const { token0, token1, decimals0, decimals1, id, poolAddress, liquidity } = data || defaultPair;
@@ -133,7 +100,7 @@ const updateBalance = (token) => {
     tokenContract.balanceOf(sender).then((balanceBig) => {
       const adjustedBalance = Big(
         ethers.utils.formatUnits(balanceBig, decimals)
-      ).toString();
+      ).toFixed();
       State.update({
         balances: {
           ...state.balances,
@@ -165,29 +132,6 @@ const {
 const detailLoading = Object.keys(balances).length < 2 && lpBalance === ""
 
 const handleCheckApproval = (symbol, amount, decimals) => {
-  // const wei = ethers.utils.parseUnits(
-  //   Big(amount).toFixed(decimals),
-  //   decimals
-  // );
-  // const abi = [
-  //   "function allowance(address, address) external view returns (uint256)",
-  // ];
-
-  // const contract = new ethers.Contract(
-  //   addresses[symbol],
-  //   abi,
-  //   Ethers.provider()
-  // );
-
-  // contract
-  //   .allowance(sender, vaultAddress)
-  //   .then((allowance) => {
-  //     State.update({
-  //       [symbol === token0 ? 'isToken0Approved' : 'isToken1Approved']: !new Big(allowance.toString()).lt(wei),
-  //     });
-  //   })
-  //   .catch((e) => console.log(e));
-
   State.update({
     [symbol === token0 ? 'isToken0Approved' : 'isToken1Approved']: false
   });
