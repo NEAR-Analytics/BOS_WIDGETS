@@ -221,7 +221,7 @@ const handleDeposit = () => {
       addAction?.({
         type: "Liquidity",
         action: "Deposit",
-        token,
+        token0: token,
         amount,
         template: defaultDex,
         status: status,
@@ -314,7 +314,7 @@ const handleWithdraw = () => {
       addAction?.({
         type: "Liquidity",
         action: "Withdraw",
-        token,
+        token0: token,
         amount: lpAmount,
         template: defaultDex,
         status: status,
