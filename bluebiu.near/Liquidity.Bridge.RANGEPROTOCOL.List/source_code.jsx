@@ -21,6 +21,7 @@ const {
   refetch,
   dataList,
   dataIndex,
+  defaultDex,
   columnList,
   onChangeDataIndex,
   addresses,
@@ -85,6 +86,7 @@ return (
                         refetch,
                         addresses,
                         addAction,
+                        defaultDex,
                         proxyAddress,
                         userPositions,
                         ICON_VAULT_MAP
