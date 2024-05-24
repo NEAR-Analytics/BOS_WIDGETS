@@ -4,7 +4,7 @@ const breakpoints = {
   xl: "1300px",
 };
 
-const imgSrc = `https://ipfs.near.social/ipfs/bafkreih5d2mix23e4hqsblgob74chyp3yyoze2ygtdm4cbo7dblt565rwa`;
+const defImgSrc = `https://ipfs.near.social/ipfs/bafkreih5d2mix23e4hqsblgob74chyp3yyoze2ygtdm4cbo7dblt565rwa`;
 
 function Articles() {
   State.init({ page: 1 });
@@ -57,12 +57,18 @@ function Articles() {
 
   if (fetchMedium && fetchMedium?.body?.items?.length > 0) {
     fetchMedium.body.items.forEach((item) => {
+      let resizedImgURL;
+      const imgURL = item["description"]
+        .toString()
+        .match(/<img[^>]+src="([^">]+)"/)[1];
+      if (imgURL) {
+        const filename = imgURL.split("/").pop();
+        resizedImgURL = `https://cdn-images-1.medium.com/v2/resize:fit:360/${filename}`;
+      }
       mediumPosts.push({
         title: item.title,
         url: item.link,
-        thumbnail:
-          item["description"].toString().match(/<img[^>]+src="([^">]+)"/)[1] ??
-          imgSrc,
+        thumbnail: resizedImgURL ?? defImgSrc,
         createdAt: item.pubDate,
         categories: item.categories,
         author: item.author,
