@@ -126,9 +126,13 @@ function Articles() {
   margin-bottom: 20px;
 
   @media screen and (min-width: 1300px) {
-    display: flex;
-    gap:10px;
-    flex-wrap: wrap;
+    #display: flex;
+    #gap:10px;
+    #flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-bottom: 4rem;
   }
 
 `;
@@ -142,9 +146,8 @@ function Articles() {
     padding:12px;
     margin-bottom:10px;
     border: 1px solid #eceef0;
-    max-width:265px;
     @media screen and (max-width: 1300px) {
-        max-width:100%;
+      max-width:100%;
     }
 `;
 
