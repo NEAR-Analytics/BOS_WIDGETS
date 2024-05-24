@@ -35,6 +35,7 @@ const {
   isChainSupported,
   onSwitchChain,
   addAction,
+  defaultDex,
   connectProps,
   prices,
 } = props
@@ -336,6 +337,7 @@ return state.loading ? <Widget src="bluebiu.near/widget/0vix.LendingSpinner" /> 
         dataList: state.filterList,
         addresses,
         addAction,
+        defaultDex,
         proxyAddress,
         multicallAddress,
         ICON_VAULT_MAP,
