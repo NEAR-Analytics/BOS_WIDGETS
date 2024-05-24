@@ -174,7 +174,7 @@ useEffect(() => {
       })
     } else if (state.categoryIndex === 1) {
       state.dataList.forEach(data => {
-        if (Big(data.balance).gt(0)) {
+        if (Big(data?.liquidity ?? 0).gt(0)) {
           filterList.push(data)
         }
       })
