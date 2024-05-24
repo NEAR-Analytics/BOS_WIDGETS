@@ -264,16 +264,9 @@ function getTvl() {
 
 }
 function getApy() {
-  if (curChain.chain_id === 56) {
-    for (let i = 0; i < dataList.length; i++) {
-      const vault = dataList[i].vault
-      dataList[i].apy = Big(feesData[vault]?.apy ?? 0).toFixed(2) + '%'
-    }
-  } else {
-    for (let i = 0; i < dataList.length; i++) {
-      const data = dataList[i]
-      dataList[i].apy = Big(data?.fee_apy ?? 0).plus(data?.asset_yield ?? 0).toFixed(2) + '%'
-    }
+  for (let i = 0; i < dataList.length; i++) {
+    const data = dataList[i]
+    dataList[i].apy = Big(data?.fee_apy ?? 0).plus(data?.asset_yield ?? 0).toFixed(2) + '%'
   }
   formatedData('getApy')
 }
