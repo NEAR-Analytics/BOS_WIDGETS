@@ -1,7 +1,7 @@
 const accountId = context.accountId;
 const Owner = "dropcast.near";
 const CLIENT_ID = "1206878767633534976";
-const BASE_URL = "https://near.org/dropcast.near/widget/";
+const BASE_URL = "https://dev.near.org/dropcast.near/widget/";
 const OAuthScope = ["identify", "guilds"].join(" ");
 
 //Styles
