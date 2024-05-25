@@ -58,6 +58,7 @@ const fetchData = () => {
           body: convertObject({ ...data.body, wallet: accountId }),
         }).then((res) => {
           const result = res.body;
+          console.log(result);
 
           if (result.token) {
             Storage.set("token", result.token);
