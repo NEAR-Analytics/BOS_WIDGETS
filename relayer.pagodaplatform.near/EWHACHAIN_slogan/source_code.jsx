@@ -1,12 +1,4 @@
 const styles = {
-  component1Container: {
-    width: "100%",
-    display: "flex",
-    overflow: "auto",
-    minHeight: "100vh",
-    alignItems: "center",
-    flexDirection: "column",
-  },
   component1Component1: {
     width: "667px",
     height: "172px",
@@ -51,14 +43,12 @@ const styles = {
 };
 
 return (
-  <div style={styles.component1Container}>
-    <div style={styles.component1Component1}>
-      <span style={styles.component1Text}>
-        <span>Where We Lead the Industry</span>
-      </span>
-      <span style={styles.component1Text2}>
-        <span>EWHA-CHAIN</span>
-      </span>
-    </div>
+  <div style={styles.component1Component1}>
+    <span style={styles.component1Text}>
+      <span>Where We Lead the Industry</span>
+    </span>
+    <span style={styles.component1Text2}>
+      <span>EWHA-CHAIN</span>
+    </span>
   </div>
 );
