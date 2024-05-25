@@ -57,7 +57,7 @@ return (
         <span>Where We Lead the Industry</span>
       </span>
       <span style={styles.component1Text2}>
-        <span>EWHA-CHAIN</span>
+        <span>EWHA-CHAIN💚</span>
       </span>
     </div>
   </div>
