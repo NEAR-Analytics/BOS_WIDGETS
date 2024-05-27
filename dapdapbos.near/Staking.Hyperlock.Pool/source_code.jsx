@@ -42,7 +42,7 @@ const TabListWrap = styled.div`
   width: 510px;
   align-items: center;
 `;
-const TabsList = styled("Tabs.List")`
+const TabsList = styled.div`
   border: 1px solid var(--bg-2);
   margin-bottom: 20px;
   .tab-head-item {
@@ -67,7 +67,7 @@ const TabsList = styled("Tabs.List")`
 // tabs end
 
 // Accordion begin
-const AccordionItem = styled("Accordion.Item")`
+const StyledRow = styled.div`
   /* margin-bottom: 10px; */
   border: 1px solid #373a53;
   max-width: 1244px;
@@ -85,14 +85,53 @@ const AccordionItem = styled("Accordion.Item")`
   }
 `;
 
-const AccordionContent = styled("Accordion.Content")`
+const ExpandWrapper = styled.div`
+  height: 0px;
+  animation: fadeOut 0.4s 0.1s ease both;
+  &.expand {
+    animation: fadeIn 0.4s 0.1s ease both;
+  }
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(-20px);
+      height: 0px;
+      border: none;
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+      height: 260px;
+      border: 1px solid #373a53;
+      border-top: none;
+    }
+  }
+
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+      transform: translateY(0);
+      border: 1px solid #373a53;
+      border-top: none;
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-20px);
+      height: 0px;
+      border: none;
+    }
+  }
+`;
+
+const AccordionContent = styled.div`
   /* max-width: 1244px;
   margin: 0 auto; */
   border-color: var(--bg-3);
   background-color: var(--bg-3);
   padding-bottom: 20px;
-  border-bottom-left-radius: 16px;
-  border-bottom-right-radius: 16px;
+  border-radius: 0px 0px 13px 13px;
+  background: #2e3142;
 `;
 //Accordion end
 
@@ -104,6 +143,7 @@ const {
   dappLink,
   handler,
   onSuccess,
+  onOpenStakeModal,
 } = props;
 
 State.init({
@@ -117,96 +157,92 @@ const handleChangeTabs = (value) => {
 };
 
 return (
-  <AccordionItem value={data.id}>
-    <Accordion.Trigger asChild>
-      <HeadWrapper>
-        <GridContainer className="pool-head">
-          <GridItem>
-            <div className="title-primary">
-              <Widget
-                src="dapdapbos.near/widget/Staking.Hyperlock.PoolIcons"
-                props={{
-                  icons: [data.token0.icon, data.token1.icon],
-                }}
-              />
-              <span style={{ marginLeft: 20 }}>{data.name}</span>
-            </div>
-          </GridItem>
-          <GridItem>
-            <div className="fee-wrapper">
-              {data.fee && (
-                <div className="title-secondary">{data.fee / 10000}%</div>
-              )}
-              <div className="type-label">{data.type}</div>
-            </div>
-          </GridItem>
-          <GridItem>
+  <StyledRow>
+    <HeadWrapper
+      onClick={() => {
+        State.update({
+          expand: !state.expand,
+        });
+      }}
+    >
+      <GridContainer className="pool-head">
+        <GridItem>
+          <div className="title-primary">
             <Widget
               src="dapdapbos.near/widget/Staking.Hyperlock.PoolIcons"
               props={{
-                icons: data.stackIcons,
+                icons: [data.token0.icon, data.token1.icon],
               }}
             />
-          </GridItem>
-          <GridItem>{data.points}</GridItem>
-          <GridItem>
-            <Widget
-              src="bluebiu.near/widget/Avalanche.Lending.Total"
-              props={{
-                total: data.tvl,
-                digit: 2,
-                unit: "$",
-              }}
-            />
-          </GridItem>
-        </GridContainer>
-        <svg
-          className="AccordionChevron"
-          xmlns="http://www.w3.org/2000/svg"
-          width="8"
-          height="10"
-          viewBox="0 0 8 10"
-          fill="none"
-        >
-          <path
-            d="M7.02391 4.21913C7.52432 4.61945 7.52432 5.38054 7.02391 5.78087L2.1247 9.70024C1.46993 10.2241 0.5 9.75788 0.5 8.91937L0.5 1.08062C0.5 0.242118 1.46993 -0.224055 2.12469 0.299755L7.02391 4.21913Z"
-            fill="#979ABE"
+            <span style={{ marginLeft: 20 }}>{data.name}</span>
+          </div>
+        </GridItem>
+        <GridItem>
+          <div className="fee-wrapper">
+            {data.fee && (
+              <div className="title-secondary">{data.fee / 10000}%</div>
+            )}
+            <div className="type-label">{data.type}</div>
+          </div>
+        </GridItem>
+        <GridItem>
+          <Widget
+            src="dapdapbos.near/widget/Staking.Hyperlock.PoolIcons"
+            props={{
+              icons: data.stackIcons,
+            }}
           />
-        </svg>
-      </HeadWrapper>
-    </Accordion.Trigger>
-    <AccordionContent>
-      <Tabs.Root
-        value={state.currentTab}
-        onValueChange={(value) => {
-          State.update({
-            currentTab: value,
-          });
-        }}
+        </GridItem>
+        <GridItem>{data.points || 0}</GridItem>
+        <GridItem>
+          <Widget
+            src="bluebiu.near/widget/Avalanche.Lending.Total"
+            props={{
+              total: data.tvl,
+              digit: 2,
+              unit: "$",
+            }}
+          />
+        </GridItem>
+      </GridContainer>
+      <svg
+        className="AccordionChevron"
+        xmlns="http://www.w3.org/2000/svg"
+        width="8"
+        height="10"
+        viewBox="0 0 8 10"
+        fill="none"
       >
+        <path
+          d="M7.02391 4.21913C7.52432 4.61945 7.52432 5.38054 7.02391 5.78087L2.1247 9.70024C1.46993 10.2241 0.5 9.75788 0.5 8.91937L0.5 1.08062C0.5 0.242118 1.46993 -0.224055 2.12469 0.299755L7.02391 4.21913Z"
+          fill="#979ABE"
+        />
+      </svg>
+    </HeadWrapper>
+    <ExpandWrapper className={state.expand ? "expand" : ""}>
+      <AccordionContent>
         <TabsList>
           <TabListWrap>
-            <Tabs.Trigger value="STAKE_TAB" asChild>
+            {[
+              { key: "STAKE_TAB", label: "Stake" },
+              { key: "WITHDRAW_TAB", label: "Withdraw" },
+            ].map((item) => (
               <div
                 className={`tab-head-item ${
-                  state.currentTab === "STAKE_TAB" ? "active" : ""
+                  state.currentTab === item.key ? "active" : ""
                 }`}
+                onClick={() => {
+                  State.update({
+                    currentTab: item.key,
+                  });
+                }}
               >
-                Stake
+                {item.label}
               </div>
-            </Tabs.Trigger>
-            <Tabs.Trigger value="WITHDRAW_TAB" asChild>
-              <div
-                className={`tab-head-item ${
-                  state.currentTab === "WITHDRAW_TAB" ? "active" : ""
-                }`}
-              >
-                Withdraw
-              </div>
-            </Tabs.Trigger>
+            ))}
           </TabListWrap>
         </TabsList>
-        <Tabs.Content value="STAKE_TAB">
+        {state.currentTab === "STAKE_TAB" && (
           <Widget
             src="dapdapbos.near/widget/Staking.Hyperlock.PoolTab"
             props={{
@@ -219,11 +255,12 @@ return (
               dappLink,
               handler,
               onSuccess,
+              onOpenStakeModal,
               from: "stake",
             }}
           />
-        </Tabs.Content>
-        <Tabs.Content value="WITHDRAW_TAB">
+        )}
+        {state.currentTab === "WITHDRAW_TAB" && (
           <Widget
             src="dapdapbos.near/widget/Staking.Hyperlock.PoolTab"
             props={{
@@ -236,11 +273,12 @@ return (
               dappLink,
               handler,
               onSuccess,
+              onOpenStakeModal,
               from: "withdraw",
             }}
           />
-        </Tabs.Content>
-      </Tabs.Root>
-    </AccordionContent>
-  </AccordionItem>
+        )}
+      </AccordionContent>
+    </ExpandWrapper>
+  </StyledRow>
 );
