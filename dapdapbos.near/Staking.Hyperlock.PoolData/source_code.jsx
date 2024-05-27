@@ -3,10 +3,10 @@ const { account, chainId, onLoad } = props;
 useEffect(() => {
   let tokens = {};
   let config = {};
+  let count = 0;
+  let basePools = {};
+  let tvlPools = {};
 
-  const initData = {
-    pools: [],
-  };
   const getConfig = () => {
     asyncFetch("/config/hyperlock.json")
       .then((res) => {
@@ -59,38 +59,46 @@ useEffect(() => {
         const pools = res.body?.data?.pools;
 
         if (!pools.length) {
-          onLoad({ loading: false, ...initData });
+          onLoad({ loading: false, pools: basePools });
           return;
         }
-        const _pools = {};
-        pools
-          .filter((pool) => pool.type === "V3")
-          .forEach((pool) => {
-            const token0 = {
-              ...pool.token0,
-              icon: tokens[pool.token0.id.toLowerCase()]?.logoURI,
+        const v3Pools = {};
+        const v2Pools = {};
+        pools.forEach((pool) => {
+          const token0 = {
+            ...pool.token0,
+            icon: tokens[pool.token0.id.toLowerCase()]?.logoURI,
+          };
+          const token1 = {
+            ...pool.token1,
+            icon: tokens[pool.token1.id.toLowerCase()]?.logoURI,
+          };
+          const _pool = {
+            id: pool.id,
+            token0,
+            token1,
+            fee: pool.v3PoolData?.fee,
+            type: pool.type,
+          };
+          if (pool.type === "V3") {
+            v3Pools[pool.id] = { ..._pool, name: pool.lpToken.symbol };
+          } else {
+            v2Pools[pool.id] = {
+              ..._pool,
+              name: pool.token0.symbol + "-" + pool.token1.symbol,
             };
-            const token1 = {
-              ...pool.token1,
-              icon: tokens[pool.token1.id.toLowerCase()]?.logoURI,
-            };
-            _pools[pool.id] = {
-              id: pool.id,
-              name: pool.lpToken.symbol,
-              token0,
-              token1,
-              fee: pool.v3PoolData?.fee,
-              type: pool.type,
-            };
-          });
-        getTvl(_pools);
-        initData.pools = _pools;
+          }
+        });
+
+        getV3Tvl(v3Pools);
+        getV2Tvl(v2Pools);
+        basePools = { ...v3Pools, ...v2Pools };
       })
       .catch((err) => {
-        onLoad({ loading: false, ...initData });
+        onLoad({ loading: false, pools: basePools });
       });
   };
-  const getTvl = (pools) => {
+  const getV3Tvl = (pools) => {
     const addresses = Object.keys(pools);
     asyncFetch("https://api.hyperlock.finance/v1/blast-mainnet/points/tvl", {
       method: "post",
@@ -134,17 +142,89 @@ useEffect(() => {
           })
           .filter((pool) => Big(pool.tvl).gt(0));
 
-        onLoad({
-          loading: false,
-          ...initData,
-          pools: _pools.reduce(
-            (acc, pool) => ({ ...acc, [pool.id]: pool }),
-            {}
-          ),
-        });
+        tvlPools = {
+          ...tvlPools,
+          ..._pools.reduce((acc, pool) => ({ ...acc, [pool.id]: pool }), {}),
+        };
+        count++;
+        if (count === 2) {
+          onLoad({
+            loading: false,
+            pools: tvlPools,
+          });
+        }
       })
       .catch((err) => {
-        onLoad({ loading: false, ...initData });
+        onLoad({ loading: false, pools: basePools });
+      });
+  };
+  const getV2Tvl = (pools) => {
+    const addresses = Object.keys(pools);
+    asyncFetch(
+      "https://graph.hyperlock.finance/subgraphs/name/hyperlock/v2-subgraph-mainnet-b",
+      {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          operationName: "Prices",
+          query:
+            'query Prices($account: String, $ids: [ID!]) {\n  prices: pairs(where: {id_in: $ids}) {\n    id\n    token0 {\n      id\n    }\n    token1 {\n      id\n    }\n    token0PriceUSD\n    token1PriceUSD\n    lpTokenPriceUSD\n    system: liquidityPositions(\n      where: {user: "0xc3ecadb7a5fab07c72af6bcfbd588b7818c4a40e"}\n    ) {\n      liquidityTokenBalance\n    }\n  }\n}',
+          variables: { ids: addresses },
+        }),
+      }
+    )
+      .then((res) => {
+        const data = res.body.data.prices;
+        let prices = {};
+        const _pools = data
+          .map((item) => {
+            const pool = pools[item.id];
+
+            const lpPrice = item.lpTokenPriceUSD;
+            let lpBalance = Big(0);
+
+            item.system?.forEach((slip) => {
+              lpBalance = lpBalance.add(slip.liquidityTokenBalance);
+            });
+
+            const token0Price = item.token0PriceUSD;
+            const token1Price = item.token1PriceUSD;
+
+            prices[pool.token0.id] = token0Price;
+            prices[pool.token1.id] = token1Price;
+
+            const defaultStackIcons = config.stack?.["default"] || [];
+            const stackIcons = config.stack?.[pool.id] || [];
+
+            return {
+              ...pool,
+              token0: { ...pool.token0, price: token0Price },
+              token1: { ...pool.token1, price: token1Price },
+              tvl: lpBalance.mul(lpPrice).toString(),
+              stackIcons: [...defaultStackIcons, ...stackIcons].map((address) =>
+                address ? tokens[address.toLowerCase()].logoURI : ""
+              ),
+              points: config.points?.[pool.id],
+            };
+          })
+          .filter((pool) => Big(pool.tvl).gt(0));
+
+        tvlPools = {
+          ...tvlPools,
+          ..._pools.reduce((acc, pool) => ({ ...acc, [pool.id]: pool }), {}),
+        };
+        count++;
+        if (count === 2) {
+          onLoad({
+            loading: false,
+            pools: tvlPools,
+          });
+        }
+      })
+      .catch((err) => {
+        onLoad({ loading: false, pools: basePools });
       });
   };
   getConfig();
