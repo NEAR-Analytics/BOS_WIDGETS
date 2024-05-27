@@ -252,7 +252,7 @@ function getLiquidity() {
         .plus(Big(total1).times(prices[data.token1]))
       ).div(totalSupply)
       const amountLp = data.balance
-      dataList[i].liquidity = Big(priceLp).times(amountLp).toFixed(2)
+      dataList[i].liquidity = Big(priceLp).times(amountLp).toFixed()
     }
     formatedData("getLiquidity")
   }).catch(error => {
