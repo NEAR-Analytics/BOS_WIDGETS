@@ -236,12 +236,12 @@ const handleTokenChange = (amount, symbol) => {
 
   const decimals = (symbol === token0 ? decimals0 : decimals1)
   const otherDecimals = symbol === token0 ? decimals1 : decimals0
-
+  const targetAmount = props.chainId === 56 ? '1157920892373161954235709850086879078532699846656405' : '340282366920938463463374607431768211455'
   const amount0Max = symbol === token0 ? Big(amount)
-    .mul(Big(10).pow(decimals)).toFixed(0) : '1157920892373161954235709850086879078532699846656405'
+    .mul(Big(10).pow(decimals)).toFixed(0) : targetAmount
   const amount1Max = symbol === token1 ? Big(amount)
-    .mul(Big(10).pow(decimals)).toFixed(0) : '1157920892373161954235709850086879078532699846656405'
-  const abi = [{
+    .mul(Big(10).pow(decimals)).toFixed(0) : targetAmount
+  const abi = props.chainId === 56 ? [{
     "inputs": [
       {
         "internalType": "uint256",
@@ -264,6 +264,39 @@ const handleTokenChange = (amount, symbol) => {
       {
         "internalType": "uint256",
         "name": "amount1",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "mintAmount",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }] : [{
+    "inputs": [
+      {
+        "internalType": "uint128",
+        "name": "amountXMax",
+        "type": "uint128"
+      },
+      {
+        "internalType": "uint128",
+        "name": "amountYMax",
+        "type": "uint128"
+      }
+    ],
+    "name": "getMintAmounts",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "amountX",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amountY",
         "type": "uint256"
       },
       {
