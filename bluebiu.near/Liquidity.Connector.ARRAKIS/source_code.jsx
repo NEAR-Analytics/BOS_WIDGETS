@@ -223,7 +223,7 @@ const columnList = [{
   render: (data, index) => {
     return (
       <>
-        <TdTxt>{Big(data?.liquidity ?? 0).gt(0) ? `${formatFiat(data.liquidity)}` : "-"}</TdTxt>
+        <TdTxt>{Big(data?.liquidity ?? 0).gt(0) ? `${Big(data?.liquidity ?? 0).lt(0.01) ? '<$0.01' : formatFiat(data.liquidity)}` : "-"}</TdTxt>
         {Big(data?.balance ?? 0).gt(0) && <TdTxt className="gray">{Big(data?.balance ?? 0).lt(0.01) ? '<0.01' : Big(data.balance).toFixed(2)} LP</TdTxt>}
         <SvgIcon className={["icon-right", index === state.dataIndex ? "rotate" : ""]}>
           {IconRight}
