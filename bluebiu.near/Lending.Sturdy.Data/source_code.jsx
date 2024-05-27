@@ -272,6 +272,7 @@ useEffect(() => {
   let _exchangeRateRes = [];
   let _totalSupplyRes = [];
   let _yourBorrows = [];
+  let _yourBorrowShares = [];
   let _yourCollaterals = [];
   let _yourLends = [];
   let _maxRateRes = [];
@@ -300,7 +301,10 @@ useEffect(() => {
       // formatUnits(
       //   _exchangeRateRes[i][_exchangeRateRes[i].length - 1]
       // );
-
+      // const [rest, borrowShares, collateralShares] = _yourBorrowShares;
+      rawMarkets[i].yourBorrowShares = _yourBorrowShares[i]
+        ? _yourBorrowShares[i][1]
+        : 0;
       const yourBorrow = _yourBorrows[i]
         ? formatUnits(_yourBorrows[i][0], rawMarkets[i].TOKEN_B.decimals)
         : 0;
@@ -537,6 +541,7 @@ useEffect(() => {
         const calls = rawMarkets.map((item, index) => {
           const snapshotItem = snapshot[index] ? snapshot[index] : [0, 0, 0];
           const [rest, borrowShares, collateralShares] = snapshotItem;
+
           return {
             address: item.POOL_MANAGER,
             name: "toBorrowAmount",
@@ -551,8 +556,10 @@ useEffect(() => {
           multicallAddress,
           provider: Ethers.provider(),
         }).then((res) => {
-          console.log("_yourBorrows--", res);
+          console.log("_yourBorrows--", res, snapshot);
+
           _yourBorrows = res;
+          _yourBorrowShares = snapshot;
           // count++;
           // formatData("getUserSnapshot");
           return snapshot;
