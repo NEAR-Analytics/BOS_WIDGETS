@@ -308,7 +308,7 @@ const columnList = isDapps ? [{
 
     return (
       <>
-        <TdTxt>{Big(userBalance ?? 0).gt(0) ? `${formatFiat(userBalance)}` : "-"}</TdTxt>
+        <TdTxt>{Big(userBalance ?? 0).gt(0) ? `${Big(userBalance ?? 0).lt(0.01) ? '<$0.01' : formatFiat(userBalance)}` : "-"}</TdTxt>
         {Big(data?.liquidity ?? 0).gt(0) && <TdTxt className="gray">{Big(data?.liquidity ?? 0).lt(0.01) ? '<0.01' : Big(data.liquidity).toFixed(2)} LP</TdTxt>}
         <SvgIcon className={["icon-right", index === state.dataIndex ? "rotate" : ""]}>
           {IconRight}
