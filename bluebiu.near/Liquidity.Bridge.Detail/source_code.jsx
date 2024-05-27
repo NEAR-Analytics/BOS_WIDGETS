@@ -446,6 +446,10 @@ const handleDeposit = () => {
         add: can_add_action,
         transactionHash,
         chain_id: props.chainId,
+        extra_data: JSON.stringify({
+          amount0,
+          amount1,
+        })
       });
 
       State.update({
