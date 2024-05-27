@@ -241,8 +241,6 @@ const handleTokenChange = (amount, symbol) => {
     .mul(Big(10).pow(decimals)).toFixed(0) : '1157920892373161954235709850086879078532699846656405'
   const amount1Max = symbol === token1 ? Big(amount)
     .mul(Big(10).pow(decimals)).toFixed(0) : '1157920892373161954235709850086879078532699846656405'
-  console.log('=amount0Max', amount0Max)
-  console.log('=amount1Max', amount1Max)
   const abi = [{
     "inputs": [
       {
@@ -282,6 +280,9 @@ const handleTokenChange = (amount, symbol) => {
     abi,
     Ethers.provider()
   );
+  console.log('=vaultAddress', vaultAddress)
+  console.log('=amount0Max', amount0Max)
+  console.log('=amount1Max', amount1Max)
   contract
     .getMintAmounts(amount0Max, amount1Max)
     .then((response) => {
@@ -289,7 +290,6 @@ const handleTokenChange = (amount, symbol) => {
       const amountX = ethers.utils.formatUnits(response[0], otherDecimals)
       const amountY = ethers.utils.formatUnits(response[1], otherDecimals)
       const otherAmount = symbol === token0 ? amountY : amountX
-      console.log('=mintAmount111', response[2])
       State.update({
         isLoading: false,
         [symbol === token0 ? 'amount1' : 'amount0']: otherAmount,
@@ -442,6 +442,7 @@ const handleDeposit = () => {
             amount: amount0,
             template: defaultDex,
             status: status,
+            add: 1,
             transactionHash,
             chain_id: props.chainId,
             extra_data: JSON.stringify({
@@ -549,6 +550,7 @@ const handleWithdraw = () => {
         amount: lpAmount,
         template: defaultDex,
         status: status,
+        add: 0,
         transactionHash,
         chain_id: state.chainId,
       });
