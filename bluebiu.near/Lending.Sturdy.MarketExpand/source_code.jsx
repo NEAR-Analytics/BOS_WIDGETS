@@ -317,8 +317,11 @@ function calcMaxWithdraw(collateralAmount, borrowAmount, maxLTV, exchangeRate) {
   const maxWithdrawAmount = Big(collateralAmount).minus(
     shouldRemainedCollateral
   );
+
   console.log("maxWithdrawAmount---", maxWithdrawAmount.toFixed(18, 0));
-  return maxWithdrawAmount.toFixed(data.TOKEN_A.decimals, 0);
+  return maxWithdrawAmount.lt(0)
+    ? Big(0)
+    : maxWithdrawAmount.toFixed(data.TOKEN_A.decimals, 0);
 }
 
 useEffect(() => {
