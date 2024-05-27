@@ -257,6 +257,7 @@ return (
               onSuccess,
               onOpenStakeModal,
               from: "stake",
+              type: data.type,
             }}
           />
         )}
