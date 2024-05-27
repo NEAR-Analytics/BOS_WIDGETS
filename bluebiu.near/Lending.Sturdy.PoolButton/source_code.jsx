@@ -633,84 +633,95 @@ function handleRemoveCollateral() {
     });
 }
 
+function handleRepayAsset(_shares) {
+  console.log("handleRepayAsset--", _shares);
+  const contract = new ethers.Contract(
+    data.POOL_MANAGER,
+    [
+      {
+        inputs: [
+          {
+            internalType: "uint256",
+            name: "_shares",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
+            name: "_borrower",
+            type: "address",
+          },
+        ],
+        name: "repayAsset",
+        outputs: [
+          {
+            internalType: "uint256",
+            name: "_amountToRepay",
+            type: "uint256",
+          },
+        ],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+    ],
+    Ethers.provider().getSigner()
+  );
+
+  contract
+    .repayAsset(_shares, account, {
+      gasLimit: 4000000,
+    })
+    .then((tx) => {
+      tx.wait()
+        .then((res) => {
+          const { status, transactionHash } = res;
+          toast?.dismiss(toastId);
+          if (status !== 1) throw new Error("");
+          State.update({
+            pending: false,
+          });
+          onSuccess();
+          formatAddAction(actionText, amount, status, transactionHash);
+          toast?.success({
+            title: `${actionText} Successfully!`,
+            text: `${actionText} ${Big(amount).toFixed(2)} ${tokenSymbol}`,
+            tx: transactionHash,
+            chainId,
+          });
+        })
+        .catch((err) => {
+          console.log("handleRepay-error:", err);
+          State.update({
+            pending: false,
+          });
+        });
+    })
+    .catch((err) => {
+      State.update({
+        pending: false,
+      });
+      toast?.dismiss(toastId);
+      toast?.fail({
+        title: `${actionText} Failed!`,
+        text: err?.message?.includes("user rejected transaction")
+          ? "User rejected transaction"
+          : ``,
+      });
+    });
+}
+
+// yourBorrowShares
 function handleRepay() {
   State.update({
     pending: true,
   });
-  handleToBorrowShares(parseUnits(amount, tokenDecimals)).then((_shares) => {
-    const contract = new ethers.Contract(
-      data.POOL_MANAGER,
-      [
-        {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "_shares",
-              type: "uint256",
-            },
-            {
-              internalType: "address",
-              name: "_borrower",
-              type: "address",
-            },
-          ],
-          name: "repayAsset",
-          outputs: [
-            {
-              internalType: "uint256",
-              name: "_amountToRepay",
-              type: "uint256",
-            },
-          ],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-      ],
-      Ethers.provider().getSigner()
-    );
 
-    contract
-      .repayAsset(_shares, account, {
-        gasLimit: 4000000,
-      })
-      .then((tx) => {
-        tx.wait()
-          .then((res) => {
-            const { status, transactionHash } = res;
-            toast?.dismiss(toastId);
-            if (status !== 1) throw new Error("");
-            State.update({
-              pending: false,
-            });
-            onSuccess();
-            formatAddAction(actionText, amount, status, transactionHash);
-            toast?.success({
-              title: `${actionText} Successfully!`,
-              text: `${actionText} ${Big(amount).toFixed(2)} ${tokenSymbol}`,
-              tx: transactionHash,
-              chainId,
-            });
-          })
-          .catch((err) => {
-            console.log("handleRepay-error:", err);
-            State.update({
-              pending: false,
-            });
-          });
-      })
-      .catch((err) => {
-        State.update({
-          pending: false,
-        });
-        toast?.dismiss(toastId);
-        toast?.fail({
-          title: `${actionText} Failed!`,
-          text: err?.message?.includes("user rejected transaction")
-            ? "User rejected transaction"
-            : ``,
-        });
-      });
-  });
+  if (Big(amount).eq(Big(data.yourBorrow))) {
+    handleRepayAsset(data.yourBorrowShares || 0);
+  } else {
+    handleToBorrowShares(parseUnits(amount, tokenDecimals)).then((_shares) => {
+      handleRepayAsset(_shares);
+    });
+  }
 }
 
 function handleBorrow() {
