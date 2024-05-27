@@ -1,6 +1,17 @@
-const { type, account, update, dexConfig, onLoad } = props;
+const {
+  type,
+  account,
+  update,
+  dexConfig,
+  pools,
+  multicall,
+  multicallAddress,
+  onLoad,
+} = props;
 
 useEffect(() => {
+  if (!pools) return;
+
   const getPositionsData = (pool, tokens, cb) => {
     asyncFetch(
       `https://api.hyperlock.finance/v1/blast-mainnet/points/${pool}/positions`,
@@ -25,6 +36,118 @@ useEffect(() => {
     unstaked: [],
     stakedMap: {},
     unstakedMap: {},
+  };
+  let typeCounter = 0;
+  const getV2Data = () => {
+    const v2Pools = Object.values(pools).filter((pool) => pool.type === "V2");
+    const ids = [];
+    v2Pools.forEach((pool) => {
+      ids.push(`${pool.id}-${account.toLowerCase()}`);
+      ids.push(`${pool.id}-${dexConfig.v2Address.toLowerCase()}`);
+    });
+    asyncFetch(
+      "https://graph.hyperlock.finance/subgraphs/name/hyperlock/v2-subgraph-mainnet-b",
+      {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          operationName: "Positions",
+          query:
+            "query pairs($ids: [ID!]) {\n  liquidityPositions(where: {id_in: $ids}) {\n    id\n    user {\n      id\n    }\n    liquidityTokenBalance\n    pair {\n      id\n      token0 {\n        id\n      }\n      token1 {\n        id\n      }\n      lpTokenPriceUSD\n    }\n  }\n}",
+          variables: {
+            ids,
+          },
+        }),
+      }
+    ).then((res) => {
+      const data = res.body.data?.liquidityPositions || [];
+
+      const unstaked = data.filter(
+        (pool) => pool.user.id === account.toLowerCase()
+      );
+      const staked = data.filter(
+        (pool) => pool.user.id === dexConfig.v2Address.toLowerCase()
+      );
+
+      const calls = staked.map((pool) => ({
+        address: dexConfig.v2Address,
+        name: "staked",
+        params: [account, pool.pair.id],
+      }));
+
+      multicall({
+        abi: [
+          {
+            inputs: [
+              { internalType: "address", name: "", type: "address" },
+              { internalType: "address", name: "", type: "address" },
+            ],
+            name: "staked",
+            outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+            stateMutability: "view",
+            type: "function",
+          },
+        ],
+        calls,
+        options: {},
+        multicallAddress,
+        provider: Ethers.provider(),
+      }).then((stakedBalancesRes) => {
+        const _unstaked = unstaked.map((item) => {
+          return {
+            id: item.pair.id,
+            pool: {
+              id: item.pair.id,
+            },
+            token0: item.pair.token0,
+            token1: item.pair.token1,
+            balance: item.liquidityTokenBalance,
+            price: item.pair.lpTokenPriceUSD,
+            type: "V2",
+          };
+        });
+
+        const _staked = [];
+        stakedBalancesRes.forEach((item, i) => {
+          if (!item) return;
+          const stakedItem = staked[i];
+          const pool = pools[stakedItem.pair.id];
+          _staked.push({
+            id: stakedItem.pair.id,
+            pool: {
+              id: stakedItem.pair.id,
+            },
+            token0: pool.token0,
+            token1: pool.token1,
+            balance: Big(item).div(Big(10).pow(18)).toFixed(18),
+            price: stakedItem.pair.lpTokenPriceUSD,
+            type: "V2",
+          });
+        });
+
+        const _unstakedMap = _unstaked.reduce(
+          (acc, item) => ({ ...acc, [item.id]: [item] }),
+          {}
+        );
+        const _stakedMap = _staked.reduce(
+          (acc, item) => ({ ...acc, [item.id]: [item] }),
+          {}
+        );
+        initData["staked"] = [...initData["staked"], ..._staked];
+        initData["unstaked"] = [...initData["unstaked"], ..._unstaked];
+        initData["unstakedMap"] = {
+          ...initData["unstakedMap"],
+          ..._unstakedMap,
+        };
+        initData["stakedMap"] = { ...initData["stakedMap"], ..._stakedMap };
+        typeCounter++;
+        if (typeCounter === 2) {
+          onLoad({ ...initData });
+        }
+      });
+    });
   };
   const getTokenIds = () => {
     asyncFetch(
@@ -178,7 +301,7 @@ useEffect(() => {
             } else {
               const tokens = key === "staked" ? staked : unstaked;
 
-              initData[key] = tokens
+              const list = tokens
                 .filter((item) => {
                   const { token0Amount, token1Amount } = amountData[item.id];
                   return Big(token0Amount).gt(0) || Big(token1Amount).gt(0);
@@ -186,6 +309,8 @@ useEffect(() => {
                 .map((item) => {
                   return { ...item, ...amountData[item.id] };
                 });
+
+              initData[key] = [...initData[key], ...list];
 
               const mapData = {};
 
@@ -210,14 +335,18 @@ useEffect(() => {
 
               const _key = `${key}Map`;
 
-              initData[_key] = mapData;
+              initData[_key] = { ...initData[_key], ...mapData };
               count--;
               if (count === 0) {
-                onLoad({ ...initData });
-
                 setTimeout(() => {
                   initData.getV3Fees(staked);
                 }, 500);
+
+                typeCounter++;
+
+                if (typeCounter === 2) {
+                  onLoad({ ...initData });
+                }
               }
             }
           });
@@ -237,4 +366,5 @@ useEffect(() => {
   };
 
   getTokenIds();
-}, [update]);
+  getV2Data();
+}, [update, pools]);
