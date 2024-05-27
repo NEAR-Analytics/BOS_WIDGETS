@@ -294,6 +294,56 @@ function handleConvertToShares(_assets) {
     });
 }
 
+function handleToBorrowShares(_assets) {
+  State.update({
+    pending: true,
+  });
+  const contract = new ethers.Contract(
+    data.POOL_MANAGER,
+    [
+      {
+        inputs: [
+          {
+            internalType: "uint256",
+            name: "_amount",
+            type: "uint256",
+          },
+          {
+            internalType: "bool",
+            name: "_roundUp",
+            type: "bool",
+          },
+          {
+            internalType: "bool",
+            name: "_previewInterest",
+            type: "bool",
+          },
+        ],
+        name: "toBorrowShares",
+        outputs: [
+          {
+            internalType: "uint256",
+            name: "_shares",
+            type: "uint256",
+          },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
+    ],
+    Ethers.provider().getSigner()
+  );
+
+  return contract
+    .toBorrowShares(_assets, true, true)
+    .then((_shares) => {
+      return _shares;
+    })
+    .catch((err) => {
+      console.log("handleConvertToShares-error", err);
+    });
+}
+
 function handleWithdraw() {
   State.update({
     pending: true,
@@ -587,7 +637,7 @@ function handleRepay() {
   State.update({
     pending: true,
   });
-  handleConvertToShares(parseUnits(amount, tokenDecimals)).then((_shares) => {
+  handleToBorrowShares(parseUnits(amount, tokenDecimals)).then((_shares) => {
     const contract = new ethers.Contract(
       data.POOL_MANAGER,
       [
