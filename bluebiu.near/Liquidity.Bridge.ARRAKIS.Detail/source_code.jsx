@@ -469,6 +469,7 @@ const handleDeposit = () => {
         amount: amount0,
         template: defaultDex,
         status: status,
+        add: 1,
         transactionHash,
         chain_id: props.chainId,
         extra_data: JSON.stringify({
@@ -674,6 +675,7 @@ const handleWithdraw = () => {
         amount: lpAmount,
         template: defaultDex,
         status: status,
+        add: 0,
         transactionHash,
         chain_id: state.chainId,
       });
