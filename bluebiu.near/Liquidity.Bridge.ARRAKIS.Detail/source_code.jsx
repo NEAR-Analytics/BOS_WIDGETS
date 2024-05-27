@@ -51,7 +51,7 @@ State.init({
   isToken1Approved: true,
   isToken0Approving: false,
   isToken1Approving: false,
-  isWithApprived: true,
+  isWithApprived: false,
   isWithApproving: false,
   loadingMsg: "",
   isPostTx: false,
@@ -102,6 +102,7 @@ const updateBalance = (token) => {
       const adjustedBalance = Big(
         ethers.utils.formatUnits(balanceBig, decimals)
       ).toFixed();
+      console.log('=adjustedBalance', adjustedBalance)
       State.update({
         balances: {
           ...state.balances,
@@ -457,7 +458,9 @@ const handleDeposit = () => {
       return tx.wait();
     })
     .then((receipt) => {
+      console.log('=receipt', receipt)
       const { status, transactionHash } = receipt;
+
       addAction?.({
         type: "Liquidity",
         action: "Deposit",
@@ -468,6 +471,10 @@ const handleDeposit = () => {
         status: status,
         transactionHash,
         chain_id: props.chainId,
+        extra_data: JSON.stringify({
+          amount0,
+          amount1,
+        })
       });
 
       State.update({
@@ -898,6 +905,7 @@ return (
                 </Column>
               </Row>
               <StyledButtonList>
+
                 {
                   isWithApprived && !isWithApproving ? (
                     <StyledButton
@@ -913,12 +921,19 @@ return (
                       )}
                     </StyledButton>
                   ) : (
-                    <StyledButton disabled={isWithApprived || isWithApproving} onClick={() => handleWithApprove()}>{
+                    <StyledButton disabled={isWithdrawInsufficient || isWithApprived || isWithApproving || !Big(Number(lpAmount)).gt(0)} onClick={() => handleWithApprove()}>{
                       isWithApproving ? (
                         <Widget src="bluebiu.near/widget/Liquidity.Bridge.Loading" />
                       ) : (
                         <>
-                          {isWithApprived ? "Approved" : "Approve"} {token0} - {token1}
+                          {
+                            isWithdrawInsufficient ? "InSufficient Balance" : (
+                              <>
+                                {isWithApprived ? "Approved" : "Approve"} {token0} - {token1}
+                              </>
+                            )
+                          }
+
                         </>
                       )}
                     </StyledButton>
