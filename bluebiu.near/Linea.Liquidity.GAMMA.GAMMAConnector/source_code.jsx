@@ -220,7 +220,6 @@ return (
             ...props,
             pair: activePair || defaultPair,
             refetch: postRefetch,
-            can_add_action: state.add_action,
             poolsData,
             addresses,
             pairs,
