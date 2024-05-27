@@ -8,6 +8,7 @@ const {
   dappLink,
   handler,
   from,
+  type,
   onSuccess,
   onOpenStakeModal,
 } = props;
@@ -88,7 +89,7 @@ return (
           <a
             className="button ghost"
             style={{ borderStyle: "dashed", lineHeight: "46px" }}
-            href={dappLink}
+            href={type === "V2" ? "https://app.thruster.finance/add" : dappLink}
             target="_blank"
           >
             + Create new position
