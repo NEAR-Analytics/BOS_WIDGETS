@@ -158,7 +158,7 @@ function handleGetLiquidity(i, users) {
         const amount = Big(Big(totalX).times(tokenX.priceUSD)).plus(Big(totalY).times(tokenY.priceUSD))
         liquidity = liquidity.plus(amount)
       }
-      dataList[i].liquidity = liquidity.toFixed(4)
+      dataList[i].liquidity = liquidity.toFixed()
       formatedData('getLiquidity')
     },
     (error) => {
