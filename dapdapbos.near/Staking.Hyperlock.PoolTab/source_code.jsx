@@ -9,6 +9,7 @@ const {
   handler,
   from,
   onSuccess,
+  onOpenStakeModal,
 } = props;
 
 const StyledContainer = styled.div`
@@ -53,7 +54,7 @@ return (
     {tokens?.map((token) => (
       <Widget
         src="dapdapbos.near/widget/Staking.Hyperlock.TokenCard"
-        key={token.id + Math.random()}
+        key={token.id}
         props={{
           price0,
           price1,
@@ -71,6 +72,8 @@ return (
             token.token1Amount || 0,
             token1.decimals
           ),
+          price: token.price,
+          balance: token.balance,
           onCardClick: () => {
             State.update({
               ...token,
@@ -96,10 +99,22 @@ return (
           disabled={state.loading || !state.id}
           onClick={() => {
             if (state.loading || !state.id) return;
+
+            if (state.type === "V2") {
+              onOpenStakeModal({
+                title: from === "stake" ? "Deposit" : "Withdraw",
+                token0,
+                token1,
+                price: state.price,
+                balance: state.balance,
+                id: state.id,
+                display: true,
+              });
+              return;
+            }
             State.update({
               loading: true,
             });
-
             handler({
               pool: {
                 id: state.id,
