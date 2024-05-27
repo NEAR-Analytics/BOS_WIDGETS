@@ -196,7 +196,7 @@ function getLiquidity() {
             token0,
             token1
           } = balance
-          dataList[i].liquidity = Big(ethers.utils.formatUnits(token0, data.decimals0)).times(prices[data.token0]).plus(Big(ethers.utils.formatUnits(token1, data.decimals1)).times(prices[data.token1])).toFixed(4)
+          dataList[i].liquidity = Big(ethers.utils.formatUnits(token0, data.decimals0)).times(prices[data.token0]).plus(Big(ethers.utils.formatUnits(token1, data.decimals1)).times(prices[data.token1])).toFixed()
         }
       }
       formatedData('getLiquidity')
