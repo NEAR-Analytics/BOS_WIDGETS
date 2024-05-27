@@ -169,7 +169,52 @@ const handleMax = (isToken0) => {
   if (isToken0) handleTokenChange(balances[token0], token0);
   else handleTokenChange(balances[token1], token1);
 };
-
+const handleGetMintAmount = (amount0Max, amount1Max, callback) => {
+  const abi = [{
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount0Max",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount1Max",
+        "type": "uint256"
+      }
+    ],
+    "name": "getMintAmounts",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount0",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount1",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "mintAmount",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }];
+  const contract = new ethers.Contract(
+    ethers.utils.getAddress(vaultAddress),
+    abi,
+    Ethers.provider()
+  );
+  contract
+    .getMintAmounts(amount0Max, amount1Max)
+    .then((response) => {
+      callback && callback(response[2])
+    })
+}
 const handleTokenChange = (amount, symbol) => {
   State.update({
     [symbol === token0 ? 'amount0' : 'amount1']: amount
@@ -244,10 +289,10 @@ const handleTokenChange = (amount, symbol) => {
       const amountX = ethers.utils.formatUnits(response[0], otherDecimals)
       const amountY = ethers.utils.formatUnits(response[1], otherDecimals)
       const otherAmount = symbol === token0 ? amountY : amountX
+      console.log('=mintAmount111', response[2])
       State.update({
         isLoading: false,
         [symbol === token0 ? 'amount1' : 'amount0']: otherAmount,
-        mintAmount: response[2]
       })
       checkApproval(amount, otherAmount, symbol);
     })
@@ -345,8 +390,6 @@ const handleDeposit = () => {
     isError: false,
     loadingMsg: "Depositing...",
   });
-
-
   const abi = [
     {
       "inputs": [
@@ -379,54 +422,66 @@ const handleDeposit = () => {
     abi,
     Ethers.provider().getSigner()
   );
-  contract
-    .mint(state.mintAmount)
-    .then((tx) => {
-      return tx.wait();
-    })
-    .then((receipt) => {
-      const { status, transactionHash } = receipt;
-      addAction?.({
-        type: "Liquidity",
-        action: "Deposit",
-        token0,
-        token1,
-        amount: amount0,
-        template: defaultDex,
-        status: status,
-        transactionHash,
-        chain_id: props.chainId,
-      });
+  handleGetMintAmount(
+    Big(amount0).mul(Big(10).pow(decimals0)).toFixed(0),
+    Big(amount1).mul(Big(10).pow(decimals1)).toFixed(0),
+    mintAmount => {
+      console.log('=mintAmount222', mintAmount)
+      contract
+        .mint(mintAmount)
+        .then((tx) => {
+          return tx.wait();
+        })
+        .then((receipt) => {
+          const { status, transactionHash } = receipt;
+          addAction?.({
+            type: "Liquidity",
+            action: "Deposit",
+            token0,
+            token1,
+            amount: amount0,
+            template: defaultDex,
+            status: status,
+            transactionHash,
+            chain_id: props.chainId,
+            extra_data: JSON.stringify({
+              amount0,
+              amount1,
+            })
+          });
 
-      State.update({
-        isLoading: false,
-        isPostTx: true,
-      });
+          State.update({
+            isLoading: false,
+            isPostTx: true,
+          });
 
-      setTimeout(() => State.update({ isPostTx: false }), 10_000);
+          setTimeout(() => State.update({ isPostTx: false }), 10_000);
 
-      if (refetch) refetch();
+          if (refetch) refetch();
 
-      toast?.dismiss(toastId);
-      toast?.success({
-        title: "Deposit Successfully!",
-      });
-    })
-    .catch((error) => {
-      console.log('=error', error)
-      State.update({
-        isError: true,
-        isLoading: false,
-        loadingMsg: error,
-      });
-      toast?.dismiss(toastId);
-      toast?.fail({
-        title: "Deposit Failed!",
-        text: error?.message?.includes("user rejected transaction")
-          ? "User rejected transaction"
-          : "",
-      });
-    });
+          toast?.dismiss(toastId);
+          toast?.success({
+            title: "Deposit Successfully!",
+          });
+        })
+        .catch((error) => {
+          console.log('=error', error)
+          State.update({
+            isError: true,
+            isLoading: false,
+            loadingMsg: error,
+          });
+          toast?.dismiss(toastId);
+          toast?.fail({
+            title: "Deposit Failed!",
+            text: error?.message?.includes("user rejected transaction")
+              ? "User rejected transaction"
+              : "",
+          });
+        });
+    }
+  )
+
 };
 
 const handleWithdraw = () => {
