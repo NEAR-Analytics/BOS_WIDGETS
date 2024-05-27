@@ -86,7 +86,7 @@ State.init({
   currentTab: "IN_WALLET",
 });
 
-const { pools, handler, fees, dappLink, onSuccess } = props;
+const { pools, handler, fees, dappLink, onSuccess, onOpenStakeModal } = props;
 
 const unstaked = props.unstaked || [];
 const staked = props.staked || [];
@@ -175,12 +175,14 @@ return (
                   item.token0.decimals
                 )
               );
+
               const _token1 = Big(
                 ethers.utils.formatUnits(
                   item.token1Amount || 0,
                   item.token1.decimals
                 )
               );
+
               return (
                 <Widget
                   key={item.id}
@@ -194,11 +196,26 @@ return (
                     price1: pool.token1.price,
                     token0: pool.token0,
                     token1: pool.token1,
+                    type: pool.type,
+                    balance: item.balance,
+                    price: item.price,
                     id: item.id,
                     fee: pool.fee,
                     active: false,
                     depositing: state[`deposit-${item.id}`],
                     onDeposit: () => {
+                      if (pool.type === "V2") {
+                        onOpenStakeModal({
+                          title: "Deposit",
+                          token0: pool.token0,
+                          token1: pool.token1,
+                          price: pool.price,
+                          balance: item.balance,
+                          id: item.id,
+                          display: true,
+                        });
+                        return;
+                      }
                       State.update({
                         [`deposit-${item.id}`]: true,
                       });
@@ -212,6 +229,8 @@ return (
                           token1: pool.token1,
                           price0: pool.token0.price,
                           price1: pool.token1.price,
+                          balance: item.balance,
+                          price: item.price,
                         },
                         method: "safeTransferFrom",
                         onSuccess: () => {
@@ -254,7 +273,8 @@ return (
 
               totalDeposit = totalDeposit
                 .add(_token0.mul(pool.token0.price || 0))
-                .add(_token1.mul(pool.token1.price || 0));
+                .add(_token1.mul(pool.token1.price || 0))
+                .add(Big(item.balance || 0).mul(item.price || 0));
 
               const _fee0 = Big(
                 ethers.utils.formatUnits(
@@ -292,6 +312,8 @@ return (
                     price1: pool.token1.price,
                     token0: pool.token0,
                     token1: pool.token1,
+                    balance: item.balance,
+                    price: item.price,
                     id: item.id,
                     fee: pool.fee,
                     active: false,
@@ -299,6 +321,7 @@ return (
                     withdrawing: state[`withdraw-${item.id}`],
                     feeAmount0: _fee0,
                     feeAmount1: _fee1,
+                    type: pool.type,
                     onClaim: () => {
                       State.update({
                         [`claim-${item.id}`]: true,
@@ -329,6 +352,18 @@ return (
                       });
                     },
                     onWithdraw: () => {
+                      if (pool.type === "V2") {
+                        onOpenStakeModal({
+                          title: "Withdraw",
+                          token0: pool.token0,
+                          token1: pool.token1,
+                          price: pool.price,
+                          balance: item.balance,
+                          id: item.id,
+                          display: true,
+                        });
+                        return;
+                      }
                       State.update({
                         [`withdraw-${item.id}`]: true,
                       });
