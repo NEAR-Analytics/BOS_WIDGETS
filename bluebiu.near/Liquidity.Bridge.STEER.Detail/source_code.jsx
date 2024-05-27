@@ -428,6 +428,7 @@ const handleDeposit = () => {
         transactionHash,
         chain_id: props.chainId,
         extra_data: JSON.stringify({
+          action: "Deposit",
           amount0,
           amount1,
         })
