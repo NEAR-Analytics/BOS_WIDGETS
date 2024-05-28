@@ -1,5 +1,6 @@
 const {
   pairs,
+  sender,
   addresses,
   allData,
   onLoad,
@@ -179,7 +180,6 @@ function getLiquidity() {
 }
 function getBalance() {
   const calls = [];
-  const sender = Ethers.send("eth_requestAccounts", [])[0];
   dataList.forEach(data => {
     calls.push({
       address: ethers.utils.getAddress(data.initialData.id),
