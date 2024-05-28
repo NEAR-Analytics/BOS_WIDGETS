@@ -104,6 +104,35 @@ const List = styled.div`
   }
 `;
 
+const BtnWrap = styled.div`
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+`;
+const Btn = styled.button`
+  background-color: var(--switch-color);
+  color: var(--button-text-color);
+
+  display: block;
+  width: 100%;
+  /* width: 130px;
+  height: 40px; */
+  height: 56px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  background-color: #075a5a;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.5s;
+  &:hover {
+    opacity: 0.8;
+  }
+  &:disabled {
+    opacity: 0.5;
+  }
+`;
+
 const {
   dexConfig,
   wethAddress,
@@ -119,10 +148,11 @@ const {
   tab,
   StakeTokens,
   ExchangeToken,
+  onChange,
 } = props;
 const { parseUnits, formatUnits } = ethers.utils;
 console.log("Content--", props);
-
+const { tokenPairs } = dexConfig;
 State.init({
   stakeAmount: "",
   curToken: "", // token symbol
@@ -130,6 +160,7 @@ State.init({
   options: [],
 
   tokenBal: 0,
+  showDialog: false,
 });
 
 useEffect(() => {
@@ -262,8 +293,21 @@ useEffect(() => {
     });
   }
 }, [tab]);
-// console.log(state.curToken, prices[state.curToken]);
 
+function handleTabChange() {
+  // const curTab = tab === "Stake" ? "Unstake" : "Stake";
+  // onChange(curTab);
+}
+function handleOpenWrap() {
+  State.update({
+    showDialog: true,
+  });
+}
+function handleCloseWrap() {
+  State.update({
+    showDialog: false,
+  });
+}
 return (
   <div>
     <StyledContainer>
@@ -286,129 +330,134 @@ return (
             <div className="amount">{state.APY}%</div>
           </SummaryItem>
         </Summary>
-        {(tab === "Unstake" || tab === "Stake") && (
-          <Content>
-            <BlurWrap>
-              {chainId !== 1 && (tab === "Unstake" || tab === "Withdraw") ? (
-                <Blur></Blur>
-              ) : null}
 
-              <Panel>
-                <div className="title">
-                  {tab === "Unstake" ? "Withdraw rsETH as" : tab}
-                </div>
-                <div className="body">
-                  <Input
-                    type="text"
-                    placeholder="0"
-                    value={state.stakeAmount}
-                    onChange={(ev) => {
-                      if (isNaN(Number(ev.target.value))) return;
-                      let amount = ev.target.value.replace(/\s+/g, "");
+        <Content>
+          <BlurWrap>
+            {chainId !== 1 && (tab === "Unstake" || tab === "Withdraw") ? (
+              <Blur></Blur>
+            ) : null}
 
-                      if (Big(amount || 0).gt(Big(state.tokenBal || 0))) {
-                        amount = Big(state.tokenBal || 0).toFixed(4, 0);
-                      }
+            <Panel>
+              <div className="title">
+                {tab === "Unstake" ? "Withdraw rsETH as" : tab}
+              </div>
+              <div className="body">
+                <Input
+                  type="text"
+                  placeholder="0"
+                  value={state.stakeAmount}
+                  onChange={(ev) => {
+                    if (isNaN(Number(ev.target.value))) return;
+                    let amount = ev.target.value.replace(/\s+/g, "");
+
+                    if (Big(amount || 0).gt(Big(state.tokenBal || 0))) {
+                      amount = Big(state.tokenBal || 0).toFixed(4, 0);
+                    }
+                    State.update({
+                      stakeAmount: amount,
+                    });
+                  }}
+                />
+                <Widget
+                  src="bluebiu.near/widget/UI.Select.Index"
+                  props={{
+                    options: state.options,
+                    value: state.options.find(
+                      (obj) => obj.value === state.curToken
+                    ),
+                    onChange: (option) => {
+                      console.log("onchange--", option);
                       State.update({
-                        stakeAmount: amount,
+                        curToken: option.value,
                       });
-                    }}
-                  />
-                  <Widget
-                    src="bluebiu.near/widget/UI.Select.Index"
-                    props={{
-                      options: state.options,
-                      value: state.options.find(
-                        (obj) => obj.value === state.curToken
-                      ),
-                      onChange: (option) => {
-                        console.log("onchange--", option);
-                        State.update({
-                          curToken: option.value,
-                        });
-                      },
-                    }}
-                  />
-                </div>
-                <div className="foot">
-                  <div class="prices">
-                    $
-                    {Big(state.stakeAmount || 0)
-                      .times(Big(prices[state.curToken] || 1))
-                      .toFixed(2, 0)}
-                  </div>
-                  <div class="balance">
-                    Balance:
-                    <Widget
-                      src="bluebiu.near/widget/Staking.Kelp.Balance"
-                      props={{
-                        value: state.tokenBal,
-                        digit: 4,
-                        onClick: clickBalance,
-                        symbol:
-                          tab === "Stake"
-                            ? state.curToken
-                            : ExchangeToken.symbol,
-                      }}
-                    />
-                  </div>
-                </div>
-              </Panel>
-              <List>
-                <span className="keys">You will get</span>
-                <span className="values">
+                    },
+                  }}
+                />
+              </div>
+              <div className="foot">
+                <div class="prices">
+                  $
                   {Big(state.stakeAmount || 0)
-                    .div(state.exchangeRate || 1)
-                    .toFixed(4, 0)}{" "}
-                  {tab === "Stake" ? ExchangeToken.symbol : state.curToken}
-                </span>
-              </List>
-              <List>
-                <span className="keys">Exchange rate</span>
-                <span className="values">
-                  1 {ExchangeToken?.symbol} ={" "}
-                  {Big(state.exchangeRate || 0).toFixed(4, 0)}{" "}
-                  {tab === "Stake" ? ExchangeToken.symbol : state.curToken}
-                </span>
-              </List>
-            </BlurWrap>
-            <Widget
-              src="bluebiu.near/widget/Staking.Kelp.Button"
-              props={{
-                ...props,
-                actionText: tab,
-                amount: state.stakeAmount,
-                curToken: state.curToken,
-                stakeToken: StakeTokens
-                  ? StakeTokens.find((item) => item.symbol === state.curToken)
-                  : {},
-                onSuccess: () => {
-                  State.update({ loading: true, stakeAmount: "" });
-                },
-              }}
-            />
-          </Content>
-        )}
-        {tab === "Withdraw" && <div>null</div>}
+                    .times(Big(prices[state.curToken] || 1))
+                    .toFixed(2, 0)}
+                </div>
+                <div class="balance">
+                  Balance:
+                  <Widget
+                    src="bluebiu.near/widget/Staking.Kelp.Balance"
+                    props={{
+                      value: state.tokenBal,
+                      digit: 4,
+                      onClick: clickBalance,
+                      symbol:
+                        tab === "Stake" ? state.curToken : ExchangeToken.symbol,
+                    }}
+                  />
+                </div>
+              </div>
+            </Panel>
+            <List>
+              <span className="keys">You will get</span>
+              <span className="values">
+                {Big(state.stakeAmount || 0)
+                  .div(state.exchangeRate || 1)
+                  .toFixed(4, 0)}{" "}
+                {tab === "Stake" ? ExchangeToken.symbol : state.curToken}
+              </span>
+            </List>
+            <List>
+              <span className="keys">Exchange rate</span>
+              <span className="values">
+                1 {ExchangeToken?.symbol} ={" "}
+                {Big(state.exchangeRate || 0).toFixed(4, 0)}{" "}
+                {tab === "Stake" ? ExchangeToken.symbol : state.curToken}
+              </span>
+            </List>
+          </BlurWrap>
+          <Widget
+            src="bluebiu.near/widget/Staking.Kelp.Button"
+            props={{
+              ...props,
+              actionText: tab,
+              amount: state.stakeAmount,
+              curToken: state.curToken,
+              stakeToken: StakeTokens
+                ? StakeTokens.find((item) => item.symbol === state.curToken)
+                : {},
+              onSuccess: () => {
+                State.update({ loading: true, stakeAmount: "" });
+              },
+            }}
+          />
+
+          <BtnWrap>
+            <Btn onClick={handleOpenWrap}>Wrap</Btn>
+            {/* <Btn onClick={handleTabChange}>
+              {tab === "Stake" ? "Stake" : "Unstake"}
+            </Btn> */}
+          </BtnWrap>
+        </Content>
+
+        {/* {tab === "Withdraw" && <div>null</div>} */}
       </Wrapper>
 
       {/* {state.loading && <Widget src="bluebiu.near/widget/Lending.Spinner" />} */}
+      {state.showDialog && (
+        <Widget
+          src={"bluebiu.near/widget/Wrap.Index"}
+          props={{
+            account,
+            toast,
+            chainId,
+            addAction,
+            SYMBOL_ADDRESS,
+            tokenPairs,
+            onCloseWrap: handleCloseWrap,
+            multicall,
+            multicallAddress,
+          }}
+        />
+      )}
     </StyledContainer>
-
-    {/* <Widget
-      src={dexConfig.data}
-      props={{
-        ...props,
-        update: state.loading,
-        onLoad: (data) => {
-          console.log("onLoad--", data);
-          State.update({
-            loading: false,
-            timestamp: Date.now(),
-            ...data,
-          });
-        },
-      }}
-    /> */}
   </div>
 );
