@@ -109,10 +109,10 @@ const Theme = state.theme;
 
 const featured = [
   {
-    widgetSrc: "syi216.near/widget/Ejemplo-API-Pokemon",
+    widgetSrc: "syi216.near/widget/PruebaComponenteVara",
     accountId: "syi216.near",
-    widgetName: "Ejemplo-API-Pokemon",
-    alt: "Ejemplo-API-Pokemon",
+    widgetName: "Interaccion basica Vara",
+    alt: "Interaccion basica Vara",
   },
 ];
 
