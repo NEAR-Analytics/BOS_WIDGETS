@@ -1,5 +1,6 @@
 const {
   pairs,
+  sender,
   addresses,
   onLoad,
   curChain,
@@ -131,7 +132,6 @@ function getDataList() {
   formatedData('getDataList')
 }
 function getMyBalance() {
-  const sender = Ethers.send("eth_requestAccounts", [])[0];
   const abi = [{
     "inputs": [
       {
