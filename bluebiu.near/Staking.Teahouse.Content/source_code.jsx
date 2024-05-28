@@ -200,28 +200,27 @@ const columnList = [
     width: "15%",
     direction: "column",
     key: "liquidity",
-    label: "Your Assets",
+    label: "Your Shares",
     type: "slot",
     render: (data, index) => {
-      // const userPositions = state.userPositions;
-      // const userBalance =
-      //   userPositions && addresses[data.id] in userPositions
-      //     ? userPositions[addresses[data.id]].balanceUSD
-      //     : undefined;
-
       return (
-        <>
-          {/* <TdTxt>
-            {Big(userBalance ?? 0).gt(0) ? `${formatFiat(userBalance)}` : "-"}
+        <div>
+          <TdTxt>
+            {data.token0Value > 0 || data.token1Value > 0
+              ? `${Big(data.token0Value || 0)
+                  .plus(data.token1Value || 0)
+                  .toFixed(2)} $`
+              : ""}
+
+            {/* {Big(userBalance ?? 0).gt(0) ? `${formatFiat(userBalance)}` : "-"} */}
           </TdTxt>
-          {Big(data?.liquidity ?? 0).gt(0) && (
+          {Big(data?.shares ?? 0).gt(0) && (
             <TdTxt className="gray">
-              {Big(data?.liquidity ?? 0).lt(0.01)
+              {Big(data?.shares ?? 0).lt(0.01)
                 ? "<0.01"
-                : Big(data.liquidity).toFixed(2)}{" "}
-              LP
+                : Big(data?.shares).toFixed(4)}
             </TdTxt>
-          )} */}
+          )}
           <SvgIcon
             className={[
               "icon-right",
@@ -230,7 +229,7 @@ const columnList = [
           >
             {IconRight}
           </SvgIcon>
-        </>
+        </div>
       );
     },
   },
