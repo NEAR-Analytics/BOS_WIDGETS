@@ -30,6 +30,7 @@ const IconRight = (
 )
 const {
   toast,
+  account,
   isDapps,
   CHAIN_LIST,
   multicallAddress,
@@ -60,8 +61,8 @@ const formatPercent = (value) => {
   })}%`;
 };
 
-const sender = Ethers.send("eth_requestAccounts", [])[0];
-if (!sender || !isChainSupported) {
+const sender = account;
+if (!sender || !isChainSupported && !isDapps) {
   return (
     <Widget
       src="bluebiu.near/widget/Swap.ChainWarnigBox"
@@ -325,6 +326,7 @@ return state.loading ? <Widget src="bluebiu.near/widget/0vix.LendingSpinner" /> 
         src={"bluebiu.near/widget/Liquidity.Data.Gamma"}
         props={{
           pairs,
+          sender,
           addresses,
           allData: state.allData,
           prices,
@@ -376,7 +378,7 @@ return state.loading ? <Widget src="bluebiu.near/widget/0vix.LendingSpinner" /> 
         ICON_VAULT_MAP,
       }}
     />
-    {!isChainSupported && !isDapps && (
+    {/* {!isChainSupported && !isDapps && (
       <Widget
         src="bluebiu.near/widget/Swap.ChainWarnigBox"
         props={{
@@ -386,6 +388,6 @@ return state.loading ? <Widget src="bluebiu.near/widget/0vix.LendingSpinner" /> 
           theme: dexConfig.theme?.button,
         }}
       />
-    )}
+    )} */}
   </Column>
 )
