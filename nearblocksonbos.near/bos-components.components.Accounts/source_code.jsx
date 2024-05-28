@@ -469,6 +469,7 @@ function MainComponent(props) {
   const [ft, setFT] = useState({} );
   const [isLocked, setIsLocked] = useState(false);
   const [isContractLoading, setIsContractLoading] = useState(false);
+  const [isAccountLoading, setIsAccountLoading] = useState(false);
   const [schema, setSchema] = useState({} );
   const [contractInfo, setContractInfo] = useState(
     {} ,
@@ -603,6 +604,7 @@ function MainComponent(props) {
     }
 
     function viewAccount(address) {
+      setIsAccountLoading(true);
       asyncFetch(`${config?.rpcUrl}`, {
         method: 'POST',
         body: JSON.stringify({
@@ -624,12 +626,21 @@ function MainComponent(props) {
 
 
 
+
+
 ) => {
             const resp = res?.body?.result;
-            setAccountView(resp);
+            if (res.status === 200 && resp) {
+              setAccountView(resp);
+              setIsAccountLoading(false);
+            } else if (res?.status === 200 && res?.body?.error) {
+              setIsAccountLoading(false);
+            }
           },
         )
-        .catch(() => {});
+        .catch(() => {
+          setIsAccountLoading(false);
+        });
     }
 
     function loadSchema() {
@@ -984,7 +995,8 @@ function MainComponent(props) {
     <>
       {accountView !== null &&
         accountView?.block_hash === undefined &&
-        accountData?.deleted?.transaction_hash && (
+        accountData?.deleted?.transaction_hash &&
+        !isAccountLoading && (
           <>
             <div className="block lg:flex lg:space-x-2">
               <div className="w-full ">
@@ -1167,7 +1179,10 @@ function MainComponent(props) {
                     </div>
                   ) : (
                     <div className="w-full mb-2 md:mb-0">
-                      {accountData?.deleted?.transaction_hash
+                      {accountView !== null &&
+                      accountView?.block_hash === undefined &&
+                      accountData?.deleted?.transaction_hash &&
+                      !isAccountLoading
                         ? 'Deleted At:'
                         : 'Created At:'}
                     </div>
@@ -1178,7 +1193,10 @@ function MainComponent(props) {
                     </div>
                   ) : (
                     <div className="w-full break-words xl:mt-0 mt-2">
-                      {accountData?.deleted?.transaction_hash
+                      {accountView !== null &&
+                      accountView?.block_hash === undefined &&
+                      accountData?.deleted?.transaction_hash &&
+                      !isAccountLoading
                         ? convertToUTC(
                             nanoToMilli(accountData.deleted.block_timestamp),
                             false,
