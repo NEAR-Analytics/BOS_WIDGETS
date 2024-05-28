@@ -367,15 +367,15 @@ function MainComponent({
         <button onClick={() => handleRowClick(row.index || 0)}>
           <ArrowDown
             className={`${
-              row.isExpanded ? 'rotate-180' : 'rotate-0'
+              expanded.includes(row.index || 0) ? 'rotate-180' : 'rotate-0'
             } dark:text-neargray-10`}
           />
         </button>
       ),
       tdClassName:
-        'pl-4 py-2 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
+        'pl-4 py-2 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10 w-20',
       thClassName:
-        'pl-4 py-2 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider ',
+        'pl-4 py-2 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider w-20',
     },
     {
       header: <span>Location</span>,
@@ -408,9 +408,9 @@ function MainComponent({
           </div>
         ),
       tdClassName:
-        'pl-2 py-2 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
+        'pl-2 py-2 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10 w-24',
       thClassName:
-        'pl-2 py-2 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider',
+        'pl-2 py-2 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider w-24',
     },
     {
       header: <span>Status</span>,
@@ -425,9 +425,9 @@ function MainComponent({
         </div>
       ),
       tdClassName:
-        'px-4 py-2 whitespace-nowrap text-xs text-nearblue-600 dark:text-neargray-10',
+        'px-4 py-2 whitespace-nowrap text-xs text-nearblue-600 dark:text-neargray-10 w-20',
       thClassName:
-        'px-4 py-2 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider',
+        'px-4 py-2 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider w-20',
     },
     {
       header: <span>VALIDATOR</span>,
@@ -468,9 +468,10 @@ function MainComponent({
           </OverlayTrigger>
         </>
       ),
-      tdClassName: 'px-4 py-2 text-sm text-nearblue-600 dark:text-neargray-10',
+      tdClassName:
+        'px-4 py-2 text-sm text-nearblue-600 dark:text-neargray-10 w-60',
       thClassName:
-        'px-4 py-2 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider',
+        'px-4 py-2 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider w-60',
     },
     {
       header: <span>FEE</span>,
@@ -487,9 +488,9 @@ function MainComponent({
         </div>
       ),
       tdClassName:
-        'px-4 py-2 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
+        'px-4 py-2 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10 w-24',
       thClassName:
-        'px-4 py-2 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider',
+        'px-4 py-2 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider w-24',
     },
 
     {
@@ -506,9 +507,9 @@ function MainComponent({
         );
       },
       tdClassName:
-        'px-4 py-2 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
+        'px-4 py-2 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10 w-40',
       thClassName:
-        'px-4 py-2 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider',
+        'px-4 py-2 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider w-40',
     },
     {
       header: <span>TOTAL STAKE</span>,
@@ -814,7 +815,7 @@ function MainComponent({
             <>
               <td
                 colSpan={2}
-                className="bg-gray-50 dark:bg-black-600 pl-8 pt-2 pb-4 align-top max-w-[180px]"
+                className="bg-gray-50 dark:bg-black-600 pl-8 pt-2 pb-4 align-top"
               >
                 <div className="flex flex-wrap text-xs text-left font-semibold text-nearblue-600 dark:text-neargray-10 tracking-wider py-2">
                   <div className="flex uppercase">Name</div>
