@@ -653,9 +653,12 @@ const handleWithdraw = () => {
       });
 
       setTimeout(() => State.update({ isPostTx: false }), 10_000);
-
-      if (refetch) refetch();
-
+      if (refetch) {
+        setTimeout(() => {
+          refetch();
+        }, 1500)
+      }
+      
       toast?.dismiss(toastId);
       toast?.success({
         title: "Withdraw Successfully!",
