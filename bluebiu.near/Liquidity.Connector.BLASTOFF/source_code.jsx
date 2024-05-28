@@ -324,6 +324,7 @@ const StyledUnstakeButton = styled.div`
 `
 const {
   toast,
+  account,
   chainId,
   CHAIN_LIST,
   multicallAddress,
@@ -336,7 +337,7 @@ const {
   connectProps,
   prices,
 } = props
-const sender = Ethers.send("eth_requestAccounts", [])[0];
+const sender = account;
 if (!sender || !isChainSupported) {
   return (
     <Widget
