@@ -455,11 +455,11 @@ const handleDeposit = () => {
     abi,
     Ethers.provider().getSigner()
   );
+  const targetAmount = props.chainId === 56 ? '340282366920938463463374607431768211455' : '1157920892373161954235709850086879078532699846656405'
   handleGetMintAmount(
     Big(amount0).mul(Big(10).pow(decimals0)).toFixed(0),
-    Big(amount1).mul(Big(10).pow(decimals1)).toFixed(0),
+    targetAmount,
     mintAmount => {
-      console.log('=mintAmount222', mintAmount)
       contract
         .mint(mintAmount)
         .then((tx) => {
