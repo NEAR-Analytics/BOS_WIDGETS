@@ -1,5 +1,6 @@
 const {
   pairs,
+  sender,
   addresses,
   allData,
   onLoad,
@@ -279,7 +280,7 @@ function getLiquidity() {
           for (let i = 0; i < dataList.length; i++) {
             const data = dataList[i]
             const [total0, total1] = secondResult[i]
-            const priceLp = Big(Big(total0).times(prices[data.token0]).plus(Big(total1).times(prices[data.token0]))).div(firstResult[i]).toString()
+            const priceLp = Big(Big(ethers.utils.formatUnits(total0, 18)).times(prices[data.token0]).plus(Big(ethers.utils.formatUnits(total1, 18)).times(prices[data.token1]))).div(ethers.utils.formatUnits(firstResult[i][0], 18)).toFixed()
             const amountLp = data.balance
             dataList[i].liquidity = Big(priceLp).times(amountLp).toFixed()
           }
@@ -297,7 +298,6 @@ function getLiquidity() {
 }
 function getBalance() {
   const calls = [];
-  const sender = Ethers.send("eth_requestAccounts", [])[0];
   dataList.forEach(data => {
     calls.push({
       address: ethers.utils.getAddress(addresses[data.id]),
