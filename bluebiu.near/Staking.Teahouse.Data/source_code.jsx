@@ -16,6 +16,25 @@ const { formatUnits, parseUnits } = ethers.utils;
 
 const ABI = [
   {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "balanceOf",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "totalSupply",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
@@ -41,11 +60,12 @@ useEffect(() => {
   let _pairsDataRes = {};
   let _totalSupplyRes = [];
   let _underlyingAssetsRes = [];
+  let _userPositionsRes = [];
 
   function formatData(params) {
     console.log(params, count);
 
-    if (count < 3) return;
+    if (count < 4) return;
     count = 0;
 
     for (let i = 0; i < pairs.length; i++) {
@@ -56,6 +76,7 @@ useEffect(() => {
       let token1TVL = Big(token1.tvl).times(token1.shareTokenPrice);
       let _apr = 0;
       let _aum = 0;
+
       if (token0TVL.gt(token1TVL)) {
         _apr = token0.shareTokenApr;
         let _token0 = pairs[i].token0;
@@ -71,13 +92,51 @@ useEffect(() => {
           .times(prices[_token1] || 0)
           .toString();
       }
+
+      if (
+        pairs[i].id === "USDC-USDT-Oku" ||
+        pairs[i].id === "USDC-USDT-PancakeSwap" ||
+        pairs[i].id === "USDC-WETH-PancakeSwap"
+      ) {
+        _apr = token0.shareTokenApr;
+      }
+
       pairs[i].APR = Big(_apr).div(10000).toFixed(2, 0);
       pairs[i].AUM = _aum;
 
-      pairs[i].totalSupply = _totalSupplyRes[i][0].toString();
+      let _totalSupply = _totalSupplyRes[i][0].toString();
+      let _totalAmount0 = _underlyingAssetsRes[i][0].toString();
+      let _totalAmount1 = _underlyingAssetsRes[i][1].toString();
+      let _shares = _userPositionsRes[i]
+        ? formatUnits(_userPositionsRes[i][0])
+        : 0;
+      pairs[i].totalSupply = _totalSupply;
+      pairs[i].totalAmount0 = _totalAmount0;
+      pairs[i].totalAmount1 = _totalAmount1;
+      pairs[i].shares = _shares;
 
-      pairs[i].totalAmount0 = _underlyingAssetsRes[i][0].toString();
-      pairs[i].totalAmount1 = _underlyingAssetsRes[i][1].toString();
+      // pairs[i].shares = _userPositionsRes[i]
+      //   ? formatUnits(_userPositionsRes[i][0])
+      //   : 0;
+      if (_userPositionsRes[i]) {
+        let _token0Amount = Big(_shares)
+          .times(_totalAmount0)
+          .div(_totalSupply)
+          .toString();
+        let _token1Amount = Big(_shares)
+          .times(_totalAmount1)
+          .div(_totalSupply)
+          .toString();
+        pairs[i].token0Amount = _token0Amount;
+        pairs[i].token1Amount = _token1Amount;
+
+        pairs[i].token0Value = Big(_token0Amount)
+          .times(prices[token0] || 0)
+          .toString();
+        pairs[i].token1Value = Big(_token1Amount)
+          .times(prices[token0] || 0)
+          .toString();
+      }
     }
 
     onLoad({
@@ -103,23 +162,25 @@ useEffect(() => {
         formatData("getPairsData");
       });
   }
-  function fetchPosition(vaultAddress) {
-    return asyncFetch(
-      `https://vault-api.teahouse.finance/vaults/permissionless/position/${chainId}/${vaultAddress}/${account}`
-    )
-      .then((res) => {
-        return res;
-      })
-      .catch((err) => {
-        console.log("fetchPosition-error--", err);
-      });
-  }
-  function getUserPositions() {
-    const calls = pairs.map((item) => fetchPosition(item.vaultAddress));
 
-    Promise.all(calls)
+  function getUserPositions() {
+    const calls = pairs.map((item) => ({
+      address: item.vaultAddress,
+      name: "balanceOf",
+      params: [account],
+    }));
+    multicall({
+      abi: ABI,
+      calls,
+      options: {},
+      multicallAddress,
+      provider: Ethers.provider(),
+    })
       .then((res) => {
         console.log("getUserPositions--", res);
+        _userPositionsRes = res;
+        count++;
+        formatData("getUserPositions");
       })
       .catch((err) => {
         console.log("getUserPositions-error--", err);
@@ -175,5 +236,5 @@ useEffect(() => {
   getPairsData();
   getTotalSupply();
   getAllUnderlyingAssets();
-  //   getUserPositions();
+  getUserPositions();
 }, [account, update]);
