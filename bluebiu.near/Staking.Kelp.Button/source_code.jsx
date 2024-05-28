@@ -182,7 +182,7 @@ if (actionText === "Unstake" || actionText === "Withdraw") {
 if (!amount) {
   return (
     <Button disabled={true} className={actionText.toLowerCase()}>
-      Enter An Amount
+      Stake
     </Button>
   );
 }
