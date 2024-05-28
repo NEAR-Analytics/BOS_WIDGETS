@@ -6,6 +6,10 @@ const ipfsPrefix = "https://ipfs.near.social/ipfs";
 const landingUrl = "https://neatprotocol.ai";
 const partnerProgramUrl = "https://forms.gle/4M3fvw3LPiJSyffcA";
 const nrc20DocHost = "https://docs.nrc-20.io/";
+const SEC_OF_MS = 1000;
+const MIN_OF_MS = 60 * SEC_OF_MS;
+const HOUR_OF_MS = 60 * MIN_OF_MS;
+const DAY_OF_MS = HOUR_OF_MS * 24;
 function toLocaleString(source, decimals, rm) {
   if (typeof source === "string") {
     return toLocaleString(Number(source), decimals);
@@ -77,6 +81,12 @@ function getConfig(network) {
         minMintEvents: 1_000_000,
         minHolders: 1_000,
         neatDecimals: 8,
+        nearDecimals: 24,
+        stakingContractName: "neat-staking.near",
+        wNearTokenId: "wrap.near",
+        refContractId: "v2.ref-finance.near",
+        neatPoolId: 4243,
+        firstFarmStartTimeUTC: "2024-06-03T00:00Z",
       };
     case "testnet":
       return {
@@ -103,6 +113,12 @@ function getConfig(network) {
         minMintEvents: 10,
         minHolders: 5,
         neatDecimals: 8,
+        nearDecimals: 24,
+        stakingContractName: "neat-staking.testnet",
+        wNearTokenId: "wrap.testnet",
+        refContractId: "exchange.ref-dev.testnet",
+        neatPoolId: 728,
+        firstFarmStartTimeUTC: "2024-06-03T08:00Z",
       };
     default:
       throw Error(`Unconfigured environment '${network}'.`);
@@ -115,6 +131,8 @@ const tx = {
   args: config.args,
   gas: GasPerTransaction,
 };
+
+const RPS_MULTIPLIER = 1e24;
 
 function ftWrapperAddress(tick) {
   return tick.toLowerCase() + "." + config.ftWrapperFactory;
