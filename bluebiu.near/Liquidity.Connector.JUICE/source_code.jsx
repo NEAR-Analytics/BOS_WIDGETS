@@ -50,6 +50,7 @@ const StyledCategory = styled.div`
 `
 const {
   toast,
+  account,
   prices,
   chainId,
   multicall,
@@ -64,8 +65,8 @@ const {
   switchingChain
 } = props
 
-const sender = Ethers.send("eth_requestAccounts", [])[0];
-if (!sender || !isChainSupported) {
+const sender = account;
+if (!account || !isChainSupported) {
   return (
     <Widget
       src="bluebiu.near/widget/Swap.ChainWarnigBox"
