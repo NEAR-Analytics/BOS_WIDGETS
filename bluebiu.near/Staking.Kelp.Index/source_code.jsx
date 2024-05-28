@@ -281,6 +281,11 @@ return (
           ...props,
           tab: state.tab,
           ...state,
+          onChange: (tab) => {
+            State.update({
+              tab: tab.key,
+            });
+          },
         }}
       />
     )}
