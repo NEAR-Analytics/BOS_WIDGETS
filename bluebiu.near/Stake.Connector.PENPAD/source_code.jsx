@@ -153,9 +153,10 @@ const StyledPenpadButton = styled.button`
     opacity: 0.3;
   }
 `
-const sender = Ethers.send("eth_requestAccounts", [])[0];
+const sender = account;
 const {
   toast,
+  account,
   prices,
   chainId,
   dexConfig,
