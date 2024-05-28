@@ -6,6 +6,10 @@ const ipfsPrefix = "https://ipfs.near.social/ipfs";
 const landingUrl = "https://neatprotocol.ai";
 const partnerProgramUrl = "https://forms.gle/4M3fvw3LPiJSyffcA";
 const nrc20DocHost = "https://docs.nrc-20.io/";
+const SEC_OF_MS = 1000;
+const MIN_OF_MS = 60 * SEC_OF_MS;
+const HOUR_OF_MS = 60 * MIN_OF_MS;
+const DAY_OF_MS = HOUR_OF_MS * 24;
 function toLocaleString(source, decimals, rm) {
   if (typeof source === "string") {
     return toLocaleString(Number(source), decimals);
@@ -77,6 +81,12 @@ function getConfig(network) {
         minMintEvents: 1_000_000,
         minHolders: 1_000,
         neatDecimals: 8,
+        nearDecimals: 24,
+        stakingContractName: "neat-staking.near",
+        wNearTokenId: "wrap.near",
+        refContractId: "v2.ref-finance.near",
+        neatPoolId: 4243,
+        firstFarmStartTimeUTC: "2024-06-03T00:00Z",
       };
     case "testnet":
       return {
@@ -103,6 +113,12 @@ function getConfig(network) {
         minMintEvents: 10,
         minHolders: 5,
         neatDecimals: 8,
+        nearDecimals: 24,
+        stakingContractName: "neat-staking.testnet",
+        wNearTokenId: "wrap.testnet",
+        refContractId: "exchange.ref-dev.testnet",
+        neatPoolId: 728,
+        firstFarmStartTimeUTC: "2024-06-03T08:00Z",
       };
     default:
       throw Error(`Unconfigured environment '${network}'.`);
@@ -115,6 +131,8 @@ const tx = {
   args: config.args,
   gas: GasPerTransaction,
 };
+
+const RPS_MULTIPLIER = 1e24;
 
 function ftWrapperAddress(tick) {
   return tick.toLowerCase() + "." + config.ftWrapperFactory;
@@ -405,13 +423,310 @@ function getWrappedFtBalance() {
 
 function getNrc20TotalSupply() {
   if (!state.nep141TotalSupply || !state.tokenInfo?.maxSupply) return undefined;
-  return Big(state.tokenInfo.maxSupply)
-    .minus(state.nep141TotalSupply)
-    .toFixed();
+  return Big(state.tokenInfo.maxSupply).sub(state.nep141TotalSupply).toFixed();
 }
 
 function getNep141TotalSupply() {
   return Near.asyncView(config.ftWrapper, "ft_total_supply");
+}
+
+// type UserReward = {
+//   farmId: string;
+//   status: FarmStatus;
+//   rewardTokenId: string;
+//   amount: string;
+// };
+
+// type FarmStatus = 'NotStarted' | 'Pending' | 'Ended' | 'Closed';
+
+// type RewardsInfo = {
+//   user_id: string;
+//   user_seeds: string;
+//   total_seeds: string;
+//   farm_infos: FarmInfo[];
+// };
+
+// type FarmInfo = {
+//   farm_id: string;
+//   reward_token_id: string;
+//   total_rewards: string;
+//   start_at: number;
+//   end_at: number;
+//   last_distributed_at: number;
+//   rps: string;
+//   status: FarmStatus;
+
+//   user_unclaimed_rewards: string;
+//   user_rps: string;
+// };
+
+/**
+ * @param {number} timestamp
+ * @param {RewardsInfo} info1
+ * @returns UserReward[]
+ */
+function estimateUserRewards(
+  timestamp,
+  { user_seeds, total_seeds, farm_infos }
+) {
+  const result = [];
+
+  for (const farmInfo of farm_infos) {
+    if (farmInfo.status === "NotStarted" || farmInfo.status === "Closed") {
+      result.push({
+        farmId: farmInfo.farm_id,
+        status: farmInfo.status,
+        rewardTokenId: farmInfo.reward_token_id,
+        amount: farmInfo.user_unclaimed_rewards,
+      });
+    } else if (farmInfo.status === "Pending" || farmInfo.status === "Ended") {
+      if (timestamp < farmInfo.last_distributed_at) {
+        throw Error("Invalid timestamp");
+      }
+
+      const totalDuration = farmInfo.end_at - farmInfo.start_at;
+      const rewardsEndTime = Math.min(farmInfo.end_at, timestamp);
+      let duration = rewardsEndTime - farmInfo.last_distributed_at;
+
+      if (farmInfo.rps_frozen) {
+        duration = 0;
+      }
+
+      const rewards = Big(
+        Big(farmInfo.total_rewards)
+          .mul(duration)
+          .div(totalDuration)
+          .toFixed(0, Big.roundDown)
+      );
+
+      const rps = Big(
+        rewards.mul(RPS_MULTIPLIER).div(total_seeds).toFixed(0, Big.roundDown)
+      );
+
+      const newRps = rps.add(farmInfo.rps);
+
+      const userRewards = newRps
+        .sub(farmInfo.user_rps)
+        .mul(user_seeds)
+        .div(RPS_MULTIPLIER)
+        .toFixed(0, Big.roundDown);
+
+      const newUserRewards = Big(userRewards).add(
+        farmInfo.user_unclaimed_rewards
+      );
+
+      result.push({
+        farmId: farmInfo.farm_id,
+        status: farmInfo.status,
+        rewardTokenId: farmInfo.reward_token_id,
+        amount: newUserRewards,
+      });
+    } else {
+      throw Error(`Unexpected farm status: ${farmInfo.status}`);
+    }
+  }
+
+  return result;
+}
+
+// type PoolInfo = {
+//   token_account_ids: string[];
+//   amounts: string[];
+// }
+
+// type Farm = {
+//   reward_token_id: string;
+//   total_rewards: string;
+//   start_at: number;
+//   end_at: number;
+// };
+
+/**
+ * getNeatPriceInNear
+ * @param {string} contractId
+ * @param {number} poolId
+ * @param {number} neatDecimals
+ * @returns Promise<Big>
+ */
+function getNeatPriceInNear(contractId, poolId, neatDecimals) {
+  return Near.asyncView(contractId, "get_pool", { pool_id: poolId }).then(
+    (pool) =>
+      Big(pool.amounts[0]).div(pool.amounts[1]).mul(Big(10).pow(neatDecimals))
+  );
+}
+
+/**
+ * calcFarmApr
+ * @param {Farm} wnearFarm
+ * @param {Big} totalStakedNeat
+ * @param {Big} neatPriceInNear
+ * @param {number} neatDecimals
+ * @returns void
+ */
+function calcFarmApr(
+  wnearFarm,
+  totalStakedNeat,
+  neatPriceInNear,
+  neatDecimals
+) {
+  const equivalentTotalStakedNear = totalStakedNeat
+    .mul(neatPriceInNear)
+    .div(Big(10).pow(neatDecimals));
+  if (equivalentTotalStakedNear.eq(0)) {
+    return Big(0);
+  }
+  return Big(wnearFarm.total_rewards)
+    .mul(365 * 86400 * 1000)
+    .div(wnearFarm.end_at - wnearFarm.start_at)
+    .div(equivalentTotalStakedNear);
+}
+
+function fetchReleasedAmount() {
+  const accountId = props.accountId || context.accountId;
+  Near.asyncView(config.stakingContractName, "get_released_seed_of", {
+    user_id: accountId,
+  })
+    .then((releasedAmountRaw) => {
+      State.update({ releasedAmountRaw });
+      return formatAmount(releasedAmountRaw, config.neatDecimals);
+    })
+    .then((releasedAmount) => State.update({ releasedAmount }));
+}
+
+function fetchUserRewards() {
+  const accountId = props.accountId || context.accountId;
+  Near.asyncView(config.stakingContractName, "get_user_rewards_info", {
+    user_id: accountId,
+  }).then((rewardsInfo) => {
+    const userRewards = estimateUserRewards(Date.now(), rewardsInfo);
+    State.update({
+      userRewards,
+      userRewardsPositive: userRewards.filter((userReward) =>
+        Big(userReward.amount).gt(0)
+      ),
+    });
+    const rewardsSum = userRewards
+      .filter((reward) => reward.rewardTokenId === config.wNearTokenId)
+      .reduce((prev, cur) => {
+        return prev.add(cur.amount);
+      }, Big(0));
+    const claimableRewards = toLocaleString(
+      Big(rewardsSum).div(Big(10).pow(config.nearDecimals)).toFixed(),
+      4
+    );
+    State.update({ claimableRewards });
+  });
+}
+
+function fetchStakingData() {
+  const accountId = props.accountId || context.accountId;
+  // Near.asyncView(config.stakingContractName, "get_total_unstaked_seeds").then(
+  //   (unstakedSeeds) => {
+  //     State.update({ unstakedSeeds });
+  //   }
+  // );
+  Near.asyncView(config.stakingContractName, "get_total_seeds").then(
+    (totalSeeds) => {
+      State.update({ totalSeeds });
+    }
+  );
+  if (state.totalSeeds) {
+    State.update({
+      neatTvl: formatAmount(state.totalSeeds, config.neatDecimals),
+    });
+  }
+
+  Near.asyncView(config.stakingContractName, "get_seed_of", {
+    user_id: accountId,
+  })
+    .then((stakedNeatAmountRaw) => {
+      State.update({ stakedNeatAmountRaw });
+      return formatAmount(stakedNeatAmountRaw, config.neatDecimals);
+    })
+    .then((stakedNeatAmount) => {
+      State.update({ stakedNeatAmount });
+    });
+
+  Near.asyncView(config.stakingContractName, "get_unstaked_seed_of", {
+    user_id: accountId,
+  })
+    .then((userUnstakedSeedRaw) => {
+      State.update({ userUnstakedSeedRaw });
+      return formatAmount(userUnstakedSeedRaw, config.neatDecimals);
+    })
+    .then((userUnstakedSeed) => {
+      State.update({ userUnstakedSeed });
+    });
+
+  Near.asyncView(
+    config.stakingContractName,
+    "get_pending_unstake_end_time_of",
+    {
+      user_id: accountId,
+    }
+  ).then((end_timestamp) => {
+    const end_date = new Date(end_timestamp);
+    State.update({
+      unstakeFinishedTime: `${end_date.getFullYear()}/${String(
+        end_date.getMonth() + 1
+      ).padStart(2, "0")}/${String(end_date.getDate()).padStart(
+        2,
+        "0"
+      )} ${String(end_date.getHours()).padStart(2, "0")}:${String(
+        end_date.getMinutes()
+      ).padStart(2, "0")}`,
+    });
+    const interval = end_timestamp - Date.now();
+    const day = Math.floor(interval / DAY_OF_MS);
+    const hour = Math.floor((interval - day * DAY_OF_MS) / HOUR_OF_MS);
+    if (interval <= 0) {
+      State.update({
+        unstakeRemainingTime: `~0d 0h`,
+      });
+    } else {
+      State.update({
+        unstakeRemainingTime: `~${day}d ${hour}h`,
+      });
+    }
+  });
+
+  if (!state.neatPriceInNear) {
+    getNeatPriceInNear(
+      config.refContractId,
+      config.neatPoolId,
+      config.neatDecimals
+    ).then((neatPriceInNear) => State.update({ neatPriceInNear }));
+  }
+
+  if (!state.openFarms) {
+    Near.asyncView(config.stakingContractName, "get_open_farms").then(
+      (openFarms) => State.update({ openFarms })
+    );
+  }
+
+  if (
+    state.totalSeeds &&
+    state.openFarms &&
+    state.neatPriceInNear &&
+    state.openFarmsApr == "-"
+  ) {
+    const openFarmsApr = state.openFarms
+      .filter(
+        (openFarm) =>
+          openFarm.reward_token_id === config.wNearTokenId &&
+          openFarm.status === "Pending"
+      )
+      .reduce((prev, cur) => {
+        const apr = calcFarmApr(
+          cur,
+          Big(state.totalSeeds),
+          state.neatPriceInNear,
+          config.neatDecimals
+        );
+        return prev.add(apr);
+      }, Big(0));
+    State.update({ openFarmsApr: openFarmsApr.times(100).toFixed(2) + "%" });
+  }
 }
 
 State.init({
@@ -456,6 +771,16 @@ State.init({
   balances: undefined,
   // wrap, unwrap component
   wrapTab: "wrap",
+  // stake, unstake component
+  stakeTab: "stake",
+  // stake component
+  neatTvl: "-",
+  stakedNeatAmount: "-",
+  userUnstakedSeed: "-",
+  unstakeRemainingTime: "-",
+  claimableRewards: "-",
+  openFarmsApr: "-",
+  releasedAmount: "-",
 });
 
 function fetchAllData() {
