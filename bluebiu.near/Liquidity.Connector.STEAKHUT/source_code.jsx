@@ -30,6 +30,7 @@ const IconRight = (
 )
 const {
   toast,
+  account,
   CHAIN_LIST,
   multicallAddress,
   dexConfig,
@@ -59,7 +60,7 @@ const formatPercent = (value) => {
   })}%`;
 };
 
-const sender = Ethers.send("eth_requestAccounts", [])[0];
+const sender = account;
 if (!sender || !isChainSupported) {
   return (
     <Widget
@@ -250,6 +251,7 @@ return state.loading ? <Widget src="bluebiu.near/widget/0vix.LendingSpinner" /> 
         src={"bluebiu.near/widget/Liquidity.Data.STEAKHUT"}
         props={{
           pairs,
+          sender,
           addresses,
           allData: state.allData,
           prices,
