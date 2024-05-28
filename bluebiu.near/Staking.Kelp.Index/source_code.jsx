@@ -8,6 +8,38 @@ const StyledHeader = styled.div`
   align-items: center;
   justify-content: space-between;
 `;
+
+const BridgeWrap = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 15px auto 0;
+  padding: 0 18px;
+  gap: 15px;
+  width: 478px;
+  height: 70px;
+  border-radius: 16px;
+  background: rgba(97, 223, 255, 0.15);
+  cursor: pointer;
+  .bridge-icon {
+    width: 26px;
+    height: 26px;
+  }
+  .bridge-body {
+    flex-grow: 1;
+    color: #61dfff;
+  }
+  .bridge-title {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .bridge-des {
+    font-size: 14px;
+    font-weight: 400;
+  }
+  .bridge-arrow {
+  }
+`;
+
 const networks = {
   // Linea
   59144: {
@@ -115,6 +147,7 @@ const {
   nativeCurrency,
   isChainSupported,
   account,
+  windowOpen,
 } = props;
 const { type } = dexConfig;
 const SUPPOR_CHAINS = [...CHAIN_LIST?.map((item) => item.chain_id), 1];
@@ -241,7 +274,9 @@ const tabsArray = [
   { key: "Unstake", label: "Unstake" },
   // { key: "Withdraw", label: "Withdraw" },//TODO
 ];
-
+const handleBridge = () => {
+  windowOpen("bridge-x/stargate", "_blank");
+};
 return (
   <StyledContainer style={dexConfig.theme}>
     <StyledHeader>
@@ -275,19 +310,45 @@ return (
     {state.loading ? (
       <Widget src="bluebiu.near/widget/Lending.Spinner" />
     ) : (
-      <Widget
-        src="bluebiu.near/widget/Staking.Kelp.Content"
-        props={{
-          ...props,
-          tab: state.tab,
-          ...state,
-          onChange: (tab) => {
-            State.update({
-              tab: tab.key,
-            });
-          },
-        }}
-      />
+      <>
+        <Widget
+          src="bluebiu.near/widget/Staking.Kelp.Content"
+          props={{
+            ...props,
+            tab: state.tab,
+            ...state,
+            onChange: (tab) => {
+              State.update({
+                tab: tab.key,
+              });
+            },
+          }}
+        />
+        <BridgeWrap onClick={handleBridge}>
+          <img src={curChain?.logo} className="bridge-icon" />
+          <div className="bridge-body">
+            <div className="bridge-title">Native {curChain?.name} Bridge</div>
+            <div className="bridge-des">
+              Deposit tokens to the {curChain?.name} network
+            </div>
+          </div>
+          <span className="bridge-arrow">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="7"
+              height="12"
+              viewBox="0 0 7 12"
+              fill="none"
+            >
+              <path
+                d="M1.00055 11L5.00055 6L1.00055 1"
+                stroke="#61DFFF"
+                stroke-width="2"
+              />
+            </svg>
+          </span>
+        </BridgeWrap>
+      </>
     )}
 
     {!state.isSupport && (
