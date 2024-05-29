@@ -124,8 +124,9 @@ const networks = {
     },
   },
 };
+const STORED_TAB = Storage.privateGet("STORED_TAB");
 State.init({
-  tab: "Stake",
+  tab: STORED_TAB || "Stake",
   chainId: -1,
   loading: true,
   isSupport: false,
@@ -272,11 +273,12 @@ useEffect(() => {
 const tabsArray = [
   { key: "Stake", label: "Stake" },
   { key: "Unstake", label: "Unstake" },
-  // { key: "Withdraw", label: "Withdraw" },//TODO
+  // { key: "Withdraw", label: "Withdraw" },
 ];
 const handleBridge = () => {
   windowOpen("bridge-x/stargate", "_blank");
 };
+
 return (
   <StyledContainer style={dexConfig.theme}>
     <StyledHeader>
@@ -286,6 +288,7 @@ return (
           tabs: tabsArray,
           active: state.tab,
           onChange: (tab) => {
+            Storage.privateSet("STORED_TAB", tab.key);
             State.update({
               tab: tab.key,
             });
@@ -324,7 +327,7 @@ return (
             },
           }}
         />
-        <BridgeWrap onClick={handleBridge}>
+        {/* <BridgeWrap onClick={handleBridge}>
           <img src={curChain?.logo} className="bridge-icon" />
           <div className="bridge-body">
             <div className="bridge-title">Native {curChain?.name} Bridge</div>
@@ -347,7 +350,7 @@ return (
               />
             </svg>
           </span>
-        </BridgeWrap>
+        </BridgeWrap> */}
       </>
     )}
 
