@@ -126,6 +126,7 @@ const Button = styled.button`
 `;
 
 const {
+  tab,
   account,
   actionText,
   amount,
@@ -163,7 +164,7 @@ if (actionText === "Unstake") {
   spender = WithdrawalContract;
 }
 
-// console.log(tokenSymbol, tokenDecimals, spender, amount);
+// console.log(tokenSymbol, tokenAddr, tokenDecimals, spender, amount);
 
 if (!actionText) return;
 const ethChainId = 1;
@@ -182,7 +183,7 @@ if (actionText === "Unstake" || actionText === "Withdraw") {
 if (!amount || !Number(amount)) {
   return (
     <Button disabled={true} className={actionText.toLowerCase()}>
-      Stake
+      {tab === "Stake" ? "Stake" : "Unstake"}
     </Button>
   );
 }
@@ -220,7 +221,7 @@ function getAllowance() {
     });
 }
 useEffect(() => {
-  if (["Stake"].includes(actionText) && !stakeToken.isNative) {
+  if (["Stake", "Unstake"].includes(actionText) && !stakeToken.isNative) {
     getAllowance();
   } else {
     State.update({
