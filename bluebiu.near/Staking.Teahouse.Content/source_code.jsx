@@ -83,19 +83,7 @@ if (!account || !isChainSupported) {
   );
 }
 
-const { pairs, addresses, proxyAddress, ICON_VAULT_MAP } = dexConfig;
-// function fetchAllData() {
-//   // State.update({
-//   //   loading: true,
-//   // });
-//   asyncFetch(ALL_DATA_URL).then((res) => {
-//     if (!res.ok) return;
-//     // State.update({
-
-//     //   // loading: false,
-//     // });
-//   });
-// }
+const { pairs, addresses, ICON_VAULT_MAP } = dexConfig;
 
 function handleChangeDataIndex(index) {
   state.dataIndex === index
