@@ -1,7 +1,7 @@
 const {
   account,
   curChain,
-  bridgeCb,
+  windowOpen,
   theme,
   dexConfig,
   isChainSupported,
@@ -97,28 +97,24 @@ return (
           onSwitchChain: props.onSwitchChain,
         }}
       />
-      {
-        ![5000, 169, 534352].includes(curChain.chain_id) && (
-          <BridgeBanner
-            onClick={() => {
-              if (!isChainSupported) return;
-              if (bridgeCb) bridgeCb();
-            }}
-            style={theme?.bridge ? theme.bridge : {}}
-          >
-            <div className="bridge-text ">
-              <img className="icon" src={curChain.logo} />
+      <BridgeBanner
+        onClick={() => {
+          if (!isChainSupported) return;
+          if (windowOpen) windowOpen("/super-bridge", "_blank");
+        }}
+        style={theme?.bridge ? theme.bridge : {}}
+      >
+        <div className="bridge-text">
+          <img className="icon" src={curChain.logo} />
 
-              <div className="text-wrapper">
-                <div className="text-l">{curChain.name} Chain token bridge</div>
-                <div className="text-m">{`Deposit tokens to the ${curChain.name} network`}</div>
-              </div>
-            </div>
+          <div className="text-wrapper">
+            <div className="text-l">{curChain.name} Chain token bridge</div>
+            <div className="text-m">{`Deposit tokens to the ${curChain.name} network`}</div>
+          </div>
+        </div>
 
-            {ArrowRight}
-          </BridgeBanner>
-        )
-      }
+        {ArrowRight}
+      </BridgeBanner>
       {!isChainSupported && (
         <Widget
           src="bluebiu.near/widget/Swap.ChainWarnigBox"
