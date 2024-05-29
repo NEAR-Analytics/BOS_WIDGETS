@@ -194,6 +194,7 @@ function getExchangeRate(symbol) {
     })
     .catch((err) => {
       console.log("Catch - getExchangeRate--", err);
+      setTimeout(getExchangeRate, 500);
     });
 }
 function fetchData(url) {
@@ -208,6 +209,7 @@ function getAPY() {
       });
     })
     .catch((err) => {
+      setTimeout(getAPY, 500);
       console.log("Catch-getAPY--", err);
     });
 }
@@ -308,6 +310,7 @@ function handleCloseWrap() {
     showDialog: false,
   });
 }
+console.log("state--", state);
 return (
   <div>
     <StyledContainer>
@@ -409,8 +412,8 @@ return (
               <span className="keys">Exchange rate</span>
               <span className="values">
                 1 {ExchangeToken?.symbol} ={" "}
-                {Big(state.exchangeRate || 0).toFixed(4, 0)}{" "}
-                {tab === "Stake" ? ExchangeToken.symbol : state.curToken}
+                {Big(state.exchangeRate || 0).toFixed(4, 0)} {state.curToken}
+                {/* {tab === "Stake" ? ExchangeToken.symbol : state.curToken} */}
               </span>
             </List>
           </BlurWrap>
@@ -431,7 +434,10 @@ return (
           />
 
           <BtnWrap>
-            <Btn onClick={handleOpenWrap}>Wrap</Btn>
+            {[59144, 34443].includes(chainId) && (
+              <Btn onClick={handleOpenWrap}>Wrap</Btn>
+            )}
+
             {/* <Btn onClick={handleTabChange}>
               {tab === "Stake" ? "Stake" : "Unstake"}
             </Btn> */}
