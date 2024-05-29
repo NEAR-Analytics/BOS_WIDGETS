@@ -25,9 +25,8 @@ const config = {
           feedName: "Guide",
           name: "Guide",
           icon: "bi-map",
-          //mdPath: "https://raw.githubusercontent.com/NEARBuilders/gateway/main/resources.md",
           mdPath:
-            "https://raw.githubusercontent.com/Harmonic-Guild/trials.near/main/README.md",
+            "https://raw.githubusercontent.com/Harmonic-Guild/trials.near/main/docs.md",
         },
         default: "true",
       },
