@@ -396,9 +396,7 @@ function handleRefresh() {
   handleQueryBalances()
 }
 function handleMax() {
-  console.log('====')
   const amount = state.categoryIndex === 0 ? state.balances["ETH"] : state.balances["WETH"]
-  console.log('=amount', amount)
   handleAmountChange(amount)
 }
 useEffect(() => {
