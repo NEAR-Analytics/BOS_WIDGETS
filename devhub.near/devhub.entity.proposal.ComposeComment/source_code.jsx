@@ -151,10 +151,9 @@ function composeData() {
     notifications.push({
       key: notifyAccountId,
       value: {
-        type: "proposal/reply",
+        type: "devhub/reply",
         item,
         proposal: proposalId,
-        widgetAccountId: "devhub.near",
       },
     });
   }
