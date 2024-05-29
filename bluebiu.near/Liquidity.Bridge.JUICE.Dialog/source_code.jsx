@@ -104,6 +104,7 @@ const StyledWrapOrUnwrapInputTopBalance = styled.div`
   font-weight: 400;
   line-height: normal;
   span {
+    cursor: pointer;
     color: #FFF;
     text-decoration-line: underline;
   }
@@ -394,6 +395,12 @@ function handleUnwrap() {
 function handleRefresh() {
   handleQueryBalances()
 }
+function handleMax() {
+  console.log('====')
+  const amount = state.categoryIndex === 0 ? state.balances["ETH"] : state.balances["WETH"]
+  console.log('=amount', amount)
+  handleAmountChange(amount)
+}
 useEffect(() => {
   handleRefresh()
 }, [])
@@ -429,7 +436,7 @@ return (
               <StyledWrapOrUnwrapInputTop>
                 <StyledWrapOrUnwrapInputTopType>Deposit</StyledWrapOrUnwrapInputTopType>
                 <StyledWrapOrUnwrapInputTopBalance>
-                  Balance: <span>{state.balances["ETH"]}</span>
+                  Balance: <span onClick={handleMax}>{state.balances["ETH"]}</span>
                 </StyledWrapOrUnwrapInputTopBalance>
               </StyledWrapOrUnwrapInputTop>
               <StyledWrapOrUnwrapInputBottom>
@@ -460,7 +467,7 @@ return (
               <StyledWrapOrUnwrapInputTop>
                 <StyledWrapOrUnwrapInputTopType>Deposit</StyledWrapOrUnwrapInputTopType>
                 <StyledWrapOrUnwrapInputTopBalance>
-                  Balance: <span>{state.balances["WETH"]}</span>
+                  Balance: <span onClick={handleMax}>{state.balances["WETH"]}</span>
                 </StyledWrapOrUnwrapInputTopBalance>
               </StyledWrapOrUnwrapInputTop>
               <StyledWrapOrUnwrapInputBottom>
