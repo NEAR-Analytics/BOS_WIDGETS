@@ -1,9 +1,6 @@
 const { Card } =
   VM.require("thomasguntenaar.near/widget/devhub.entity.addon.blogv2.Card") ||
   (() => <></>);
-const { Page } =
-  VM.require("thomasguntenaar.near/widget/devhub.entity.addon.blogv2.Page") ||
-  (() => <></>);
 const { href } = VM.require("thomasguntenaar.near/widget/core.lib.url") || (() => {});
 
 const categories = [
@@ -178,6 +175,7 @@ const {
   allBlogs: allBlogsOfThisInstance,
   communityAddonId,
   setSelectedItemChanged,
+  addonParameters,
 } = props;
 
 const allBlogKeys =
@@ -514,15 +512,20 @@ function Preview() {
     }
     case "page": {
       return (
-        <Page
-          data={{
-            title,
-            subtitle,
-            description,
-            publishedAt: date,
-            content,
-            author,
-            category,
+        <Widget
+          src="thomasguntenaar.near/widget/devhub.entity.addon.blogv2.Page"
+          props={{
+            data: {
+              title,
+              subtitle,
+              description,
+              publishedAt: date,
+              content,
+              author,
+              category,
+              community: handle,
+              communityAddonId,
+            },
             community: handle,
           }}
         />
@@ -534,14 +537,20 @@ function Preview() {
 }
 
 const tabs = [
-  { name: "Edit", value: "edit" },
-  { name: "Preview Card", value: "card" },
-  { name: "Preview Page", value: "page" },
+  { name: "Edit", value: "edit", testId: "edit-blog-toggle" },
+  { name: "Preview Card", value: "card", testId: "preview-card-blog-toggle" },
+  { name: "Preview Page", value: "page", testId: "preview-page-blog-toggle" },
 ];
 
 return (
   <Container>
     <div className="flex flex-wrap-reverse gap-1 justify-between w-100 mb-4">
+      <div
+        className="flex cursor-pointer align-items-center justify-content-center gap-1 px-4"
+        onClick={onCancel}
+      >
+        <i class="bi bi-arrow-left"></i>
+      </div>
       <div className="sm:hidden grow rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
         <label
           htmlFor="tabs"
@@ -572,6 +581,7 @@ return (
           {tabs.map((tab) => {
             return (
               <a
+                data-testid={tab.testId}
                 key={tab.name}
                 onClick={() => setPreviewMode(tab.value)}
                 className={`${
@@ -602,7 +612,6 @@ return (
                     page: "blogv2",
                     id: initialData.id,
                     community: handle,
-                    communityAddonId,
                   },
                 })}
                 target="_blank"
@@ -639,6 +648,7 @@ return (
               setDate,
               content,
               setContent,
+              addonParameters,
             }}
           />
           {/* Show delete button */}
@@ -682,12 +692,12 @@ return (
                 />
               </>
             ) : null}
-            <div className="flex gap-x-3">
+            <div className="flex gap-x-3 align-items-center">
               <Widget
                 src={`thomasguntenaar.near/widget/devhub.components.molecule.Button`}
                 props={{
                   classNames: {
-                    root: "d-flex h-100 text-muted fw-bold btn-outline shadow-none border-0 btn-sm",
+                    root: "d-flex  text-muted fw-bold btn-outline shadow-none border-0 btn-sm",
                   },
                   label: "Cancel",
                   onClick: onCancel,
