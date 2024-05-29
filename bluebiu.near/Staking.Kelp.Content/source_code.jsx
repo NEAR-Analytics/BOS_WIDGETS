@@ -151,7 +151,7 @@ const {
   onChange,
 } = props;
 const { parseUnits, formatUnits } = ethers.utils;
-console.log("Content--", props);
+// console.log("Content--", props);
 const { tokenPairs } = dexConfig;
 State.init({
   stakeAmount: "",
@@ -310,7 +310,7 @@ function handleCloseWrap() {
     showDialog: false,
   });
 }
-console.log("state--", state);
+
 return (
   <div>
     <StyledContainer>
