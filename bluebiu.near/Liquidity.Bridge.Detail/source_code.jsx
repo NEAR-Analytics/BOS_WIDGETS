@@ -177,63 +177,53 @@ const {
 
 const detailLoading = Object.keys(balances).length < 2 && lpBalance === ""
 
-const checkApproval = (token0Amount, token1Amount) => {
-  const token0Wei = ethers.utils.parseUnits(
-    Big(token0Amount).toFixed(decimals0),
-    decimals0
+const handleCheckApproval = (symbol, amount, decimals) => {
+  const wei = ethers.utils.parseUnits(
+    Big(amount).toFixed(decimals),
+    decimals
   );
-  const token1Wei = ethers.utils.parseUnits(
-    Big(token1Amount).toFixed(decimals1),
-    decimals1
-  );
-
   const abi = [
     "function allowance(address, address) external view returns (uint256)",
   ];
 
-  const token0Contract = new ethers.Contract(
-    addresses[token0],
+  const contract = new ethers.Contract(
+    addresses[symbol],
     abi,
     Ethers.provider()
   );
+  console.log('=addresses[symbol]', addresses[symbol], '=sender', sender, '=vaultAddress', vaultAddress)
 
-  token0Contract
+  contract
     .allowance(sender, vaultAddress)
-    .then((allowance0) => {
+    .then((allowance) => {
       State.update({
-        isToken0Approved: !new Big(allowance0.toString()).lt(token0Wei),
+        [symbol === token0 ? 'isToken0Approved' : 'isToken1Approved']: !new Big(allowance.toString()).lt(wei),
       });
     })
     .catch((e) => console.log(e));
+}
+const checkApproval = (amount, otherAmount, symbol) => {
+  const otherSymbol = symbol === token0 ? token1 : token0
+  const decimals = symbol === token0 ? decimals0 : decimals1
+  const otherDecimals = symbol === token0 ? decimals1 : decimals0
 
-  const token1Contract = new ethers.Contract(
-    addresses[token1],
-    abi,
-    Ethers.provider()
-  );
-
-  token1Contract
-    .allowance(sender, vaultAddress)
-    .then((allowance1) => {
-      State.update({
-        isToken1Approved: !new Big(allowance1.toString()).lt(token1Wei),
-      });
-    })
-    .catch((e) => console.log(e));
+  handleCheckApproval(symbol, amount, decimals)
+  handleCheckApproval(otherSymbol, otherAmount, otherDecimals)
 };
 const changeMode = (isDeposit) => {
   State.update({ isDeposit });
 };
 
 const handleMax = (isToken0) => {
-  if (isToken0) handleToken0Change(balances[token0]);
-  else handleToken1Change(balances[token1]);
+  if (isToken0) handleTokenChange(balances[token0], token0);
+  else handleTokenChange(balances[token1], token1);
 };
-const handleToken0Change = (amount) => {
-  State.update({ amount0: amount });
+
+const handleTokenChange = (amount, symbol, callback) => {
+  State.update({ [symbol === token0 ? 'amount0' : 'amount1']: amount });
   if (Number(amount) === 0) {
     State.update({
-      amount1: "",
+      [symbol === token0 ? 'amount1' : 'amount0']: "",
       isToken0Approved: true,
       isToken1Approved: true,
     });
@@ -245,58 +235,12 @@ const handleToken0Change = (amount) => {
     isError: false,
     loadingMsg: "Computing deposit amount...",
   });
-  const token0Wei = ethers.utils.parseUnits(
-    Big(amount).toFixed(decimals0),
-    decimals0
-  );
+  const decimals = (symbol === token0 ? decimals0 : decimals1)
+  const otherDecimals = symbol === token0 ? decimals1 : decimals0
 
-  const proxyAbi = [
-    "function getDepositAmount(address, address, uint256) public view returns (uint256, uint256)",
-  ];
-  const proxyContract = new ethers.Contract(
-    proxyAddress,
-    proxyAbi,
-    Ethers.provider()
-  );
-  proxyContract
-    .getDepositAmount(vaultAddress, addresses[token0], token0Wei)
-    .then((depositAmount) => {
-      const amount1 = getFromDepositAmount(depositAmount, decimals1);
-
-      State.update({ amount1 });
-      State.update({ isLoading: false });
-      checkApproval(amount, amount1);
-    })
-    .catch((e) => {
-      State.update({
-        isLoading: true,
-        isError: true,
-        amount1: 0,
-        loadingMsg: "Something went wrong. Please try again.",
-      });
-    });
-};
-
-const handleToken1Change = (amount) => {
-  State.update({ amount1: amount });
-
-  if (Number(amount) === 0) {
-    State.update({
-      amount0: "",
-      isToken0Approved: true,
-      isToken1Approved: true,
-    });
-    return;
-  }
-
-  State.update({
-    isLoading: true,
-    isError: false,
-    loadingMsg: "Computing deposit amount...",
-  });
-  const token1Wei = ethers.utils.parseUnits(
-    Big(amount).toFixed(decimals1),
-    decimals1
+  const tokenWei = ethers.utils.parseUnits(
+    Big(amount).toFixed(decimals),
+    decimals
   );
 
   const proxyAbi = [
@@ -309,22 +253,29 @@ const handleToken1Change = (amount) => {
   );
 
   proxyContract
-    .getDepositAmount(vaultAddress, addresses[token1], token1Wei)
+    .getDepositAmount(vaultAddress, addresses[symbol], tokenWei)
     .then((depositAmount) => {
-      const amount0 = getFromDepositAmount(depositAmount, decimals0);
-      State.update({ amount0 });
-      State.update({ isLoading: false });
-      checkApproval(amount0, amount);
+      const otherAmount = getFromDepositAmount(depositAmount, otherDecimals);
+      console.log('=depositAmount', depositAmount, '=otherAmount', otherAmount)
+      State.update({
+        [symbol === token0 ? 'amount1' : 'amount0']: otherAmount,
+        isLoading: false
+      });
+      if (callback) {
+        callback(amount, otherAmount)
+      } else {
+        checkApproval(amount, otherAmount, symbol);
+      }
     })
     .catch((e) => {
       State.update({
         isLoading: true,
         isError: true,
-        amount0: 0,
         loadingMsg: "Something went wrong. Please try again.",
       });
     });
 };
+
 
 const handleLPChange = (amount) => {
   State.update({
@@ -409,80 +360,84 @@ const handleDeposit = () => {
     loadingMsg: "Depositing...",
   });
 
-  const token0Wei = ethers.utils.parseUnits(
-    Big(amount0).toFixed(decimals0),
-    decimals0
-  );
-  const token1Wei = ethers.utils.parseUnits(
-    Big(amount1).toFixed(decimals1),
-    decimals1
-  );
+  handleTokenChange(amount0, token0, (amount, otherAmount) => {
+    const tokenWei = ethers.utils.parseUnits(
+      Big(amount).toFixed(decimals0),
+      decimals0
+    );
+    const otherTokenWei = ethers.utils.parseUnits(
+      Big(otherAmount).toFixed(decimals1),
+      decimals1
+    );
+    const proxyAbi = [
+      "function deposit(uint256, uint256,address,address,uint256[4] memory)  external returns (uint256)",
+    ];
+    const proxyContract = new ethers.Contract(
+      proxyAddress,
+      proxyAbi,
+      Ethers.provider().getSigner()
+    );
+    proxyContract
+      .deposit(tokenWei, otherTokenWei, sender, ethers.utils.getAddress(vaultAddress), [0, 0, 0, 0])
+      .then((tx) => {
+        return tx.wait();
+      })
+      .then((receipt) => {
+        const { status, transactionHash } = receipt;
 
-  const proxyAbi = [
-    "function deposit(uint256, uint256,address,address,uint256[4] memory)  external returns (uint256)",
-  ];
-
-  const proxyContract = new ethers.Contract(
-    proxyAddress,
-    proxyAbi,
-    Ethers.provider().getSigner()
-  );
-  proxyContract
-    .deposit(token0Wei, token1Wei, sender, ethers.utils.getAddress(vaultAddress), [0, 0, 0, 0])
-    .then((tx) => {
-      return tx.wait();
-    })
-    .then((receipt) => {
-      const { status, transactionHash } = receipt;
-
-      addAction?.({
-        type: "Liquidity",
-        action: "Deposit",
-        token0,
-        token1,
-        amount: amount0,
-        template: defaultDex,
-        status: status,
-        add: 1,
-        transactionHash,
-        chain_id: props.chainId,
-        extra_data: JSON.stringify({
+        addAction?.({
+          type: "Liquidity",
           action: "Deposit",
-          amount0,
-          amount1,
-        })
-      });
+          token0,
+          token1,
+          amount: amount0,
+          template: defaultDex,
+          status: status,
+          add: 1,
+          transactionHash,
+          chain_id: props.chainId,
+          extra_data: JSON.stringify({
+            action: "Deposit",
+            amount0,
+            amount1,
+          })
+        });
 
-      State.update({
-        isLoading: false,
-        isPostTx: true,
-      });
+        State.update({
+          isLoading: false,
+          isPostTx: true,
+        });
 
-      setTimeout(() => State.update({ isPostTx: false }), 10_000);
+        setTimeout(() => State.update({ isPostTx: false }), 10_000);
 
-      const { refetch } = props;
-      if (refetch) refetch();
+        const { refetch } = props;
+        if (refetch) {
+          setTimeout(() => {
+            refetch()
+          }, 3000)
+        }
 
-      toast?.dismiss(toastId);
-      toast?.success({
-        title: "Deposit Successfully!",
+        toast?.dismiss(toastId);
+        toast?.success({
+          title: "Deposit Successfully!",
+        });
+      })
+      .catch((error) => {
+        console.log('error: ', error)
+        State.update({
+          isError: true,
+          isLoading: false,
+          loadingMsg: error,
+        });
+        toast?.dismiss(toastId);
+        toast?.fail({
+          title: "Deposit Failed!",
+          text: error?.message?.includes("user rejected transaction")
+            ? "User rejected transaction"
+            : error?.message ?? "",
+        });
       });
-    })
-    .catch((error) => {
-      console.log('error: ', error)
-      State.update({
-        isError: true,
-        isLoading: false,
-        loadingMsg: error,
-      });
-      toast?.dismiss(toastId);
-      toast?.fail({
-        title: "Deposit Failed!",
-        text: error?.message?.includes("user rejected transaction")
-          ? "User rejected transaction"
-          : error?.message ?? "",
-      });
-    });
+  })
 };
 
 const handleWithdraw = () => {
@@ -535,7 +490,11 @@ const handleWithdraw = () => {
       setTimeout(() => State.update({ isPostTx: false }), 10_000);
 
       const { refetch } = props;
-      if (refetch) refetch();
+      if (refetch) {
+        setTimeout(() => {
+          refetch();
+        }, 3000)
+      }
 
       toast?.dismiss(toastId);
       toast?.success({
@@ -604,7 +563,7 @@ const onChangeSlider = (percent) => {
 
 useEffect(() => {
   if (amount0) {
-    handleToken0Change(amount0);
+    handleTokenChange(amount0, token0);
   }
 }, [data]);
 return (
@@ -630,7 +589,7 @@ return (
               <Row className="price-input">
                 <Column>
                   <InputWrap className={Number(amount0) > Number(balances[token0]) ? "inSufficient" : ""}>
-                    <Input value={amount0} type="number" onChange={(e) => handleToken0Change(e.target.value)} />
+                    <Input value={amount0} type="number" onChange={(e) => handleTokenChange(e.target.value, token0)} />
                     <InputSuffix>
                       <img src={ICON_VAULT_MAP[token0]} alt={token0} />
                       <span>{token0}</span>
@@ -643,7 +602,7 @@ return (
                 </Column>
                 <Column>
                   <InputWrap className={Number(amount1) > Number(balances[token1]) ? "inSufficient" : ""}>
-                    <Input value={amount1} type="number" onChange={(e) => handleToken1Change(e.target.value)} />
+                    <Input value={amount1} type="number" onChange={(e) => handleTokenChange(e.target.value, token1)} />
                     <InputSuffix>
                       <img src={ICON_VAULT_MAP[token1]} alt={token1} />
                       <span>{token1}</span>
