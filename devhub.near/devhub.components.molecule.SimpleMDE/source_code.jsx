@@ -2,9 +2,7 @@
  * iframe embedding a SimpleMDE component
  * https://github.com/sparksuite/simplemde-markdown-editor
  */
-const { getLinkUsingCurrentGateway } = VM.require(
-  "devhub.near/widget/core.lib.url"
-) || { getLinkUsingCurrentGateway: () => {} };
+
 const data = props.data;
 const onChange = props.onChange ?? (() => {});
 const onChangeKeyup = props.onChangeKeyup ?? (() => {}); // in case where we want immediate action
@@ -32,7 +30,7 @@ const showProposalIdAutoComplete = props.showProposalIdAutoComplete ?? false;
 const autoFocus = props.autoFocus ?? false;
 
 const queryName =
-  "polyprogrammist_near_devhub_prod_v1_proposals_with_latest_snapshot";
+  "thomasguntenaar_near_devhub_proposals_quebec_proposals_with_latest_snapshot";
 const query = `query GetLatestSnapshot($offset: Int = 0, $limit: Int = 10, $where: ${queryName}_bool_exp = {}) {
 ${queryName}(
   offset: $offset
@@ -44,10 +42,6 @@ ${queryName}(
   proposal_id
 }
 }`;
-
-const proposalLink = getLinkUsingCurrentGateway(
-  `devhub.near/widget/app?page=proposal&id=`
-);
 
 const code = `
 <!doctype html>
@@ -130,7 +124,6 @@ let codeMirrorInstance;
 let isEditorInitialized = false;
 let followingData = {};
 let profilesData = {};
-let proposalLink = '';
 let query = '';
 let showAccountAutoComplete = ${showAccountAutoComplete};
 let showProposalIdAutoComplete = ${showProposalIdAutoComplete};
@@ -220,18 +213,12 @@ async function getSuggestedProposals(id) {
     if (proposalId) {
       variables["where"] = { proposal_id: { _eq: id } };
     } else {
-      variables["where"] = {
-        _or: [
-          { name: { _iregex: id } },
-          { summary: { _iregex: id } },
-          { description: { _iregex: id } },
-        ],
-      };
+      variables["where"] = { name: { _ilike: "%" + id + "%" } };
     }
   }
   await asyncFetch("https://near-queryapi.api.pagoda.co/v1/graphql", {
     method: "POST",
-    headers: { "x-hasura-role": "polyprogrammist_near" },
+    headers: { "x-hasura-role": "thomasguntenaar_near" },
     body: JSON.stringify({
       query: query,
       variables: variables,
@@ -241,7 +228,7 @@ async function getSuggestedProposals(id) {
     .then((res) => {
       const proposals =
         res?.data?.[
-          "polyprogrammist_near_devhub_prod_v1_proposals_with_latest_snapshot"
+          "thomasguntenaar_near_devhub_proposals_quebec_proposals_with_latest_snapshot"
         ];
       results = proposals;
     })
@@ -415,7 +402,7 @@ if (showProposalIdAutoComplete) {
             const startIndex = selectedText.indexOf('#') + 1; 
             const endIndex = selectedText.indexOf(' ', startIndex);
             const id = endIndex !== -1 ? selectedText.substring(startIndex, endIndex) : selectedText.substring(startIndex);
-            const link = proposalLink + id;
+            const link = "https://near.social/devhub.near/widget/app?page=proposal&id=" + id;
             const adjustedStart = {
               line: referenceCursorStart.line,
               ch: referenceCursorStart.ch - 1
@@ -488,9 +475,6 @@ window.addEventListener("message", (event) => {
   if (event.data.query) {
     query = event.data.query;
   }
-  if (event.data.proposalLink) {
-    proposalLink = event.data.proposalLink;
-  }
 });
 </script>
 </body>
@@ -512,7 +496,6 @@ return (
       profilesData: JSON.stringify(profilesData),
       query: query,
       handler: props.data.handler,
-      proposalLink: proposalLink,
     }}
     onMessage={(e) => {
       switch (e.handler) {
