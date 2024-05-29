@@ -17,7 +17,7 @@ const buildRepostText = (shareLink, text) => {
 
 const handleCrosspostClick = () => {
   const post = props.context.parsed;
-  const { mutationId } = getTopContext(props.context);
+  const { mutationId } = getTopContext(props.context).parsed;
   const shareLink = buildShareLink(post.url, mutationId);
   const repostText = buildRepostText(shareLink, post.text);
 
