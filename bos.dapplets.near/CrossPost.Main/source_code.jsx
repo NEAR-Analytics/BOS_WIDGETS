@@ -1,5 +1,5 @@
 const getTopContext = (ctx) => {
-  return ctx.parent ? drillUpContext(ctx) : ctx;
+  return ctx.parent ? getTopContext(ctx) : ctx;
 };
 
 const buildShareLink = (targetUrl, mutationId) => {
