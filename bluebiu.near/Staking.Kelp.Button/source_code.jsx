@@ -179,7 +179,7 @@ if (actionText === "Unstake" || actionText === "Withdraw") {
     );
   }
 }
-if (!amount) {
+if (!amount || !Number(amount)) {
   return (
     <Button disabled={true} className={actionText.toLowerCase()}>
       Stake
