@@ -13,6 +13,12 @@ const Royalty = styled.div`
   background: #fff;
   padding: 16px;
   margin: 40px 0;
+  &.dark {
+    background: #1e2030;
+    h2 {
+      color: #fff;
+    }
+  }
 `;
 const RoyaltiesCards = styled.div`
   height: 250px;
@@ -179,7 +185,7 @@ const Royalties = ({ isDarkModeOn, isMintPage, handleRoyalties }) => {
   };
   return (
     <>
-      <Royalty>
+      <Royalty className={isDarkModeOn ? "dark" : "light"}>
         <h2>Default Royalties</h2>
         <div className="text">
           <p>Add NEAR Accounts to split royalties when minting</p>
