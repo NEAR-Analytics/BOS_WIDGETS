@@ -145,6 +145,7 @@ const handleCheckApproval = (symbol, amount, decimals) => {
     abi,
     Ethers.provider()
   );
+  console.log('=addresses[symbol]', addresses[symbol])
 
   contract
     .allowance(sender, vaultAddress)
@@ -160,7 +161,7 @@ const checkApproval = (amount, otherAmount, symbol) => {
   const otherSymbol = symbol === token0 ? token1 : token0
   const decimals = symbol === token0 ? decimals0 : decimals1
   const otherDecimals = symbol === token0 ? decimals1 : decimals0
-
+  console.log('=otherSymbol', otherSymbol)
   handleCheckApproval(symbol, amount, decimals)
   handleCheckApproval(otherSymbol, otherAmount, otherDecimals)
 };
