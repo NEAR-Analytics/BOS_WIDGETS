@@ -498,6 +498,17 @@ function handleApprove(_token, _spender, _amount, _decimals) {
     });
 }
 
+function handleMaxWrap() {
+  State.update({
+    wrapAmount: state.balances[tokenPairs[0].symbol],
+  });
+}
+function handleMaxUnwrap() {
+  State.update({
+    unwrapAmount: state.balances[tokenPairs[1].symbol],
+  });
+}
+
 function handleRefresh() {
   handleQueryBalances();
   getBatchAllowance();
@@ -549,7 +560,7 @@ return (
               </StyledWrapOrUnwrapInputTopType>
               <StyledWrapOrUnwrapInputTopBalance>
                 Balance:{" "}
-                <span>
+                <span onClick={handleMaxWrap}>
                   <Widget
                     src={"bluebiu.near/widget/Utils.FormatBalance"}
                     props={{
@@ -611,7 +622,7 @@ return (
               </StyledWrapOrUnwrapInputTopType>
               <StyledWrapOrUnwrapInputTopBalance>
                 Balance:{" "}
-                <span>
+                <span onClick={handleMaxUnwrap}>
                   <Widget
                     src={"bluebiu.near/widget/Utils.FormatBalance"}
                     props={{
