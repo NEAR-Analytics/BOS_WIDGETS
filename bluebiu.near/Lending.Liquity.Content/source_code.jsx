@@ -35,7 +35,7 @@ useEffect(() => {
   State.update({
     loading: !chainIdNotSupport,
   });
-}, []);
+}, [chainIdNotSupport]);
 
 return (
   <StyledContainer>
@@ -105,26 +105,5 @@ return (
         },
       }}
     />
-    {/* <Widget
-      src="bluebiu.near/widget/Avalanche.Lending.Dialog"
-      props={{
-        display: state.showDialog,
-        data: state.tableButtonClickData,
-        chainId,
-        addAction,
-        toast,
-        source: "dapp",
-        onClose: () => {
-          State.update({
-            showDialog: false,
-          });
-        },
-        onSuccess: () => {
-          State.update({
-            loading: true,
-          });
-        },
-      }}
-    /> */}
   </StyledContainer>
 );
