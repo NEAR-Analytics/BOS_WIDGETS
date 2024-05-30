@@ -234,7 +234,7 @@ return (
     {!showSessionContainer && (
       <div class="d-flex flex-row">
         <div class="pe-2" style={{ width: "150px" }}>
-          {!state.requestTask && <h4 style={{ height: "38px" }}>User tasks</h4>}
+          {!state.requestTask && <h4 style={{ height: "38px" }}>Projects</h4>}
           <ul class="list-group">
             {(state.annotations ?? []).map((annotation) => {
               return (
