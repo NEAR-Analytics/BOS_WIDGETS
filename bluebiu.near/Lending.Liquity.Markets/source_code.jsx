@@ -1,5 +1,28 @@
 const StyledContainer = styled.div``;
-
+const Summary = styled.div`
+  padding: 40px 0;
+  display: flex;
+  justify-content: space-evenly;
+  .key {
+    color: #979abe;
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+  }
+  .value {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 500;
+  }
+  .icon {
+    width: 20px;
+    height: 20px;
+  }
+`;
 const {
   // totalCollateralUsd,
   // userTotalBorrowUsd,
@@ -15,9 +38,11 @@ const {
   IS_GRAVITA_DAPP,
   IS_LYVE_DAPP,
   IS_PREON_DAPP,
+  totalDebt,
+  totalCollateral,
 } = props;
 const data = Object.values(dexConfig.markets || {});
-// console.log("LiquityMarkets:", props);
+console.log("LiquityMarkets:", props);
 
 const COLUMNS = [
   {
@@ -82,6 +107,18 @@ const COLUMNS = [
 
 return (
   <StyledContainer>
+    <Summary>
+      <div className="item">
+        <div className="key">Your Collateral</div>
+        <div className="value">${totalCollateral}</div>
+      </div>
+      <div className="item">
+        <div className="key">Your Debt</div>
+        <div className="value">
+          {totalDebt} <img className="icon" src={dexConfig.BORROW_URL} alt="" />
+        </div>
+      </div>
+    </Summary>
     <Widget
       src="bluebiu.near/widget/Lending.MarketHeader"
       props={{
