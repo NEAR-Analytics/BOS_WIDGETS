@@ -27,7 +27,8 @@ if (!context.accountId) {
     <Theme>
       <div class="row h-100 text-center">
         <div class="col-sm-12 my-auto">
-          <h2>Annotation platform</h2>
+          <h2>AI developer (preview)</h2>
+          <h4>Specification iteration</h4>
           <div class="pt-3">Sign in to Continue</div>
         </div>
       </div>
