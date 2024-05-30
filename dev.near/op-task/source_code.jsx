@@ -770,7 +770,7 @@ return (
     {state.promptsUnlocked && state.showPromptsEditor && getPromptsContainer()}
     <div class="row" style={{ height: "38px" }}>
       <div class="col">
-        <h4>Task Spec {isShowSpecEditor() ? "Editor" : ""}</h4>
+        <h4>Project specification {isShowSpecEditor() ? "Editor" : ""}</h4>
       </div>
       {state.promptsUnlocked && (
         <div class="col w-100 text-end">
