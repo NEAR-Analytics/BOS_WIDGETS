@@ -24,6 +24,12 @@ const {
 
 let { session_id, is_signature_valid } = Storage.privateGet(storageKey);
 
+if (resetSession && !pendingAuth) {
+  // clear data on Logout
+  session_id = null;
+  Storage.privateSet(storageKey, null);
+}
+
 const signatureProvidedAfterRedirect = !!signature && !!publicKey;
 
 if (signatureProvidedAfterRedirect && !state.pendingVerifySignature) {
