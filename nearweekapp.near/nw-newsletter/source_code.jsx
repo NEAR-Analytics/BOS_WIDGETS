@@ -125,7 +125,7 @@ function NewsletterCard() {
     font-weight: 500;
   `;
 
-  const TopCardTitleContainer = styled.h2`
+  const TopCardTitleContainer = styled.div`
     width: 100%;
     display: flex;
     flex-direction: row;
