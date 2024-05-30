@@ -164,11 +164,11 @@ if (pendingAuth || resetSession) {
 }
 
 return (
-  <>
-    <div>
+  <div class="w-100">
+    <div class="text-center pt-5">
       <button class={className} onClick={() => logout()}>
-        {session_id ? "Logout" : "Login with NEAR account"}
+        {session_id ? "Logout" : "Start new working session"}
       </button>
     </div>
-  </>
+  </div>
 );
