@@ -104,6 +104,7 @@ const {
   isCloseDisabled,
 } = props;
 
+const { _upperHint, _lowerHint } = data;
 const account = Ethers.send("eth_requestAccounts", [])[0];
 
 const tokenSymbol = data.underlyingToken.symbol;
@@ -408,8 +409,7 @@ function makeOpenContract() {
       _debtTokenAmount,
       data.decimals
     );
-    const _upperHint = "0x544f96434f77437425d5aC40fd4755C0cf39399A";
-    const _lowerHint = "0xA1B7bbade134DB3B14B56056480e81c60Ab77377";
+
     const params = [
       _asset,
       _assetAmount,
@@ -417,6 +417,7 @@ function makeOpenContract() {
       _upperHint,
       _lowerHint,
     ];
+    console.log("handleBorrow--", params);
     const contract = new ethers.Contract(
       data.config.BorrowerOperations,
       [
@@ -456,8 +457,7 @@ function makeOpenContract() {
       _debtTokenAmount,
       data.decimals
     );
-    const _upperHint = "0xc655B790FF812109c8F6c3f24fd20b3495164A51";
-    const _lowerHint = "0x0000000000000000000000000000000000000000";
+
     const params = [
       _collateral,
       _collAmount,
