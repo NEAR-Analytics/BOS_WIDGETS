@@ -38,6 +38,17 @@ const Right = styled.div`
   text-align: right;
 `;
 
+const PoolTitle = styled.div`
+  margin: 20px 0;
+  color: #fff;
+  font-family: Gantari;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  text-transform: capitalize;
+`;
+
 const {
   dexConfig,
   account,
@@ -54,6 +65,7 @@ const {
 
 return (
   <>
+    <PoolTitle>Stability Pool</PoolTitle>
     <Widget
       src="bluebiu.near/widget/Lending.Liquity.Pools"
       props={{
