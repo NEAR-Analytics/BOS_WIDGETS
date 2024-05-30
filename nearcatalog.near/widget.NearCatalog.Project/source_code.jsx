@@ -261,9 +261,6 @@ const Css = styled.div`
   .markdown ul li {
     margin-top: 0.4rem;
   }
-  .markdown ul {
-    list-style: disc inside;
-  }
   .container {
     margin-left: auto;
     margin-right: auto;
