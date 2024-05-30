@@ -43,8 +43,8 @@ return (
     style={{ minHeight: "400px" }}
   >
     <div>
-      {(annotations ?? []).length == 0 && <p>No pending tasks found.</p>}
-      <button onClick={() => requestTask()}>Create new task</button>
+      {(annotations ?? []).length == 0 && <p>No pending projects found.</p>}
+      <button onClick={() => requestTask()}>Create new project</button>
     </div>
   </div>
 );
