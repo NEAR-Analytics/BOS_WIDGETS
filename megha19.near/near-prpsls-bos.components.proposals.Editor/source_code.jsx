@@ -945,6 +945,9 @@ const CategoryDropdown = useMemo(() => {
         selected: labels,
         onChange: (v) => setLabels(v),
         disabled: linkedRfp, // when RFP is linked, labels are disabled
+        label: linkedRfp
+          ? "These categories are inherited from your selected RFP and can’t change"
+          : "Select Category",
         availableOptions: rfpLabelOptions,
       }}
     />
