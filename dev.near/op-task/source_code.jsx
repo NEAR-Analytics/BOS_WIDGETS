@@ -187,7 +187,7 @@ const chat = [
   },
 ];
 
-const Theme = state.theme;
+//const Theme = state.theme;
 
 const getPreviousSpecFromAI = (index, chat) => {
   return getLastReplyFromAI(index, chat)?.spec ?? "";
@@ -766,7 +766,7 @@ const getPromptsContainer = () => {
 };
 
 return (
-  <Theme class="d-block main-container h-100">
+  <div class="d-block main-container h-100">
     {state.promptsUnlocked && state.showPromptsEditor && getPromptsContainer()}
     <div class="row" style={{ height: "38px" }}>
       <div class="col">
@@ -1322,5 +1322,5 @@ return (
         </div>
       </div>
     </div>
-  </Theme>
+  </div>
 );
