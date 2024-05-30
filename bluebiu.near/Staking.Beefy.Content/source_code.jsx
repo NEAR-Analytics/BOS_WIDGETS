@@ -83,7 +83,7 @@ if (!account || !isChainSupported) {
   );
 }
 
-const { pairs, addresses, ICON_VAULT_MAP } = dexConfig;
+const { pairs, ICON_VAULT_MAP } = dexConfig;
 
 function handleChangeDataIndex(index) {
   state.dataIndex === index
