@@ -87,7 +87,7 @@ const saveChat = (isNewMessage, onSaveChat) => {
       session_id: sessionId,
       problem_id: problemId,
       prompts: getArray(state.userPrompts),
-      attach_conversation: state?.attach_conversation ?? true,
+      attach_conversation: state?.attachConversation ?? true,
       is_new_message: isNewMessage,
     }),
   }).then((res) => {
