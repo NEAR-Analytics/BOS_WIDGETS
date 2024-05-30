@@ -220,6 +220,7 @@ const {
   tokenPairs,
   multicall,
   multicallAddress,
+  dexConfig,
 } = props;
 const { formatUnits, parseUnits } = ethers.utils;
 
@@ -353,8 +354,9 @@ function handleWrap() {
         chainId,
       });
       addAction?.({
-        type: "Yield",
+        type: "Staking",
         action: "Wrap",
+        template: dexConfig?.name,
         token0: tokenPairs[0].symbol,
         token1: tokenPairs[1].symbol,
         amount: state?.wrapAmount,
@@ -410,7 +412,8 @@ function handleUnwrap() {
         chainId,
       });
       addAction?.({
-        type: "Yield",
+        type: "Staking",
+        template: dexConfig?.name,
         action: "Unwrap",
         token0: tokenPairs[1].symbol,
         token1: tokenPairs[0].symbol,
