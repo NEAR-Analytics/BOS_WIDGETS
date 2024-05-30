@@ -251,19 +251,15 @@ const Css = styled.div`
     font-size: 22px;
   }
   .markdown p {
-    -webkit-hyphens: auto;
-    hyphens: auto;
     margin: 0 0 1rem;
   }
   .markdown ul {
     margin: 1.6rem 0 1.6rem 1.6rem;
     padding: 0;
+    list-style: disc !important;
   }
   .markdown ul li {
     margin-top: 0.4rem;
-  }
-  .markdown ul {
-    list-style: disc inside;
   }
   .container {
     margin-left: auto;
