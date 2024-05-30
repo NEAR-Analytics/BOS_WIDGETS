@@ -165,12 +165,9 @@ if (pendingAuth || resetSession) {
 
 return (
   <>
-    <>{JSON.stringify(state)}</>
-    <pre>{`${session_id} -- ${is_signature_valid}`}</pre>
-
     <div>
       <button class={className} onClick={() => logout()}>
-        {session_id ? "Logout" : "Login"}
+        {session_id ? "Logout" : "Login with NEAR account"}
       </button>
     </div>
   </>
