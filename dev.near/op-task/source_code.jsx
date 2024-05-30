@@ -859,7 +859,7 @@ return (
                     </a>
                   </li>
                 </ul>
-                <div id="account-details" class="hidden">
+                <div id="account-details">
                   <div class="d-inline-block align-top">
                     <div class="navbar navbar-light navbar-menu btn-group dropstart">
                       <div class="dropdown" id="menu-dropdown">
@@ -877,31 +877,21 @@ return (
                           aria-labelledby="dropdown-menu-link"
                         >
                           <li>
-                            <a
-                              class="dropdown-item"
-                              href="#"
-                              id="refresh-button"
-                            >
-                              Refresh
-                            </a>
-                          </li>
-                          <li id="menu-load-examples">
-                            <a
-                              class="dropdown-item"
-                              href="#"
-                              onClick="return loadExamples()"
-                            >
-                              Load Examples
-                            </a>
+                            <span class="dropdown-item" role="button">
+                              Menu:
+                            </span>
                           </li>
                           <li>
-                            <a
+                            <span
                               class="dropdown-item"
-                              href="#"
-                              id="sign-out-button"
+                              role="button"
+                              title={`Account: ${context.accountId}`}
+                              onClick={() => {
+                                onRequest({ is_signature_valid: false });
+                              }}
                             >
                               Sign Out
-                            </a>
+                            </span>
                           </li>
                         </ul>
                       </div>
