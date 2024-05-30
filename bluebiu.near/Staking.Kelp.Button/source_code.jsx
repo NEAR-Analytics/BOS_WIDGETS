@@ -144,7 +144,7 @@ const {
   ExchangeToken,
   WithdrawalContract,
 } = props;
-console.log("BUTTON--", props);
+// console.log("BUTTON--", props);
 const { parseUnits, formatUnits } = ethers.utils;
 
 let tokenSymbol;
