@@ -27,14 +27,14 @@ const editIcon = (
 );
 
 /* duplicated css for debug. Loads in parent too */
-/*const CSS_URL =
+const CSS_URL =
   "https://gist.githubusercontent.com/zavodil/10ed1d07c893e04571332f1cb2408226/raw/8bad3b0836bec04845cdbaa78bbad771a48a23f7/add.style.css";
 const css = fetch(CSS_URL).body;
-if (!css) return "";*/
+if (!css) return "";
 
 State.init({
   attachConversation: true,
-  // theme: styled.div`${css}`,
+  theme: styled.div`${css}`,
 });
 
 const {
@@ -187,7 +187,7 @@ const chat = [
   },
 ];
 
-//const Theme = state.theme;
+const Theme = state.theme;
 
 const getPreviousSpecFromAI = (index, chat) => {
   return getLastReplyFromAI(index, chat)?.spec ?? "";
@@ -766,7 +766,7 @@ const getPromptsContainer = () => {
 };
 
 return (
-  <div class="d-block main-container h-100">
+  <Theme class="d-block main-container h-100">
     {state.promptsUnlocked && state.showPromptsEditor && getPromptsContainer()}
     <div class="row" style={{ height: "38px" }}>
       <div class="col">
@@ -1322,5 +1322,5 @@ return (
         </div>
       </div>
     </div>
-  </div>
+  </Theme>
 );
