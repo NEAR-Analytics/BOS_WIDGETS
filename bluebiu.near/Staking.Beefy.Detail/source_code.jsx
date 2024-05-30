@@ -6,7 +6,6 @@ const {
   FilterButton,
   InputWrapList,
   InputWrap,
-  Input,
   InputSuffix,
   StyledImageList,
   PriceWrap,
@@ -15,6 +14,58 @@ const {
   StyledButtonList,
   StyledButton,
 } = VM.require("bluebiu.near/widget/Staking.Beefy.Styles");
+
+const Panel = styled.div`
+  width: 500px;
+  margin: 0 auto 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(55, 58, 83, 1);
+  background-color: rgba(46, 49, 66, 1);
+  padding: 15px;
+  margin-bottom: 20px;
+  .title {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16.8px;
+    color: rgba(151, 154, 190, 1);
+  }
+  .body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .foot {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 14.4px;
+    color: rgba(151, 154, 190, 1);
+  }
+`;
+const Input = styled.input`
+  color: #fff;
+  font-size: 20px;
+  font-weight: 500;
+  border: none;
+  height: 24px;
+  width: 300px;
+  outline: none;
+  background-color: transparent;
+  padding: 0;
+  &:focus {
+    color: #fff;
+    background-color: transparent;
+    border-color: transparent;
+    outline: none;
+    box-shadow: none;
+  }
+`;
+
 const ABI = [
   {
     inputs: [
@@ -66,20 +117,25 @@ const {
   data,
   toast,
   prices,
-  addresses,
   defaultDex,
   addAction,
   userPositions,
-  ICON_VAULT_MAP,
+  dexConfig,
 } = props;
 
 const { formatUnits, parseUnits } = ethers.utils;
-
+const { tokenList } = dexConfig;
 const defaultDeposit = props.tab === "deposit" || !props.tab;
 
 const curPositionUSD = userPositions[data.vaultAddress]?.balanceUSD;
 
 console.log("DETAIL--", props);
+
+let _options = tokenList.map((item) => ({
+  text: item.symbol,
+  value: item.symbol,
+  icons: [item.icon],
+}));
 
 State.init({
   isDeposit: defaultDeposit,
@@ -98,38 +154,8 @@ State.init({
   isPostTx: false,
   showPairs: false,
   updater: 0,
+  options: _options,
 });
-
-const getFromDepositAmount = (depositAmount, tokenDecimal) => {
-  let a = new Big(depositAmount[0].toString());
-  let b = new Big(depositAmount[1].toString());
-
-  if (a.eq(0) && b.eq(0)) return "0";
-
-  let diff;
-  let midpoint;
-  if (a.gt(b)) {
-    diff = a.minus(b);
-    midpoint = diff.div(new Big(2)).plus(b);
-  } else {
-    diff = b.minus(a);
-    midpoint = diff.div(new Big(2)).plus(a);
-  }
-
-  for (let i = tokenDecimal; i > 0; i--) {
-    const midpointFixed = midpoint
-      .div(new Big(10).pow(tokenDecimal))
-      .toFixed(i);
-    if (
-      a.div(Big(10).pow(tokenDecimal)).lte(midpointFixed) &&
-      b.div(Big(10).pow(tokenDecimal)).gte(midpointFixed)
-    ) {
-      return midpointFixed;
-    }
-  }
-
-  return "0";
-};
 
 const {
   vaultAddress,
@@ -147,48 +173,6 @@ function isValid(a) {
   if (isNaN(Number(a))) return false;
   if (a === "") return false;
   return true;
-}
-
-function calcAmount1(_amount0Input) {
-  if (!isValid(_amount0Input)) return 0;
-  const _amount1 = Big(totalAmount1)
-    .div(totalAmount0)
-    .times(_amount0Input)
-    .toFixed(decimals1, 0);
-  return _amount1;
-}
-function calcAmount0(_amount1Input) {
-  if (!isValid(_amount1Input)) return 0;
-  const _amount0 = Big(totalAmount0)
-    .div(totalAmount1)
-    .times(_amount1Input)
-    .toFixed(decimals0, 0);
-  return _amount0;
-}
-function calcShares(_amount0Input) {
-  if (!isValid(_amount0Input)) return 0;
-  const _shares = Big(_amount0Input)
-    .times(totalSupply)
-    .div(totalAmount0)
-    .div(Math.pow(10, 12))
-    .toFixed(4, 0);
-  return _shares;
-}
-function calcShareToTokens(_shares) {
-  const _token0 = Big(_shares)
-    .times(Math.pow(10, 12))
-    .times(totalAmount0)
-    .div(totalSupply)
-    .times(0.99)
-    .toString();
-  const _token1 = Big(_shares)
-    .times(Math.pow(10, 12))
-    .times(totalAmount1)
-    .div(totalSupply)
-    .times(0.99)
-    .toString();
-  console.log("sharesToToken--", _token0, _token1);
-  return { _token0, _token1 };
 }
 
 const updateLPBalance = () => {
@@ -250,16 +234,16 @@ const updateBalance = (token) => {
   }
 };
 
-useEffect(() => {
-  if (!account || !token0 || !token1) return;
+// useEffect(() => {
+//   if (!account || !token0 || !token1) return;
 
-  [
-    { symbol: token0, address: addresses[token0], decimals: decimals0 },
-    { symbol: token1, address: addresses[token1], decimals: decimals1 },
-  ].map(updateBalance);
+//   [
+//     { symbol: token0, address: addresses[token0], decimals: decimals0 },
+//     { symbol: token1, address: addresses[token1], decimals: decimals1 },
+//   ].map(updateBalance);
 
-  updateLPBalance();
-}, [account, token0, token1, state.updater]);
+//   updateLPBalance();
+// }, [account, token0, token1, state.updater]);
 
 const {
   isDeposit,
@@ -278,46 +262,47 @@ const {
   isPostTx,
 } = state;
 
-const detailLoading = Object.keys(balances).length < 2 && lpBalance === "";
+// const detailLoading = Object.keys(balances).length < 2 && lpBalance === "";
+const detailLoading = false;
 
-const checkApproval = (token0Amount, token1Amount) => {
-  const token0Wei = parseUnits(Big(token0Amount).toFixed(decimals0), decimals0);
-  const token1Wei = parseUnits(Big(token1Amount).toFixed(decimals1), decimals1);
+// const checkApproval = (token0Amount, token1Amount) => {
+//   const token0Wei = parseUnits(Big(token0Amount).toFixed(decimals0), decimals0);
+//   const token1Wei = parseUnits(Big(token1Amount).toFixed(decimals1), decimals1);
 
-  const abi = [
-    "function allowance(address, address) external view returns (uint256)",
-  ];
+//   const abi = [
+//     "function allowance(address, address) external view returns (uint256)",
+//   ];
 
-  const token0Contract = new ethers.Contract(
-    addresses[token0],
-    abi,
-    Ethers.provider()
-  );
+//   const token0Contract = new ethers.Contract(
+//     addresses[token0],
+//     abi,
+//     Ethers.provider()
+//   );
 
-  token0Contract
-    .allowance(account, vaultAddress)
-    .then((allowance0) => {
-      State.update({
-        isToken0Approved: !new Big(allowance0.toString()).lt(token0Wei),
-      });
-    })
-    .catch((e) => console.log(e));
+//   token0Contract
+//     .allowance(account, vaultAddress)
+//     .then((allowance0) => {
+//       State.update({
+//         isToken0Approved: !new Big(allowance0.toString()).lt(token0Wei),
+//       });
+//     })
+//     .catch((e) => console.log(e));
 
-  const token1Contract = new ethers.Contract(
-    addresses[token1],
-    abi,
-    Ethers.provider()
-  );
+//   const token1Contract = new ethers.Contract(
+//     addresses[token1],
+//     abi,
+//     Ethers.provider()
+//   );
 
-  token1Contract
-    .allowance(account, vaultAddress)
-    .then((allowance1) => {
-      State.update({
-        isToken1Approved: !new Big(allowance1.toString()).lt(token1Wei),
-      });
-    })
-    .catch((e) => console.log(e));
-};
+//   token1Contract
+//     .allowance(account, vaultAddress)
+//     .then((allowance1) => {
+//       State.update({
+//         isToken1Approved: !new Big(allowance1.toString()).lt(token1Wei),
+//       });
+//     })
+//     .catch((e) => console.log(e));
+// };
 const changeMode = (isDeposit) => {
   State.update({ isDeposit });
 };
@@ -379,70 +364,70 @@ const handleLPChange = (amount) => {
   });
 };
 
-const handleApprove = (isToken0) => {
-  const _token = isToken0 ? token0 : token1;
-  const payload = isToken0
-    ? { isToken0Approving: true }
-    : { isToken1Approving: true };
+// const handleApprove = (isToken0) => {
+//   const _token = isToken0 ? token0 : token1;
+//   const payload = isToken0
+//     ? { isToken0Approving: true }
+//     : { isToken1Approving: true };
 
-  const amount = isToken0
-    ? Big(amount0).toFixed(decimals0)
-    : Big(amount1).toFixed(decimals1);
+//   const amount = isToken0
+//     ? Big(amount0).toFixed(decimals0)
+//     : Big(amount1).toFixed(decimals1);
 
-  const toastId = toast?.loading({
-    title: `Approve ${amount} ${_token}`,
-  });
+//   const toastId = toast?.loading({
+//     title: `Approve ${amount} ${_token}`,
+//   });
 
-  State.update({
-    ...payload,
-    isLoading: true,
-    loadingMsg: `Approving ${_token}...`,
-  });
+//   State.update({
+//     ...payload,
+//     isLoading: true,
+//     loadingMsg: `Approving ${_token}...`,
+//   });
 
-  const tokenWei = parseUnits(amount, isToken0 ? decimals0 : decimals1);
+//   const tokenWei = parseUnits(amount, isToken0 ? decimals0 : decimals1);
 
-  const abi = ["function approve(address, uint) public"];
+//   const abi = ["function approve(address, uint) public"];
 
-  const tokenContract = new ethers.Contract(
-    addresses[_token],
-    abi,
-    Ethers.provider().getSigner()
-  );
+//   const tokenContract = new ethers.Contract(
+//     addresses[_token],
+//     abi,
+//     Ethers.provider().getSigner()
+//   );
 
-  tokenContract
-    .approve(vaultAddress, tokenWei)
-    .then((tx) => tx.wait())
-    .then((receipt) => {
-      const payload = isToken0
-        ? { isToken0Approved: true, isToken0Approving: false }
-        : { isToken1Approved: true, isToken1Approving: false };
+//   tokenContract
+//     .approve(vaultAddress, tokenWei)
+//     .then((tx) => tx.wait())
+//     .then((receipt) => {
+//       const payload = isToken0
+//         ? { isToken0Approved: true, isToken0Approving: false }
+//         : { isToken1Approved: true, isToken1Approving: false };
 
-      State.update({ ...payload, isLoading: false, loadingMsg: "" });
-      toast?.dismiss(toastId);
-      toast?.success({
-        title: "Approve Successfully!",
-        text: `Approve ${amount} ${_token}`,
-        tx: receipt.transactionHash,
-        chainId: props.chainId,
-      });
-    })
-    .catch((error) => {
-      State.update({
-        isError: true,
-        isLoading: false,
-        loadingMsg: error,
-        isToken0Approving: false,
-        isToken1Approving: false,
-      });
-      toast?.dismiss(toastId);
-      toast?.fail({
-        title: "Approve Failed!",
-        text: error?.message?.includes("user rejected transaction")
-          ? "User rejected transaction"
-          : `Approve ${amount} ${_token}`,
-      });
-    });
-};
+//       State.update({ ...payload, isLoading: false, loadingMsg: "" });
+//       toast?.dismiss(toastId);
+//       toast?.success({
+//         title: "Approve Successfully!",
+//         text: `Approve ${amount} ${_token}`,
+//         tx: receipt.transactionHash,
+//         chainId: props.chainId,
+//       });
+//     })
+//     .catch((error) => {
+//       State.update({
+//         isError: true,
+//         isLoading: false,
+//         loadingMsg: error,
+//         isToken0Approving: false,
+//         isToken1Approving: false,
+//       });
+//       toast?.dismiss(toastId);
+//       toast?.fail({
+//         title: "Approve Failed!",
+//         text: error?.message?.includes("user rejected transaction")
+//           ? "User rejected transaction"
+//           : `Approve ${amount} ${_token}`,
+//       });
+//     });
+// };
 const handleDeposit = () => {
   const toastId = toast?.loading({
     title: `Depositing...`,
@@ -594,54 +579,6 @@ const handleWithdraw = () => {
     });
 };
 
-const isInSufficient =
-  Number(amount0) > Number(balances[token0]) ||
-  Number(amount1) > Number(balances[token1]);
-
-const isWithdrawInsufficient = Number(lpAmount) > Number(lpBalance);
-
-const balance0 =
-  !amount0 || !prices?.[token0]
-    ? "-"
-    : parseFloat(Big(amount0).times(prices[token0]).toFixed(4));
-
-const balance1 =
-  !amount1 || !prices?.[token1]
-    ? "-"
-    : parseFloat(Big(amount1).times(prices[token1]).toFixed(4));
-
-const balanceLp =
-  !lpAmount || !lpBalance || !curPositionUSD
-    ? "-"
-    : parseFloat(
-        Big(lpAmount)
-          .div(Big(lpBalance).gt(0) ? lpBalance : 1)
-          .times(curPositionUSD)
-          .toFixed(4)
-      );
-
-const onUpdateLpPercent = (percent) => {
-  State.update({
-    lpPercent: percent,
-  });
-};
-
-const onChangeSlider = (percent) => {
-  console.log("percent: ", percent);
-  const newLpValue = Big(percent)
-    .div(100)
-    .times(lpBalance || 0)
-    .toFixed(6);
-
-  handleLPChange(newLpValue);
-};
-
-useEffect(() => {
-  if (amount0) {
-    handleToken0Change(amount0);
-  }
-}, [data]);
-
 return (
   <DetailWrapper>
     <FilterButtonList>
@@ -669,201 +606,107 @@ return (
       </div>
     ) : (
       <>
-        {isDeposit ? (
-          <>
-            <Row className="price-input">
-              <Column>
-                <InputWrap
-                  className={
-                    Number(amount0) > Number(balances[token0])
-                      ? "inSufficient"
-                      : ""
-                  }
-                >
-                  <Input
-                    value={amount0}
-                    type="number"
-                    onChange={(e) => handleToken0Change(e.target.value)}
-                  />
-                  <InputSuffix>
-                    <img src={ICON_VAULT_MAP[token0]} alt={token0} />
-                    <span>{token0}</span>
-                  </InputSuffix>
-                </InputWrap>
-                <PriceWrap>
-                  <TotalPrice>${balance0}</TotalPrice>
-                  <BalancePrice>
-                    Balance:
-                    <span onClick={() => handleMax(true)}>
-                      {Big(balances[token0] ?? 0).toFixed(6)}
-                    </span>{" "}
-                    {token0}
-                  </BalancePrice>
-                </PriceWrap>
-              </Column>
-              <Column>
-                <InputWrap
-                  className={
-                    Number(amount1) > Number(balances[token1])
-                      ? "inSufficient"
-                      : ""
-                  }
-                >
-                  <Input
-                    value={amount1}
-                    type="number"
-                    onChange={(e) => handleToken1Change(e.target.value)}
-                  />
-                  <InputSuffix>
-                    <img src={ICON_VAULT_MAP[token1]} alt={token1} />
-                    <span>{token1}</span>
-                  </InputSuffix>
-                </InputWrap>
-                <PriceWrap>
-                  <TotalPrice>${balance1}</TotalPrice>
-                  <BalancePrice>
-                    Balance:
-                    <span onClick={() => handleMax(false)}>
-                      {Big(balances[token1] ?? 0).toFixed(6)}
-                    </span>{" "}
-                    {token1}
-                  </BalancePrice>
-                </PriceWrap>
-              </Column>
-            </Row>
-            <StyledButtonList>
-              {isInSufficient && (
-                <StyledButton disabled>InSufficient Balance</StyledButton>
-              )}
-              {!isInSufficient &&
-                (isToken0Approved &&
-                isToken1Approved &&
-                !isToken0Approving &&
-                !isToken1Approving ? (
-                  <StyledButton
-                    disabled={isLoading || !amount0 || !amount1}
-                    onClick={handleDeposit}
-                  >
-                    {isLoading ? (
-                      <Widget src="bluebiu.near/widget/Liquidity.Bridge.Loading" />
-                    ) : (
-                      "Deposit"
-                    )}
-                  </StyledButton>
-                ) : (
-                  <>
-                    <StyledButton
-                      disabled={isToken0Approved || isToken0Approving}
-                      onClick={() => handleApprove(true)}
-                    >
-                      {isToken0Approving ? (
-                        <Widget src="bluebiu.near/widget/Liquidity.Bridge.Loading" />
-                      ) : (
-                        <>
-                          {isToken0Approved ? "Approved" : "Approve"} {token0}
-                        </>
-                      )}
-                    </StyledButton>
-                    <StyledButton
-                      disabled={isToken1Approved || isToken1Approving}
-                      onClick={() => handleApprove(false)}
-                    >
-                      {isToken1Approving ? (
-                        <Widget src="bluebiu.near/widget/Liquidity.Bridge.Loading" />
-                      ) : (
-                        <>
-                          {isToken1Approved ? "Approved" : "Approve"} {token1}
-                        </>
-                      )}
-                    </StyledButton>
-                  </>
-                ))}
-            </StyledButtonList>
-          </>
-        ) : (
-          <>
-            <Row className="price-input">
-              <Column>
-                <InputWrap>
-                  <Input
-                    value={lpAmount}
-                    type="number"
-                    onChange={(e) => {
-                      handleLPChange(e.target.value);
+        <Panel>
+          <div className="title"></div>
+          <div className="body">
+            <Input
+              type="text"
+              placeholder="0"
+              value={state.stakeAmount}
+              onChange={(ev) => {
+                if (isNaN(Number(ev.target.value))) return;
+                let amount = ev.target.value.replace(/\s+/g, "");
 
-                      const value = e.target.value;
-
-                      if (!value) {
-                        onUpdateLpPercent(0);
-                      }
-
-                      if (value && Big(value).gt(0)) {
-                        const newSliderPercent = Big(value || 0)
-                          .div(Big(lpBalance).gt(0) ? lpBalance : 1)
-                          .times(100)
-                          .toFixed(0);
-                        onUpdateLpPercent(newSliderPercent);
-                      }
-                    }}
-                  />
-
-                  <InputSuffix>
-                    <StyledImageList>
-                      <img src={ICON_VAULT_MAP[token0]} alt={token0} />
-                      <img
-                        src={ICON_VAULT_MAP[token1]}
-                        alt={token1}
-                        style={{ marginLeft: -6 }}
-                      />
-                    </StyledImageList>
-                    <span>
-                      {token0}/{token1}
-                    </span>
-                  </InputSuffix>
-                </InputWrap>
-                <PriceWrap>
-                  <TotalPrice>{/* ${balanceLp} */}</TotalPrice>
-                  <BalancePrice>
-                    Balance:{" "}
-                    <span
-                      onClick={() => {
-                        const newSliderPercent = Big(lpBalance || 0)
-                          .div(Big(lpBalance).gt(0) ? lpBalance : 1)
-                          .times(100)
-                          .toFixed(0);
-
-                        onUpdateLpPercent(newSliderPercent);
-
-                        handleLPChange(lpBalance);
-                      }}
-                    >
-                      {Number(lpBalance).toFixed(6)}
-                    </span>
-                    Shares
-                  </BalancePrice>
-                </PriceWrap>
-              </Column>
-            </Row>
-            <StyledButtonList>
-              <StyledButton
-                disabled={
-                  isWithdrawInsufficient || isLoading || Number(lpAmount) <= 0
+                if (Big(amount || 0).gt(Big(state.tokenBal || 0))) {
+                  amount = Big(state.tokenBal || 0).toFixed(4, 0);
                 }
-                onClick={handleWithdraw}
+                State.update({
+                  stakeAmount: amount,
+                });
+              }}
+            />
+            <Widget
+              src="bluebiu.near/widget/UI.Select.Index"
+              props={{
+                options: state.options,
+                value: state.options.find(
+                  (obj) => obj.value === state.curToken
+                ),
+                onChange: (option) => {
+                  console.log("onchange--", option);
+                  State.update({
+                    curToken: option.value,
+                  });
+                },
+              }}
+            />
+          </div>
+          <div className="foot">
+            <div class="prices">
+              $
+              {Big(state.stakeAmount || 0)
+                .times(Big(prices[state.curToken] || 1))
+                .toFixed(2, 0)}
+            </div>
+            <div class="balance">
+              Balance:
+              <Widget
+                src="bluebiu.near/widget/Staking.Kelp.Balance"
+                props={{
+                  value: state.tokenBal,
+                  digit: 4,
+                  onClick: clickBalance,
+                  symbol:
+                    tab === "Stake" ? state.curToken : ExchangeToken.symbol,
+                }}
+              />
+            </div>
+          </div>
+        </Panel>
+        <StyledButtonList>
+          {isToken0Approved &&
+          isToken1Approved &&
+          !isToken0Approving &&
+          !isToken1Approving ? (
+            <StyledButton
+              disabled={isLoading || !amount0 || !amount1}
+              onClick={handleDeposit}
+            >
+              {isLoading ? (
+                <Widget src="bluebiu.near/widget/Liquidity.Bridge.Loading" />
+              ) : (
+                "Deposit"
+              )}
+            </StyledButton>
+          ) : (
+            <>
+              <StyledButton
+                disabled={isToken0Approved || isToken0Approving}
+                onClick={() => handleApprove(true)}
               >
-                {isLoading ? (
+                {isToken0Approving ? (
                   <Widget src="bluebiu.near/widget/Liquidity.Bridge.Loading" />
                 ) : (
                   <>
-                    {isWithdrawInsufficient
-                      ? "InSufficient Balance"
-                      : "Withdraw"}
+                    {isToken0Approved ? "Approved" : "Approve"} {token0}
                   </>
                 )}
               </StyledButton>
-            </StyledButtonList>
-          </>
-        )}
+              <StyledButton
+                disabled={isToken1Approved || isToken1Approving}
+                onClick={() => handleApprove(false)}
+              >
+                {isToken1Approving ? (
+                  <Widget src="bluebiu.near/widget/Liquidity.Bridge.Loading" />
+                ) : (
+                  <>
+                    {isToken1Approved ? "Approved" : "Approve"} {token1}
+                  </>
+                )}
+              </StyledButton>
+            </>
+          )}
+        </StyledButtonList>
       </>
     )}
   </DetailWrapper>
