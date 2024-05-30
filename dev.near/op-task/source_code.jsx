@@ -719,7 +719,18 @@ const getPromptsContainer = () => {
               </div>
 
               {!state.attachConversation && (
-                <Markdown text="Do not attach conversation, use {{ history }} instead" />
+                <Markdown
+                  text="Do not attach conversation, use {{ history }} instead. Example:
+```
+
+{% for item in history %}
+  {{ item.person }}: {{ item.message }} [{{ item.specification }}]
+{% endfor %}
+```
+
+Where `person` is either `USER` or `ASSISTANT`.
+"
+                />
               )}
             </div>
           )}
