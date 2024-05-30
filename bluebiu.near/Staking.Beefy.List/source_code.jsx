@@ -22,7 +22,6 @@ const {
   dataIndex,
   columnList,
   onChangeDataIndex,
-  addresses,
   addAction,
 } = props;
 
