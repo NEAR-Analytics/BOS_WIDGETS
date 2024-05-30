@@ -1,5 +1,5 @@
 const { getAllAuthors } = VM.require(
-  "events-committee.near/widget/core.adapter.devhub-contract",
+  "events-committee.near/widget/core.adapter.devhub-contract"
 );
 
 if (!getAllAuthors) {
