@@ -589,6 +589,7 @@ if (
 ) {
   State.update({
     promptsUnlocked: storage.promptsUnlocked,
+    attachConversation: storage.attachConversation,
     userPrompts: storage.userPrompts,
   });
   loadDefaultPrompts();
@@ -596,6 +597,7 @@ if (
 
 const updateUserPromptsInLocalStorage = () => {
   storage.userPrompts = state.userPrompts;
+  storage.attachConversation = state.attachConversation;
   storage.promptsUnlocked = state.promptsUnlocked;
   console.log("storage update", storage);
   Storage.privateSet(storageKey, storage);
@@ -704,9 +706,10 @@ const getPromptsContainer = () => {
                   id="mySwitch"
                   name="darkmode"
                   value="yes"
-                  onChange={(e) =>
-                    State.update({ attachConversation: e.target.checked })
-                  }
+                  onChange={(e) => {
+                    State.update({ attachConversation: e.target.checked });
+                    updateUserPromptsInLocalStorage();
+                  }}
                   checked={state.attachConversation}
                 />
                 <label class="form-check-label" for="mySwitch">
@@ -732,6 +735,7 @@ const getPromptsContainer = () => {
                   State.update({
                     userPrompts,
                   });
+                  updateUserPromptsInLocalStorage();
                 }}
                 value={state.userPrompts[state.promptTabIndex]}
               />
@@ -749,7 +753,7 @@ const getPromptsContainer = () => {
                 </div>
               )}
 
-              <div>
+              <div class="hidden">
                 <button
                   class="btn btn-success mb-2"
                   onClick={() => updateUserPromptsInLocalStorage()}
