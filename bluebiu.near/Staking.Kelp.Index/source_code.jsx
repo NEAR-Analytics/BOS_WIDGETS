@@ -114,7 +114,7 @@ const networks = {
         symbol: "sfrxETH",
         icon: "",
         decimals: 18,
-        address: "0xA35b1B31Ce002FBF2058D22F30f95D405200A15b",
+        address: "0xac3e018457b222d93114458476f3e3416abbe38f",
         icon: "https://ipfs.near.social/ipfs/bafkreiaq5taf3cuvvqar5qbqpqzbj5ys2xx2skgstbaorxgxchtswispmi",
       },
     ],
@@ -272,12 +272,19 @@ useEffect(() => {
   }
   getWalletBalance();
 }, [state.StakeTokens]);
-
-const tabsArray = [
-  { key: "Stake", label: "Stake" },
-  { key: "Unstake", label: "Unstake" },
-  // { key: "Withdraw", label: "Withdraw" },
-];
+let tabsArray;
+if (chainId === 1) {
+  tabsArray = [
+    { key: "Stake", label: "Stake" },
+    { key: "Unstake", label: "Unstake" },
+    { key: "Withdraw", label: "Withdraw" },
+  ];
+} else {
+  tabsArray = [
+    { key: "Stake", label: "Stake" },
+    { key: "Unstake", label: "Unstake" },
+  ];
+}
 const handleBridge = () => {
   windowOpen("bridge-x/stargate", "_blank");
 };
