@@ -153,7 +153,6 @@ const StyledPenpadButton = styled.button`
     opacity: 0.3;
   }
 `
-const sender = account;
 const {
   toast,
   account,
@@ -173,6 +172,7 @@ const {
 const {
   PROXY_ADDRESS
 } = dexConfig
+const sender = account;
 if (!sender || !isChainSupported) {
   return (
     <Widget
