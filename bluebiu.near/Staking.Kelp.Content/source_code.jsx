@@ -174,6 +174,7 @@ useEffect(() => {
   const options = StakeTokens?.map((item) => ({
     text: item.symbol,
     value: item.symbol,
+    icons: [item.icon],
   }));
   State.update({
     options,
@@ -461,6 +462,7 @@ return (
             onCloseWrap: handleCloseWrap,
             multicall,
             multicallAddress,
+            dexConfig,
           }}
         />
       )}
