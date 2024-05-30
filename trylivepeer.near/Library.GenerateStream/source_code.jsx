@@ -30,14 +30,7 @@ const PreviewContent = styled.div`
 `;
 const WidgetCode = `
 \`\`\`js
-<Widget
-src={"trylivepeer.near/widget/Livepeer.Player"}
-props={{
-  title: "Original Keyboard Cat!",
-  playbackId: "8b3bdqjtdj4jsjwa",
-  PosterImage: <img src="https://example.com" alt={"Original Keyboard Cat!"} />
-}}
-/>
+<Widget src={"trylivepeer.near/widget/Broadcast.GenerateStream"} />
 \`\`\`
 `;
 const UsageContent = styled.div`
