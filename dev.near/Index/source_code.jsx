@@ -3,7 +3,7 @@ const API_URL = "https://annotation.nearspace.info/api";
 const PROBLEM_ID = 1;
 const STATUS_ANNOTATION_PENDING = 0;
 const SIGNATURE_RECIPIENT = "ai.near";
-const STORAGE_KEY = `session_storage1`;
+const STORAGE_KEY = `session_storage`;
 const CALLBACK_URL = `https://dev.near.social/${ACCOUNT_ID}/widget/Index`;
 
 const CSS_URL =
@@ -278,7 +278,7 @@ return (
       </div>
     )}
 
-    <div class="mt-5">
+    <div class="mt-5 hidden">
       {!showSessionContainer && (
         <div class="d-block">
           <button disabled={pendingRequest} onClick={() => onLogout()}>
