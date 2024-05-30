@@ -37,6 +37,30 @@ useEffect(() => {
   });
 }, [chainIdNotSupport]);
 
+useEffect(() => {
+  if (!state.newMarkets) return;
+  const _marketsArray = Object.values(state.newMarkets);
+  const totalDebt = _marketsArray.reduce((total, item) => {
+    return Big(total || 0)
+      .plus(item.vesselDebt || 0)
+      .toFixed(2);
+  }, 0);
+  const totalCollateral = _marketsArray.reduce((total, item) => {
+    return Big(total || 0)
+      .plus(
+        Big(item.vesselDeposit || 0).times(
+          prices[item.underlyingToken.symbol] || 1
+        )
+      )
+      .toFixed(2);
+  }, 0);
+
+  State.update({
+    totalDebt,
+    totalCollateral,
+  });
+}, [state.newMarkets]);
+
 return (
   <StyledContainer>
     {tab === "market" && (
@@ -54,6 +78,8 @@ return (
           },
           tokenBal: state.tokenBal,
           deposits: state.deposits,
+          totalDebt: state.totalDebt,
+          totalCollateral: state.totalCollateral,
           onSuccess: () => {
             State.update({
               loading: true,
@@ -97,6 +123,7 @@ return (
         IS_GRAVITA_DAPP,
         IS_LYVE_DAPP,
         onLoad: (data) => {
+          console.log("ONLOAD--", data);
           State.update({
             loading: false,
             timestamp: Date.now(),
