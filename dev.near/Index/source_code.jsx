@@ -2,7 +2,8 @@ const ACCOUNT_ID = "dev.near";
 const API_URL = "https://annotation.nearspace.info/api";
 const PROBLEM_ID = 1;
 const STATUS_ANNOTATION_PENDING = 0;
-const STORAGE_KEY = `session_storage`;
+const SIGNATURE_RECIPIENT = "ai.near";
+const STORAGE_KEY = `session_storage1`;
 const CALLBACK_URL = `https://dev.near.social/${ACCOUNT_ID}/widget/Index`;
 
 const CSS_URL =
@@ -109,9 +110,9 @@ const sessionContainer = (
     <Widget
       src={`${ACCOUNT_ID}/widget/op-session`}
       props={{
-        storageKey: "near-ai",
+        storageKey: STORAGE_KEY,
         message: "Welcome to NEAR.AI",
-        recipient: "ai.near",
+        recipient: SIGNATURE_RECIPIENT,
         callbackUrl: CALLBACK_URL,
         apiUrl: `${API_URL}/auth/`,
         signature: hashParams?.signature,
@@ -231,37 +232,43 @@ return (
 
     {!showSessionContainer && (
       <div class="d-flex flex-row">
-        <div class="pe-2">
-          <h4 style={{ height: "38px" }}>User tasks</h4>
+        <div class="pe-2" style={{ width: "150px" }}>
+          {!state.requestTask && <h4 style={{ height: "38px" }}>User tasks</h4>}
           <ul class="list-group">
-            {(state.annotations ?? []).map((annotation) => (
+            {(state.annotations ?? []).map((annotation) => {
+              return (
+                annotation.id && (
+                  <li
+                    title={`id: ${annotation.id}`}
+                    role="button"
+                    class={`list-group-item ${
+                      !state.requestTask && state.annotationId == annotation.id
+                        ? "active"
+                        : ""
+                    }`}
+                    onClick={() => {
+                      State.update({
+                        annotationId: annotation.id,
+                        requestTask: false,
+                      });
+                    }}
+                  >
+                    {annotation.title ?? "[Untitled]"}
+                  </li>
+                )
+              );
+            })}
+            {!state.requestTask && (
               <li
-                title={`id: ${annotation.id}`}
+                class={`list-group-item ${state.requestTask ? "active" : ""}`}
                 role="button"
-                class={`list-group-item ${
-                  !state.requestTask && state.annotationId == annotation.id
-                    ? "active"
-                    : ""
-                }`}
                 onClick={() => {
-                  State.update({
-                    annotationId: annotation.id,
-                    requestTask: false,
-                  });
+                  State.update({ requestTask: true });
                 }}
               >
-                {annotation.title ?? "[Untitled]"}
+                Create New
               </li>
-            ))}
-            <li
-              class={`list-group-item ${state.requestTask ? "active" : ""}`}
-              role="button"
-              onClick={() => {
-                State.update({ requestTask: true });
-              }}
-            >
-              Create New
-            </li>
+            )}
           </ul>
         </div>
         <div class="flex-grow-1">
@@ -279,7 +286,7 @@ return (
               ? "Logout"
               : state.pendingAuth
               ? "Restart Login"
-              : "Log In"}
+              : "LogIn"}
           </button>
         </div>
       )}
