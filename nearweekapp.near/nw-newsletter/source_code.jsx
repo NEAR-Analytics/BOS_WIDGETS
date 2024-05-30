@@ -66,7 +66,8 @@ function NewsletterCard() {
     }
   `;
 
-  const Card = styled.div`
+  const Card = styled.a`
+    display: block;
     position: relative;
     cursor: pointer;
     width: 100%;
