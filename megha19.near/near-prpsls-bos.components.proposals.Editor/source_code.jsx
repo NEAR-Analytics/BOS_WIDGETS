@@ -964,7 +964,6 @@ const TitleComponent = useMemo(() => {
         skipPaddingGap: true,
         inputProps: {
           max: 80,
-          required: true,
         },
       }}
     />
@@ -985,7 +984,6 @@ const SummaryComponent = useMemo(() => {
         skipPaddingGap: true,
         inputProps: {
           max: 500,
-          required: true,
         },
       }}
     />
@@ -1291,7 +1289,13 @@ if (showProposalPage) {
                       />
                     )}
                   </div>
-                  <div className="d-flex gap-2">
+                  <div
+                    className="d-flex gap-2"
+                    style={{
+                      height: isDraftBtnOpen ? "25vh" : "auto",
+                      alignItems: isDraftBtnOpen ? "flex-start" : "center",
+                    }}
+                  >
                     <Link
                       to={
                         isEditPage
