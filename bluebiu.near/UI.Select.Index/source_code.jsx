@@ -134,6 +134,11 @@ const Item = styled.button`
     outline: none;
   }
 `;
+const Icon = styled.img`
+  width: 15px;
+  height: 15px;
+  margin-right: 8px;
+`;
 
 return (
   <Container>
@@ -175,11 +180,14 @@ return (
         <Content>
           <Select.Viewport asChild={true}>
             <Viewport>
-              {options.map(({ text, value }) => (
+              {options.map(({ text, value, icons }) => (
                 <Select.Item key={value} value={value} asChild={true}>
                   <Item>
                     <Select.ItemText>
-                      <ItemWrap>{text}</ItemWrap>
+                      <ItemWrap>
+                        {icons && icons.map((icon) => <Icon src={icon} />)}
+                        {text}
+                      </ItemWrap>
                     </Select.ItemText>
                     <Select.ItemIndicator>
                       <svg
