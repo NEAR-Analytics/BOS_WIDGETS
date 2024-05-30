@@ -197,7 +197,8 @@ function NewsletterCard() {
     margin-bottom: 15px;
 `;
 
-  const ButtonLoadMore = styled.button`
+  const ButtonLoadMore = styled.a`
+  display: block;
   width: 180px;
   padding: 8px;
   height: 31px;
