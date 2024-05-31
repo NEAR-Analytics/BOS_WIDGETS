@@ -483,7 +483,7 @@ function handleWithdraw() {
   );
   contract
     .initiateWithdrawal(stakeToken.address, parseUnits(amount, tokenDecimals), {
-      gasLimit: 4000000,
+      // gasLimit: 4000000,
     })
     .then((tx) => {
       tx.wait()
