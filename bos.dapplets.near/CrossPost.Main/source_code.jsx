@@ -34,12 +34,12 @@ const handleCrosspostClick = () => {
             type: "md",
             text: repostText,
           }),
-          index: {
-            post: JSON.stringify({
-              key: "main",
-              value: { type: "md" },
-            }),
-          },
+        },
+        index: {
+          post: JSON.stringify({
+            key: "main",
+            value: { type: "md" },
+          }),
         },
       },
     },
