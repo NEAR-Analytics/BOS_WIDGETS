@@ -26,28 +26,32 @@ const handleCrosspostClick = () => {
   const shareLink = buildShareLink(post.url, mutationId);
   const repostText = buildRepostText(shareLink, post.text);
 
-  const data = {
-    post: {
-      main: JSON.stringify({
-        type: "md",
-        text: repostText,
-      }),
-      index: {
-        post: JSON.stringify({
-          key: "main",
-          value: { type: "md" },
-        }),
+  const args = {
+    data: {
+      [context.accountId]: {
+        post: {
+          main: JSON.stringify({
+            type: "md",
+            text: repostText,
+          }),
+          index: {
+            post: JSON.stringify({
+              key: "main",
+              value: { type: "md" },
+            }),
+          },
+        },
       },
     },
   };
 
   const gas = TGas.mul(100).toFixed(0);
-  const deposit = OneNear.div(20); // 0.05 NEAR // ToDo: calculate storage deposit
+  const deposit = OneNear.div(100); // 0.01 NEAR // ToDo: calculate storage deposit
 
   setIsLoading(true);
 
   try {
-    Near.call("social.near", "set", { data }, gas, deposit);
+    Near.call("social.near", "set", args, gas, deposit);
   } catch (err) {
     console.error(err);
   }
