@@ -5,11 +5,16 @@ const ContractId = "social.near";
 const [awaitingTx, setAwaitingTx] = useState(null);
 
 const awaitingTxData = awaitingTx
-  ? Near.view(awaitingTx.contractId, awaitingTx.method, awaitingTx.args)
+  ? Near.view(
+      awaitingTx.contractId,
+      awaitingTx.method,
+      awaitingTx.args,
+      "final",
+      true
+    )
   : null;
 
 useEffect(() => {
-  console.log({ awaitingTx, awaitingTxData });
   if (!awaitingTx || !awaitingTxData) return;
 
   if (JSON.stringify(awaitingTxData) === JSON.stringify(awaitingTx.expected)) {
