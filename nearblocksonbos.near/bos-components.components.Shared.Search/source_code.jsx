@@ -73,6 +73,10 @@ function search(
   url,
 ) {
   try {
+    if (keyword.includes('.')) {
+      keyword = keyword.toLowerCase();
+    }
+
     const route = getRoute(filter);
 
     return asyncFetch(`${url}search/${route}?keyword=${keyword}`, {
@@ -363,6 +367,7 @@ function MainComponent({
                   : 'Search by Account ID / Txn Hash / Block'
               }
               className="search bg-white dark:bg-black-600 dark:text-neargray-10 w-full h-full text-sm px-4 py-3 outline-none dark:border-black-200 border-l border-t border-b md:border-l-0 rounded-l-lg rounded-r-none md:rounded-l-none"
+              autoCapitalize="off"
               onChange={handleChange}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
