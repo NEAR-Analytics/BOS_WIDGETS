@@ -85,9 +85,11 @@ return (
       </i>
     </p>
     <p>
-      During the hackathon, Evan Cheng inspired us to reimagine how builders
-      interact with software, and specifically, our main goals were to improve
-      Sui onboarding processes and minimize the learning curve for builders.
+      During the hackathon,{" "}
+      <Link href="https://x.com/evanweb3">Evan Cheng</Link> inspired us to
+      reimagine how builders interact with software, and specifically, our main
+      goals were to improve Sui onboarding processes and minimize the learning
+      curve for builders.
     </p>
     <p>
       <b>Overview:</b> Our project is made to demonstrate how open web
@@ -158,7 +160,8 @@ return (
       This near-bos-webcomponent is essentially a decentralized React app with
       the near-social-vm installed, along with Enoki and Sui dev tools
       integrated. We deployed to web4 in order to provide a live sandbox for Sui
-      builders. See it live at trysui.near.page!
+      builders. See it live at{" "}
+      <Link href="https://trysui.near.page">trysui.near.page</Link>!
     </p>
     <p>
       The Sui stack was especially suitable for this implementation because of
