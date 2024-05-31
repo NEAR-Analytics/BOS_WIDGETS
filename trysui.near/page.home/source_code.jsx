@@ -55,7 +55,7 @@ return (
       <Link to={`/trysui.near/widget/Index?page=library`}>library</Link> of Sui
       components to use in your app, then go to the{" "}
       <Link to={`/trysui.near/widget/Index?page=sandbox`}>sandbox</Link> and try
-      it out.
+      them out.
     </p>
     <br />
     <br />
