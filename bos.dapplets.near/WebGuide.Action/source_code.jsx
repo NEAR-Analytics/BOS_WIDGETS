@@ -3,7 +3,7 @@ const { isActive, handleAction } = props
 const ButtonActionWrapper = styled.button`
   display: flex;
   box-sizing: border-box;
-  overlow: hidden;
+  overflow: hidden;
   cursor: pointer;
   justify-content: center;
   align-items: center;
@@ -31,7 +31,7 @@ const ButtonActionWrapper = styled.button`
 const ImgButtonWrapper = styled.span`
   display: flex;
   box-sizing: border-box;
-  overlow: hidden;
+  overflow: hidden;
   cursor: pointer;
   border-radius: 50%;
   justify-content: center;
@@ -57,7 +57,16 @@ const iconQuestionMark = (isActive) => (
 );
 
 return (
-  <ButtonActionWrapper $isActive={isActive} onClick={handleAction}>
+  <ButtonActionWrapper
+    $isActive={isActive}
+    onClick={handleAction}
+    data-mweb-context-type="mweb-overlay-action"
+    data-mweb-context-parsed={JSON.stringify({ id: 'web-guide-action' })}
+  >
     <ImgButtonWrapper>{iconQuestionMark(isActive)}</ImgButtonWrapper>
+    <div
+      data-mweb-insertion-point="mweb-overlay-action"
+      style={{ display: "none" }}
+    />
   </ButtonActionWrapper>
 );
