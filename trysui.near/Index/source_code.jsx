@@ -82,7 +82,9 @@ return (
                       widgetSrc: "trysui.near/widget/Index",
                       params: {
                         page: "inspect",
-                        widgetPath: config.router.routes[props.page].path,
+                        widgetPath:
+                          config.router.routes[props.page].path ??
+                          "trysui.near/widget/Index",
                       },
                     })}
                     type="icon"
