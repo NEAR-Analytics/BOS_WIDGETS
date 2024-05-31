@@ -93,7 +93,13 @@ const saveChat = (isNewMessage, onSaveChat) => {
   }).then((res) => {
     if (res.ok) {
       // returns {is_session_valid, annotation_id?}
-      onRequest(res.body);
+      let response = res.body;
+      if (state.chat.length === 2) {
+        console.log("First reply from AI. Refresh User Annotations");
+        response.refreshUserAnnotations = true;
+      }
+
+      onRequest(response);
     }
 
     if (typeof onSaveChat == "function") {
