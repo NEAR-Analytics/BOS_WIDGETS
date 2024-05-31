@@ -5,7 +5,6 @@ const components = [
   {
     title: "ConnectButton",
     category: "zkLogin",
-    widgetName: "ConnectButton",
     description:
       "The ConnectButton shows the user a button to connect and disconnect a wallet. It automatically uses the connected state to show a connect or disconnect button.",
     optionalProps: {
@@ -15,9 +14,44 @@ const components = [
     example: `<ConnectButton connectText="Connect Wallet" />`,
   },
   {
+    title: "SuiSigner",
+    category: "Sui",
+    description:
+      "An instance of Sui client and connected wallet for signing transactions",
+    demoProps: { accountId, tooltip: true },
+    requiredProps: {
+      provides:
+        "Pass in the content to render with access to the methods and data that the client provides",
+    },
+    optionalProps: {},
+    availableMethods: {
+      signTransaction:
+        "Hook to prompt the user to sign a transaction with their wallet.",
+      signAndExecuteTransaction:
+        "Hook to prompt the user to sign and execute a transaction block with their wallet.",
+      signPersonalMessage:
+        "Hook to prompt the user to sign a message with their wallet.",
+    },
+    example: `<SuiSigner
+  provides={({ signPersonalMessage }) => (
+    <button
+			onClick={() => {
+        signPersonalMessage({
+          message: "hello world",
+        },
+        {
+          onSuccess: (result) => console.log(result)
+        })
+      }}
+    >
+      Sign message
+    </button>
+  )}
+/>`,
+  },
+  {
     title: "EnokiFlow",
     category: "Enoki",
-    widgetName: "EnokiFlow",
     description:
       "Wrapping your main app with the Enoki context provider delivers Enoki functions and state across all your components.",
     demoProps: { accountId, tooltip: true },
@@ -26,12 +60,11 @@ const components = [
         "Pass in the content to render with access to the methods and data that the client provides",
     },
     optionalProps: {},
-    example: `<EnokiFlow provides={({ handleEnokiFlow }) => <button onClick={() => handleEnokiFlow()>click me</button>}} />`,
+    example: `<EnokiFlow provides={({ handleEnokiFlow }) => <button onClick={() => handleEnokiFlow()}>click me</button>} />`,
   },
   {
     title: "SuiClientQuery",
     category: "Sui",
-    widgetName: "SuiClientQuery",
     description:
       "An instance of the Sui client and connected wallet for quering data",
     demoProps: { accountId, tooltip: true },
@@ -62,41 +95,6 @@ const components = [
   }}
 />`,
   },
-  {
-    title: "SuiSigner",
-    category: "Sui",
-    widgetName: "SuiSigner",
-    description:
-      "An instance of Sui client and connected wallet for signing transactions",
-    demoProps: { accountId, tooltip: true },
-    requiredProps: {
-      provides:
-        "Pass in the content to render with access to the methods and data that the client provides",
-    },
-    optionalProps: {},
-    availableMethods: {
-      signTransaction:
-        "Hook to prompt the user to sign a transaction with their wallet.",
-      signAndExecuteTransaction:
-        "Hook to prompt the user to sign and execute a transaction block with their wallet.",
-      signPersonalMessage:
-        "Hook to prompt the user to sign a message with their wallet.",
-    },
-    example: `<SuiSigner
-  provides={({ signTransaction }) => (
-    <button
-			onClick={() => {
-        signPersonalMessage({
-          message: "hello world",
-          onSuccess: (result) => console.log(result)
-        })
-      }}
-    >
-      Sign message
-    </button>
-  )}
-/>`,
-  },
 ];
 const renderProps = (props, optional) => {
   return Object.entries(props || {}).map(([key, desc]) => {
@@ -115,7 +113,6 @@ const renderProps = (props, optional) => {
   });
 };
 const renderComponent = (c, i) => {
-  const widgetSrc = `trysui.near/widget/${c.widgetName}`;
   const id = c.title.toLowerCase().replaceAll(" ", "-");
   return (
     <div className="component" key={i}>
@@ -126,7 +123,7 @@ const renderComponent = (c, i) => {
       <p>{c.description}</p>
       <label>Preview</label>
       <div className="preview mb-3" style={c.previewStyle}>
-        <Widget src={widgetSrc} props={c.demoProps} />
+        <Widget code={`return ${c.example};`} />
       </div>
       <label>Props</label>
       <table className="props table table-bordered mb-3">
