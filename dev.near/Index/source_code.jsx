@@ -57,6 +57,7 @@ const getTask = () => {
           requestTask: (res.body.annotations ?? []).length == 0,
           isSessionValid: res.body.is_session_valid,
           pendingRequest: false,
+          refreshUserAnnotations: false,
         });
       } else {
         console.log("Session NOT valid", state);
@@ -139,7 +140,8 @@ const onRequestTask = (data) => {
   console.log("Index onRequestTask", data);
   if (data.is_session_valid) {
     let annotations = state.annotations;
-    annotations.push(data.annotation_id);
+    console.log("annotations", annotations);
+    annotations.push({ id: data.annotation_id });
     State.update({
       isSessionValid: data.is_session_valid,
       annotationId: data.annotation_id,
@@ -163,6 +165,10 @@ const onTask = (data) => {
       isSessionValid: false,
       pendingRequest: false,
     });
+  } else {
+    if (data.refreshUserAnnotations) {
+      State.update({ refreshUserAnnotations: true });
+    }
   }
 };
 
@@ -187,7 +193,7 @@ const requestTaskContainer = (
 let isGetTask = false;
 
 if (!state.pendingRequest && !state.pendingAuth && !state.requestTask) {
-  if (state.sessionId && !state.annotations) {
+  if (state.sessionId && (!state.annotations || state.refreshUserAnnotations)) {
     isGetTask = true;
   }
 }
