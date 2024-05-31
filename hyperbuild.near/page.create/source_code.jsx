@@ -1,3 +1,9 @@
+const { DataCreator } = VM.require("hyperbuild.near/widget/create.data");
+const { CreateHyperfile } = VM.require(
+  "hyperbuild.near/widget/create.hyperfiles"
+);
+//const { GitHubAPIExample } = VM.require(  "create.near/widget/GitHub.API.Example");
+const { CreateMetadata } = VM.require("hyperbuild.near/widget/create.metadata");
 const TabContent = styled.div`
   margin-top: 1rem;
 `;
@@ -25,47 +31,6 @@ const Row = styled.div`
   display: flex;
   flex-direction: row;
 `;
-const adapters = [
-  // these can come from the user (or app) settings
-  // {
-  //   title: "Local Storage",
-  //   value: "everycanvas.near/widget/adapter.local_storage",
-  //   saveRef: false
-  // },
-  // {
-  //   title: "SocialDB",
-  //   value: "everycanvas.near/widget/adapter.social",
-  // },
-  {
-    title: "",
-    value: "",
-  },
-  {
-    title: "IPFS",
-    value: "everycanvas.near/widget/adapter.ipfs",
-    refType: { cid: "string" },
-  },
-  // {
-  //   title: "Custom",
-  //   value: "custom",
-  // },
-  {
-    title: "GitHub",
-    value: "hyperfiles.near/widget/adapter.github",
-  },
-  // {
-  //   title: "Obsidian",
-  //   value: "hack.near/widget/adapter.obsidian",
-  // },
-  // {
-  //   title: "Tldraw",
-  //   value: "hack.near/widget/adapter.tldraw",
-  // },
-];
-//const { GitHubAPIExample } = VM.require(  "create.near/widget/GitHub.API.Example");
-const { MetadataComponent } = VM.require(
-  "hyperfiles.near/widget/CreateMetadata"
-);
 const [rawData, setRawData] = useState("");
 const [source, setSource] = useState("");
 const [schema, setSchema] = useState("");
@@ -79,36 +44,6 @@ const [type, setType] = useState("");
 const [filePath, setFilePath] = useState(null);
 const [defaultView, setDefaultView] =
   useState("HYPERFILE") || props.defaultView;
-const handleSelectRepository = (selectedFilePath) => {
-  console.log("Selected repository:", selectedFilePath);
-  // Assuming you need the repository's file path or some specific identifier
-  setFilePath(selectedFilePath); // or any specific attribute you need
-};
-const rawAdapter =
-  (adapter !== "" || adapter !== "custom") && Social.get(adapter, "final");
-const { create } =
-  ((adapter !== "" || adapter !== "custom") && VM.require(adapter)) ||
-  (() => {});
-const functionRegex = /function\s+(\w+)\s*\(([^)]*)\)\s*{([\s\S]*?)\n}/g;
-function parseAdapter(code) {
-  let match;
-  const functions = [];
-  while ((match = functionRegex.exec(code)) !== null) {
-    const [_, functionName, params, content] = match;
-    functions.push({ functionName, params, content });
-  }
-  return functions.map((func, index) => (
-    <FormGroup key={index}>
-      <Label>{func.functionName}</Label>
-      <textarea
-        className="form-control"
-        style={{ width: "100%", height: "100%" }}
-        value={func.content.trim()}
-        disabled
-      />
-    </FormGroup>
-  ));
-}
 function generateUID() {
   const maxHex = 0xffffffff;
   const randomNumber = Math.floor(Math.random() * maxHex);
@@ -144,52 +79,42 @@ const handleCreate = () => {
     console.log("invalid adapter");
   }
 };
-const MetadataForm = ({ name, setName, description, setDescription }) => {
-  return (
-    <Form>
-      <h3>Metadata</h3>
-      <FormGroup>
-        <Label>Name</Label>
-        <Input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label>Description</Label>
-        <textarea
-          className="form-control mb-3"
-          rows={5}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label>Tags</Label>
-        <Widget src="mob.near/widget/TagsEditor" />
-      </FormGroup>
-    </Form>
-  );
-};
 console.log("source: ", source);
 console.log("schema: ", schema);
-//console.log("data: ", rawData);
-//console.log("adapter: ", adapter);
+console.log("data: ", rawData);
+console.log("adapter: ", adapter);
 return (
   <div className="container mt-3 p-3 border bg-light">
     <div className="row">
-      <h1>Hyperfile Creator</h1>
+      <h1>Hyperfiles Creator</h1>
       <p>
-        View the
-        <a href="https://opencann.notion.site/Hyperfiles-52cdfb892aff4d0ebe2178436c5edf6d">
-          docs
-        </a>
-        to learn how the different data structures work together.
+        <i>
+          *View the
+          <a href="https://opencann.notion.site/Hyperfiles-52cdfb892aff4d0ebe2178436c5edf6d">
+            docs
+          </a>
+          to learn more about how Hyperfiles data structures work.
+        </i>
+      </p>
+      <p>
+        <ul>
+          <li>
+            Publish structured data objects, attest (add references) to data and
+            reference objects, and run jobs (coming soon).
+          </li>
+          <li>
+            Each schema contains an ordered list of types that describes the
+            structure of corresponding data objects.
+          </li>
+          <li>
+            Common types & schemas compose into a graph of related entities
+            (data + creators) and actions (references + jobs).
+          </li>
+        </ul>
       </p>
       <hr />
     </div>
-    <Row style={{ gap: "8px", marginBottom: "16px" }}>
+    <Row style={{ gap: "10px", marginBottom: "16px" }}>
       <h2>Create</h2>{" "}
       <Select
         value={state.defaultView}
@@ -202,9 +127,6 @@ return (
         <option value="JOB">Job</option>
       </Select>
     </Row>
-    <div>
-      <Widget src="hyperfiles.near/widget/query.search" props={{}} />
-    </div>
     <ul className="nav nav-tabs">
       <li className="nav-item">
         <a
@@ -233,7 +155,7 @@ return (
                   <div className="col">
                     <div className="p-3 border bg-light">
                       <Widget
-                        src="hyperfiles.near/widget/hyperfile.create"
+                        src="hyperbuild.near/widget/create.hyperfile"
                         props={{}}
                       />
                     </div>
@@ -243,7 +165,7 @@ return (
             </TabContent>
             <TabContent>
               {activeTab === "metadata" && (
-                <MetadataForm
+                <CreateMetadata
                   name={name}
                   setName={setName}
                   description={description}
@@ -262,7 +184,10 @@ return (
                 <div className="row">
                   <div className="col">
                     <div className="p-3 border bg-light">
-                      <Widget src="flowscience.near/widget/eas" props={{}} />
+                      <Widget
+                        src="hyperbuild.near/widget/create.reference"
+                        props={{}}
+                      />
                     </div>
                   </div>
                 </div>
@@ -270,7 +195,7 @@ return (
             </TabContent>
             <TabContent>
               {activeTab === "metadata" && (
-                <MetadataForm
+                <CreateMetadata
                   name={name}
                   setName={setName}
                   description={description}
@@ -290,7 +215,7 @@ return (
                   <div className="col">
                     <div className="p-3 border bg-light">
                       <Widget
-                        src="hyperfiles.near/widget/schema.edit"
+                        src="hyperbuild.near/widget/create.edit.schema"
                         props={{}}
                       />
                     </div>
@@ -300,7 +225,7 @@ return (
             </TabContent>
             <TabContent>
               {activeTab === "metadata" && (
-                <MetadataForm
+                <CreateMetadata
                   name={name}
                   setName={setName}
                   description={description}
@@ -320,7 +245,7 @@ return (
                   <div className="col">
                     <div className="p-3 border bg-light">
                       <Widget
-                        src="efiz.near/widget/every.type.create"
+                        src="hyperbuild.near/widget/create.edit.type"
                         props={{}}
                       />
                     </div>
@@ -330,7 +255,7 @@ return (
             </TabContent>
             <TabContent>
               {activeTab === "metadata" && (
-                <MetadataForm
+                <CreateMetadata
                   name={name}
                   setName={setName}
                   description={description}
@@ -350,7 +275,7 @@ return (
                   <div className="col">
                     <div className="p-3 border bg-light">
                       <Widget
-                        src="jgodwill.near/widget/JSONFormatter"
+                        src="hyperbuild.near/widget/create.job"
                         props={{}}
                       />
                     </div>
@@ -360,7 +285,7 @@ return (
             </TabContent>
             <TabContent>
               {activeTab === "metadata" && (
-                <MetadataForm
+                <CreateMetadata
                   name={name}
                   setName={setName}
                   description={description}
@@ -370,15 +295,6 @@ return (
             </TabContent>
           </div>
         )}
-        <div>
-          <Widget
-            src="efiz.near/widget/Every.Thing.History"
-            props={{
-              path: state.path,
-              count: (count) => console.log("Number of changes:", count),
-            }}
-          />
-        </div>
       </TabContent>
     </div>
   </div>
