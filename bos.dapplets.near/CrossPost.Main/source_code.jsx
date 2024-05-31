@@ -84,6 +84,14 @@ const Button = styled.button`
   border: none;
   background: none;
   gap: 6px;
+
+  &:hover {
+    color: #4e5459;
+  }
+
+  &:active {
+    color: #2d3031;
+  }
 `;
 
 if (isLoading) {
