@@ -1,8 +1,9 @@
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  flex: 1;
   padding: 20px;
+  min-height: 80vh;
 `;
 const Button = styled.button`
   padding: 12px 16px;
@@ -47,8 +48,17 @@ const MonospaceText = styled.span`
 `;
 return (
   <Container>
-    <h3>welcome to chop sui</h3>
+    <h3>welcome</h3>
     <br />
-    <p>go to the sandbox to try it out</p>
+    <p>
+      check out the{" "}
+      <Link to={`/trysui.near/widget/Index?page=library`}>library</Link> of Sui
+      components to build with,
+    </p>
+    <p>
+      then go to the{" "}
+      <Link to={`/trysui.near/widget/Index?page=sandbox`}>sandbox</Link> to try
+      it out
+    </p>
   </Container>
 );
