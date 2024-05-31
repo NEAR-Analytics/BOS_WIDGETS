@@ -50,13 +50,14 @@ const handleCrosspostClick = () => {
 
   setIsLoading(true);
 
-  try {
-    Near.call("social.near", "set", args, gas, deposit);
-  } catch (err) {
-    console.error(err);
-  }
-
-  setIsLoading(false);
+  Near.call("social.near", "set", args, gas, deposit)
+    .then(() => {
+      setIsLoading(false);
+    })
+    .catch((err) => {
+      console.error(err);
+      setIsLoading(false);
+    });
 };
 
 if (isLoading) {
