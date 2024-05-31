@@ -41,7 +41,7 @@ const handleCrosspostClick = () => {
 
   const gas = TGas.mul(100).toFixed(0);
   const deposit = OneNear.div(100); // ToDo: calculate storage deposit
-  const callPromise = Near.call("social.near", "set", data, gas, deposit);
+  const callPromise = Near.call("social.near", "set", { data }, gas, deposit);
 
   console.log({ callPromise });
 };
