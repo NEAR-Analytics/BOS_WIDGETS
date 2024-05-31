@@ -53,7 +53,8 @@ const getTask = () => {
         console.log("Index session valid");
         State.update({
           annotations: res.body.annotations ?? [],
-          annotationId: (res.body.annotations ?? [])?.[0]?.id ?? 0,
+          annotationId:
+            state.annotationId ?? (res.body.annotations ?? [])?.[0]?.id ?? 0,
           requestTask: (res.body.annotations ?? []).length == 0,
           isSessionValid: res.body.is_session_valid,
           pendingRequest: false,
