@@ -115,7 +115,7 @@ const renderProps = (props, optional) => {
   });
 };
 const renderComponent = (c, i) => {
-  const widgetSrc = `sui.near/widget/${c.widgetName}`;
+  const widgetSrc = `trysui.near/widget/${c.widgetName}`;
   const id = c.title.toLowerCase().replaceAll(" ", "-");
   return (
     <div className="component" key={i}>
