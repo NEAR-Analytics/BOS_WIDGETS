@@ -23,19 +23,41 @@ return (
         <Heading>dApp Starter Template</Heading>
       </Box>
       <Box>
-        <SuiConnect />
+        <ConnectButton />
       </Box>
     </Flex>
     <Container>
-      <SuiClient
-        provides={(props) => (
-          <Container my="2">
-            <p>{JSON.stringify(props)}</p>
-          </Container>
-        )}
+      <SuiClientQuery
+        provides={({ account, data, isPending, isError, error }) => {
+          if (account) {
+            return <Flex>Connected wallet: {account}</Flex>;
+          }
+          if (error) {
+            return <Flex>Error: {error.message}</Flex>;
+          }
+          if (isPending || !data) {
+            return <Flex>Loading...</Flex>;
+          }
+          return (
+            <Flex direction="column" my="2">
+              {data.data.length === 0 ? (
+                <Text>No objects owned by the connected wallet</Text>
+              ) : (
+                <Heading size="4">
+                  Objects owned by the connected wallet
+                </Heading>
+              )}
+              {data.data.map((object) => (
+                <Flex key={object.data?.objectId}>
+                  <Text>Object ID: {object.data?.objectId}</Text>
+                </Flex>
+              ))}
+            </Flex>
+          );
+        }}
         query={{
           method: "getOwnedObjects",
-          params: { owner: "0x123" },
+          params: { owner: props.account },
           options: { gcTime: 10000 },
         }}
       />
