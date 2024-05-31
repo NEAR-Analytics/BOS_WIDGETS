@@ -158,6 +158,7 @@ const queryHashes = [
   { id: 1, hash: "4037ccf7-3b5d-4fcd-811d-21e133f4adc3" }, // RECENT
   { id: 2, hash: "bdb3eb6e-6b0e-400c-b970-0591ec7d4a67" }, // PARTNERS
   { id: 3, hash: "0d29ffea-c8fa-43e2-9d0e-801fc197e339" }, // POWERED BY
+  { id: 4, hash: "395306cd-87b2-4f3b-b118-51238a93a14f" }, // supported projects
 ];
 
 State.init({
@@ -881,7 +882,7 @@ return (
               <Content style={{ color: `${state.light ? "black" : "#fff"}` }}>
                 Use dashboards for free
                 <a
-                  href="https://flipsidecrypto.xyz/teams/Forefront_Tak"
+                  href="https://near.social/forefront_tak.near/widget/Forefront.Discover"
                   target="_blank"
                   style={{ color: "#806ce1" }}
                   li
@@ -909,14 +910,14 @@ return (
                     />
                   </svg>
                   <h5 style={{ color: `${state.light ? "black" : "#fff"}` }}>
-                    Real-time Analytical components
+                    Analytical components
                   </h5>
                 </Trigger>
               </Header>
               <Content style={{ color: `${state.light ? "black" : "#fff"}` }}>
                 Fascinating UI/UX
                 <a
-                  href="https://near.social/forefront_tak.near/widget/Forefront.Home"
+                  href="https://near.social/forefront_tak.near/widget/Forefront.Discover"
                   target="_blank"
                   style={{ color: "#806ce1" }}
                   li
@@ -963,7 +964,7 @@ return (
         <ImgContainer>
           <img
             src={
-              "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/OIG%20(10).jpeg"
+              "https://ipfs.near.social/ipfs/bafkreiaopodecbsf64d5aqxa67gc67lnh5ped5qw42vbpldciwpwpwubhy"
             }
             alt="credits"
             className={state.value === "acceleration" ? "open" : ""}
@@ -971,14 +972,14 @@ return (
 
           <img
             src={
-              "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/OIG.rGHz_S8.jpeg"
+              "https://ipfs.near.social/ipfs/bafybeiewt7iccfti67s2gkrsxfk5qw7pcrv43v5ljp7pyg7psfbc4kzbxu"
             }
             alt="backers"
             className={state.value === "ecosystem" ? "open" : ""}
           />
           <img
             src={
-              "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/OIG%20(8).jpeg"
+              "https://ipfs.near.social/ipfs/bafkreicsutynhsqpvmd74oz4oh5cr6ytw2v6qo3m2yi62brfnvgish4mni"
             }
             alt="backers"
             className={state.value === "education" ? "open" : ""}
@@ -1061,24 +1062,63 @@ return (
           {state.data["hash" + 2]?.data &&
             state.data["hash" + 2].data.map((data) => (
               <div className="col">
-                <img
-                  title={data.title}
-                  style={imageSectionStyle}
-                  src={data.screenshotUrl}
-                />
-                <div className="col">
-                  <i
-                    style={{
-                      color: `${state.light ? "rgb(41, 0, 78)" : "#d2cafa"}`,
-                    }}
-                  >
-                    {data.title}
-                  </i>
-                </div>{" "}
+                <OverlayTrigger
+                  placement="top"
+                  overlay={<Tooltip> {data.title} </Tooltip>}
+                >
+                  <img
+                    title={data.title}
+                    style={imageSectionStyle}
+                    src={data.screenshotUrl}
+                  />
+                </OverlayTrigger>
               </div>
             ))}
         </div>
       </ParentDiv>
+      <ParentDiv>
+        <h5
+          className="mb-4"
+          style={{ color: `${state.light ? "#806ce1" : "#d2cafa"}` }}
+        >
+          <svg
+            width="32"
+            height="32"
+            viewBox="0 0 32 32"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M17.4167 17.125V15.5417C17.4167 14.0661 16.4075 12.8263 15.0417 12.4748M12.2708 3.10518C13.4313 3.57495 14.25 4.7127 14.25 6.04167C14.25 7.37063 13.4313 8.50838 12.2708 8.97815M13.4583 17.125C13.4583 15.6495 13.4583 14.9118 13.2173 14.3298C12.8959 13.5539 12.2794 12.9374 11.5035 12.616C10.9216 12.375 10.1838 12.375 8.70833 12.375H6.33333C4.85785 12.375 4.12011 12.375 3.53816 12.616C2.76224 12.9374 2.14577 13.5539 1.82438 14.3298C1.58333 14.9118 1.58333 15.6495 1.58333 17.125M10.6875 6.04167C10.6875 7.79057 9.26973 9.20833 7.52083 9.20833C5.77193 9.20833 4.35416 7.79057 4.35416 6.04167C4.35416 4.29276 5.77193 2.875 7.52083 2.875C9.26973 2.875 10.6875 4.29276 10.6875 6.04167Z"
+              stroke="#806ce1"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          Supported projects
+        </h5>
+        <div className="row row-cols-auto g-4">
+          {CardIsLoading(1)}
+          {CardHasError(1)}
+          {state.data["hash" + 4]?.data &&
+            state.data["hash" + 4].data.map((data) => (
+              <div className="col">
+                <OverlayTrigger
+                  placement="top"
+                  overlay={<Tooltip> {data.title} </Tooltip>}
+                >
+                  <img
+                    title={data.title}
+                    style={imageSectionStyle}
+                    src={data.screenshotUrl}
+                  />
+                </OverlayTrigger>
+              </div>
+            ))}
+        </div>
+      </ParentDiv>
+
       <div style={{ width: "100%", height: "85px" }}></div>
       <h4
         style={{
