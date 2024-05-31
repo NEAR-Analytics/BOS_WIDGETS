@@ -10,20 +10,20 @@ const config = {
     Header: () => (
       <div className="header-container">
         <div className="header-content">
-          <Link to={`/sui.near/widget/Index`}>
+          <Link to={`/trysui.near/widget/Index`}>
             <h1 className="header-title">Chop Sui</h1>
           </Link>
           <div className="flex gap-4">
-            <Link to={`/sui.near/widget/Index?page=Index`}>
+            <Link to={`/trysui.near/widget/Index?page=Index`}>
               <button className="header-button">Home</button>
             </Link>
-            <Link to={`/sui.near/widget/Index?page=sandbox`}>
+            <Link to={`/trysui.near/widget/Index?page=sandbox`}>
               <button className="header-button">Sandbox</button>
             </Link>
-            <Link to={`/sui.near/widget/Index?page=library`}>
+            <Link to={`/trysui.near/widget/Index?page=library`}>
               <button className="header-button">Library</button>
             </Link>
-            <Link to={`/sui.near/widget/Index?page=demo`}>
+            <Link to={`/trysui.near/widget/Index?page=demo`}>
               <button className="header-button">Demo</button>
             </Link>
           </div>
@@ -43,7 +43,7 @@ const config = {
     param: "page",
     routes: {
       Index: {
-        path: "sui.near/widget/page.home",
+        path: "trysui.near/widget/page.home",
         blockHeight: "final",
         init: {
           name: "Home",
@@ -51,14 +51,14 @@ const config = {
         default: true,
       },
       sandbox: {
-        path: "sui.near/widget/page.sandbox",
+        path: "trysui.near/widget/page.sandbox",
         blockHeight: "final",
         init: {
           name: "Sandbox",
         },
       },
       library: {
-        path: "sui.near/widget/page.library",
+        path: "trysui.near/widget/page.library",
         blockHeight: "final",
         init: {
           name: "Library",
@@ -66,7 +66,7 @@ const config = {
         },
       },
       demo: {
-        path: "sui.near/widget/page.demo",
+        path: "trysui.near/widget/page.demo",
         blockHeight: "final",
         init: {
           name: "Demo",
