@@ -1,3 +1,6 @@
+const TGas = Big(10).pow(12);
+const OneNear = Big(10).pow(24);
+
 const getTopContext = (ctx) => {
   return ctx.parent ? getTopContext(ctx.parent) : ctx;
 };
@@ -21,7 +24,7 @@ const handleCrosspostClick = () => {
   const shareLink = buildShareLink(post.url, mutationId);
   const repostText = buildRepostText(shareLink, post.text);
 
-  Social.set({
+  const data = {
     post: {
       main: JSON.stringify({
         type: "md",
@@ -34,7 +37,13 @@ const handleCrosspostClick = () => {
         }),
       },
     },
-  });
+  };
+
+  const gas = TGas.mul(100).toFixed(0);
+  const deposit = OneNear.div(100); // ToDo: calculate storage deposit
+  const callPromise = Near.call("social.near", "set", data, gas, deposit);
+
+  console.log({ callPromise });
 };
 
 return (
