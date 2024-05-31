@@ -28,6 +28,18 @@ const WithdrawWrap = styled.div`
     justify-content: space-between;
     color: white;
   }
+  .empty {
+    color: white;
+    text-align: center;
+  }
+  .empty-title {
+    font-size: 24px;
+    font-weight: 600;
+    padding: 20px 0;
+  }
+  .empty-txt {
+    font-size: 16px;
+  }
 `;
 const Blur = styled.div`
   position: absolute;
@@ -195,7 +207,8 @@ State.init({
 
   tokenBal: 0,
   showDialog: false,
-  withdrawData: false,
+  withdrawData: {},
+  withdrawList: [],
   updater: "",
 });
 
@@ -263,10 +276,17 @@ function getTVL() {
       console.log("Catch-getTVL--", err);
     });
 }
-function getWithdrawList(tokenAddr, tokenSymbol, userIndex) {
-  const contract = new ethers.Contract(
-    WithdrawalContract,
-    [
+function getWithdrawList(tokenItem) {
+  let _userIndexs = generateArray(tokenItem.begin, tokenItem.end - 1);
+
+  const calls = _userIndexs.map((_index) => ({
+    address: WithdrawalContract,
+    name: "getUserWithdrawalRequest",
+    params: [tokenItem.asset, account, _index],
+  }));
+
+  return multicall({
+    abi: [
       {
         inputs: [
           { internalType: "address", name: "asset", type: "address" },
@@ -292,42 +312,87 @@ function getWithdrawList(tokenAddr, tokenSymbol, userIndex) {
         type: "function",
       },
     ],
-    Ethers.provider()
-  );
-  contract
-    .getUserWithdrawalRequest(tokenAddr, account, userIndex)
-    .then((res) => {
-      console.log("getWithdrawList--", res);
-      const [
-        rsETHAmount,
-        expectedAssetAmount,
-        withdrawalStartBlock,
-        userNonce,
-      ] = res;
-      getBlockNumber().then((_blockNumber) => {
-        let _withdrawData = {
-          asset: tokenAddr,
-          symbol: tokenSymbol,
-          amount: formatUnits(expectedAssetAmount),
-          canClaim: false,
-        };
+    calls,
+    options: {},
+    multicallAddress,
+    provider: Ethers.provider(),
+  });
+}
 
-        if (
-          Big(_blockNumber).gt(
-            Big(withdrawalStartBlock).plus(state.withdrawalDelayBlocks)
-          )
-        ) {
-          _withdrawData.canClaim = true;
+function generateArray(start, end) {
+  return Array.from(new Array(end + 1).keys()).slice(start);
+}
+function getUserAssociatedNonces(_tokens) {
+  const calls = _tokens.map((token) => ({
+    address: WithdrawalContract,
+    name: "userAssociatedNonces",
+    params: [token.address, account],
+  }));
+
+  multicall({
+    abi: [
+      {
+        inputs: [
+          { internalType: "address", name: "asset", type: "address" },
+          { internalType: "address", name: "user", type: "address" },
+        ],
+        name: "userAssociatedNonces",
+        outputs: [
+          { internalType: "uint128", name: "_begin", type: "uint128" },
+          { internalType: "uint128", name: "_end", type: "uint128" },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
+    ],
+    calls,
+    options: {},
+    multicallAddress,
+    provider: Ethers.provider(),
+  })
+    .then((res) => {
+      console.log("getUserAssociatedNonces--", res);
+      let _withdrawData = {};
+      res.forEach((item, index) => {
+        if (item && item[1] - item[0] > 0) {
+          const [_begin, _end] = item;
+
+          _withdrawData[_tokens[index].address] = {
+            asset: _tokens[index].address,
+            symbol: _tokens[index].symbol,
+            begin: _begin.toNumber(),
+            end: _end.toNumber(),
+            canClaim: false,
+          };
         }
-        State.update({
-          withdrawData: _withdrawData,
-        });
       });
+
+      return _withdrawData;
+    })
+    .then((_withdrawData) => {
+      if (Object.values(_withdrawData).length) {
+        Object.values(_withdrawData).forEach((item) => {
+          getWithdrawList(item).then((res) => {
+            _withdrawData[item.asset].list = res;
+
+            const _wl = res.map((wq) => ({
+              ...item,
+              list: wq,
+            }));
+
+            State.update((prev) => ({
+              ...prev,
+              withdrawList: [...prev.withdrawList, ..._wl],
+            }));
+          });
+        });
+      }
     })
     .catch((err) => {
-      console.log("getWithdrawList-error--", err);
+      console.log("getUserAssociatedNonces-error--", err);
     });
 }
+
 function getBlockNumber() {
   return Ethers.provider()
     .getBlockNumber()
@@ -354,6 +419,39 @@ function getWithdrawalDelayBlocks() {
   );
   return contract.withdrawalDelayBlocks();
 }
+
+// function formatList(_withdrawList) {
+
+// }
+useEffect(() => {
+  let _withdrawList = [...state.withdrawList];
+  if (!_withdrawList.length) return;
+
+  console.log("withdrawList--", _withdrawList);
+  getBlockNumber().then((_blockNumber) => {
+    for (let i = 0; i < _withdrawList.length; i++) {
+      const [
+        rsETHAmount,
+        expectedAssetAmount,
+        withdrawalStartBlock,
+        userNonce,
+      ] = _withdrawList[i].list;
+      _withdrawList[i].amount = formatUnits(expectedAssetAmount);
+      if (
+        Big(_blockNumber).gt(
+          Big(withdrawalStartBlock).plus(state.withdrawalDelayBlocks)
+        )
+      ) {
+        _withdrawList[i].canClaim = true;
+      }
+    }
+  });
+
+  console.log("-----", _withdrawList);
+  State.update({
+    withdrawList: _withdrawList,
+  });
+}, [state.withdrawList]);
 
 function handleClaim(_tokenAddr) {
   console.log("claim--", _tokenAddr);
@@ -437,11 +535,8 @@ useEffect(() => {
         });
       })
       .then(() => {
-        StakeTokens.filter((item) => item.symbol !== "ETH").forEach(
-          (_token) => {
-            getWithdrawList(_token.address, _token.symbol, 0);
-          }
-        );
+        const _list = StakeTokens.filter((item) => item.symbol !== "ETH");
+        getUserAssociatedNonces(_list);
       })
       .catch((err) => {
         console.log("getWithdrawalDelayBlocks-error--", err);
@@ -651,33 +746,45 @@ return (
               {chainId !== 1 && (tab === "Unstake" || tab === "Withdraw") ? (
                 <Blur></Blur>
               ) : null}
-              <div className="withdraw-title">AMOUNT</div>
-              <div className="withdraw-list">
-                <div className="withdraw-item">
-                  <span className="withdraw-amount">
-                    {Number(state.withdrawData.amount).toFixed(6)}{" "}
-                    {state.withdrawData.symbol}
-                  </span>
-                  {state.withdrawData.canClaim ? (
-                    <ClaimBtn
-                      onClick={(e) => handleClaim(state.withdrawData.asset)}
-                    >
-                      {state.claimLoading ? (
-                        <Widget
-                          src="bluebiu.near/widget/0vix.LendingLoadingIcon"
-                          props={{
-                            size: 16,
-                          }}
-                        />
-                      ) : (
-                        "Claim"
-                      )}
-                    </ClaimBtn>
-                  ) : (
-                    <span>~in 7 - 10 days</span>
-                  )}
+              {state.withdrawList.length ? (
+                <>
+                  <div className="withdraw-title">AMOUNT</div>
+                  <div className="withdraw-list">
+                    {state.withdrawList.map((item) => (
+                      <div className="withdraw-item">
+                        <span className="withdraw-amount">
+                          {Number(item.amount).toFixed(6)} {item.symbol}
+                        </span>
+                        {item.canClaim ? (
+                          <ClaimBtn onClick={(e) => handleClaim(item.asset)}>
+                            {state.claimLoading ? (
+                              <Widget
+                                src="bluebiu.near/widget/0vix.LendingLoadingIcon"
+                                props={{
+                                  size: 16,
+                                }}
+                              />
+                            ) : (
+                              "Claim"
+                            )}
+                          </ClaimBtn>
+                        ) : (
+                          <span>~in 7 - 10 days</span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <div className="empty">
+                  <div className="empty-title">No unstake requests found</div>
+                  <div className="empty-txt">
+                    You will be able to claim your tokens after the Unstake
+                    request has been processed. To Unstake your tokens go to
+                    Unstake tab
+                  </div>
                 </div>
-              </div>
+              )}
             </BlurWrap>
             <Widget
               src="bluebiu.near/widget/Staking.Kelp.SwitchBtn"
