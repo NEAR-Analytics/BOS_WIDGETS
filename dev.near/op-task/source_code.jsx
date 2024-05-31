@@ -94,7 +94,7 @@ const saveChat = (isNewMessage, onSaveChat) => {
     if (res.ok) {
       // returns {is_session_valid, annotation_id?}
       let response = res.body;
-      if (state.chat.length === 2) {
+      if (state.chat.length <= 2) {
         console.log("First reply from AI. Refresh User Annotations");
         response.refreshUserAnnotations = true;
       }
@@ -587,7 +587,7 @@ const loadDefaultPrompts = () => {
 
 let storage = Storage.privateGet(storageKey) ?? {};
 
-console.log("storage", storage);
+// console.log("storage", storage);
 
 if (
   storage?.promptsUnlocked &&
