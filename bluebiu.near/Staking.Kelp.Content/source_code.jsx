@@ -206,7 +206,8 @@ useEffect(() => {
 }, []);
 
 useEffect(() => {
-  console.log("tab--", tab);
+  console.log("tab---", tab, chainId);
+
   const options = StakeTokens?.map((item) => ({
     text: item.symbol,
     value: item.symbol,
@@ -351,17 +352,7 @@ function getWithdrawalDelayBlocks() {
     ],
     Ethers.provider()
   );
-  contract
-    .withdrawalDelayBlocks()
-    .then((_blocks) => {
-      console.log("getWithdrawalDelayBlocks--", _blocks);
-      State.update({
-        withdrawalDelayBlocks: _blocks.toString(),
-      });
-    })
-    .catch((err) => {
-      console.log("getWithdrawalDelayBlocks-error--", err);
-    });
+  return contract.withdrawalDelayBlocks();
 }
 
 function handleClaim(_tokenAddr) {
@@ -417,7 +408,6 @@ function handleClaim(_tokenAddr) {
 useEffect(() => {
   getAPY();
   getTVL();
-  getWithdrawalDelayBlocks();
 }, []);
 
 useEffect(() => {
@@ -438,10 +428,24 @@ useEffect(() => {
       tokenBal: _bal,
     });
   }
-  if (tab === "Withdraw") {
-    StakeTokens.filter((item) => item.symbol !== "ETH").forEach((_token) => {
-      getWithdrawList(_token.address, _token.symbol, 0);
-    });
+  if (tab === "Withdraw" && chainId === 1) {
+    getWithdrawalDelayBlocks()
+      .then((_blocks) => {
+        console.log("getWithdrawalDelayBlocks--", _blocks);
+        State.update({
+          withdrawalDelayBlocks: _blocks.toString(),
+        });
+      })
+      .then(() => {
+        StakeTokens.filter((item) => item.symbol !== "ETH").forEach(
+          (_token) => {
+            getWithdrawList(_token.address, _token.symbol, 0);
+          }
+        );
+      })
+      .catch((err) => {
+        console.log("getWithdrawalDelayBlocks-error--", err);
+      });
   }
 }, [state.curToken, tab, updater]);
 
@@ -643,33 +647,48 @@ return (
 
         {tab === "Withdraw" && (
           <WithdrawWrap>
-            <div className="withdraw-title">AMOUNT</div>
-            <div className="withdraw-list">
-              <div className="withdraw-item">
-                <span className="withdraw-amount">
-                  {Number(state.withdrawData.amount).toFixed(6)}{" "}
-                  {state.withdrawData.symbol}
-                </span>
-                {state.withdrawData.canClaim ? (
-                  <ClaimBtn
-                    onClick={(e) => handleClaim(state.withdrawData.asset)}
-                  >
-                    {state.claimLoading ? (
-                      <Widget
-                        src="bluebiu.near/widget/0vix.LendingLoadingIcon"
-                        props={{
-                          size: 16,
-                        }}
-                      />
-                    ) : (
-                      "Claim"
-                    )}
-                  </ClaimBtn>
-                ) : (
-                  <span>~in 7 - 10 days</span>
-                )}
+            <BlurWrap>
+              {chainId !== 1 && (tab === "Unstake" || tab === "Withdraw") ? (
+                <Blur></Blur>
+              ) : null}
+              <div className="withdraw-title">AMOUNT</div>
+              <div className="withdraw-list">
+                <div className="withdraw-item">
+                  <span className="withdraw-amount">
+                    {Number(state.withdrawData.amount).toFixed(6)}{" "}
+                    {state.withdrawData.symbol}
+                  </span>
+                  {state.withdrawData.canClaim ? (
+                    <ClaimBtn
+                      onClick={(e) => handleClaim(state.withdrawData.asset)}
+                    >
+                      {state.claimLoading ? (
+                        <Widget
+                          src="bluebiu.near/widget/0vix.LendingLoadingIcon"
+                          props={{
+                            size: 16,
+                          }}
+                        />
+                      ) : (
+                        "Claim"
+                      )}
+                    </ClaimBtn>
+                  ) : (
+                    <span>~in 7 - 10 days</span>
+                  )}
+                </div>
               </div>
-            </div>
+            </BlurWrap>
+            <Widget
+              src="bluebiu.near/widget/Staking.Kelp.SwitchBtn"
+              props={{
+                ...props,
+                actionText: tab,
+                // onSuccess: () => {
+                //   State.update({ loading: true, stakeAmount: "" });
+                // },
+              }}
+            />
           </WithdrawWrap>
         )}
       </Wrapper>
