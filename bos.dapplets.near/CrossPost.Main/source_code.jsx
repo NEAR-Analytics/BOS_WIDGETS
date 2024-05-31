@@ -42,7 +42,7 @@ const handleCrosspostClick = () => {
   };
 
   const gas = TGas.mul(100).toFixed(0);
-  const deposit = OneNear.div(200); // ToDo: calculate storage deposit
+  const deposit = OneNear.div(20); // 0.05 NEAR // ToDo: calculate storage deposit
 
   setIsLoading(true);
 
