@@ -226,17 +226,17 @@ const WrapperAlert = styled.div`
   margin-right: auto;
   background: ${(props) =>
     props.$status === "warning"
-      ? props.$bgWarning
+      ? "rgba(255, 248, 235, 1)"
       : props.$status === "error"
-      ? props.$bgError
-      : props.$bgInfo};
+      ? "rgba(246, 240, 246, 1)"
+      : "rgba(255, 255, 255, 0.2)"};
 
   color: ${(props) =>
     props.$status === "warning"
-      ? props.$colWarning
+      ? "rgba(208, 145, 26, 1)"
       : props.$status === "error"
-      ? props.$colError
-      : props.$colInfo};
+      ? "rgba(219, 80, 74, 1)"
+      : "white"};
 
   outline: none;
 `
@@ -426,7 +426,7 @@ const iconClose = (color) => (
   </svg>
 )
 
-const errorIcon = (color) => (
+const errorIcon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="20"
@@ -437,21 +437,21 @@ const errorIcon = (color) => (
     <g clipPath="url(#clip0_358_97)">
       <path
         d="M6.54996 1.66666H13.45L18.3333 6.54999V13.45L13.45 18.3333H6.54996L1.66663 13.45V6.54999L6.54996 1.66666Z"
-        stroke={color}
+        stroke="#DB504A"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M12.5 7.5L7.5 12.5"
-        stroke={color}
+        stroke="#DB504A"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M7.5 7.5L12.5 12.5"
-        stroke={color}
+        stroke="#DB504A"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -465,7 +465,7 @@ const errorIcon = (color) => (
   </svg>
 )
 
-const infoIcon = (color) => (
+const infoIcon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="20"
@@ -476,21 +476,24 @@ const infoIcon = (color) => (
     <g clipPath="url(#clip0_358_90)">
       <path
         d="M9.99996 18.3333C14.6023 18.3333 18.3333 14.6024 18.3333 10C18.3333 5.39763 14.6023 1.66667 9.99996 1.66667C5.39759 1.66667 1.66663 5.39763 1.66663 10C1.66663 14.6024 5.39759 18.3333 9.99996 18.3333Z"
-        stroke={color}
+        // stroke="#246EFD"
+        stroke="white"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M10 13.3333V10"
-        stroke={color}
+        // stroke="#246EFD"
+        stroke="white"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M10 6.66667H10.0088"
-        stroke={color}
+        // stroke="#246EFD"
+        stroke="white"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -504,7 +507,7 @@ const infoIcon = (color) => (
   </svg>
 )
 
-const warningIcon = (color) => (
+const warningIcon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="20"
@@ -514,21 +517,21 @@ const warningIcon = (color) => (
   >
     <path
       d="M8.57502 3.21665L1.51668 15C1.37116 15.252 1.29416 15.5377 1.29334 15.8288C1.29253 16.1198 1.36793 16.4059 1.51204 16.6588C1.65615 16.9116 1.86396 17.1223 2.11477 17.2699C2.36559 17.4174 2.65068 17.4968 2.94168 17.5H17.0583C17.3494 17.4968 17.6344 17.4174 17.8853 17.2699C18.1361 17.1223 18.3439 16.9116 18.488 16.6588C18.6321 16.4059 18.7075 16.1198 18.7067 15.8288C18.7059 15.5377 18.6289 15.252 18.4834 15L11.425 3.21665C11.2765 2.97174 11.0673 2.76925 10.8177 2.62872C10.5681 2.48819 10.2865 2.41437 10 2.41437C9.71357 2.41437 9.43196 2.48819 9.18235 2.62872C8.93275 2.76925 8.72358 2.97174 8.57502 3.21665Z"
-      stroke={color}
+      stroke="#D0911A"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M10 7.5V10.8333"
-      stroke={color}
+      stroke="#D0911A"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M10 14.1667H10.0088"
-      stroke={color}
+      stroke="#D0911A"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -543,18 +546,9 @@ const themes = {
     colorP: '#777777',
     border: '#02193a',
     cardBg: 'rgba(248, 249, 255, 1)',
-
     navActive: "#384BFF",
     navInactiveBg: "#E3E3E3",
     navInactiveBorder: 'none',
-
-    statusInfoCol: "#246EFD",
-    statusWarningCol: "#D0911A",
-    statusErrorCol: "#DB504A",
-    statusInfoBg: "rgba(234, 241, 255, 1)",
-    statusWarningBg: "rgba(255, 248, 235, 1)",
-    statusErrorBg: "rgba(246, 240, 246, 1)",
-
     primBtnCol: 'white',
     primBtnBg: '#02193a',
     primBtnBgH: "#1c3559",
@@ -570,18 +564,9 @@ const themes = {
     colorP: 'rgba(248, 249, 255, 1)',
     border: '#4E77E1',
     cardBg: 'rgba(255, 255, 255, 0.1)',
-
     navActive: "white",
     navInactiveBg: "#4E77E1",
     navInactiveBorder: 'white',
-
-    statusInfoCol: "white",
-    statusWarningCol: "white",
-    statusErrorCol: "white",
-    statusInfoBg: "rgba(255, 255, 255, 0.2)",
-    statusWarningBg: "rgba(255, 255, 255, 0.2)",
-    statusErrorBg: "rgba(255, 255, 255, 0.2)",
-
     primBtnCol: '#4E77E1',
     primBtnBgH: 'rgb(242 243 255)',
     primBtnBgA: 'rgb(222 225 255)',
@@ -632,21 +617,13 @@ const header = (
 )
 
 const statuses = (
-  <WrapperAlert
-    $status={props.status.type}
-    $colInfo={themes[skin].statusInfoCol}
-    $colWarning={themes[skin].statusWarningCol}
-    $colError={themes[skin].statusErrorCol}
-    $bgInfo={themes[skin].statusInfoBg}
-    $bgWarning={themes[skin].statusWarningBg}
-    $bgError={themes[skin].statusErrorBg}
-  >
+  <WrapperAlert $status={props.status.type}>
     <IconAlert>
       {props.status.type === "warning"
-        ? warningIcon(themes[skin].statusWarningCol)
+        ? warningIcon
         : props.status.type === "error"
-        ? errorIcon(themes[skin].statusErrorCol)
-        : infoIcon(themes[skin].statusInfoCol)}
+        ? errorIcon
+        : infoIcon}
     </IconAlert>
     <TextAlert>{props.status.text}</TextAlert>
   </WrapperAlert>
