@@ -1,7 +1,21 @@
 const TGas = Big(10).pow(12);
 const OneNear = Big(10).pow(24);
+const ContractId = "social.near";
 
-const [isLoading, setIsLoading] = useState(false);
+const [awaitingTx, setAwaitingTx] = useState(null);
+
+const awaitingTxData = awaitingTx
+  ? Near.view(awaitingTx.contractId, awaitingTx.method, awaitingTx.args)
+  : null;
+
+useEffect(() => {
+  console.log({ awaitingTx, awaitingTxData });
+  if (!awaitingTx || !awaitingTxData) return;
+
+  if (JSON.stringify(awaitingTxData) === JSON.stringify(awaitingTx.expected)) {
+    setAwaitingTx(null);
+  }
+}, [awaitingTxData, awaitingTx]);
 
 const getTopContext = (ctx) => {
   return ctx.parent ? getTopContext(ctx.parent) : ctx;
@@ -26,14 +40,16 @@ const handleCrosspostClick = () => {
   const shareLink = buildShareLink(post.url, mutationId);
   const repostText = buildRepostText(shareLink, post.text);
 
+  const serializedPost = JSON.stringify({
+    type: "md",
+    text: repostText,
+  });
+
   const args = {
     data: {
       [context.accountId]: {
         post: {
-          main: JSON.stringify({
-            type: "md",
-            text: repostText,
-          }),
+          main: serializedPost,
         },
         index: {
           post: JSON.stringify({
@@ -48,19 +64,19 @@ const handleCrosspostClick = () => {
   const gas = TGas.mul(100).toFixed(0);
   const deposit = OneNear.div(100); // 0.01 NEAR // ToDo: calculate storage deposit
 
-  setIsLoading(true);
+  setAwaitingTx({
+    contractId: ContractId,
+    method: "get",
+    args: { keys: [`${context.accountId}/post/main`] },
+    expected: {
+      [context.accountId]: { post: { main: serializedPost } },
+    },
+  });
 
-  Near.call("social.near", "set", args, gas, deposit)
-    .then(() => {
-      setIsLoading(false);
-    })
-    .catch((err) => {
-      console.error(err);
-      setIsLoading(false);
-    });
+  Near.call(ContractId, "set", args, gas, deposit);
 };
 
-if (isLoading) {
+if (awaitingTx) {
   return (
     <button class="btn btn-primary" type="button" disabled>
       <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span>
