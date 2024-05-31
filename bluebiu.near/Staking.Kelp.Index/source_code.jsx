@@ -272,19 +272,12 @@ useEffect(() => {
   }
   getWalletBalance();
 }, [state.StakeTokens]);
-let tabsArray;
-if (chainId === 1) {
-  tabsArray = [
-    { key: "Stake", label: "Stake" },
-    { key: "Unstake", label: "Unstake" },
-    { key: "Withdraw", label: "Withdraw" },
-  ];
-} else {
-  tabsArray = [
-    { key: "Stake", label: "Stake" },
-    { key: "Unstake", label: "Unstake" },
-  ];
-}
+let tabsArray = [
+  { key: "Stake", label: "Stake" },
+  { key: "Unstake", label: "Unstake" },
+  { key: "Withdraw", label: "Withdraw" },
+];
+
 const handleBridge = () => {
   windowOpen("bridge-x/stargate", "_blank");
 };
