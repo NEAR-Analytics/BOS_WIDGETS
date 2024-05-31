@@ -55,11 +55,11 @@ return (
                     <Link to={`/trysui.near/widget/Index?page=Index`}>
                       <button className="header-button">Home</button>
                     </Link>
-                    <Link to={`/trysui.near/widget/Index?page=sandbox`}>
-                      <button className="header-button">Sandbox</button>
-                    </Link>
                     <Link to={`/trysui.near/widget/Index?page=library`}>
                       <button className="header-button">Library</button>
+                    </Link>
+                    <Link to={`/trysui.near/widget/Index?page=sandbox`}>
+                      <button className="header-button">Sandbox</button>
                     </Link>
                     <Link to={`/trysui.near/widget/Index?page=demo`}>
                       <button className="header-button">Demo</button>
