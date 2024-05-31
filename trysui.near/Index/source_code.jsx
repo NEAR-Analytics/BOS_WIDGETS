@@ -1,6 +1,7 @@
 const { href } = VM.require("devs.near/widget/lib.url") || {
   href: () => {},
 };
+const LinksContainer = styled.div``;
 const CSS = styled.div`
   display: flex;
   flex-direction: column;
@@ -9,12 +10,28 @@ const CSS = styled.div`
   background: linear-gradient(to left, #c0e6ff, transparent),
     url(https://grainy-gradients.vercel.app/noise.svg);
   padding: 20px;
+  color: #030f1c;
   .footer {
     display: flex;
     justify-content: flex-end;
     align-items: center;
     width: 100%;
     padding: 10px;
+    .link-container {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-right: 20px;
+      a {
+        font-size: 24px;
+        color: inherit;
+        text-decoration: none;
+        transition: all 300ms;
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
   }
   .footer-content {
     display: flex;
@@ -101,9 +118,44 @@ return (
             ),
             // customize the footer
             Footer: () => (
-              <div class="footer">
-                <div class="footer-content">
-                  <span class="footer-text">Built by</span>
+              <div className="footer">
+                <div className="footer-content">
+                  <div className="link-container">
+                    <a
+                      href="https://twitter.com/nearbuilders"
+                      className="d-flex align-items-center"
+                      target="_blank"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <path
+                          d="M8 2.75H1L9.26086 13.7645L1.44995 22.7499H4.09998L10.4883 15.401L16 22.75H23L14.3917 11.2723L21.8001 2.75H19.1501L13.1643 9.63578L8 2.75ZM17 20.75L5 4.75H7L19 20.75H17Z"
+                          fill="#030F1C"
+                        />
+                      </svg>
+                    </a>
+                    <a
+                      href="https://nearbuilders.com/tg-builders"
+                      target="_blank"
+                    >
+                      <i className="bi bi-telegram"></i>
+                    </a>
+                    <a
+                      href="https://github.com/NEARBuilders/bos-sui-webcomponent"
+                      target="_blank"
+                    >
+                      <i className="bi bi-github"></i>
+                    </a>
+                    <a href="https://devs.near.social/" target="_blank">
+                      <i className="bi bi-code-slash"></i>
+                    </a>
+                  </div>
+                  <span className="footer-text">Built by</span>
                   <Link href="https://nearbuilders.org">
                     <img
                       src="https://ipfs.near.social/ipfs/bafkreiglw3t6b3dx2axk7x4ftzk6pwwe6ziiyexlszlkhenxist6osrlbe"
