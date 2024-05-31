@@ -81,6 +81,9 @@ const Button = styled.button`
   font-weight: 500;
   line-height: 15px;
   text-align: left;
+  border: none;
+  background: none;
+  gap: 6px;
 `;
 
 if (isLoading) {
