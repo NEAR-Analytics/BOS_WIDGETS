@@ -1,6 +1,8 @@
 const TGas = Big(10).pow(12);
 const OneNear = Big(10).pow(24);
 
+const [isLoading, setIsLoading] = useState(false);
+
 const getTopContext = (ctx) => {
   return ctx.parent ? getTopContext(ctx.parent) : ctx;
 };
@@ -40,14 +42,35 @@ const handleCrosspostClick = () => {
   };
 
   const gas = TGas.mul(100).toFixed(0);
-  const deposit = OneNear.div(100); // ToDo: calculate storage deposit
-  const callPromise = Near.call("social.near", "set", { data }, gas, deposit);
+  const deposit = OneNear.div(200); // ToDo: calculate storage deposit
 
-  console.log({ callPromise });
+  setIsLoading(true);
+
+  try {
+    Near.call("social.near", "set", { data }, gas, deposit);
+  } catch (err) {
+    console.error(err);
+  }
+
+  setIsLoading(false);
 };
 
+if (isLoading) {
+  return (
+    <button class="btn btn-primary" type="button" disabled>
+      <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span>
+      <span role="status">Loading...</span>
+    </button>
+  );
+}
+
 return (
-  <button disabled={!context.accountId} onClick={handleCrosspostClick}>
-    CrossPost
+  <button
+    class="btn btn-primary"
+    type="button"
+    disabled={!context.accountId}
+    onClick={handleCrosspostClick}
+  >
+    <span role="status">CrossPost</span>
   </button>
 );
