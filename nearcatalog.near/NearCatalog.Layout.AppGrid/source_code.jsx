@@ -122,7 +122,6 @@ const Css = styled.div`
     box-shadow: 0 0.5rem 1.2rem rgba(34, 34, 34, 0.2);
   }
   .near-item .tile-tags span {
-    border-radius: 0.8rem;
     display: inline-block;
     text-transform: lowercase;
     margin-right: 2px;
@@ -698,7 +697,7 @@ const Navbar = (data) => {
       >
         <div className="container-fluid">
           <Link className="navbar-brand" href={`/${props.indexPath}`}>
-            📒NEARCatalog{" "}
+            📒NEARCatalog
           </Link>
           <button
             className="navbar-toggler"
@@ -726,7 +725,6 @@ const Navbar = (data) => {
                 );
               })}
               <li className="nav-item">
-                {" "}
                 <a
                   className="nav-link"
                   href="https://submit.nearcatalog.xyz/new-project/"
@@ -851,7 +849,7 @@ return (
                     props.bookmark && (
                       <div className="">
                         Nothing here, yet 🙅, press ⭐ in project you want to
-                        add!{" "}
+                        add!
                       </div>
                     )}
                   {Object.keys(state.projects).map((e) => {
@@ -879,9 +877,10 @@ return (
                                     Object.keys(p.profile.tags).map((e) => {
                                       return (
                                         <span
-                                          className="badge rounded-pill bg-secondary text-light"
+                                          className="badge bg-secondary text-light"
                                           title={e}
                                         >
+                                          {" "}
                                           {e}
                                         </span>
                                       );
@@ -895,25 +894,15 @@ return (
                               </h3>
                             </div>
                           </div>
-                          {/* <div className="near-item-footer">
-                                                    <div className="tile-social">
-                                                        <svg className="icon" height="20" width="20"></svg>
-                                                    </div>
-                                                    <div className="tile-series">
-                                                        <div className="label-series near">
-                                                            <svg className="icon iconSeries" height="20" width="20"></svg>
-                                                        </div>
-                                                    </div>
-                                                </div> */}
                         </Link>
                       </div>
                     );
                   })}
-                </div>{" "}
+                </div>
                 {/*app list container */}
               </div>
             </div>
-          </div>{" "}
+          </div>
           {/*END near content container */}
         </div>
       </div>
