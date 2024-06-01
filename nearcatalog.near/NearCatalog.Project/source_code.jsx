@@ -379,7 +379,7 @@ const Css = styled.div`
     color: inherit;
     display: flex;
     margin: 0;
-    padding: 0.4rem;
+    padding: 0.1rem;
     text-decoration: none;
   }
   .menu .menu-item > a:active,
@@ -517,15 +517,15 @@ const Css = styled.div`
     max-width: 840px;
   }
   .awesome-hero .hero-img {
-    height: 5.6rem;
+    height: 6rem;
     margin: 1.8rem 1rem 1rem 0;
-    width: 5.6rem;
+    width: 6rem;
   }
   .awesome-hero .hero-img img {
     border-radius: 50%;
     box-shadow: 0 0.2rem 0.6rem rgba(34, 34, 34, 0.05);
-    height: 5.6rem;
-    width: 5.6rem;
+    height: 6rem;
+    width: 6rem;
   }
   @media screen and (max-width: 960px) {
     .awesome-hero .hero-img {
@@ -533,8 +533,8 @@ const Css = styled.div`
     }
   }
   .awesome-hero .hero-title {
-    font-size: 1.8rem;
-    font-weight: 900;
+    font-size: 1.6rem;
+    font-weight: 700;
     line-height: 1.25;
     margin-bottom: 0;
   }
@@ -548,7 +548,7 @@ const Css = styled.div`
   }
   .awesome-hero .hero-subtitle {
     color: #222;
-    font-size: 0.8rem;
+    font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
     margin: 0.5rem 0 1rem;
@@ -584,7 +584,7 @@ const Css = styled.div`
     align-items: center;
     display: inline-flex;
     height: 2rem;
-    font-size: 0.9rem;
+    font-size: 1rem;
     margin-bottom: 0.2rem;
     margin-right: 0.2rem;
     text-decoration: none;
@@ -601,7 +601,7 @@ const Css = styled.div`
   }
   .awesome-hero .hero-links .menu {
     color: #222;
-    width: 12rem;
+    width: 14rem;
   }
   @media screen and (max-width: 960px) {
     .awesome-hero {
@@ -678,7 +678,7 @@ const Css = styled.div`
   }
   .near-content .content-title {
     font-size: 0.8rem;
-    font-weight: 900;
+    font-weight: 700;
     margin-bottom: 1rem;
   }
   .near-content .stats-widget {
@@ -900,9 +900,11 @@ const Css = styled.div`
     font-size: 0.6rem;
   }
   .tile-tags .badge {
-    text-transform: lowercase;
-    margin-right: 5px;
+    text-transform: capitalize;
+    margin-right: 0.4rem;
     opacity: 0.8;
+    min-width: 4rem;
+    cursor: pointer;
   }
   /*! CSS Used keyframes */
   @keyframes slide-down {
@@ -978,21 +980,35 @@ const toggleBookmark = (p) => {
 }; //toggleBookmark
 State.init({
   bookmark: null,
-  bookmarkStatus: isInBookmark(project) ? "added" : "removed",
+  bookmarkStatus: isInBookmark(mergedProject) ? "added" : "removed",
 });
-const project = props.project;
-console.log("project info: ", project);
-const tags = project.profile.tags;
-const tokenTicket = project.profile.tokens
-  ? Object.keys(project.profile.tokens)[0]
+const nearSocialProfile = Social.getr(
+  props.project.profile.linktree.nearsocial + "/profile"
+);
+const mergedProfile = props.project.profile?.linktree?.nearsocial
+  ? Object.assign({}, props.project.profile, { profile: nearSocialProfile })
+  : props.project.profile;
+const mergedProject = props.project.profile?.linktree?.nearsocial
+  ? Object.assign({}, props.project, { profile: mergedProfile })
+  : props.project;
+console.log(
+  "social profile: ",
+  nearSocialProfile,
+  "| indexer profile: ",
+  props.project
+);
+console.log("merged project profile info: ", mergedProject);
+const tags = mergedProject.profile.tags;
+const tokenTicket = mergedProject.profile.tokens
+  ? Object.keys(mergedProject.profile.tokens)[0]
   : false;
 const tokenInfo =
-  tokenTicket && project.profile.tokens
-    ? project.profile.tokens[tokenTicket]
+  tokenTicket && mergedProject.profile.tokens
+    ? mergedProject.profile.tokens[tokenTicket]
     : {};
 console.log("token info: ", tokenInfo, "ticket: ", tokenTicket);
 const twtIframe = `<div align="center"><a class="twitter-timeline"  data-dnt="true"  data-tweet-limit="10"
- href="https://twitter.com/${project.profile.linktree?.twitter}">Twitter</a>
+ href="https://twitter.com/${mergedProject.profile.linktree?.twitter}">Twitter</a>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </div>`;
 return (
@@ -1016,24 +1032,42 @@ return (
         <div className="hero-container column col-md-12">
           <div className="awesome-hero">
             <div className="hero-img">
-              <img src={project.profile.image.url} alt={project.profile.name} />
+              {props.project.profile.linktree.nearsocial ? (
+                <Widget
+                  src="mob.near/widget/Image"
+                  props={{
+                    image: nearSocialProfile.image,
+                  }}
+                />
+              ) : (
+                <img
+                  src={mergedProject.profile.image.url}
+                  alt={mergedProject.profile.name}
+                />
+              )}
             </div>
             <div className="hero-content">
               <h1 className="hero-title">
-                {project.profile.name}{" "}
+                {mergedProject.profile.name}{" "}
                 {tokenTicket && <small>({tokenTicket})</small>}{" "}
               </h1>
-              <h2 className="hero-subtitle">{project.profile.tagline}</h2>
+              <h2 className="hero-subtitle">{mergedProject.profile.tagline}</h2>
               <div className="tile-tags">
-                {Object.keys(project.profile.tags).length > 0 &&
-                  Object.keys(project.profile.tags).map((e) => {
+                {Object.keys(props.project.profile.tags).length > 0 &&
+                  Object.keys(props.project.profile.tags).map((e) => {
                     return (
-                      <span
-                        className="badge rounded-pill bg-secondary text-light"
+                      <a
+                        href={
+                          "/" +
+                          props.indexPath +
+                          "?cat=" +
+                          props.project.profile.tags[e]
+                        }
+                        className="badge bg-secondary text-light"
                         title={e}
                       >
                         {e}
-                      </span>
+                      </a>
                     );
                   })}
               </div>
@@ -1042,35 +1076,43 @@ return (
               <div className="hero-links">
                 <div className="btn-group">
                   <a
-                    onClick={() => toggleBookmark(project)}
-                    rel="noopener noreferrer"
+                    onClick={() => toggleBookmark(props.project)}
                     className="link-item btn btn-lg"
                   >
                     <i
                       class={
-                        isInBookmark(project) ? "bi bi-star-fill" : "bi bi-star"
+                        isInBookmark(props.project)
+                          ? "bi bi-star-fill"
+                          : "bi bi-star"
                       }
                     ></i>
                   </a>
-                  {project.profile.linktree.website && (
+                  {mergedProject.profile.linktree.website && (
                     <a
-                      href={project.profile.linktree.website}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      href={
+                        mergedProject.profile.linktree.website.indexOf("://") >
+                        -1
+                          ? mergedProject.profile.linktree.website
+                          : "https://" + mergedProject.profile.linktree.website
+                      }
                       className="link-item btn btn-lg btn-primary"
+                      target="_blank"
                     >
-                      Website
+                      <i class="bi bi-globe mx-1"></i>Website
                     </a>
                   )}
-                  {project.profile.linktree.twitter && (
+                  {mergedProject.profile.dapp && (
                     <a
-                      href={project.profile.linktree.twitter}
+                      href={
+                        mergedProject.profile.dapp.indexOf("://") > -1
+                          ? mergedProject.profile.dapp
+                          : "https://" + mergedProject.profile.dapp
+                      }
                       target="_blank"
-                      rel="noopener noreferrer"
                       className="link-item btn btn-lg btn-primary"
-                      title="Open DApp"
+                      title="Open App"
                     >
-                      Twitter (X){" "}
+                      <i class="bi bi-google-play mx-1"></i>App
                     </a>
                   )}
                 </div>
@@ -1083,11 +1125,11 @@ return (
                     <ul className="menu">
                       <li className="menu-item">
                         <a
-                          href={`https://submit.nearcatalog.xyz/?pid=${props.id}&pname=${project.profile.name}&title=${project.profile.name}`}
+                          href={`https://submit.nearcatalog.xyz/?pid=${props.id}&pname=${mergedProject.profile.name}&title=${mergedProject.profile.name}`}
                           target="_blank"
-                          rel="noopener noreferrer"
                         >
-                          Report or give feedback
+                          <i class="bi bi-flag me-1"></i> Report or give
+                          feedback
                         </a>
                       </li>
                     </ul>
@@ -1095,77 +1137,92 @@ return (
                 </div>
               </div>
               <div className="hero-links">
-                {project.profile.linktree.twitter && (
+                {mergedProject.profile.linktree.twitter && (
                   <a
-                    href={project.profile.linktree.twitter}
+                    href={
+                      mergedProject.profile.linktree.twitter.indexOf("://") > -1
+                        ? mergedProject.profile.linktree.twitter
+                        : "https://x.com/" +
+                          mergedProject.profile.linktree.twitter
+                    }
                     target="_blank"
-                    rel="noopener noreferrer"
                     className="link-item btn btn-lg btn-link"
-                    title="Twitter"
+                    title="Twitter/X"
                   >
                     <i class="bi bi-twitter-x"></i>
                   </a>
                 )}
-                {project.profile.linktree.medium && (
+                {mergedProject.profile.linktree.medium && (
                   <a
-                    href={project.profile.linktree.medium}
+                    href={mergedProject.profile.linktree.medium}
                     target="_blank"
-                    rel="noopener noreferrer"
                     className="link-item btn btn-lg btn-link"
-                    title="Medium, blog, news, tutorials, and announcements"
+                    title="Blog, news"
                   >
-                    <i class="bi bi-medium"></i>
+                    <i class="bi bi-stickies-fill"></i>
                   </a>
                 )}
-                {project.profile.linktree.telegram && (
+                {mergedProject.profile.linktree.telegram && (
                   <a
-                    href={project.profile.linktree.telegram}
+                    href={
+                      mergedProject.profile.linktree.telegram.indexOf("://") >
+                      -1
+                        ? mergedProject.profile.linktree.telegram
+                        : "https://t.me/" +
+                          mergedProject.profile.linktree.telegram
+                    }
                     target="_blank"
-                    rel="noopener noreferrer"
                     className="link-item btn btn-lg btn-link"
-                    title="Telegram groups and channels"
+                    title="Telegram"
                   >
                     <i class="bi bi-telegram"></i>
                   </a>
                 )}
-                {project.profile.linktree.github && (
+                {mergedProject.profile.linktree.github && (
                   <a
-                    href={project.profile.linktree.github}
+                    href={
+                      mergedProject.profile.linktree.github.indexOf("://") > -1
+                        ? mergedProject.profile.linktree.github
+                        : "https://github.com/" +
+                          mergedProject.profile.linktree.github
+                    }
                     target="_blank"
-                    rel="noopener noreferrer"
                     className="link-item btn btn-lg btn-link"
-                    title="GitHub, Open source org, Source code repos"
+                    title="Source code repos"
                   >
-                    <i class="bi bi-github"></i>
+                    <i class="bi bi-git"></i>
                   </a>
                 )}
-                {project.profile.linktree.linkedin && (
+                {mergedProject.profile.linktree.linkedin && (
                   <a
-                    href={project.profile.linktree.linkedin}
+                    href={
+                      mergedProject.profile.linktree.linkedin.indexOf("://") >
+                      -1
+                        ? mergedProject.profile.linktree.linkedin
+                        : "https://linkedin.com/in/" +
+                          mergedProject.profile.linktree.linkedin
+                    }
                     target="_blank"
-                    rel="noopener noreferrer"
                     className="link-item btn btn-lg btn-link"
                     title="Ref Finance LinkedIn company page"
                   >
                     <i class="bi bi-linkedin"></i>
                   </a>
                 )}
-                {project.profile.linktree.astrodao && (
+                {mergedProject.profile.linktree.astrodao && (
                   <a
-                    href={project.profile.linktree.astrodao}
+                    href={mergedProject.profile.linktree.astrodao}
                     target="_blank"
-                    rel="noopener noreferrer"
                     className="link-item btn btn-lg btn-link"
                     title="AstroDAO"
                   >
                     <i class="bi bi-people-fill"></i>
                   </a>
                 )}
-                {project.profile.linktree.whitepaper && (
+                {mergedProject.profile.linktree.whitepaper && (
                   <a
-                    href={project.profile.linktree.whitepaper}
+                    href={mergedProject.profile.linktree.whitepaper}
                     target="_blank"
-                    rel="noopener noreferrer"
                     className="link-item btn btn-lg btn-link"
                     title="Whitepaper"
                   >
@@ -1187,21 +1244,11 @@ return (
               <div className="near-content">
                 <div className="content-widget markdown">
                   <h2 className="content-title">
-                    About {project.profile.name}
+                    About {mergedProject.profile.name}
                   </h2>
                   <div className="content-desc">
-                    {/* {project.profile?.description
-                      ?.split("\n")
-                      .map((item, key) => {
-                        return (
-                          <span key={key}>
-                            {item}
-                            <br />
-                          </span>
-                        );
-                      })} */}
                     <Markdown
-                      text={project.profile?.description?.replace(
+                      text={mergedProject.profile?.description?.replace(
                         /\n/g,
                         "\n\n"
                       )}
@@ -1212,14 +1259,13 @@ return (
 
               {/*   <div className="near-content">
                   <div className="content-widget article-widget">
-                      <h2 className="content-title">{project.profile.name} News</h2>
+                      <h2 className="content-title"> News</h2>
                       <div className="articles-container">
-                          <a className="article-item" target="_blank" title="" href="">
-                              <img className="article-image" src=""
-                                  alt="" />
+                          <a className="article-item"">
+                              <img className="article-image" />
                               <div className="article-detail">
-                                  <h3 className="article-title">Orderbook Launch on Ref: Trading Competition with Orderly Network</h3>
-                                  <div className="article-info">March 30, 2023</div>
+                                  <h3 className="article-title">news</h3>
+                                  <div className="article-info">date</div>
                               </div>
                           </a>
                       </div>
@@ -1258,7 +1304,7 @@ return (
                 <div className="near-content">
                   <div className="content-widget chart-widget">
                     <h2 className="content-title">
-                      {project.profile.name} Token Stats
+                      {mergedProject.profile.name} Token Stats
                     </h2>
                     <div className="stats-widget">
                       <div class="embed-responsive embed-responsive-4by3">
@@ -1284,7 +1330,6 @@ return (
                           <a
                             href={`https://nearblocks.io/address/${tokenInfo.address.near}`}
                             target="_blank"
-                            rel="noopener noreferrer"
                             className="text-gray ml-2"
                             title="NEAR Explorer"
                           >
@@ -1303,7 +1348,6 @@ return (
                           <a
                             href={`https://explorer.aurora.dev/address/${tokenInfo.address.aurora}`}
                             target="_blank"
-                            rel="noopener noreferrer"
                             className="text-gray ml-2"
                             title="Aurorascan Explorer"
                           >
@@ -1322,7 +1366,6 @@ return (
                           <a
                             href={`https://etherscan.io/address/${tokenInfo.address.ethereum}`}
                             target="_blank"
-                            rel="noopener noreferrer"
                             className="text-gray ml-2"
                             title="Etherscan"
                           >
@@ -1337,19 +1380,18 @@ return (
                   </div>
                 </div>
               )}
-              {project.profile.linktree.twitter && (
+              {mergedProject.profile.linktree.twitter && (
                 <div className="near-content">
                   <div className="content-widget twitter-widget">
                     {
                       <h2 className="content-title">
                         <a
-                          href={project.profile.linktree.twitter}
+                          href={mergedProject.profile.linktree.twitter}
                           target="_blank"
-                          rel="noopener noreferrer"
                           title="Twitter"
                         >
                           <i class="bi bi-twitter-x"></i>
-                          {project.profile.name} Twitter
+                          {mergedProject.profile.name} Twitter
                         </a>
                       </h2>
                     }
