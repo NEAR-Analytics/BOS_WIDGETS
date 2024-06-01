@@ -1,6 +1,6 @@
 const owner = "nearcatalog.near";
 const componentPath = `${owner}/widget/NearCatalog`;
-const indexer = "https://nearcatalog.loc/wp-json/nearcatalog/v1";
+const indexer = "https://nearcatalog.xyz/wp-json/nearcatalog/v1";
 const defaultImg =
   "https://learnnear.club/wp-content/uploads/2021/09/lnc-profile-desktop-150x150.png";
 const projects = {};
