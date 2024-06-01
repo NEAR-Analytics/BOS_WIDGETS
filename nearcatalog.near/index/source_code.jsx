@@ -18,7 +18,6 @@ if (props?.bookmark) {
 function loadingScreen() {
   return <>👀📗🐲🐉🐶😺~~</>;
 }
-console.log("router: ", router);
 switch (router) {
   case "project":
     query = fetch(indexer + "/project?pid=" + props.id);
