@@ -986,7 +986,7 @@ const nearSocialProfile = Social.getr(
   props.project.profile.linktree.nearsocial + "/profile"
 );
 const mergedProfile = props.project.profile?.linktree?.nearsocial
-  ? Object.assign({}, props.project.profile, { profile: nearSocialProfile })
+  ? Object.assign({}, props.project.profile, nearSocialProfile)
   : props.project.profile;
 const mergedProject = props.project.profile?.linktree?.nearsocial
   ? Object.assign({}, props.project, { profile: mergedProfile })
@@ -1006,7 +1006,6 @@ const tokenInfo =
   tokenTicket && mergedProject.profile.tokens
     ? mergedProject.profile.tokens[tokenTicket]
     : {};
-console.log("token info: ", tokenInfo, "ticket: ", tokenTicket);
 const twtIframe = `<div align="center"><a class="twitter-timeline"  data-dnt="true"  data-tweet-limit="10"
  href="https://twitter.com/${mergedProject.profile.linktree?.twitter}">Twitter</a>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
