@@ -952,7 +952,7 @@ if (state.bookmark == null && storageBookmark) {
   State.update({
     bookmark: storageBookmark,
   });
-  console.log("loaded storage bookmark to state: ", storageBookmark);
+  // console.log("loaded storage bookmark to state: ", storageBookmark);
 }
 const isInBookmark = (p) => {
   if (!state.bookmark) return false;
@@ -982,22 +982,48 @@ State.init({
   bookmark: null,
   bookmarkStatus: isInBookmark(mergedProject) ? "added" : "removed",
 });
+const deepMerge = (target, sourcesArr) => {
+  for (let i = 0; i < sourcesArr.length; i++) {
+    const source = sourcesArr[i];
+    const keys = Object.keys(source);
+    for (let j = 0; j < keys.length; j++) {
+      const key = keys[j];
+      if (
+        source[key] !== null &&
+        typeof source[key] !== "undefined" &&
+        source[key] !== ""
+      ) {
+        if (
+          typeof target[key] === "object" &&
+          typeof source[key] === "object"
+        ) {
+          if (Array.isArray(target[key]) && Array.isArray(source[key])) {
+            target[key] = target[key].concat(source[key]);
+          } else {
+            target[key] = deepMerge(target[key], [source[key]]);
+          }
+        } else {
+          target[key] = source[key];
+        }
+      }
+    }
+  }
+  return target;
+};
 const nearSocialProfile = Social.getr(
   props.project.profile.linktree.nearsocial + "/profile"
 );
-const mergedProfile = props.project.profile?.linktree?.nearsocial
-  ? Object.assign({}, props.project.profile, nearSocialProfile)
-  : props.project.profile;
 const mergedProject = props.project.profile?.linktree?.nearsocial
-  ? Object.assign({}, props.project, { profile: mergedProfile })
+  ? deepMerge({}, [props.project, { profile: nearSocialProfile }])
   : props.project;
 console.log(
   "social profile: ",
   nearSocialProfile,
   "| indexer profile: ",
-  props.project
+  props.project,
+  "| merged project profile info: ",
+  mergedProject
 );
-console.log("merged project profile info: ", mergedProject);
 const tags = mergedProject.profile.tags;
 const tokenTicket = mergedProject.profile.tokens
   ? Object.keys(mergedProject.profile.tokens)[0]
@@ -1111,7 +1137,7 @@ return (
                       className="link-item btn btn-lg btn-primary"
                       title="Open App"
                     >
-                      <i class="bi bi-google-play mx-1"></i>App
+                      <i class="bi bi-app-indicator mx-1"></i>App
                     </a>
                   )}
                 </div>
@@ -1136,6 +1162,26 @@ return (
                 </div>
               </div>
               <div className="hero-links">
+                {mergedProject.profile.linktree.nearsocial && (
+                  <a
+                    href={
+                      "/mob.near/widget/ProfilePage?accountId=" +
+                      mergedProject.profile.linktree.nearsocial
+                    }
+                    target="_blank"
+                    className="link-item btn btn-lg btn-link"
+                    title="NEAR Social"
+                  >
+                    <i
+                      class="bi bi-code"
+                      style={{
+                        background: "rgb(61, 127, 255)",
+                        color: "white",
+                        padding: "2px",
+                      }}
+                    ></i>
+                  </a>
+                )}
                 {mergedProject.profile.linktree.twitter && (
                   <a
                     href={
@@ -1148,7 +1194,7 @@ return (
                     className="link-item btn btn-lg btn-link"
                     title="Twitter/X"
                   >
-                    <i class="bi bi-twitter-x"></i>
+                    <i class="bi bi-twitter"></i>
                   </a>
                 )}
                 {mergedProject.profile.linktree.medium && (
