@@ -202,7 +202,7 @@ const FeedPage = () => {
     input: "",
     loading: false,
     loadingMore: false,
-    aggregatedCount: null,
+    aggregatedCount: 0,
     currentlyDisplaying: 0,
   });
 
@@ -273,7 +273,7 @@ const FeedPage = () => {
     if (state.stage) {
       // timeline is stored as jsonb
       where = {
-        timeline: { _cast: { String: { _regex: `${state.stage}` } } },
+        timeline: { _cast: { String: { _ilike: `%${state.stage}%` } } },
         ...where,
       };
     }
@@ -284,14 +284,7 @@ const FeedPage = () => {
       }
 
       if (text) {
-        where = {
-          _or: [
-            { name: { _iregex: `${text}` } },
-            { summary: { _iregex: `${text}` } },
-            { description: { _iregex: `${text}` } },
-          ],
-          ...where,
-        };
+        where = { description: { _ilike: `%${text}%` }, ...where };
       }
     }
 
@@ -316,7 +309,7 @@ const FeedPage = () => {
       offset = 0;
     }
     if (state.loading) return;
-    const FETCH_LIMIT = 20;
+    const FETCH_LIMIT = 10;
     const variables = {
       limit: FETCH_LIMIT,
       offset,
@@ -420,16 +413,6 @@ const FeedPage = () => {
 
   const renderedItems = state.data ? state.data.map(cachedRenderItem) : null;
 
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      fetchProposals();
-    }, 1000);
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [state.input]);
-
   return (
     <Container className="w-100 py-4 px-2 d-flex flex-column gap-3">
       <div className="d-flex justify-content-between flex-wrap gap-2 align-items-center">
@@ -449,6 +432,7 @@ const FeedPage = () => {
               className: "w-xs-100",
               onSearch: (input) => {
                 State.update({ input });
+                fetchProposals();
               },
               onEnter: () => {
                 fetchProposals();
@@ -535,7 +519,7 @@ const FeedPage = () => {
                     <span className="fw-bold">
                       Welcome to
                       <a
-                        href="?page=community&handle=developer-dao&tab=overview"
+                        href="https://near.social/devhub.near/widget/app?page=community&handle=developer-dao&tab=overview"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -544,7 +528,7 @@ const FeedPage = () => {
                     </span>
                     This dedicated space replaces the
                     <a
-                      href="?page=feed"
+                      href="https://near.org/devhub.near/widget/app?page=feed"
                       className="text-decoration-underline no-space"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -555,7 +539,7 @@ const FeedPage = () => {
                     DevDAO, the primary organization behind DevHub. To submit a
                     formal proposal, click New Proposal. See our{" "}
                     <a
-                      href="?page=community&handle=developer-dao&tab=funding"
+                      href="https://near.org/devhub.near/widget/app?page=community&handle=developer-dao&tab=funding"
                       className="text-decoration-underline no-space"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -565,7 +549,7 @@ const FeedPage = () => {
                     for details. For discussions and brainstorming, please
                     utilize the relevant{" "}
                     <a
-                      href="?page=communities"
+                      href="https://near.org/devhub.near/widget/app?page=communities"
                       className="text-decoration-underline no-space"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -577,18 +561,14 @@ const FeedPage = () => {
                 </p>
               </div>
               <div className="mt-4 border rounded-2">
-                {state.aggregatedCount === 0 ? (
-                  <div class="alert alert-danger m-2" role="alert">
-                    No proposals found for selected filter.{" "}
-                  </div>
-                ) : state.aggregatedCount > 0 ? (
+                {state.data.length > 0 ? (
                   <InfiniteScroll
                     pageStart={0}
                     loadMore={makeMoreItems}
                     hasMore={state.aggregatedCount > state.data.length}
                     loader={loader}
                     useWindow={false}
-                    threshold={50}
+                    threshold={100}
                   >
                     {renderedItems}
                   </InfiniteScroll>
