@@ -298,7 +298,7 @@ function Articles() {
           )}
         </>
       </NwWidget>
-      <div className="mt-5 mb-5">
+      <div className="mt-2 mb-2">
         <TabContentFooter>
           <ButtonLink href="//nearweek.medium.com" target="_blank">
             Load more
