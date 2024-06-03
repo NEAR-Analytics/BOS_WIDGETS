@@ -250,7 +250,7 @@ return (
       </div>
     </div>
     <Widget
-      src={`sking.near/widget/Common.Inputs.Select`}
+      src={`astraplusplus.ndctools.near/widget/Common.Components.Select`}
       props={{
         label: "Proposal Type",
         noLabel: false,
