@@ -87,6 +87,7 @@ const saveChat = (isNewMessage, onSaveChat) => {
       session_id: sessionId,
       problem_id: problemId,
       prompts: getArray(state.userPrompts),
+      model: state.model ?? "",
       attach_conversation: state?.attachConversation ?? true,
       is_new_message: isNewMessage,
     }),
@@ -597,6 +598,7 @@ if (
     promptsUnlocked: storage.promptsUnlocked,
     attachConversation: storage.attachConversation,
     userPrompts: storage.userPrompts,
+    model: storage.model,
   });
   loadDefaultPrompts();
 }
@@ -605,6 +607,7 @@ const updateUserPromptsInLocalStorage = () => {
   storage.userPrompts = state.userPrompts;
   storage.attachConversation = state.attachConversation;
   storage.promptsUnlocked = state.promptsUnlocked;
+  storage.model = state.model;
   console.log("storage update", storage);
   Storage.privateSet(storageKey, storage);
 };
@@ -639,6 +642,13 @@ const avatarOnClick = () => {
 };
 
 const ATTACH_CONVERSATION_TAB_INDEX = 5;
+
+const updateModel = (model) => {
+  State.update({
+    model,
+  });
+  updateUserPromptsInLocalStorage();
+};
 
 const getPromptsContainer = () => {
   if (state.promptsUnlocked && getArray(state.defaultPrompts).length) {
@@ -697,7 +707,7 @@ const getPromptsContainer = () => {
                   });
                 }}
               >
-                Attach conversation
+                Settings
               </a>
             </li>
           </ul>
@@ -705,6 +715,54 @@ const getPromptsContainer = () => {
         <div class="card-body main-container w-100 h-100 ps-2 mb-4 pt-2 flex-row align-text-top">
           {state.promptTabIndex === ATTACH_CONVERSATION_TAB_INDEX && (
             <div style={{ height: "250px" }} class="mt-2">
+              <div class="dropdown">
+                <button
+                  class="btn btn-secondary dropdown-toggle"
+                  type="button"
+                  id="modelMenuButton"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  data-bs-toggle="dropdown"
+                >
+                  Model {state.model ?? ""}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    onClick={() =>
+                      updateModel(
+                        "accounts/fireworks/models/llama-v3-70b-instruct"
+                      )
+                    }
+                  >
+                    Llama 3 70B Instruct
+                  </a>
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    onClick={() =>
+                      updateModel(
+                        "accounts/fireworks/models/mixtral-8x22b-instruct"
+                      )
+                    }
+                  >
+                    Mixtral MoE 8x22B Instruct
+                  </a>
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    onClick={() =>
+                      updateModel(
+                        "accounts/fireworks/models/mixtral-8x7b-instruct"
+                      )
+                    }
+                  >
+                    Mixtral MoE 8x7B Instruct
+                  </a>
+                </div>
+              </div>
+
               <div class="form-check form-switch">
                 <input
                   class="form-check-input"
