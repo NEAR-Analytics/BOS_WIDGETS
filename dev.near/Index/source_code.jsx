@@ -238,7 +238,7 @@ const taskContainer = (
 );
 
 return (
-  <Theme>
+  <Theme style={{ padding: "0 20px" }}>
     {state.pendingRequest && <Widget src={`${ACCOUNT_ID}/widget/op-loading`} />}
 
     {showSessionContainer && sessionContainer}
