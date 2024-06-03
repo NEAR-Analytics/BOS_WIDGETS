@@ -143,7 +143,20 @@ const AudioButtonLink = styled.a`
     outline: none;
     }`;
 function Articles() {
-  return <Widget src={`${rootUser}/widget/nw-articles`} />;
+  return (
+    <Widget
+      src={`${rootUser}/widget/nw-articles`}
+      props={{ postType: "articles" }}
+    />
+  );
+}
+function Videos() {
+  return (
+    <Widget
+      src={`${rootUser}/widget/nw-articles`}
+      props={{ postType: "videos" }}
+    />
+  );
 }
 /*Newsletter*/
 State.init({ detailsPage: null, audioDetails: null });
@@ -242,9 +255,15 @@ return (
         </div>
       </div>
       {/*Articles div */}
-      <MainSectionArticles fullWidth changeOrder>
-        <Articles />
-      </MainSectionArticles>
+      <div>
+        <MainSectionArticles fullWidth changeOrder>
+          <Articles />
+        </MainSectionArticles>
+        <MainSectionArticles fullWidth changeOrder>
+          <Videos />
+        </MainSectionArticles>
+      </div>
+
       {/*Newswire div */}
       {!state.detailsPage && (
         <MainSection>
