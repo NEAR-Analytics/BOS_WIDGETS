@@ -1,5 +1,5 @@
-const postType = props.postType;
-console.log("nw-articles props", props);
+console.log("nw-articles Articles props", props);
+
 const breakpoints = {
   md: "768px",
   lg: "1100px",
@@ -8,6 +8,9 @@ const breakpoints = {
 const defImgSrc = `https://ipfs.near.social/ipfs/bafkreih5d2mix23e4hqsblgob74chyp3yyoze2ygtdm4cbo7dblt565rwa`;
 
 function Articles() {
+  const postType = props.postType;
+  console.log("nw-articles Articles props", props);
+
   State.init({ page: 1 });
   let mediumPosts = [];
   let yotubeVideo = [];
@@ -314,7 +317,7 @@ function Articles() {
       )}
       {postType === "videos" && (
         <>
-          <H2 className="mt-1">VIDEO</H2>
+          <H2 className="mt-1">VIDEOS</H2>
           <NwWidget>
             <>
               {yotubeVideo.length > 0 ? (
@@ -332,4 +335,4 @@ function Articles() {
   );
 }
 
-return <Articles {...props} />;
+return <Articles props />;
