@@ -1,5 +1,3 @@
-console.log("nw-articles props", props);
-
 const breakpoints = {
   md: "768px",
   lg: "1100px",
@@ -9,7 +7,6 @@ const defImgSrc = `https://ipfs.near.social/ipfs/bafkreih5d2mix23e4hqsblgob74chy
 
 function Articles() {
   const postType = props.postType;
-  console.log("nw-articles Articles props", props);
 
   State.init({ page: 1 });
   let mediumPosts = [];
