@@ -244,11 +244,6 @@ return (
       {/*Articles div */}
       <MainSectionArticles fullWidth changeOrder>
         <Articles />
-        <TabContentFooter>
-          <ButtonLink href="//nearweek.medium.com" target="_blank">
-            Load more
-          </ButtonLink>
-        </TabContentFooter>
       </MainSectionArticles>
       {/*Newswire div */}
       {!state.detailsPage && (
