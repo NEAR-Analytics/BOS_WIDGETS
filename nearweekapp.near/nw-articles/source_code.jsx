@@ -1,3 +1,4 @@
+const postType = props.postType;
 const breakpoints = {
   md: "768px",
   lg: "1100px",
@@ -5,8 +6,7 @@ const breakpoints = {
 };
 const defImgSrc = `https://ipfs.near.social/ipfs/bafkreih5d2mix23e4hqsblgob74chyp3yyoze2ygtdm4cbo7dblt565rwa`;
 
-function Articles(props) {
-  const postType = props.postType;
+function Articles() {
   State.init({ page: 1 });
   let mediumPosts = [];
   let yotubeVideo = [];
