@@ -9,6 +9,7 @@ const defImgSrc = `https://ipfs.near.social/ipfs/bafkreih5d2mix23e4hqsblgob74chy
 function Articles() {
   State.init({ page: 1 });
   let mediumPosts = [];
+  let yotubeVideo = [];
 
   const Post = (props) => {
     const { key, post } = props;
@@ -53,8 +54,6 @@ function Articles() {
     { method: "GET" }
   );
 
-  console.log(fetchMedium);
-
   if (fetchMedium && fetchMedium?.body?.items?.length > 0) {
     fetchMedium.body.items.forEach((item) => {
       let resizedImgURL;
@@ -72,6 +71,32 @@ function Articles() {
         createdAt: item.pubDate,
         categories: item.categories,
         author: item.author,
+      });
+    });
+  }
+
+  const fetchyoutubeVideo = fetch(
+    "https://nearweek.com/api/youtube/playlists?playlistId=PL9tzQn_TEuFWMuPiQOXhaE5lpOTnxLPZY",
+    {
+      //subscribe: true,
+      method: "GET",
+      headers: {
+        Accept: "*/*",
+        Authorization:
+          "Bearer 15699f0723aa9fe9f655b1a94e450552476c08807f67b525b5a3c8011eecc8aee6d45923443620f17815b897858be058cd7bd89ddf23a28aabaecb178e7ebc55d380293beeb51a8ce87b40e1518ce4708e4d51a06b115f27fa64ab5cbee5a3511cec785d7ae6a155ecd05ac8196aadae3e9b8e9401b8df8d8b69904f7364f925",
+      },
+    }
+  );
+
+  if (fetchyoutubeVideo && fetchyoutubeVideo?.body?.data?.items?.length > 0) {
+    fetchyoutubeVideo.body.data.items.forEach((item) => {
+      yotubeVideo.push({
+        title: item.snippet.title,
+        url: `https://www.youtube.com/watch?v=${item.snippet.resourceId.videoId}&list=${item.snippet.playlistId}`,
+        thumbnail: item.snippet?.thumbnails?.standard?.url ?? defImgSrc,
+        createdAt: item.snippet.publishedAt,
+        categories: [item.snippet.channelTitle],
+        author: item.snippet.videoOwnerChannelTitle,
       });
     });
   }
@@ -123,13 +148,13 @@ function Articles() {
   const NwWidget = styled.div`
   border-radius: 16px;
   background: hsla(0, 0%, 100%, 1);
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 
   @media screen and (min-width: ${breakpoints.xl}) {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem;
-    margin-bottom: 4rem;
+    margin-bottom: 1rem;
   }
 
 `;
@@ -237,8 +262,20 @@ function Articles() {
       <NwWidget>
         <>
           {articles.length > 0 ? (
-            articles.map((article, index) => (
-              <Post post={article} index={index} />
+            articles
+              .slice(0, 6)
+              .map((article, index) => <Post post={article} index={index} />)
+          ) : (
+            <div>Loading ...</div>
+          )}
+        </>
+      </NwWidget>
+      <H2 className="mt-1">VIDEO</H2>
+      <NwWidget>
+        <>
+          {yotubeVideo.length > 0 ? (
+            yotubeVideo.map((video, index) => (
+              <Post post={video} index={index} />
             ))
           ) : (
             <div>Loading ...</div>
