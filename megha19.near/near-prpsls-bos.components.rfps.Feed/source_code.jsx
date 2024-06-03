@@ -5,7 +5,7 @@ Homepage: https://github.com/NEAR-DevHub/near-prpsls-bos#readme
 */
 /* INCLUDE: "includes/common.jsx" */
 const REPL_DEVHUB = "devhub.near";
-const REPL_INFRASTRUCTURE_COMMITTEE = "megha19.near";
+const REPL_INFRASTRUCTURE_COMMITTEE = "infrastructure-committee.near";
 const REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT = "truedove38.near";
 const REPL_RPC_URL = "https://rpc.mainnet.near.org";
 const REPL_NEAR = "near";
@@ -319,6 +319,7 @@ const FeedPage = () => {
     loadingMore: false,
     aggregatedCount: null,
     currentlyDisplaying: 0,
+    isFiltered: false,
   });
 
   const queryName = RFP_FEED_INDEXER_QUERY_NAME;
@@ -373,7 +374,7 @@ const FeedPage = () => {
     if (state.stage) {
       // timeline is stored as jsonb
       where = {
-        timeline: { _cast: { String: { _ilike: `%${state.stage}%` } } },
+        timeline: { _cast: { String: { _regex: `${state.stage}` } } },
         ...where,
       };
     }
@@ -384,10 +385,17 @@ const FeedPage = () => {
       }
 
       if (text) {
-        where = { description: { _ilike: `%${text}%` }, ...where };
+        where = {
+          _or: [
+            { name: { _iregex: `${text}` } },
+            { summary: { _iregex: `${text}` } },
+            { description: { _iregex: `${text}` } },
+          ],
+          ...where,
+        };
       }
     }
-
+    State.update({ isFiltered: Object.keys(where).length > 0 });
     return where;
   };
 
@@ -621,7 +629,19 @@ const FeedPage = () => {
                 </p>
               </div>
               <div className="mt-4 border rounded-2">
-                {state.data.length > 0 || state.aggregatedCount === 0 ? (
+                {state.aggregatedCount === 0 ? (
+                  <div className="m-2">
+                    {state.isFiltered ? (
+                      <div class="alert alert-danger" role="alert">
+                        No RFP found for selected filter.
+                      </div>
+                    ) : (
+                      <div class="alert alert-secondary" role="alert">
+                        No RFP has been created yet.
+                      </div>
+                    )}
+                  </div>
+                ) : state.aggregatedCount > 0 ? (
                   <InfiniteScroll
                     pageStart={0}
                     loadMore={makeMoreItems}
