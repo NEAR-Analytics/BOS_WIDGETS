@@ -1,6 +1,9 @@
 const { Card } =
   VM.require("thomasguntenaar.near/widget/devhub.entity.addon.blogv2.Card") ||
   (() => <></>);
+const { Page } =
+  VM.require("thomasguntenaar.near/widget/devhub.entity.addon.blogv2.Page") ||
+  (() => <></>);
 const { href } = VM.require("thomasguntenaar.near/widget/core.lib.url") || (() => {});
 
 const categories = [
@@ -175,7 +178,6 @@ const {
   allBlogs: allBlogsOfThisInstance,
   communityAddonId,
   setSelectedItemChanged,
-  addonParameters,
 } = props;
 
 const allBlogKeys =
@@ -200,7 +202,7 @@ const [title, setTitle] = useState(initialData.title || "");
 const [subtitle, setSubtitle] = useState(initialData.subtitle || "");
 const [description, setDescription] = useState(initialData.description || "");
 const [author, setAuthor] = useState(initialData.author || context.accountId);
-const [previewMode, setPreviewMode] = useState("edit"); // "edit" or "card" or "page"
+const [previewMode, setPreviewMode] = useState("edit"); // "edit" or "preview" // "card" or "page"
 const [date, setDate] = useState(initialFormattedDate || new Date());
 const [category, setCategory] = useState(initialData.category || "guide");
 const [disabledSubmitBtn, setDisabledSubmitBtn] = useState(false);
@@ -492,65 +494,14 @@ function handleDelete() {
   onDelete(data.id);
 }
 
-function Preview() {
-  switch (previewMode) {
-    case "card": {
-      return (
-        <Card
-          data={{
-            title,
-            subtitle,
-            description,
-            publishedAt: date,
-            content,
-            author,
-            category,
-            community: handle,
-          }}
-        />
-      );
-    }
-    case "page": {
-      return (
-        <Widget
-          src="thomasguntenaar.near/widget/devhub.entity.addon.blogv2.Page"
-          props={{
-            data: {
-              title,
-              subtitle,
-              description,
-              publishedAt: date,
-              content,
-              author,
-              category,
-              community: handle,
-              communityAddonId,
-            },
-            community: handle,
-          }}
-        />
-      );
-    }
-    default:
-      return null;
-  }
-}
-
 const tabs = [
-  { name: "Edit", value: "edit", testId: "edit-blog-toggle" },
-  { name: "Preview Card", value: "card", testId: "preview-card-blog-toggle" },
-  { name: "Preview Page", value: "page", testId: "preview-page-blog-toggle" },
+  { name: "Edit", value: "edit" },
+  { name: "Preview", value: "preview" },
 ];
 
 return (
   <Container>
     <div className="flex flex-wrap-reverse gap-1 justify-between w-100 mb-4">
-      <div
-        className="flex cursor-pointer align-items-center justify-content-center gap-1 px-4"
-        onClick={onCancel}
-      >
-        <i class="bi bi-arrow-left"></i>
-      </div>
       <div className="sm:hidden grow rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
         <label
           htmlFor="tabs"
@@ -565,9 +516,6 @@ return (
           defaultValue={tabs.find((tab) => tab.value === previewMode).name}
         >
           {tabs.map((tab) => {
-            if (tab.value === previewMode) {
-              return;
-            }
             return (
               <option key={tab.name} onClick={() => setPreviewMode(tab.value)}>
                 {tab.name}
@@ -581,7 +529,6 @@ return (
           {tabs.map((tab) => {
             return (
               <a
-                data-testid={tab.testId}
                 key={tab.name}
                 onClick={() => setPreviewMode(tab.value)}
                 className={`${
@@ -612,6 +559,7 @@ return (
                     page: "blogv2",
                     id: initialData.id,
                     community: handle,
+                    communityAddonId,
                   },
                 })}
                 target="_blank"
@@ -648,7 +596,6 @@ return (
               setDate,
               content,
               setContent,
-              addonParameters,
             }}
           />
           {/* Show delete button */}
@@ -692,12 +639,12 @@ return (
                 />
               </>
             ) : null}
-            <div className="flex gap-x-3 align-items-center">
+            <div className="flex gap-x-3">
               <Widget
                 src={`thomasguntenaar.near/widget/devhub.components.molecule.Button`}
                 props={{
                   classNames: {
-                    root: "d-flex  text-muted fw-bold btn-outline shadow-none border-0 btn-sm",
+                    root: "d-flex h-100 text-muted fw-bold btn-outline shadow-none border-0 btn-sm",
                   },
                   label: "Cancel",
                   onClick: onCancel,
@@ -708,13 +655,37 @@ return (
           </div>
         </div>
       )}
-      {(previewMode === "page" || previewMode === "card") && (
+      {previewMode === "preview" && (
         <div
-          className="w-100 h-100 p-4"
+          className="w-100 h-100 p-4 flex flex-column gap-4"
           id="preview"
           style={{ position: "relative" }}
         >
-          <Preview />
+          <Card
+            data={{
+              title,
+              subtitle,
+              description,
+              publishedAt: date,
+              content,
+              author,
+              category,
+              community: handle,
+            }}
+          />
+
+          <Page
+            data={{
+              title,
+              subtitle,
+              description,
+              publishedAt: date,
+              content,
+              author,
+              category,
+              community: handle,
+            }}
+          />
         </div>
       )}
     </div>
