@@ -144,7 +144,7 @@ return (
                         ),
                         content: (
                             <Widget
-                                src="sking.near/widget/DAO.Proposal"
+                            src="astraplusplus.ndctools.near/widget/DAO.Proposals.index"
                                 props={{ daoId: daoId, proposalId: proposalId }}
                             />
                         )
