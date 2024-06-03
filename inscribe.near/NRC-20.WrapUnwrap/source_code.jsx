@@ -118,7 +118,7 @@ function getConfig(network) {
         wNearTokenId: "wrap.near",
         refContractId: "v2.ref-finance.near",
         neatPoolId: 4243,
-        firstFarmStartTimeUTC: "2024-06-03T00:00Z",
+        firstFarmStartTimeUTC: "2024-06-03T08:00Z",
       };
     case "testnet":
       return {
