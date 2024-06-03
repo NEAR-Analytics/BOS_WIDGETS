@@ -3,7 +3,7 @@ const breakpoints = {
   lg: "1100px",
   xl: "1300px",
 };
-
+const postType = props.postType ?? "articles";
 const defImgSrc = `https://ipfs.near.social/ipfs/bafkreih5d2mix23e4hqsblgob74chyp3yyoze2ygtdm4cbo7dblt565rwa`;
 
 function Articles() {
@@ -286,37 +286,47 @@ function Articles() {
 
   return (
     <div>
-      <H2>ARTICLES</H2>
-      <NwWidget>
+      {postType === "articles" && (
         <>
-          {articles.length > 0 ? (
-            articles
-              .slice(0, 6)
-              .map((article, index) => <Post post={article} index={index} />)
-          ) : (
-            <div>Loading ...</div>
-          )}
+          <H2>ARTICLES</H2>
+          <NwWidget>
+            <>
+              {articles.length > 0 ? (
+                articles
+                  .slice(0, 6)
+                  .map((article, index) => (
+                    <Post post={article} index={index} />
+                  ))
+              ) : (
+                <div>Loading ...</div>
+              )}
+            </>
+          </NwWidget>
+          <div className="mt-2 mb-2">
+            <TabContentFooter>
+              <ButtonLink href="//nearweek.medium.com" target="_blank">
+                Load more
+              </ButtonLink>
+            </TabContentFooter>
+          </div>
         </>
-      </NwWidget>
-      <div className="mt-2 mb-2">
-        <TabContentFooter>
-          <ButtonLink href="//nearweek.medium.com" target="_blank">
-            Load more
-          </ButtonLink>
-        </TabContentFooter>
-      </div>
-      <H2 className="mt-1">VIDEO</H2>
-      <NwWidget>
+      )}
+      {postType === "videos" && (
         <>
-          {yotubeVideo.length > 0 ? (
-            yotubeVideo.map((video, index) => (
-              <Post post={video} index={index} />
-            ))
-          ) : (
-            <div>Loading ...</div>
-          )}
+          <H2 className="mt-1">VIDEO</H2>
+          <NwWidget>
+            <>
+              {yotubeVideo.length > 0 ? (
+                yotubeVideo.map((video, index) => (
+                  <Post post={video} index={index} />
+                ))
+              ) : (
+                <div>Loading ...</div>
+              )}
+            </>
+          </NwWidget>
         </>
-      </NwWidget>
+      )}
     </div>
   );
 }
