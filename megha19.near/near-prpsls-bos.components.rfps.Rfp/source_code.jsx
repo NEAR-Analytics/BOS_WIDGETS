@@ -5,7 +5,7 @@ Homepage: https://github.com/NEAR-DevHub/near-prpsls-bos#readme
 */
 /* INCLUDE: "includes/common.jsx" */
 const REPL_DEVHUB = "devhub.near";
-const REPL_INFRASTRUCTURE_COMMITTEE = "megha19.near";
+const REPL_INFRASTRUCTURE_COMMITTEE = "infrastructure-committee.near";
 const REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT = "truedove38.near";
 const REPL_RPC_URL = "https://rpc.mainnet.near.org";
 const REPL_NEAR = "near";
@@ -348,7 +348,7 @@ const query = `query GetLatestSnapshot($offset: Int = 0, $limit: Int = 10, $wher
   ${queryName}(
     offset: $offset
     limit: $limit
-    order_by: {rfp_id: desc}
+    order_by: {ts: desc}
     where: $where
   ) {
     editor_id
@@ -457,6 +457,16 @@ const link = href({
 const createdDate = snapshotHistory[0].timestamp ?? snapshot.timestamp;
 
 const [approvedProposals, setApprovedProposals] = useState([]);
+const [isCancelModalOpen, setCancelModal] = useState(false);
+const [isWarningModalOpen, setWarningModal] = useState(false);
+const [timeline, setTimeline] = useState(null);
+const [showTimelineSetting, setShowTimelineSetting] = useState(false);
+
+useEffect(() => {
+  if (!timeline) {
+    setTimeline(snapshot.timeline);
+  }
+}, [snapshot]);
 
 function fetchApprovedRfpProposals() {
   const queryName = PROPOSAL_FEED_INDEXER_QUERY_NAME;
@@ -498,6 +508,41 @@ function fetchApprovedRfpProposals() {
   });
 }
 
+const editRFPStatus = () => {
+  Near.call([
+    {
+      contractName: REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT,
+      methodName: "edit_rfp_timeline",
+      args: {
+        id: rfp.id,
+        timeline: timeline,
+      },
+      gas: 270000000000000,
+    },
+  ]);
+};
+console.log({ rfp });
+const onCancelRFP = (value) => {
+  Near.call([
+    {
+      contractName: REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT,
+      methodName: "cancel_rfp",
+      args: {
+        id: rfp.id,
+        proposals_to_cancel:
+          value === CANCEL_RFP_OPTIONS.CANCEL_PROPOSALS
+            ? snapshot.linked_proposals
+            : [],
+        proposals_to_unlink:
+          value === CANCEL_RFP_OPTIONS.UNLINK_PROPOSALS
+            ? snapshot.linked_proposals
+            : [],
+      },
+      gas: 270000000000000,
+    },
+  ]);
+};
+
 const accessControlInfo =
   Near.view(
     REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT,
@@ -534,6 +579,31 @@ const SubmitProposalBtn = () => {
 };
 return (
   <Container className="d-flex flex-column gap-2 w-100 mt-4">
+    <Widget
+      src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.rfps.ConfirmCancelModal`}
+      props={{
+        isOpen: isCancelModalOpen,
+        onCancelClick: () => {
+          setCancelModal(false);
+          setTimeline({ status: RFP_TIMELINE_STATUS.EVALUATION });
+        },
+        onConfirmClick: (value) => {
+          setCancelModal(false);
+          onCancelRFP(value);
+        },
+        linkedProposalIds: snapshot.linked_proposals,
+      }}
+    />
+    <Widget
+      src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.rfps.WarningModal`}
+      props={{
+        isOpen: isWarningModalOpen,
+        onConfirmClick: () => {
+          setWarningModal(false);
+          setTimeline({ status: RFP_TIMELINE_STATUS.EVALUATION });
+        },
+      }}
+    />
     <div className="d-flex px-3 px-lg-0 justify-content-between">
       <div className="d-flex gap-2 align-items-center h3">
         <div>{snapshot.name}</div>
@@ -746,14 +816,79 @@ return (
                   )}
                 </h5>
               </SidePanelItem>
-              <SidePanelItem title="Timeline">
+              <SidePanelItem
+                title={
+                  <div>
+                    <div className="d-flex justify-content-between align-content-center">
+                      Timeline
+                      {isAllowedToWriteRfp && (
+                        <div
+                          data-testid="setting-btn"
+                          onClick={() => setShowTimelineSetting(true)}
+                        >
+                          <i class="bi bi-gear"></i>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                }
+              >
                 <Widget
                   src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.rfps.TimelineConfigurator`}
                   props={{
-                    timeline: snapshot.timeline,
-                    disabled: true,
+                    timeline: timeline,
+                    setTimeline: (v) => {
+                      if (
+                        snapshot.timeline.status === v.status &&
+                        timeline.status === v.status
+                      ) {
+                        return;
+                      }
+                      // if proposal selected timeline is selected and no approved proposals exist, show warning
+                      if (
+                        v.status === RFP_TIMELINE_STATUS.PROPOSAL_SELECTED &&
+                        Array.isArray(approvedProposals) &&
+                        !approvedProposals.length
+                      ) {
+                        setWarningModal(true);
+                      }
+
+                      if (v.status === RFP_TIMELINE_STATUS.CANCELLED) {
+                        setCancelModal(true);
+                      }
+                      setTimeline(v);
+                    },
+                    disabled: showTimelineSetting ? false : true,
                   }}
                 />
+                {showTimelineSetting && (
+                  <div className="d-flex gap-2 align-items-center justify-content-end text-sm mt-2">
+                    <Widget
+                      src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Button`}
+                      props={{
+                        label: "Cancel",
+                        classNames: {
+                          root: "btn-outline-danger border-0 shadow-none btn-sm",
+                        },
+                        onClick: () => {
+                          setShowTimelineSetting(false);
+                          setTimeline(snapshot.timeline);
+                        },
+                      }}
+                    />
+                    <Widget
+                      src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Button`}
+                      props={{
+                        label: "Save",
+                        classNames: { root: "blue-btn btn-sm" },
+                        onClick: () => {
+                          editRFPStatus();
+                          setShowTimelineSetting(false);
+                        },
+                      }}
+                    />
+                  </div>
+                )}
               </SidePanelItem>
               <SidePanelItem
                 title={
