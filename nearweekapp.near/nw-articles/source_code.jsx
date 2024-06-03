@@ -1,4 +1,5 @@
 const postType = props.postType;
+console.log("nw-articles props", props);
 const breakpoints = {
   md: "768px",
   lg: "1100px",
