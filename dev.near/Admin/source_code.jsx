@@ -217,7 +217,7 @@ console.log(
 );
 
 return (
-  <Theme class="w-100">
+  <Theme class="w-100" style={{ overflowY: "scroll" }}>
     {state.pendingRequest && <Widget src={`${ACCOUNT_ID}/widget/op-loading`} />}
 
     {showSessionContainer && sessionContainer}
