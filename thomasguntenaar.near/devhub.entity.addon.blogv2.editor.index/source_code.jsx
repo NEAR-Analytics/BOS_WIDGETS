@@ -1,12 +1,6 @@
 let theme = props.theme;
 let variables = props.variables;
-
-const {
-  communityAddonId,
-  data: addonParameters,
-  handle,
-  onSubmit: onSubmitBlogSettings,
-} = props;
+const parametersData = props.data;
 
 if (!variables) {
   variables = ``;
@@ -40,14 +34,10 @@ return (
       <Widget
         src="thomasguntenaar.near/widget/devhub.entity.addon.blogv2.editor.provider"
         props={{
-          handle,
-          communityAddonId,
+          handle: props.handle,
+          communityAddonId: props.communityAddonId,
           Layout: (providerProps) => {
-            const {
-              onSubmit: onSubmitBlogData,
-              getData,
-              onDelete,
-            } = providerProps;
+            const { onSubmit, getData, onDelete } = providerProps;
             return (
               <Widget
                 src="thomasguntenaar.near/widget/devhub.entity.addon.blogv2.editor.layout"
@@ -72,8 +62,7 @@ return (
                       props={{
                         ...p,
                         ...providerProps,
-                        data: addonParameters,
-                        onSubmit: onSubmitBlogSettings,
+                        parametersData,
                       }}
                     />
                   ),
@@ -81,12 +70,11 @@ return (
                     <Widget
                       src="thomasguntenaar.near/widget/devhub.entity.addon.blogv2.editor.content"
                       props={{
-                        onSubmit: onSubmitBlogData,
+                        onSubmit,
                         onDelete,
                         handle: props.handle,
                         allBlogs: providerProps.data,
                         communityAddonId: props.communityAddonId,
-                        addonParameters: addonParameters,
                         ...p,
                       }}
                     />
