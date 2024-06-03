@@ -1,4 +1,4 @@
-console.log("nw-articles Articles props", props);
+console.log("nw-articles props", props);
 
 const breakpoints = {
   md: "768px",
