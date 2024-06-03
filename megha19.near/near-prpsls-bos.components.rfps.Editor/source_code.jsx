@@ -5,7 +5,7 @@ Homepage: https://github.com/NEAR-DevHub/near-prpsls-bos#readme
 */
 /* INCLUDE: "includes/common.jsx" */
 const REPL_DEVHUB = "devhub.near";
-const REPL_INFRASTRUCTURE_COMMITTEE = "megha19.near";
+const REPL_INFRASTRUCTURE_COMMITTEE = "infrastructure-committee.near";
 const REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT = "truedove38.near";
 const REPL_RPC_URL = "https://rpc.mainnet.near.org";
 const REPL_NEAR = "near";
@@ -367,15 +367,11 @@ const [loading, setLoading] = useState(true);
 const [disabledSubmitBtn, setDisabledSubmitBtn] = useState(false);
 const [isDraftBtnOpen, setDraftBtnOpen] = useState(false);
 
-const [showRFPPage, setShowRfpPage] = useState(false); // when user creates/edit a RFP and confirm the txn, this is true
+const [showRfpViewModal, setShowRfpViewModal] = useState(false); // when user creates/edit a RFP and confirm the txn, this is true
 const [rfpId, setRfpId] = useState(null);
 const [rfpIdsArray, setRfpIdsArray] = useState(null);
 const [isTxnCreated, setCreateTxn] = useState(false);
 const [oldRfpData, setOldRfpData] = useState(null);
-const [isCancelModalOpen, setCancelModal] = useState(false);
-const [isWarningModalOpen, setWarningModal] = useState(false);
-
-const [approvedProposals, setApprovedProposals] = useState(null);
 const [timeline, setTimeline] = useState({
   status: RFP_TIMELINE_STATUS.ACCEPTING_SUBMISSIONS,
 });
@@ -393,10 +389,9 @@ const memoizedDraftData = useMemo(
       labels: labels,
       summary: summary,
       submission_deadline: getTimestamp(submissionDeadline),
-      timeline: timeline,
     },
   }),
-  [title, summary, description, submissionDeadline, labels, timeline]
+  [title, summary, description, submissionDeadline, labels]
 );
 
 useEffect(() => {
@@ -444,7 +439,7 @@ useEffect(() => {
 }, []);
 
 useEffect(() => {
-  if (showRFPPage) {
+  if (showRfpViewModal) {
     return;
   }
   setDisabledSubmitBtn(
@@ -467,50 +462,8 @@ useEffect(() => {
   draftRfpData,
   consent,
   isTxnCreated,
-  showRFPPage,
+  showRfpViewModal,
 ]);
-
-function fetchApprovedRfpProposals() {
-  const queryName = PROPOSAL_FEED_INDEXER_QUERY_NAME;
-  const query = `query GetLatestSnapshot($offset: Int = 0, $limit: Int = 10, $where: ${queryName}_bool_exp = {}) {
-    ${queryName}(
-      offset: $offset
-      limit: $limit
-      order_by: {proposal_id: desc}
-      where: $where
-    ) {
-      author_id
-      name
-      timeline
-    }
-  }`;
-
-  const FETCH_LIMIT = 50;
-  const variables = {
-    limit: FETCH_LIMIT,
-    offset,
-    where: {
-      proposal_id: { _in: editRfpData.snapshot.linked_proposals },
-    },
-  };
-  fetchGraphQL(query, "GetLatestSnapshot", variables).then(async (result) => {
-    if (result.status === 200) {
-      if (result.body.data) {
-        const data = result.body.data?.[queryName];
-        const approved = [];
-        data.map((item) => {
-          const timeline = parseJSON(item.timeline);
-          if (PROPOSALS_APPROVED_STATUS_ARRAY.includes(timeline.status)) {
-            approved.push(item);
-          }
-        });
-        setApprovedProposals(approved);
-      }
-    }
-  });
-}
-
-fetchApprovedRfpProposals();
 
 const InputContainer = ({ heading, description, children }) => {
   return (
@@ -538,7 +491,7 @@ useEffect(() => {
       ) {
         setCreateTxn(false);
         setRfpId(editRfpData.id);
-        setShowRfpPage(true);
+        setShowRfpViewModal(true);
       }
     } else {
       const rfpIds = Near.view(
@@ -555,7 +508,7 @@ useEffect(() => {
       ) {
         setCreateTxn(false);
         setRfpId(rfpIds[rfpIds.length - 1]);
-        setShowRfpPage(true);
+        setShowRfpViewModal(true);
       }
     }
   }
@@ -587,7 +540,7 @@ useEffect(() => {
             transaction_method_name == "edit_rfp";
 
           if (is_edit_or_add_rfp_transaction) {
-            setShowRfpPage(true);
+            setShowRfpViewModal(true);
             Storage.privateSet(draftKey, null);
           }
           // show the latest created rfp to user
@@ -612,8 +565,8 @@ useEffect(() => {
       { subscribe: false }
     );
   } else {
-    if (showRFPPage) {
-      setShowRfpPage(false);
+    if (showRfpViewModal) {
+      setShowRfpViewModal(false);
     }
   }
 }, [props.transactionHashes]);
@@ -646,29 +599,6 @@ const onSubmit = () => {
       contractName: REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT,
       methodName: isEditPage ? "edit_rfp" : "add_rfp",
       args: args,
-      gas: 270000000000000,
-    },
-  ]);
-};
-
-const onCancelRFP = (value) => {
-  setCreateTxn(true);
-
-  Near.call([
-    {
-      contractName: REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT,
-      methodName: "cancel_rfp",
-      args: {
-        id: rfpId,
-        proposals_to_cancel:
-          value === CANCEL_RFP_OPTIONS.CANCEL_PROPOSALS
-            ? editRfpData.snapshot.linked_proposals
-            : [],
-        proposals_to_unlink:
-          value === CANCEL_RFP_OPTIONS.UNLINK_PROPOSALS
-            ? editRfpData.snapshot.linked_proposals
-            : [],
-      },
       gas: 270000000000000,
     },
   ]);
@@ -871,192 +801,192 @@ const SubmissionDeadline = useMemo(() => {
   );
 }, [draftRfpData]);
 
-if (showRFPPage) {
-  return (
+return (
+  <Container className="w-100 py-2 px-0 px-sm-2 d-flex flex-column gap-3">
     <Widget
-      src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.rfps.Rfp`}
-      props={{ id: rfpId, ...props }}
+      src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.rfps.ViewRfpModal`}
+      props={{
+        isOpen: showRfpViewModal,
+        isEdit: isEditPage,
+        rfpId: rfpId,
+      }}
     />
-  );
-} else
-  return (
-    <Container className="w-100 py-2 px-0 px-sm-2 d-flex flex-column gap-3">
-      <Widget
-        src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.rfps.ConfirmCancelModal`}
-        props={{
-          isOpen: isCancelModalOpen,
-          onCancelClick: () => {
-            setCancelModal(false);
-            setTimeline({ status: RFP_TIMELINE_STATUS.EVALUATION });
-          },
-          onConfirmClick: (value) => {
-            setCancelModal(false);
-            onCancelRFP(value);
-          },
-          linkedProposalIds: editRfpData.snapshot.linked_proposals,
-        }}
-      />
-      <Widget
-        src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.rfps.WarningModal`}
-        props={{
-          isOpen: isWarningModalOpen,
-          onConfirmClick: () => {
-            setWarningModal(false);
-            setTimeline({ status: RFP_TIMELINE_STATUS.EVALUATION });
-          },
-        }}
-      />
-      <Heading className="px-2 px-sm-0">
-        {isEditPage ? "Edit" : "Create"} RFP
-      </Heading>
-      <div className="card no-border rounded-0 px-2 p-lg-0 full-width-div">
-        <div className="container-xl py-4 d-flex flex-wrap gap-6 w-100">
-          <div
-            style={{ minWidth: "350px" }}
-            className="flex-2 w-100 order-2 order-md-1"
-          >
-            <div className="d-flex gap-3 w-100">
-              <div className="d-none d-sm-flex">
-                <img src={RFP_IMAGE} height={35} width={35} />
-              </div>
-              <div className="d-flex flex-column gap-4 w-100">
-                <InputContainer
-                  heading="Category"
-                  description={
-                    <>
-                      Select the relevant categories to help users quickly
-                      understand the nature of the need. Need guidance? See{" "}
-                      <a
-                        href={FundingDocs}
-                        className="text-decoration-underline no-space"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Funding Docs
-                      </a>
-                      .
-                    </>
+    <Widget
+      src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.rfps.ConfirmCancelModal`}
+      props={{
+        isOpen: isCancelModalOpen,
+        onCancelClick: () => {
+          setCancelModal(false);
+          setTimeline({ status: RFP_TIMELINE_STATUS.EVALUATION });
+        },
+        onConfirmClick: (value) => {
+          setCancelModal(false);
+          onCancelRFP(value);
+        },
+        linkedProposalIds: editRfpData.snapshot.linked_proposals,
+      }}
+    />
+    <Widget
+      src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.rfps.WarningModal`}
+      props={{
+        isOpen: isWarningModalOpen,
+        onConfirmClick: () => {
+          setWarningModal(false);
+          setTimeline({ status: RFP_TIMELINE_STATUS.EVALUATION });
+        },
+      }}
+    />
+    <Heading className="px-2 px-sm-0">
+      {isEditPage ? "Edit" : "Create"} RFP
+    </Heading>
+    <div className="card no-border rounded-0 px-2 p-lg-0 full-width-div">
+      <div className="container-xl py-4 d-flex flex-wrap gap-6 w-100">
+        <div
+          style={{ minWidth: "350px" }}
+          className="flex-2 w-100 order-2 order-md-1"
+        >
+          <div className="d-flex gap-3 w-100">
+            <div className="d-none d-sm-flex">
+              <img src={RFP_IMAGE} height={35} width={35} />
+            </div>
+            <div className="d-flex flex-column gap-4 w-100">
+              <InputContainer
+                heading="Category"
+                description={
+                  <>
+                    Select the relevant categories to help users quickly
+                    understand the nature of the need. Need guidance? See{" "}
+                    <a
+                      href={FundingDocs}
+                      className="text-decoration-underline no-space"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Funding Docs
+                    </a>
+                    .
+                  </>
+                }
+              >
+                {CategoryDropdown}
+              </InputContainer>
+              <InputContainer
+                heading="Title"
+                description="Highlight the essence of your RFP in a few words. This will appear on your RFP’s detail page and the main RFP feed. Keep it short, please :)"
+              >
+                {TitleComponent}
+              </InputContainer>
+              <InputContainer
+                heading="Summary"
+                description="Explain your RFP briefly. What is the problem or need, desired outcome, and benefit to the NEAR developer community."
+              >
+                {SummaryComponent}
+              </InputContainer>
+              <InputContainer
+                heading="Description"
+                description={
+                  "Expand on your summary with any relevant details like a detailed explanation of the problem and the expected solution, scope, and deliverables. Also include an estimate range for the project if you have a specific budget. And the selection criteria."
+                }
+              >
+                {DescriptionComponent}
+              </InputContainer>
+              <InputContainer heading="Final Consent">
+                {ConsentComponent}
+              </InputContainer>
+              <div className="d-flex justify-content-end gap-2 align-items-center">
+                <Link
+                  to={
+                    isEditPage
+                      ? href({
+                          widgetSrc: `${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.pages.app`,
+                          params: {
+                            page: "rfp",
+                            id: parseInt(id),
+                          },
+                        })
+                      : href({
+                          widgetSrc: `${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.pages.app`,
+                          params: {
+                            page: "rfps",
+                          },
+                        })
                   }
                 >
-                  {CategoryDropdown}
-                </InputContainer>
-                <InputContainer
-                  heading="Title"
-                  description="Highlight the essence of your RFP in a few words. This will appear on your RFP’s detail page and the main RFP feed. Keep it short, please :)"
-                >
-                  {TitleComponent}
-                </InputContainer>
-                <InputContainer
-                  heading="Summary"
-                  description="Explain your RFP briefly. What is the problem or need, desired outcome, and benefit to the NEAR developer community."
-                >
-                  {SummaryComponent}
-                </InputContainer>
-                <InputContainer
-                  heading="Description"
-                  description={
-                    "Expand on your summary with any relevant details like a detailed explanation of the problem and the expected solution, scope, and deliverables. Also include an estimate range for the project if you have a specific budget. And the selection criteria."
-                  }
-                >
-                  {DescriptionComponent}
-                </InputContainer>
-                <InputContainer heading="Final Consent">
-                  {ConsentComponent}
-                </InputContainer>
-                <div className="d-flex justify-content-end gap-2 align-items-center">
-                  <Link
-                    to={
-                      isEditPage
-                        ? href({
-                            widgetSrc: `${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.pages.app`,
-                            params: {
-                              page: "rfp",
-                              id: parseInt(id),
-                            },
-                          })
-                        : href({
-                            widgetSrc: `${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.pages.app`,
-                            params: {
-                              page: "rfps",
-                            },
-                          })
-                    }
-                  >
-                    <Widget
-                      src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Button`}
-                      props={{
-                        classNames: {
-                          root: "d-flex h-100 text-muted fw-bold btn-outline shadow-none border-0 btn-sm",
-                        },
-                        label: "Discard Changes",
-                        onClick: cleanDraft,
-                      }}
-                    />
-                  </Link>
                   <Widget
                     src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Button`}
                     props={{
                       classNames: {
-                        root: "d-flex h-100 fw-light-bold btn-outline shadow-none border-1",
+                        root: "d-flex h-100 text-muted fw-bold btn-outline shadow-none border-0 btn-sm",
                       },
-                      label: (
-                        <div className="d-flex align-items-center gap-2">
-                          <div className="circle grey"></div> <div>Submit</div>
-                        </div>
-                      ),
-                      onClick: onSubmit,
-                      disabled: disabledSubmitBtn,
+                      label: "Discard Changes",
+                      onClick: cleanDraft,
                     }}
                   />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            style={{ minWidth: "350px" }}
-            className="flex-1 w-100 order-1 order-md-2"
-          >
-            <CollapsibleContainer noPaddingTop={true}>
-              <div className="d-flex flex-column gap-3 gap-sm-4">
-                <InputContainer
-                  heading="Submission Deadline"
-                  description="Enter the deadline for submitting proposals."
-                >
-                  {SubmissionDeadline}
-                </InputContainer>
-              </div>
-            </CollapsibleContainer>
-            <div className="my-2">
-              <CollapsibleContainer title="Timeline">
+                </Link>
                 <Widget
-                  src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.rfps.TimelineConfigurator`}
+                  src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Button`}
                   props={{
-                    timeline: timeline,
-                    setTimeline: (v) => {
-                      if (editRfpData.snapshot.timeline.status === v.status) {
-                        return;
-                      }
-                      // if proposal selected timeline is selected and no approved proposals exist, show warning
-                      if (
-                        v.status === RFP_TIMELINE_STATUS.PROPOSAL_SELECTED &&
-                        Array.isArray(approvedProposals) &&
-                        !approvedProposals.length
-                      ) {
-                        setWarningModal(true);
-                      }
-
-                      if (v.status === RFP_TIMELINE_STATUS.CANCELLED) {
-                        setCancelModal(true);
-                      }
-                      setTimeline(v);
+                    classNames: {
+                      root: "d-flex h-100 fw-light-bold btn-outline shadow-none border-1",
                     },
-                    disabled: isEditPage ? false : true,
+                    label: (
+                      <div className="d-flex align-items-center gap-2">
+                        <div className="circle grey"></div> <div>Submit</div>
+                      </div>
+                    ),
+                    onClick: onSubmit,
+                    disabled: disabledSubmitBtn,
                   }}
                 />
-              </CollapsibleContainer>
+              </div>
             </div>
           </div>
         </div>
+        <div
+          style={{ minWidth: "350px" }}
+          className="flex-1 w-100 order-1 order-md-2"
+        >
+          <CollapsibleContainer noPaddingTop={true}>
+            <div className="d-flex flex-column gap-3 gap-sm-4">
+              <InputContainer
+                heading="Submission Deadline"
+                description="Enter the deadline for submitting proposals."
+              >
+                {SubmissionDeadline}
+              </InputContainer>
+            </div>
+          </CollapsibleContainer>
+          <div className="my-2">
+            <CollapsibleContainer title="Timeline">
+              <Widget
+                src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.rfps.TimelineConfigurator`}
+                props={{
+                  timeline: timeline,
+                  setTimeline: (v) => {
+                    if (editRfpData.snapshot.timeline.status === v.status) {
+                      return;
+                    }
+                    // if proposal selected timeline is selected and no approved proposals exist, show warning
+                    if (
+                      v.status === RFP_TIMELINE_STATUS.PROPOSAL_SELECTED &&
+                      Array.isArray(approvedProposals) &&
+                      !approvedProposals.length
+                    ) {
+                      setWarningModal(true);
+                    }
+
+                    if (v.status === RFP_TIMELINE_STATUS.CANCELLED) {
+                      setCancelModal(true);
+                    }
+                    setTimeline(v);
+                  },
+                  disabled: isEditPage ? false : true,
+                }}
+              />
+            </CollapsibleContainer>
+          </div>
+        </div>
       </div>
-    </Container>
-  );
+    </div>
+  </Container>
+);
