@@ -1,9 +1,10 @@
+const postType = props.postType;
+console.log(props);
 const breakpoints = {
   md: "768px",
   lg: "1100px",
   xl: "1300px",
 };
-const postType = props.postType ?? "articles";
 const defImgSrc = `https://ipfs.near.social/ipfs/bafkreih5d2mix23e4hqsblgob74chyp3yyoze2ygtdm4cbo7dblt565rwa`;
 
 function Articles() {
