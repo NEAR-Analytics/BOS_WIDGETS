@@ -4,13 +4,18 @@ const PROBLEM_ID = 1;
 const STATUS_ANNOTATION_PENDING = 0;
 const SIGNATURE_RECIPIENT = "ai.near";
 const STORAGE_KEY = `session_storage`;
-const CALLBACK_URL = `https://dev.near.social/${ACCOUNT_ID}/widget/Index`;
+//const CALLBACK_URL = `https://dev.near.social/${ACCOUNT_ID}/widget/Index`;
 
 const CSS_URL =
   "https://gist.githubusercontent.com/zavodil/10ed1d07c893e04571332f1cb2408226/raw/d65b8f258eb23217c5f58d05248fdb8aab4c5768/add.style.css";
 
 const css = fetch(CSS_URL).body;
 if (!css) return "";
+
+// TODO - replace `referer` with window.location
+const referer = fetch(`${API_URL}/get_referer/`, { method: "POST" }).body;
+if (!referer) return "";
+const CALLBACK_URL = `${referer}${ACCOUNT_ID}/widget/Index`;
 
 State.init({
   resetSession: false,
