@@ -6,23 +6,24 @@ Homepage: https://github.com/NEAR-DevHub/near-prpsls-bos#readme
 /* INCLUDE: "includes/common.jsx" */
 const REPL_DEVHUB = "devhub.near";
 const REPL_INFRASTRUCTURE_COMMITTEE = "infrastructure-committee.near";
-const REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT = "truedove38.near";
+const REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT =
+  "infrastructure-committee.near";
 const REPL_RPC_URL = "https://rpc.mainnet.near.org";
 const REPL_NEAR = "near";
 const RFP_IMAGE =
   "https://ipfs.near.social/ipfs/bafkreicbygt4kajytlxij24jj6tkg2ppc2dw3dlqhkermkjjfgdfnlizzy";
 
 const RFP_FEED_INDEXER_QUERY_NAME =
-  "polyprogrammist_near_devhub_objects_s_rfps_with_latest_snapshot";
+  "polyprogrammist_near_devhub_ic_v1_rfps_with_latest_snapshot";
 
 const RFP_INDEXER_QUERY_NAME =
-  "polyprogrammist_near_devhub_objects_s_rfp_snapshots";
+  "polyprogrammist_near_devhub_ic_v1_rfp_snapshots";
 
 const PROPOSAL_FEED_INDEXER_QUERY_NAME =
-  "polyprogrammist_near_devhub_objects_s_proposals_with_latest_snapshot";
+  "polyprogrammist_near_devhub_ic_v1_proposals_with_latest_snapshot";
 
 const PROPOSAL_QUERY_NAME =
-  "polyprogrammist_near_devhub_objects_s_proposal_snapshots";
+  "polyprogrammist_near_devhub_ic_v1_proposal_snapshots";
 const RFP_TIMELINE_STATUS = {
   ACCEPTING_SUBMISSIONS: "ACCEPTING_SUBMISSIONS",
   EVALUATION: "EVALUATION",
