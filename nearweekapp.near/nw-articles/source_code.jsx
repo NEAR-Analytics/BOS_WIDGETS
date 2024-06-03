@@ -159,6 +159,34 @@ function Articles() {
 
 `;
 
+  const TabContentFooter = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+`;
+  const ButtonLink = styled.a`
+  width: 180px;
+  padding: 8px;
+  height: 32px;
+  border: 1px solid #d7dbdf;
+  border-radius: 100px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 22px;
+  letter-spacing: -0.03em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  white-space: nowrap;
+  color: hsla(204, 22%, 9%, 1);
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    outline: none;
+  }
+`;
   const Card = styled.a`
     color: #1C1F41;
     text-decoration: none !important;
@@ -270,6 +298,13 @@ function Articles() {
           )}
         </>
       </NwWidget>
+      <div className="mt-5 mb-5">
+        <TabContentFooter>
+          <ButtonLink href="//nearweek.medium.com" target="_blank">
+            Load more
+          </ButtonLink>
+        </TabContentFooter>
+      </div>
       <H2 className="mt-1">VIDEO</H2>
       <NwWidget>
         <>
