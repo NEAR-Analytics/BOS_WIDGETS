@@ -54,63 +54,9 @@ tab = normalize(tab);
 
 const [isLinkCopied, setLinkCopied] = useState(false);
 // Addons have either 2 or 1 child widgets, viewer and configure or only the viewer
+const [addonView, setAddonView] = useState("viewer");
 
-// TODO: remove local and references
-const local = false;
-const [addonView, setAddonView] = useState("viewer"); //local ? "configure" : "viewer"); // viewer
-
-// CommunityAddOn
-const blogv2 = {
-  addon_id: "blogv2",
-  display_name: "BlogV2",
-  enabled: true,
-  id: "blogv2",
-  parameters:
-    '{"title":"My blog page title",\
-     "subtitle":"Classic subtitle",\
-     "auhtorEnabled": "enabled",\
-     "searchEnabled": "enabled",\
-     "orderBy": "timedesc",\
-     "categoriesEnabled": "enabled",\
-     "categories": ["news", "guide", "reference"],\
-     "categoryRequired": false}',
-};
-const blogv2instance2 = {
-  addon_id: "blogv2",
-  display_name: "BlogV2",
-  enabled: true,
-  id: "blogv2instance2",
-  parameters: "{}",
-};
-
-const tabs = [
-  ...(local
-    ? [
-        {
-          title: "First Blog",
-          view: "thomasguntenaar.near/widget/devhub.page.addon",
-          params: {
-            addon: blogv2,
-            handle: community.handle,
-            transactionHashes: props.transactionHashes,
-          },
-        },
-      ]
-    : []),
-  ...(local
-    ? [
-        {
-          title: "Second Blog",
-          view: "thomasguntenaar.near/widget/devhub.page.addon",
-          params: {
-            addon: blogv2instance2,
-            handle: community.handle,
-            transactionHashes: props.transactionHashes,
-          },
-        },
-      ]
-    : []),
-];
+const tabs = [];
 
 (community.addons || []).map((addon) => {
   addon.enabled &&
