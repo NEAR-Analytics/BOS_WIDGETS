@@ -495,7 +495,7 @@ const Mint = ({ isDarkModeOn, contractId }) => {
         </Categories>
       </Basic>
       <Widget
-        src="bos.genadrop.near/widget/Mintbase.App.Profile.ContractSettings.Royalties"
+        src="bos.genadrop.near/widget/Mintbase.App.ContractProfilePage.ContractSettings.Royalties"
         props={{
           isDarkModeOn,
           handleRoyalties: setRoyalties,
@@ -503,7 +503,7 @@ const Mint = ({ isDarkModeOn, contractId }) => {
         }}
       />
       <Widget
-        src="bos.genadrop.near/widget/Mintbase.App.Profile.ContractSettings.Revenue"
+        src="bos.genadrop.near/widget/Mintbase.App.ContractProfilePage.ContractSettings.Revenue"
         props={{
           isDarkModeOn,
           handleSplits: setSplits,
