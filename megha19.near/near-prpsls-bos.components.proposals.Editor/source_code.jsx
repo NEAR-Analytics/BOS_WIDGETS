@@ -87,7 +87,7 @@ const PROPOSALS_APPROVED_STATUS_ARRAY = [
 function getLinkUsingCurrentGateway(url) {
   const data = fetch(`https://httpbin.org/headers`);
   const gatewayURL = data?.body?.headers?.Origin ?? "";
-  return `https://${
+  `https://${
     gatewayURL.includes("near.org") ? "dev.near.org" : "near.social"
   }/${url}`;
 }
@@ -770,15 +770,14 @@ const SubmitBtn = () => {
   const handleOptionClick = (option) => {
     setDraftBtnOpen(false);
     setSelectedStatus(option.value);
-    handleSubmit(option.value);
   };
 
   const toggleDropdown = () => {
     setDraftBtnOpen(!isDraftBtnOpen);
   };
 
-  const handleSubmit = (status) => {
-    const isDraft = status === "draft";
+  const handleSubmit = () => {
+    const isDraft = selectedStatus === "draft";
     if (isDraft) {
       onSubmit({ isDraft });
       cleanDraft();
@@ -803,7 +802,7 @@ const SubmitBtn = () => {
           }
         >
           <div
-            onClick={() => !disabledSubmitBtn && handleSubmit(selectedStatus)}
+            onClick={() => !disabledSubmitBtn && handleSubmit()}
             className="p-2 d-flex gap-2 align-items-center "
           >
             {isTxnCreated ? (
@@ -954,9 +953,8 @@ const CategoryDropdown = useMemo(() => {
         selected: labels,
         onChange: (v) => setLabels(v),
         disabled: linkedRfp, // when RFP is linked, labels are disabled
-        label: linkedRfp
-          ? "These categories are inherited from your selected RFP and can’t change"
-          : "Select Category",
+        linkedRfp: linkedRfp,
+
         availableOptions: rfpLabelOptions,
       }}
     />
@@ -1096,6 +1094,7 @@ const LinkRFPComponent = useMemo(() => {
           onChange: setLinkedRfp,
           linkedRfp: linkedRfp,
           disabled: disabledLinkRFP,
+          onDeleteRfp: () => setLabels([]),
         }}
       />
     </div>
