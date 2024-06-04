@@ -87,7 +87,7 @@ const PROPOSALS_APPROVED_STATUS_ARRAY = [
 function getLinkUsingCurrentGateway(url) {
   const data = fetch(`https://httpbin.org/headers`);
   const gatewayURL = data?.body?.headers?.Origin ?? "";
-  return `https://${
+  `https://${
     gatewayURL.includes("near.org") ? "dev.near.org" : "near.social"
   }/${url}`;
 }
@@ -219,7 +219,7 @@ return (
     <Widget
       src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.molecule.DropDownWithSearch`}
       props={{
-        selectedValue: "",
+        selectedValue: selectedProposals,
         onChange: (v) => {
           if (!selectedProposals.some((item) => item.value === v.value)) {
             setSelectedProposals([...selectedProposals, v]);
