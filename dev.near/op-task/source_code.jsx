@@ -613,32 +613,30 @@ const updateUserPromptsInLocalStorage = () => {
 };
 
 const avatarOnClick = () => {
-  if (!state?.promptsUnlocked) {
-    let promptsUnlocked = false;
-    let showPromptsEditor = state.showPromptsEditor;
-    let clickTimes = state?.clickTimes ?? [];
-    const currentTime = Date.now();
-    clickTimes.push(currentTime);
+  let promptsUnlocked = false;
+  let showPromptsEditor = state.showPromptsEditor;
+  let clickTimes = state?.clickTimes ?? [];
+  const currentTime = Date.now();
+  clickTimes.push(currentTime);
 
-    while (clickTimes.length && currentTime - clickTimes[0] > 1000) {
-      clickTimes.shift();
-    }
-
-    if (clickTimes.length >= 3) {
-      promptsUnlocked = true;
-      showPromptsEditor = true;
-    }
-
-    console.log("clickTimes", clickTimes);
-
-    State.update({
-      promptsUnlocked,
-      showPromptsEditor,
-      clickTimes,
-    });
-
-    loadDefaultPrompts();
+  while (clickTimes.length && currentTime - clickTimes[0] > 1000) {
+    clickTimes.shift();
   }
+
+  if (clickTimes.length >= 3) {
+    promptsUnlocked = true;
+    showPromptsEditor = true;
+  }
+
+  console.log("clickTimes", clickTimes);
+
+  State.update({
+    promptsUnlocked,
+    showPromptsEditor,
+    clickTimes,
+  });
+
+  loadDefaultPrompts();
 };
 
 const ATTACH_CONVERSATION_TAB_INDEX = 3;
