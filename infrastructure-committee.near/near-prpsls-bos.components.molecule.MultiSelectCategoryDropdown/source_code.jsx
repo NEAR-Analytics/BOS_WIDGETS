@@ -84,13 +84,27 @@ const PROPOSALS_APPROVED_STATUS_ARRAY = [
   PROPOSAL_TIMELINE_STATUS.PAYMENT_PROCESSING,
   PROPOSAL_TIMELINE_STATUS.FUNDED,
 ];
+
+function getLinkUsingCurrentGateway(url) {
+  const data = fetch(`https://httpbin.org/headers`);
+  const gatewayURL = data?.body?.headers?.Origin ?? "";
+  `https://${
+    gatewayURL.includes("near.org") ? "dev.near.org" : "near.social"
+  }/${url}`;
+}
 /* END_INCLUDE: "includes/common.jsx" */
 
 const { href } = VM.require(`${REPL_DEVHUB}/widget/core.lib.url`);
 href || (href = () => {});
 
-const { selected, onChange, disabled, availableOptions, hideDropdown, label } =
-  props;
+const {
+  selected,
+  onChange,
+  disabled,
+  availableOptions,
+  hideDropdown,
+  linkedRfp,
+} = props;
 
 const [selectedOptions, setSelectedOptions] = useState([]);
 const [isOpen, setIsOpen] = useState(false);
@@ -235,7 +249,15 @@ return (
             onClick={!disabled && toggleDropdown}
           >
             <div className={`selected-option`}>
-              {label ?? "Select Category"}
+              {linkedRfp ? (
+                <span className="text-sm d-flex gap-2 align-items-center">
+                  <i class="bi bi-lock-fill"></i>
+                  These categories match the chosen RFP and cannot be changed.
+                  To use different categories, unlink the RFP.
+                </span>
+              ) : (
+                <span>Select Category </span>
+              )}
             </div>
           </div>
 
