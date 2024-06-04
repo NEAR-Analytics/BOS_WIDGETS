@@ -84,6 +84,14 @@ const PROPOSALS_APPROVED_STATUS_ARRAY = [
   PROPOSAL_TIMELINE_STATUS.PAYMENT_PROCESSING,
   PROPOSAL_TIMELINE_STATUS.FUNDED,
 ];
+
+function getLinkUsingCurrentGateway(url) {
+  const data = fetch(`https://httpbin.org/headers`);
+  const gatewayURL = data?.body?.headers?.Origin ?? "";
+  `https://${
+    gatewayURL.includes("near.org") ? "dev.near.org" : "near.social"
+  }/${url}`;
+}
 /* END_INCLUDE: "includes/common.jsx" */
 
 const { href } = VM.require(`${REPL_DEVHUB}/widget/core.lib.url`);
@@ -231,7 +239,9 @@ const Comment = ({ commentItem }) => {
     blockHeight,
   };
   const content = JSON.parse(Social.get(item.path, blockHeight) ?? "null");
-  const link = `https://near.social/${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.pages.app?page=rfp&id=${props.id}&accountId=${accountId}&blockHeight=${blockHeight}`;
+  const link = getLinkUsingCurrentGateway(
+    `${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.pages.app?page=rfp&id=${props.id}&accountId=${accountId}&blockHeight=${blockHeight}`
+  );
   function getHighlightCommentStyle() {
     const highlightComment =
       parseInt(props.blockHeight ?? "") === blockHeight &&
