@@ -237,9 +237,7 @@ const Comment = ({ commentItem }) => {
     blockHeight,
   };
   const content = JSON.parse(Social.get(item.path, blockHeight) ?? "null");
-  const link = getLinkUsingCurrentGateway(
-    `${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.pages.app?page=proposal&id=${props.id}&accountId=${accountId}&blockHeight=${blockHeight}`
-  );
+  const link = `https://near.org/${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.pages.app?page=proposal&id=${props.id}&accountId=${accountId}&blockHeight=${blockHeight}`;
   const hightlightComment =
     parseInt(props.blockHeight ?? "") === blockHeight &&
     props.accountId === accountId;
