@@ -161,6 +161,7 @@ State.init({
   options: [],
   TVL: "",
   tokenBal: 0,
+  tvlLoading: false,
 });
 
 // balance
@@ -206,29 +207,42 @@ function debounce(fn, wait) {
   };
 }
 
-const getTvl = debounce(({ mode, token }) => {
+const getTvl = debounce(({ mode, token, key }) => {
+  State.update({ tvlLoading: true });
   // attention plz
   // exchange 2 DETH, the tvl token is fwDETH
   // exchange 2 DUSD, the tvl token is fwDUSD
   const tvlMode = mode || state.curPointsAndYieldItem.type;
+  const tvlKey = key || state.curPointsAndYieldItem.tvlKey;
   token  = token || state.curToken;
   const tvlToken = EXCHANGE_TOKEN_CONFIG[token];
-  if (!tvlMode || !tvlToken) return;
+  if (!tvlMode || !tvlToken) {
+    State.update({ tvlLoading: false });
+    return;
+  }
   const url = `/duo/exchange/getTvl?token=${tvlToken}&mode=${tvlMode}`;
   fetchData(url)
     .then((res) => {
-      if (!res.ok || !res.body.result || !res.body.result.pointOptimizedTvl) {
+      if (!res.ok || !res.body.result || !res.body.result[tvlKey]) {
+        State.update({ tvlLoading: false });
         return;
       }
-      const tvl = Big(res.body.result.pointOptimizedTvl.liquidity).div(Big(10).pow(18)).times(prices[token]);
+      const tvlRes = res.body.result[tvlKey];
+      if (!tvlRes.liquidity) {
+        State.update({ tvlLoading: false });
+        return;
+      }
+      const tvl = Big(tvlRes.liquidity).div(Big(10).pow(18)).times(prices[token]);
       State.update({
         TVL: tvl.toString() || "-",
+        tvlLoading: false,
       });
     })
     .catch((err) => {
       console.log(err);
+      State.update({ tvlLoading: false });
     });
-}, 1000);
+}, 900);
 
 useEffect(() => {
   const options = StakeTokens?.map((item) => ({
@@ -248,7 +262,7 @@ useEffect(() => {
   State.update({
     curPointsAndYieldItem: obj || {},
   });
-  getTvl({ mode: obj?.type });
+  getTvl({ mode: obj?.type, key: obj?.tvlKey });
 }, [state.curPointsAndYield]);
 
 const clickBalance = (_bal) => {
@@ -287,13 +301,26 @@ return (
               <SummaryItem>
                 <div className="title">TVL</div>
                 <div className="amount">
-                  $
-                  <Widget
-                    src="bluebiu.near/widget/Utils.FormatNumber"
-                    props={{
-                      number: state.TVL,
-                    }}
-                  />
+                  {
+                    state.tvlLoading ? (
+                      <Widget
+                        src="bluebiu.near/widget/0vix.LendingLoadingIcon"
+                        props={{
+                          size: 16,
+                        }}
+                      />
+                    ) : (
+                      <>
+                        $
+                        <Widget
+                          src="bluebiu.near/widget/Utils.FormatNumber"
+                          props={{
+                            number: state.TVL,
+                          }}
+                        />
+                      </>
+                    )
+                  }
                 </div>
               </SummaryItem>
               <SummaryItem className="points-and-yield-selector">
