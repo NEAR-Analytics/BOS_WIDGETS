@@ -12,7 +12,7 @@ if (!annotationId) {
 
 const referer = fetch(`${API_URL}/get_referer/`, { method: "POST" }).body;
 if (!referer) return "";
-const CALLBACK_URL = `${referer}${ACCOUNT_ID}/widget/Index`;
+const CALLBACK_URL = `${referer}${ACCOUNT_ID}/widget/Share`;
 
 State.init({
   resetSession: false,
@@ -116,7 +116,7 @@ console.log(
 return (
   <Theme style={{ padding: "0 20px" }}>
     {state.pendingRequest && <Widget src={`${ACCOUNT_ID}/widget/op-loading`} />}
-    {!showSessionContainer && (
+    {state.sessionId && (
       <>
         Annotation: {annotationId}
         <Widget
