@@ -770,14 +770,15 @@ const SubmitBtn = () => {
   const handleOptionClick = (option) => {
     setDraftBtnOpen(false);
     setSelectedStatus(option.value);
+    handleSubmit(option.value);
   };
 
   const toggleDropdown = () => {
     setDraftBtnOpen(!isDraftBtnOpen);
   };
 
-  const handleSubmit = () => {
-    const isDraft = selectedStatus === "draft";
+  const handleSubmit = (status) => {
+    const isDraft = status === "draft";
     if (isDraft) {
       onSubmit({ isDraft });
       cleanDraft();
@@ -802,7 +803,7 @@ const SubmitBtn = () => {
           }
         >
           <div
-            onClick={() => !disabledSubmitBtn && handleSubmit()}
+            onClick={() => !disabledSubmitBtn && handleSubmit(selectedStatus)}
             className="p-2 d-flex gap-2 align-items-center "
           >
             {isTxnCreated ? (
@@ -953,14 +954,9 @@ const CategoryDropdown = useMemo(() => {
         selected: labels,
         onChange: (v) => setLabels(v),
         disabled: linkedRfp, // when RFP is linked, labels are disabled
-        label: linkedRfp ? (
-          <span className="text-sm d-flex gap-2 align-items-center">
-            <i class="bi bi-lock-fill"></i>These categories match the chosen RFP
-            and cannot be changed. To use different categories, unlink the RFP.{" "}
-          </span>
-        ) : (
-          "Select Category"
-        ),
+        label: linkedRfp
+          ? "These categories are inherited from your selected RFP and can’t change"
+          : "Select Category",
         availableOptions: rfpLabelOptions,
       }}
     />
@@ -1100,7 +1096,6 @@ const LinkRFPComponent = useMemo(() => {
           onChange: setLinkedRfp,
           linkedRfp: linkedRfp,
           disabled: disabledLinkRFP,
-          onDeleteRfp: () => setLabels([]),
         }}
       />
     </div>
