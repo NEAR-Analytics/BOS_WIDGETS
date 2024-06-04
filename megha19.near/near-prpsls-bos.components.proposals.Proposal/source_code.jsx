@@ -438,9 +438,7 @@ const item = {
   path: `${REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT}/post/main`,
   blockHeight,
 };
-const proposalURL = getLinkUsingCurrentGateway(
-  `${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.pages.app?page=proposal&id=${proposal.id}&timestamp=${snapshot.timestamp}`
-);
+const proposalURL = `https://near.org/${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.pages.app?page=proposal&id=${proposal.id}&timestamp=${snapshot.timestamp}`;
 
 const SidePanelItem = ({ title, children, hideBorder, ishidden }) => {
   return (
