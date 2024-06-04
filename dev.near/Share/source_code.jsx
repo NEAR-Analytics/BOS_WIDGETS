@@ -109,16 +109,16 @@ console.log(
   state.pendingRequest,
   state.isSessionValid,
   "showSessionContainer",
-  showSessionContainer
+  showSessionContainer,
+  state.sessionId
 );
 
 return (
   <Theme style={{ padding: "0 20px" }}>
     {state.pendingRequest && <Widget src={`${ACCOUNT_ID}/widget/op-loading`} />}
-    {showSessionContainer && sessionContainer}
     {!showSessionContainer && (
       <>
-        {annotationId}
+        Annotation: {annotationId}
         <Widget
           src={`${ACCOUNT_ID}/widget/op-task`}
           props={{
@@ -127,19 +127,16 @@ return (
             storageKey: STORAGE_KEY,
             annotationId,
             problemId: PROBLEM_ID,
-            isAdmin: true,
-            onRequest: (e) => {
-              console.log(e);
-            },
-            pendingRequest: (e) => {
-              console.log(e);
-            },
-            setPendingRequest: (e) => {
-              console.log(e);
+            adminMode: true,
+            onRequest: onTask,
+            pendingRequest: state.pendingRequest,
+            setPendingRequest: (pendingRequest) => {
+              State.update({ pendingRequest });
             },
           }}
         />
       </>
     )}
+    {showSessionContainer && sessionContainer}
   </Theme>
 );
