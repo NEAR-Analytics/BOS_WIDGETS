@@ -84,6 +84,14 @@ const PROPOSALS_APPROVED_STATUS_ARRAY = [
   PROPOSAL_TIMELINE_STATUS.PAYMENT_PROCESSING,
   PROPOSAL_TIMELINE_STATUS.FUNDED,
 ];
+
+function getLinkUsingCurrentGateway(url) {
+  const data = fetch(`https://httpbin.org/headers`);
+  const gatewayURL = data?.body?.headers?.Origin ?? "";
+  `https://${
+    gatewayURL.includes("near.org") ? "dev.near.org" : "near.social"
+  }/${url}`;
+}
 /* END_INCLUDE: "includes/common.jsx" */
 
 const { href } = VM.require(`${REPL_DEVHUB}/widget/core.lib.url`) || {
@@ -420,7 +428,9 @@ const item = {
   path: `${REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT}/post/main`,
   blockHeight,
 };
-const rfpURL = `https://near.org/${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.pages.app?page=rfp&id=${rfp.id}&timestamp=${snapshot.timestamp}`;
+const rfpURL = getLinkUsingCurrentGateway(
+  `${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.pages.app?page=rfp&id=${rfp.id}&timestamp=${snapshot.timestamp}`
+);
 
 const SidePanelItem = ({ title, children, hideBorder, ishidden }) => {
   return (
