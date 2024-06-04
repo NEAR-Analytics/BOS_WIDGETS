@@ -46,7 +46,7 @@ return (
   >
     <div>
       {(annotations ?? []).length == 0 && <p>No pending projects found.</p>}
-      <span>Creatung new project</span>
+      <span>Creating new project</span>
     </div>
   </div>
 );
