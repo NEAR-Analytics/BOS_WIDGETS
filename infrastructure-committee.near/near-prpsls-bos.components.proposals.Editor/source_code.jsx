@@ -84,6 +84,14 @@ const PROPOSALS_APPROVED_STATUS_ARRAY = [
   PROPOSAL_TIMELINE_STATUS.PAYMENT_PROCESSING,
   PROPOSAL_TIMELINE_STATUS.FUNDED,
 ];
+
+function getLinkUsingCurrentGateway(url) {
+  const data = fetch(`https://httpbin.org/headers`);
+  const gatewayURL = data?.body?.headers?.Origin ?? "";
+  `https://${
+    gatewayURL.includes("near.org") ? "dev.near.org" : "near.social"
+  }/${url}`;
+}
 /* END_INCLUDE: "includes/common.jsx" */
 
 const { href } = VM.require(`${REPL_DEVHUB}/widget/core.lib.url`);
@@ -949,9 +957,8 @@ const CategoryDropdown = useMemo(() => {
         selected: labels,
         onChange: (v) => setLabels(v),
         disabled: linkedRfp, // when RFP is linked, labels are disabled
-        label: linkedRfp
-          ? "These categories are inherited from your selected RFP and can’t change"
-          : "Select Category",
+        linkedRfp: linkedRfp,
+
         availableOptions: rfpLabelOptions,
       }}
     />
@@ -1091,6 +1098,7 @@ const LinkRFPComponent = useMemo(() => {
           onChange: setLinkedRfp,
           linkedRfp: linkedRfp,
           disabled: disabledLinkRFP,
+          onDeleteRfp: () => setLabels([]),
         }}
       />
     </div>
