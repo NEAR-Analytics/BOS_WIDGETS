@@ -166,19 +166,25 @@ return (
               />
             </Input>
 
-            <div className="space-between mt-2" style={{ gap: "10px" }}>
-              {balance ? (
-                <>
-                  <span>Balance:</span>
+            {balance ? (
+              <>
+                <div className="space-between mt-2" style={{ gap: "10px" }}>
+                  <span>My balance:</span>
                   <span className="fw-bold">
                     {balance[1]} {ftData.symbol}
                   </span>
-                </>
-              ) : (
-                <>
-                  <span className="fw-bold">You have no balance</span>
-                </>
-              )}
+                </div>
+              </>
+            ) : (
+              <>
+                <span className="fw-bold">You have no balance</span>
+              </>
+            )}
+            <div className="space-between mt-2" style={{ gap: "10px" }}>
+              <span>Total supply:</span>
+              <span className="fw-bold">
+                {ftData.totalSupply} {ftData.symbol}
+              </span>
             </div>
             <VaraNetwork.Interaction
               trigger={({ signTransaction }) => (
