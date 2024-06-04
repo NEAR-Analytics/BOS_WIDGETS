@@ -5,6 +5,7 @@ const CHAT_REVERSED = "reversed";
 const API_URL = "https://annotation.nearspace.info/api";
 const PROBLEM_ID = 1;
 const STATUS_ANNOTATION_PENDING = 0;
+const ACCOUNT_ID = "dev.near";
 const STORAGE_KEY = `task_storage`;
 
 const editIcon = (
@@ -945,6 +946,17 @@ return (
                           <li>
                             <span class="dropdown-item" role="button">
                               Menu:
+                            </span>
+                          </li>
+                          <li>
+                            <span class="dropdown-item" role="button">
+                              <a
+                                role="button"
+                                href={`/${ACCOUNT_ID}/widget/Share?annotationId=${annotationId}`}
+                                target="_blank"
+                              >
+                                Share
+                              </a>
                             </span>
                           </li>
                           <li>
