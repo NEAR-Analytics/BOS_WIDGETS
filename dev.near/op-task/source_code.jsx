@@ -641,7 +641,7 @@ const avatarOnClick = () => {
   }
 };
 
-const ATTACH_CONVERSATION_TAB_INDEX = 5;
+const ATTACH_CONVERSATION_TAB_INDEX = 3;
 
 const updateModel = (model) => {
   State.update({
@@ -652,12 +652,7 @@ const updateModel = (model) => {
 
 const getPromptsContainer = () => {
   if (state.promptsUnlocked && getArray(state.defaultPrompts).length) {
-    const promptHeaders = [
-      "Message Before Specs",
-      "Specs Before Specs",
-      "Message After Specs",
-      "Specs After Specs",
-    ];
+    const promptHeaders = ["Message", "Specs"];
     return (
       <div>
         <div class="card-header justify-content-between align-items-left pb-0">
@@ -827,15 +822,6 @@ Where `person` is either `USER` or `ASSISTANT`.
                   />
                 </div>
               )}
-
-              <div class="hidden">
-                <button
-                  class="btn btn-success mb-2"
-                  onClick={() => updateUserPromptsInLocalStorage()}
-                >
-                  Update prompts
-                </button>
-              </div>
             </>
           )}
         </div>
