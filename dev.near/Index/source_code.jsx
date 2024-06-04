@@ -180,7 +180,7 @@ const onTask = (data) => {
 
 const requestTaskContainer = (
   <Widget
-    src={`${ACCOUNT_ID}/widget/op-request-task`}
+    src={`${ACCOUNT_ID}/widget/op-create-task`}
     props={{
       apiUrl: API_URL,
       sessionId: state.sessionId,
