@@ -1439,6 +1439,7 @@ function MainComponent(props) {
                       network: network,
                       Link,
                       ownerId,
+                      t,
                     }}
                   />
                 }
