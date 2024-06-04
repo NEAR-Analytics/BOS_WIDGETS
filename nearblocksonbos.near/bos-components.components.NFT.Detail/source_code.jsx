@@ -258,7 +258,7 @@ function MainComponent({ network, t, id, tid, ownerId }) {
     setIsVisible(false);
   };
   return (
-    <>
+    <div className="container mx-auto px-3">
       {isTokenSpam(token.contract || id) && isVisible && (
         <>
           <div className="py-2"></div>
@@ -496,7 +496,7 @@ function MainComponent({ network, t, id, tid, ownerId }) {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
