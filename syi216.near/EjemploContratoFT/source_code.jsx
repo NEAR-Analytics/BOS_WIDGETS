@@ -204,7 +204,7 @@ return (
         </>
       ) : (
         <div className="wrapper">
-          <h3 className="text-center text-white">
+          <h3 className="text-center text-white mb-5">
             Welcome to the example of interaction with a FT contract in VARA
             Network
           </h3>
@@ -226,7 +226,7 @@ return (
                     });
                   }}
                 >
-                  Prueba lectura de estado
+                  Start widget
                 </Btn>
               </>
             )}
