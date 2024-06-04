@@ -12,7 +12,7 @@ if (!annotationId) {
 
 const referer = fetch(`${API_URL}/get_referer/`, { method: "POST" }).body;
 if (!referer) return "";
-const CALLBACK_URL = `${referer}${ACCOUNT_ID}/widget/Share`;
+const CALLBACK_URL = `${referer}${ACCOUNT_ID}/widget/Share?annotationId=${annotationId}`;
 
 State.init({
   resetSession: false,
