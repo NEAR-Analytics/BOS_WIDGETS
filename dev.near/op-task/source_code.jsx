@@ -7,8 +7,6 @@ const PROBLEM_ID = 1;
 const STATUS_ANNOTATION_PENDING = 0;
 const STORAGE_KEY = `task_storage`;
 
-const editEverythingMode = true;
-
 const editIcon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -46,6 +44,7 @@ const {
   onRequest,
   adminMode,
 } = props;
+const editEverythingMode = !adminMode;
 const storageKey = props.storageKey ?? STORAGE_KEY;
 
 if (typeof setPendingRequest !== "function") {
