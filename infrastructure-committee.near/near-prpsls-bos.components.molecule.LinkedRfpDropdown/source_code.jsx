@@ -84,12 +84,20 @@ const PROPOSALS_APPROVED_STATUS_ARRAY = [
   PROPOSAL_TIMELINE_STATUS.PAYMENT_PROCESSING,
   PROPOSAL_TIMELINE_STATUS.FUNDED,
 ];
+
+function getLinkUsingCurrentGateway(url) {
+  const data = fetch(`https://httpbin.org/headers`);
+  const gatewayURL = data?.body?.headers?.Origin ?? "";
+  `https://${
+    gatewayURL.includes("near.org") ? "dev.near.org" : "near.social"
+  }/${url}`;
+}
 /* END_INCLUDE: "includes/common.jsx" */
 
 const { href } = VM.require(`${REPL_DEVHUB}/widget/core.lib.url`);
 href || (href = () => {});
 
-const { linkedRfp, onChange, disabled } = props;
+const { linkedRfp, onChange, disabled, onDeleteRfp } = props;
 
 const isModerator = Near.view(
   REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT,
@@ -232,6 +240,7 @@ return (
           <div
             className="cursor-pointer"
             onClick={() => {
+              onDeleteRfp();
               setSelectedRFP(null);
             }}
           >
@@ -244,7 +253,7 @@ return (
       src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.molecule.DropDownWithSearch`}
       props={{
         disabled: disabled,
-        selectedValue: "",
+        selectedValue: selectedRFP.value,
         onChange: (v) => {
           setSelectedRFP(v);
         },
