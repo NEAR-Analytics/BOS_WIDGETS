@@ -44,7 +44,7 @@ const {
   onRequest,
   adminMode,
 } = props;
-const editEverythingMode = !adminMode;
+const editEverythingMode = true;
 const storageKey = props.storageKey ?? STORAGE_KEY;
 
 if (typeof setPendingRequest !== "function") {
@@ -377,7 +377,8 @@ const getMessageClass = (item) => {
 
 const isExitEditMode = (index) => state.editMessageIndex === index;
 
-const isEditableMessage = (item) => editEverythingMode || item.person == USER;
+const isEditableMessage = (item) =>
+  adminMode ? fasle : editEverythingMode || item.person == USER;
 
 const styleMessage = (item, index) => {
   const rowClass = item.person == USER ? "flex-row-reverse" : "";
