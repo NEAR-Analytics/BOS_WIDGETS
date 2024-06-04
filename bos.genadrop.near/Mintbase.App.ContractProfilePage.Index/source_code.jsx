@@ -289,7 +289,7 @@ const PageContent = () => {
     case "contract-settings":
       return (
         <Widget
-          src="bos.genadrop.near/widget/Mintbase.App.Profile.ContractSettings.Index"
+          src="bos.genadrop.near/widget/Mintbase.App.ContractProfilePage.ContractSettings.Index"
           props={{ contractId: accountId, isDarkModeOn }}
         />
       );
