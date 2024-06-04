@@ -2,7 +2,6 @@ const USER = "user";
 const AI = "ai";
 const CHAT_DIRECT = "direct";
 const CHAT_REVERSED = "reversed";
-const ACCOUNT_ID = "fakeaccount.testnet";
 const API_URL = "https://annotation.nearspace.info/api";
 const PROBLEM_ID = 1;
 const STATUS_ANNOTATION_PENDING = 0;
@@ -45,6 +44,7 @@ const {
   pendingRequest,
   setPendingRequest,
   onRequest,
+  adminMode,
 } = props;
 const storageKey = props.storageKey ?? STORAGE_KEY;
 
@@ -116,7 +116,10 @@ const getArray = (items) => (Array.isArray(items) ? items : []);
 
 let getTaskData = () => {
   setPendingRequest(true);
-  asyncFetch(`${apiUrl}/get_annotation_by_id/`, {
+  const apiMethodUrl = !adminMode
+    ? "get_annotation_by_id"
+    : "admin/get_user_annotation_by_id";
+  asyncFetch(`${apiUrl}/${apiMethodUrl}/`, {
     method: "POST",
 
     body: JSON.stringify({
@@ -1266,7 +1269,7 @@ return (
                 </div>
 
                 {/* chat send */}
-                <div class="example-reply-options h-100 ps-2 d-flex flex-row  align-text-top">
+                <div class="example-reply-options h-100 ps-2 d-flex flex-row align-text-top">
                   <textarea
                     class="form-control h-100 flex-grow-1"
                     id="example-user-input-textarea"
@@ -1278,6 +1281,7 @@ return (
                         AddUserMessage();
                       }
                     }}
+                    disabled={!!adminMode}
                     value={state.userMessage}
                     rows="1"
                   ></textarea>
@@ -1287,6 +1291,7 @@ return (
                       type="button"
                       value=""
                       id="example-send-button"
+                      disabled={!!adminMode}
                       onClick={(e) => AddUserMessage()}
                       class="btn btn-success btn-sm footer-action-button h-100 text-white"
                       data-mdb-ripple-color="dark"
