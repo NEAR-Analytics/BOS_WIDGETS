@@ -106,8 +106,10 @@ const isEditPage = typeof id === "string";
 const author = context.accountId;
 const FundingDocs =
   "https://near.social/${REPL_DEVHUB}/widget/app?page=community&handle=developer-dao&tab=funding";
-const ToCDocs = "";
-const CoCDocs = "";
+const ToCDocs =
+  "https://docs.google.com/document/d/1jcazxTemEsOf72nfAIbv6CR1og_w4qVXg7GjXuVoGeI/edit?usp=sharing";
+const CoCDocs =
+  "https://docs.google.com/document/d/1S0Ky1xPLRlCRSbX6nLOAxBba7b0dYb4SpGJzaAPqI9k/edit?usp=sharing";
 if (!author) {
   return (
     <Widget src={`${REPL_DEVHUB}/widget/devhub.entity.proposal.LoginScreen`} />
@@ -770,14 +772,15 @@ const SubmitBtn = () => {
   const handleOptionClick = (option) => {
     setDraftBtnOpen(false);
     setSelectedStatus(option.value);
+    handleSubmit(option.value);
   };
 
   const toggleDropdown = () => {
     setDraftBtnOpen(!isDraftBtnOpen);
   };
 
-  const handleSubmit = () => {
-    const isDraft = selectedStatus === "draft";
+  const handleSubmit = (status) => {
+    const isDraft = status === "draft";
     if (isDraft) {
       onSubmit({ isDraft });
       cleanDraft();
@@ -802,7 +805,7 @@ const SubmitBtn = () => {
           }
         >
           <div
-            onClick={() => !disabledSubmitBtn && handleSubmit()}
+            onClick={() => !disabledSubmitBtn && handleSubmit(selectedStatus)}
             className="p-2 d-flex gap-2 align-items-center "
           >
             {isTxnCreated ? (
