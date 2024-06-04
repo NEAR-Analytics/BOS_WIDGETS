@@ -114,6 +114,12 @@ const featured = [
     widgetName: "Interaccion basica Vara",
     alt: "Interaccion basica Vara",
   },
+  {
+    widgetSrc: "syi216.near/widget/EjemploContratoFT",
+    accountId: "syi216.near",
+    widgetName: "Ejemplo Contrato Fungible Token",
+    alt: "Ejemplo Contrato Fungible Token",
+  },
 ];
 
 return (
