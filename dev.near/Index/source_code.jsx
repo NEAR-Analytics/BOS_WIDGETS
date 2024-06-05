@@ -238,7 +238,7 @@ const taskContainer = (
 );
 
 return (
-  <Theme style={{ padding: "0 20px", overflowY: "scroll" }}>
+  <Theme style={{ padding: "0 20px", overflowY: "scroll" }} class="h-100">
     {state.pendingRequest && <Widget src={`${ACCOUNT_ID}/widget/op-loading`} />}
 
     {showSessionContainer && sessionContainer}
