@@ -309,6 +309,7 @@ const {
   dataIndex,
   onChangeDataIndex,
   UNSTAKE_TOKEN_CONFIG,
+  actionText,
 } = props;
 
 const { ExchangeToken, PointsAndYield } = dexConfig;
@@ -400,7 +401,7 @@ function handleWithdraw({ curPointsAndYield, token, vault, amount, tokenDecimals
                 symbol: unstakeToken,
               },
               amount,
-              template: dexConfig.name,
+              template: props.name,
               add: false,
               status,
               transactionHash,
