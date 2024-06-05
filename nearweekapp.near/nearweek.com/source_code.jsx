@@ -1,6 +1,9 @@
 const rootUser = "nearweekapp.near";
 const nwSite = "https://nearweek.com";
 
+const coverImgSrc =
+  "https://ipfs.near.social/ipfs/bafkreiepoz6qkkkowczzcapjrsbtvxre7wg3rlpee5zbr7hffgiborlbwa";
+
 const breakpoints = {
   md: "768px",
   lg: "1100px",
@@ -238,11 +241,20 @@ const PriceContainer = styled.div`
     flex-direction: row;
     justify-content: center;
 `;
+
+const Header = styled.div`
+  background-image: url("${coverImgSrc}"); 
+  background-repeat: no-repeat;
+  background-color: transparent;
+  background-size: cover;
+  width: 100%;
+  height: 360px;
+`;
 return (
   <Theme>
     {/*main section*/}
     <Widget src={`${rootUser}/widget/nw-navbar`} />
-
+    <Header />
     <ContentContainer>
       <div>
         {/*Newsletter div */}
