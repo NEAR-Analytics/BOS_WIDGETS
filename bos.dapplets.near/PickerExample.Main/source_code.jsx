@@ -8,11 +8,11 @@ const [context, setContext] = useState(null)
 console.log('context', context)
 console.log('props?.pickContext', props?.pickContext)
 
-props?.pickContext({ 
+props?.pickContext?.({ 
   namespace: NAMESPACE,
   contextType: CONTEXT_TYPE,
   if: { text: { contains: 'trump' } }
-}).then((newContext) => {
+})?.then((newContext) => {
   console.log('newContext', newContext)
   setContext(newContext)
 })
