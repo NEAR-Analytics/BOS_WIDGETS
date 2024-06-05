@@ -293,6 +293,12 @@ const trusted = [
       "https://ipfs.near.social/ipfs/bafkreif4z73cybbsksndem4mx5phyua335msn6inqsyyxg3mqvg4b5lsre",
     url: "https://www.cryptobanter.com/",
   },
+  {
+    title: "Big Brain Holdings",
+    imgSrc:
+      "https://ipfs.near.social/ipfs/bafkreideydsvwwzvzfcjfu2f5ltwksgkixw44uigwne6sbqbls25e7sld4",
+    url: "https://www.bigbrain.holdings/",
+  },
 ];
 
 return (
