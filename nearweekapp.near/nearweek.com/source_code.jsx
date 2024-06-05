@@ -249,6 +249,16 @@ const Header = styled.div`
   background-size: 100% 100%;
   height: 100vh;
 `;
+
+const trusted = [
+  {
+    title: "Near Foundation",
+    imgSrc:
+      "https://ipfs.near.social/ipfs/bafkreiaf3peebsqx4plzcnvwrxm6ji2gojaooiv6japmpovilcs62lwqbu",
+    url: "https://near.org/",
+  },
+];
+
 return (
   <Theme>
     {/*main section*/}
