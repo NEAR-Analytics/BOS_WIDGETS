@@ -27,6 +27,9 @@ State.init({
   .index-container{
     height: 100% !important;
   }
+  .main-container {
+    height: 750px;
+  }
   `,
 });
 
