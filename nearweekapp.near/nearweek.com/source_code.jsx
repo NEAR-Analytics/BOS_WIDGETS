@@ -263,6 +263,12 @@ const trusted = [
       "https://ipfs.near.social/ipfs/bafkreicawfey4v6zo3isavaxiuth5xpk2lpv5ueckl7hq3znez4hvuf2oi",
     url: "https://messari.io/",
   },
+  {
+    title: "Coindesk",
+    imgSrc:
+      "https://ipfs.near.social/ipfs/bafkreifeqltl2iys4k7fuudlr3og23heiprbgq2sulkrolwgqg7dndlrpi",
+    url: "https://www.coindesk.com/",
+  },
 ];
 
 return (
