@@ -321,7 +321,7 @@ const TrustedList = styled.div`
 `;
 
 const TrustedLink = styled.a`
-  display: block;
+  display: flex;
   text-transform: uppercase;
   font-weight: 300;
   fon-size: 10px;
@@ -329,6 +329,9 @@ const TrustedLink = styled.a`
   margin-top: 55px;
   margin-bottom: 55px;
   color: #000;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   & img {
     border-radius:50%;
   }
