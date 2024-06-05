@@ -313,6 +313,30 @@ const TrustedTitle = styled.h2`
   font-weight: 300;
 `;
 
+const TrustedList = styled.div`
+  display: flex;
+  gap: 40px;
+`;
+
+const TrustedLink = styled.a`
+  display: block;
+  text-transform: uppercase;
+  font-weight: 300;
+  fon-size: 10px;
+  text-align: center;
+  margin-top: 55px;
+  margin-bottom: 55px;
+  color: #000;
+  & img {
+    border-radius:50%;
+  }
+  & span{
+    font-size: 9px;
+    margin-top: 10px;
+    padding-bottom: 5px;
+  }
+`;
+
 return (
   <Theme>
     {/*main section*/}
@@ -320,6 +344,14 @@ return (
     <Header />
     <Trusted>
       <TrustedTitle>Trusted By</TrustedTitle>
+      <TrustedList>
+        {trusted.map((link, index) => (
+          <TrustedLink href={link.url}>
+            <img src={link.imgSrc} width="122" height="122" />
+            <span>{link.title}</span>
+          </TrustedLink>
+        ))}
+      </TrustedList>
     </Trusted>
     <ContentContainer>
       <div>
