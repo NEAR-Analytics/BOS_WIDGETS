@@ -6,9 +6,9 @@ const [isRunnigApp, toggleIsRunningApp] = useState(null)
 const [context, setContext] = useState(null)
 
 console.log('context', context)
-console.log('pickContext', pickContext)
+console.log('props?.pickContext', props?.pickContext)
 
-pickContext?.({ 
+props?.pickContext({ 
   namespace: NAMESPACE,
   contextType: CONTEXT_TYPE,
   if: { text: { contains: 'trump' } }
