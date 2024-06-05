@@ -308,7 +308,7 @@ const trusted = [
 const Trusted = styled.div`
   margin-top: 64px;
   margin-left: 50px;
-  mrgin-right: 50px;
+  margin-right: 50px;
 `;
 const TrustedTitle = styled.h2`
   text-transform: uppercase;
@@ -317,7 +317,9 @@ const TrustedTitle = styled.h2`
 
 const TrustedList = styled.div`
   display: flex;
-  gap: 40px;
+  gap: 25px;
+  flex-wrap: wrap;
+  justify-content: space-around;
 `;
 
 const TrustedLink = styled.a`
@@ -334,6 +336,8 @@ const TrustedLink = styled.a`
   align-items: center;
   & img {
     border-radius:50%;
+    width: 106px;
+    height: 106px
   }
   & span{
     font-size: 9px;
