@@ -12,7 +12,7 @@ props?.pickContext?.({
   namespace: NAMESPACE,
   contextType: CONTEXT_TYPE,
   if: { text: { contains: 'trump' } }
-})?.then((newContext) => {
+})?.then?.((newContext) => {
   console.log('newContext', newContext)
   setContext(newContext)
 })
