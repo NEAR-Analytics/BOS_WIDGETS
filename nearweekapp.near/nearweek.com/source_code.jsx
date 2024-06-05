@@ -246,9 +246,8 @@ const Header = styled.div`
   background-image: url("${coverImgSrc}"); 
   background-repeat: no-repeat;
   background-color: transparent;
-  background-size: cover;
-  width: 100%;
-  height: 360px;
+  background-size:100%;
+  background-position:center;
 `;
 return (
   <Theme>
