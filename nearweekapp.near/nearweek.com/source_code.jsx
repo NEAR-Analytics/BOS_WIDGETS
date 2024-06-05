@@ -2,7 +2,7 @@ const rootUser = "nearweekapp.near";
 const nwSite = "https://nearweek.com";
 
 const coverImgSrc =
-  "https://ipfs.near.social/ipfs/bafkreiepoz6qkkkowczzcapjrsbtvxre7wg3rlpee5zbr7hffgiborlbwa";
+  "https://ipfs.near.social/ipfs/bafkreibydsokq7egf2h5axgion4bsdfz5s5vmnnbdebanemfxc3juuizee";
 
 const breakpoints = {
   md: "768px",
