@@ -257,6 +257,12 @@ const trusted = [
       "https://ipfs.near.social/ipfs/bafkreiaf3peebsqx4plzcnvwrxm6ji2gojaooiv6japmpovilcs62lwqbu",
     url: "https://near.org/",
   },
+  {
+    title: "Messari",
+    imgSrc:
+      "https://ipfs.near.social/ipfs/bafkreicawfey4v6zo3isavaxiuth5xpk2lpv5ueckl7hq3znez4hvuf2oi",
+    url: "https://messari.io/",
+  },
 ];
 
 return (
