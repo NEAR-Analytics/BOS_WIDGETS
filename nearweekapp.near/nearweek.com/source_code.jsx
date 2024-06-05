@@ -250,62 +250,77 @@ const Header = styled.div`
   height: 100vh;
 `;
 
+const ipfsURL = "https://ipfs.near.social/ipfs/";
+
 const trusted = [
   {
     title: "Near Foundation",
-    imgSrc:
-      "https://ipfs.near.social/ipfs/bafkreiaf3peebsqx4plzcnvwrxm6ji2gojaooiv6japmpovilcs62lwqbu",
+    imgSrc: `${ipfsURL}bafkreiaf3peebsqx4plzcnvwrxm6ji2gojaooiv6japmpovilcs62lwqbu`,
     url: "https://near.org/",
   },
   {
     title: "Messari",
-    imgSrc:
-      "https://ipfs.near.social/ipfs/bafkreicawfey4v6zo3isavaxiuth5xpk2lpv5ueckl7hq3znez4hvuf2oi",
+    imgSrc: `${ipfsURL}bafkreicawfey4v6zo3isavaxiuth5xpk2lpv5ueckl7hq3znez4hvuf2oi`,
     url: "https://messari.io/",
   },
   {
     title: "Coindesk",
-    imgSrc:
-      "https://ipfs.near.social/ipfs/bafkreifeqltl2iys4k7fuudlr3og23heiprbgq2sulkrolwgqg7dndlrpi",
+    imgSrc: `${ipfsURL}bafkreifeqltl2iys4k7fuudlr3og23heiprbgq2sulkrolwgqg7dndlrpi`,
     url: "https://www.coindesk.com/",
   },
   {
     title: "Coingecko",
-    imgSrc:
-      "https://ipfs.near.social/ipfs/bafkreigqloijqzj6psx2u73mmyd4ezaunsrljdfzj3dhsqvrmakaetcasm",
+    imgSrc: `${ipfsURL}bafkreigqloijqzj6psx2u73mmyd4ezaunsrljdfzj3dhsqvrmakaetcasm`,
     url: "https://www.coingecko.com/",
   },
   {
     title: "Coinmarket Cap",
-    imgSrc:
-      "https://ipfs.near.social/ipfs/bafkreieudnjf3penpnksl5jiiykj3csvwz3xn3y5a373e2meevcb6734n4",
+    imgSrc: `${ipfsURL}bafkreieudnjf3penpnksl5jiiykj3csvwz3xn3y5a373e2meevcb6734n4`,
     url: "https://coinmarketcap.com/",
   },
   {
     title: "Astar Network",
-    imgSrc:
-      "https://ipfs.near.social/ipfs/bafkreibbsjpocg2tf357szmidq7veqbtivxakk2sbwfqx7rdyb4nspxgfi",
+    imgSrc: `${ipfsURL}bafkreibbsjpocg2tf357szmidq7veqbtivxakk2sbwfqx7rdyb4nspxgfi`,
     url: "https://astar.network/",
   },
   {
     title: "Crypto Banter",
-    imgSrc:
-      "https://ipfs.near.social/ipfs/bafkreif4z73cybbsksndem4mx5phyua335msn6inqsyyxg3mqvg4b5lsre",
+    imgSrc: `${ipfsURL}bafkreif4z73cybbsksndem4mx5phyua335msn6inqsyyxg3mqvg4b5lsre`,
     url: "https://www.cryptobanter.com/",
   },
   {
     title: "Big Brain Holdings",
-    imgSrc:
-      "https://ipfs.near.social/ipfs/bafkreideydsvwwzvzfcjfu2f5ltwksgkixw44uigwne6sbqbls25e7sld4",
+    imgSrc: `${ipfsURL}bafkreideydsvwwzvzfcjfu2f5ltwksgkixw44uigwne6sbqbls25e7sld4`,
     url: "https://www.bigbrain.holdings/",
   },
+  {
+    title: "Hot Game",
+    imgSrc: `${ipfsURL}bafkreieew4kxfhca7gidkgynpmjpklcssa3uyopj5wcinz4ie7i7s6267q`,
+    url: "https://hot.game/",
+  },
+  {
+    title: "Sweat Economy",
+    imgSrc: `${ipfsURL}bafkreigd4azxkk7sk3zllpmnnsomffqf743u6rc4bamosh5c3w6ghoju54`,
+    url: "https://sweateconomy.com/",
+  },
 ];
+
+const Trusted = styled.div`
+  margin-top: 64px;
+`;
+const TrustedTitle = styled.h2`
+  text-transform: uppercase;
+  font-weight: 300;
+`;
 
 return (
   <Theme>
     {/*main section*/}
     <Widget src={`${rootUser}/widget/nw-navbar`} />
     <Header />
+    <Trusted>
+      <TrustedTitle>Trusted By</TrustedTitle>
+    </Trusted>
     <ContentContainer>
       <div>
         {/*Newsletter div */}
