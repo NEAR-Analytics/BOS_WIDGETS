@@ -8,15 +8,6 @@ const [context, setContext] = useState(null)
 console.log('context', context)
 console.log('props?.pickContext', props?.pickContext)
 
-props?.pickContext?.({ 
-  namespace: NAMESPACE,
-  contextType: CONTEXT_TYPE,
-  if: { text: { contains: 'trump' } }
-})?.then?.((newContext) => {
-  console.log('newContext', newContext)
-  setContext(newContext)
-})
-
 const ChapterWrapper = (props) => (
   <Widget
     src='bos.dapplets.near/widget/WebGuide.OverlayTrigger'
@@ -83,12 +74,22 @@ return (
         props={{
           tooltip: isRunnigApp ? 'Stop Picker' : 'Run Picker',
           isActive: isRunnigApp,
-          handleAction: () => toggleIsRunningApp((val) => !val),
           children: iconQuestionMark(isRunnigApp),
+          handleAction: () => {
+            props.pickContext({ 
+              namespace: NAMESPACE,
+              contextType: CONTEXT_TYPE,
+              if: {}
+            }).then((newContext) => {
+              console.log('newContext', newContext)
+              setContext(newContext)
+              toggleIsRunningApp(true)
+            })
+          },
         }}
       />}
     />
-    {isRunnigApp ? (
+    {isRunnigApp && context ? (
       <DappletPortal
         target={{
           namespace: NAMESPACE,
