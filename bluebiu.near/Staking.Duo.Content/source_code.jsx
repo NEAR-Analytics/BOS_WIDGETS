@@ -448,6 +448,7 @@ return (
             src="bluebiu.near/widget/Staking.Duo.Table"
             props={{
               ...props,
+              actionText: tab,
               UNSTAKE_TOKEN_CONFIG,
             }}
           />
