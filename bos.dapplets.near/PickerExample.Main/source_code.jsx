@@ -94,7 +94,7 @@ return (
         target={{
           namespace: NAMESPACE,
           contextType: CONTEXT_TYPE,
-          injectTo: CONTEXT_TYPE,
+          injectTo: 'avatar',
           if: { id: { eq: context?.id } },
           arrowTo: "insPoint",
         }}
