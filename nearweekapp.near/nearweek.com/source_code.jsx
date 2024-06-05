@@ -281,6 +281,18 @@ const trusted = [
       "https://ipfs.near.social/ipfs/bafkreieudnjf3penpnksl5jiiykj3csvwz3xn3y5a373e2meevcb6734n4",
     url: "https://coinmarketcap.com/",
   },
+  {
+    title: "Astar Network",
+    imgSrc:
+      "https://ipfs.near.social/ipfs/bafkreibbsjpocg2tf357szmidq7veqbtivxakk2sbwfqx7rdyb4nspxgfi",
+    url: "https://astar.network/",
+  },
+  {
+    title: "Crypto Banter",
+    imgSrc:
+      "https://ipfs.near.social/ipfs/bafkreif4z73cybbsksndem4mx5phyua335msn6inqsyyxg3mqvg4b5lsre",
+    url: "https://www.cryptobanter.com/",
+  },
 ];
 
 return (
