@@ -386,7 +386,7 @@ function formatAddAction(actionText, _amount, status, transactionHash) {
       symbol: tokenSymbol,
     },
     amount: _amount,
-    template: dexConfig.name,
+    template: props.name,
     add: false,
     status,
     transactionHash,
