@@ -1,4 +1,5 @@
 const twitterConfig = {
+  action: true,
   chapters: [
     {
       id: "bos.dapplets.near/gateway/MutableWebExtension",
@@ -96,6 +97,92 @@ const twitterConfig = {
           title: '"Mutate" button',
           status: [],
           content: 'The "Mutate" button allows users to create, fork, and edit mutations.',
+        },
+      ],
+      skin: 'META_GUIDE',
+    },
+    {
+      id: "bos.dapplets.near/gateway/MutableWebExtensionOverlay/1",
+      type: 'callout',
+      placement: 'left',
+      strategy: 'fixed',
+      namespace: "mweb",
+      contextType: "mweb-overlay",
+      injectTo: "mweb-overlay",
+      if: { id: { eq: "mweb-overlay" } },
+      arrowTo: "context",
+      pages: [
+        {
+          id: "bos.dapplets.near/gateway/MutableWebExtensionOverlay/1/MutationButton",
+          title: "Application panel",
+          status: [],
+          content: "Here are the available application settings for the current mutation.",
+        },
+      ],
+      skin: 'META_GUIDE',
+    },
+    {
+      id: "bos.dapplets.near/gateway/MutableWebExtensionOverlay/2",
+      type: 'callout',
+      placement: 'bottom',
+      strategy: 'fixed',
+      namespace: "mweb",
+      contextType: "mweb-overlay",
+      injectTo: "mutation-icon",
+      if: { id: { eq: "mutation-button" } },
+      arrowTo: "context",
+      pages: [
+        {
+          id: "bos.dapplets.near/gateway/MutableWebExtensionOverlay/2/MutationButton",
+          title: "Mutation button",
+          status: [],
+          content: "![](https://raw.githubusercontent.com/dapplets/bos-components/main/assets/webguide-006.png)\n\nThis is the current mutation icon. Click on it to open the Wallet panel. There you can connect your NEAR wallet.",
+        },
+        {
+          id: "bos.dapplets.near/gateway/MutableWebExtensionOverlay/2/MutationButton",
+          title: "Mutation button",
+          status: [],
+          content: "![](https://raw.githubusercontent.com/dapplets/bos-components/main/assets/webguide-007.png)\n\n Once your wallet is connected, you can see information about it and disconnect whenever you want.",
+        },
+      ],
+      skin: 'META_GUIDE',
+    },
+    {
+      id: "bos.dapplets.near/gateway/MutableWebExtensionOverlay/3",
+      type: 'callout',
+      placement: 'bottom',
+      strategy: 'fixed',
+      namespace: "mweb",
+      contextType: "mweb-overlay-action",
+      injectTo: "mweb-overlay-action",
+      if: { id: { eq: "web-guide-action" } },
+      arrowTo: "context",
+      pages: [
+        {
+          id: "bos.dapplets.near/gateway/MutableWebExtensionOverlay/3/Action",
+          title: "Action button",
+          status: [],
+          content: "![](https://raw.githubusercontent.com/dapplets/bos-components/main/assets/webguide-005.png)\n\nYou can always call up this guide again on this page by clicking on this button. It is inserted by the Web Guide application. Other applications can also insert their own quick action buttons nearby.",
+        },
+      ],
+      skin: 'META_GUIDE',
+    },
+    {
+      id: "bos.dapplets.near/gateway/MutableWebExtensionOverlay/4",
+      type: 'callout',
+      placement: 'left',
+      strategy: 'fixed',
+      namespace: "mweb",
+      contextType: "mweb-overlay",
+      injectTo: "open-apps-button",
+      if: { id: { eq: "open-apps-button" } },
+      arrowTo: "context",
+      pages: [
+        {
+          id: "bos.dapplets.near/gateway/MutableWebExtensionOverlay/4/Applications",
+          title: "Applications",
+          status: [],
+          content: "![](https://raw.githubusercontent.com/dapplets/bos-components/main/assets/webguide-008.png)\n\nClick on the button to view the applications of the current mutation. Here you can turn them off and on.",
         },
       ],
       skin: 'META_GUIDE',
@@ -200,6 +287,7 @@ const twitterConfig = {
 }
 
 const nearSocialConfig = {
+  action: true,
   chapters: [
     {
       id: "bos.dapplets.near/gateway/MutableWeb",
@@ -256,6 +344,66 @@ const nearSocialConfig = {
     //   ],
     //   skin: 'META_GUIDE',
     // },
+    {
+      id: "bos.dapplets.near/gateway/MutableWebExtensionOverlay/1",
+      type: 'callout',
+      placement: 'left',
+      strategy: 'fixed',
+      namespace: "mweb",
+      contextType: "mweb-overlay",
+      injectTo: "mweb-overlay",
+      if: { id: { eq: "mweb-overlay" } },
+      arrowTo: "context",
+      pages: [
+        {
+          id: "bos.dapplets.near/gateway/MutableWebExtensionOverlay/1/MutationButton",
+          title: "Application panel",
+          status: [],
+          content: "Here are the available application settings for the current mutation.",
+        },
+      ],
+      skin: 'META_GUIDE',
+    },
+    {
+      id: "bos.dapplets.near/gateway/MutableWebExtensionOverlay/3",
+      type: 'callout',
+      placement: 'bottom',
+      strategy: 'fixed',
+      namespace: "mweb",
+      contextType: "mweb-overlay-action",
+      injectTo: "mweb-overlay-action",
+      if: { id: { eq: "web-guide-action" } },
+      arrowTo: "context",
+      pages: [
+        {
+          id: "bos.dapplets.near/gateway/MutableWebExtensionOverlay/3/Action",
+          title: "Action button",
+          status: [],
+          content: "![](https://raw.githubusercontent.com/dapplets/bos-components/main/assets/webguide-005.png)\n\nYou can always call up this guide again on this page by clicking on this button. It is inserted by the Web Guide application. Other applications can also insert their own quick action buttons nearby.",
+        },
+      ],
+      skin: 'META_GUIDE',
+    },
+    {
+      id: "bos.dapplets.near/gateway/MutableWebExtensionOverlay/4",
+      type: 'callout',
+      placement: 'left',
+      strategy: 'fixed',
+      namespace: "mweb",
+      contextType: "mweb-overlay",
+      injectTo: "open-apps-button",
+      if: { id: { eq: "open-apps-button" } },
+      arrowTo: "context",
+      pages: [
+        {
+          id: "bos.dapplets.near/gateway/MutableWebExtensionOverlay/4/Applications",
+          title: "Applications",
+          status: [],
+          content: "![](https://raw.githubusercontent.com/dapplets/bos-components/main/assets/webguide-008.png)\n\nClick on the button to view the applications of the current mutation. Here you can turn them off and on.",
+        },
+      ],
+      skin: 'META_GUIDE',
+    },
     // {
     //   id: "bos.dapplets.near/app/Tipping/1",
     //   type: 'callout',
@@ -416,6 +564,13 @@ if (
 
 const handleClose = () => {
   setShowApp(false)
+  console.log('props', props)
+}
+
+const handleAction = () => {
+  setShowApp((val) => !val)
+  setChapterCounter(0)
+  setPageCounter(0)
 }
 
 const handleChapterDecrement = () => {
@@ -527,21 +682,61 @@ const ChapterWrapper = (props) => {
   )
 }
 
-return showApp ? (guideConfig.chapters[chapterCounter]?.type === 'infobox' ? (
-  <OverlayTriggerWrapper>
-    <DappletOverlay>
-      <ChapterWrapper/>
-    </DappletOverlay>
-  </OverlayTriggerWrapper>
-) : (
-  <DappletPortal
-    target={{
-      namespace: guideConfig.chapters[chapterCounter]?.namespace,
-      contextType: guideConfig.chapters[chapterCounter]?.contextType,
-      injectTo: guideConfig.chapters[chapterCounter]?.injectTo,
-      if: guideConfig.chapters[chapterCounter]?.if,
-      insteadOf: guideConfig.chapters[chapterCounter]?.insteadOf,
-    }}
-    component={ChapterWrapper}
-  />
-)) : <></>
+const iconQuestionMark = (isActive) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="18"
+    height="18"
+    viewBox="0 0 18 18"
+    fill="none"
+  >
+    <rect width="18" height="18" rx="9" fill={isActive ? "white" : "#02193A"} />
+    <path
+      d="M7.84446 12.85H9.60281V14.5H7.84446V12.85ZM9.01669 3.5C12.1524 3.621 13.5181 6.591 11.6542 8.8185C11.1677 9.3685 10.3823 9.7315 9.9955 10.1935C9.60281 10.65 9.60281 11.2 9.60281 11.75H7.84446C7.84446 10.8315 7.84446 10.056 8.23716 9.506C8.62399 8.956 9.40939 8.6315 9.89586 8.2685C11.3143 7.0365 10.9626 5.293 9.01669 5.15C8.55035 5.15 8.10311 5.32384 7.77335 5.63327C7.4436 5.94271 7.25835 6.36239 7.25835 6.8H5.5C5.5 5.92479 5.87051 5.08542 6.53001 4.46655C7.18952 3.84768 8.08401 3.5 9.01669 3.5Z"
+      fill={isActive ? "#384BFF" : "white"}
+    />
+  </svg>
+);
+
+return (
+  <>
+    {guideConfig.action ? (
+      <DappletPortal
+        target={{
+          namespace: "mweb",
+          contextType: "mweb-overlay",
+          injectTo: "mweb-actions-panel",
+          if: { id: { eq: "mweb-overlay" } },
+          arrowTo: "context",
+        }}
+        component={() => <Widget
+          src='bos.dapplets.near/widget/WebGuideTest.Action'
+          props={{
+            tooltip: showApp ? 'Stop Web Guide' : 'Run Web Guide',
+            isActive: showApp,
+            handleAction,
+            children: iconQuestionMark(showApp),
+          }}
+        />}
+      />
+    ) : null}
+    {showApp ? (guideConfig.chapters[chapterCounter]?.type === 'infobox' ? (
+      <OverlayTriggerWrapper>
+        <DappletOverlay>
+          <ChapterWrapper/>
+        </DappletOverlay>
+      </OverlayTriggerWrapper>
+    ) : (
+      <DappletPortal
+        target={{
+          namespace: guideConfig.chapters[chapterCounter]?.namespace,
+          contextType: guideConfig.chapters[chapterCounter]?.contextType,
+          injectTo: guideConfig.chapters[chapterCounter]?.injectTo,
+          if: guideConfig.chapters[chapterCounter]?.if,
+          insteadOf: guideConfig.chapters[chapterCounter]?.insteadOf,
+        }}
+        component={ChapterWrapper}
+      />
+    )) : null}
+  </>
+)
