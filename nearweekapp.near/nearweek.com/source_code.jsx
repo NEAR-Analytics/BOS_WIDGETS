@@ -269,6 +269,18 @@ const trusted = [
       "https://ipfs.near.social/ipfs/bafkreifeqltl2iys4k7fuudlr3og23heiprbgq2sulkrolwgqg7dndlrpi",
     url: "https://www.coindesk.com/",
   },
+  {
+    title: "Coingecko",
+    imgSrc:
+      "https://ipfs.near.social/ipfs/bafkreigqloijqzj6psx2u73mmyd4ezaunsrljdfzj3dhsqvrmakaetcasm",
+    url: "https://www.coingecko.com/",
+  },
+  {
+    title: "Coinmarket Cap",
+    imgSrc:
+      "https://ipfs.near.social/ipfs/bafkreieudnjf3penpnksl5jiiykj3csvwz3xn3y5a373e2meevcb6734n4",
+    url: "https://coinmarketcap.com/",
+  },
 ];
 
 return (
