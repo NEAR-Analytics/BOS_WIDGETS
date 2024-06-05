@@ -22,7 +22,12 @@ State.init({
   pendingAuth: false,
   pendingRequest: false,
 
-  theme: styled.div`${css}`,
+  theme: styled.div`${css}
+  
+  .index-container{
+    height: 100% !important;
+  }
+  `,
 });
 
 const Theme = state.theme;
@@ -242,8 +247,8 @@ return (
     style={{
       padding: "0 20px",
       overflowY: "scroll",
-      height: "100% !important",
     }}
+    class="index-container"
   >
     {state.pendingRequest && <Widget src={`${ACCOUNT_ID}/widget/op-loading`} />}
 
