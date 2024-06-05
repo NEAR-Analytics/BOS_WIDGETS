@@ -949,15 +949,14 @@ return (
                             </span>
                           </li>
                           <li>
-                            <span class="dropdown-item" role="button">
-                              <a
-                                role="button"
-                                href={`/${ACCOUNT_ID}/widget/Share?annotationId=${annotationId}`}
-                                target="_blank"
-                              >
-                                Share
-                              </a>
-                            </span>
+                            <a
+                              class="dropdown-item"
+                              role="button"
+                              href={`/${ACCOUNT_ID}/widget/Share?annotationId=${annotationId}`}
+                              target="_blank"
+                            >
+                              Share link
+                            </a>
                           </li>
                           <li>
                             <span
