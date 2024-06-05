@@ -96,7 +96,11 @@ return (
               widgetSrc: widget.src,
             })}
           >
-            <Widget src={widget.src} props={widget.props} loading={<></>} />
+            <Widget
+              src={widget.src}
+              props={{ ...widget.props, pickContext: props.pickContext }}
+              loading={<></>}
+            />
             <div
               data-mweb-insertion-point="hidden"
               style={{ display: "none" }}
