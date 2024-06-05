@@ -307,6 +307,8 @@ const trusted = [
 
 const Trusted = styled.div`
   margin-top: 64px;
+  margin-left: 50px;
+  mrgin-right: 50px;
 `;
 const TrustedTitle = styled.h2`
   text-transform: uppercase;
@@ -333,7 +335,6 @@ const TrustedLink = styled.a`
   & span{
     font-size: 9px;
     margin-top: 10px;
-    padding-bottom: 5px;
   }
 `;
 
