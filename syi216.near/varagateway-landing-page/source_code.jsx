@@ -120,6 +120,12 @@ const featured = [
     widgetName: "Ejemplo Contrato Fungible Token",
     alt: "Ejemplo Contrato Fungible Token",
   },
+  {
+    widgetSrc: "syi216.near/widget/EjemploContratoNFT",
+    accountId: "syi216.near",
+    widgetName: "Ejemplo Contrato Non Fungible Token",
+    alt: "Ejemplo Contrato Non Fungible Token",
+  },
 ];
 
 return (
