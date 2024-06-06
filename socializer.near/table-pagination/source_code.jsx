@@ -87,7 +87,6 @@ const getTimeRemaining = (e) => {
 };
 
 const startTimer = () => {
-  console.log("startTimer-->>>");
   if (!state.temp.length) return;
   const compaign = state.temp.map((row, index) => {
     let { total, hours, minutes, seconds } = getTimeRemaining(row.ends);
@@ -98,7 +97,6 @@ const startTimer = () => {
       endsin: `Ends in ${hours}hr ${minutes}m ${seconds}s`,
     };
   });
-  console.log("compaign->>>", compaign);
 
   if (!compaign.length) return;
   State.update({
@@ -124,11 +122,9 @@ const startTimer = () => {
 
 useEffect(() => {
   if (timer && !state.loaded && state.temp.length) {
-    console.log("useEffect timer111111111");
     startTimer();
     const intervalId = setInterval(() => {
       //   if (!state.temp.length) clearInterval(Interval);
-      console.log("useEffect timer2222222");
       startTimer();
     }, 1000);
     // State.update({
