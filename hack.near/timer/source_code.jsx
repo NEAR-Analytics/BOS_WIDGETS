@@ -1,4 +1,4 @@
-const { startTime, endTime, type } = props;
+const { startTime, endTime } = props;
 
 State.init({
   days: "-",
@@ -22,20 +22,10 @@ const timer = setInterval(() => {
   let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
   let seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-  if (now < start)
-    title = (
-      <>
-        Time before <br /> {type} starts
-      </>
-    );
-  else if (now > start && now < end)
-    title = (
-      <>
-        Time remaining in <br /> current {type}
-      </>
-    );
+  if (now < start) title = <>closed</>;
+  else if (now > start && now < end) title = <>open</>;
   else {
-    title = <>{type} is ended</>;
+    title = <>ended</>;
     days = 0;
     hours = 0;
     minutes = 0;
