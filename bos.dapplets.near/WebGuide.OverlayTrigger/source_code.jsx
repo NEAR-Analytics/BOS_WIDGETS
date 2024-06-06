@@ -154,6 +154,7 @@ const Header = styled.div`
 const TopLine = styled.div`
   position: relative;
   display: flex;
+  flex-direction: row-reverse;
   justify-content: space-between;
   align-items: center;
   width: 100%;
@@ -275,6 +276,11 @@ const Card = styled.div`
 `
 
 const MarkdownWrapper = styled.div`
+  display: flex;
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+
   h3 {
     padding: 8px 0 0;
     margin: 0;
@@ -607,10 +613,13 @@ const {
   skin,
 } = props
 
+console.log('props in Overlay Trigger', props)
+
 const header = (
   <Header $col={themes[skin].colorMain}>
     <TopLine>
-      <CalloutHeaderCaption $col={themes[skin].colorMain}>
+      <Close onClick={onClose}>{iconClose(themes[skin].colorMain)}</Close>
+      {navi ? (<><CalloutHeaderCaption $col={themes[skin].colorMain}>
         Step {navi?.currentChapterIndex + 1} of {navi?.totalChapters}
       </CalloutHeaderCaption>
       <PagesIndicators>
@@ -625,8 +634,7 @@ const header = (
             />
           )
         )}
-      </PagesIndicators>
-      <Close onClick={onClose}>{iconClose(themes[skin].colorMain)}</Close>
+      </PagesIndicators></>) : null}
     </TopLine>
   </Header>
 )
@@ -682,7 +690,7 @@ const actionButton = (btn) => (
   </ActionButton>
 )
 
-const navButtons = props.type === 'callout' ? (
+const navButtons = !buttons ? null : props.type === 'callout' ? (
   <ActionsGroup $type={props.type}>
     {buttons.map((btn) => actionButton(btn))}
   </ActionsGroup>
@@ -706,9 +714,9 @@ const callout = (
   >
     {header}
     {props.status?.text ? statuses : null}
-    <Title $type={props.type} $col={themes[skin].colorMain}>
+    {title ? (<Title $type={props.type} $col={themes[skin].colorMain}>
       {title}
-    </Title>
+    </Title>) : null}
     <MarkdownWrapper $colH={themes[skin].colorMain} $colP={themes[skin].colorP}>
       <Markdown text={content}/>
     </MarkdownWrapper>
@@ -737,9 +745,9 @@ const infobox = (
     $bg={themes[skin].bgMain}
   >
     {header}
-    <Title $type={props.type} $col={themes[skin].colorMain}>
+    {title ? (<Title $type={props.type} $col={themes[skin].colorMain}>
       {title}
-    </Title>
+    </Title>) : null}
     <Card $bg={themes[skin].cardBg}>
       {props.status?.text ? statuses : null}
       <MarkdownWrapper $colH={themes[skin].colorMain} $colP={themes[skin].colorP}>
