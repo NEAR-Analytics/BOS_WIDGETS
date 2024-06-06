@@ -26,6 +26,7 @@ const TeamButton = styled.button`
   padding: 15px;
   cursor: pointer;
   border-radius: 8px;
+  border: 2px solid ${(props) => (props.isSelected ? "#388e3c" : "#000")};
   margin: 23px;
   font-family: Courier, sans-serif;
 
@@ -111,7 +112,9 @@ return (
     </Section>
     <Section>
       <div className="d-flex flex-column align-items-center justify-content-center">
-        <SubmitButton onClick={handleSubmit}>Make Your Pick</SubmitButton>
+        <SubmitButton disabled={selectedTeam !== null} onClick={handleSubmit}>
+          Make Your Pick
+        </SubmitButton>
         <div className="ms-3">
           <Widget
             src="hack.near/widget/timer"
