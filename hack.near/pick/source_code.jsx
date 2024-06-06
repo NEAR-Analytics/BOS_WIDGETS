@@ -69,7 +69,7 @@ const pickData = {
     rounds: {
       round0: {
         match1: {
-          pick: null,
+          pick: selectedTeam,
         },
       },
     },
