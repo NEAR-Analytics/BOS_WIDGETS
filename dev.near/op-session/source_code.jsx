@@ -172,7 +172,7 @@ if (pendingAuth || resetSession) {
 return (
   <div class="w-100">
     <div class="text-center pt-5">
-      {session_id && (
+      {!session_id && (
         <div class="p-2">
           <h4>Present your idea to AI Product Manager.</h4>
           <p>
