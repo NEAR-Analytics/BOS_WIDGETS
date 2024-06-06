@@ -84,6 +84,10 @@ const handleSubmit = () => {
 
 return (
   <Container>
+    <img
+      style={{ width: "200px" }}
+      src="https://builders.mypinata.cloud/ipfs/QmRQT2q6YbfVQSpgCbsfs1WTpk4LMey8FVHDKkWFToyspB"
+    />
     <Section>
       <TeamButton
         isSelected={selectedTeam === "Pakistan"}
@@ -97,11 +101,6 @@ return (
           <b>Pakistan</b>
         </div>
       </TeamButton>
-      <img
-        style={{ width: "100px" }}
-        src="https://builders.mypinata.cloud/ipfs/QmRQT2q6YbfVQSpgCbsfs1WTpk4LMey8FVHDKkWFToyspB"
-      />
-
       <TeamButton
         isSelected={selectedTeam === "India"}
         onClick={() => handleTeamSelect("India")}
