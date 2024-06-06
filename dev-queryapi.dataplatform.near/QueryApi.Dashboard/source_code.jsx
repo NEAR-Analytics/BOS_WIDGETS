@@ -324,8 +324,8 @@ const selectIndexerPage = (viewName) => {
   });
 };
 const indexerView = (accountId, indexerName) => {
-  const editUrl = `https://dev.near.org/#/dev-queryapi.dataplatform.near/widget/QueryApi.App?selectedIndexerPath=${accountId}/${indexerName}`;
-  const statusUrl = `https://dev.near.org/#/dev-queryapi.dataplatform.near/widget/QueryApi.App?selectedIndexerPath=${accountId}/${indexerName}&view=indexer&activeIndexerView=status`;
+  const editUrl = `https://dev.near.org/dev-queryapi.dataplatform.near/widget/QueryApi.App?selectedIndexerPath=${accountId}/${indexerName}`;
+  const statusUrl = `https://dev.near.org/dev-queryapi.dataplatform.near/widget/QueryApi.App?selectedIndexerPath=${accountId}/${indexerName}&view=indexer&activeIndexerView=status`;
   const playgroundLink = `https://cloud.hasura.io/public/graphiql?endpoint=https://near-queryapi.dev.api.pagoda.co/v1/graphql&header=x-hasura-role%3A${accountId.replaceAll(
     ".",
     "_"
@@ -406,7 +406,7 @@ return (
     <Main>
       <Section active={state.activeTab === "explore"}>
         <NavBarLogo
-          href={`https://dev.near.org/#/dev-queryapi.dataplatform.near/widget/QueryApi.App`}
+          href={`https://dev.near.org/dev-queryapi.dataplatform.near/widget/QueryApi.App`}
           title="QueryApi"
           onClick={() => selectTab("explore")}
         >
@@ -429,7 +429,7 @@ return (
           </SignUpLink>
         <div>
           <ButtonLink
-            href={`/#/dev-queryapi.dataplatform.near/widget/QueryApi.App/?view=create-new-indexer`}
+            href={`/dev-queryapi.dataplatform.near/widget/QueryApi.App/?view=create-new-indexer`}
             style={{ "margin-top": "10px" }}
             onClick={() => {
               State.update({
