@@ -279,6 +279,7 @@ const MarkdownWrapper = styled.div`
   display: flex;
   position: relative;
   box-sizing: border-box;
+  flex-direction: column;
   width: 100%;
 
   h3 {
