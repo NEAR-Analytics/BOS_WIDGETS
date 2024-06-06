@@ -86,6 +86,7 @@ return (
   <Container>
     <img
       style={{ width: "200px" }}
+      className="mt-5"
       src="https://builders.mypinata.cloud/ipfs/QmRQT2q6YbfVQSpgCbsfs1WTpk4LMey8FVHDKkWFToyspB"
     />
     <Section>
