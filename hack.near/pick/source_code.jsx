@@ -101,7 +101,13 @@ return (
           src="https://builders.mypinata.cloud/ipfs/QmbbsDP34mKKP42WHgJwBSnMVvWnj9JiV9wJ3JyiVxsdEN"
           alt="Pakistan Cricket Team Logo"
         />
-        <div style={{ textAlign: "center", textDecoration: "none" }}>
+        <div
+          style={{
+            textAlign: "center",
+            textDecoration: "none",
+            color: "black",
+          }}
+        >
           <b>Pakistan</b>
         </div>
       </TeamButton>
@@ -113,7 +119,13 @@ return (
           src="https://builders.mypinata.cloud/ipfs/QmWiHPLeP2LTxT9hNham3XhWNPT13n2YviPZK8YPKYyAzu"
           alt="India Cricket Team Logo"
         />
-        <div style={{ textAlign: "center", textDecoration: "none" }}>
+        <div
+          style={{
+            textAlign: "center",
+            textDecoration: "none",
+            color: "black",
+          }}
+        >
           <b>India</b>
         </div>
       </TeamButton>
