@@ -28,6 +28,7 @@ const TeamButton = styled.button`
   border: 2px solid ${(props) => (props.isSelected ? "#388e3c" : "#000")};
   margin: 23px;
   font-family: Courier, sans-serif;
+  text-decoration: none;
 
   &:hover {
     box-shadow: 3px 5px 8px rgba(0, 0, 0.3, 0.3);
