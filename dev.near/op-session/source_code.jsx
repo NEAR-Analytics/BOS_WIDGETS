@@ -172,6 +172,15 @@ if (pendingAuth || resetSession) {
 return (
   <div class="w-100">
     <div class="text-center pt-5">
+      {session_id && (
+        <div class="p-2">
+          <h4>Present your idea to AI Product Manager.</h4>
+          <p>
+            After asking you few questions, AI will write documentation that
+            will be passed to developer to build your application
+          </p>
+        </div>
+      )}
       <button class={className} onClick={() => logout()}>
         {session_id ? "Logout" : "Start new working session"}
       </button>
