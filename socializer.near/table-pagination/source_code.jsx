@@ -97,6 +97,7 @@ const startTimer = () => {
       endsin: `Ends in ${hours}hr ${minutes}m ${seconds}s`,
     };
   });
+  console.log("compaign->>>", compaign);
 
   if (!compaign.length) return;
   State.update({
