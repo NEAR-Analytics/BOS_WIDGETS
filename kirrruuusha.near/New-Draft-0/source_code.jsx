@@ -27,7 +27,7 @@ return (
       <h1 style={{ fontWeight: "bold" }}>Mentor HUB</h1>
       <h3>Make the world around you the better place</h3>
       <Widget
-        src="near/widget/#"
+        src="near/widget/"
         props={{
           accountId,
           style: { width: "7rem", height: "7rem" },
