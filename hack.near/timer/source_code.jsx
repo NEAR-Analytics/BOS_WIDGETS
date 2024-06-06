@@ -14,6 +14,7 @@ const timer = setInterval(() => {
   const now = new Date().getTime();
   const start = new Date(parseInt(startTime)).getTime();
   const end = new Date(parseInt(endTime)).getTime();
+  let title = "";
 
   const diff = new Date(parseInt(end)).getTime() - new Date().getTime();
   let days = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -21,18 +22,26 @@ const timer = setInterval(() => {
   let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
   let seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-  if (now < start) {
-    title = <>closed</>;
-  } else if (now > start && now < end) {
-    title = <>open</>;
-  } else {
+  if (now < start)
+    title = (
+      <>
+        Time before <br /> {type} starts
+      </>
+    );
+  else if (now > start && now < end)
+    title = (
+      <>
+        Time remaining in <br /> current {type}
+      </>
+    );
+  else {
+    title = <>{type} is ended</>;
     days = 0;
     hours = 0;
     minutes = 0;
     seconds = 0;
   }
-
-  console.log([days, hours, minutes, seconds]);
+  console.log([days, hours, minutes, seconds, title]);
   State.update({
     days: days,
     hours: hours,
@@ -43,10 +52,6 @@ const timer = setInterval(() => {
 
   clearInterval(timer);
 }, 1000);
-
-const TimeSlot = styled.div`
-  flex: 1;
-`;
 
 const Timer = styled.div`
   font-size: 23px;
@@ -65,19 +70,11 @@ const TimerContainer = styled.div`
   padding: 12px;
 `;
 
-const Time = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  flex: 1;
-`;
-
 const TimerContent = () => {
   const TimeSlot = ({ time, title }) => (
     <div>
-      <div>{formatTime(time)}</div>
-      <small className="m-1">{title}</small>
+      <div className="time">{formatTime(time)}</div>
+      <small>{title}</small>
     </div>
   );
 
@@ -97,26 +94,18 @@ return (
   <div className="p-3 justify-content-between align-items-center">
     <TimerContainer className="d-flex align-items-center justify-content-center">
       <Timer>
-        <TimeSlot>
-          <div>
-            <b>{formatTime(state.days)}</b> d
-          </div>
-        </TimeSlot>
-        <TimeSlot>
-          <div>
-            <b>{formatTime(state.hours)}</b> h
-          </div>
-        </TimeSlot>
-        <TimeSlot>
-          <div>
-            <b>{formatTime(state.minutes)}</b> m
-          </div>
-        </TimeSlot>
-        <TimeSlot>
-          <div>
-            <b>{formatTime(state.seconds)}</b> s
-          </div>
-        </TimeSlot>
+        <div className="m-2">
+          <b>{formatTime(state.days)}</b>d
+        </div>
+        <div className="m-2">
+          <b>{formatTime(state.hours)}</b>h
+        </div>
+        <div className="m-2">
+          <b>{formatTime(state.minutes)}</b>m
+        </div>
+        <div className="m-2">
+          <b>{formatTime(state.seconds)}</b>s
+        </div>
       </Timer>
     </TimerContainer>
   </div>
