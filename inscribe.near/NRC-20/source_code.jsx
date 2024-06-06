@@ -247,7 +247,44 @@ const FooterWrapper = styled.div`
   margin: 40px 0;
 `;
 
+const Notification = styled.div`
+  position: absolute;
+  right: 40px;
+  top: 50px;
+  z-index: 1;
 
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const NRC20Link = styled.a`
+  color: white;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+`;
+
+const NotificationImg = () => {
+  return (
+    <img
+      style={{ cursor: "pointer" }}
+      onClick={() =>
+        State.update({
+          showNotification: false,
+        })
+      }
+      src={`${ipfsPrefix}/bafkreifzxbehbqzwatzsilj4tmxh3r6rypdm2wiutud34rifx5oxkvdmea`}
+      width={24}
+      height={24}
+    />
+  );
+};
+
+
+
+State.init({
+  showNotification: true,
+});
 
 function getTab() {
   const tab = props.tab;
@@ -271,6 +308,24 @@ const tab = getTab();
 const tickParam = props.tick ? `&tick=${props.tick}` : "";
 return (
   <Main>
+    {state.showNotification && (
+      <Notification>
+        <FormContainer
+          style={{
+            gap: "20px",
+            flexDirection: "row",
+          }}
+        >
+          <NRC20Link
+            href={`/${config.ownerId}/widget/NEAT?tab=stake`}
+            target="_blank"
+          >
+            📣 Stake $NEAT and earn $NEAR
+          </NRC20Link>
+          <NotificationImg />
+        </FormContainer>
+      </Notification>
+    )}
     <HeaderContainer>
       <a href={landingUrl} target="_blank">
         <Logo
