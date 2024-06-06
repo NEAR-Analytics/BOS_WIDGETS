@@ -2,38 +2,49 @@ const NAMESPACE = 'bos.dapplets.near/parser/twitter'
 const CONTEXT_TYPE = 'post'
 const SKIN = 'DEFAULT'
 
-const [isRunnigApp, toggleIsRunningApp] = useState(null)
+const [isRunnigApp, toggleIsRunningApp] = useState(false)
 const [context, setContext] = useState(null)
 
-console.log('context', context)
-console.log('props?.pickContext', props?.pickContext)
+useEffect(() => {
+  if (!isRunnigApp) return;
+  props.pickContext({ 
+    namespace: NAMESPACE,
+    contextType: CONTEXT_TYPE,
+    if: {}
+  })
+    .then((newContext) => setContext(newContext))
+    .catch((err) => console.log(err))
+}, [isRunnigApp])
 
-const ChapterWrapper = (props) => (
-  <Widget
-    src='bos.dapplets.near/widget/WebGuide.OverlayTrigger'
-    loading={props?.children}
-    props={{
-      id: currentChapter.id,
-      type: currentChapter.type,
-      placement: currentChapter.placement,
-      onClose: () => toggleIsRunningApp(false),
-      content: context,
-      skin: SKIN,
-      children: currentChapter.type === 'callout'
-        && currentChapter.arrowTo === "context"
-          ? ({ ref }) => {
-              props.attachContextRef(ref);
-              return props.children;
-            }
-          : currentChapter.arrowTo === "insPoint"
-          ? ({ ref }) => {
-              props.attachInsPointRef(ref);
-              return props.children;
-            }
-          : props.children,
-    }}
-  />
-)
+const ChapterWrapper = (props) => {
+  const widgetProps = {
+    id: context.id,
+    type: 'callout',
+    onClose: () => toggleIsRunningApp(false),
+    title: 'Parsed context',
+    content:`
+\`\`\`js
+${JSON.stringify(context.parsed, null, 2)}
+\`\`\`
+`,
+    skin: SKIN,
+    // children: ({ ref }) => {
+    //   props.attachInsPointRef(ref);
+    //   return props.children;
+    // }
+    // children: ({ ref }) => {
+    //   props.attachContexttRef(ref);
+    //   return props.children;
+    // }
+  }
+  return (
+    <Widget
+      src='bos.dapplets.near/widget/WebGuide.OverlayTrigger'
+      loading={props?.children}
+      props={widgetProps}
+    />
+  )
+}
 
 const iconQuestionMark = (isActive) => (
   <svg
@@ -76,15 +87,11 @@ return (
           isActive: isRunnigApp,
           children: iconQuestionMark(isRunnigApp),
           handleAction: () => {
-            props.pickContext({ 
-              namespace: NAMESPACE,
-              contextType: CONTEXT_TYPE,
-              if: {}
-            }).then((newContext) => {
-              console.log('newContext', newContext)
-              setContext(newContext)
+            if (isRunnigApp) {
+              toggleIsRunningApp(false)
+            } else {
               toggleIsRunningApp(true)
-            })
+            }
           },
         }}
       />}
