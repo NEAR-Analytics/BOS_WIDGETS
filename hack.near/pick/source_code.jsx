@@ -84,11 +84,13 @@ const handleSubmit = () => {
 
 return (
   <Container>
-    <img
-      style={{ width: "200px" }}
-      className="mt-5"
-      src="https://builders.mypinata.cloud/ipfs/QmRQT2q6YbfVQSpgCbsfs1WTpk4LMey8FVHDKkWFToyspB"
-    />
+    <a href="https://www.icc-cricket.com/tournaments/t20cricketworldcup">
+      <img
+        style={{ width: "200px" }}
+        className="mt-5"
+        src="https://builders.mypinata.cloud/ipfs/QmRQT2q6YbfVQSpgCbsfs1WTpk4LMey8FVHDKkWFToyspB"
+      />
+    </a>
     <Section>
       <TeamButton
         isSelected={selectedTeam === "Pakistan"}
