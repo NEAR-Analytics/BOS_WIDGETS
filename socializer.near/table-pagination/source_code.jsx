@@ -124,22 +124,23 @@ const startTimer = () => {
 
 useEffect(() => {
   if (timer && !state.loaded && state.temp.length) {
+    console.log("useEffect timer111111111");
     startTimer();
     const intervalId = setInterval(() => {
       //   if (!state.temp.length) clearInterval(Interval);
-      console.log("useEffect timer");
+      console.log("useEffect timer2222222");
       startTimer();
     }, 1000);
-    State.update({
-      ...state,
-      loaded: true,
-    });
+    // State.update({
+    //   ...state,
+    //   loaded: true,
+    // });
     // Interval = interval;
     return () => {
       clearInterval(intervalId);
     };
   }
-}, [timer, state.loaded, state.temp]);
+}, [timer, state.temp]);
 // else if (!timer && Interval) clearInterval(Interval);
 
 return (
