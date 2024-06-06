@@ -12,7 +12,6 @@ const Section = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin: 12px;
 `;
 
 const TeamButton = styled.button`
@@ -46,6 +45,7 @@ const SubmitButton = styled.button`
   font-weight: bold;
   font-family: Courier, sans-serif;
   transition: all 0.3s;
+  width: 75%;
 
   &:hover {
     background-color: #2e7d32;
