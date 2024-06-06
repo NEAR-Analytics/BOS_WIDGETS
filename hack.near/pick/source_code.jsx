@@ -84,15 +84,13 @@ const handleSubmit = () => {
 
 return (
   <Container>
-    <div>
-      <a href="https://www.icc-cricket.com/tournaments/t20cricketworldcup">
-        <img
-          style={{ width: "200px" }}
-          className="mt-5"
-          src="https://builders.mypinata.cloud/ipfs/QmRQT2q6YbfVQSpgCbsfs1WTpk4LMey8FVHDKkWFToyspB"
-        />
-      </a>
-    </div>
+    <a href="https://www.icc-cricket.com/tournaments/t20cricketworldcup">
+      <img
+        style={{ width: "200px" }}
+        className="mt-5"
+        src="https://builders.mypinata.cloud/ipfs/QmRQT2q6YbfVQSpgCbsfs1WTpk4LMey8FVHDKkWFToyspB"
+      />
+    </a>
     <h3 style={{ fontFamily: "Courier, sans-serif" }}>FEATURED MATCHUP</h3>
     <Section>
       <TeamButton
@@ -120,21 +118,19 @@ return (
         </div>
       </TeamButton>
     </Section>
-    <Section>
-      <div className="d-flex flex-column align-items-center justify-content-center">
-        {context.accountId && (
-          <SubmitButton onClick={handleSubmit}>Make Your Pick</SubmitButton>
-        )}
-        <div className="ms-3">
-          <Widget
-            src="hack.near/widget/timer"
-            props={{
-              startTime: 1717574582000,
-              endTime: 1717943400000,
-            }}
-          />
-        </div>
+    <div className="d-flex flex-column align-items-center justify-content-center">
+      {context.accountId && (
+        <SubmitButton onClick={handleSubmit}>Make Your Pick</SubmitButton>
+      )}
+      <div className="ms-4">
+        <Widget
+          src="hack.near/widget/timer"
+          props={{
+            startTime: 1717574582000,
+            endTime: 1717943400000,
+          }}
+        />
       </div>
-    </Section>
+    </div>
   </Container>
 );
