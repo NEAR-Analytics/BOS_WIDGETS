@@ -657,7 +657,7 @@ function MainComponent({ network, id, ownerId, t }) {
         </span>
       ),
       tdClassName:
-        'px-5 py-3 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
+        'px-5 py-3 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10 w-48',
       thClassName: 'inline-flex',
     },
     {
