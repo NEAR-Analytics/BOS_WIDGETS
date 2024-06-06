@@ -112,9 +112,7 @@ return (
     </Section>
     <Section>
       <div className="d-flex flex-column align-items-center justify-content-center">
-        <SubmitButton disabled={selectedTeam !== null} onClick={handleSubmit}>
-          Make Your Pick
-        </SubmitButton>
+        <SubmitButton onClick={handleSubmit}>Make Your Pick</SubmitButton>
         <div className="ms-3">
           <Widget
             src="hack.near/widget/timer"
