@@ -620,22 +620,26 @@ const header = (
   <Header $col={themes[skin].colorMain}>
     <TopLine>
       <Close onClick={onClose}>{iconClose(themes[skin].colorMain)}</Close>
-      {navi ? (<><CalloutHeaderCaption $col={themes[skin].colorMain}>
-        Step {navi?.currentChapterIndex + 1} of {navi?.totalChapters}
-      </CalloutHeaderCaption>
-      <PagesIndicators>
-        {navi.totalPages > 1 && [...Array(navi?.totalPages)].map(
-          (_, index) => (
-            <Navi
-              key={index}
-              $active={index == navi?.currentPageIndex ? true : false}
-              $navActive={themes[skin].navActive}
-              $navInactiveBg={themes[skin].navInactiveBg}
-              $navInactiveBorder={themes[skin].navInactiveBorder}
-            />
-          )
-        )}
-      </PagesIndicators></>) : null}
+      {navi ? (
+        <>
+          <PagesIndicators>
+            {navi.totalPages > 1 && [...Array(navi?.totalPages)].map(
+              (_, index) => (
+                <Navi
+                  key={index}
+                  $active={index == navi?.currentPageIndex ? true : false}
+                  $navActive={themes[skin].navActive}
+                  $navInactiveBg={themes[skin].navInactiveBg}
+                  $navInactiveBorder={themes[skin].navInactiveBorder}
+                />
+              )
+            )}
+          </PagesIndicators>
+          <CalloutHeaderCaption $col={themes[skin].colorMain}>
+            Step {navi?.currentChapterIndex + 1} of {navi?.totalChapters}
+          </CalloutHeaderCaption>
+        </>
+      ) : null}
     </TopLine>
   </Header>
 )
