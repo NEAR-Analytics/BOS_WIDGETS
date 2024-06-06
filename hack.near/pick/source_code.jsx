@@ -28,7 +28,6 @@ const TeamButton = styled.button`
   border: 2px solid ${(props) => (props.isSelected ? "#388e3c" : "#000")};
   margin: 23px;
   font-family: Courier, sans-serif;
-  text-decoration: none;
 
   &:hover {
     box-shadow: 3px 5px 8px rgba(0, 0, 0.3, 0.3);
@@ -102,7 +101,7 @@ return (
           src="https://builders.mypinata.cloud/ipfs/QmbbsDP34mKKP42WHgJwBSnMVvWnj9JiV9wJ3JyiVxsdEN"
           alt="Pakistan Cricket Team Logo"
         />
-        <div style={{ textAlign: "center" }}>
+        <div style={{ textAlign: "center", textDecoration: "none" }}>
           <b>Pakistan</b>
         </div>
       </TeamButton>
@@ -114,7 +113,7 @@ return (
           src="https://builders.mypinata.cloud/ipfs/QmWiHPLeP2LTxT9hNham3XhWNPT13n2YviPZK8YPKYyAzu"
           alt="India Cricket Team Logo"
         />
-        <div style={{ textAlign: "center" }}>
+        <div style={{ textAlign: "center", textDecoration: "none" }}>
           <b>India</b>
         </div>
       </TeamButton>
