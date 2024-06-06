@@ -63,12 +63,16 @@ const handleTeamSelect = (team) => {
   setSelectedTeam(team);
 };
 
+const pickData = {
+  challenge: {
+    t20: {
+      pick: selectedTeam,
+    },
+  },
+};
+
 const handleSubmit = () => {
-  if (selectedTeam) {
-    alert(`You made your pick: ${selectedTeam}`);
-  } else {
-    alert("Please select a team to bet on.");
-  }
+  Social.set(pickData);
 };
 
 return (
@@ -86,7 +90,6 @@ return (
           <b>Pakistan</b>
         </div>
       </TeamButton>
-      <b>vs</b>
       <TeamButton
         isSelected={selectedTeam === "India"}
         onClick={() => handleTeamSelect("India")}
