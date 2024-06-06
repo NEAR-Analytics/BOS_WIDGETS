@@ -66,6 +66,7 @@ const handleTeamSelect = (team) => {
 const pickData = {
   challenge: {
     name: "T20 World Cup",
+    year: "2024",
     rounds: {
       round0: {
         match1: {
