@@ -40,6 +40,23 @@ const FaLongArrowAltRight = () => {
     </svg>
   );
 };/* END_INCLUDE COMPONENT: "includes/icons/FaLongArrowAltRight.jsx" */
+/* INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
+/**
+ * @interface Props
+ * @param {string} [className] - The CSS class name(s) for styling purposes.
+ */
+
+
+
+
+
+const Skeleton = (props) => {
+  return (
+    <div
+      className={`bg-gray-200 dark:bg-black-200 rounded shadow-sm animate-pulse ${props.className}`}
+    ></div>
+  );
+};/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
 
 function MainComponent(props) {
   const { network, receipt, ownerId, txn } = props;
@@ -148,7 +165,7 @@ function MainComponent(props) {
     );
   };
 
-  let gasAttached = getGasAttached(receipt?.actions);
+  let gasAttached = receipt?.actions ? getGasAttached(receipt?.actions) : '0';
 
   return (
     <>
@@ -205,7 +222,7 @@ function MainComponent(props) {
               <span>
                 {action.args?.deposit
                   ? yoctoToNear(action.args?.deposit, true)
-                  : action.args?.deposit ?? ''}{' '}
+                  : action.args?.deposit ?? '0'}{' '}
                 Ⓝ
                 {currentPrice && network === 'mainnet'
                   ? ` ($${fiatValue(
@@ -238,6 +255,31 @@ function MainComponent(props) {
                     Link,
                     ownerId,
                   }}
+                  loading={
+                    <tr className="hover:bg-blue-900/5 h-[57px]">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10">
+                        <Skeleton className="w-full h-4" />
+                      </td>
+                      <td className="px-4 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10">
+                        <Skeleton className="w-full h-4" />
+                      </td>
+                      <td className="px-4 py-4 whitespace-nowrap text-tiny ">
+                        <Skeleton className="w-full h-4" />
+                      </td>
+                      <td className="px-4 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10">
+                        <Skeleton className="w-full h-4" />
+                      </td>
+                      <td className="px-4 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10">
+                        <Skeleton className="w-full h-4" />
+                      </td>
+                      <td className="px-4 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10">
+                        <Skeleton className="w-full h-4" />
+                      </td>
+                      <td className="px-4 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10">
+                        <Skeleton className="w-full h-4" />
+                      </td>
+                    </tr>
+                  }
                 />
               }
             </Fragment>
