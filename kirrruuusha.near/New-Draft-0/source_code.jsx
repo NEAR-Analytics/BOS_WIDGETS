@@ -273,61 +273,123 @@ const appThemeService = {
   getTheme: () => appTheme,
 };
 
-return (
-  <div
-    style={{
-      background:
-        "linear-gradient(-45deg, #5F8AFA, #FFFFFF, #FFFFFF, #FFFFFF, #A463B0)",
-      width: "100%",
-      height: "100%",
-      padding: "2rem",
-    }}
-  >
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        textAlign: "center",
-        fontFamily: "'Manrope', sans-serif",
-      }}
-    >
-      <h1 style={{ fontWeight: "bold" }}>Mentor HUB</h1>
-      <h3>Make the world around you the better place</h3>
-      <Widget
-        src="near/widget/"
-        props={{
-          accountId,
-          style: { width: "7rem", height: "7rem" },
-          className: "mb-2",
-          imageClassName: "rounded-circle w-100 h-100 img-thumbnail d-block",
-          thumbnail: false,
-        }}
-      />
-      <Widget src="near/widget/#" props={{ profileName }} />
-      <h3
-        style={{
-          marginTop: "20px",
-        }}
-      >
-        My Students
-      </h3>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          margin: "15px",
-        }}
-      >
-        <Widget
-          src="near/widget/#"
-          props={{
-            accountId: student,
-            descriptionForStudent: student,
-            ourDescriptionForStudent: student,
-          }}
-        />
-      </div>
-    </div>
-  </div>
-);
+const Button = styled.button`
+  background: ${appTheme.colors().primary};
+  color: ${appTheme.colors().textWhite};
+  font-size: ${appTheme.fontSizes.h6};
+  margin: ${appTheme.margins.small};
+  padding: ${appTheme.paddings.medium};
+  width: 100%;
+  border: none;
+  border-radius: ${appTheme.borderRadius.large};
+  align-self: center;
+  &:hover{
+      background:#333;
+  }
+`;
+
+const Body = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: ${appTheme.colors().backgroundColor};
+  align-items: center; 
+  `;
+
+const NavigationBar = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center; 
+  padding : ${appTheme.paddings.large};
+  background-color: ${appTheme.colors().backgroundColor};
+  justify-content: center;
+`;
+
+const ProfileTab = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: ${appTheme.colors().backgroundColor};
+  justify-content: center;
+  align-items: center; 
+`;
+const Loader = styled.div`
+  width: 48px;
+  height: 48px;
+  display: block;
+  margin: 15px auto;
+  position: relative;
+  color: #FFD50D;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+
+  &::after,
+  &::before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    top: 50%;
+    left: 50%;
+    transform: scale(0.5) translate(0, 0);
+    background-color: #FFD50D;
+    border-radius: 50%;
+    animation: animloader 1s infinite ease-in-out;
+  }
+  &::before {
+    background-color: #4498E0;
+    transform: scale(0.5) translate(-48px, -48px);
+  }
+
+  @keyframes rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes animloader {
+    50% {
+      transform: scale(1) translate(-50%, -50%);
+    }
+  }
+`;
+const uiKitComponents = {
+  button: Button,
+  body: Body,
+  navigationBar: NavigationBar,
+  profileTab: ProfileTab,
+};
+
+const routes = {
+  moduleA: "vlmoon.near/widget/BOSModuleA",
+  moduleB: "vlmoon.near/widget/BOSModuleB",
+  moduleC: "vlmoon.near/widget/BOSModuleC",
+  moduleD: "vlmoon.near/widget/BOSModuleD",
+};
+
+function navigateToModule(moduleRoute) {
+  State.update({
+    currentRoute: moduleRoute,
+  });
+}
+
+const routesNavigator = {
+  studentsPage: () => navigateToModule("studentsPage"),
+  myTeachersPage: () => navigateToModule("myTeachersPage"),
+  myEventsPage: () => navigateToModule("myEventsPage"),
+  myTasksPage: () => navigateToModule("myTasksPage"),
+};
+
+function getModuleDependencies(moduleRoute) {
+  if (moduleRoute === "studentsPage") {
+    return ["studentsPage"];
+  } else if (moduleRoute === "myTeachersPage") {
+    return ["myTeachersPage"];
+  } else if (moduleRoute === "myEventsPage") {
+    return ["myEventsPage"];
+  } else if (moduleRoute === "myTasksPage") {
+    return ["myTasksPage"];
+  }
+}
+const dependencies = getModuleDependencies(state.currentRoute);
