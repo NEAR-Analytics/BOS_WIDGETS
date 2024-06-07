@@ -155,7 +155,7 @@ const twitterConfig = {
       namespace: "mweb",
       contextType: "mweb-overlay-action",
       injectTo: "mweb-overlay-action",
-      if: { id: { eq: "web-guide-action" } },
+      if: { id: { eq: "web-guide-action-web-guide" } },
       arrowTo: "context",
       pages: [
         {
@@ -372,7 +372,7 @@ const nearSocialConfig = {
       namespace: "mweb",
       contextType: "mweb-overlay-action",
       injectTo: "mweb-overlay-action",
-      if: { id: { eq: "web-guide-action" } },
+      if: { id: { eq: "web-guide-action-web-guide" } },
       arrowTo: "context",
       pages: [
         {
