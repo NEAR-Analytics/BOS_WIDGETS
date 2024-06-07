@@ -1,7 +1,28 @@
-const accountId = props.accountId;
-if (!accountId) {
-  return "No accountId";
-}
+State.init({
+  accountIdContext: "",
+  accountIdProps: "",
+  mentorPhoto: "",
+  mentorName: "Mentor Name",
+  mentorPoints: 0,
+  studentsCounter: 0,
+  students: [],
+  studentRequests: [],
+  currentAppThemeMode: "lightMode",
+  currentRoute: "studentsPage",
+  profileName: "",
+  profileDiscription: "",
+  creatProfileName: "",
+  creatProfileDiscription: "",
+  addNewStudent: "",
+  editDescription: "",
+  ifAddStudent: true,
+  studentArray: [],
+  arreyWhitIndexForAddStudent: [],
+  heashForDeletnumb: {},
+  flagForFindStdudentByID: false,
+  idFindStudent: "",
+  vrifyOurStudent: "",
+});
 
 const content = JSON.parse(Social.get(`${accountId}`) ?? "null");
 
