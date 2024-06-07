@@ -39,6 +39,7 @@ const StyledNav = styled.div`
     top: 0;
     z-index: 50;
     transition: all 0.2s;
+
     padding: ${({ style }) =>
       `${style?.paddingTop || 0}px ${style?.paddingRight || 0}px ${
         style?.paddingBottom || 0
@@ -51,6 +52,8 @@ const StyledNav = styled.div`
 
 const NavContainer = styled.div`
     display: flex;
+    background-color: #00000040;
+    backdrop-filter: blur(8px);
     flex-direction: ${({ style }) => style?.flexDirection || "row"};
     align-items: center;
     justify-content: space-between;
@@ -80,7 +83,7 @@ const MenuIcon = styled.svg`
     @media (min-width: ${bp.lg}) {
       display: none;
     }
-    fill: black;
+    fill: white;
   `;
 
 const NavButtomContainer = styled.div`
@@ -104,9 +107,7 @@ const Button = styled.button`
     font-weight: 600;
     color: white;
     border:none;
-background: transparent;
-
-
+    background: transparent;
     @media (min-width: ${bp.lg}) {
       display: flex;
     }
@@ -180,23 +181,6 @@ const NavImageLight = styled.img`
     width: 2rem;
   `;
 
-// useEffect(() => {
-//     const nav = document.getElementsByTagName("div")[0];
-//     const handleScroll = () => {
-//       if (window.scrollY > window.innerHeight - 90) {
-//         nav.style.backgroundColor = "black";
-//         nav.style.opacity = "0.7";
-//       } else {
-//         nav.style.backgroundColor = "transparent";
-//         nav.style.opacity = "1";
-//       }
-//     };
-
-//     window.addEventListener("scroll", handleScroll);
-
-//     return () => window.removeEventListener("scroll", handleScroll);
-//   }, []);
-
 return (
   <StyledNav
     id={id}
@@ -228,7 +212,7 @@ return (
               href={item.link}
               style={{
                 textWrap: "nowrap",
-                color: "rgb(229 231 235)",
+                color: "white",
               }}
             >
               {item.name}
@@ -236,9 +220,6 @@ return (
           </li>
         ))}
       </NavList>
-      {/* <MenuIcon
-        onClick={() => setShowNav(true)}
-      /> */}
       <MenuIcon
         onClick={() => setShowNav(true)}
         xmlns="http://www.w3.org/2000/svg"
