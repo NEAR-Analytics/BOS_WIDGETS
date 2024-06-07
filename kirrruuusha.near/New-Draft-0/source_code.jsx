@@ -205,6 +205,74 @@ function ourDescriptionForStudent(account_id) {
   return discriprionalIN;
 }
 
+//UI Kit Theme
+const appTheme = {
+  colors: () => {
+    const currentThemeMode = state.currentAppThemeMode;
+    const colors =
+      currentThemeMode === "lightMode"
+        ? {
+            standartText: "#000000",
+            backgroundColor: "#FFFFFF",
+            primary: "#000000",
+            secondary: "rgba(255, 0, 0, 0)",
+            textBlack: "#000000",
+            textWhite: "#FFFFFF",
+          }
+        : {
+            standartText: "#FFFFFF",
+            backgroundColor: "#333333",
+            primary: "#000000",
+            secondary: "#FFFFFF",
+            textBlack: "#000000",
+            textWhite: "#FFFFFF",
+          };
+
+    return colors;
+  },
+  fontSizes: {
+    h1: "2.5em",
+    h2: "2em",
+    h3: "1.75em",
+    h4: "1.5em",
+    h5: "1.25em",
+    h6: "1em",
+    body: "1em",
+    b1: "1em",
+    b2: "0.9em",
+    b3: "0.8em",
+  },
+  margins: {
+    small: "0.25em",
+    medium: "0.5em",
+    large: "1em",
+    xlarge: "2em",
+  },
+  paddings: {
+    small: "0.25em",
+    medium: "0.5em",
+    large: "1em",
+    xlarge: "2em",
+  },
+  borderRadius: {
+    small: "4px",
+    medium: "8px",
+    large: "20px",
+    circle: "50%",
+  },
+};
+const appThemeService = {
+  switchToLightTheme: () =>
+    State.update({
+      currentAppThemeMode: "lightMode",
+    }),
+  switchToDarkTheme: () =>
+    State.update({
+      currentAppThemeMode: "darkMode",
+    }),
+  getTheme: () => appTheme,
+};
+
 return (
   <div
     style={{
