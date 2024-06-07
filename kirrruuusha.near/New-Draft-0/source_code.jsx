@@ -393,3 +393,89 @@ function getModuleDependencies(moduleRoute) {
   }
 }
 const dependencies = getModuleDependencies(state.currentRoute);
+
+//Pages
+const pages = {
+  studentsPage: <></>,
+  myTeachersPage: (
+    <>
+      <h1>My Teachers</h1>
+    </>
+  ),
+};
+//
+
+if (!state.profileName && !state.profileDiscription) {
+  return (
+    <div
+      style={{
+        background:
+          "linear-gradient(-45deg, #5F8AFA, #FFFFFF, #FFFFFF, #FFFFFF, #A463B0)",
+        width: "100%",
+        height: "100%",
+        padding: "2rem",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          fontFamily: "'Manrope', sans-serif",
+        }}
+      >
+        <h1>Mentor HUB</h1>
+        <h2>
+          You don't have a profile, if you want to continue, you have to create
+          a profile
+        </h2>
+        <h3>Input your name:</h3>
+        <div
+          style={{
+            marginRight: "30em",
+          }}
+        >
+          <input
+            type="text"
+            className="form-control"
+            style={{
+              backgroundColor: "black",
+              color: "white",
+            }}
+            onChange={(e) => State.update({ creatProfileName: e.target.value })}
+          />
+        </div>
+        <h2>Hello, {state.creatProfileName}</h2>
+        <h3>Input your discription</h3>
+        <input
+          type="text"
+          className="form-control"
+          style={{
+            backgroundColor: "black",
+            color: "white",
+            marginRight: "100em",
+            paddingsRight: "100px",
+          }}
+          onChange={(e) =>
+            State.update({ creatProfileDiscription: e.target.value })
+          }
+        />
+        <h2>Your discriprional: {state.creatProfileDiscription}</h2>
+        <div
+          style={{
+            display: flex,
+            margin: "0px 10px",
+            alignItems: center,
+          }}
+        >
+          <Button
+            style={{ width: "100px" }}
+            onClick={TecherPossibilities.initProfile}
+          >
+            Save change
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
