@@ -1,5 +1,10 @@
 const NAMESPACE = 'bos.dapplets.near/parser/twitter'
 const CONTEXT_TYPE = 'post'
+
+// const NAMESPACE = 'mweb'
+// const CONTEXT_TYPE = 'injected-widget'
+// const CONTEXT_TYPE_2 = "ear-trigger"
+
 const SKIN = 'DEFAULT'
 
 const [isRunnigApp, toggleIsRunningApp] = useState(false)
@@ -14,7 +19,7 @@ useEffect(() => {
   if (!isRunnigApp) return;
   props.pickContext({ 
     namespace: NAMESPACE,
-    contextType: CONTEXT_TYPE,
+    contextType: [CONTEXT_TYPE], //, CONTEXT_TYPE_2],
     if: {}
   })
     .then((newContext) => setContext(newContext))
@@ -88,6 +93,7 @@ return (
       component={() => <Widget
         src='bos.dapplets.near/widget/WebGuide.Action'
         props={{
+          appId: 'picker-example',
           tooltip: isRunnigApp ? 'Stop Picker' : 'Run Picker',
           isActive: isRunnigApp,
           children: iconQuestionMark(isRunnigApp),
