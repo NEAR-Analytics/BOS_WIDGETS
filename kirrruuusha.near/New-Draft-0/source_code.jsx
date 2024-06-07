@@ -311,49 +311,7 @@ const ProfileTab = styled.div`
   justify-content: center;
   align-items: center; 
 `;
-const Loader = styled.div`
-  width: 48px;
-  height: 48px;
-  display: block;
-  margin: 15px auto;
-  position: relative;
-  color: #FFD50D;
-  box-sizing: border-box;
-  animation: rotation 1s linear infinite;
 
-  &::after,
-  &::before {
-    content: "";
-    box-sizing: border-box;
-    position: absolute;
-    width: 24px;
-    height: 24px;
-    top: 50%;
-    left: 50%;
-    transform: scale(0.5) translate(0, 0);
-    background-color: #FFD50D;
-    border-radius: 50%;
-    animation: animloader 1s infinite ease-in-out;
-  }
-  &::before {
-    background-color: #4498E0;
-    transform: scale(0.5) translate(-48px, -48px);
-  }
-
-  @keyframes rotation {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-  @keyframes animloader {
-    50% {
-      transform: scale(1) translate(-50%, -50%);
-    }
-  }
-`;
 const uiKitComponents = {
   button: Button,
   body: Body,
@@ -376,20 +334,11 @@ function navigateToModule(moduleRoute) {
 
 const routesNavigator = {
   studentsPage: () => navigateToModule("studentsPage"),
-  myTeachersPage: () => navigateToModule("myTeachersPage"),
-  myEventsPage: () => navigateToModule("myEventsPage"),
-  myTasksPage: () => navigateToModule("myTasksPage"),
 };
 
 function getModuleDependencies(moduleRoute) {
   if (moduleRoute === "studentsPage") {
     return ["studentsPage"];
-  } else if (moduleRoute === "myTeachersPage") {
-    return ["myTeachersPage"];
-  } else if (moduleRoute === "myEventsPage") {
-    return ["myEventsPage"];
-  } else if (moduleRoute === "myTasksPage") {
-    return ["myTasksPage"];
   }
 }
 const dependencies = getModuleDependencies(state.currentRoute);
@@ -404,58 +353,6 @@ const pages = {
   ),
 };
 //
-
-if (!state.profileDiscription) {
-  return (
-    <div
-      style={{
-        background:
-          "linear-gradient(-45deg, #5F8AFA, #FFFFFF, #FFFFFF, #FFFFFF, #A463B0)",
-        width: "100%",
-        height: "100%",
-        padding: "2rem",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          fontFamily: "'Manrope', sans-serif",
-        }}
-      >
-        <h1>Mentor HUB</h1>
-        <h2>
-          You don't have a description, if you want to continue, you have to
-          create a description
-        </h2>
-        <h3>Input your discription</h3>
-        <input
-          type="text"
-          className="form-control"
-          onChange={(e) =>
-            State.update({ creatProfileDiscription: e.target.value })
-          }
-        />
-        <h2>Your discriprional: {state.creatProfileDiscription}</h2>
-        <div
-          style={{
-            display: flex,
-            margin: "0px 10px",
-            alignItems: center,
-          }}
-        >
-          <Button
-            style={{ width: "100px" }}
-            onClick={TecherPossibilities.initDiscriptionProfile}
-          >
-            Save change
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 if (state.accountIdProps) {
   return (
@@ -670,7 +567,7 @@ return (
         >
           Find
         </Button>
-        </div>
+      </div>
       {state.vrifyOurStudent && (
         <div
           style={{
@@ -688,7 +585,7 @@ return (
             padding: "16px",
           }}
         >
-        <div>
+          <div>
             <Widget
               src="near/widget/AccountProfile"
               props={{ accountId: state.vrifyOurStudent }}
@@ -710,25 +607,19 @@ return (
             <Button
               style={{ width: "100px" }}
               onClick={() => {
-                State.update({ loading: true });
                 TecherPossibilities.updateDiscription(state.vrifyOurStudent);
-                State.update({ loading: false });
               }}
             >
               Edit
             </Button>
-            {state.loading && <Loader></Loader>}
             <Button
               style={{ width: "100px" }}
               onClick={() => {
-                State.update({ loading: true });
                 TecherPossibilities.deleteStudent(state.vrifyOurStudent);
-                State.update({ loading: false });
               }}
             >
               Delete
             </Button>
-            {state.loading && <Loader></Loader>}
             <Button
               style={{ width: "100px" }}
               onClick={() => {
@@ -784,11 +675,121 @@ return (
                 />
                 <Button
                   onClick={() => {
-                    State.update({ loading: true });
                     TecherPossibilities.deleteStudent(student);
-                    State.update({ loading: false });
                   }}
                   style={{ width: "100px", marginLeft: "1rem" }}
                 >
                   Delete
                 </Button>
+                <Button
+                  style={{ width: "100px", marginLeft: "1rem" }}
+                  onClick={() => {
+                    TecherPossibilities.updateDiscription(student);
+                  }}
+                >
+                  Edit
+                </Button>
+                {/* Button to close hidden content for the student */}
+                <Button
+                  style={{ width: "100px", marginLeft: "1rem" }}
+                  onClick={() => State.update({ showHiddenContent: null })}
+                >
+                  Hide Info
+                </Button>
+              </div>
+            )}
+            {/* Common elements for each student */}
+            <div>
+              <Widget
+                src="near/widget/AccountProfile"
+                props={{ accountId: student }}
+              />
+
+              <div>
+                <h4>{descriptionForStudent(student)}</h4>
+              </div>
+              <div>
+                <h4>{ourDescriptionForStudent(student)}</h4>
+              </div>
+            </div>
+            {/* Button to open hidden content for the student */}
+            {state.showHiddenContent !== student && (
+              <Button
+                style={{ width: "100px" }}
+                onClick={() => State.update({ showHiddenContent: student })}
+              >
+                More Info
+              </Button>
+            )}
+          </div>
+        ))}
+      </div>
+      {/* Modal for adding a new student */}
+      {state.showAddStudentModal && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            background: "rgba(0, 0, 0, 0.5)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              background: "#fff",
+              padding: "20px",
+              borderRadius: "8px",
+            }}
+          >
+            <h3>Add New Student</h3>
+            <input
+              type="text"
+              className="form-control"
+              style={{ marginTop: "10px" }}
+              placeholder="Input for add student"
+              value={state.addNewStudent}
+              onChange={(e) => State.update({ addNewStudent: e.target.value })}
+            />
+            {!state.ifAddStudent && <h3>Some gone wrong. Not add</h3>}
+            <Button
+              onClick={() => {
+                TecherPossibilities.addStudent(state.addNewStudent);
+              }}
+              style={{
+                width: "100px",
+                marginTop: "10px",
+              }}
+            >
+              Add
+            </Button>
+            <Button
+              onClick={() => State.update({ showAddStudentModal: false })}
+              style={{
+                width: "100px",
+              }}
+            >
+              Cancel
+            </Button>
+          </div>
+        </div>
+      )}
+      {/* Button to trigger the modal */}
+      <Button
+        onClick={() => State.update({ showAddStudentModal: true })}
+        style={{
+          alignSelf: "end",
+          borderRadius: "50%",
+          width: "40px",
+          height: "40px",
+        }}
+      >
+        +
+      </Button>
+    </div>
+  </div>
+);
