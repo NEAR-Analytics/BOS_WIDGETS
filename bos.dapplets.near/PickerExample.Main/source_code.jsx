@@ -19,7 +19,7 @@ useEffect(() => {
   if (!isRunnigApp) return;
   props.pickContext({ 
     namespace: NAMESPACE,
-    contextType: [CONTEXT_TYPE], //, CONTEXT_TYPE_2],
+    contextType: CONTEXT_TYPE, // [CONTEXT_TYPE, CONTEXT_TYPE_2],
     if: {}
   })
     .then((newContext) => setContext(newContext))
