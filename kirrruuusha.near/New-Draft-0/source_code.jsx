@@ -747,3 +747,48 @@ return (
       >
         My Students
       </h3>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          margin: "15px",
+        }}
+      >
+        {state.studentArray.map((student) => (
+          <div
+            key={student}
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              gap: "20px",
+              margin: "10px",
+              borderRadius: "12px",
+              background: "#fff",
+              border: "1px solid #eceef0",
+              boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)",
+              overflow: "hidden",
+              padding: "16px",
+            }}
+          >
+            {state.showHiddenContent === student && (
+              <div style={{ display: "grid" }}>
+                <input
+                  type="text"
+                  className="form-control"
+                  style={{ height: "3em", width: "8.5rem" }}
+                  placeholder="Input for edit description"
+                  onChange={(e) => {
+                    State.update({ editDescription: e.target.value });
+                  }}
+                />
+                <Button
+                  onClick={() => {
+                    State.update({ loading: true });
+                    TecherPossibilities.deleteStudent(student);
+                    State.update({ loading: false });
+                  }}
+                  style={{ width: "100px", marginLeft: "1rem" }}
+                >
+                  Delete
+                </Button>
