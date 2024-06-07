@@ -9,6 +9,7 @@ const REPL_INFRASTRUCTURE_COMMITTEE = "megha19.near";
 const REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT = "truedove38.near";
 const REPL_RPC_URL = "https://rpc.mainnet.near.org";
 const REPL_NEAR = "near";
+const REPL_SOCIAL_CONTRACT = "social.near";
 const RFP_IMAGE =
   "https://ipfs.near.social/ipfs/bafkreicbygt4kajytlxij24jj6tkg2ppc2dw3dlqhkermkjjfgdfnlizzy";
 
@@ -106,7 +107,7 @@ const { id, timestamp } = props;
 const isEditPage = typeof id === "string";
 const author = context.accountId;
 const FundingDocs =
-  "https://near.social/devhub.near/widget/app?page=community&handle=developer-dao&tab=funding";
+  "https://github.com/near/Infrastructure-Working-Group/wiki/Funding-Process-%E2%80%90-Company";
 const ToCDocs = "";
 const CoCDocs = "";
 
