@@ -5,6 +5,11 @@ const SKIN = 'DEFAULT'
 const [isRunnigApp, toggleIsRunningApp] = useState(false)
 const [context, setContext] = useState(null)
 
+const handleClose = () => {
+  setContext(null)
+  toggleIsRunningApp(false)
+}
+
 useEffect(() => {
   if (!isRunnigApp) return;
   props.pickContext({ 
@@ -20,7 +25,7 @@ const ChapterWrapper = (props) => {
   const widgetProps = {
     id: context.id,
     type: 'callout',
-    onClose: () => toggleIsRunningApp(false),
+    onClose: handleClose,
     title: 'Parsed context',
     content:`
 \`\`\`js
@@ -88,7 +93,7 @@ return (
           children: iconQuestionMark(isRunnigApp),
           handleAction: () => {
             if (isRunnigApp) {
-              toggleIsRunningApp(false)
+              handleClose()
             } else {
               toggleIsRunningApp(true)
             }
