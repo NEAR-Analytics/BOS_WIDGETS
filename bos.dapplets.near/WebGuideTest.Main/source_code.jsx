@@ -712,6 +712,7 @@ return (
         component={() => <Widget
           src='bos.dapplets.near/widget/WebGuideTest.Action'
           props={{
+            appId: 'web-guide-test',
             tooltip: showApp ? 'Stop Web Guide' : 'Run Web Guide',
             isActive: showApp,
             handleAction,
