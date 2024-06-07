@@ -805,3 +805,21 @@ return (
         >
           Find
         </Button>
+        </div>
+      {state.vrifyOurStudent && (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: "10px",
+            margin: "20px",
+            borderRadius: "12px",
+            background: "#fff",
+            border: "1px solid #eceef0",
+            boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)",
+            overflow: "hidden",
+            padding: "16px",
+          }}
+        >
