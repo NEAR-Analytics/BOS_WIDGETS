@@ -797,3 +797,11 @@ return (
           value={state.idFindStudent}
           onChange={(e) => State.update({ idFindStudent: e.target.value })}
         />
+        <Button
+          style={{
+            width: "100px",
+          }}
+          onClick={TecherPossibilities.findStudentByID}
+        >
+          Find
+        </Button>
