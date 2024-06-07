@@ -77,6 +77,7 @@ const getCurrentState = () => {
 
 const saveChat = (isNewMessage, onSaveChat) => {
   setPendingRequest(true);
+  console.log("saveChat", state.chat);
   asyncFetch(`${apiUrl}/submit_annotation/`, {
     method: "POST",
     body: JSON.stringify({
@@ -216,6 +217,36 @@ const getLastReplyFromAI = (index, chat) => {
   return item;
 };
 
+const SubmitChat = () => {
+  saveChat(true, (res) => {
+    console.log("onSaveChat", res);
+    if (res.ok && res.body.is_session_valid) {
+      let ai_response = res.body.ai_response;
+      if (ai_response?.person == AI) {
+        console.log("ai_response", ai_response, state);
+        const chat = getArray(state.chat);
+        chat.push(ai_response);
+        State.update({
+          chat,
+          spec: ai_response.spec,
+          editSpecIndex: chat.length,
+        });
+        console.log("ai_response state", state);
+      }
+    }
+  });
+};
+
+const RegenerateResponce = (index) => {
+  if (index > 0) {
+    let newChat = [...state.chat];
+    newChat.splice(index);
+    console.log("chat", state.chat, newChat);
+    State.update({ chat: newChat });
+    SubmitChat();
+  }
+};
+
 const AddUserMessage = () => {
   if (state.userMessage) {
     if (state.userMessage == "/clear") {
@@ -230,23 +261,7 @@ const AddUserMessage = () => {
       let newState = { chat, userMessage: "" };
 
       State.update(newState);
-      saveChat(true, (res) => {
-        console.log("onSaveChat", res);
-        if (res.ok && res.body.is_session_valid) {
-          let ai_response = res.body.ai_response;
-          if (ai_response?.person == AI) {
-            console.log("ai_response", ai_response, state);
-            const chat = getArray(state.chat);
-            chat.push(ai_response);
-            State.update({
-              chat,
-              spec: ai_response.spec,
-              editSpecIndex: chat.length,
-            });
-            console.log("ai_response state", state);
-          }
-        }
-      });
+      SubmitChat();
     }
   }
 };
@@ -320,31 +335,73 @@ const getMessageDiff = (item, index) => {
   if (item.person == AI) {
     let prevSpec = getPreviousSpecFromAI(index, state.chat);
 
-    if (isSpecExists(prevSpec)) {
-      let diffs = codeDiff(prevSpec, item.spec);
-      console.log("diffs", diffs);
-      let diffContents = (diffs ?? [])
-        .filter((line) => line != "\n")
-        .map((line) => {
-          if (Array.isArray(line)) {
-            return (
-              <div class="p-1" style={{ backgroundColor: line[1] }}>
-                {line[0]}
-              </div>
-            );
-          } else {
-            return <div class="p-0">{line}</div>;
-          }
-        });
+    let diffs = codeDiff(prevSpec, item.spec);
+    let nonEmptyDiff = (diffs ?? []).filter((line) => line != "\n");
+    console.log("diffs", diffs);
+    let diffContents = nonEmptyDiff.map((line) => {
+      if (Array.isArray(line)) {
+        return (
+          <div class="p-1" style={{ backgroundColor: line[1] }}>
+            {line[0]}
+          </div>
+        );
+      } else {
+        return <div class="p-0">{line}</div>;
+      }
+    });
 
-      return (
-        <div
-          class={`mt-1 small code-diff rounded-3 ${getMessageDiffClass(item)}`}
-        >
-          {diffContents}
-        </div>
-      );
-    }
+    return (
+      <div class="d-flex flex-row pt-2 justify-content-end">
+        {state.selectedDiff != index && (
+          <div
+            class="d-flex flex-row ms-3 mt-1 small code-diff rounded-3 flex-row"
+            role="button"
+            onClick={() => RegenerateResponce(index)}
+          >
+            Regenerate message #{index}
+          </div>
+        )}
+
+        {isSpecExists(prevSpec) && nonEmptyDiff.length > 0 && (
+          <>
+            {state.selectedDiff != index && (
+              <div
+                class="d-flex flex-row ms-3 mt-1 small code-diff rounded-3 flex-row"
+                role="button"
+                onClick={() =>
+                  State.update({
+                    selectedDiff: state.selectedDiff == index ? -1 : index,
+                  })
+                }
+                title="Click to expand"
+              >{`Spec diffs: ${nonEmptyDiff.length}`}</div>
+            )}
+
+            {state.selectedDiff == index && (
+              <div
+                class={`mt-1 small code-diff rounded-3`}
+                role="button"
+                title="Click to hide"
+                onClick={() =>
+                  State.update({
+                    selectedDiff: -1,
+                  })
+                }
+              >
+                {" "}
+                {diffContents}
+              </div>
+            )}
+          </>
+        )}
+        {isSpecExists(prevSpec) && nonEmptyDiff.length == 0 && (
+          <div class={`mt-1 small code-diff rounded-3`} role="button">
+            {" "}
+            {diffContents}
+          </div>
+        )}
+      </div>
+    );
   }
 
   return <></>;
