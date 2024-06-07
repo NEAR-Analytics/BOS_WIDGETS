@@ -358,7 +358,7 @@ const getMessageDiff = (item, index) => {
             role="button"
             onClick={() => RegenerateResponce(index)}
           >
-            Regenerate message #{index}
+            Regenerate
           </div>
         )}
 
@@ -400,6 +400,8 @@ const getMessageDiff = (item, index) => {
             {diffContents}
           </div>
         )}
+
+        {isEditableMessage(item) && <div style={{ width: "24px" }}></div>}
       </div>
     );
   }
