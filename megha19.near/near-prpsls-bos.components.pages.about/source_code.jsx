@@ -3,238 +3,117 @@ License: MIT
 Author: devhub.near
 Homepage: https://github.com/NEAR-DevHub/near-prpsls-bos#readme
 */
-const Section = styled.div`
-  padding: 1.5rem;
-  @media screen and (max-width: 786px) {
-    padding: 1rem;
-  }
+/* INCLUDE: "includes/common.jsx" */
+const REPL_DEVHUB = "devhub.near";
+const REPL_INFRASTRUCTURE_COMMITTEE = "megha19.near";
+const REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT = "truedove38.near";
+const REPL_RPC_URL = "https://rpc.mainnet.near.org";
+const REPL_NEAR = "near";
+const REPL_SOCIAL_CONTRACT = "social.near";
+const RFP_IMAGE =
+  "https://ipfs.near.social/ipfs/bafkreicbygt4kajytlxij24jj6tkg2ppc2dw3dlqhkermkjjfgdfnlizzy";
 
-  p {
-    color: #151515;
-    font-size: 1.1rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 150%;
-    margin-bottom: 1rem;
-    text-align: justify;
-  }
+const RFP_FEED_INDEXER_QUERY_NAME =
+  "polyprogrammist_near_devhub_objects_s_rfps_with_latest_snapshot";
 
-  h4 {
-    color: #151515;
-    font-size: 1.3rem !important;
-    font-style: normal !important;
-    font-weight: 600 !important;
-    line-height: 120% !important;
+const RFP_INDEXER_QUERY_NAME =
+  "polyprogrammist_near_devhub_objects_s_rfp_snapshots";
 
-    margin-top: 1rem;
-  }
+const PROPOSAL_FEED_INDEXER_QUERY_NAME =
+  "polyprogrammist_near_devhub_objects_s_proposals_with_latest_snapshot";
 
-  h4 {
-    color: #151515;
-    font-size: 1.25rem;
-    font-weight: 400;
-    line-height: 150%;
-  }
+const PROPOSAL_QUERY_NAME =
+  "polyprogrammist_near_devhub_objects_s_proposal_snapshots";
+const RFP_TIMELINE_STATUS = {
+  ACCEPTING_SUBMISSIONS: "ACCEPTING_SUBMISSIONS",
+  EVALUATION: "EVALUATION",
+  PROPOSAL_SELECTED: "PROPOSAL_SELECTED",
+  CANCELLED: "CANCELLED",
+};
 
-  li {
-    text-align: justify;
-  }
+const PROPOSAL_TIMELINE_STATUS = {
+  DRAFT: "DRAFT",
+  REVIEW: "REVIEW",
+  APPROVED: "APPROVED",
+  REJECTED: "REJECTED",
+  CANCELED: "CANCELLED",
+  APPROVED_CONDITIONALLY: "APPROVED_CONDITIONALLY",
+  PAYMENT_PROCESSING: "PAYMENT_PROCESSING",
+  FUNDED: "FUNDED",
+};
 
-  ol li {
-    font-size: 1.1rem;
-  }
+const QUERYAPI_ENDPOINT = `https://near-queryapi.api.pagoda.co/v1/graphql`;
 
-  a {
-    color: #3c697d;
-    font-weight: 500 !important;
-  }
+async function fetchGraphQL(operationsDoc, operationName, variables) {
+  return asyncFetch(QUERYAPI_ENDPOINT, {
+    method: "POST",
+    headers: { "x-hasura-role": `polyprogrammist_near` },
+    body: JSON.stringify({
+      query: operationsDoc,
+      variables: variables,
+      operationName: operationName,
+    }),
+  });
+}
 
-  i {
-    font-size: 1rem;
+const CANCEL_RFP_OPTIONS = {
+  CANCEL_PROPOSALS: "CANCEL_PROPOSALS",
+  UNLINK_PROPOSALS: "UNLINK_PROPOSALSS",
+  NONE: "NONE",
+};
+
+function parseJSON(json) {
+  if (typeof json === "string") {
+    try {
+      return JSON.parse(json);
+    } catch (error) {
+      return json;
+    }
+  } else {
+    return json;
   }
-`;
+}
+
+function isNumber(value) {
+  return typeof value === "number";
+}
+
+const PROPOSALS_APPROVED_STATUS_ARRAY = [
+  PROPOSAL_TIMELINE_STATUS.APPROVED,
+  PROPOSAL_TIMELINE_STATUS.APPROVED_CONDITIONALLY,
+  PROPOSAL_TIMELINE_STATUS.PAYMENT_PROCESSING,
+  PROPOSAL_TIMELINE_STATUS.FUNDED,
+];
+
+function getLinkUsingCurrentGateway(url) {
+  const data = fetch(`https://httpbin.org/headers`);
+  const gatewayURL = data?.body?.headers?.Origin ?? "";
+  return `https://${
+    gatewayURL.includes("near.org") ? "dev.near.org" : "near.social"
+  }/${url}`;
+}
+/* END_INCLUDE: "includes/common.jsx" */
+
+const profile = Social.getr(
+  `${REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT}/profile`
+);
+
+if (!profile) {
+  <div
+    style={{ height: "50vh" }}
+    className="d-flex justify-content-center align-items-center w-100"
+  >
+    <Widget src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Spinner`} />
+  </div>;
+}
 
 return (
-  <Section>
-    <h4>Introduction</h4>
-    <p>
-      The Infrastructure Committee, a direct response to community concerns, was
-      formed in collaboration with various leaders across the NEAR ecosystem.
-      The committee will swiftly address infrastructure concerns with funding
-      and processes to distribute those funds. These processes handle sharing
-      RFPs, submitting proposals, reviewing and voting on proposals, and getting
-      funds to teams when a proposal is approved. This initiative will focus
-      funds on building resilient, fast, redundant infrastructure to meet NEAR's
-      thriving ecosystem's short-term and future needs.
-    </p>
-    <p>
-      The GitHub Wiki provides information about the
-      <a
-        href="https://github.com/near/Infrastructure-Working-Group/wiki/Infrastructure-Committee"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Infrastructure Committee (IC)
-      </a>{" "}
-      and the{" "}
-      <a
-        href="https://github.com/near/Infrastructure-Working-Group/wiki/Infrastructure-Working-Group"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Working Group (WG)
-      </a>
-      , including current members.
-    </p>
-    <h4>Process Summary</h4>
-    <p>
-      The Committee actively seeks proposals from partners like you to enhance,
-      upgrade, and fortify NEAR ecosystem infrastructure. To this end, the
-      Committee will draft several Requests For Proposals (RFPs) that outline
-      urgent or highly desired projects. We encourage you to submit proposals as
-      a response to an RFP or standalone, as your contributions are crucial to
-      our collective success.
-    </p>
-    <p>
-      Generally, the process proceeds as follows;
-      <ol>
-        <li>
-          The proposal is drafted. Working Group and Committee members are free
-          to review and offer suggestions.
-        </li>
-        <li>
-          Once everyone feels the proposal is ready, it moves to voting. The
-          committee votes asynchronously and in regular committee meetings. A
-          proposal is approved if it receives a majority vote from the Committee
-          members.
-        </li>
-        <li>
-          In the event of a rejection, you will be informed by an IC or WG
-          member, usually via the Telegram group established. Guidance may be
-          offered on how to update the proposal for resubmission.
-        </li>
-        <li>
-          If your proposal is approved, you will move into the Funding Pipeline.
-          You (or your company) will complete the KYC/B process, which involves
-          providing your personal or company information for verification
-          purposes. Next will be a legal working agreement, and finally, a test
-          transaction will be conducted to ensure the target wallet address is
-          correct.
-        </li>
-        <li>
-          Project Management: we encourage awarded teams to create a project on
-          our{" "}
-          <a
-            href="https://github.com/near/Infrastructure-Working-Group"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {" "}
-            Github repo
-          </a>{" "}
-          where the community tracks progress on our{" "}
-          <a
-            href="https://github.com/orgs/near/projects/133/views/6"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Github project
-          </a>
-          . Sharing project status gives the community and ecosystem leaders
-          visibility into the status of awarded projects.
-        </li>
-      </ol>
-    </p>
-    <h4>Important Links</h4>
-    <p>
-      The following links contain specific information about the processes of
-      responding to RFPs, submitting a proposal, voting, securing funds, and
-      managing the subsequent project for transparency. Please note that the
-      working group will update articles as processes change. We appreciate your
-      patience and understanding.
-      <ul>
-        <li>
-          <a
-            href="https://github.com/near/Infrastructure-Working-Group/wiki/Request-For-Proposals"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            RFPs
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://github.com/near/Infrastructure-Working-Group/wiki/Proposal-Process-%E2%80%90-Team"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Submitting a Proposal
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://github.com/near/Infrastructure-Working-Group/wiki/Proposal-Process-%E2%80%90-Team#5-voting-on-proposals"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Voting
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://github.com/near/Infrastructure-Working-Group/wiki/Funding-Process-%E2%80%90-Company"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Getting Funds
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://github.com/near/Infrastructure-Working-Group/wiki/Projects-&-Tasks"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Managing The Project
-          </a>
-        </li>
-      </ul>
-    </p>
-
-    <h4>Areas Of Funding</h4>
-    <p>
-      The Infrastructure Committee is looking for projects in the following
-      areas. These areas are key to the growth and development of the NEAR
-      ecosystem, so we encourage potential proposers to consider them when
-      submitting their proposals.
-      <ul>
-        <li>Wallets</li>
-        <li>Oracles</li>
-        <li>RPC Nodes</li>
-        <li>Bridges</li>
-        <li>Onramps / Offramps</li>
-        <li>Relayers</li>
-        <li>Explorers</li>
-        <li>Indexers</li>
-        <li>Query API</li>
-        <li>Data Lakes</li>
-      </ul>
-    </p>
-    <h4>Proposal Markup</h4>
-    <p>
-      Please use the following markup templates when submitting the body of your
-      proposal.
-      <br />
-      <a
-        href="https://docs.google.com/document/d/1UZRfOE1JAOhsnSmp-RmL2hY7KPJbpBImKZVvPV4YJmA/edit?usp=sharing"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Proposal:
-        https://docs.google.com/document/d/1UZRfOE1JAOhsnSmp-RmL2hY7KPJbpBImKZVvPV4YJmA/edit?usp=sharing
-      </a>
-    </p>
-    <h4>Evaluation Criteria</h4>
-    <p>Suggestions are forthcoming.</p>
-  </Section>
+  <div className="p-sm-2 p-4">
+    <Widget
+      src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.molecule.Markdown`}
+      props={{
+        content: profile.description,
+      }}
+    />
+  </div>
 );
