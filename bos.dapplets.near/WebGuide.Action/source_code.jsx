@@ -1,4 +1,4 @@
-const { isActive, handleAction, tooltip, children } = props;
+const { appId, isActive, handleAction, tooltip, children } = props;
 
 const ButtonActionWrapper = styled.button`
   display: flex;
@@ -50,7 +50,11 @@ return (
     $isActive={isActive}
     onClick={handleAction}
     data-mweb-context-type="mweb-overlay-action"
-    data-mweb-context-parsed={JSON.stringify({ id: "web-guide-action" })}
+    data-mweb-context-parsed={JSON.stringify({
+      id: `web-guide-action-${appId}`,
+      type: "web-guide-action",
+      appId,
+    })}
   >
     <ImgButtonWrapper>{children}</ImgButtonWrapper>
     <div
