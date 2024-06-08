@@ -1,3 +1,8 @@
+/*
+License: MIT
+Author: devhub.near
+Homepage: https://github.com/NEAR-DevHub/near-prpsls-bos#readme
+*/
 const options = props.options; // [{label:"",value:""}]
 const label = props.label;
 const onUpdate = props.onUpdate ?? (() => {});
