@@ -917,7 +917,11 @@ function onClickWithdraw() {
 
 fetchStakingData();
 
-if (state.userUnstakedSeed !== "-" && Big(state.userUnstakedSeed).eq(0)) {
+if (
+  state.userUnstakedSeedRaw === "-" ||
+  state.userUnstakedSeed === "-" ||
+  Big(state.userUnstakedSeedRaw).eq(0)
+) {
   return <></>;
 }
 
