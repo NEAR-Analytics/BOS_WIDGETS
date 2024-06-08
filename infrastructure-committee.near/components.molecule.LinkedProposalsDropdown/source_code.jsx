@@ -149,14 +149,7 @@ const buildWhereClause = () => {
   }
 
   if (text) {
-    where = {
-      _or: [
-        { name: { _iregex: `${text}` } },
-        { summary: { _iregex: `${text}` } },
-        { description: { _iregex: `${text}` } },
-      ],
-      ...where,
-    };
+    where = { name: { _ilike: `%${text}%` }, ...where };
   }
 
   return where;
