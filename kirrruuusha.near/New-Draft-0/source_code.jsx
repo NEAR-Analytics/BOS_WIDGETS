@@ -759,6 +759,7 @@ return (
             <Button
               onClick={() => {
                 TecherPossibilities.addStudent(state.addNewStudent);
+                State.update({ showAddStudentModal: false });
               }}
               style={{
                 width: "100px",
