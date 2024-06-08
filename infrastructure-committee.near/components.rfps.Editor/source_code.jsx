@@ -108,6 +108,8 @@ const isEditPage = typeof id === "string";
 const author = context.accountId;
 const FundingDocs =
   "https://github.com/near/Infrastructure-Working-Group/wiki/Funding-Process-%E2%80%90-Company";
+const ToCDocs =
+  "https://github.com/near/Infrastructure-Working-Group/wiki/Terms-&-Conditions";
 const CoCDocs =
   "https://github.com/near/Infrastructure-Working-Group/wiki/Code-Of-Conduct";
 
@@ -368,7 +370,7 @@ const [labels, setLabels] = useState([]);
 const [title, setTitle] = useState(null);
 const [description, setDescription] = useState(null);
 const [summary, setSummary] = useState(null);
-const [consent, setConsent] = useState({ coc: false });
+const [consent, setConsent] = useState({ toc: false, coc: false });
 const [submissionDeadline, setSubmissionDeadline] = useState(null);
 const [allowDraft, setAllowDraft] = useState(true);
 
@@ -431,7 +433,7 @@ useEffect(() => {
       setSubmissionDeadline(getDate(snapshot.submission_deadline));
       setTimeline(parseJSON(snapshot.timeline));
       if (isEditPage) {
-        setConsent({ coc: true });
+        setConsent({ toc: true, coc: true });
       }
     }
   }
@@ -457,6 +459,7 @@ useEffect(() => {
       !summary ||
       !(labels ?? []).length ||
       !submissionDeadline ||
+      !consent.toc ||
       !consent.coc
   );
   const handler = setTimeout(() => {
@@ -733,6 +736,32 @@ const DescriptionComponent = useMemo(() => {
 const ConsentComponent = useMemo(() => {
   return (
     <div className="d-flex flex-column gap-2">
+      <Widget
+        src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Checkbox`}
+        props={{
+          value: "toc",
+          label: (
+            <>
+              I’ve agree to{" "}
+              <a
+                href={ToCDocs}
+                className="text-decoration-underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Terms and Conditions
+              </a>
+              and commit to honoring it
+            </>
+          ),
+          isChecked: consent.toc,
+          onClick: (value) =>
+            setConsent((prevConsent) => ({
+              ...prevConsent,
+              toc: value,
+            })),
+        }}
+      />
       <Widget
         src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Checkbox`}
         props={{
