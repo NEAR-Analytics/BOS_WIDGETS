@@ -24,14 +24,6 @@ State.init({
   vrifyOurStudent: "",
 });
 
-function showLoader() {
-    console.log("Loader is shown");
-}
-
-function hideLoader() {
-    console.log("Loader is hidden");
-}
-
 const TecherPossibilities = {
   init: () => {
     const accountIdContext = context.accountId;
@@ -104,7 +96,6 @@ const TecherPossibilities = {
     });
   },
   updateDiscription: (student) => {
-    showLoader();
     Social.set({
       profile: {
         discriptionsStudent: {
@@ -112,10 +103,8 @@ const TecherPossibilities = {
         },
       },
     });
-    hideLoader();
   },
   deleteStudent: (student) => {
-    showLoader();
     const indexForDeleteNumb = state.heashForDeletnumb[student];
     Social.set({
       mystudents: {
@@ -125,10 +114,8 @@ const TecherPossibilities = {
         [student]: false,
       },
     });
-    hideLoader();
   },
   addStudent: () => {
-    showLoader();
     const newStudent = state.addNewStudent;
     const ifAlreadyHaveStudent = Social.get(
       `${state.accountIdContext}/myStudentsForFind/${newStudent}`
@@ -182,10 +169,8 @@ const TecherPossibilities = {
         ifAddStudent: false,
       });
     }
-    hideLoader();
   },
   findStudentByID: () => {
-    showLoader();
     const idaccound = state.idFindStudent;
     const isOurStudent = Social.get(
       `${state.accountIdContext}/myStudentsForFind/${idaccound}`
@@ -200,7 +185,6 @@ const TecherPossibilities = {
       });
     }
   },
-  hideLoader();
 };
 
 TecherPossibilities.init();
