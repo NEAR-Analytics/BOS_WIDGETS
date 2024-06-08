@@ -673,14 +673,14 @@ return (
                     State.update({ editDescription: e.target.value });
                   }}
                 />
-                <CommitButton
-                  data={() => {
+                <Button
+                  onClick={() => {
                     TecherPossibilities.deleteStudent(student);
                   }}
                   style={{ width: "100px", marginLeft: "1rem" }}
                 >
                   Delete
-                </CommitButton>
+                </Button>
                 <Button
                   style={{ width: "100px", marginLeft: "1rem" }}
                   onClick={() => {
@@ -757,7 +757,7 @@ return (
             />
             {!state.ifAddStudent && <h3>Some gone wrong. Not add</h3>}
             <CommitButton
-              data={() => {
+              onClick={() => {
                 TecherPossibilities.addStudent(state.addNewStudent);
                 State.update({ showAddStudentModal: false });
               }}
