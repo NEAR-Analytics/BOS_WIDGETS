@@ -96,6 +96,7 @@ const TecherPossibilities = {
     });
   },
   updateDiscription: (student) => {
+    $.Loader.start();
     Social.set({
       profile: {
         discriptionsStudent: {
@@ -114,8 +115,10 @@ const TecherPossibilities = {
         [student]: false,
       },
     });
+    $.Loader.stop();
   },
   addStudent: () => {
+    $.Loader.start();
     const newStudent = state.addNewStudent;
     const ifAlreadyHaveStudent = Social.get(
       `${state.accountIdContext}/myStudentsForFind/${newStudent}`
@@ -169,8 +172,10 @@ const TecherPossibilities = {
         ifAddStudent: false,
       });
     }
+    $.Loader.stop();
   },
   findStudentByID: () => {
+    $.Loader.start();
     const idaccound = state.idFindStudent;
     const isOurStudent = Social.get(
       `${state.accountIdContext}/myStudentsForFind/${idaccound}`
@@ -184,6 +189,7 @@ const TecherPossibilities = {
         vrifyOurStudent: "",
       });
     }
+    $.Loader.stop();
   },
 };
 
