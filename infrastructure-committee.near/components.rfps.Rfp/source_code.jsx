@@ -1,14 +1,98 @@
-import {
-  REPL_INFRASTRUCTURE_COMMITTEE,
-  REPL_DEVHUB,
-  REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT,
-  PROPOSAL_FEED_INDEXER_QUERY_NAME,
-  fetchGraphQL,
-  RFP_INDEXER_QUERY_NAME,
-  parseJSON,
-  PROPOSALS_APPROVED_STATUS_ARRAY,
-  CANCEL_RFP_OPTIONS,
-} from "@/includes/common";
+/*
+License: MIT
+Author: devhub.near
+Homepage: https://github.com/NEAR-DevHub/near-prpsls-bos#readme
+*/
+/* INCLUDE: "includes/common.jsx" */
+const REPL_DEVHUB = "devhub.near";
+const REPL_INFRASTRUCTURE_COMMITTEE = "infrastructure-committee.near";
+const REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT =
+  "infrastructure-committee.near";
+const REPL_RPC_URL = "https://rpc.mainnet.near.org";
+const REPL_NEAR = "near";
+const RFP_IMAGE =
+  "https://ipfs.near.social/ipfs/bafkreicbygt4kajytlxij24jj6tkg2ppc2dw3dlqhkermkjjfgdfnlizzy";
+
+const RFP_FEED_INDEXER_QUERY_NAME =
+  "polyprogrammist_near_devhub_ic_v1_rfps_with_latest_snapshot";
+
+const RFP_INDEXER_QUERY_NAME =
+  "polyprogrammist_near_devhub_ic_v1_rfp_snapshots";
+
+const PROPOSAL_FEED_INDEXER_QUERY_NAME =
+  "polyprogrammist_near_devhub_ic_v1_proposals_with_latest_snapshot";
+
+const PROPOSAL_QUERY_NAME =
+  "polyprogrammist_near_devhub_ic_v1_proposal_snapshots";
+const RFP_TIMELINE_STATUS = {
+  ACCEPTING_SUBMISSIONS: "ACCEPTING_SUBMISSIONS",
+  EVALUATION: "EVALUATION",
+  PROPOSAL_SELECTED: "PROPOSAL_SELECTED",
+  CANCELLED: "CANCELLED",
+};
+
+const PROPOSAL_TIMELINE_STATUS = {
+  DRAFT: "DRAFT",
+  REVIEW: "REVIEW",
+  APPROVED: "APPROVED",
+  REJECTED: "REJECTED",
+  CANCELED: "CANCELLED",
+  APPROVED_CONDITIONALLY: "APPROVED_CONDITIONALLY",
+  PAYMENT_PROCESSING: "PAYMENT_PROCESSING",
+  FUNDED: "FUNDED",
+};
+
+const QUERYAPI_ENDPOINT = `https://near-queryapi.api.pagoda.co/v1/graphql`;
+
+async function fetchGraphQL(operationsDoc, operationName, variables) {
+  return asyncFetch(QUERYAPI_ENDPOINT, {
+    method: "POST",
+    headers: { "x-hasura-role": `polyprogrammist_near` },
+    body: JSON.stringify({
+      query: operationsDoc,
+      variables: variables,
+      operationName: operationName,
+    }),
+  });
+}
+
+const CANCEL_RFP_OPTIONS = {
+  CANCEL_PROPOSALS: "CANCEL_PROPOSALS",
+  UNLINK_PROPOSALS: "UNLINK_PROPOSALSS",
+  NONE: "NONE",
+};
+
+function parseJSON(json) {
+  if (typeof json === "string") {
+    try {
+      return JSON.parse(json);
+    } catch (error) {
+      return json;
+    }
+  } else {
+    return json;
+  }
+}
+
+function isNumber(value) {
+  return typeof value === "number";
+}
+
+const PROPOSALS_APPROVED_STATUS_ARRAY = [
+  PROPOSAL_TIMELINE_STATUS.APPROVED,
+  PROPOSAL_TIMELINE_STATUS.APPROVED_CONDITIONALLY,
+  PROPOSAL_TIMELINE_STATUS.PAYMENT_PROCESSING,
+  PROPOSAL_TIMELINE_STATUS.FUNDED,
+];
+
+function getLinkUsingCurrentGateway(url) {
+  const data = fetch(`https://httpbin.org/headers`);
+  const gatewayURL = data?.body?.headers?.Origin ?? "";
+  return `https://${
+    gatewayURL.includes("near.org") ? "dev.near.org" : "near.social"
+  }/${url}`;
+}
+/* END_INCLUDE: "includes/common.jsx" */
 
 const { href } = VM.require(`${REPL_DEVHUB}/widget/core.lib.url`) || {
   href: () => {},
@@ -18,7 +102,7 @@ const { readableDate } = VM.require(
 ) || { readableDate: () => {} };
 
 const { getGlobalLabels } = VM.require(
-  `${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.core.lib.contract`
+  `${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.core.lib.contract`
 ) || { getGlobalLabels: () => {} };
 
 const accountId = context.accountId;
@@ -273,7 +357,7 @@ const query = `query GetLatestSnapshot($offset: Int = 0, $limit: Int = 10, $wher
   ${queryName}(
     offset: $offset
     limit: $limit
-    order_by: {ts: desc}
+    order_by: {ts: asc}
     where: $where
   ) {
     editor_id
@@ -344,7 +428,9 @@ const item = {
   path: `${REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT}/post/main`,
   blockHeight,
 };
-const rfpURL = `https://near.org/${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.pages.app?page=rfp&id=${rfp.id}&timestamp=${snapshot.timestamp}`;
+const rfpURL = getLinkUsingCurrentGateway(
+  `${REPL_INFRASTRUCTURE_COMMITTEE}/widget/app?page=rfp&id=${rfp.id}&timestamp=${snapshot.timestamp}`
+);
 
 const SidePanelItem = ({ title, children, hideBorder, ishidden }) => {
   return (
@@ -371,7 +457,7 @@ const isAllowedToWriteRfp = Near.view(
 );
 
 const link = href({
-  widgetSrc: `${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.pages.app`,
+  widgetSrc: `${REPL_INFRASTRUCTURE_COMMITTEE}/widget/app`,
   params: {
     page: "create-rfp",
     id: rfp.id,
@@ -483,7 +569,7 @@ const SubmitProposalBtn = () => {
     <div style={{ minWidth: "fit-content" }}>
       <Link
         to={href({
-          widgetSrc: `${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.pages.app`,
+          widgetSrc: `${REPL_INFRASTRUCTURE_COMMITTEE}/widget/app`,
           params: { page: "create-proposal", rfp_id: rfp.id },
         })}
       >
@@ -505,7 +591,7 @@ const SubmitProposalBtn = () => {
 return (
   <Container className="d-flex flex-column gap-2 w-100 mt-4">
     <Widget
-      src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.rfps.ConfirmCancelModal`}
+      src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.rfps.ConfirmCancelModal`}
       props={{
         isOpen: isCancelModalOpen,
         onCancelClick: () => {
@@ -520,7 +606,7 @@ return (
       }}
     />
     <Widget
-      src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.rfps.WarningModal`}
+      src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.rfps.WarningModal`}
       props={{
         isOpen: isWarningModalOpen,
         onConfirmClick: () => {
@@ -557,7 +643,7 @@ return (
     </div>
     <div className="d-flex flex-wrap flex-md-nowrap px-3 px-lg-0 gap-2 align-items-center text-sm pb-3 w-100">
       <Widget
-        src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.rfps.StatusTag`}
+        src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.rfps.StatusTag`}
         props={{
           timelineStatus: snapshot.timeline.status,
           size: "sm",
@@ -639,7 +725,7 @@ return (
                       RFP CATEGORY
                       <div className="my-2">
                         <Widget
-                          src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.molecule.MultiSelectCategoryDropdown`}
+                          src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.molecule.MultiSelectCategoryDropdown`}
                           props={{
                             selected: snapshot.labels,
                             disabled: true,
@@ -664,7 +750,7 @@ return (
 
                     <div className="d-flex gap-2 align-items-center mt-4">
                       <Widget
-                        src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.molecule.LikeButton`}
+                        src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.molecule.LikeButton`}
                         props={{
                           item,
                           rfpId: rfp.id,
@@ -691,7 +777,7 @@ return (
               </div>
               <div className="border-bottom pb-4 mt-4">
                 <Widget
-                  src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.rfps.CommentsAndLogs`}
+                  src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.rfps.CommentsAndLogs`}
                   props={{
                     ...props,
                     id: rfp.id,
@@ -710,7 +796,7 @@ return (
                 className="pt-4"
               >
                 <Widget
-                  src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.molecule.ComposeComment`}
+                  src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.molecule.ComposeComment`}
                   props={{
                     ...props,
                     item: item,
@@ -759,7 +845,7 @@ return (
                 }
               >
                 <Widget
-                  src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.rfps.TimelineConfigurator`}
+                  src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.rfps.TimelineConfigurator`}
                   props={{
                     timeline: timeline,
                     setTimeline: (v) => {
@@ -822,7 +908,7 @@ return (
                 ishidden={!approvedProposals.length}
               >
                 <Widget
-                  src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.molecule.LinkedProposals`}
+                  src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.molecule.LinkedProposals`}
                   props={{
                     linkedProposalIds: (approvedProposals ?? []).map(
                       (i) => i.proposal_id
@@ -841,7 +927,7 @@ return (
                 ishidden={!snapshot.linked_proposals.length}
               >
                 <Widget
-                  src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/near-prpsls-bos.components.molecule.LinkedProposals`}
+                  src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.molecule.LinkedProposals`}
                   props={{
                     linkedProposalIds: snapshot.linked_proposals,
                     showStatus:
