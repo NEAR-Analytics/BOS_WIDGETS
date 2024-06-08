@@ -664,14 +664,14 @@ return (
                     State.update({ editDescription: e.target.value });
                   }}
                 />
-                <Button
-                  onClick={() => {
+                <CommitButton
+                  data={() => {
                     TecherPossibilities.deleteStudent(student);
                   }}
                   style={{ width: "100px", marginLeft: "1rem" }}
                 >
                   Delete
-                </Button>
+                </CommitButton>
                 <Button
                   style={{ width: "100px", marginLeft: "1rem" }}
                   onClick={() => {
