@@ -1,3 +1,8 @@
+/*
+License: MIT
+Author: devhub.near
+Homepage: https://github.com/NEAR-DevHub/near-prpsls-bos#readme
+*/
 const item = props.item;
 const proposalId = props.proposalId;
 const rfpId = props.rfpId;
