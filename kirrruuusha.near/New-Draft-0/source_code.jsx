@@ -286,19 +286,6 @@ const Button = styled.button`
   &:hover{
       background:#333;
   }
-  &:active {
-    background: linear-gradient(32deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
-  }
-
-  @keyframes ani {
-    0% {
-      background-position: 0%;
-    }
-
-    100% {
-      background-position: 400%;
-    }
-  }
 `;
 
 const Body = styled.div`
