@@ -285,6 +285,28 @@ const Button = styled.button`
   align-self: center;
   &:hover{
       background:#333;
+  } 
+  &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      width: 24px;
+      height: 24px;
+      animation: spin 1s linear infinite;
+      visibility: ${(props) => (props.isLoading ? "visible" : "hidden")};
+  }
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 `;
 
@@ -294,15 +316,6 @@ const Body = styled.div`
   background-color: ${appTheme.colors().backgroundColor};
   align-items: center; 
   `;
-
-const NavigationBar = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center; 
-  padding : ${appTheme.paddings.large};
-  background-color: ${appTheme.colors().backgroundColor};
-  justify-content: center;
-`;
 
 const ProfileTab = styled.div`
   display: flex;
