@@ -24,6 +24,14 @@ State.init({
   vrifyOurStudent: "",
 });
 
+function showLoader() {
+    console.log("Loader is shown");
+}
+
+function hideLoader() {
+    console.log("Loader is hidden");
+}
+
 const TecherPossibilities = {
   init: () => {
     const accountIdContext = context.accountId;
