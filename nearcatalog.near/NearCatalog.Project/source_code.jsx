@@ -833,10 +833,7 @@ const Css = styled.div`
     text-overflow: ellipsis;
   }
   .near-item .tile-tags {
-    font-size: 0.6rem;
-    height: 1rem;
-    padding-top: 0.1rem;
-    white-space: nowrap;
+    font-size: 0.8rem;
   }
   .near-item-list {
     background: transparent;
@@ -978,10 +975,6 @@ const toggleBookmark = (p) => {
   });
   Storage.set("nearcatalogBookmark", bookmark);
 }; //toggleBookmark
-State.init({
-  bookmark: null,
-  bookmarkStatus: isInBookmark(mergedProject) ? "added" : "removed",
-});
 const deepMerge = (target, sourcesArr) => {
   for (let i = 0; i < sourcesArr.length; i++) {
     const source = sourcesArr[i];
@@ -1010,20 +1003,25 @@ const deepMerge = (target, sourcesArr) => {
   }
   return target;
 };
+State.init({
+  bookmark: null,
+  bookmarkStatus: isInBookmark(mergedProject) ? "added" : "removed",
+  relatedProjects: [],
+});
 const nearSocialProfile = Social.getr(
   props.project.profile.linktree.nearsocial + "/profile"
 );
 const mergedProject = props.project.profile?.linktree?.nearsocial
   ? deepMerge({}, [props.project, { profile: nearSocialProfile }])
   : props.project;
-console.log(
-  "social profile: ",
-  nearSocialProfile,
-  "| indexer profile: ",
-  props.project,
-  "| merged project profile info: ",
-  mergedProject
-);
+// console.log("social profile: ", nearSocialProfile, "| indexer profile: ", props.project, "| merged project profile info: ", mergedProject);
+setTimeout(() => {
+  State.update({
+    relatedProjects: fetch(
+      `${props.indexer}/related-projects?pid=${mergedProject.slug}`
+    ).body,
+  });
+}, 1000);
 const tags = mergedProject.profile.tags;
 const tokenTicket = mergedProject.profile.tokens
   ? Object.keys(mergedProject.profile.tokens)[0]
@@ -1033,7 +1031,7 @@ const tokenInfo =
     ? mergedProject.profile.tokens[tokenTicket]
     : {};
 const twtIframe = `<div align="center"><a class="twitter-timeline"  data-dnt="true"  data-tweet-limit="10"
- href="https://twitter.com/${mergedProject.profile.linktree?.twitter}">Twitter</a>
+ href="https://twitter.com/${mergedProject.profile.linktree?.twitter}">X</a>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </div>`;
 return (
@@ -1301,7 +1299,6 @@ return (
                   </div>
                 </div>
               </div>
-
               {/*   <div className="near-content">
                   <div className="content-widget article-widget">
                       <h2 className="content-title"> News</h2>
@@ -1318,28 +1315,39 @@ return (
                 </div> */}
               <div className="near-content">
                 <div className="content-widget related-widget">
-                  <h2 className="content-title">Related Projects</h2>
-                  <div className="content-body">
-                    <a
-                      className="near-item near-item-list"
-                      target="_blank"
-                      title="LNC"
-                      href="#"
-                    >
-                      <div className="near-item-header">
-                        <div className="tile">
-                          <div className="tile-icon">
-                            <img src={props.defaultImg} alt="" />
-                          </div>
-                          <div className="tile-content">
-                            <h3 className="tile-title">Learn NEAR Club</h3>
-                            <div className="tile-tags text-gray">
-                              Learn how to use and build on NEAR and Earn NEAR
+                  <h2 className="content-title">Discover More</h2>
+                  <div className="content-body row">
+                    {state.relatedProjects &&
+                      Object.keys(state.relatedProjects).map((e) => {
+                        let p = state.relatedProjects[e];
+                        console.log("related project: ", e);
+                        return (
+                          <a
+                            className="near-item near-item-list col-md-4 p-2"
+                            title={p.profile.name}
+                            href={"/" + indexPath + "?id=" + p.slug}
+                          >
+                            <div className="near-item-header">
+                              <div className="tile">
+                                <div className="tile-icon">
+                                  <img
+                                    src={p.profile.image.url}
+                                    alt={p.profile.name}
+                                  />
+                                </div>
+                                <div className="tile-content">
+                                  <h3 className="tile-title">
+                                    {p.profile.name}
+                                  </h3>
+                                  <div className="tile-tags text-gray">
+                                    {p.profile.tagline}
+                                  </div>
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                        </div>
-                      </div>
-                    </a>
+                          </a>
+                        );
+                      })}
                   </div>
                 </div>
               </div>
@@ -1389,7 +1397,7 @@ return (
                     {tokenInfo.address.aurora && (
                       <div className="token-widget">
                         <h3 className="token-widget-label">
-                          Aurora Chain
+                          Aurora
                           <a
                             href={`https://explorer.aurora.dev/address/${tokenInfo.address.aurora}`}
                             target="_blank"
