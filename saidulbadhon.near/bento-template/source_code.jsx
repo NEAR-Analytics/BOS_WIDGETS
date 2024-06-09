@@ -19,7 +19,16 @@ return (
             "https://raw.githubusercontent.com/jutsuai/bento-templates/main/template-5/src/components/prod/Navbar.js",
           nearSrc: "adnansiddiqui.near/widget/template-5.Navbar",
         },
-        style: {},
+        style: {
+          paddingBottom: "45",
+          marginTop: 0,
+          marginRight: 0,
+          marginBottom: 0,
+          marginLeft: 0,
+          paddingTop: "45",
+          paddingRight: "45",
+          paddingLeft: "45",
+        },
       }}
     />
     <Widget
@@ -29,7 +38,7 @@ return (
         props: {
           backgroundImageUrl:
             "https://source.unsplash.com/random/1920x1080/?chemistry",
-          headerText: "Changing chemistry for good",
+          headerText: "changing chemistry for good",
           subHeaderText:
             "We are a team of passionate cyclists dedicated to providing high-quality bikes and accessories to our customers.",
           primaryButtonText: "Contact Us",
