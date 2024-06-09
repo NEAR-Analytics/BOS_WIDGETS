@@ -1080,16 +1080,11 @@ return (
                   Object.keys(props.project.profile.tags).map((e) => {
                     return (
                       <a
-                        href={
-                          "/" +
-                          props.indexPath +
-                          "?cat=" +
-                          props.project.profile.tags[e]
-                        }
+                        href={"/" + props.indexPath + "?cat=" + e}
                         className="badge bg-secondary text-light"
-                        title={e}
+                        title={props.project.profile.tags[e]}
                       >
-                        {e}
+                        {props.project.profile.tags[e]}
                       </a>
                     );
                   })}
@@ -1320,7 +1315,6 @@ return (
                     {state.relatedProjects &&
                       Object.keys(state.relatedProjects).map((e) => {
                         let p = state.relatedProjects[e];
-                        console.log("related project: ", e);
                         return (
                           <a
                             className="near-item near-item-list col-md-4 p-2"
