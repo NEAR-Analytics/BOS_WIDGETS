@@ -73,7 +73,7 @@ const AboutHeader = styled.h2`
 
     @media (min-width: ${bp.md}) {
       font-size: 2.5rem;
-      line-height: 2.5rem;
+      line-height: 1.5;
     }
   `;
 
