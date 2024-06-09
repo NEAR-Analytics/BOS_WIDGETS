@@ -32,13 +32,15 @@ switch (router) {
     break;
   case "category":
     query = fetch(indexer + "/projects-by-category?cid=" + props.cat);
-    projects = query.body;
+    projects = query.body ? query.body.data : null;
     if (!query) {
       return loadingScreen();
     }
     widgetSrc = `${componentPath}.Layout.AppGrid`;
     widgetProps = {
-      cat: props.cat,
+      cat_title: query.body.cat_title,
+      cat_slug: query.body.cat_slug,
+      cat_desc: query.body.cat_desc,
     };
     break;
   case "bookmark":
