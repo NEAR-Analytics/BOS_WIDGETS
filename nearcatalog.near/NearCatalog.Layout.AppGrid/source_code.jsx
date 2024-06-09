@@ -867,7 +867,7 @@ return (
                                           title={e}
                                         >
                                           {" "}
-                                          {e}
+                                          {p.profile.tags[e]}
                                         </span>
                                       );
                                     })}
