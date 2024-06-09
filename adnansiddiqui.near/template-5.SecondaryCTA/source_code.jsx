@@ -21,7 +21,7 @@ const SecondaryCTAWrapper = styled.div`
     margin: ${({ style }) =>
       `${style?.marginTop}px ${style?.marginRight}px ${style?.marginBottom}px ${style?.marginLeft}px`};
 
-    background-color: ${({ style }) => `${style?.accent}`};
+    background-color: ${({ style }) => `${style?.accent || "#b9ff81"}`};
     width: 100%;
     height: 100dvh;
     max-height: 100%;
