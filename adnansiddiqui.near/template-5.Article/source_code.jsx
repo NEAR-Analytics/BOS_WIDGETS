@@ -28,7 +28,8 @@ const ArticleWrapper = styled.div`
         style?.marginBottom || 0
       }px ${style?.marginLeft || 0}px`};
 
-    background-image: ${({ props }) => `url(https://images.unsplash.com/photo-1533134486753-c833f0ed4866?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)`};
+    background-image: ${({ props }) =>
+      `url(https://images.unsplash.com/photo-1533134486753-c833f0ed4866?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)`};
     background-size: cover;
     background-position: center;
   `;
@@ -36,6 +37,7 @@ const ArticleWrapper = styled.div`
 const ArticleContent = styled.div`
     padding: 1rem;
     height: 100dvh;
+    max-height: 100%;
     display: grid;
     grid-template-columns: repeat(1, 1fr);
 
@@ -53,19 +55,15 @@ const ArticleColumn = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-block: 4rem;
+    padding-block: 1rem;
 
     @media (min-width: ${bp.md}) {
-      padding: 4rem;
+      padding: 2rem;
     }
 
     @media (min-width: ${bp.lg}) {
       grid-column-start: 2;
-      padding: 4rem;
-    }
-
-    @media (min-width: ${bp.xl}) {
-      padding: 8rem;
+      padding: 2rem;
     }
   `;
 const ArticleHeaderText = styled.h4`
@@ -110,7 +108,7 @@ const ArticleMetadataDate = styled.p`
   `;
 
 return (
-  <ArticleWrapper id={id} style={style} props={props}>
+  <ArticleWrapper id={id} props={props} style={style}>
     <ArticleContent>
       <ArticleColumn>
         <div
@@ -118,12 +116,11 @@ return (
             backgroundColor: style?.accent || "#b9ff81",
             display: "flex",
             flexDirection: "column",
-            gap: "2rem",
+            gap: "4rem",
             padding: "2rem",
             width: "100%",
-            height: "100%",
-            maxWidth: "100%",
-            maxHeight: "100%",
+            maxWidth: "48rem",
+            marginInline: "auto",
             borderRadius: "0.375rem",
             boxShadow: "0 0.5rem 1rem 0 rgb(0 0 0 / 15%)",
           }}
