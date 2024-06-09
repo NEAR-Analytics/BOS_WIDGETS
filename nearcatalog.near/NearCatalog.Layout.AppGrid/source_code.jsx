@@ -407,12 +407,14 @@ const TrendingMarquee = (data) => {
   });
   const router = props.router || "";
   if (props.cat == "trending") return <></>;
-  asyncFetch(props.indexer + "/projects-by-category?cid=trending").then(
-    (res) => {
-      State.update({ trendingProjects: res.body });
-      console.log("Trending: ", res.body);
-    }
-  );
+  setTimeout(() => {
+    const ftd = fetch(
+      props.indexer + "/projects-by-category?cid=trending"
+    ).body;
+    State.update({
+      trendingProjects: ftd ? ftd.data : null,
+    });
+  }, 100);
   if (!state.trendingProjects) {
     return (
       <>
@@ -766,14 +768,6 @@ return (
     <Css>
       <div className="container near-bg" id="awesomebos-wrap">
         {/* START NAVBAR  */}
-        {/* <Widget
-          src={`${componentPath}.Layout.Navbar`}
-          props={{
-            componentPath,
-            indexPath,
-            router,
-          }}
-        /> */}
         <Navbar
           props={{
             componentPath,
@@ -784,14 +778,6 @@ return (
         {/* END NAVBAR  */}
         <div className="row">
           {/* LEFT SIDEBAR  */}
-          {/* <Widget
-            src={`${componentPath}.Layout.LeftSidebar`}
-            props={{
-              componentPath,
-              indexPath,
-              cat,
-            }}
-          /> */}
           <LeftSidebar
             props={{
               componentPath,
@@ -809,9 +795,9 @@ return (
                 className="awesome-title"
                 style={{ textTransform: "capitalize" }}
               >
-                {props.cat.length > 0 ? props.cat : ""}
+                {props.cat_slug.length > 0 ? props.cat_title : ""}
               </h2>
-              <p className="awesome-desc">{props.desc}</p>
+              <p className="awesome-desc">{props.cat_desc}</p>
             </div>
             {/* SEARCHBAR  */}
             <Widget
