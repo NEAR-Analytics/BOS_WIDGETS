@@ -54,7 +54,6 @@ const NavContainer = styled.div`
     display: flex;
     background-color: #00000040;
     backdrop-filter: blur(8px);
-    flex-direction: ${({ style }) => style?.flexDirection || "row"};
     align-items: center;
     justify-content: space-between;
     padding: 1rem;
@@ -71,6 +70,7 @@ const NavList = styled.ul`
     line-height: 1.25rem /* 20px */;
     font-weight: 600;
     align-items: center;
+    margin-block:auto;
     gap: 1.5rem;
     @media (min-width: ${bp.lg}) {
       display: flex;
