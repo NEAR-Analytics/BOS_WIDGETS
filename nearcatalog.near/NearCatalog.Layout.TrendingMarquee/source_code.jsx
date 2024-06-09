@@ -29,10 +29,12 @@ State.init({
 });
 const router = props.router || "";
 if (props.cat == "trending") return <></>;
-asyncFetch(props.indexer + "/projects-by-category?cid=trending").then((res) => {
-  State.update({ trendingProjects: res.body });
-  console.log("Trending: ", res.body);
-});
+setTimeout(() => {
+  const ftd = fetch(props.indexer + "/projects-by-category?cid=trending").body;
+  State.update({
+    trendingProjects: ftd ? ftd.data : null,
+  });
+}, 100);
 if (!state.trendingProjects) {
   return (
     <>
