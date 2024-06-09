@@ -20,14 +20,10 @@ return (
           nearSrc: "adnansiddiqui.near/widget/template-5.Navbar",
         },
         style: {
-          paddingBottom: "45",
           marginTop: 0,
           marginRight: 0,
           marginBottom: 0,
           marginLeft: 0,
-          paddingTop: "45",
-          paddingRight: "45",
-          paddingLeft: "45",
         },
       }}
     />
@@ -137,7 +133,7 @@ return (
     />
     <Widget
       id="0ug75y7P49"
-      src="undefined"
+      src="adnansiddiqui.near/widget/template-5.PrimaryCTA"
       props={{
         props: {
           headerText: "Pattented technology",
