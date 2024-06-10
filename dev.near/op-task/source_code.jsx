@@ -7,6 +7,13 @@ const PROBLEM_ID = 1;
 const STATUS_ANNOTATION_PENDING = 0;
 const ACCOUNT_ID = "dev.near";
 const STORAGE_KEY = `task_storage`;
+const COLOR_DIFF_REMOVE = "#FFD0D0";
+const COLOR_DIFF_ADD = "#D0FFD0";
+
+const [showRegenerateResponseDialog, setShowRegenerateResponseDialog] =
+  useState(false);
+const [regenerateResponseFromIndex, setRegenerateResponseFromIndex] =
+  useState(-1);
 
 const editIcon = (
   <svg
@@ -237,6 +244,19 @@ const SubmitChat = () => {
   });
 };
 
+const ShowRegenerateResponceDialog = (index) => {
+  const chat = getArray(state.chat);
+  if (index > 0 && chat[index].person == AI) {
+    if (index < chat.length - 1) {
+      // display dialog
+      setRegenerateResponseFromIndex(index);
+      setShowRegenerateResponseDialog(true);
+    } else {
+      RegenerateResponce(index);
+    }
+  }
+};
+
 const RegenerateResponce = (index) => {
   if (index > 0) {
     let newChat = [...state.chat];
@@ -335,8 +355,15 @@ const getMessageDiff = (item, index) => {
   if (item.person == AI) {
     let prevSpec = getPreviousSpecFromAI(index, state.chat);
 
-    let diffs = codeDiff(prevSpec, item.spec);
-    let nonEmptyDiff = (diffs ?? []).filter((line) => line != "\n");
+    let diffs = codeDiff(prevSpec, item.spec) ?? [];
+    let diffs_added = (
+      diffs.filter((line) => line[1] == COLOR_DIFF_ADD && line[0] != "\n") ?? []
+    ).length;
+    let diffs_removed = (
+      diffs.filter((line) => line[1] == COLOR_DIFF_REMOVE && line[0] != "\n") ??
+      []
+    ).length;
+    let nonEmptyDiff = (diffs ?? []).filter((line) => line[0] != "\n");
     console.log("diffs", diffs);
     let diffContents = nonEmptyDiff.map((line) => {
       if (Array.isArray(line)) {
@@ -356,7 +383,7 @@ const getMessageDiff = (item, index) => {
           <div
             class="d-flex flex-row ms-3 mt-1 small code-diff rounded-3 flex-row"
             role="button"
-            onClick={() => RegenerateResponce(index)}
+            onClick={() => ShowRegenerateResponceDialog(index)}
           >
             Regenerate
           </div>
@@ -374,7 +401,24 @@ const getMessageDiff = (item, index) => {
                   })
                 }
                 title="Click to expand"
-              >{`Spec diffs: ${nonEmptyDiff.length}`}</div>
+              >
+                <span class="pe-2">Spec diffs:</span>
+                <div
+                  style={{ backgroundColor: COLOR_DIFF_ADD, padding: "0 4px" }}
+                  role="alert"
+                >
+                  + {diffs_added}
+                </div>{" "}
+                <div
+                  style={{
+                    backgroundColor: COLOR_DIFF_REMOVE,
+                    padding: "0 4px",
+                  }}
+                  role="alert"
+                >
+                  - {diffs_removed}
+                </div>
+              </div>
             )}
 
             {state.selectedDiff == index && (
@@ -573,15 +617,14 @@ const codeDiff = (old_code, new_code) => {
     result.push(allLiness[0][i] + "\n");
   }
 
-  let bgColors = ["#FFD0D0", "#D0FFD0"];
   let ord1 = 0;
   let ord2 = 0;
   while (ord1 < liness[0].length || ord2 < liness[1].length) {
     if (ord1 < liness[0].length && h[0][ord1]) {
-      result.push([liness[0][ord1] + "\n", bgColors[0]]);
+      result.push([liness[0][ord1] + "\n", COLOR_DIFF_REMOVE]);
       ++ord1;
     } else if (ord2 < liness[1].length && h[1][ord2]) {
-      result.push([liness[1][ord2] + "\n", bgColors[1]]);
+      result.push([liness[1][ord2] + "\n", COLOR_DIFF_ADD]);
       ++ord2;
     } else {
       result.push(liness[1][ord2] + "\n");
@@ -891,8 +934,24 @@ Where `person` is either `USER` or `ASSISTANT`.
   }
 };
 
+console.log(state);
+
 return (
   <Theme class="d-block main-container h-100">
+    {showRegenerateResponseDialog && (
+      <Widget
+        src={`${ACCOUNT_ID}/widget/op-dialog`}
+        props={{
+          headerText: "Regenerate AI response",
+          modalText:
+            "You are about to regenerate an old message. This will delete all the messages that follow. Are you sure that's what you want?",
+          onButtonOk: () => {
+            RegenerateResponce(regenerateResponseFromIndex);
+          },
+        }}
+      />
+    )}
+
     {state.promptsUnlocked && state.showPromptsEditor && getPromptsContainer()}
     <div class="row" style={{ height: "38px" }}>
       <div class="col">
