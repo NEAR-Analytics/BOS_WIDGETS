@@ -268,6 +268,7 @@ return (
                   <li
                     title={`id: ${annotation.id}`}
                     role="button"
+                    style={{ textTransform: "capitalize" }}
                     class={`list-group-item ${
                       !state.requestTask && state.annotationId == annotation.id
                         ? "active"
