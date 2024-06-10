@@ -1,4 +1,4 @@
-const { isDarkModeOn, data, NftCount } = props;
+const { isDarkModeOn, data, NftCount, listingCount } = props;
 const Container = styled.div`
   display: grid;
   margin: 10px 0;
@@ -107,7 +107,6 @@ const Container = styled.div`
     flex-direction: row;
     gap: 30px;
   }
-
   .footer {
     display: flex;
     margin-top: 20px;
@@ -282,6 +281,20 @@ const hanleVisible = () => {
 };
 const hanleVisibleDetails = () => {
   setVisible(!visible);
+};
+const YoctoToNear = (amountYocto) => {
+  return new Big(amountYocto || 0).div(new Big(10).pow(24)).toString();
+};
+const getUsdValue = (price) => {
+  const convertToNear = YoctoToNear(price);
+  const res = fetch(
+    `https://api.coingecko.com/api/v3/simple/price?ids=near&vs_currencies=usd`
+  );
+  if (res.ok) {
+    const multiplyBy = Object.values(res?.body)[0]?.usd;
+    const value = multiplyBy * Number(convertToNear)?.toFixed(2);
+    return value?.toFixed(4) !== "NaN" ? `$${value?.toFixed(2)}` : 0;
+  }
 };
 return (
   <Container>
@@ -558,11 +571,11 @@ return (
       <div className="right-container">
         <div className="right-header">
           <span className="text" style={{ fontWeight: 500 }}>
-            {NftCount}{" "}
+            {listingCount}{" "}
           </span>{" "}
           of{" "}
           <span className="text" style={{ fontWeight: 500 }}>
-            1{" "}
+            {NftCount}{" "}
           </span>{" "}
           Listed{" "}
           <span className="text" style={{ fontWeight: 500 }}>
@@ -578,7 +591,7 @@ return (
               </span>
               <div className="text text-left d-flex flex-row justify-content-start align-items-end">
                 <div style={{ fontSize: "25px", fontWeight: 600 }}>
-                  2.00
+                  {YoctoToNear(data?.listings[0]?.price)}
                   <svg
                     width="30px"
                     height="30px"
@@ -602,12 +615,12 @@ return (
                     color: "gray",
                   }}
                 >
-                  $14,5
+                  {getUsdValue(data?.listings[0]?.price)}
                 </strong>
               </div>
             </div>
             <div className="right-footer">
-              <button className="btn-cus">Buy With Crypto</button>
+              {/* <button className="btn-cus">Buy With Crypto</button> */}
             </div>
           </div>
         ) : (
