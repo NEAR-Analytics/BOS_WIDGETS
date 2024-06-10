@@ -71,6 +71,7 @@ const {
   addAction,
   userPositions,
   ICON_VAULT_MAP,
+  onSuccess,
 } = props;
 
 const { formatUnits, parseUnits } = ethers.utils;
@@ -505,6 +506,7 @@ const handleDeposit = () => {
       toast?.success({
         title: "Deposit Successfully!",
       });
+      onSuccess?.();
     })
     .catch((error) => {
       console.log("error: ", error);
@@ -579,6 +581,7 @@ const handleWithdraw = () => {
       toast?.success({
         title: "Withdraw Successfully!",
       });
+      onSuccess?.();
     })
     .catch((error) => {
       State.update({
