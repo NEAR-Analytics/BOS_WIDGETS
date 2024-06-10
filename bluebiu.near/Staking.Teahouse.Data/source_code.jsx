@@ -78,14 +78,18 @@ useEffect(() => {
       let _aum = 0;
 
       if (token0TVL.gt(token1TVL)) {
-        _apr = token0.shareTokenApr;
+        // _apr = token0.shareTokenApr;
+        _apr = token0.feeApr7dAvg;
+
         let _token0 = pairs[i].token0;
 
         _aum = Big(formatUnits(token0.tvl, pairs[i].decimals0))
           .times(prices[_token0] || 0)
           .toString();
       } else {
-        _apr = token1.shareTokenApr;
+        // _apr = token1.shareTokenApr;
+        _apr = token1.feeApr7dAvg;
+
         let _token1 = pairs[i].token1;
 
         _aum = Big(formatUnits(token1.tvl, pairs[i].decimals1))
@@ -93,11 +97,7 @@ useEffect(() => {
           .toString();
       }
 
-      if (
-        pairs[i].id === "USDC-USDT-Oku" ||
-        pairs[i].id === "USDC-USDT-PancakeSwap" ||
-        pairs[i].id === "USDC-WETH-PancakeSwap"
-      ) {
+      if (pairs[i].id === "USDC-USDT-Oku" || pairs[i].id === "USDC-WETH-Oku") {
         _apr = token0.shareTokenApr;
       }
 
