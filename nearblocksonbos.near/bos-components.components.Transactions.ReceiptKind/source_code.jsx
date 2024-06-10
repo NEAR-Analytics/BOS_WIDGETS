@@ -245,10 +245,14 @@ function MainComponent(props) {
   try {
     if (decodedArgs) {
       const parsedJSONArgs = JSON.parse(decodedArgs.toString());
-      prettyArgs =
-        typeof parsedJSONArgs === 'boolean'
-          ? JSON.stringify(parsedJSONArgs)
-          : parsedJSONArgs;
+      if (parsedJSONArgs !== null) {
+        prettyArgs =
+          typeof parsedJSONArgs === 'boolean'
+            ? JSON.stringify(parsedJSONArgs)
+            : parsedJSONArgs;
+      } else {
+        prettyArgs = hexy(decodedArgs, { format: 'twos' });
+      }
     } else {
       prettyArgs = '';
     }
@@ -304,7 +308,8 @@ function MainComponent(props) {
         <div className="inline-flex justify-center">
           <span className="text-xs whitespace-nowrap">
             {action?.args?.deposit
-              ? yoctoToNear(action?.args?.deposit, false)
+              ? action?.args?.deposit &&
+                yoctoToNear(action?.args?.deposit, false)
               : action?.args?.deposit ?? ''}
             Ⓝ
           </span>
@@ -334,7 +339,9 @@ function MainComponent(props) {
                   <div className="bg-gray-100 dark:bg-black-200 rounded-md p-3 font-medium">
                     <div className="bg-inherit text-inherit font-inherit border-none p-0">
                       <div className="max-h-52 overflow-auto">
-                        <div className="p-3 h-full w-full">{prettyArgs}</div>
+                        <div className="p-3 h-full w-full">
+                          <pre>{prettyArgs}</pre>
+                        </div>
                       </div>
                     </div>
                   </div>
