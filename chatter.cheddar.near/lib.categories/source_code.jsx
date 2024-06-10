@@ -6,24 +6,69 @@ function getCategories() {
             value: 'all_categories',
         },
         {
-            title: 'Chatter',
+            title: 'Uncategorized',
+            color: '#b3b5b4',
+            value: 'uncategorized',
+        },
+        {
+            title: 'Creatives',
             color: '#f7941d',
-            value: 'chatter',
+            value: 'creatives',
         },
         {
-            title: 'Voting',
+            title: 'Community',
             color: '#92278f',
-            value: 'voting',
+            value: 'community',
         },
         {
-            title: 'Games',
+            title: 'Open Web Sandbox',
             color: '#08c',
-            value: 'games',
+            value: 'open_web_sandbox',
         },
         {
-            title: 'Contests',
+            title: 'Education',
             color: '#9eb83b',
-            value: 'contests',
+            value: 'education',
+        },
+        {
+            title: 'Ecosystem',
+            color: '#bf1e2e',
+            value: 'ecosystem',
+        },
+        {
+            title: 'Development',
+            color: '#0e76bd',
+            value: 'development',
+        },
+        {
+            title: 'Marketing',
+            color: '#f1592a',
+            value: 'marketing',
+        },
+        {
+            title: 'Regional hubs',
+            color: '#a461ef',
+            value: 'regional_hubs',
+        },
+        {
+            title: 'NEAR Digital Collective',
+            color: '#652d90',
+            value: 'near_digital_collective',
+        },
+        {
+            title: 'NEAR Gaming',
+            color: '#652d90',
+            value: 'near_gaming',
+        },
+        {
+            title: 'Staking',
+            color: '#231f20',
+            value: 'staking',
+        },
+        {
+            title: 'Potlock',
+            color: '#ed207b',
+            value: 'potlock',
         },
     ]
 }
