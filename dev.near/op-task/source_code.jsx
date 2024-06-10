@@ -942,11 +942,16 @@ return (
       <Widget
         src={`${ACCOUNT_ID}/widget/op-dialog`}
         props={{
+          showRegenerateResponseDialog,
           headerText: "Regenerate AI response",
           modalText:
             "You are about to regenerate an old message. This will delete all the messages that follow. Are you sure that's what you want?",
           onButtonOk: () => {
             RegenerateResponce(regenerateResponseFromIndex);
+            setShowRegenerateResponseDialog(false);
+          },
+          onButtonCancel: () => {
+            setShowRegenerateResponseDialog(false);
           },
         }}
       />
