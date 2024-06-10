@@ -255,6 +255,11 @@ return (
           onChangeDataIndex: handleChangeDataIndex,
           userPositions: state.userPositions,
           columnList,
+          onSuccess: () => {
+            State.update({
+              loading: true,
+            });
+          },
         }}
       />
     )}
