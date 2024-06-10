@@ -19,6 +19,7 @@
 
 
 
+
 /* INCLUDE COMPONENT: "includes/Common/ErrorMessage.jsx" */
 const ErrorMessage = ({ icons, message, mutedText }) => {
   return (
@@ -88,8 +89,7 @@ const FaInbox = () => {
 };/* END_INCLUDE COMPONENT: "includes/icons/FaInbox.jsx" */
 
 function MainComponent(props) {
-  const { network, rpcTxn, txn, t, ownerId } = props;
-
+  const { network, rpcTxn, txn, t, ownerId, loading } = props;
   const { mapRpcActionToAction } = VM.require(
     `${ownerId}/widget/includes.Utils.near`,
   );
@@ -182,7 +182,7 @@ function MainComponent(props) {
         <>
           <div className="relative overflow-x-auto rounded-xl">
             <table className="min-w-full divide-y rounded-xl dark:divide-black-200 dark:border-black-200">
-              <thead className="bg-gray-100 dark:bg-black-300">
+              <thead className="bg-gray-100 dark:bg-black-300 h-[51px]">
                 <tr>
                   <th
                     scope="col"
@@ -227,7 +227,7 @@ function MainComponent(props) {
                 </tr>
               </thead>
               <tbody className="bg-white dark:bg-black-600 dark:divide-black-200 divide-y divide-gray-200">
-                {!receipt?.id &&
+                {(!receipt?.id || loading) &&
                   [...Array(10)].map((_, i) => (
                     <tr key={i} className="hover:bg-blue-900/5 h-[57px]">
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10">
@@ -277,8 +277,8 @@ function MainComponent(props) {
                       t: t,
                       ownerId,
                     }}
-                    loading={
-                      <tr className="hover:bg-blue-900/5 h-[57px]">
+                    loading={[...Array(10)].map((_, i) => (
+                      <tr key={i} className="hover:bg-blue-900/5 h-[57px]">
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10">
                           <Skeleton className="w-full h-4" />
                         </td>
@@ -301,7 +301,7 @@ function MainComponent(props) {
                           <Skeleton className="w-full h-4" />
                         </td>
                       </tr>
-                    }
+                    ))}
                   />
                 )}{' '}
               </tbody>
