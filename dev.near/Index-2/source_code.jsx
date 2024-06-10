@@ -95,7 +95,7 @@ const onAuth = (data) => {
   const isSessionValid = !!data.is_signature_valid && !!data.session_id;
   console.log("onAuth Index", data, isSessionValid);
   State.update({
-    accountId: data.accountId,
+    accountId: data.account_id,
     sessionId: data.session_id,
     isSessionValid,
     resetSession: false,
