@@ -469,7 +469,9 @@ const handleDeposit = () => {
     Ethers.provider().getSigner()
   );
   depositContract
-    .deposit(_shares, token0Wei, token1Wei)
+    .deposit(_shares, token0Wei, token1Wei, {
+      gasLimit: 4000000,
+    })
     .then((tx) => {
       return tx.wait();
     })
