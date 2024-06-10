@@ -75,7 +75,7 @@ return (
         )}
         {ftData && (
           <div className="border border-black p-3 rounded mt-2">
-            <h4>Fungible Token Contract Data</h4>
+            <h4 className="mb-2">Fungible Token Contract Data</h4>
             <div>
               <p>
                 Token Name: <b>{ftData.name}</b>
