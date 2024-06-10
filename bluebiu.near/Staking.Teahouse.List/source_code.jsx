@@ -35,20 +35,22 @@ function renderTD(data, column, index) {
   }
   return <TdTxt>{data[column.key]}</TdTxt>;
 }
+
 return (
   <ListWrapper>
     {
       <Table>
         <THead>
-          {columnList.map((column, index) => {
-            return (
-              <Th key={index} style={{ width: column.width }}>
-                {column.label}
-              </Th>
-            );
-          })}
+          {Array.isArray(columnList) &&
+            columnList.map((column, index) => {
+              return (
+                <Th key={index} style={{ width: column.width }}>
+                  {column.label}
+                </Th>
+              );
+            })}
         </THead>
-        {dataList && dataList.length > 0 ? (
+        {Array.isArray(dataList) && dataList.length ? (
           <TBody>
             {dataList.map((data, index) => {
               return (
