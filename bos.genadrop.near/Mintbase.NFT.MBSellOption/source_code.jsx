@@ -343,11 +343,13 @@ const MBSellOption = ({ onClose, data, isDarkModeOn }) => {
       : Number(amount).toFixed(2);
   const handleListingNFT = () => {
     if (!data?.token_id) return;
+    if (amountToList <= 0) return;
     listNFT(
       data?.nft_contract_id,
       tokenInfo?.tokenIds,
       true,
       amount,
+      amountToList,
       selectedCurrency !== "NEAR" ? selectedCurrency : null
     );
   };
