@@ -15,7 +15,7 @@ if (!css) return "";
 // TODO - replace `referer` with window.location
 const referer = fetch(`${API_URL}/get_referer/`, { method: "POST" }).body;
 if (!referer) return "";
-const CALLBACK_URL = `${referer}${ACCOUNT_ID}/widget/Index`;
+const CALLBACK_URL = `${referer}${ACCOUNT_ID}/widget/Index-2`;
 
 State.init({
   resetSession: false,
