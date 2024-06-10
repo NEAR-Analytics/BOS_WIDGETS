@@ -345,7 +345,7 @@ const pages = {
 };
 //
 
-if (state.accountIdProps) {
+if (state.accountIdProps != state.accountIdContext || !state.accountIdProps) {
   return (
     <>
       <div
