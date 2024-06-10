@@ -55,7 +55,9 @@ return (
                     setAccount(getAccountInfo());
                   }}
                 >
-                  Get Account Information
+                  {account
+                    ? "Reload Account Information"
+                    : "Get Account Information"}
                 </button>
               </>
             )}
