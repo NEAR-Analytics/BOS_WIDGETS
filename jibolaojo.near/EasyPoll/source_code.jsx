@@ -342,7 +342,7 @@ return (
             />
           ) : page === "CREATE_POLL" ? (
             <Widget
-              src={`${widgetOwner}/widget/EasyPoll.CreatePoll`}
+              src={`${customWidgetOwner}/widget/EasyPoll.CreatePoll`}
               props={{
                 indexVersion,
                 blockHeight: props.blockHeight,
