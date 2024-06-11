@@ -1,4 +1,4 @@
-const widgetOwner = "easypoll-v0.ndc-widgets.near";
+const widgetOwner = "jibolaojo.near";
 
 const page = (props.page ?? "OFFICIAL_POLLS").toUpperCase();
 
