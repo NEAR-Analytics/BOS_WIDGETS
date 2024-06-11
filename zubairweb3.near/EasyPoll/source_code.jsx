@@ -55,6 +55,14 @@ const tabs = {
   },
 };
 
+const getFirstSBTToken = () => {
+  const view = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
+    account: `${context.accountId}`,
+    issuer: "fractal.i-am-human.near",
+  });
+  return view?.[0]?.[1]?.[0];
+};
+
 function isHumanWithNada() {
   Near.asyncView("v1.nadabot.near", "is_human", {
     account_id: context.accountId,
@@ -253,7 +261,7 @@ return (
             )
           ) : (
             <a
-              href="https://app.nada.bot"
+              href="https://i-am-human.app"
               target="_blank"
               className="text-decoration-none"
             >
