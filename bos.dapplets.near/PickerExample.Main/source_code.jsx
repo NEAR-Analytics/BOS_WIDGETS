@@ -6,20 +6,23 @@ const SKIN = 'DEFAULT'
 const [isRunnigApp, toggleIsRunningApp] = useState(false)
 const [context, setContext] = useState(null)
 
+const [picker, setPicker] = useState(null)
+
 const handleClose = () => {
+  picker.stop()
   setContext(null)
   toggleIsRunningApp(false)
 }
 
 useEffect(() => {
   if (!isRunnigApp) return;
-  props.pickContext({ 
+  const newPicker = props.pickContexts({ 
     namespace: NAMESPACE,
     contextType: CONTEXT_TYPE,
     if: {}
-  })
-    .then((newContext) => setContext(newContext))
-    .catch((err) => console.log(err))
+  }, (newContext) => setContext(newContext))
+
+  setPicker(newPicker)
 }, [isRunnigApp])
 
 const ChapterWrapper = (props) => {
@@ -35,13 +38,9 @@ ${JSON.stringify(context.parsed, null, 2)}
 `,
     skin: SKIN,
     children: ({ ref }) => {
-      props.attachInsPointRef(ref);
+      props.attachContextRef(ref);
       return props.children;
     }
-    // children: ({ ref }) => {
-    //   props.attachContexttRef(ref);
-    //   return props.children;
-    // }
   }
   return (
     <Widget
@@ -109,10 +108,6 @@ return (
           namespace: NAMESPACE,
           contextType: CONTEXT_TYPE,
           if: { id: { eq: context?.id } },
-          injectTo: 'avatar',
-          arrowTo: "insPoint",
-          // injectTo: CONTEXT_TYPE,
-          // arrowTo: 'context',
         }}
         component={ChapterWrapper}
       />
