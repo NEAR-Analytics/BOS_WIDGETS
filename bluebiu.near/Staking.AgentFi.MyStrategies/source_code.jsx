@@ -26,6 +26,13 @@ const StyledSectionCardInner = styled.div`
     font-weight: 800;
     line-height: normal;
   }
+  
+  .deposited-value-tips {
+    font-size: 12px;
+    color: #FFF;
+    margin-left: 2px;
+    font-weight: 400;
+  }
 
   .deposited-tips {
     color: #979ABE;
@@ -163,7 +170,10 @@ return (
               </StyledSectionTitle>
               <StyledSectionCard>
                 <StyledSectionCardInner>
-                  <div className="deposited-value">${totalDeposited}</div>
+                  <div className="deposited-value">
+                    ${totalDeposited}
+                    <span className="deposited-value-tips">USD eq.</span>
+                  </div>
                   <div className="deposited-tips">The total value of your deposits across all strategies.</div>
                 </StyledSectionCardInner>
               </StyledSectionCard>
