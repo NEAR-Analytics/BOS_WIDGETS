@@ -494,6 +494,7 @@ const handleSubmit = () => {
       return;
     }
     const liquidity = Big(currentBalance.balance || 0).times(Big(state.unStakePercent).div(100));
+
     if (liquidity.toNumber() !== Math.floor(liquidity.toNumber())) {
       toast?.fail({
         title: `${actionText} Failed!`,
@@ -532,7 +533,7 @@ const handleSubmit = () => {
         // receiver
         account,
         // liquidity - uint128
-        liquidity.toNumber(),
+        currentStrategy.meta.formatBigInt(liquidity.toNumber()),
         // sqrtPriceX96 - uint160
         sqrtPriceX96,
         // slippageLiquidity - uint24
