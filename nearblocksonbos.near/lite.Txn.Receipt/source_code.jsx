@@ -6,19 +6,6 @@ const Receipt = ({
   outgoingReceipts,
   receipt,
 }) => {
-  let { yoctoToNear } = VM.require(
-    `nearblocksonbos.near/widget/lite.libs.convertor`
-  );
-  let { formatNumber, formatSize } = VM.require(
-    `nearblocksonbos.near/widget/lite.libs.formatter`
-  );
-  let { shortenString } = VM.require(
-    `nearblocksonbos.near/widget/lite.libs.utils`
-  );
-  yoctoToNear = yoctoToNear || (() => <></>);
-  formatNumber = formatNumber || (() => <></>);
-  formatSize = formatSize || (() => <></>);
-  shortenString = shortenString || (() => <></>);
   const [open, setOpen] = useState(false);
   useEffect(() => {
     setOpen(expand);
