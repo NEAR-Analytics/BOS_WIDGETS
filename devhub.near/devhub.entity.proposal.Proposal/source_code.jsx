@@ -1,5 +1,8 @@
-const { href } = VM.require("devhub.near/widget/core.lib.url") || {
+const { href, getLinkUsingCurrentGateway } = VM.require(
+  "devhub.near/widget/core.lib.url"
+) || {
   href: () => {},
+  getLinkUsingCurrentGateway: () => {},
 };
 const { readableDate } = VM.require(
   "devhub.near/widget/core.lib.common"
@@ -291,7 +294,9 @@ const item = {
   path: `devhub.near/post/main`,
   blockHeight,
 };
-const proposalURL = `https://near.org/devhub.near/widget/app?page=proposal&id=${proposal.id}&timestamp=${snapshot.timestamp}`;
+const proposalURL = getLinkUsingCurrentGateway(
+  `devhub.near/widget/app?page=proposal&id=${proposal.id}&timestamp=${snapshot.timestamp}`
+);
 
 const KycVerificationStatus = () => {
   const isVerified = true;
@@ -413,9 +418,12 @@ const LinkedProposals = () => {
   return (
     <div className="d-flex flex-column gap-3">
       {linkedProposalsData.map((item) => {
-        const link = `https://near.org/devhub.near/widget/app?page=proposal&id=${item.id}`;
         return (
-          <a href={link} target="_blank" rel="noopener noreferrer">
+          <a
+            href={`?page=proposal&id=${item.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <div className="d-flex gap-2">
               <Widget
                 src={"devhub.near/widget/devhub.entity.proposal.Profile"}
