@@ -13,9 +13,7 @@ const Keys = ({ id, rpcUrl }) => {
   let { shortenString } = VM.require(
     `nearblocksonbos.near/widget/lite.libs.utils`
   );
-  yoctoToNear = yoctoToNear || (() => <></>);
-  formatNumber = formatNumber || (() => <></>);
-  shortenString = shortenString || (() => <></>);
+  if (!rpcFetch || !yoctoToNear || !formatNumber || !shortenString) return null;
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [keys, setKeys] = useState([]);
