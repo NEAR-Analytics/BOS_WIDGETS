@@ -2,15 +2,10 @@ const Chart = () => {
   let { apiFetch } = VM.require(
     `nearblocksonbos.near/widget/lite.libs.fetcher`
   );
-  let { formatNumber, formatScale } = VM.require(
+  let { formatNumber } = VM.require(
     `nearblocksonbos.near/widget/lite.libs.formatter`
   );
-  let { yoctoToTgas } = VM.require(
-    `nearblocksonbos.near/widget/lite.libs.convertor`
-  );
-  formatNumber = formatNumber || (() => <></>);
-  formatScale = formatScale || (() => <></>);
-  yoctoToTgas = yoctoToTgas || (() => <></>);
+  if (!apiFetch || !formatNumber) return null;
   const [charts, setCharts] = useState(null);
   useEffect(() => {
     if (apiFetch) {
@@ -42,7 +37,7 @@ const Chart = () => {
       <html>
         <head>
           <title>Highcharts Line Chart</title>
-          <script src="https://code.highcharts.com/highcharts.js"></script>
+          <script src="https://cdn.jsdelivr.net/npm/highcharts@11.4.3/highcharts.min.js"></script>
         </head>
         <body style="margin: 0">
           <div id="container" style="width: 100%; height: 280px"></div>
