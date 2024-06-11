@@ -8,13 +8,13 @@ const StyledFormItem = styled.div`
   border-bottom: 1px solid #373A53;
   padding-bottom: 18px;
   padding-top: 18px;
-  
+
   &.inline {
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
-  
+
   &:first-child {
     padding-top: 0;
   }
@@ -78,6 +78,7 @@ const StyledListItem = styled.div`
   .label {
     color: #979ABE;
   }
+
   .value {
     color: #fff;
   }
@@ -100,10 +101,11 @@ const StyledButton = styled.button`
   transition: 0.5s;
   margin-top: auto;
   text-align: center;
-  
+
   &:hover {
     opacity: 0.8;
   }
+
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -114,7 +116,7 @@ const StyledFullSelect = styled.div`
 
   > div {
     width: 100%;
-    
+
     > div[type="button"] {
       width: 100%;
     }
@@ -127,7 +129,7 @@ const StyledTips = styled.div`
   font-weight: 400;
   line-height: normal;
   margin-bottom: 16px;
-  
+
   &.full {
     height: 100%;
     display: flex;
@@ -144,22 +146,26 @@ const StyledWithdrawTips = styled.div`
     color: var(--switch-color);
     font-size: 18px;
   }
+
   .title {
     border-bottom: 1px solid #373A53;
     font-size: 18px;
     color: rgb(151, 154, 190);
     padding: 8px 0;
   }
+
   .assets {
     margin-top: 8px;
   }
+
   .head-wd {
     border-bottom: 1px solid #373A53;
-    
+
     .col-wd {
       color: rgb(151, 154, 190);
     }
   }
+
   .row-wd {
     display: flex;
     justify-content: space-between;
@@ -167,6 +173,7 @@ const StyledWithdrawTips = styled.div`
     gap: 8px;
     flex-wrap: nowrap;
   }
+
   .col-wd {
     flex-shrink: 0;
     flex-basis: 33.33%;
@@ -175,7 +182,9 @@ const StyledWithdrawTips = styled.div`
     text-align: left;
     padding: 8px 0;
   }
-  .body-wd {}
+
+  .body-wd {
+  }
 `;
 
 const DEPOSIT_POOL_ABI_MULTI = [
@@ -186,36 +195,86 @@ const DEPOSIT_POOL_ABI_MULTI = [
           {
             "internalType": "address",
             "name": "to",
-            "type": "address"
+            "type": "address",
           },
           {
             "internalType": "uint256",
             "name": "value",
-            "type": "uint256"
+            "type": "uint256",
           },
           {
             "internalType": "bytes",
             "name": "data",
-            "type": "bytes"
+            "type": "bytes",
           },
           {
             "internalType": "uint8",
             "name": "operation",
-            "type": "uint8"
-          }
+            "type": "uint8",
+          },
         ],
         "internalType": "struct BatchExecutor.Operation[]",
         "name": "operations",
-        "type": "tuple[]"
-      }
+        "type": "tuple[]",
+      },
     ],
     name: "executeBatch",
     outputs: [
       {
         "internalType": "bytes[]",
         "name": "",
-        "type": "bytes[]"
-      }
+        "type": "bytes[]",
+      },
+    ],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        name: "receiver",
+        type: "address",
+        internalType: "address",
+      },
+      {
+        name: "sqrtPriceX96",
+        type: "uint160",
+        internalType: "uint160",
+      },
+      {
+        name: "slippageLiquidity",
+        type: "uint24",
+        internalType: "uint24",
+      },
+    ],
+    name: "moduleC_increaseLiquidityWithBalanceAndRefundTo",
+    outputs: [
+      {
+        name: "liquidity",
+        type: "uint128",
+        internalType: "uint128",
+      },
+      {
+        name: "amount0",
+        type: "uint256",
+        internalType: "uint256",
+      },
+      {
+        name: "amount1",
+        type: "uint256",
+        internalType: "uint256",
+      },
+    ],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "bytes[]", name: "data", type: "bytes[]" }
+    ],
+    name: "multicall",
+    outputs: [
+      { internalType: "bytes[]", name: "results", type: "bytes[]" }
     ],
     stateMutability: "payable",
     type: "function",
@@ -256,7 +315,6 @@ const {
   prices,
   dexConfig,
   getTokenBalance,
-  formatTVL,
   currentStrategy,
   account,
   rootAgent,
@@ -272,32 +330,32 @@ const {
 
 const { StakeTokens } = dexConfig;
 
-const actionText = 'Stake';
+const actionText = "Stake";
 
 State.init({
   pending: false,
 
   //#region dex/clm
   currentEthToken: {},
-  ethAmount: '',
+  ethAmount: "",
   ethTokens: [],
   currentEthTokenBalance: 0,
-  usdAmount: '',
+  usdAmount: "",
   usdTokens: [],
   currentUsdToken: {},
   currentUsdTokenBalance: 0,
   //#endregion
 
   //#region Multipliooor
-  stakeAmount: '',
+  stakeAmount: "",
   stakeTokens: [],
   stakeToken: {},
   stakeTokenBalance: 0,
   //#endregion
 
   //#region clm
-  currentEth2UsdPrice: '',
-  currentUsd2EthPrice: '',
+  currentEth2UsdPrice: "",
+  currentUsd2EthPrice: "",
   currentEthPer: 50,
   currentUsdPer: 50,
   //#endregion
@@ -316,25 +374,30 @@ const formatAddAction = (actionText, _amount, status, transactionHash, tokenSymb
     status,
     transactionHash,
   });
-}
+};
+
+const queryUSDBTransform = () => {
+  // query usdb fransform
+  const iface = new ethers.utils.Interface(TRANSFORM_TOKEN_ABI);
+  return iface.encodeFunctionData("transferFrom", [
+    // from
+    account,
+    // to
+    record.agentAddress,
+    // amount
+    ethers.BigNumber.from(Big(state.usdAmount).times(Big(10).pow(state.currentUsdToken.decimals)).toString()),
+  ]);
+};
 
 const handleSubmit = () => {
-  if (record.name === 'Dex Balancer') {
+  if (record.name === "Dex Balancer") {
     if (!state.ethAmount || !state.usdAmount) return;
     State.update({
       pending: true,
     });
 
-    // query usdb fransform
-    const iface = new ethers.utils.Interface(TRANSFORM_TOKEN_ABI);
-    const data = iface.encodeFunctionData("transferFrom", [
-      // from
-      account,
-      // to
-      record.agentAddress,
-      // amount
-      ethers.BigNumber.from(Big(state.usdAmount).times(Big(10).pow(state.currentUsdToken.decimals)).toString())
-    ]);
+    const data = queryUSDBTransform();
+
     // const params = [
     //   {
     //     to: record.agentAddress,
@@ -360,7 +423,7 @@ const handleSubmit = () => {
         record.agentAddress,
         // Big(state.ethAmount).times(Big(10).pow(state.currentEthToken.decimals)).toNumber(),
         parseUnits(state.ethAmount, state.currentEthToken.decimals),
-        '0x',
+        "0x",
         0,
       ],
       [
@@ -372,12 +435,11 @@ const handleSubmit = () => {
       [
         record.agentAddress,
         0,
-        '0x7bb485dc',
+        "0x7bb485dc",
         0,
       ],
     ];
 
-    console.log(params);
     const approveList = [
       handleApprove(rootAgent.agentAddress, state.currentEthToken.address, state.ethAmount, state.currentEthToken.decimals),
       handleApprove(rootAgent.agentAddress, state.currentUsdToken.address, state.usdAmount, state.currentUsdToken.decimals),
@@ -393,14 +455,14 @@ const handleSubmit = () => {
       const contract = new ethers.Contract(
         rootAgent.agentAddress,
         DEPOSIT_POOL_ABI_MULTI,
-        Ethers.provider().getSigner()
+        Ethers.provider().getSigner(),
       );
 
       const getTx = (gas) => {
         const contractOption = {
           gasLimit: gas || 4000000,
           value: parseUnits(state.ethAmount, state.currentEthToken.decimals || 18),
-        }
+        };
         contract.executeBatch(params, contractOption)
           .then((tx) => {
             tx.wait()
@@ -420,7 +482,7 @@ const handleSubmit = () => {
                 });
               })
               .catch((err) => {
-                console.log('tx error: ', err);
+                console.log("tx error: ", err);
                 State.update({
                   pending: false,
                 });
@@ -433,7 +495,7 @@ const handleSubmit = () => {
               });
           })
           .catch((err) => {
-            console.log('contract fn error: ', err);
+            console.log("contract fn error: ", err);
             State.update({
               pending: false,
             });
@@ -449,11 +511,11 @@ const handleSubmit = () => {
       const estimateGas = () => {
         contract.estimateGas.executeBatch(
           params,
-          { value: parseUnits(state.ethAmount, state.currentEthToken.decimals || 18) }
+          { value: parseUnits(state.ethAmount, state.currentEthToken.decimals || 18) },
         ).then((gas) => {
           getTx(gas);
         }).catch((err) => {
-          console.log('get gas failed: ', err);
+          console.log("get gas failed: ", err);
           getTx();
         });
       };
@@ -462,7 +524,7 @@ const handleSubmit = () => {
     });
     return;
   }
-  if (record.name === 'Multipliooor') {
+  if (record.name === "Multipliooor") {
     if (!state.stakeAmount || !rootAgent.agentAddress) return;
     State.update({
       pending: true,
@@ -486,13 +548,13 @@ const handleSubmit = () => {
       [
         rootAgent.agentAddress,
         parseUnits(state.stakeAmount, state.stakeToken.decimals),
-        '0x',
+        "0x",
         0,
       ],
       [
         rootAgent.agentAddress,
         0,
-        '0x7bb485dc',
+        "0x7bb485dc",
         0,
       ],
     ];
@@ -500,14 +562,14 @@ const handleSubmit = () => {
     const contract = new ethers.Contract(
       rootAgent.agentAddress,
       DEPOSIT_POOL_ABI_MULTI,
-      Ethers.provider().getSigner()
+      Ethers.provider().getSigner(),
     );
 
     const getTx = (gas) => {
       const contractOption = {
         gasLimit: gas || 4000000,
         value: parseUnits(state.stakeAmount, state.stakeToken.decimals || 18),
-      }
+      };
       contract.executeBatch(params, contractOption)
         .then((tx) => {
           tx.wait()
@@ -527,7 +589,7 @@ const handleSubmit = () => {
               });
             })
             .catch((err) => {
-              console.log('tx error: ', err);
+              console.log("tx error: ", err);
               State.update({
                 pending: false,
               });
@@ -540,7 +602,7 @@ const handleSubmit = () => {
             });
         })
         .catch((err) => {
-          console.log('contract fn error: ', err);
+          console.log("contract fn error: ", err);
           State.update({
             pending: false,
           });
@@ -556,11 +618,11 @@ const handleSubmit = () => {
     const estimateGas = () => {
       contract.estimateGas.executeBatch(
         params,
-        { value: parseUnits(state.stakeAmount, state.stakeToken.decimals || 18) }
+        { value: parseUnits(state.stakeAmount, state.stakeToken.decimals || 18) },
       ).then((gas) => {
         getTx(gas);
       }).catch((err) => {
-        console.log('get gas failed: ', err);
+        console.log("get gas failed: ", err);
         getTx();
       });
     };
@@ -568,8 +630,104 @@ const handleSubmit = () => {
     estimateGas();
     return;
   }
-  if (record.name === 'Concentrated Liquidity Manager') {
+  if (record.name === "Concentrated Liquidity Manager") {
+    if (!state.ethAmount || !state.usdAmount) return;
+    State.update({
+      pending: true,
+    });
 
+    const data = queryUSDBTransform();
+    queryPoolInfo().then((poolRes) => {
+      if (!poolRes) {
+        State.update({
+          pending: false,
+        });
+        toast?.fail({
+          title: `${actionText} Failed!`,
+          text: 'Query pool information failed!',
+        });
+        return;
+      }
+      const { sqrtPriceX96 } = poolRes;
+
+      const approveList = [
+        handleApprove(rootAgent.agentAddress, state.currentEthToken.address, state.ethAmount, state.currentEthToken.decimals),
+        handleApprove(rootAgent.agentAddress, state.currentUsdToken.address, state.usdAmount, state.currentUsdToken.decimals),
+      ];
+      Promise.all(approveList).then((approveRes) => {
+        if (approveRes.some((approved) => !approved)) {
+          State.update({
+            pending: false,
+          });
+          return;
+        }
+
+        const iface = new ethers.utils.Interface(DEPOSIT_POOL_ABI_MULTI);
+        const multicallParams = [
+          iface.encodeFunctionData(
+            "executeBatch",
+            [
+              [
+                {
+                  to: state.currentUsdToken.address,
+                  value: parseUnits('0', state.currentUsdToken.decimals),
+                  data,
+                  operation: 0
+                }
+              ]
+            ]
+          ),
+          iface.encodeFunctionData(
+            "moduleC_increaseLiquidityWithBalanceAndRefundTo",
+            [
+              account,
+              sqrtPriceX96,
+              1000000,
+            ]
+          )
+        ];
+
+        const multicallContract = new ethers.Contract(
+          record.agentAddress,
+          DEPOSIT_POOL_ABI_MULTI,
+          Ethers.provider().getSigner()
+        );
+
+        const multicallOptions = {
+          gasLimit: 5000000,
+          value: parseUnits(state.ethAmount, state.currentEthToken.decimals || 18),
+        };
+
+        multicallContract
+          .multicall(multicallParams, multicallOptions)
+          .then((res) => {
+            const { transactionHash } = res || {};
+            State.update({
+              pending: false,
+            });
+            onSuccess();
+            formatAddAction(actionText, state.ethAmount, 1, transactionHash, state.currentEthToken.value);
+            toast?.success({
+              title: `${actionText} Successfully!`,
+              text: `${actionText} ${state.ethAmount} ${state.currentEthToken.value}`,
+              tx: transactionHash,
+              chainId,
+            });
+          })
+          .catch((err) => {
+            console.log('Concentrated Liquidity Manager deposit faild, ', err);
+            State.update({
+              pending: false,
+            });
+            toast?.fail({
+              title: `${actionText} Failed!`,
+              text: err?.message?.includes("user rejected transaction")
+                ? "User rejected transaction"
+                : ``,
+            });
+          });
+      });
+    });
   }
 };
 
@@ -580,8 +738,8 @@ const handleUsdAmount = (ev) => {
 
   if (!amount) {
     State.update({
-      ethAmount: '',
-      usdAmount: '',
+      ethAmount: "",
+      usdAmount: "",
     });
     return;
   }
@@ -590,8 +748,12 @@ const handleUsdAmount = (ev) => {
     amount = Big(state.currentUsdTokenBalance || 0).toFixed(4, 0);
   }
   let calcEthAmount = Big(amount).times(prices[state.currentUsdToken.value]).div(prices[state.currentEthToken.value]).toFixed(state.currentEthToken.decimals, 0);
-  if (record.name === 'Concentrated Liquidity Manager') {
-    calcEthAmount = Big(amount).times(prices[state.currentUsdToken.value]).div(Big(state.currentUsdPer).div(100)).times(Big(state.currentEthPer).div(100)).div(prices[state.currentEthToken.value]).toFixed(state.currentEthToken.decimals);
+  if (record.name === "Concentrated Liquidity Manager") {
+    if (Big(state.currentUsdPer).lte(0)) {
+      calcEthAmount = Big(amount).times(prices[state.currentUsdToken.value]).times(Big(state.currentEthPer).div(100)).div(prices[state.currentEthToken.value]).toFixed(state.currentEthToken.decimals);
+    } else {
+      calcEthAmount = Big(amount).times(prices[state.currentUsdToken.value]).div(Big(state.currentUsdPer).div(100)).times(Big(state.currentEthPer).div(100)).div(prices[state.currentEthToken.value]).toFixed(state.currentEthToken.decimals);
+    }
   }
   State.update({
     usdAmount: amount,
@@ -603,17 +765,21 @@ const handleUsdToken = (option) => {
   if (option.value === state.currentUsdToken.value) return;
   State.update({
     currentUsdToken: option,
-    usdAmount: '',
-    ethAmount: '',
+    usdAmount: "",
+    ethAmount: "",
   });
   getTokenBalance(option).then((value) => {
     State.update({
       currentUsdTokenBalance: value,
     });
   });
-  if (record.name === 'Concentrated Liquidity Manager') {
+  if (record.name === "Concentrated Liquidity Manager") {
     // query pool info
-    queryPoolInfo().then((tick) => {
+    queryPoolInfo().then((poolRes) => {
+      if (!poolRes) {
+        return;
+      }
+      const { tick } = poolRes;
       State.update({
         currentEth2UsdPrice: tickToPrice({ tick, token0: state.currentEthToken, token1: option }),
         currentUsd2EthPrice: tickToPrice({ tick, token0: option, token1: state.currentEthToken }),
@@ -627,8 +793,8 @@ const handleUsdBalance = (value) => {
   const updates = {
     usdAmount: Big(value).toFixed(4, 0),
   };
-  updates.ethAmount = Big(updates.usdAmount).times(prices[state.currentUsdToken.value]).div(prices[state.currentEthToken.value]).toFixed(state.currentEthToken.decimals, 0)
-  if (record.name === 'Concentrated Liquidity Manager') {
+  updates.ethAmount = Big(updates.usdAmount).times(prices[state.currentUsdToken.value]).div(prices[state.currentEthToken.value]).toFixed(state.currentEthToken.decimals, 0);
+  if (record.name === "Concentrated Liquidity Manager") {
     updates.ethAmount = Big(updates.usdAmount).times(prices[state.currentUsdToken.value]).div(Big(state.currentUsdPer).div(100)).times(Big(state.currentEthPer).div(100)).div(prices[state.currentEthToken.value]).toFixed(state.currentEthToken.decimals);
   }
   State.update(updates);
@@ -640,8 +806,8 @@ const handleEthAmount = (ev) => {
 
   if (!amount) {
     State.update({
-      ethAmount: '',
-      usdAmount: '',
+      ethAmount: "",
+      usdAmount: "",
     });
     return;
   }
@@ -650,8 +816,12 @@ const handleEthAmount = (ev) => {
     amount = Big(state.currentEthTokenBalance || 0).toFixed(4, 0);
   }
   let calcUsdAmount = Big(amount).times(prices[state.currentEthToken.value]).div(prices[state.currentUsdToken.value]).toFixed(state.currentUsdToken.decimals, 0);
-  if (record.name === 'Concentrated Liquidity Manager') {
-    calcUsdAmount = Big(amount).times(prices[state.currentEthToken.value]).div(Big(state.currentEthPer).div(100)).times(Big(state.currentUsdPer).div(100)).div(prices[state.currentUsdToken.value]).toFixed(state.currentUsdToken.decimals);
+  if (record.name === "Concentrated Liquidity Manager") {
+    if (Big(state.currentEthPer).lte(0)) {
+      calcUsdAmount = Big(amount).times(prices[state.currentEthToken.value]).times(Big(state.currentUsdPer).div(100)).div(prices[state.currentUsdToken.value]).toFixed(state.currentUsdToken.decimals);
+    } else {
+      calcUsdAmount = Big(amount).times(prices[state.currentEthToken.value]).div(Big(state.currentEthPer).div(100)).times(Big(state.currentUsdPer).div(100)).div(prices[state.currentUsdToken.value]).toFixed(state.currentUsdToken.decimals);
+    }
   }
   State.update({
     ethAmount: amount,
@@ -663,16 +833,20 @@ const handleEthToken = (option) => {
   if (option.value === state.currentEthToken.value) return;
   State.update({
     currentEthToken: option,
-    ethAmount: '',
+    ethAmount: "",
   });
   getTokenBalance(option).then((value) => {
     State.update({
       currentEthTokenBalance: value,
     });
   });
-  if (record.name === 'Concentrated Liquidity Manager') {
+  if (record.name === "Concentrated Liquidity Manager") {
     // query pool info
-    queryPoolInfo().then((tick) => {
+    queryPoolInfo().then((poolRes) => {
+      if (!poolRes) {
+        return;
+      }
+      const { tick } = poolRes;
       State.update({
         currentEth2UsdPrice: tickToPrice({ tick, token0: option, token1: state.currentUsdToken }),
         currentUsd2EthPrice: tickToPrice({ tick, token0: state.currentUsdToken, token1: option }),
@@ -686,8 +860,8 @@ const handleEthBalance = (value) => {
   const updates = {
     ethAmount: Big(value).toFixed(4, 0),
   };
-  updates.usdAmount = Big(updates.ethAmount).times(prices[state.currentEthToken.value]).div(prices[state.currentUsdToken.value]).toFixed(state.currentUsdToken.decimals, 0)
-  if (record.name === 'Concentrated Liquidity Manager') {
+  updates.usdAmount = Big(updates.ethAmount).times(prices[state.currentEthToken.value]).div(prices[state.currentUsdToken.value]).toFixed(state.currentUsdToken.decimals, 0);
+  if (record.name === "Concentrated Liquidity Manager") {
     updates.usdAmount = Big(updates.ethAmount).times(prices[state.currentEthToken.value]).div(Big(state.currentEthPer).div(100)).times(Big(state.currentUsdPer).div(100)).div(prices[state.currentUsdToken.value]).toFixed(state.currentUsdToken.decimals);
   }
   State.update(updates);
@@ -711,7 +885,7 @@ const handleToken = (option) => {
   if (option.value === state.stakeToken.value) return;
   State.update({
     stakeToken: option,
-    stakeAmount: '',
+    stakeAmount: "",
   });
   const currToken = StakeTokens.find((it) => it.symbol === option.value);
   currToken && getTokenBalance(currToken).then((value) => {
@@ -730,18 +904,18 @@ const handleBalance = (value) => {
 
 useEffect(() => {
   //#region dex/clm
-  if (['Dex Balancer', 'Concentrated Liquidity Manager'].includes(record.name)) {
+  if (["Dex Balancer", "Concentrated Liquidity Manager"].includes(record.name)) {
     const _ethTokens = [];
     const _usdTokens = [];
-    const EthStakeTokens = StakeTokens.filter((it) => ['ETH', 'WETH'].includes(it.symbol));
-    const UsdStakeTokens = StakeTokens.filter((it) => ['USDB'].includes(it.symbol));
+    const EthStakeTokens = StakeTokens.filter((it) => ["ETH", "WETH"].includes(it.symbol));
+    const UsdStakeTokens = StakeTokens.filter((it) => ["USDB"].includes(it.symbol));
     EthStakeTokens.forEach((it) => {
       _ethTokens.push({
         ...it,
         text: it.symbol,
         value: it.symbol,
         icons: [it.icon],
-        address: it.address === 'native' ? '0x0000000000000000000000000000000000000000' : it.address,
+        address: it.address === "native" ? "0x0000000000000000000000000000000000000000" : it.address,
       });
     });
     UsdStakeTokens.forEach((it) => {
@@ -769,7 +943,11 @@ useEffect(() => {
       });
     });
     // query pool info
-    queryPoolInfo().then((tick) => {
+    queryPoolInfo().then((poolRes) => {
+      if (!poolRes) {
+        return;
+      }
+      const { tick } = poolRes;
       State.update({
         currentEth2UsdPrice: tickToPrice({ tick, token0: _ethTokens[0], token1: _usdTokens[0] }),
         currentUsd2EthPrice: tickToPrice({ tick, token0: _usdTokens[0], token1: _ethTokens[0] }),
@@ -779,15 +957,15 @@ useEffect(() => {
   //#endregion
 
   //#region Multipliooor
-  if (record.name === 'Multipliooor') {
+  if (record.name === "Multipliooor") {
     const _stakeTokens = [];
-    const eth = StakeTokens.find((it) => it.symbol === 'ETH');
+    const eth = StakeTokens.find((it) => it.symbol === "ETH");
     eth && _stakeTokens.push({
       ...eth,
       text: eth.symbol,
       value: eth.symbol,
       icons: [eth.icon],
-      address: '0x0000000000000000000000000000000000000000',
+      address: "0x0000000000000000000000000000000000000000",
     });
     State.update({
       stakeMode: currentStrategy.meta.modeList[0],
@@ -805,10 +983,10 @@ useEffect(() => {
 
 useEffect(() => {
   //#region 'Concentrated Liquidity Manager'
-  if (record.name === 'Concentrated Liquidity Manager') {
+  if (record.name === "Concentrated Liquidity Manager") {
     try {
-      const weth = balanceList.find((it) => ['WETH', 'ETH'].includes(it.symbol));
-      const usdb = balanceList.find((it) => it.symbol === 'USDB');
+      const weth = balanceList.find((it) => ["WETH", "ETH"].includes(it.symbol));
+      const usdb = balanceList.find((it) => it.symbol === "USDB");
       const wethVal = Big(weth.balance).times(prices[weth.symbol]);
       const usdbVal = Big(usdb.balance).times(prices[usdb.symbol]);
       const total = wethVal.plus(usdbVal);
@@ -819,8 +997,8 @@ useEffect(() => {
         });
         return;
       }
-      const wethPer = wethVal.div(total).times(100).toFixed(0);
-      const usdbPer = usdbVal.div(total).times(100).toFixed(0);
+      const wethPer = wethVal.div(total).times(100).toString();
+      const usdbPer = usdbVal.div(total).times(100).toString();
       State.update({
         currentEthPer: wethPer,
         currentUsdPer: usdbPer,
@@ -867,13 +1045,13 @@ const renderButton = (disabled) => {
             size: 16,
           }}
         />
-      ) : 'DEPOSIT MORE ETH'}
+      ) : "DEPOSIT MORE ETH"}
     </StyledButton>
   );
 };
 
 const renderDeposit = () => {
-  if (record.name === 'Multipliooor') {
+  if (record.name === "Multipliooor") {
     return (
       <>
         <StyledContent>
@@ -923,15 +1101,16 @@ const renderDeposit = () => {
       </>
     );
   }
-  if (record.name === 'Dex Balancer' || record.name === 'Concentrated Liquidity Manager') {
+  if (record.name === "Dex Balancer" || record.name === "Concentrated Liquidity Manager") {
     return (
       <>
         <StyledContent>
           {
-            record.name === 'Concentrated Liquidity Manager' ? (
+            record.name === "Concentrated Liquidity Manager" ? (
               <>
                 <StyledTips>
-                  Due to price movement, your LP position is {state.currentEthPer}% : {state.currentUsdPer}%, WETH : USDB.
+                  Due to price movement, your LP position is {Big(state.currentEthPer).toFixed(0)}% : {Big(state.currentUsdPer).toFixed(0)}%, WETH :
+                  USDB.
                 </StyledTips>
                 <StyledTips>
                   Deposit more below at the same ratio.
@@ -1012,7 +1191,7 @@ const renderDeposit = () => {
             </StyledFormItemFoot>
           </StyledFormItem>
         </StyledContent>
-        {renderButton(!ethAmount)}
+        {renderButton(!ethAmount && !usdAmount)}
       </>
     );
   }
