@@ -17,12 +17,15 @@ const Actions = ({ actions, open, receipt, setOpen }) => {
   let { gasLimit, refund, shortenString } = VM.require(
     `nearblocksonbos.near/widget/lite.libs.utils`
   );
-  yoctoToNear = yoctoToNear || (() => <></>);
-  yoctoToTgas = yoctoToTgas || (() => <></>);
-  formatNumber = formatNumber || (() => <></>);
-  gasLimit = gasLimit || (() => <></>);
-  refund = refund || (() => <></>);
-  shortenString = shortenString || (() => <></>);
+  if (
+    !yoctoToNear ||
+    !yoctoToTgas ||
+    !formatNumber ||
+    !gasLimit ||
+    !refund ||
+    !shortenString
+  )
+    return null;
   const [active, setActive] = useState("output");
   const result = useMemo(() => {
     let logs = "No logs";
