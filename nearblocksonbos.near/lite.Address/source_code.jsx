@@ -9,9 +9,8 @@ const Address = ({ id, rpcUrl }) => {
   let { formatNumber, formatSize } = VM.require(
     `nearblocksonbos.near/widget/lite.libs.formatter`
   );
-  yoctoToNear = yoctoToNear || (() => <></>);
-  formatNumber = formatNumber || (() => <></>);
-  formatSize = formatSize || (() => <></>);
+  if (!apiFetch || !rpcFetch || !yoctoToNear || !formatNumber || !formatSize)
+    return null;
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState({
     address: true,
