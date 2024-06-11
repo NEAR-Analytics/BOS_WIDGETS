@@ -66,7 +66,8 @@ const actions = [
     description:
       "We are always on the lookout for events that align with our mission and provide value to the NEAR ecosystem. If you are organizing such an event, we would love to hear from you! Below is a guide on how to submit a sponsorship proposal to us.",
     ctaAction: "Learn More →",
-    ctaLink: "/devhub.near/widget/app?page=community&handle=hacks&tab=wiki-202",
+    ctaLink:
+      "/devhub.near/widget/app?page=community&handle=hacks&tab=wiki-202",
   },
   {
     title: "Improve NEAR Docs",
