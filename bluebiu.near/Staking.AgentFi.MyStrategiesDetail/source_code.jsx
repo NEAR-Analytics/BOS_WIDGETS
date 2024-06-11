@@ -401,7 +401,7 @@ const queryPoolInfo = () => {
     const params = [];
     contract.slot0(...params).then((poolAddress) => {
       const [sqrtPriceX96, tick] = poolAddress;
-      resolve(tick);
+      resolve({ sqrtPriceX96: ethers.BigNumber.from(sqrtPriceX96).toString(), tick });
     }).catch((err) => {
       console.log('queryPoolInfo failed, ', err);
       resolve(false);
@@ -613,10 +613,11 @@ useEffect(() => {
   });
 
   if (record.name === 'Concentrated Liquidity Manager') {
-    queryPoolInfo().then((tick) => {
-      if (!tick) {
+    queryPoolInfo().then((poolRes) => {
+      if (!poolRes) {
         return;
       }
+      const { tick } = poolRes;
       const currentBalancesList = record.balances || [];
       const currentBalance = currentBalancesList.find((it) => /^BlasterSwap Positions NFT/.test(it.name));
       if (
