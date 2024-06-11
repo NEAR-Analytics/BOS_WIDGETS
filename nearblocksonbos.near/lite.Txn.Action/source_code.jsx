@@ -45,21 +45,16 @@ const prettify = (args) => {
   }
 };
 const Action = ({ action, open, setOpen }) => {
-  let { yoctoToNear, yoctoToTgas } = VM.require(
+  let { yoctoToNear } = VM.require(
     `nearblocksonbos.near/widget/lite.libs.convertor`
   );
   let { formatNumber } = VM.require(
     `nearblocksonbos.near/widget/lite.libs.formatter`
   );
-  let { gasLimit, refund, shortenString } = VM.require(
+  let { shortenString } = VM.require(
     `nearblocksonbos.near/widget/lite.libs.utils`
   );
-  yoctoToNear = yoctoToNear || (() => <></>);
-  yoctoToTgas = yoctoToTgas || (() => <></>);
-  formatNumber = formatNumber || (() => <></>);
-  gasLimit = gasLimit || (() => <></>);
-  refund = refund || (() => <></>);
-  shortenString = shortenString || (() => <></>);
+  if (!yoctoToNear || !formatNumber || !shortenString) return null;
   const method =
     action.kind === "functionCall"
       ? action.args.methodName
