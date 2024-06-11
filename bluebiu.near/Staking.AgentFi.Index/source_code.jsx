@@ -352,7 +352,8 @@ const getTVLData = () => {
       return;
     }
     State.update({
-      tvl: res.body.tvl,
+      // not this one, see getAppInformation fn
+      // tvl: res.body.tvl,
       multiplier: res.body.multiplier,
       numKnownMissions: res.body.numKnownMissions,
     });
@@ -371,7 +372,6 @@ const getDexBalancerData = () => {
     State.update({
       dexAPR: Big(net || 0).toFixed(1),
     });
-    console.log(res);
   }).catch((err) => {
     console.log(err);
   });
@@ -545,6 +545,21 @@ const handleApprove = (spender, tokenAddress, tokenAmount, tokenDecimals) => {
   });
 };
 
+const getAppInformation = () => {
+  const url = `https://api.llama.fi/protocol/agentfi`;
+  asyncFetch(url).then((res) => {
+    if (!res.ok || !res.body || !res.body.tvl || !res.body.tvl.length) {
+      return;
+    }
+    const tvlList = res.body.tvl.sort((a, b) => b.date - a.date);
+    State.update({
+      tvl: tvlList[0]?.totalLiquidityUSD,
+    });
+  }).catch((err) => {
+    console.log(err);
+  });
+};
+
 const {
   currentTabIdx,
   currentStrategy,
@@ -568,6 +583,7 @@ useEffect(() => {
 }, [chainIdNotSupport]);
 
 useEffect(() => {
+  getAppInformation();
   getTVLData();
   getDexBalancerData();
 }, []);
