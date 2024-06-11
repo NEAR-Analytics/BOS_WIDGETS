@@ -36,6 +36,7 @@ const SectionContent = styled.div`
     padding-block: 6rem;
     display: grid;
     grid-template-columns: repeat(1, minmax(0, 1fr));
+    background-color: rgba(0, 0, 0, 0.25);
 
     @media (min-width: ${bp.md}) {
       padding-inline: 3rem;
