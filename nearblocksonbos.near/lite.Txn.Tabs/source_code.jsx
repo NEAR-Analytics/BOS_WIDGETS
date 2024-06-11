@@ -7,6 +7,7 @@ const Tabs = ({ hash, rpcUrl }) => {
   let { nestReceipts, parseOutcome, parseReceipt } = VM.require(
     `nearblocksonbos.near/widget/lite.libs.execution`
   );
+  if (!rpcFetch || !nestReceipts || !parseOutcome || !parseReceipt) return null;
   const [active, setActive] = useState(tabs[0]);
   const [data, setData] = useState({});
   const [error, setError] = useState({});
