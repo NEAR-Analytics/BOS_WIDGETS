@@ -660,7 +660,7 @@ function getConfig(network) {
       return {
         ownerId: "inscribe.near",
         graphUrl:
-          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat",
+          "https://gateway-arbitrum.network.thegraph.com/api/98b4f8ff96be187a889dddcac0e3ef13/subgraphs/id/47RQk8YD4XqgczsgNYSNaWVQLNNwt49DuAuMAxCiLXJZ",
         nodeUrl: "https://rpc.mainnet.near.org",
         contractName: "inscription.near",
         methodName: "inscribe",
@@ -692,7 +692,7 @@ function getConfig(network) {
       return {
         ownerId: "inscribe.testnet",
         graphUrl:
-          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat-test",
+          "https://api.studio.thegraph.com/query/76896/neat-test/version/latest",
         nodeUrl: "https://rpc.testnet.near.org",
         contractName: "inscription.testnet",
         methodName: "inscribe",
