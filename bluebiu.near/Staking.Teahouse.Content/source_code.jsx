@@ -156,7 +156,7 @@ const columnList = [
   {
     width: "15%",
     key: "strategy",
-    label: "Strategy",
+    label: "AMM",
     type: "slot",
     render: (data) => {
       return <StrategyTxt>{data.strategy}</StrategyTxt>;
