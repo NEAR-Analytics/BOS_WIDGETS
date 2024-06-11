@@ -475,11 +475,11 @@ return (
     <StyledList>
       <StyledListItem>
         <span className="label">Supply</span>
-        <span className="value">0 ETH</span>
+        <span className="value">{Big(stakeAmount || 0).times(2).toString()} ETH</span>
       </StyledListItem>
       <StyledListItem>
         <span className="label">Borrow</span>
-        <span className="value">0 ETH</span>
+        <span className="value">{Big(stakeAmount || 0).toString()} ETH</span>
       </StyledListItem>
       <StyledListItem>
         <span className="label">Leverage</span>
