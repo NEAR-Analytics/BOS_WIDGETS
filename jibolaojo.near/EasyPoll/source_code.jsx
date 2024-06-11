@@ -329,7 +329,7 @@ return (
             />
           ) : page === "VIEW_POLL" ? (
             <Widget
-              src={`${widgetOwner}/widget/EasyPoll.ViewPoll`}
+              src={`${customWidgetOwner}/widget/EasyPoll.ViewPoll`}
               props={{
                 shouldDisplayViewAll: false,
                 tabs,
