@@ -12,11 +12,15 @@ const Block = ({ hash, rpcUrl }) => {
   let { shortenString } = VM.require(
     `nearblocksonbos.near/widget/lite.libs.utils`
   );
-  nsToDateTime = nsToDateTime || (() => <></>);
-  yoctoToNear = yoctoToNear || (() => <></>);
-  yoctoToTgas = yoctoToTgas || (() => <></>);
-  formatNumber = formatNumber || (() => <></>);
-  shortenString = shortenString || (() => <></>);
+  if (
+    !rpcFetch ||
+    !nsToDateTime ||
+    !yoctoToNear ||
+    !yoctoToTgas ||
+    !formatNumber ||
+    !shortenString
+  )
+    return null;
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [block, setBlock] = useState(null);
