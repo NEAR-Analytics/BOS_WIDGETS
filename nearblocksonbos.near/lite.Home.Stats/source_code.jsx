@@ -9,9 +9,7 @@ const Stats = () => {
   let { yoctoToTgas } = VM.require(
     `nearblocksonbos.near/widget/lite.libs.convertor`
   );
-  formatNumber = formatNumber || (() => <></>);
-  formatScale = formatScale || (() => <></>);
-  yoctoToTgas = yoctoToTgas || (() => <></>);
+  if (!apiFetch || !formatNumber || !formatScale || !yoctoToTgas) return null;
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState(null);
   useEffect(() => {
