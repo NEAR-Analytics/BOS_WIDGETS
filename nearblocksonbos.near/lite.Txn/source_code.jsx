@@ -6,19 +6,22 @@ const Txn = ({ hash, rpcUrl }) => {
   let { nsToDateTime, yoctoToNear } = VM.require(
     `nearblocksonbos.near/widget/lite.libs.convertor`
   );
-  let { formatNumber, formatSize } = VM.require(
+  let { formatNumber } = VM.require(
     `nearblocksonbos.near/widget/lite.libs.formatter`
   );
   let { depositAmount, shortenString, txnFee } = VM.require(
     `nearblocksonbos.near/widget/lite.libs.utils`
   );
-  nsToDateTime = nsToDateTime || (() => <></>);
-  yoctoToNear = yoctoToNear || (() => <></>);
-  formatNumber = formatNumber || (() => <></>);
-  formatSize = formatSize || (() => <></>);
-  depositAmount = depositAmount || (() => <></>);
-  shortenString = shortenString || (() => <></>);
-  txnFee = txnFee || (() => <></>);
+  if (
+    !rpcFetch ||
+    !nsToDateTime ||
+    !yoctoToNear ||
+    !formatNumber ||
+    !depositAmount ||
+    !shortenString ||
+    !txnFee
+  )
+    return null;
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState({
     block: true,
