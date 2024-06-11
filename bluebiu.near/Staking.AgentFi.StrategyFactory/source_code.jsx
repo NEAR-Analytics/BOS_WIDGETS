@@ -173,6 +173,7 @@ const {
   totalMissions,
   multiplier,
   rootAgent,
+  dexAPR,
 } = props;
 
 const {
@@ -215,7 +216,7 @@ return (
                       // DEX Balancer
                       strategy.ID === "1" && (
                         <div className="stratefy-addon">
-                          {strategy.meta.APR} APR
+                          {dexAPR}% APR
                         </div>
                       )
                     }
