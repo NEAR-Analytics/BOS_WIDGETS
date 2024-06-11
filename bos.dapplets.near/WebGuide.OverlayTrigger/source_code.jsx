@@ -1,5 +1,5 @@
 const CustomTooltipDefault = styled("DappletTooltip")`
-  z-index: 9999999; // over the notch
+  z-index: 99999999; // over the notch
 
   &[data-popper-reference-hidden="true"] {
     visibility: hidden;
@@ -46,7 +46,7 @@ const CustomTooltipDefault = styled("DappletTooltip")`
 `
 
 const CustomTooltipMeta = styled("DappletTooltip")`
-  z-index: 9999999; // over the notch
+  z-index: 99999999; // over the notch
 
   &[data-popper-reference-hidden="true"] {
     visibility: hidden;
