@@ -1,10 +1,6 @@
 const NAMESPACE = 'bos.dapplets.near/parser/twitter'
 const CONTEXT_TYPE = 'post'
 
-// const NAMESPACE = 'mweb'
-// const CONTEXT_TYPE = 'injected-widget'
-// const CONTEXT_TYPE_2 = "ear-trigger"
-
 const SKIN = 'DEFAULT'
 
 const [isRunnigApp, toggleIsRunningApp] = useState(false)
@@ -19,7 +15,7 @@ useEffect(() => {
   if (!isRunnigApp) return;
   props.pickContext({ 
     namespace: NAMESPACE,
-    contextType: CONTEXT_TYPE, // [CONTEXT_TYPE, CONTEXT_TYPE_2],
+    contextType: CONTEXT_TYPE,
     if: {}
   })
     .then((newContext) => setContext(newContext))
@@ -38,10 +34,10 @@ ${JSON.stringify(context.parsed, null, 2)}
 \`\`\`
 `,
     skin: SKIN,
-    // children: ({ ref }) => {
-    //   props.attachInsPointRef(ref);
-    //   return props.children;
-    // }
+    children: ({ ref }) => {
+      props.attachInsPointRef(ref);
+      return props.children;
+    }
     // children: ({ ref }) => {
     //   props.attachContexttRef(ref);
     //   return props.children;
@@ -112,9 +108,11 @@ return (
         target={{
           namespace: NAMESPACE,
           contextType: CONTEXT_TYPE,
-          injectTo: 'avatar',
           if: { id: { eq: context?.id } },
+          injectTo: 'avatar',
           arrowTo: "insPoint",
+          // injectTo: CONTEXT_TYPE,
+          // arrowTo: 'context',
         }}
         component={ChapterWrapper}
       />
