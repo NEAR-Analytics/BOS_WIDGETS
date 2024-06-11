@@ -258,6 +258,8 @@ State.init({
   multiplier: 0,
   numKnownMissions: 0,
   totalMissions: 12,
+  // dex apr
+  dexAPR: '',
 
   //#region user
   listData: [],
@@ -359,6 +361,22 @@ const getTVLData = () => {
   });
 };
 
+const getDexBalancerData = () => {
+  const url = `https://api.agentfi.io/strategy/dex-balancer`;
+  asyncFetch(url).then((res) => {
+    if (!res.ok || !res.body || !res.body.data || !res.body.data.apr) {
+      return;
+    }
+    const { net } = res.body.data.apr;
+    State.update({
+      dexAPR: Big(net || 0).toFixed(1),
+    });
+    console.log(res);
+  }).catch((err) => {
+    console.log(err);
+  });
+};
+
 const formatTVL = (record) => {
   if (!record.balances || !record.balances.length) {
     return { value: '$0.00', list: [], usd: Big(0) };
@@ -427,15 +445,17 @@ const getListData = () => {
     }
     const ls = res.body.data || [];
     const _listData = [];
+    let totalDeposited = Big(0);
     let _rootAgent = [];
     for (const it of ls) {
       if (it.agentType === 'ROOT') {
         _rootAgent = it;
+        const { usd } = formatTVL(it);
+        totalDeposited = totalDeposited.plus(usd);
         continue;
       }
       _listData.push(it);
     }
-    let totalDeposited = Big(0);
     _listData.forEach((record) => {
       const { usd } = formatTVL(record);
       totalDeposited = totalDeposited.plus(usd);
@@ -538,6 +558,7 @@ const {
   listData,
   rootAgent,
   totalDeposited,
+  dexAPR,
 } = state;
 
 useEffect(() => {
@@ -548,6 +569,7 @@ useEffect(() => {
 
 useEffect(() => {
   getTVLData();
+  getDexBalancerData();
 }, []);
 
 useEffect(() => {
@@ -620,6 +642,7 @@ return (
                     tickToPrice,
                     priceToUsableTick,
                     QUERY_POOL_ABI,
+                    dexAPR,
                     onSuccess: () => {
                       State.update({
                         loading: true,
