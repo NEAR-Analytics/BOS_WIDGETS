@@ -98,7 +98,7 @@ return (
           >
             <Widget
               src={widget.src}
-              props={{ ...widget.props, pickContext: props.pickContext }}
+              props={{ ...widget.props, pickContext: props.pickContext, pickContexts: props.pickContexts }}
               loading={<></>}
             />
             <div
