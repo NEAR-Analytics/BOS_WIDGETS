@@ -317,6 +317,100 @@ useEffect(() => {
         console.log("getMinted_err", err);
       });
   }
+  function getTotalColl() {
+    const underlyingTokens = Object.values(markets);
+
+    const calls = underlyingTokens.map((item) => ({
+      address: dexConfig.VesselManager,
+      name: "getEntireSystemColl",
+      params: [item.underlyingToken.address],
+    }));
+
+    multicall({
+      abi: [
+        {
+          inputs: [
+            { internalType: "address", name: "_asset", type: "address" },
+          ],
+          name: "getEntireSystemColl",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "entireSystemColl",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+      ],
+      calls,
+      options: {},
+      multicallAddress,
+      provider: Ethers.provider(),
+    })
+      .then((res) => {
+        console.log("getTotalColl_res", res);
+        for (let i = 0, len = res.length; i < len; i++) {
+          markets[underlyingTokens[i].underlyingToken.address][
+            "poolTotalColl"
+          ] = res[i][0] ? ethers.utils.formatUnits(res[i][0]) : "0";
+        }
+        onLoad({
+          newMarkets: markets,
+        });
+      })
+      .catch((err) => {
+        console.log("getTotalColl_err", err);
+      });
+  }
+  function getTotalDebt() {
+    const underlyingTokens = Object.values(markets);
+
+    const calls = underlyingTokens.map((item) => ({
+      address: dexConfig.VesselManager,
+      name: "getEntireSystemDebt",
+      params: [item.underlyingToken.address],
+    }));
+
+    multicall({
+      abi: [
+        {
+          inputs: [
+            { internalType: "address", name: "_asset", type: "address" },
+          ],
+          name: "getEntireSystemDebt",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "entireSystemDebt",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+      ],
+      calls,
+      options: {},
+      multicallAddress,
+      provider: Ethers.provider(),
+    })
+      .then((res) => {
+        console.log("getTotalDebt_res", res);
+        for (let i = 0, len = res.length; i < len; i++) {
+          markets[underlyingTokens[i].underlyingToken.address][
+            "poolTotalDebt"
+          ] = res[i][0] ? ethers.utils.formatUnits(res[i][0]) : "0";
+        }
+        onLoad({
+          newMarkets: markets,
+        });
+      })
+      .catch((err) => {
+        console.log("getTotalDebt_err", err);
+      });
+  }
 
   getStableDeposit();
   getMarketDeposit();
@@ -324,4 +418,6 @@ useEffect(() => {
   getDebt();
   getWalletBalance();
   getMinted();
+  getTotalColl();
+  getTotalDebt();
 }, [account, update]);
