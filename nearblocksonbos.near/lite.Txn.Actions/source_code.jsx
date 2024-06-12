@@ -1,4 +1,4 @@
-let Skeleton = window?.Skeleton || (({ children }) => <>{children}</>);
+let TxnActionSkeleton = window?.TxnActionSkeleton || (() => <></>);
 let JsonView = window?.JsonView || (({ children }) => <pre>{children}</pre>);
 const prettify = (args) => {
   try {
@@ -25,7 +25,7 @@ const Actions = ({ actions, open, receipt, setOpen }) => {
     !refund ||
     !shortenString
   )
-    return null;
+    return <TxnActionSkeleton />;
   const [active, setActive] = useState("output");
   const result = useMemo(() => {
     let logs = "No logs";
@@ -51,13 +51,7 @@ const Actions = ({ actions, open, receipt, setOpen }) => {
         {actions.map((action, index) => (
           <Widget
             key={`action-${index}`}
-            loading={
-              <Skeleton className="block h-7 w-28" loading>
-                <button className="text-sm text-black rounded py-1 px-3 bg-bg-function">
-                  &nbsp;
-                </button>
-              </Skeleton>
-            }
+            loading={<TxnActionSkeleton />}
             props={{ action, open, setOpen }}
             src={`nearblocksonbos.near/widget/lite.Txn.Action`}
           />
