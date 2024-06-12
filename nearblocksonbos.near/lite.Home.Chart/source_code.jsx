@@ -1,3 +1,4 @@
+let HomeChartSkeleton = window?.HomeChartSkeleton || (() => <></>);
 const Chart = () => {
   let { apiFetch } = VM.require(
     `nearblocksonbos.near/widget/lite.libs.fetcher`
@@ -5,7 +6,7 @@ const Chart = () => {
   let { formatNumber } = VM.require(
     `nearblocksonbos.near/widget/lite.libs.formatter`
   );
-  if (!apiFetch || !formatNumber) return null;
+  if (!apiFetch || !formatNumber) return <HomeChartSkeleton />;
   const [charts, setCharts] = useState(null);
   useEffect(() => {
     if (apiFetch) {
