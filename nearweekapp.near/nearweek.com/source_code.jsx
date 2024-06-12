@@ -383,11 +383,36 @@ const TrustedLink = styled.a`
   }
 `;
 
+const RequestServicesButton = styled.a`
+    display: none;
+  @media screen and (max-width: ${breakpoints.md}) {
+    display: block;
+    text-align: center;
+    width: 196px;
+    height: 39px;
+    margin: 0 auto;
+    background: rgb(66, 0, 255);
+    color: rgb(255, 255, 255);
+    border-radius: 12px;
+    margin-top: 24px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    padding: 9px 24px;
+    font-style: italic;
+    
+  &:hover {
+    text-decoration: none;
+  }
+  }
+`;
+
 return (
   <Theme>
     {/*main section*/}
     <Widget src={`${rootUser}/widget/nw-navbar`} />
     <TopHeader />
+    <RequestServicesButton href="#">REQUEST SERVICES</RequestServicesButton>
     <Header />
     <Trusted>
       <TrustedTitle>Trusted By</TrustedTitle>
