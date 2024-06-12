@@ -50,12 +50,9 @@ function Articles() {
     );
   };
 
-  const fetchMedium = fetch(
-    "https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/nearprotocol/tagged/near-protocol",
-    {
-      method: "GET",
-    }
-  );
+  const fetchMedium = fetch("https://nearweek.com/api/nw-newswire", {
+    method: "GET",
+  });
 
   if (fetchMedium && fetchMedium?.body?.items?.length > 0) {
     fetchMedium.body.items.forEach((item) => {
