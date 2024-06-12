@@ -251,7 +251,7 @@ const PriceContainer = styled.div`
 
 const TopHeader = styled.div`
   @media screen and (max-width: ${breakpoints.md}) {
-    background-image: url("${mobCoverImgSrc}"); 
+    background-image: url("${mobTopImgSrc}"); 
     background-repeat: no-repeat;
     background-color: transparent;
     background-size: 100% 100%;
