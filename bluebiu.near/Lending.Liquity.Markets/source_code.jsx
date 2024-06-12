@@ -40,6 +40,8 @@ const {
   IS_PREON_DAPP,
   totalDebt,
   totalCollateral,
+  marketTotalCollateral,
+  marketTotalDebt,
 } = props;
 const data = Object.values(dexConfig.markets || {});
 console.log("LiquityMarkets:", props);
@@ -108,6 +110,35 @@ const COLUMNS = [
 return (
   <StyledContainer>
     <Summary>
+      {IS_LYVE_DAPP && (
+        <>
+          <div className="item">
+            <div className="key">Total Collateral</div>
+            <div className="value">
+              $
+              <Widget
+                src="bluebiu.near/widget/Utils.FormatNumber"
+                props={{
+                  number: marketTotalCollateral,
+                }}
+              />
+            </div>
+          </div>
+          <div className="item">
+            <div className="key">Total Debt</div>
+            <div className="value">
+              <Widget
+                src="bluebiu.near/widget/Utils.FormatNumber"
+                props={{
+                  number: marketTotalDebt,
+                }}
+              />
+              {dexConfig?.BORROW_TOKEN}
+            </div>
+          </div>
+        </>
+      )}
+
       <div className="item">
         <div className="key">Your Collateral</div>
         <div className="value">${totalCollateral}</div>
