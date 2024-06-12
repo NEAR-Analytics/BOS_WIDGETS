@@ -1,3 +1,5 @@
+let ErrorSkeleton = window?.ErrorSkeleton || (() => <></>);
+let BlockSkeleton = window?.BlockSkeleton || (() => <></>);
 let Skeleton = window?.Skeleton || (({ children }) => <>{children}</>);
 const Block = ({ hash, rpcUrl }) => {
   let { rpcFetch } = VM.require(
@@ -20,7 +22,7 @@ const Block = ({ hash, rpcUrl }) => {
     !formatNumber ||
     !shortenString
   )
-    return null;
+    return <BlockSkeleton />;
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [block, setBlock] = useState(null);
@@ -49,6 +51,7 @@ const Block = ({ hash, rpcUrl }) => {
     return (
       <Widget
         key="error"
+        loading={<ErrorSkeleton />}
         props={{ title: "Error Fetching Block" }}
         src={`nearblocksonbos.near/widget/lite.Atoms.Error`}
       />
@@ -57,8 +60,8 @@ const Block = ({ hash, rpcUrl }) => {
   return (
     <div className="relative container mx-auto">
       <div className="pt-7 pb-[26px] px-5">
-        <Skeleton className="block h-[54px] w-56" loading={loading}>
-          <h1 className="flex items-center font-heading font-medium text-[36px] tracking-[0.1px] mr-4">
+        <Skeleton className="block h-[48px] lg:h-[54px] w-56" loading={loading}>
+          <h1 className="flex items-center font-heading font-medium text-[32px] lg:text-[36px] tracking-[0.1px] mr-4">
             {formatNumber(String(block?.header.height ?? 0), 2)}
             <Widget
               key="copy"
