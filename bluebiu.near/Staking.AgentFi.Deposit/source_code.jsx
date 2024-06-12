@@ -325,6 +325,7 @@ const {
   handleApprove,
   balanceList,
   queryPoolInfo,
+  strategies,
 } = props;
 
 const { StakeTokens } = dexConfig;
@@ -388,7 +389,7 @@ const queryUSDBTransform = () => {
 };
 
 const handleSubmit = () => {
-  if (record.name === "Dex Balancer") {
+  if (record.name.toLowerCase() === strategies[2].name) {
     if (!state.ethAmount || !state.usdAmount) return;
     State.update({
       pending: true,
@@ -522,7 +523,7 @@ const handleSubmit = () => {
     });
     return;
   }
-  if (record.name === "Multipliooor") {
+  if (record.name.toLowerCase() === strategies[3].name) {
     if (!state.stakeAmount || !rootAgent.agentAddress) return;
     State.update({
       pending: true,
@@ -544,13 +545,13 @@ const handleSubmit = () => {
     // ];
     const params = [
       [
-        rootAgent.agentAddress,
+        record.agentAddress,
         parseUnits(state.stakeAmount, state.stakeToken.decimals),
         "0x",
         0,
       ],
       [
-        rootAgent.agentAddress,
+        record.agentAddress,
         0,
         "0x7bb485dc",
         0,
@@ -628,7 +629,7 @@ const handleSubmit = () => {
     estimateGas();
     return;
   }
-  if (record.name === "Concentrated Liquidity Manager") {
+  if (record.name.toLowerCase() === strategies[1].name) {
     if (!state.ethAmount || !state.usdAmount) return;
     State.update({
       pending: true,
@@ -789,7 +790,7 @@ const handleUsdAmount = (ev) => {
     amount = Big(state.currentUsdTokenBalance || 0).toFixed(4, 0);
   }
   let calcEthAmount = Big(amount).times(prices[state.currentUsdToken.value]).div(prices[state.currentEthToken.value]).toFixed(state.currentEthToken.decimals, 0);
-  if (record.name === "Concentrated Liquidity Manager") {
+  if (record.name.toLowerCase() === strategies[1].name) {
     if (Big(state.currentUsdPer).lte(0)) {
       calcEthAmount = Big(amount).times(prices[state.currentUsdToken.value]).times(Big(state.currentEthPer).div(100)).div(prices[state.currentEthToken.value]).toFixed(state.currentEthToken.decimals);
     } else {
@@ -822,7 +823,7 @@ const handleUsdBalance = (value) => {
     usdAmount: Big(value).toFixed(4, 0),
   };
   updates.ethAmount = Big(updates.usdAmount).times(prices[state.currentUsdToken.value]).div(prices[state.currentEthToken.value]).toFixed(state.currentEthToken.decimals, 0);
-  if (record.name === "Concentrated Liquidity Manager") {
+  if (record.name.toLowerCase() === strategies[1].name) {
     updates.ethAmount = Big(updates.usdAmount).times(prices[state.currentUsdToken.value]).div(Big(state.currentUsdPer).div(100)).times(Big(state.currentEthPer).div(100)).div(prices[state.currentEthToken.value]).toFixed(state.currentEthToken.decimals);
   }
   State.update(updates);
@@ -844,7 +845,7 @@ const handleEthAmount = (ev) => {
     amount = Big(state.currentEthTokenBalance || 0).toFixed(4, 0);
   }
   let calcUsdAmount = Big(amount).times(prices[state.currentEthToken.value]).div(prices[state.currentUsdToken.value]).toFixed(state.currentUsdToken.decimals, 0);
-  if (record.name === "Concentrated Liquidity Manager") {
+  if (record.name.toLowerCase() === strategies[1].name) {
     if (Big(state.currentEthPer).lte(0)) {
       calcUsdAmount = Big(amount).times(prices[state.currentEthToken.value]).times(Big(state.currentUsdPer).div(100)).div(prices[state.currentUsdToken.value]).toFixed(state.currentUsdToken.decimals);
     } else {
@@ -876,7 +877,7 @@ const handleEthBalance = (value) => {
     ethAmount: Big(value).toFixed(4, 0),
   };
   updates.usdAmount = Big(updates.ethAmount).times(prices[state.currentEthToken.value]).div(prices[state.currentUsdToken.value]).toFixed(state.currentUsdToken.decimals, 0);
-  if (record.name === "Concentrated Liquidity Manager") {
+  if (record.name.toLowerCase() === strategies[1].name) {
     updates.usdAmount = Big(updates.ethAmount).times(prices[state.currentEthToken.value]).div(Big(state.currentEthPer).div(100)).times(Big(state.currentUsdPer).div(100)).div(prices[state.currentUsdToken.value]).toFixed(state.currentUsdToken.decimals);
   }
   State.update(updates);
@@ -919,7 +920,7 @@ const handleBalance = (value) => {
 
 useEffect(() => {
   //#region dex/clm
-  if (["Dex Balancer", "Concentrated Liquidity Manager"].includes(record.name)) {
+  if ([strategies[2].name, strategies[1].name].includes(record.name.toLowerCase())) {
     const _ethTokens = [];
     const _usdTokens = [];
     const EthStakeTokens = StakeTokens.filter((it) => ["ETH", "WETH"].includes(it.symbol));
@@ -961,7 +962,7 @@ useEffect(() => {
   //#endregion
 
   //#region Multipliooor
-  if (record.name === "Multipliooor") {
+  if (record.name.toLowerCase() === strategies[3].name) {
     const _stakeTokens = [];
     const eth = StakeTokens.find((it) => it.symbol === "ETH");
     eth && _stakeTokens.push({
@@ -987,7 +988,7 @@ useEffect(() => {
 
 useEffect(() => {
   //#region 'Concentrated Liquidity Manager'
-  if (record.name === "Concentrated Liquidity Manager") {
+  if (record.name.toLowerCase() === strategies[1].name) {
     try {
       const weth = balanceList.find((it) => ["WETH", "ETH"].includes(it.symbol));
       const usdb = balanceList.find((it) => it.symbol === "USDB");
@@ -1055,7 +1056,7 @@ const renderButton = (disabled) => {
 };
 
 const renderDeposit = () => {
-  if (record.name === "Multipliooor") {
+  if (record.name.toLowerCase() === strategies[3].name) {
     return (
       <>
         <StyledContent>
@@ -1105,12 +1106,12 @@ const renderDeposit = () => {
       </>
     );
   }
-  if (record.name === "Dex Balancer" || record.name === "Concentrated Liquidity Manager") {
+  if (record.name.toLowerCase() === strategies[2].name || record.name.toLowerCase() === strategies[1].name) {
     return (
       <>
         <StyledContent>
           {
-            record.name === "Concentrated Liquidity Manager" ? (
+            record.name.toLowerCase() === strategies[1].name ? (
               <>
                 <StyledTips>
                   Due to price movement, your LP position is {Big(state.currentEthPer).toFixed(0)}% : {Big(state.currentUsdPer).toFixed(0)}%, WETH :
