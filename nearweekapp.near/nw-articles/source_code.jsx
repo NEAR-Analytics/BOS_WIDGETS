@@ -51,7 +51,7 @@ function Articles() {
   };
 
   const fetchMedium = fetch(
-    "https://www.toptal.com/developers/feed2json/convert?url=https://medium.com/feed/nearprotocol",
+    "https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/nearprotocol/tagged/near-protocol",
     { method: "GET" }
   );
 
