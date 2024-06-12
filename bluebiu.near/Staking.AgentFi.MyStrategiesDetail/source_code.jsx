@@ -354,13 +354,10 @@ const {
   totalMissions,
   tickToPrice,
   QUERY_POOL_ABI,
+  strategies,
 } = props;
 
-const {
-  strategies,
-} = dexConfig;
-
-const currentStrategy = strategies.find((it) => it.NAME.toLowerCase() === record.name.toLowerCase());
+const currentStrategy = strategies.find((it) => it.name === record.name.toLowerCase());
 
 State.init({
   tab: tabs[0],
@@ -435,7 +432,7 @@ const getRangeData = () => {
 };
 
 const renderDetail = () => {
-  if (record.name === 'Looper') {
+  if ([strategies[0].name].includes(record.name.toLowerCase())) {
     return (
       <StyledSection>
         <StyledSectionTitle>Strategy Overview</StyledSectionTitle>
@@ -484,7 +481,7 @@ const renderDetail = () => {
       </StyledSection>
     );
   }
-  if (record.name === 'Multipliooor') {
+  if (record.name.toLowerCase() === strategies[3].name) {
     return (
       <>
         <StyledTips>
@@ -509,7 +506,7 @@ const renderDetail = () => {
       </>
     );
   }
-  if (record.name === 'Dex Balancer') {
+  if (record.name.toLowerCase() === strategies[2].name) {
     return (
       <>
         <StyledTips>
@@ -549,7 +546,7 @@ const renderDetail = () => {
       </>
     );
   }
-  if (record.name === 'Concentrated Liquidity Manager') {
+  if (record.name.toLowerCase() === strategies[1].name) {
     return (
       <>
         <StyledTips>
@@ -600,22 +597,22 @@ const renderDetail = () => {
 
 useEffect(() => {
   let _tabs = [tabs[0]];
-  if (record.name === 'Concentrated Liquidity Manager') {
+  if (record.name.toLowerCase() === strategies[1].name) {
     getRangeData();
     _tabs.push(tabs[1]);
     _tabs.push(tabs[2]);
   }
-  if (record.name === 'Multipliooor') {
+  if (record.name.toLowerCase() === strategies[3].name) {
     _tabs.push(tabs[1]);
   }
-  if (record.name === 'Dex Balancer') {
+  if (record.name.toLowerCase() === strategies[2].name) {
     _tabs.push(tabs[1]);
   }
   State.update({
     tabsShown: _tabs,
   });
 
-  if (record.name === 'Concentrated Liquidity Manager') {
+  if (record.name.toLowerCase() === strategies[1].name) {
     queryPoolInfo().then((poolRes) => {
       if (!poolRes) {
         return;
@@ -674,7 +671,7 @@ return (
           </div>
           <div className="strategy-description">
             {
-              currentStrategy?.DESCRIPTION_CONFIG?.join( ' ')
+              // currentStrategy?.DESCRIPTION_CONFIG?.join( ' ')
             }
           </div>
         </StyledCardHead>
@@ -739,7 +736,13 @@ return (
                         <span>{tk.symbol}</span>
                       </StyledSectionListLabel>
                       <StyledSectionListValue>
-                        {Big(tk.balance).toFixed(4)}
+                        {
+                          record.name.toLowerCase() === strategies[3].name ? (
+                            Big(tk.balance).times(4).toFixed(4)
+                          ) : (
+                            Big(tk.balance).toFixed(4)
+                          )
+                        }
                       </StyledSectionListValue>
                     </StyledSectionListItem>
                   ))
