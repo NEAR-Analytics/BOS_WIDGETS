@@ -255,8 +255,10 @@ const TopHeader = styled.div`
     background-repeat: no-repeat;
     background-color: transparent;
     background-size: 100% 100%;
-    height: auto;
-    aspect-ratio: 16 / 9;
+    width: 308px;
+    height: 87px;
+    margin: 0 auto;
+    margin-top: 64px;
   }
 `;
 const Header = styled.div`
