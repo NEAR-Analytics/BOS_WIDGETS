@@ -699,14 +699,23 @@ function handleQueryVaultOverview() {
     multicallAddress,
     provider: Ethers.provider(),
   }).then(result => {
-    console.log("=result", result)
-    // const [totalDepositCapResult, getTotalBaseDepositResult, maxDepositPerAccountResult] = result
-    // State.update({
-    //   vaultOverview: {
-    //     totalDepositCap: Big(totalDepositCapResult).div(Big(10).pow(18)).toFixed(2),
-    //     maxDepositPerAccount: Big(maxDepositPerAccountResult).div(Big(10).pow(18)).toFixed(2)
-    //   }
-    // })
+    console.log('=result', result)
+    const [getTotalDepositCapResult, getTotalBaseDepositResult, maxDepositPerAccountResult] = result
+    State.update({
+      vaultOverview: {
+        availableVaultSpace: Big(Big(getTotalDepositCapResult[0]).minus(getTotalBaseDepositResult[0])).div(Big(10).pow(18)).toFixed(2),
+        totalDepositCap: Big(getTotalDepositCapResult[0]).div(Big(10).pow(18)).toFixed(2),
+        maxDepositPerAccount: Big(maxDepositPerAccountResult[0]).div(Big(10).pow(18)).toFixed(2)
+      }
+    })
+  }).catch(() => {
+    State.update({
+      vaultOverview: {
+        // availableVaultSpace: Big(Big(getTotalDepositCapResult[0]).minus(getTotalBaseDepositResult[0])).div(Big(10).pow(18)).toFixed(2),
+        // totalDepositCap: Big(getTotalDepositCapResult[0]).div(Big(10).pow(18)).toFixed(2),
+        // maxDepositPerAccount: Big(maxDepositPerAccountResult[0]).div(Big(10).pow(18)).toFixed(2)
+      }
+    })
   })
 }
 function handleGetDepositData(firstNumber, secondNumber) {
@@ -764,38 +773,58 @@ function handleInAmountChange(amount) {
   }, {
     "inputs": [
       {
+        "internalType": "address",
+        "name": "strategy",
+        "type": "address"
+      },
+      {
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
+      },
+      {
+        "internalType": "bytes",
+        "name": "data",
+        "type": "bytes"
       }
     ],
-    "name": "previewDepositOffchain",
+    "name": "strategyDeposit",
     "outputs": [
       {
         "internalType": "uint256",
-        "name": "",
+        "name": "receivedShares",
         "type": "uint256"
       }
     ],
-    "stateMutability": "nonpayable",
+    "stateMutability": "payable",
     "type": "function"
   }, {
     "inputs": [
       {
+        "internalType": "address",
+        "name": "strategy",
+        "type": "address"
+      },
+      {
         "internalType": "uint256",
         "name": "shares",
         "type": "uint256"
+      },
+      {
+        "internalType": "bytes",
+        "name": "data",
+        "type": "bytes"
       }
     ],
-    "name": "previewWithdrawOffchain",
+    "name": "strategyWithdraw",
     "outputs": [
       {
         "internalType": "uint256",
-        "name": "",
+        "name": "receivedAssets",
         "type": "uint256"
       }
     ],
-    "stateMutability": "nonpayable",
+    "stateMutability": "payable",
     "type": "function"
   }]
   const _amount = Big(amount)
@@ -806,7 +835,8 @@ function handleInAmountChange(amount) {
     const depositHelperAddressMap = {
       "EtherFi V3 LP": "0x0C7e2906f5cf0e6F6de47E9Fc8ECEd3E82ED405C",
       "Kelp V3 LP V2": "0x7988EA56563a01907ff02f49a7739aB949905104",
-      "Renzo V3 LP": "0xfA4042e6777c6C66d71E9b288e756F8fde802130"
+      "Renzo V3 LP": "0xfA4042e6777c6C66d71E9b288e756F8fde802130",
+      "USDB/WETH 0.05% LP": "0x86a29d4dbd9005bedf2e26ed33f74504e237d436"
     }
     if (depositHelperAddressMap[checkedVault.name]) {
       const contract = new ethers.Contract(
@@ -814,7 +844,6 @@ function handleInAmountChange(amount) {
         abi,
         Ethers.provider()
       );
-      con
       contract
         .callStatic
         .previewDeposit(_amount).then((result) => {
@@ -824,38 +853,44 @@ function handleInAmountChange(amount) {
           })
         });
     } else {
-
+      const depositData = "0x0000000000000000000000000000000000000000000000000000000000000000"
       const contract = new ethers.Contract(
-        ethers.utils.getAddress(checkedVault.strategyAddress),
+        ethers.utils.getAddress(smartContractAddress),
         abi,
-        Ethers.provider()
+        Ethers.provider().getSigner()
       );
       contract
         .callStatic
-        .previewDepositOffchain(_amount).then((result) => {
+        .strategyDeposit(checkedVault.strategyAddress, _amount, depositData)
+        .then((result) => {
           State.update({
-            depositData: "0x0000000000000000000000000000000000000000000000000000000000000000",
+            depositData,
             outDepositAmount: ethers.utils.formatUnits(result)
           })
         });
     }
-
-
   } else {
-    const contract = new ethers.Contract(
-      ethers.utils.getAddress(checkedVault.strategyAddress),
-      abi,
-      Ethers.provider()
-    );
-    contract
-      .callStatic
-      .previewWithdrawOffchain(_amount).then((result) => {
-        State.update({
-          outWithdrawAmount: ethers.utils.formatUnits(result)
-        })
-      });
+    getShares(_amount).then(sharesResult => {
+      const shares = sharesResult[1]
+      const contract = new ethers.Contract(
+        ethers.utils.getAddress(smartContractAddress),
+        abi,
+        Ethers.provider().getSigner()
+      );
+      contract
+        .callStatic
+        .strategyWithdraw(
+          checkedVault.strategyAddress,
+          shares,
+          "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        )
+        .then((result) => {
+          State.update({
+            outWithdrawAmount: ethers.utils.formatUnits(result)
+          })
+        });
+    })
   }
-
 }
 function handleQueryDepositBalance(callback) {
   const abi = [{
@@ -1182,7 +1217,7 @@ function handleAuto() {
 }
 function handleRefresh() {
   handleQueryPositionOverview()
-  // handleQueryVaultOverview()
+  handleQueryVaultOverview()
   handleQueryDepositBalance()
   handleQueryWithdrawBalance()
 }
@@ -1212,14 +1247,15 @@ return (
         <StyledVaultTop>
           <StyledVaultImageContainer
             style={{
-              background: checkedVault.iconBgColor
+              background: checkedVault.iconBgColor,
+              borderColor: checkedVault.borderColor || "#262836"
             }}
           >
             <StyledVaultImage src={checkedVault.icon} />
           </StyledVaultImageContainer>
           <StyledVaultInfo>
             <StyledVaultName>{checkedVault.name}</StyledVaultName>
-            <StyledVaultDesc>This vault manages a single ERC721 LP position in the WETH/weETH V3 pool (0.05%). The LP position is staked in Hyperlock to earn Hyperlock Points and Thruster Points.</StyledVaultDesc>
+            <StyledVaultDesc>This vault manages a single ERC721 LP position in the {checkedVault.token0}/{checkedVault.token1} V3 pool (0.05%). The LP position is staked in Hyperlock to earn Hyperlock Points and Thruster Points.</StyledVaultDesc>
           </StyledVaultInfo>
           <StyledVaultViewButton
             onClick={() => {
@@ -1240,11 +1276,11 @@ return (
             </StyledVaulBottomMessage>
             <StyledVaulBottomMessage>
               <StyledVaulBottomMessageLabel>Total Deposited</StyledVaulBottomMessageLabel>
-              <StyledVaulBottomMessageValue>{Big(checkedVault.pointList[0]?.value ?? 0).toFixed(2)} WETH</StyledVaulBottomMessageValue>
+              <StyledVaulBottomMessageValue>{Big(checkedVault.pointList[0]?.value ?? 0).toFixed(2)} {checkedVault.token0}</StyledVaulBottomMessageValue>
             </StyledVaulBottomMessage>
             <StyledVaulBottomMessage>
               <StyledVaulBottomMessageLabel>Accepted Asset</StyledVaulBottomMessageLabel>
-              <StyledVaulBottomMessageValue>WETH</StyledVaulBottomMessageValue>
+              <StyledVaulBottomMessageValue>{checkedVault.token0}</StyledVaulBottomMessageValue>
             </StyledVaulBottomMessage>
           </StyledVaultBottomRow>
           <StyledVaultBottomRow>
@@ -1257,15 +1293,27 @@ return (
                   </svg>
                   <StyledEarnCoverImage src={checkedVault.icon} />
                 </StyledEarnImageContainer>
-                <StyledEarnImageContainer>
-                  <StyledEarnImage src="https://ipfs.near.social/ipfs/bafkreif5l4sfmwpqzpe7gr4res6lv3orsm7wxtovfr3n36wznbybeiy2ku" />
-                </StyledEarnImageContainer>
-                <StyledEarnImageContainer>
-                  <StyledEarnImage src="https://ipfs.near.social/ipfs/bafkreiczl353jhnbfkdc2atubwbmscagx4tar4mxmua3ehtknvx2xbjdoq" />
-                </StyledEarnImageContainer>
-                <StyledEarnImageContainer>
-                  <StyledEarnImage src="https://ipfs.near.social/ipfs/bafkreif3crbizpmljlpvfwfkhx5la54asfj5uizmyzjcnlhppvngcebl7e" />
-                </StyledEarnImageContainer>
+                {
+                  checkedVault.pointList.findIndex(vault => vault.label === "Eigen Layer Points") > -1 && (
+                    <StyledEarnImageContainer>
+                      <StyledEarnImage src="https://ipfs.near.social/ipfs/bafkreif5l4sfmwpqzpe7gr4res6lv3orsm7wxtovfr3n36wznbybeiy2ku" />
+                    </StyledEarnImageContainer>
+                  )
+                }
+                {
+                  checkedVault.pointList.findIndex(vault => vault.label === "Thruster Points") > -1 && (
+                    <StyledEarnImageContainer>
+                      <StyledEarnImage src="https://ipfs.near.social/ipfs/bafkreiczl353jhnbfkdc2atubwbmscagx4tar4mxmua3ehtknvx2xbjdoq" />
+                    </StyledEarnImageContainer>
+                  )
+                }
+                {
+                  checkedVault.pointList.findIndex(vault => vault.label === "Hyperlock Points") > -1 && (
+                    <StyledEarnImageContainer>
+                      <StyledEarnImage src="https://ipfs.near.social/ipfs/bafkreif3crbizpmljlpvfwfkhx5la54asfj5uizmyzjcnlhppvngcebl7e" />
+                    </StyledEarnImageContainer>
+                  )
+                }
                 <StyledEarnImageContainer>
                   <StyledEarnImage src="https://ipfs.near.social/ipfs/bafkreibmykmcqzkp4fsqvqhiy7wbcz4wht2qezgv4bzpduaeiup6xnsvii" />
                 </StyledEarnImageContainer>
@@ -1396,7 +1444,7 @@ return (
               <StyledEmptyContainer>
                 <StyledEmptyImage src="https://ipfs.near.social/ipfs/bafkreicbbj3fufcper54zhf3g5siznyfsb3lry2f74vhyejzj2qd2qcory" />
                 <StyledEmptyTips>
-                  No WETH available to deposit.<br />Create an Account and borrow WETH to deposit into the vault.
+                  No {checkedVault.token0} available to deposit.<br />Create an Account and borrow {checkedVault.token0} to deposit into the vault.
                 </StyledEmptyTips>
                 <StyledDepositOrWithdrawButton onClick={() => {
                   onChangeCategoryIndex(1)
@@ -1501,7 +1549,7 @@ return (
           <StyledOverviewTitle>Position Overview</StyledOverviewTitle>
           <StyledOverviewList>
             <StyledOverview>
-              <StyledOverviewLabel>Deposited WETH</StyledOverviewLabel>
+              <StyledOverviewLabel>Deposited {checkedVault.token0}</StyledOverviewLabel>
               <StyledOverviewValue>{state.positionOverview?.positionValue}</StyledOverviewValue>
             </StyledOverview>
             <StyledOverview>
@@ -1518,15 +1566,15 @@ return (
               <StyledOverviewValue>1.00%</StyledOverviewValue>
             </StyledOverview>
             <StyledOverview>
-              <StyledOverviewLabel>Available Vault Space (WETH)</StyledOverviewLabel>
+              <StyledOverviewLabel>Available Vault Space ({checkedVault.token0})</StyledOverviewLabel>
+              <StyledOverviewValue>{state?.vaultOverview?.availableVaultSpace}</StyledOverviewValue>
+            </StyledOverview>
+            <StyledOverview>
+              <StyledOverviewLabel>Total Deposit Cap ({checkedVault.token0})</StyledOverviewLabel>
               <StyledOverviewValue>{state?.vaultOverview?.totalDepositCap}</StyledOverviewValue>
             </StyledOverview>
             <StyledOverview>
-              <StyledOverviewLabel>Total Deposit Cap (WETH)</StyledOverviewLabel>
-              <StyledOverviewValue>{state?.vaultOverview?.totalDepositCap}</StyledOverviewValue>
-            </StyledOverview>
-            <StyledOverview>
-              <StyledOverviewLabel>Max Deposit Size per Account (WETH)</StyledOverviewLabel>
+              <StyledOverviewLabel>Max Deposit Size per Account ({checkedVault.token0})</StyledOverviewLabel>
               <StyledOverviewValue>{state?.vaultOverview?.maxDepositPerAccount}</StyledOverviewValue>
             </StyledOverview>
           </StyledOverviewList>
