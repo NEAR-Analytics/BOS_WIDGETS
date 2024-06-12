@@ -1,3 +1,4 @@
+let TxnActionSkeleton = window?.TxnActionSkeleton || (() => <></>);
 let JsonView = window?.JsonView || (({ children }) => <pre>{children}</pre>);
 const kind = {
   addKey: {
@@ -54,7 +55,8 @@ const Action = ({ action, open, setOpen }) => {
   let { shortenString } = VM.require(
     `nearblocksonbos.near/widget/lite.libs.utils`
   );
-  if (!yoctoToNear || !formatNumber || !shortenString) return null;
+  if (!yoctoToNear || !formatNumber || !shortenString)
+    return <TxnActionSkeleton />;
   const method =
     action.kind === "functionCall"
       ? action.args.methodName
