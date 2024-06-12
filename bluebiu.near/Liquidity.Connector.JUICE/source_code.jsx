@@ -48,34 +48,6 @@ const StyledCategory = styled.div`
     }
   }
 `
-const StyledSymbolButtonList = styled.div`
-  margin-top: 30px;
-  display: flex;
-  align-items: center;
-  padding: 4px;
-  border-radius: 8px;
-  border: 1px solid #373A53;
-  background: rgba(33, 35, 48, 0.5);
-`
-const StyledSymbolButton = styled.div`
-  padding: 8px 24px;
-  border-radius: 6px;
-  border: 1px solid transparent;
-  background: transparent;
-  color: #979ABE;
-  font-family: Gantari;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  cursor: pointer;
-  &.active {
-    border-color: #373A53;
-    background-color: #32364B;
-    color: #FFF;
-  }
-`
-
 const {
   toast,
   account,
@@ -93,7 +65,7 @@ const {
   switchingChain
 } = props
 
-
+const sender = account;
 if (!account || !isChainSupported) {
   return (
     <Widget
@@ -107,26 +79,21 @@ if (!account || !isChainSupported) {
     />
   );
 }
-const sender = ethers.utils.getAddress(account);
 const {
-  // vaults,
-  // ICON_MAP,
-  // PROXY_ADDRESS,
-  // LENDING_POOL_ADDRESS,
-  // SYMBOL_ADDRESS
+  vaults,
   ICON_MAP,
-  SymbolList,
-  PoolsMapping
+  PROXY_ADDRESS,
+  LENDING_POOL_ADDRESS,
+  SYMBOL_ADDRESS
 } = dexConfig
 
 State.init({
   categoryList: [
-    "Vaults",
+    "WETH Vaults",
     "Borrowers",
     "Positions"
   ],
   categoryIndex: 0,
-  symbolIndex: 0,
   checkedVault: null,
   smartContractAddress: "",
   isCreatedAccount: false,
@@ -137,18 +104,9 @@ const {
   checkedVault,
   categoryList,
   categoryIndex,
-  symbolIndex,
   isCreatedAccount,
   smartContractAddress,
 } = state
-
-const {
-  vaults,
-  PROXY_ADDRESS,
-  LENDING_POOL_ADDRESS,
-  SYMBOL_ADDRESS
-} = PoolsMapping[symbolIndex]
-
 
 function handleGetSubAccount() {
   const abi = [{
@@ -170,22 +128,17 @@ function handleGetSubAccount() {
     "stateMutability": "view",
     "type": "function"
   },]
-  console.log('=PROXY_ADDRESS', PROXY_ADDRESS)
   const contract = new ethers.Contract(
     ethers.utils.getAddress(PROXY_ADDRESS),
     abi,
-    Ethers.provider()
+    Ethers.provider().getSigner()
   );
-  contract.getAccount(sender)
-    .then((result) => {
-      State.update({
-        smartContractAddress: result
-      })
-      handleQueryIsCreatedAccount(result)
+  contract.getAccount(sender).then((result) => {
+    State.update({
+      smartContractAddress: result
     })
-    .catch(error => {
-      console.log('=error', error)
-    });
+    handleQueryIsCreatedAccount(result)
+  });
 }
 function handleQueryIsCreatedAccount(smartAddress) {
   const abi = [{
@@ -281,22 +234,6 @@ useEffect(() => {
 
 return (
   <StyledJuiceContainer>
-    <StyledSymbolButtonList>
-      {
-        SymbolList.map((symbol, index) => (
-          <StyledSymbolButton
-            key={index}
-            className={index === symbolIndex ? "active" : ""}
-            onClick={() => {
-              State.update({
-                symbolIndex: index,
-                checkedVault: null
-              })
-            }}
-          >{symbol}</StyledSymbolButton>
-        ))
-      }
-    </StyledSymbolButtonList>
     <StyledCategoryContainer>
       {
         categoryList.map((category, index) => (
@@ -314,121 +251,112 @@ return (
 
     </StyledCategoryContainer>
     {
-      smartContractAddress ? (
-        <>
-          {
-            vaults && (
-              <Widget
-                key={symbolIndex}
-                src={"bluebiu.near/widget/Liquidity.Data.JUICE"}
-                props={{
-                  dataList: vaults,
-                  multicall,
-                  multicallAddress,
-                  smartContractAddress,
-                  onLoad: ({
-                    dataList,
-                  }) => {
-                    State.update({
-                      vaults: dataList,
-                      loading: false
-                    })
-                  }
-                }}
-              />
-            )
-          }
-          {
-            categoryIndex === 0 && checkedVault && (
-              <Widget
-                src={"bluebiu.near/widget/Liquidity.Bridge.JUICE.VaultDetail"}
-                props={{
-                  toast,
-                  sender,
-                  chainId,
-                  addAction,
-                  windowOpen,
-                  isCreatedAccount,
-                  multicall,
-                  multicallAddress,
-                  checkedVault,
-                  ICON_MAP,
-                  PROXY_ADDRESS,
-                  SYMBOL_ADDRESS,
-                  smartContractAddress,
-                  onChangeCategoryIndex: (categoryIndex) => {
-                    State.update({
-                      categoryIndex
-                    })
-                  },
-                  onBack: () => {
-                    State.update({
-                      checkedVault: null
-                    })
-                  }
-                }}
-              />
-            )
-          }
-          {
-            categoryIndex === 0 && !checkedVault && (
-              <Widget
-                src={"bluebiu.near/widget/Liquidity.Bridge.JUICE.Vaults"}
-                props={{
-                  vaults,
-                  prices,
-                  onCheckedVaultChange: (vault) => {
-                    State.update({
-                      checkedVault: vault
-                    })
-                  }
-                }}
-              />
-            )
-          }
-          {
-            categoryIndex === 1 && (
-              <Widget
-                src={"bluebiu.near/widget/Liquidity.Bridge.JUICE.Borrowers"}
-                props={{
-                  toast,
-                  sender,
-                  ICON_MAP,
-                  addAction,
-                  isCreatedAccount,
-                  multicall,
-                  multicallAddress,
-                  PROXY_ADDRESS,
-                  smartContractAddress,
-                  SYMBOL_ADDRESS,
-                  LENDING_POOL_ADDRESS,
-                  createSubAccountLoading,
-                  onCreateSubAccount: handleCreateSubAccount,
-                  onOpenWrap: handleOpenWrap
-                }}
-              />
-            )
-          }
-          {
-            categoryIndex === 2 && (
-              <Widget
-                src={"bluebiu.near/widget/Liquidity.Bridge.JUICE.Positions"}
-                props={{
-                  sender,
-                  vaults,
-                  prices,
-                  PROXY_ADDRESS,
-                  multicall,
-                  multicallAddress,
-                  smartContractAddress,
-                  onManage: handleManage
-                }}
-              />
-            )
-          }
-        </>
-      ) : (
-        <Widget src="bluebiu.near/widget/0vix.LendingSpinner" />
+      vaults && (
+        <Widget
+          src={"bluebiu.near/widget/Liquidity.Data.JUICE"}
+          props={{
+            dataList: vaults,
+            multicall,
+            multicallAddress,
+            smartContractAddress,
+            onLoad: ({
+              dataList,
+            }) => {
+              State.update({
+                vaults: dataList,
+                loading: false
+              })
+            }
+          }}
+        />
+      )
+    }
+    {
+      categoryIndex === 0 && checkedVault && (
+        <Widget
+          src={"bluebiu.near/widget/Liquidity.Bridge.JUICE.VaultDetail"}
+          props={{
+            toast,
+            sender,
+            chainId,
+            addAction,
+            windowOpen,
+            isCreatedAccount,
+            multicall,
+            multicallAddress,
+            checkedVault,
+            ICON_MAP,
+            PROXY_ADDRESS,
+            SYMBOL_ADDRESS,
+            smartContractAddress,
+            onChangeCategoryIndex: (categoryIndex) => {
+              State.update({
+                categoryIndex
+              })
+            },
+            onBack: () => {
+              State.update({
+                checkedVault: null
+              })
+            }
+          }}
+        />
+      )
+    }
+    {
+      categoryIndex === 0 && !checkedVault && (
+        <Widget
+          src={"bluebiu.near/widget/Liquidity.Bridge.JUICE.Vaults"}
+          props={{
+            vaults,
+            prices,
+            onCheckedVaultChange: (vault) => {
+              State.update({
+                checkedVault: vault
+              })
+            }
+          }}
+        />
+      )
+    }
+    {
+      categoryIndex === 1 && (
+        <Widget
+          src={"bluebiu.near/widget/Liquidity.Bridge.JUICE.Borrowers"}
+          props={{
+            toast,
+            sender,
+            ICON_MAP,
+            addAction,
+            isCreatedAccount,
+            multicall,
+            multicallAddress,
+            PROXY_ADDRESS,
+            smartContractAddress,
+            SYMBOL_ADDRESS,
+            LENDING_POOL_ADDRESS,
+            createSubAccountLoading,
+            onCreateSubAccount: handleCreateSubAccount,
+            onOpenWrap: handleOpenWrap
+          }}
+        />
+      )
+    }
+    {
+      categoryIndex === 2 && (
+        <Widget
+          src={"bluebiu.near/widget/Liquidity.Bridge.JUICE.Positions"}
+          props={{
+            sender,
+            vaults,
+            prices,
+            PROXY_ADDRESS,
+            multicall,
+            multicallAddress,
+            smartContractAddress,
+            onManage: handleManage
+          }}
+        />
       )
     }
     {
