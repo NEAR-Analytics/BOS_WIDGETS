@@ -4,6 +4,9 @@ const nwSite = "https://nearweek.com";
 const coverImgSrc =
   "https://ipfs.near.social/ipfs/bafkreibydsokq7egf2h5axgion4bsdfz5s5vmnnbdebanemfxc3juuizee";
 
+const mobCoverImgSrc =
+  "https://ipfs.near.social/ipfs/bafkreihzi6htmib5soiama557tr5bhwblm5gjxnnenvdtvxqzhvsoraztq";
+
 const breakpoints = {
   md: "768px",
   lg: "1100px",
@@ -251,6 +254,10 @@ const Header = styled.div`
   #height: 100vh;
   height: auto;
   aspect-ratio: 16 / 9;
+  @media screen and (max-width: ${breakpoints.md}) {
+      background-image: url("${mobCoverImgSrc}"); 
+
+  }
 `;
 
 const ipfsURL = "https://ipfs.near.social/ipfs/";
