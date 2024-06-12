@@ -4,7 +4,7 @@ let mediumPosts = [];
 
 const data = fetch(
   `https://nearweek.com/api/nw-newswire?populate=deep&sort=createdAt:desc&pagination[pageSize]=${
-    state.page * 11
+    state.page * 13
   }`,
   {
     //subscribe: true,
