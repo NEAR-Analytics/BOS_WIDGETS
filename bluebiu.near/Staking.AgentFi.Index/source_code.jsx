@@ -234,7 +234,7 @@ const {
   isChainSupported,
 } = props;
 
-const {StakeTokens } = dexConfig;
+const { StakeTokens } = dexConfig;
 
 const tabs = [
   {
@@ -251,7 +251,7 @@ State.init({
   currentTabIdx: 0,
   // strategy factory selected
   currentStrategy: {},
-  // my strategies selected
+  // mystrategies selected
   record: {},
   loading: true,
   tvl: 0,
@@ -260,6 +260,7 @@ State.init({
   totalMissions: 12,
   // dex apr
   dexAPR: '',
+  strategies: [],
 
   //#region user
   listData: [],
@@ -377,7 +378,11 @@ const getDexBalancerData = () => {
   });
 };
 
-const formatTVL = (record) => {
+const formatTVL = (record, options) => {
+  let { strategies } = options || {};
+  if (!strategies) {
+    strategies = state.strategies;
+  }
   if (!record.balances || !record.balances.length) {
     return { value: '$0.00', list: [], usd: Big(0) };
   }
@@ -390,7 +395,7 @@ const formatTVL = (record) => {
     return Big(balance.balance).times(prices[balance.symbol]);
   };
 
-  if (["Concentrated Liquidity Manager", "Dex Balancer"].includes(record.name)) {
+  if ([strategies[1].name, strategies[2].name].includes(record.name.toLowerCase())) {
     let totalValue = Big(0);
     const balanceList = [];
     calcList.forEach((it) => {
@@ -433,43 +438,55 @@ const formatTVL = (record) => {
   };
 };
 
-const getListData = () => {
-  if (!account || !curChain) return;
-  State.update({
-    listLoading: true,
-  });
-  const url = `https://api.agentfi.io/agents/${account}?chainID=${curChain.chain_id}`;
-  asyncFetch(url).then((res) => {
-    if (!res.ok || !res.body || !res.body.data) {
+const getListData = (options) => {
+  return new Promise(resolve => {
+    let { strategies } = options || {};
+    if (!strategies) {
+      strategies = state.strategies;
+    }
+    if (!account || !curChain) {
+      resolve([]);
       return;
     }
-    const ls = res.body.data || [];
-    const _listData = [];
-    let totalDeposited = Big(0);
-    let _rootAgent = [];
-    for (const it of ls) {
-      if (it.agentType === 'ROOT') {
-        _rootAgent = it;
-        const { usd } = formatTVL(it);
-        totalDeposited = totalDeposited.plus(usd);
-        continue;
+    State.update({
+      listLoading: true,
+    });
+    const url = `https://api.agentfi.io/agents/${account}?chainID=${curChain.chain_id}`;
+    asyncFetch(url).then((res) => {
+      if (!res.ok || !res.body || !res.body.data) {
+        resolve([]);
+        return;
       }
-      _listData.push(it);
-    }
-    _listData.forEach((record) => {
-      const { usd } = formatTVL(record);
-      totalDeposited = totalDeposited.plus(usd);
-    });
-    State.update({
-      listLoading: false,
-      listData: _listData,
-      totalDeposited: totalDeposited.toFixed(2),
-      rootAgent: _rootAgent || {},
-    });
-  }).catch((err) => {
-    console.log('getListData failed, ', err);
-    State.update({
-      listLoading: false,
+      const ls = res.body.data || [];
+      const _listData = [];
+      let totalDeposited = Big(0);
+      let _rootAgent = [];
+      for (const it of ls) {
+        if (it.agentType === 'ROOT') {
+          _rootAgent = it;
+          const { usd } = formatTVL(it, { strategies, from: 'list data' });
+          totalDeposited = totalDeposited.plus(usd);
+          continue;
+        }
+        _listData.push(it);
+      }
+      _listData.forEach((record) => {
+        const { usd } = formatTVL(record, { strategies, from: 'list data' });
+        totalDeposited = totalDeposited.plus(usd);
+      });
+      State.update({
+        listLoading: false,
+        listData: _listData,
+        totalDeposited: totalDeposited.toFixed(2),
+        rootAgent: _rootAgent || {},
+      });
+      resolve(_listData);
+    }).catch((err) => {
+      console.log('getListData failed, ', err);
+      resolve([]);
+      State.update({
+        listLoading: false,
+      });
     });
   });
 };
@@ -546,6 +563,7 @@ const handleApprove = (spender, tokenAddress, tokenAmount, tokenDecimals) => {
 
 const getAppInformation = () => {
   const url = `https://api.llama.fi/protocol/agentfi`;
+  const url2 = `/api/app/agentfi/strategies`;
   asyncFetch(url).then((res) => {
     if (!res.ok || !res.body || !res.body.tvl || !res.body.tvl.length) {
       return;
@@ -556,6 +574,40 @@ const getAppInformation = () => {
     });
   }).catch((err) => {
     console.log(err);
+  });
+  return new Promise((resolve) => {
+    State.update({
+      listLoading: true,
+    });
+    const formatStrategies = (remoteStrategies) => {
+      const strategiesResult = [];
+      dexConfig.strategies.forEach((it) => {
+        const curr = remoteStrategies.find((_it) => _it.ID === it.ID);
+        const obj = {
+          ...it,
+          NAME: curr?.NAME || it.NAME,
+        };
+        obj.name = obj.NAME.toLowerCase();
+        strategiesResult.push(obj);
+      });
+      State.update({
+        strategies: strategiesResult,
+      });
+      resolve(strategiesResult);
+      State.update({
+        listLoading: false,
+      });
+    };
+    asyncFetch(url2).then((res) => {
+      if (!res.ok || !res.body || !res.body.length) {
+        formatStrategies([]);
+        return;
+      }
+      formatStrategies(res.body);
+    }).catch((err) => {
+      console.log(err);
+      formatStrategies([]);
+    });
   });
 };
 
@@ -573,6 +625,7 @@ const {
   rootAgent,
   totalDeposited,
   dexAPR,
+  strategies,
 } = state;
 
 useEffect(() => {
@@ -582,14 +635,12 @@ useEffect(() => {
 }, [chainIdNotSupport]);
 
 useEffect(() => {
-  getAppInformation();
-  getTVLData();
-  getDexBalancerData();
-}, []);
-
-useEffect(() => {
   if (!prices || !Object.keys(prices).length || state.listDataLoaded) return;
-  getListData();
+  getAppInformation().then((strategies) => {
+    getTVLData();
+    getDexBalancerData();
+    getListData({ strategies });
+  });
   State.update({
     listDataLoaded: true,
   });
@@ -658,11 +709,16 @@ return (
                     priceToUsableTick,
                     QUERY_POOL_ABI,
                     dexAPR,
+                    strategies,
                     onSuccess: () => {
                       State.update({
                         loading: true,
                       });
-                      getListData();
+                      getListData().then((_list) => {
+                        if (!_list.length || !record.agentAddress) return;
+                        const currRecord = _list.find((it) => it.agentAddress === record.agentAddress);
+                        currRecord && handleRecord(currRecord);
+                      });
                     },
                   }}
                 />
@@ -690,11 +746,16 @@ return (
                     tickToPrice,
                     priceToUsableTick,
                     QUERY_POOL_ABI,
+                    strategies,
                     onSuccess: () => {
                       State.update({
                         loading: true,
                       });
-                      getListData();
+                      getListData().then((_list) => {
+                        if (!_list.length || !record.agentAddress) return;
+                        const currRecord = _list.find((it) => it.agentAddress === record.agentAddress);
+                        currRecord && handleRecord(currRecord);
+                      });
                     },
                   }}
                 />
