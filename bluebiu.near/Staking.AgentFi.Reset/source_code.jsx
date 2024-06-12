@@ -317,23 +317,9 @@ const handleSubmit = () => {
   State.update({
     pending: true,
   });
-  const currentBalancesList = record.balances || [];
-  const currentBalance = currentBalancesList.find((it) => /^BlasterSwap Positions NFT/.test(it.name));
-  if (!currentBalance) {
-    State.update({
-      pending: false,
-    });
-    console.log('can not get fee balance item: [BlasterSwap Positions NFT] does not existed!');
-    return;
-  }
-  const fee = currentStrategy.meta.feeTierList.find((it) => it.name.includes(currentBalance.name));
-  if (!fee) {
-    State.update({
-      pending: false,
-    });
-    console.log('can not get fee balance item: [' + currentBalance.name + '] does not existed!');
-    return;
-  }
+
+  // fixed 0.30 % fee tier
+  const fee = currentStrategy.meta.feeTierList[2];
 
   const tickLower = priceToUsableTick({
     price: state.minPrice,
@@ -350,14 +336,18 @@ const handleSubmit = () => {
   const [_tickLower, _tickUpper] = tickLower > tickUpper ? [tickUpper, tickLower] : [tickLower, tickUpper];
 
   const params = [
-    '0x337827814155ecbf24d20231fca4444f530c0555',
-    fee.value,
-    10000,
-    1000000,
-    _tickLower,
-    _tickUpper,
-    state.sqrtPriceX96,
+    {
+      router: '0x337827814155ecbf24d20231fca4444f530c0555',
+      fee: fee.value,
+      slippageSwap: 10000,
+      slippageLiquidity: 1000000,
+      tickLower: _tickLower,
+      tickUpper: _tickUpper,
+      sqrtPriceX96: state.sqrtPriceX96,
+    }
   ];
+
+  console.log(params);
 
   const contract = new ethers.Contract(
     record.agentAddress,
@@ -370,7 +360,7 @@ const handleSubmit = () => {
       gasLimit: gas || 4000000,
       value: parseUnits('0', 18),
     };
-    contract.moduleC_rebalance(params, contractOption)
+    contract.moduleC_rebalance(...params, contractOption)
       .then((tx) => {
         tx.wait()
           .then((res) => {
@@ -416,7 +406,7 @@ const handleSubmit = () => {
 
   const estimateGas = () => {
     contract.estimateGas.moduleC_rebalance(
-      params,
+      ...params,
       { value: parseUnits('0', 18) },
     ).then((gas) => {
       getTx(gas);
@@ -459,7 +449,7 @@ const {
 } = state;
 
 useEffect(() => {
-  queryPoolInfo().then((poolRes) => {
+  queryPoolInfo({ fee: currentStrategy.meta.feeTierList[2] }).then((poolRes) => {
     if (!poolRes) {
       toast?.fail({
         title: `Initialization Failed!`,
