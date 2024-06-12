@@ -55,9 +55,26 @@ useEffect(() => {
       .toFixed(2);
   }, 0);
 
+  const marketTotalCollateral = _marketsArray.reduce((total, item) => {
+    return Big(total || 0)
+      .plus(
+        Big(item.poolTotalColl || 0).times(
+          prices[item.underlyingToken.symbol] || 1
+        )
+      )
+      .toFixed(2);
+  }, 0);
+
+  const marketTotalDebt = _marketsArray.reduce((total, item) => {
+    return Big(total || 0)
+      .plus(Big(item.poolTotalDebt || 0))
+      .toFixed(2);
+  }, 0);
   State.update({
     totalDebt,
     totalCollateral,
+    marketTotalCollateral,
+    marketTotalDebt,
   });
 }, [state.newMarkets]);
 
@@ -80,6 +97,8 @@ return (
           deposits: state.deposits,
           totalDebt: state.totalDebt,
           totalCollateral: state.totalCollateral,
+          marketTotalCollateral: state.marketTotalCollateral,
+          marketTotalDebt: state.marketTotalDebt,
           onSuccess: () => {
             State.update({
               loading: true,
