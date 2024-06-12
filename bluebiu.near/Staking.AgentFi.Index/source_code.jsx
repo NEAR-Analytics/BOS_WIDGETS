@@ -523,7 +523,6 @@ const handleApprove = (spender, tokenAddress, tokenAmount, tokenDecimals) => {
             resolve(true);
             toast?.success({
               title: "Approve Successfully!",
-              text: `Approve ${Big(state.usdAmount).toFixed(2)} ${state.currentUsdToken.value}`,
               tx: transactionHash,
               chainId,
             });
