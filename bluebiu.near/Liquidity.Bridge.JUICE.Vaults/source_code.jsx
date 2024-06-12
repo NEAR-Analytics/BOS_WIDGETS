@@ -125,9 +125,9 @@ const {
   addAction,
   onCheckedVaultChange
 } = props
-function renderPointValue(vault, point) {
+function renderPointValue(point) {
   if (point.type === "deposited") {
-    return point.value ? ("$" + Big(point.value).times(prices[vault.token0]).toFixed(2)) : "-"
+    return point.value ? ("$" + Big(point.value).times(prices["WETH"]).toFixed(2)) : "-"
   } else {
     return (
       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="11" viewBox="0 0 14 11" fill="none">
@@ -147,8 +147,7 @@ return (
               <StyledVaultTop>
                 <StyledVaultImageContainer
                   style={{
-                    background: vault.iconBgColor,
-                    borderColor: vault.borderColor || "#262836"
+                    background: vault.iconBgColor
                   }}
                 >
                   <StyledVaultImage src={vault.icon} />
@@ -164,7 +163,7 @@ return (
                     vault?.pointList?.map((point, pointIndex) => (
                       <StyledPoint key={pointIndex}>
                         <StyledPointLabel>{point.label}</StyledPointLabel>
-                        <StyledPointValue>{renderPointValue(vault, point)}</StyledPointValue>
+                        <StyledPointValue>{renderPointValue(point)}</StyledPointValue>
                       </StyledPoint>
                     ))
                   }
