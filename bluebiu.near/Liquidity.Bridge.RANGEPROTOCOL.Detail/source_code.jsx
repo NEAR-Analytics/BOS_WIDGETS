@@ -94,10 +94,12 @@ const updateBalance = (token) => {
       erc20Abi,
       Ethers.provider()
     );
+    console.log("=address", address)
     contract.balanceOf(sender).then((balanceBig) => {
       const adjustedBalance = Big(
         ethers.utils.formatUnits(balanceBig, decimals)
       ).toFixed();
+      console.log('=adjustedBalance', adjustedBalance)
       State.update({
         balances: {
           ...state.balances,
@@ -234,12 +236,12 @@ const handleTokenChange = (amount, symbol) => {
 
   const decimals = (symbol === token0 ? decimals0 : decimals1)
   const otherDecimals = symbol === token0 ? decimals1 : decimals0
-  const targetAmount = props?.data?.chain_id === 169 ? '340282366920938463463374607431768211455' : '1157920892373161954235709850086879078532699846656405'
+  const targetAmount = props.chainId === 56 ? '340282366920938463463374607431768211455' : '1157920892373161954235709850086879078532699846656405'
   const amount0Max = symbol === token0 ? Big(amount)
     .mul(Big(10).pow(decimals)).toFixed(0) : targetAmount
   const amount1Max = symbol === token1 ? Big(amount)
     .mul(Big(10).pow(decimals)).toFixed(0) : targetAmount
-  const abi = props?.data?.chain_id === 169 ? [{
+  const abi = props.chainId === 56 ? [{
     "inputs": [
       {
         "internalType": "uint128",
@@ -339,7 +341,6 @@ const handleTokenChange = (amount, symbol) => {
       })
     });
 };
-console.log('==props?.data?.chain_id', props)
 const handleLPChange = (amount) => {
   State.update({
     lpAmount: amount,
@@ -393,7 +394,7 @@ const handleApprove = (isToken0) => {
         title: "Approve Successfully!",
         text: `Approve ${amount} ${_token}`,
         tx: receipt.transactionHash,
-        chainId: props?.data?.chain_id,
+        chainId: props.chainId,
       });
     })
     .catch((error) => {
@@ -454,7 +455,7 @@ const handleDeposit = () => {
     abi,
     Ethers.provider().getSigner()
   );
-  const targetAmount = props?.data?.chain_id === 169 ? '340282366920938463463374607431768211455' : '1157920892373161954235709850086879078532699846656405'
+  const targetAmount = props.chainId === 56 ? '340282366920938463463374607431768211455' : '1157920892373161954235709850086879078532699846656405'
   handleGetMintAmount(
     Big(amount0).mul(Big(10).pow(decimals0)).toFixed(0),
     targetAmount,
@@ -476,7 +477,7 @@ const handleDeposit = () => {
             status: status,
             add: 1,
             transactionHash,
-            chain_id: props?.data?.chain_id,
+            chain_id: props.chainId,
             extra_data: JSON.stringify({
               action: "Deposit",
               amount0,
