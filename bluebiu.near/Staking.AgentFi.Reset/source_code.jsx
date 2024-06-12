@@ -296,6 +296,7 @@ const {
   queryPoolInfo,
   tickToPrice,
   priceToUsableTick,
+  strategies,
 } = props;
 
 const { StakeTokens } = dexConfig;
@@ -485,6 +486,7 @@ useEffect(() => {
 }, []);
 
 useEffect(() => {
+  if (!currentEth2UsdPrice) return;
   const slippageValue = Big(currentEth2UsdPrice).times(Big(rate).div(100)).div(2);
   const _minPrice = Math.floor(Big(currentEth2UsdPrice).minus(slippageValue).toNumber());
   const _maxPrice = Math.floor(Big(currentEth2UsdPrice).plus(slippageValue).toNumber());
@@ -513,7 +515,7 @@ const renderButton = (disabled) => {
 };
 
 const renderReset = () => {
-  if (record.name === "Concentrated Liquidity Manager") {
+  if (record.name.toLowerCase() === strategies[1].name) {
     return (
       <>
         <StyledContent>
@@ -535,7 +537,7 @@ const renderReset = () => {
                 <span style={{ color: "#fff" }}>%</span>
               </div>
               <div className="current-usdb" style={{ color: "#fff" }}>
-                {Big(currentEth2UsdPrice).toFixed(0)} USDB
+                {Big(currentEth2UsdPrice || 0).toFixed(0)} USDB
               </div>
               <StyledPriceRangeList>
                 <div className="min-price">
