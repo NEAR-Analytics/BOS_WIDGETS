@@ -15,7 +15,8 @@ if (!state.theme) {
     theme: styled.div`
     background: #FAF9F9;
     color: #1C1F41;
-    margin: 0;
+    max-width: 1690px;
+    margin: 0 auto;
 `,
   });
 }
@@ -246,8 +247,11 @@ const Header = styled.div`
   background-image: url("${coverImgSrc}"); 
   background-repeat: no-repeat;
   background-color: transparent;
-  background-size: 100% 100%;
-  height: 100vh;
+  #background-size: 100% 100%;
+  #height: 100vh;
+  background-size: contain;
+  height: auto;
+  aspect-ratio: 16 / 9;
 `;
 
 const ipfsURL = "https://ipfs.near.social/ipfs/";
