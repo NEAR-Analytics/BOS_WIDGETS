@@ -225,7 +225,7 @@ function handleQueryBalances() {
     "outputs": [
       {
         "internalType": "uint256",
-        "name": "",
+        "name": "value",
         "type": "uint256"
       }
     ],
