@@ -346,14 +346,18 @@ const TrustedLink = styled.a`
     border-radius:50%;
     width: 106px;
     height: 106px;
-    @media screen and (max-width: ${breakpoints.md}) {
-        width: 96px;
-        height: 96px;
-  }
+      @media screen and (max-width: ${breakpoints.md}) {
+        width: 64px;
+        height: 64px;
+    }
   }
   & span{
     font-size: 9px;
     margin-top: 10px;
+  }
+  @media screen and (max-width: ${breakpoints.md}) {
+    margin-top: 25px;
+    margin-bottom: 25px;
   }
 `;
 
