@@ -1,3 +1,4 @@
+let HomeStatsSkeleton = window?.HomeStatsSkeleton || (() => <></>);
 let Skeleton = window?.Skeleton || (({ children }) => <>{children}</>);
 const Stats = () => {
   let { apiFetch } = VM.require(
@@ -9,7 +10,8 @@ const Stats = () => {
   let { yoctoToTgas } = VM.require(
     `nearblocksonbos.near/widget/lite.libs.convertor`
   );
-  if (!apiFetch || !formatNumber || !formatScale || !yoctoToTgas) return null;
+  if (!apiFetch || !formatNumber || !formatScale || !yoctoToTgas)
+    return <HomeStatsSkeleton />;
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState(null);
   useEffect(() => {
@@ -25,7 +27,7 @@ const Stats = () => {
     <div className="lg:flex flex-wrap justify-between px-3 lg:px-0">
       <div className="sm:flex lg:block flex-wrap justify-between lg:min-w-[200px]">
         <div className="px-3 mb-[42px]">
-          <p className="font-heading font-medium text-[39px] tracking-[0.6px] -mb-[5px]">
+          <p className="font-heading font-medium text-[32px] lg:text-[38px] tracking-[0.6px] -mb-[5px]">
             <Skeleton className="w-28" loading={loading}>
               {formatScale(stats?.total_txns ?? "0", 2)}
             </Skeleton>
@@ -33,7 +35,7 @@ const Stats = () => {
           <h3 className="font-normal text-[20px]">Transactions</h3>
         </div>
         <div className="px-3 mb-[42px]">
-          <p className="font-heading font-medium text-[39px] tracking-[0.6px] -mb-[5px] sm:text-right lg:text-left">
+          <p className="font-heading font-medium text-[32px] lg:text-[38px] tracking-[0.6px] -mb-[5px] sm:text-right lg:text-left">
             <Skeleton className="w-16" loading={loading}>
               {formatNumber(String(stats?.nodes_online ?? 0), 0)}
             </Skeleton>
@@ -46,22 +48,20 @@ const Stats = () => {
       {context.networkId === "mainnet" && (
         <div className="sm:flex lg:block flex-wrap justify-between lg:min-w-[200px]">
           <div className="px-3 mb-[42px]">
-            <p className="font-heading font-medium text-[39px] tracking-[0.6px] lg:text-center -mb-[5px]">
+            <p className="font-heading font-medium text-[32px] lg:text-[38px] tracking-[0.6px] -mb-[5px]">
               <Skeleton className="w-28" loading={loading}>
                 ${formatNumber(stats?.near_price ?? "0", 2)}
               </Skeleton>
             </p>
-            <h3 className="text-[20px] font-normal lg:text-center">
-              Near Price
-            </h3>
+            <h3 className="text-[20px] font-normal">Near Price</h3>
           </div>
           <div className="px-3 mb-[42px]">
-            <p className="font-heading font-medium text-[39px] tracking-[0.6px] sm:text-right lg:text-center -mb-[5px]">
+            <p className="font-heading font-medium text-[32px] lg:text-[38px] tracking-[0.6px] sm:text-right lg:text-left -mb-[5px]">
               <Skeleton className="w-36" loading={loading}>
                 ${formatScale(stats?.market_cap ?? "0", 2)}
               </Skeleton>
             </p>
-            <h3 className="font-normal text-[20px] sm:text-right lg:text-center">
+            <h3 className="font-normal text-[20px] sm:text-right lg:text-left">
               Market Cap
             </h3>
           </div>
@@ -69,7 +69,7 @@ const Stats = () => {
       )}
       <div className="sm:flex lg:block flex-wrap justify-between lg:min-w-[200px]">
         <div className="px-3 mb-[42px]">
-          <p className="font-heading font-medium text-[39px] tracking-[0.6px] lg:text-right -mb-[5px]">
+          <p className="font-heading font-medium text-[32px] lg:text-[38px] tracking-[0.6px] lg:text-right -mb-[5px]">
             <Skeleton className="w-44" loading={loading}>
               {formatNumber(yoctoToTgas(stats?.gas_price ?? "0"), 4)} Ⓝ
             </Skeleton>
@@ -79,7 +79,7 @@ const Stats = () => {
           </h3>
         </div>
         <div className="px-3 mb-[42px]">
-          <p className="font-heading font-medium text-[39px] tracking-[0.6px] sm:text-right lg:text-right -mb-[5px]">
+          <p className="font-heading font-medium text-[32px] lg:text-[38px] tracking-[0.6px] sm:text-right lg:text-right -mb-[5px]">
             <Skeleton className="w-36" loading={loading}>
               {formatNumber(stats?.avg_block_time ?? "0", 4)}s
             </Skeleton>
