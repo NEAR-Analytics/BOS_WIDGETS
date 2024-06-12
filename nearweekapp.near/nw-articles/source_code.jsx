@@ -77,7 +77,7 @@ function Articles() {
   }
 
   const fetchyoutubeVideo = fetch(
-    "https://nearweek.com/api/youtube/playlists?playlistId=PL9tzQn_TEuFWMuPiQOXhaE5lpOTnxLPZY",
+    "https://nearweek.com/api/youtube/playlists?playlistId=PLmgxQHVg7viqE2Xw9s4wWzmNCZp9_SRf1",
     {
       //subscribe: true,
       method: "GET",
