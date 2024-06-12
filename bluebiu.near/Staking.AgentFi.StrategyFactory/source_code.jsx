@@ -174,11 +174,8 @@ const {
   multiplier,
   rootAgent,
   dexAPR,
-} = props;
-
-const {
   strategies,
-} = dexConfig;
+} = props;
 
 return (
   <>
