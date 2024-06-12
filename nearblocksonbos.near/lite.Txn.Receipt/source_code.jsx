@@ -1,4 +1,6 @@
-let Skeleton = window?.Skeleton || (({ children }) => <>{children}</>);
+let TxnActionSkeleton = window?.TxnActionSkeleton || (() => <></>);
+let TxnAddressSkeleton = window?.TxnAddressSkeleton || (() => <></>);
+let TxnReceiptSkeleton = window?.TxnReceiptSkeleton || (() => <></>);
 const Receipt = ({
   className,
   convertion,
@@ -10,7 +12,7 @@ const Receipt = ({
   useEffect(() => {
     setOpen(expand);
   }, [expand]);
-  if (!("outcome" in receipt)) return null;
+  if (!("outcome" in receipt)) return <TxnReceiptSkeleton />;
   const remainingOutgoingReceipts = outgoingReceipts.slice(0, -1);
   const lastOutgoingReceipt = outgoingReceipts.at(-1);
   const filterRefundReceipts = receipt.outcome.nestedReceipts.filter(
@@ -21,26 +23,18 @@ const Receipt = ({
   const lastNonRefundReceipt = filterRefundReceipts.at(-1);
   return (
     <div className={className}>
-      {convertion ? (
+      {convertion && (
         <Widget
           key="address-1"
-          loading={
-            <div className="flex items-center pb-3">
-              <span className="inline-block h-4 w-4 rounded-full bg-bg-skeleton mr-3"></span>
-              <Skeleton className="block h-5 w-28" loading>
-                <span className="font-heading font-semibold text-sm">
-                  &nbsp;
-                </span>
-              </Skeleton>
-            </div>
-          }
+          loading={<TxnAddressSkeleton />}
           props={{ address: receipt.predecessorId }}
           src={`nearblocksonbos.near/widget/lite.Txn.Address`}
         />
-      ) : null}
-      {lastOutgoingReceipt ? (
+      )}
+      {lastOutgoingReceipt && (
         <Widget
           key="execution-1"
+          loading={<TxnReceiptSkeleton />}
           props={{
             className: "ml-2 pl-4 border-l border-border-body",
             convertion: false,
@@ -50,18 +44,12 @@ const Receipt = ({
           }}
           src={`nearblocksonbos.near/widget/lite.Txn.Receipt`}
         />
-      ) : null}
+      )}
       <div className="relative ml-2 mb-3 py-3 px-4">
         <div className="arrow absolute h-full left-0 top-0 border-l border-border-body" />
         <Widget
           key="actions"
-          loading={
-            <Skeleton className="block h-7 w-28" loading>
-              <button className="text-sm text-black rounded py-1 px-3 bg-bg-function">
-                &nbsp;
-              </button>
-            </Skeleton>
-          }
+          loading={<TxnActionSkeleton />}
           props={{
             actions: receipt.actions,
             open,
@@ -73,20 +61,14 @@ const Receipt = ({
       </div>
       <Widget
         key="address-2"
-        loading={
-          <div className="flex items-center pb-3">
-            <span className="inline-block h-4 w-4 rounded-full bg-bg-skeleton mr-3"></span>
-            <Skeleton className="block h-5 w-28" loading>
-              <span className="font-heading font-semibold text-sm">&nbsp;</span>
-            </Skeleton>
-          </div>
-        }
+        loading={<TxnAddressSkeleton />}
         props={{ address: receipt.receiverId }}
         src={`nearblocksonbos.near/widget/lite.Txn.Address`}
       />
-      {lastNonRefundReceipt ? (
+      {lastNonRefundReceipt && (
         <Widget
           key="execution-2"
+          loading={<TxnReceiptSkeleton />}
           props={{
             convertion: false,
             expand,
@@ -95,7 +77,7 @@ const Receipt = ({
           }}
           src={`nearblocksonbos.near/widget/lite.Txn.Receipt`}
         />
-      ) : null}
+      )}
     </div>
   );
 };
