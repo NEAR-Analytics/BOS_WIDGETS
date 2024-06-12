@@ -380,19 +380,22 @@ const handleTab = (tab) => {
   });
 };
 
-const queryPoolInfo = () => {
+const queryPoolInfo = ({ fee }) => {
   return new Promise((resolve) => {
-    const currentBalancesList = record.balances || [];
-    const currentBalance = currentBalancesList.find((it) => /^BlasterSwap Positions NFT/.test(it.name));
-    if (!currentBalance) {
-      resolve(false);
-      return;
-    }
-    const fee = currentStrategy.meta.feeTierList.find((it) => it.name.includes(currentBalance.name));
     if (!fee) {
-      resolve(false);
-      return;
+      const currentBalancesList = record.balances || [];
+      const currentBalance = currentBalancesList.find((it) => /^BlasterSwap Positions NFT/.test(it.name));
+      if (!currentBalance) {
+        resolve(false);
+        return;
+      }
+      fee = currentStrategy.meta.feeTierList.find((it) => it.name.includes(currentBalance.name));
+      if (!fee) {
+        resolve(false);
+        return;
+      }
     }
+
     const contract = new ethers.Contract(
       fee.pool,
       QUERY_POOL_ABI,
