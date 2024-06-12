@@ -20,11 +20,11 @@ const StyledSectionCardInner = styled.div`
   padding: 12px 12px;
 
   .deposited-value {
-    color: #FFF;
     font-size: 18px;
     font-style: normal;
     font-weight: 800;
     line-height: normal;
+    color: var(--switch-color);
   }
   
   .deposited-value-tips {
