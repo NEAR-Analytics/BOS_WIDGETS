@@ -1,5 +1,7 @@
+let ErrorSkeleton = window?.ErrorSkeleton || (() => <></>);
+let TxnTabsSkeleton = window?.TxnTabsSkeleton || (() => <></>);
+let TxnExecutionSkeleton = window?.TxnExecutionSkeleton || (() => <></>);
 let tabs = [0];
-let Skeleton = window?.Skeleton || (({ children }) => <>{children}</>);
 const Tabs = ({ hash, rpcUrl }) => {
   let { rpcFetch } = VM.require(
     `nearblocksonbos.near/widget/lite.libs.fetcher`
@@ -7,7 +9,8 @@ const Tabs = ({ hash, rpcUrl }) => {
   let { nestReceipts, parseOutcome, parseReceipt } = VM.require(
     `nearblocksonbos.near/widget/lite.libs.execution`
   );
-  if (!rpcFetch || !nestReceipts || !parseOutcome || !parseReceipt) return null;
+  if (!rpcFetch || !nestReceipts || !parseOutcome || !parseReceipt)
+    return <TxnTabsSkeleton />;
   const [active, setActive] = useState(tabs[0]);
   const [data, setData] = useState({});
   const [error, setError] = useState({});
@@ -59,42 +62,6 @@ const Tabs = ({ hash, rpcUrl }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hash, active, data]);
-  const ExecutionLoader = () => (
-    <div>
-      <div className="flex justify-between items-center text-sm mb-6">
-        <Skeleton className="block h-5 w-40" loading>
-          <span className="text-text-label">&nbsp;</span>
-        </Skeleton>
-      </div>
-      <div className="flex items-center pb-3">
-        <span className="inline-block h-4 w-4 rounded-full bg-bg-skeleton mr-3"></span>
-        <Skeleton className="block h-5 w-28" loading>
-          <span className="font-heading font-semibold text-sm">&nbsp;</span>
-        </Skeleton>
-      </div>
-      <div className="relative ml-2 mb-3 py-3 px-4">
-        <div className="arrow absolute h-full left-0 top-0 border-l border-border-body"></div>
-        <div className="space-y-2">
-          <div>
-            <div>
-              <Skeleton className="block h-7 w-28" loading>
-                <button className="text-sm text-black rounded py-1 px-3 bg-bg-function">
-                  &nbsp;
-                </button>
-              </Skeleton>
-              <span className="font-semibold text-xs" />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="flex items-center pb-3">
-        <span className="inline-block h-4 w-4 rounded-full bg-bg-skeleton mr-3" />
-        <Skeleton className="block h-5 w-28" loading>
-          <span className="font-heading font-semibold text-sm">&nbsp;</span>
-        </Skeleton>
-      </div>
-    </div>
-  );
   return (
     <div className="bg-bg-box lg:rounded-xl shadow px-6 mt-8">
       <div className="pt-4 pb-6">
@@ -116,17 +83,18 @@ const Tabs = ({ hash, rpcUrl }) => {
         {error[active] ? (
           <Widget
             key="error"
+            loading={<ErrorSkeleton />}
             props={{ title: "Error Fetching Txn Details" }}
             src={`nearblocksonbos.near/widget/lite.Atoms.Error`}
           />
         ) : loading[active] ? (
-          <>{active === 0 && <ExecutionLoader />}</>
+          <>{active === 0 && <TxnExecutionSkeleton />}</>
         ) : (
           <>
             {active === 0 && (
               <Widget
                 key="execution"
-                loading={<ExecutionLoader />}
+                loading={<TxnExecutionSkeleton />}
                 props={{ receipt: data[active] }}
                 src={`nearblocksonbos.near/widget/lite.Txn.Execution`}
               />
