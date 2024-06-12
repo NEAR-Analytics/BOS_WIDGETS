@@ -230,21 +230,21 @@ return (
                               <img src="https://app.agentfi.io/icons/tokens/eth.svg" alt="" />
                             </li>
                             {
-                              ["Looper", "Concentrated Liquidity Manager", "Dex Balancer"].includes(item.name) && (
+                              ["Looper", "Orbit Looper", "Concentrated Liquidity Manager", "Dex Balancer"].includes(item.name) && (
                                 <li className="my-strategies-assets-item">
                                   <img src="https://app.agentfi.io/icons/tokens/usdb.svg" alt="" />
                                 </li>
                               )
                             }
                             {
-                              ["Looper"].includes(item.name) && (
+                              ["Looper", "Orbit Looper"].includes(item.name) && (
                                 <li className="my-strategies-assets-item">
                                   <img src="https://app.agentfi.io/icons/tokens/dusd.svg" alt="" />
                                 </li>
                               )
                             }
                             {
-                              ["Looper"].includes(item.name) && (
+                              ["Looper", "Orbit Looper"].includes(item.name) && (
                                 <li className="my-strategies-assets-item">
                                   <img src="https://app.agentfi.io/icons/tokens/deth.svg" alt="" />
                                 </li>
@@ -262,28 +262,28 @@ return (
                         }}>
                           <StyledMyStrategiesAssets>
                             {
-                              ["Looper"].includes(item.name) && (
+                              ["Looper", "Orbit Looper"].includes(item.name) && (
                                 <li className="my-strategies-assets-item" title="Orbit">
                                   <img src="https://app.agentfi.io/assets/strategies/icons/orbit.svg" alt="" />
                                 </li>
                               )
                             }
                             {
-                              ["Looper"].includes(item.name) && (
+                              ["Looper", "Orbit Looper"].includes(item.name) && (
                                 <li className="my-strategies-assets-item" title="Particle">
                                   <img src="https://app.agentfi.io/assets/strategies/icons/particle.svg" alt="" />
                                 </li>
                               )
                             }
                             {
-                              ["Looper"].includes(item.name) && (
+                              ["Looper", "Orbit Looper"].includes(item.name) && (
                                 <li className="my-strategies-assets-item" title="Duo">
                                   <img src="https://s3.amazonaws.com/dapdap.prod/images/group-48097863.png" alt="" />
                                 </li>
                               )
                             }
                             {
-                              ["Looper", "Dex Balancer"].includes(item.name) && (
+                              ["Looper", "Orbit Looper", "Dex Balancer"].includes(item.name) && (
                                 <li className="my-strategies-assets-item" title="Ring">
                                   <img src="https://app.agentfi.io/logo/partners/svgs/symbol/color/ring.svg" alt="" />
                                 </li>
