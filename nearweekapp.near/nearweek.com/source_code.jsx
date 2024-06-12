@@ -247,9 +247,8 @@ const Header = styled.div`
   background-image: url("${coverImgSrc}"); 
   background-repeat: no-repeat;
   background-color: transparent;
-  #background-size: 100% 100%;
+  background-size: 100% 100%;
   #height: 100vh;
-  background-size: contain;
   height: auto;
   aspect-ratio: 16 / 9;
 `;
@@ -310,9 +309,14 @@ const trusted = [
 ];
 
 const Trusted = styled.div`
-  margin-top: 64px;
+  margin-top: 50px;
   margin-left: 50px;
   margin-right: 50px;
+  @media screen and (max-width: ${breakpoints.md}) {
+    margin-top: 15px;
+    margin-left: 15px;
+    margin-right: 15px;
+  }
 `;
 const TrustedTitle = styled.h2`
   text-transform: uppercase;
@@ -341,7 +345,11 @@ const TrustedLink = styled.a`
   & img {
     border-radius:50%;
     width: 106px;
-    height: 106px
+    height: 106px;
+    @media screen and (max-width: ${breakpoints.md}) {
+        width: 96px;
+        height: 96px;
+  }
   }
   & span{
     font-size: 9px;
