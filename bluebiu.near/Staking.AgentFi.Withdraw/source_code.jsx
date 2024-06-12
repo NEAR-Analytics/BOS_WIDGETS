@@ -258,6 +258,7 @@ const {
   chainId,
   handleDetailClose,
   QUERY_POOL_ABI,
+  strategies,
 } = props;
 
 const { StakeTokens } = dexConfig;
@@ -321,7 +322,7 @@ const handleSubmit = () => {
   State.update({
     pending: true,
   });
-  if (record.name === 'Looper') {
+  if ([strategies[0].name].includes(record.name.toLocaleString())) {
     const params = [
       // receiver
       account,
@@ -397,7 +398,7 @@ const handleSubmit = () => {
     estimateGas();
     return;
   }
-  if (['Multipliooor', 'Dex Balancer'].includes(record.name)) {
+  if ([strategies[3].name, strategies[2].name].includes(record.name.toLowerCase())) {
     // contract is rootAgent.agentAddress
     const params = [
       // to
@@ -480,7 +481,7 @@ const handleSubmit = () => {
     estimateGas();
     return;
   }
-  if (record.name === 'Concentrated Liquidity Manager') {
+  if (record.name.toLowerCase() === strategies[1].name) {
     const currentBalancesList = record.balances || [];
     const currentBalance = currentBalancesList.find((it) => /^BlasterSwap Positions NFT/.test(it.name));
     if (!currentBalance || Big(currentBalance.balance || 0).lte(0)) {
@@ -637,7 +638,7 @@ const renderButton = (disabled) => {
 
 const renderWithdraw = () => {
   // can select withdraw value
-  if (record.name === 'Concentrated Liquidity Manager') {
+  if (record.name.toLowerCase() === strategies[1].name) {
     return (
       <>
         <StyledContent>
@@ -699,7 +700,7 @@ const renderWithdraw = () => {
     );
   }
   // withdraw all but show diff text
-  if (record.name === 'Looper') {
+  if ([strategies[0].name].includes(record.name.toLowerCase())) {
     return (
       <>
         <StyledContent>
@@ -727,7 +728,7 @@ const renderWithdraw = () => {
       </>
     );
   }
-  if (record.name === 'Multipliooor') {
+  if (record.name.toLowerCase() === strategies[3].name) {
     return (
       <>
         <StyledContent>
@@ -739,7 +740,7 @@ const renderWithdraw = () => {
       </>
     );
   }
-  if (record.name === 'Dex Balancer') {
+  if (record.name.toLowerCase() === strategies[2].name) {
     return (
       <>
         <StyledContent>
