@@ -273,8 +273,10 @@ const onAmountChange = (amount) => {
 
     params.isOverSize = value.gt(borrowLimit || 0);
 
-    if (Big(data.totalBorrows).gt(Big(data.borrowCaps))) {
-      params.isBorrowCapsFull = true;
+    if (dexConfig.name === "Ionic") {
+      if (Big(data.totalBorrows).gt(Big(data.borrowCaps))) {
+        params.isBorrowCapsFull = true;
+      }
     }
   }
   params.buttonClickable =
