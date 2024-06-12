@@ -1,8 +1,9 @@
+let TxnAddressSkeleton = window?.TxnAddressSkeleton || (() => <></>);
 const Address = ({ address }) => {
   let { shortenString } = VM.require(
     `nearblocksonbos.near/widget/lite.libs.utils`
   );
-  if (!shortenString) return null;
+  if (!shortenString) return <TxnAddressSkeleton />;
   return (
     <div className="flex items-center pb-3">
       <span className="inline-block h-4 w-4 rounded-full bg-bg-skeleton mr-3" />
