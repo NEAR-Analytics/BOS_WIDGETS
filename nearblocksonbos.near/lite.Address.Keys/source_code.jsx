@@ -1,5 +1,6 @@
-const LIMIT = 25;
 let Skeleton = window?.Skeleton || (({ children }) => <>{children}</>);
+let AddressKeysSkeleton = window?.AddressKeysSkeleton || (() => <></>);
+const LIMIT = 25;
 const Keys = ({ id, rpcUrl }) => {
   let { rpcFetch } = VM.require(
     `nearblocksonbos.near/widget/lite.libs.fetcher`
@@ -13,7 +14,8 @@ const Keys = ({ id, rpcUrl }) => {
   let { shortenString } = VM.require(
     `nearblocksonbos.near/widget/lite.libs.utils`
   );
-  if (!rpcFetch || !yoctoToNear || !formatNumber || !shortenString) return null;
+  if (!rpcFetch || !yoctoToNear || !formatNumber || !shortenString)
+    return <AddressKeysSkeleton />;
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [keys, setKeys] = useState([]);
@@ -70,7 +72,7 @@ const Keys = ({ id, rpcUrl }) => {
     setPage((prevPage) => Math.min(prevPage + 1, pages));
   };
   return (
-    <div className="relative rounded-lg overflow-auto bg-bg-box border border-border-body my-6">
+    <div className="relative overflow-auto">
       <table className="table-auto border-collapse w-full">
         <thead>
           <tr>
