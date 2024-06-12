@@ -357,7 +357,7 @@ const TrustedLink = styled.a`
   }
   @media screen and (max-width: ${breakpoints.md}) {
     margin-top: 25px;
-    margin-bottom: 25px;
+    margin-bottom: 0;
   }
 `;
 
