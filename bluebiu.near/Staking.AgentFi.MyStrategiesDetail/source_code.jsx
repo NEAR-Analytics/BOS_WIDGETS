@@ -671,7 +671,7 @@ return (
           </div>
           <div className="strategy-description">
             {
-              // currentStrategy?.DESCRIPTION_CONFIG?.join( ' ')
+              currentStrategy?.DESCRIPTION_CONFIG?.join( ' ')
             }
           </div>
         </StyledCardHead>
