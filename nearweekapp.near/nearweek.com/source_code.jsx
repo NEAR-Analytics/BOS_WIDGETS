@@ -2,7 +2,7 @@ const rootUser = "nearweekapp.near";
 const nwSite = "https://nearweek.com";
 
 const coverImgSrc =
-  "https://ipfs.near.social/ipfs/bafkreibydsokq7egf2h5axgion4bsdfz5s5vmnnbdebanemfxc3juuizee";
+  "https://ipfs.near.social/ipfs/bafkreia6gzxm37bhrmhoco3mmqwc5cejacqu3qfev7hrwcor2hzaomuncu";
 
 const mobCoverImgSrc =
   "https://ipfs.near.social/ipfs/bafkreihzi6htmib5soiama557tr5bhwblm5gjxnnenvdtvxqzhvsoraztq";
@@ -262,16 +262,21 @@ const TopHeader = styled.div`
   }
 `;
 const Header = styled.div`
+  position: relative;
   background-image: url("${coverImgSrc}"); 
   background-repeat: no-repeat;
   background-color: transparent;
   background-size: 100% 100%;
-  #height: 100vh;
   height: auto;
   aspect-ratio: 16 / 9;
   @media screen and (max-width: ${breakpoints.md}) {
       background-image: url("${mobCoverImgSrc}"); 
 
+  }
+  & div {
+    position: relative;
+    width: 50%;
+    top: 50%;
   }
 `;
 
@@ -384,6 +389,29 @@ const TrustedLink = styled.a`
 `;
 
 const RequestServicesButton = styled.a`
+    display: block;
+    position: aboslute;
+    text-align: center;
+    width: 196px;
+    height: 39px;
+    margin: 0 auto;
+    background: rgb(66, 0, 255);
+    color: rgb(255, 255, 255);
+    border-radius: 12px;
+    margin-top: 24px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    padding: 9px 24px;
+    font-style: italic;    
+  &:hover {
+    text-decoration: none;
+  }
+  @media screen and (max-width: ${breakpoints.md}) {
+    display: none;
+  }
+`;
+const MobRequestServicesButton = styled.a`
     display: none;
   @media screen and (max-width: ${breakpoints.md}) {
     display: block;
@@ -412,13 +440,23 @@ return (
     {/*main section*/}
     <Widget src={`${rootUser}/widget/nw-navbar`} />
     <TopHeader />
-    <RequestServicesButton
+    <MobRequestServicesButton
       href="https://4efdmh2cgdi.typeform.com/NWservices"
       target="_blank"
     >
       REQUEST SERVICES
-    </RequestServicesButton>
-    <Header />
+    </MobRequestServicesButton>
+    <Header>
+      <div>
+        <RequestServicesButton
+          href="https://4efdmh2cgdi.typeform.com/NWservices"
+          target="_blank"
+        >
+          REQUEST SERVICES
+        </RequestServicesButton>
+      </div>
+      <div />
+    </Header>
     <Trusted>
       <TrustedTitle>Trusted By</TrustedTitle>
       <TrustedList>
