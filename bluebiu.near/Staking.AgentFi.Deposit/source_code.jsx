@@ -274,7 +274,7 @@ const DEPOSIT_POOL_ABI_MULTI = [
     ],
     name: "multicall",
     outputs: [
-      { internalType: "bytes[]", name: "results", type: "bytes[]" }
+      { internalType: "bytes[]", name: "", type: "bytes[]" }
     ],
     stateMutability: "payable",
     type: "function",
@@ -325,7 +325,6 @@ const {
   handleApprove,
   balanceList,
   queryPoolInfo,
-  tickToPrice,
 } = props;
 
 const { StakeTokens } = dexConfig;
@@ -354,8 +353,6 @@ State.init({
   //#endregion
 
   //#region clm
-  currentEth2UsdPrice: "",
-  currentUsd2EthPrice: "",
   currentEthPer: 50,
   currentUsdPer: 50,
   //#endregion
@@ -379,14 +376,15 @@ const formatAddAction = (actionText, _amount, status, transactionHash, tokenSymb
 const queryUSDBTransform = () => {
   // query usdb fransform
   const iface = new ethers.utils.Interface(TRANSFORM_TOKEN_ABI);
-  return iface.encodeFunctionData("transferFrom", [
+  const params = [
     // from
     account,
     // to
     record.agentAddress,
     // amount
     ethers.BigNumber.from(Big(state.usdAmount).times(Big(10).pow(state.currentUsdToken.decimals)).toString()),
-  ]);
+  ];
+  return iface.encodeFunctionData("transferFrom", params);
 };
 
 const handleSubmit = () => {
@@ -637,7 +635,8 @@ const handleSubmit = () => {
     });
 
     const data = queryUSDBTransform();
-    queryPoolInfo().then((poolRes) => {
+    // fixed 0.30 % fee tier
+    queryPoolInfo({ fee: currentStrategy.meta.feeTierList[2] }).then((poolRes) => {
       if (!poolRes) {
         State.update({
           pending: false,
@@ -650,9 +649,22 @@ const handleSubmit = () => {
       }
       const { sqrtPriceX96 } = poolRes;
 
+      // queryPoolInfo({ fee: currentStrategy.meta.feeTierList[1] }).then((pool1) => {
+      //   queryPoolInfo({ fee: currentStrategy.meta.feeTierList[0] }).then((pool0) => {
+      //     console.log('pool0.sqrtPriceX96: ', pool0.sqrtPriceX96);
+      //     console.log('pool1.sqrtPriceX96: ', pool1.sqrtPriceX96);
+      //     console.log('pool2.sqrtPriceX96: ', sqrtPriceX96);
+      //   });
+      // });
+
       const approveList = [
-        handleApprove(rootAgent.agentAddress, state.currentEthToken.address, state.ethAmount, state.currentEthToken.decimals),
-        handleApprove(rootAgent.agentAddress, state.currentUsdToken.address, state.usdAmount, state.currentUsdToken.decimals),
+        handleApprove(record.agentAddress, state.currentEthToken.address, state.ethAmount, state.currentEthToken.decimals),
+        handleApprove(
+          record.agentAddress,
+          state.currentUsdToken.address,
+          '115792089237316195423570985008687907853269984665640564039457.584007913129639935',
+          state.currentUsdToken.decimals
+        ),
       ];
       Promise.all(approveList).then((approveRes) => {
         if (approveRes.some((approved) => !approved)) {
@@ -662,29 +674,26 @@ const handleSubmit = () => {
           return;
         }
 
+        const executeBatchParams = [
+          [
+            {
+              to: state.currentUsdToken.address,
+              value: '0',
+              data,
+              operation: 0
+            }
+          ]
+        ];
+        const moduleCParams = [
+          account,
+          sqrtPriceX96,
+          1000000,
+        ];
+
         const iface = new ethers.utils.Interface(DEPOSIT_POOL_ABI_MULTI);
         const multicallParams = [
-          iface.encodeFunctionData(
-            "executeBatch",
-            [
-              [
-                {
-                  to: state.currentUsdToken.address,
-                  value: parseUnits('0', state.currentUsdToken.decimals),
-                  data,
-                  operation: 0
-                }
-              ]
-            ]
-          ),
-          iface.encodeFunctionData(
-            "moduleC_increaseLiquidityWithBalanceAndRefundTo",
-            [
-              account,
-              sqrtPriceX96,
-              1000000,
-            ]
-          )
+          iface.encodeFunctionData("executeBatch", executeBatchParams),
+          iface.encodeFunctionData("moduleC_increaseLiquidityWithBalanceAndRefundTo", moduleCParams)
         ];
 
         const multicallContract = new ethers.Contract(
@@ -694,38 +703,70 @@ const handleSubmit = () => {
         );
 
         const multicallOptions = {
-          gasLimit: 5000000,
           value: parseUnits(state.ethAmount, state.currentEthToken.decimals || 18),
         };
 
-        multicallContract
-          .multicall(multicallParams, multicallOptions)
-          .then((res) => {
-            const { transactionHash } = res || {};
-            State.update({
-              pending: false,
+        const getTx = (_gas) => {
+          multicallContract
+            // .populateTransaction
+            .multicall(multicallParams, {
+              ...multicallOptions,
+              gasLimit: _gas || 5000000,
+            })
+            .then((tx) => {
+              tx.wait().then((res) => {
+                const { status, transactionHash } = res;
+                State.update({
+                  pending: false,
+                });
+                if (status !== 1) throw new Error("");
+                onSuccess();
+                formatAddAction(actionText, state.ethAmount, status, transactionHash, state.currentEthToken.value);
+                toast?.success({
+                  title: `${actionText} Successfully!`,
+                  text: `${actionText} ${state.ethAmount} ${state.currentEthToken.value}`,
+                  tx: transactionHash,
+                  chainId,
+                });
+              }).catch((err) => {
+                console.log('Concentrated Liquidity Manager deposit faild when wait, ', err);
+                State.update({
+                  pending: false,
+                });
+                toast?.fail({
+                  title: `${actionText} Failed!`,
+                  text: err?.message?.includes("user rejected transaction")
+                    ? "User rejected transaction"
+                    : ``,
+                });
+              });
+            })
+            .catch((err) => {
+              console.log('Concentrated Liquidity Manager deposit faild when multicall, ', err);
+              State.update({
+                pending: false,
+              });
+              toast?.fail({
+                title: `${actionText} Failed!`,
+                text: err?.message?.includes("user rejected transaction")
+                  ? "User rejected transaction"
+                  : ``,
+              });
             });
-            onSuccess();
-            formatAddAction(actionText, state.ethAmount, 1, transactionHash, state.currentEthToken.value);
-            toast?.success({
-              title: `${actionText} Successfully!`,
-              text: `${actionText} ${state.ethAmount} ${state.currentEthToken.value}`,
-              tx: transactionHash,
-              chainId,
+        };
+
+        const estimateGas = () => {
+          multicallContract.estimateGas
+            .multicall(multicallParams, multicallOptions)
+            .then((_gas) => {
+              getTx(_gas);
+            })
+            .catch((err) => {
+              getTx();
             });
-          })
-          .catch((err) => {
-            console.log('Concentrated Liquidity Manager deposit faild, ', err);
-            State.update({
-              pending: false,
-            });
-            toast?.fail({
-              title: `${actionText} Failed!`,
-              text: err?.message?.includes("user rejected transaction")
-                ? "User rejected transaction"
-                : ``,
-            });
-          });
+        };
+
+        estimateGas();
       });
     });
   }
@@ -773,19 +814,6 @@ const handleUsdToken = (option) => {
       currentUsdTokenBalance: value,
     });
   });
-  if (record.name === "Concentrated Liquidity Manager") {
-    // query pool info
-    queryPoolInfo().then((poolRes) => {
-      if (!poolRes) {
-        return;
-      }
-      const { tick } = poolRes;
-      State.update({
-        currentEth2UsdPrice: tickToPrice({ tick, token0: state.currentEthToken, token1: option }),
-        currentUsd2EthPrice: tickToPrice({ tick, token0: option, token1: state.currentEthToken }),
-      });
-    });
-  }
 };
 
 const handleUsdBalance = (value) => {
@@ -840,19 +868,6 @@ const handleEthToken = (option) => {
       currentEthTokenBalance: value,
     });
   });
-  if (record.name === "Concentrated Liquidity Manager") {
-    // query pool info
-    queryPoolInfo().then((poolRes) => {
-      if (!poolRes) {
-        return;
-      }
-      const { tick } = poolRes;
-      State.update({
-        currentEth2UsdPrice: tickToPrice({ tick, token0: option, token1: state.currentUsdToken }),
-        currentUsd2EthPrice: tickToPrice({ tick, token0: state.currentUsdToken, token1: option }),
-      });
-    });
-  }
 };
 
 const handleEthBalance = (value) => {
@@ -940,17 +955,6 @@ useEffect(() => {
     getTokenBalance(UsdStakeTokens[0]).then((value) => {
       State.update({
         currentUsdTokenBalance: value,
-      });
-    });
-    // query pool info
-    queryPoolInfo().then((poolRes) => {
-      if (!poolRes) {
-        return;
-      }
-      const { tick } = poolRes;
-      State.update({
-        currentEth2UsdPrice: tickToPrice({ tick, token0: _ethTokens[0], token1: _usdTokens[0] }),
-        currentUsd2EthPrice: tickToPrice({ tick, token0: _usdTokens[0], token1: _ethTokens[0] }),
       });
     });
   }
