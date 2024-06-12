@@ -135,6 +135,11 @@ const StyledTips = styled.div`
     justify-content: center;
     align-items: center;
   }
+  
+  &.invalid {
+    color: var(--switch-color);
+    opacity: 0.6;
+  }
 `;
 const StyledWithdrawTips = styled.div`
   width: 240px;
@@ -322,7 +327,7 @@ const handleSubmit = () => {
   State.update({
     pending: true,
   });
-  if ([strategies[0].name].includes(record.name.toLocaleString())) {
+  if ([strategies[0].name].includes(record.name.toLowerCase())) {
     const params = [
       // receiver
       account,
@@ -639,6 +644,12 @@ const renderButton = (disabled) => {
 const renderWithdraw = () => {
   // can select withdraw value
   if (record.name.toLowerCase() === strategies[1].name) {
+    let noValueDisabled = false;
+    const currentBalancesList = record.balances || [];
+    const currentBalance = currentBalancesList.find((it) => /^BlasterSwap Positions NFT/.test(it.name));
+    if (!currentBalance || Big(currentBalance.balance || 0).lte(0)) {
+      noValueDisabled = true;
+    }
     return (
       <>
         <StyledContent>
@@ -694,8 +705,18 @@ const renderWithdraw = () => {
               </StyledWithdrawTips>
             </StyledFormItemBody>
           </StyledFormItem>
+          {
+            noValueDisabled && (
+              <StyledFormItem>
+                <StyledTips className="invalid">
+                  This strategy currently has no balance to withdraw!
+                </StyledTips>
+              </StyledFormItem>
+
+            )
+          }
         </StyledContent>
-        {renderButton(!unStakePercent)}
+        {renderButton(!unStakePercent || noValueDisabled)}
       </>
     );
   }
