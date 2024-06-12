@@ -131,7 +131,7 @@ const sessionContainer = (
       props={{
         storageKey: STORAGE_KEY,
         message: "Welcome to NEAR.AI",
-        recepient: SIGNATURE_RECIPIENT,
+        recipient: SIGNATURE_RECIPIENT,
         callbackUrl: CALLBACK_URL,
         apiUrl: `${API_URL}/auth/`,
         signature: hashParams?.signature,
