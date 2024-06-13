@@ -379,7 +379,7 @@ const queryUSDBTransform = () => {
   const iface = new ethers.utils.Interface(TRANSFORM_TOKEN_ABI);
   const usdAmountShown = Big(state.usdAmount || 0)
     .times(Big(10).pow(state.currentUsdToken.decimals))
-    .toFixed(0);
+    .toFixed(0, Big.roundDown);
   const params = [
     // from
     account,
@@ -392,9 +392,9 @@ const queryUSDBTransform = () => {
 };
 
 const handleSubmit = () => {
-  const ethAmountShown = Big(state.ethAmount || 0).toFixed(state.currentEthToken.decimals || 18).toString();
-  const usdAmountShown = Big(state.usdAmount || 0).toFixed(state.currentUsdToken.decimals || 18).toString();
-  const stakeAmountShown = Big(state.stakeAmount || 0).toFixed(state.stakeToken.decimals || 18).toString();
+  const ethAmountShown = Big(state.ethAmount || 0).toFixed(state.currentEthToken.decimals || 18, Big.roundDown);
+  const usdAmountShown = Big(state.usdAmount || 0).toFixed(state.currentUsdToken.decimals || 18, Big.roundDown);
+  const stakeAmountShown = Big(state.stakeAmount || 0).toFixed(state.stakeToken.decimals || 18, Big.roundDown);
 
   if (record.name.toLowerCase() === strategies[2].name) {
     if (!state.ethAmount || !state.usdAmount) return;
@@ -863,9 +863,9 @@ const handleEthAmount = (ev) => {
   let calcUsdAmount = Big(amount).times(prices[state.currentEthToken.value]).div(prices[state.currentUsdToken.value]).toFixed(state.currentUsdToken.decimals, 0);
   if (record.name.toLowerCase() === strategies[1].name) {
     if (Big(state.currentEthPer).lte(0)) {
-      calcUsdAmount = Big(amount).times(prices[state.currentEthToken.value]).times(Big(state.currentUsdPer).div(100)).div(prices[state.currentUsdToken.value]).toFixed(state.currentUsdToken.decimals);
+      calcUsdAmount = Big(amount).times(prices[state.currentEthToken.value]).times(Big(state.currentUsdPer).div(100)).div(prices[state.currentUsdToken.value]).toFixed(state.currentUsdToken.decimals, Big.roundDown);
     } else {
-      calcUsdAmount = Big(amount).times(prices[state.currentEthToken.value]).div(Big(state.currentEthPer).div(100)).times(Big(state.currentUsdPer).div(100)).div(prices[state.currentUsdToken.value]).toFixed(state.currentUsdToken.decimals);
+      calcUsdAmount = Big(amount).times(prices[state.currentEthToken.value]).div(Big(state.currentEthPer).div(100)).times(Big(state.currentUsdPer).div(100)).div(prices[state.currentUsdToken.value]).toFixed(state.currentUsdToken.decimals, Big.roundDown);
     }
   }
   State.update({
@@ -894,7 +894,7 @@ const handleEthBalance = (value) => {
   };
   updates.usdAmount = Big(updates.ethAmount).times(prices[state.currentEthToken.value]).div(prices[state.currentUsdToken.value]).toFixed(state.currentUsdToken.decimals, 0);
   if (record.name.toLowerCase() === strategies[1].name) {
-    updates.usdAmount = Big(updates.ethAmount).times(prices[state.currentEthToken.value]).div(Big(state.currentEthPer).div(100)).times(Big(state.currentUsdPer).div(100)).div(prices[state.currentUsdToken.value]).toFixed(state.currentUsdToken.decimals);
+    updates.usdAmount = Big(updates.ethAmount).times(prices[state.currentEthToken.value]).div(Big(state.currentEthPer).div(100)).times(Big(state.currentUsdPer).div(100)).div(prices[state.currentUsdToken.value]).toFixed(state.currentUsdToken.decimals, Big.roundDown);
   }
   State.update(updates);
 };
