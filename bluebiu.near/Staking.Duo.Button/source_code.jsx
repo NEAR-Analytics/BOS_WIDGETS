@@ -265,7 +265,7 @@ if (!amount) {
   );
 }
 
-const amountShown = Big(amount || 0).toFixed(tokenDecimals);
+const amountShown = Big(amount || 0).toFixed(tokenDecimals, Big.roundDown);
 
 useEffect(() => {
   State.update({
