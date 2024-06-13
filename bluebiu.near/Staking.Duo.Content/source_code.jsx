@@ -354,7 +354,7 @@ return (
                         if (isNaN(Number(ev.target.value))) return;
                         let amount = ev.target.value.replace(/\s+/g, "");
 
-                        if (Big(amount || 0).gt(Big(state.tokenBal || 0))) {
+                        if (Big(state.tokenBal || 0).gt(0) && Big(amount || 0).gt(Big(state.tokenBal || 0))) {
                           amount = Big(Big(state.tokenBal || 0).toFixed(4, 0)).toString();
                         }
 
