@@ -348,6 +348,9 @@ const Trusted = styled.div`
 const TrustedTitle = styled.h2`
   text-transform: uppercase;
   font-weight: 300;
+  @media screen and (max-width: ${breakpoints.md}) {
+    font-size: 12px;
+  }
 `;
 
 const TrustedList = styled.div`
@@ -355,6 +358,10 @@ const TrustedList = styled.div`
   gap: 25px;
   flex-wrap: wrap;
   justify-content: space-around;
+  @media screen and (max-width: ${breakpoints.md}) {
+    gap:5px;
+    justify-content: space-between;
+  }
 `;
 
 const TrustedLink = styled.a`
@@ -374,8 +381,8 @@ const TrustedLink = styled.a`
     width: 106px;
     height: 106px;
       @media screen and (max-width: ${breakpoints.md}) {
-        width: 64px;
-        height: 64px;
+        width: 24px;
+        height: 24px;
     }
   }
   & span{
@@ -390,20 +397,17 @@ const TrustedLink = styled.a`
 
 const RequestServicesButton = styled.a`
     display: block;
-    position: aboslute;
     text-align: center;
-    width: 196px;
-    height: 39px;
-    margin: 0 auto;
+    width: 409px;
+    height: 56px;
+    margin: 24px auto;
     background: rgb(66, 0, 255);
     color: rgb(255, 255, 255);
     border-radius: 12px;
-    margin-top: 24px;
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 24px;
-    padding: 9px 24px;
-    font-style: italic;    
+    font-size: 24px;
+    font-weight: bold;
+    padding: 9px 0px;
+    font-style: italic;   
   &:hover {
     text-decoration: none;
   }
