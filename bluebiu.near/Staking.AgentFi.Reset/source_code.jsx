@@ -348,8 +348,6 @@ const handleSubmit = () => {
     }
   ];
 
-  console.log(params);
-
   const contract = new ethers.Contract(
     record.agentAddress,
     ABI,
