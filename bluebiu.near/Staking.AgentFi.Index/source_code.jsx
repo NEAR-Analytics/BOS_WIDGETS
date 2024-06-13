@@ -513,7 +513,7 @@ const handleApprove = (spender, tokenAddress, tokenAmount, tokenDecimals) => {
       // spender
       spender,
       // amount
-      parseUnits(tokenAmount, tokenDecimals),
+      parseUnits(Big(tokenAmount).toFixed(tokenDecimals || 18).toString(), tokenDecimals),
     ];
     const approveFailed = (msg) => {
       toast?.fail({
