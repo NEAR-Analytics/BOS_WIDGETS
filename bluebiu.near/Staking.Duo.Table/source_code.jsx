@@ -319,14 +319,15 @@ const { parseUnits, formatUnits } = ethers.utils;
 State.init({
   dataList: [],
   loading: false,
+  loadingVault: null,
   pending: false,
 });
 
 // un-stake event
 function handleWithdraw({ curPointsAndYield, token, vault, amount, tokenDecimals, curPointsAndYieldItem }) {
-  if (state.pending) return;
+  if (state.loadingVault) return;
   State.update({
-    pending: true,
+    loadingVault: vault,
   });
 
   let WITHDRAW_ABI_LATEST;
@@ -391,7 +392,7 @@ function handleWithdraw({ curPointsAndYield, token, vault, amount, tokenDecimals
             toast?.dismiss(toastId);
             if (status !== 1) throw new Error("");
             State.update({
-              pending: false,
+              loadingVault: null,
             });
             onSuccess();
             addAction?.({
@@ -416,7 +417,7 @@ function handleWithdraw({ curPointsAndYield, token, vault, amount, tokenDecimals
           .catch((err) => {
             console.log('tx error: ', err);
             State.update({
-              pending: false,
+              loadingVault: null,
             });
             toast?.dismiss(toastId);
             toast?.fail({
@@ -430,7 +431,7 @@ function handleWithdraw({ curPointsAndYield, token, vault, amount, tokenDecimals
       .catch((err) => {
         console.log('contract error: ', err);
         State.update({
-          pending: false,
+          loadingVault: null,
         });
         toast?.dismiss(toastId);
         toast?.fail({
@@ -503,10 +504,22 @@ const columnList = [
     key: "principal",
     label: "Principal",
     type: "slot",
-    render: (data) => {
-      const num = Big(data.principal).div(Big(10).pow(18));
-      if (num.lt(0.0001)) return "< 0.0001";
-      return num.toFixed(4);
+    render: (data, index) => {
+      const _list = state.dataList.slice();
+      const currToken = UNSTAKE_TOKEN_CONFIG[data.token];
+      const total = Big(data.principal).div(Big(10).pow(currToken.decimals || 18));
+      const handleMax = () => {
+        _list[index].amount = total.toString();
+        State.update({
+          dataList: _list,
+        });
+      };
+      if (total.lt(0.0001)) return (
+        <span onClick={handleMax}>&lt; 0.0001</span>
+      );
+      return (
+        <span onClick={handleMax}>{total.toFixed(4)}</span>
+      );
     },
   },
   {
@@ -515,7 +528,8 @@ const columnList = [
     label: "Amount",
     type: "slot",
     render: (data, index) => {
-      const total = Big(data.principal).div(Big(10).pow(18));
+      const currToken = UNSTAKE_TOKEN_CONFIG[data.token];
+      const total = Big(data.principal).div(Big(10).pow(currToken.decimals || 18));
       return (
         <Input
           value={data.amount}
@@ -564,7 +578,8 @@ const columnList = [
             !data.amount ||
             isNaN(Number(data.amount)) ||
             Big(data.amount).lt(0) ||
-            Big(data.amount).gt(total)
+            Big(data.amount).gt(total) ||
+            state.loadingVault === data.id
         }
           type="button"
           onClick={() => {
@@ -576,14 +591,14 @@ const columnList = [
               curPointsAndYield: currType.key,
               token: currToken,
               vault: data.id,
-              amount: data.amount,
+              amount: Big(data.amount || 0).toFixed(currToken.decimals || 18),
               tokenDecimals: currToken.decimals,
               curPointsAndYieldItem: currType,
             });
           }}
         >
           {
-            state.pending ? (
+            state.loadingVault === data.id ? (
               <Widget
                 src="bluebiu.near/widget/0vix.LendingLoadingIcon"
                 props={{
