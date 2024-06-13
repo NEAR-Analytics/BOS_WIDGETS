@@ -357,6 +357,7 @@ return (
                         if (Big(amount || 0).gt(Big(state.tokenBal || 0))) {
                           amount = Big(state.tokenBal || 0).toFixed(4, 0);
                         }
+
                         State.update({
                           stakeAmount: amount,
                         });
