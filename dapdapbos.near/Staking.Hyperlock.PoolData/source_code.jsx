@@ -59,7 +59,11 @@ useEffect(() => {
         const pools = res.body?.data?.pools;
 
         if (!pools.length) {
-          onLoad({ loading: false, pools: basePools });
+          onLoad({
+            loading: false,
+            pools: basePools,
+            poolsList: Object.values(basePools),
+          });
           return;
         }
         const v3Pools = {};
@@ -95,7 +99,11 @@ useEffect(() => {
         basePools = { ...v3Pools, ...v2Pools };
       })
       .catch((err) => {
-        onLoad({ loading: false, pools: basePools });
+        onLoad({
+          loading: false,
+          pools: basePools,
+          poolsList: Object.values(basePools),
+        });
       });
   };
   const getV3Tvl = (pools) => {
@@ -151,11 +159,18 @@ useEffect(() => {
           onLoad({
             loading: false,
             pools: tvlPools,
+            poolsList: Object.values(tvlPools).sort((a, b) =>
+              Big(a.tvl).gt(b.tvl) ? -1 : 1
+            ),
           });
         }
       })
       .catch((err) => {
-        onLoad({ loading: false, pools: basePools });
+        onLoad({
+          loading: false,
+          pools: basePools,
+          poolsList: Object.values(basePools),
+        });
       });
   };
   const getV2Tvl = (pools) => {
@@ -215,16 +230,24 @@ useEffect(() => {
           ...tvlPools,
           ..._pools.reduce((acc, pool) => ({ ...acc, [pool.id]: pool }), {}),
         };
+
         count++;
         if (count === 2) {
           onLoad({
             loading: false,
             pools: tvlPools,
+            poolsList: Object.values(tvlPools).sort((a, b) =>
+              Big(a.tvl).gt(b.tvl) ? -1 : 1
+            ),
           });
         }
       })
       .catch((err) => {
-        onLoad({ loading: false, pools: basePools });
+        onLoad({
+          loading: false,
+          pools: basePools,
+          poolsList: Object.values(basePools),
+        });
       });
   };
   getConfig();
