@@ -397,8 +397,8 @@ const handleSubmit = () => {
       });
       return;
     }
-    const ethAmountShown = Big(state.ethAmount || 0).toFixed(state.currentEthToken.decimals).toString();
-    const usdAmountShown = Big(state.usdAmount || 0).toFixed(state.currentUsdToken.decimals).toString();
+    const ethAmountShown = Big(state.ethAmount || 0).toFixed(state.currentEthToken.decimals, Big.roundDown).toString();
+    const usdAmountShown = Big(state.usdAmount || 0).toFixed(state.currentUsdToken.decimals, Big.roundDown).toString();
     let method = "createConcentratedLiquidityAgentAndExplorerAndRefundExcess";
     const params = [
       [
