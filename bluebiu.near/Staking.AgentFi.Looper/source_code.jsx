@@ -268,6 +268,7 @@ const handleSubmit = () => {
       });
       return;
     }
+    const stakeAmountShown = Big(state.stakeAmount || 0).toFixed(state.stakeToken.decimals).toString();
     let method = 'createLoopooorAgentAndExplorer';
     const params = [
       [
@@ -286,7 +287,7 @@ const handleSubmit = () => {
         // token
         currentStrategy.meta.underlying[state.stakeToken.value],
         // amount
-        parseUnits(state.stakeAmount, state.stakeToken.decimals),
+        parseUnits(stakeAmountShown, state.stakeToken.decimals),
       ]
     ];
 
@@ -313,7 +314,7 @@ const handleSubmit = () => {
         gasLimit: gas || 4000000,
       }
       if (['ETH'].includes(state.stakeToken.value)) {
-        contractOption.value = parseUnits(state.stakeAmount, state.stakeToken.decimals);
+        contractOption.value = parseUnits(stakeAmountShown, state.stakeToken.decimals);
       }
       contract[method](...params, contractOption)
         .then((tx) => {
@@ -325,10 +326,10 @@ const handleSubmit = () => {
               });
               if (status !== 1) throw new Error("");
               onSuccess();
-              formatAddAction(actionText, state.stakeAmount, status, transactionHash, state.stakeToken.value);
+              formatAddAction(actionText, stakeAmountShown, status, transactionHash, state.stakeToken.value);
               toast?.success({
                 title: `${actionText} Successfully!`,
-                text: `${actionText} ${Big(state.stakeAmount).toFixed(2)} ${state.stakeToken.value}`,
+                text: `${actionText} ${Big(stakeAmountShown).toFixed(2)} ${state.stakeToken.value}`,
                 tx: transactionHash,
                 chainId,
               });
@@ -363,7 +364,7 @@ const handleSubmit = () => {
     const estimateGas = () => {
       contract.estimateGas[method](
         ...params,
-        { value: parseUnits(state.stakeAmount, state.stakeToken.decimals) }
+        { value: parseUnits(stakeAmountShown, state.stakeToken.decimals) }
       ).then((gas) => {
         getTx(gas);
       }).catch((err) => {
