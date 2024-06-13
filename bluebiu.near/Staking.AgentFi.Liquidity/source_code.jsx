@@ -397,6 +397,8 @@ const handleSubmit = () => {
       });
       return;
     }
+    const ethAmountShown = Big(state.ethAmount || 0).toFixed(state.currentEthToken.decimals).toString();
+    const usdAmountShown = Big(state.usdAmount || 0).toFixed(state.currentUsdToken.decimals).toString();
     let method = "createConcentratedLiquidityAgentAndExplorerAndRefundExcess";
     const params = [
       [
@@ -417,13 +419,13 @@ const handleSubmit = () => {
         // token
         state.currentUsdToken.address,
         // amount
-        parseUnits(state.usdAmount, state.currentUsdToken.decimals),
+        parseUnits(usdAmountShown, state.currentUsdToken.decimals),
       ],
       [
         // token
         state.currentEthToken.address,
         // amount
-        parseUnits(state.ethAmount, state.currentEthToken.decimals),
+        parseUnits(ethAmountShown, state.currentEthToken.decimals),
       ],
     ];
 
@@ -444,7 +446,7 @@ const handleSubmit = () => {
         gasLimit: gas || 4000000,
       };
       if (['ETH'].includes(state.currentEthToken.value)) {
-        contractOption.value = parseUnits(state.ethAmount, state.currentEthToken.decimals);
+        contractOption.value = parseUnits(ethAmountShown, state.currentEthToken.decimals);
       }
       contract[method](...params, contractOption)
         .then((tx) => {
@@ -456,10 +458,10 @@ const handleSubmit = () => {
               });
               if (status !== 1) throw new Error("");
               onSuccess();
-              formatAddAction(actionText, state.ethAmount, status, transactionHash, state.currentEthToken.value);
+              formatAddAction(actionText, ethAmountShown, status, transactionHash, state.currentEthToken.value);
               toast?.success({
                 title: `${actionText} Successfully!`,
-                text: `${actionText} ${Big(state.ethAmount).toFixed(2)} ${state.currentEthToken.value} & ${Big(state.usdAmount).toFixed(2)} ${state.currentUsdToken.value}`,
+                text: `${actionText} ${Big(ethAmountShown).toFixed(2)} ${state.currentEthToken.value} & ${Big(usdAmountShown).toFixed(2)} ${state.currentUsdToken.value}`,
                 tx: transactionHash,
                 chainId,
               });
@@ -494,7 +496,7 @@ const handleSubmit = () => {
     const estimateGas = () => {
       contract.estimateGas[method](
         ...params,
-        { value: parseUnits(state.ethAmount, state.currentEthToken.decimals) },
+        { value: parseUnits(ethAmountShown, state.currentEthToken.decimals) },
       ).then((gas) => {
         getTx(gas);
       }).catch((err) => {
