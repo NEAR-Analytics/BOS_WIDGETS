@@ -386,11 +386,15 @@ const TrustedLink = styled.a`
     }
   }
   & span{
+    display: block;
     font-size: 9px;
     margin-top: 10px;
+    @media screen and (max-width: ${breakpoints.md}) {
+        display: none;
+    }
   }
   @media screen and (max-width: ${breakpoints.md}) {
-    margin-top: 25px;
+    margin-top: 5px;
     margin-bottom: 0;
   }
 `;
