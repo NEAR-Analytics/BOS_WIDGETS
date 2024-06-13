@@ -509,7 +509,7 @@ const columnList = [
       const currToken = UNSTAKE_TOKEN_CONFIG[data.token];
       const total = Big(data.principal).div(Big(10).pow(currToken.decimals || 18));
       const handleMax = () => {
-        _list[index].amount = total.toString();
+        _list[index].amount = Big(total.toFixed(currToken.decimals, Big.roundDown)).toString();
         State.update({
           dataList: _list,
         });
@@ -518,7 +518,7 @@ const columnList = [
         <span onClick={handleMax}>&lt; 0.0001</span>
       );
       return (
-        <span onClick={handleMax}>{total.toFixed(4)}</span>
+        <span onClick={handleMax}>{total.toFixed(4, 0)}</span>
       );
     },
   },
@@ -552,7 +552,7 @@ const columnList = [
               Big(val).lt(Big(1).div(Big(10).pow(18))) ||
               Big(val).gt(Big(1).times(Big(10).pow(18))))
             ) {
-              _list[index].amount = total.toString();
+              _list[index].amount = Big(total.toFixed(currToken.decimals, Big.roundDown)).toString();
             } else {
               _list[index].amount = val;
             }
@@ -591,7 +591,7 @@ const columnList = [
               curPointsAndYield: currType.key,
               token: currToken,
               vault: data.id,
-              amount: Big(data.amount || 0).toFixed(currToken.decimals || 18),
+              amount: Big(data.amount).toFixed(urrToken.decimals || 18, Big.roundDown),
               tokenDecimals: currToken.decimals,
               curPointsAndYieldItem: currType,
             });
