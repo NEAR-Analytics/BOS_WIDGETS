@@ -8,7 +8,7 @@ const mobCoverImgSrc =
   "https://ipfs.near.social/ipfs/bafkreihzi6htmib5soiama557tr5bhwblm5gjxnnenvdtvxqzhvsoraztq";
 
 const mobTopImgSrc =
-  "https://ipfs.near.social/ipfs/bafkreiddqv6ozmeu33cf4xzk442vnnupjnhf6u4zmhd6ntz5zaqea2xou4";
+  "https://ipfs.near.social/ipfs/bafkreidoc56kd36uju7texnjhz3xvvak2kduh62qqx4p67fhm4qoxbhus4";
 
 const breakpoints = {
   md: "768px",
@@ -258,7 +258,20 @@ const TopHeader = styled.div`
     width: 308px;
     height: 87px;
     margin: 0 auto;
-    margin-top: 64px;
+    margin-top: 64px;    
+  }
+`;
+
+const TopText = styled.p`
+    display: none; 
+  @media screen and (max-width: ${breakpoints.md}) {
+      display: block;
+      font-weight: 900;
+      font-size: 19px;
+      text-align: center;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      font-style: italic;    
   }
 `;
 const Header = styled.div`
@@ -448,6 +461,7 @@ return (
     {/*main section*/}
     <Widget src={`${rootUser}/widget/nw-navbar`} />
     <TopHeader />
+    <TopText>The Official Newsletter & Community Platform</TopText>
     <MobRequestServicesButton
       href="https://4efdmh2cgdi.typeform.com/NWservices"
       target="_blank"
