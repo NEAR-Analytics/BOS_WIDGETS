@@ -355,7 +355,7 @@ return (
                         let amount = ev.target.value.replace(/\s+/g, "");
 
                         if (Big(amount || 0).gt(Big(state.tokenBal || 0))) {
-                          amount = Big(state.tokenBal || 0).toFixed(4, 0);
+                          amount = Big(Big(state.tokenBal || 0).toFixed(4, 0)).toString();
                         }
 
                         State.update({
