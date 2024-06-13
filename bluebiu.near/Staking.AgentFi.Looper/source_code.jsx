@@ -268,7 +268,7 @@ const handleSubmit = () => {
       });
       return;
     }
-    const stakeAmountShown = Big(state.stakeAmount || 0).toFixed(state.stakeToken.decimals).toString();
+    const stakeAmountShown = Big(state.stakeAmount || 0).toFixed(state.stakeToken.decimals, Big.roundDown);
     let method = 'createLoopooorAgentAndExplorer';
     const params = [
       [
