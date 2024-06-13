@@ -373,6 +373,7 @@ return (
                         onChange: (option) => {
                           State.update({
                             curToken: option.value,
+                            stakeAmount: '',
                           });
                           const addr = StakeTokens.find((item) => item.symbol === option.value)?.address;
                           addr && getTokenBalance(addr);
