@@ -80,6 +80,7 @@ const NavList = styled.ul`
   align-items: center;
   margin-block: auto;
   gap: 1.5rem;
+  list-style: none;
   @media (min-width: ${bp.lg}) {
     display: flex;
   }
@@ -222,6 +223,7 @@ return (
               <a
                 href={item.link}
                 style={{
+                  color: 'inherit',
                   textWrap: "nowrap",
                 }}
               >
