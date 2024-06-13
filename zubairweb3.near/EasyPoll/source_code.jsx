@@ -253,7 +253,7 @@ return (
             )
           ) : (
             <a
-              href="https://i-am-human.app"
+              href="https://app.nada.bot"
               target="_blank"
               className="text-decoration-none"
             >
