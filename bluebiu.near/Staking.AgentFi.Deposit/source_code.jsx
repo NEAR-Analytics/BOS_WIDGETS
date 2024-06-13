@@ -377,18 +377,25 @@ const formatAddAction = (actionText, _amount, status, transactionHash, tokenSymb
 const queryUSDBTransform = () => {
   // query usdb fransform
   const iface = new ethers.utils.Interface(TRANSFORM_TOKEN_ABI);
+  const usdAmountShown = Big(state.usdAmount || 0)
+    .times(Big(10).pow(state.currentUsdToken.decimals))
+    .toFixed(0);
   const params = [
     // from
     account,
     // to
     record.agentAddress,
     // amount
-    ethers.BigNumber.from(Big(state.usdAmount).times(Big(10).pow(state.currentUsdToken.decimals)).toString()),
+    ethers.BigNumber.from(usdAmountShown),
   ];
   return iface.encodeFunctionData("transferFrom", params);
 };
 
 const handleSubmit = () => {
+  const ethAmountShown = Big(state.ethAmount || 0).toFixed(state.currentEthToken.decimals || 18).toString();
+  const usdAmountShown = Big(state.usdAmount || 0).toFixed(state.currentUsdToken.decimals || 18).toString();
+  const stakeAmountShown = Big(state.stakeAmount || 0).toFixed(state.stakeToken.decimals || 18).toString();
+
   if (record.name.toLowerCase() === strategies[2].name) {
     if (!state.ethAmount || !state.usdAmount) return;
     State.update({
@@ -421,7 +428,7 @@ const handleSubmit = () => {
       [
         record.agentAddress,
         // Big(state.ethAmount).times(Big(10).pow(state.currentEthToken.decimals)).toNumber(),
-        parseUnits(state.ethAmount, state.currentEthToken.decimals),
+        parseUnits(ethAmountShown, state.currentEthToken.decimals),
         "0x",
         0,
       ],
@@ -462,7 +469,7 @@ const handleSubmit = () => {
           gasLimit: gas || 4000000,
         };
         if (['ETH'].includes(state.currentEthToken.value)) {
-          contractOption.value = parseUnits(state.ethAmount, state.currentEthToken.decimals || 18);
+          contractOption.value = parseUnits(ethAmountShown, state.currentEthToken.decimals || 18);
         }
         contract.executeBatch(params, contractOption)
           .then((tx) => {
@@ -474,10 +481,10 @@ const handleSubmit = () => {
                 });
                 if (status !== 1) throw new Error("");
                 onSuccess();
-                formatAddAction(actionText, state.ethAmount, status, transactionHash, state.currentEthToken.value);
+                formatAddAction(actionText, ethAmountShown, status, transactionHash, state.currentEthToken.value);
                 toast?.success({
                   title: `${actionText} Successfully!`,
-                  text: `${actionText} ${state.ethAmount} ${state.currentEthToken.value}`,
+                  text: `${actionText} ${Big(state.ethAmount).toFixed(2)} ${state.currentEthToken.value}`,
                   tx: transactionHash,
                   chainId,
                 });
@@ -512,7 +519,7 @@ const handleSubmit = () => {
       const estimateGas = () => {
         contract.estimateGas.executeBatch(
           params,
-          { value: parseUnits(state.ethAmount, state.currentEthToken.decimals || 18) },
+          { value: parseUnits(ethAmountShown, state.currentEthToken.decimals || 18) },
         ).then((gas) => {
           getTx(gas);
         }).catch((err) => {
@@ -548,7 +555,7 @@ const handleSubmit = () => {
     const params = [
       [
         record.agentAddress,
-        parseUnits(state.stakeAmount, state.stakeToken.decimals),
+        parseUnits(stakeAmountShown, state.stakeToken.decimals),
         "0x",
         0,
       ],
@@ -569,7 +576,7 @@ const handleSubmit = () => {
     const getTx = (gas) => {
       const contractOption = {
         gasLimit: gas || 4000000,
-        value: parseUnits(state.stakeAmount, state.stakeToken.decimals || 18),
+        value: parseUnits(stakeAmountShown, state.stakeToken.decimals || 18),
       };
       contract.executeBatch(params, contractOption)
         .then((tx) => {
@@ -581,10 +588,10 @@ const handleSubmit = () => {
               });
               if (status !== 1) throw new Error("");
               onSuccess();
-              formatAddAction(actionText, state.stakeAmount, status, transactionHash, state.stakeToken.value);
+              formatAddAction(actionText, stakeAmountShown, status, transactionHash, state.stakeToken.value);
               toast?.success({
                 title: `${actionText} Successfully!`,
-                text: `${actionText} ${state.stakeAmount} ${state.stakeToken.value}`,
+                text: `${actionText} ${Big(state.stakeAmount).toFixed(2)} ${state.stakeToken.value}`,
                 tx: transactionHash,
                 chainId,
               });
@@ -619,7 +626,7 @@ const handleSubmit = () => {
     const estimateGas = () => {
       contract.estimateGas.executeBatch(
         params,
-        { value: parseUnits(state.stakeAmount, state.stakeToken.decimals || 18) },
+        { value: parseUnits(stakeAmountShown, state.stakeToken.decimals || 18) },
       ).then((gas) => {
         getTx(gas);
       }).catch((err) => {
@@ -713,7 +720,7 @@ const handleSubmit = () => {
         const multicallOptions = {};
 
         if (['ETH'].includes(state.currentEthToken.value)) {
-          multicallOptions.value = parseUnits(state.ethAmount, state.currentEthToken.decimals || 18);
+          multicallOptions.value = parseUnits(ethAmountShown, state.currentEthToken.decimals || 18);
         }
 
         const getTx = (_gas) => {
@@ -731,10 +738,10 @@ const handleSubmit = () => {
                 });
                 if (status !== 1) throw new Error("");
                 onSuccess();
-                formatAddAction(actionText, state.ethAmount, status, transactionHash, state.currentEthToken.value);
+                formatAddAction(actionText, ethAmountShown, status, transactionHash, state.currentEthToken.value);
                 toast?.success({
                   title: `${actionText} Successfully!`,
-                  text: `${actionText} ${state.ethAmount} ${state.currentEthToken.value}`,
+                  text: `${actionText} ${Big(state.ethAmount).toFixed(2)} ${state.currentEthToken.value}`,
                   tx: transactionHash,
                   chainId,
                 });
