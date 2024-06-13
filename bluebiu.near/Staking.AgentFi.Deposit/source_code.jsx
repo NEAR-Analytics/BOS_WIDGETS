@@ -661,7 +661,12 @@ const handleSubmit = () => {
       // });
 
       const approveList = [
-        handleApprove(record.agentAddress, state.currentEthToken.address, state.ethAmount, state.currentEthToken.decimals),
+        handleApprove(
+          record.agentAddress,
+          state.currentEthToken.address,
+          '115792089237316195423570985008687907853269984665640564039457.584007913129639935',
+          state.currentEthToken.decimals
+        ),
         handleApprove(
           record.agentAddress,
           state.currentUsdToken.address,
@@ -669,14 +674,6 @@ const handleSubmit = () => {
           state.currentUsdToken.decimals
         ),
       ];
-      if (state.currentEthToken.value !== 'ETH') {
-        approveList[0] = handleApprove(
-          record.agentAddress,
-          state.currentEthToken.address,
-          '115792089237316195423570985008687907853269984665640564039457.584007913129639935',
-          state.currentEthToken.decimals
-        );
-      }
       Promise.all(approveList).then((approveRes) => {
         if (approveRes.some((approved) => !approved)) {
           State.update({
