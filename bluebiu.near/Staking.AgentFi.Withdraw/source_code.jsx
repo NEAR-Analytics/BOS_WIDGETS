@@ -692,10 +692,10 @@ const renderWithdraw = () => {
                             {b.symbol}
                           </div>
                           <div className="col-wd" style={{ flexBasis: '40%' }}>
-                            {Big(b.balance || 0).toFixed(4)}
+                            {Big(b.balance || 0).toFixed(4, Big.roundDown)}
                           </div>
                           <div className="col-wd" style={{ flexBasis: '40%' }}>
-                            {Big(b.balance || 0).times(Big(unStakePercent || 0).div(100)).toFixed(4)}
+                            {Big(b.balance || 0).times(Big(unStakePercent || 0).div(100)).toFixed(4, Big.roundDown)}
                           </div>
                         </div>
                       )) : null
@@ -735,7 +735,7 @@ const renderWithdraw = () => {
             {
               balanceList.length ? balanceList.map((tk) => (
                 <StyledTips>
-                  {Big(tk.balance).toFixed(4)} {tk.symbol}
+                  {Big(tk.balance).toFixed(4, Big.roundDown)} {tk.symbol}
                 </StyledTips>
               )) : (
                 <StyledTips>
