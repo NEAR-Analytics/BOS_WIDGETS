@@ -269,8 +269,7 @@ const TopText = styled.p`
       font-weight: 900;
       font-size: 19px;
       text-align: center;
-      margin-top: 10px;
-      margin-bottom: 10px;
+      margin: 24px;
       font-style: italic;    
   }
 `;
