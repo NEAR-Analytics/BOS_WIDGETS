@@ -311,7 +311,9 @@ const handleSubmit = () => {
     const getTx = (gas) => {
       const contractOption = {
         gasLimit: gas || 4000000,
-        value: parseUnits(state.stakeAmount, state.stakeToken.decimals),
+      }
+      if (['ETH'].includes(state.stakeToken.value)) {
+        contractOption.value = parseUnits(state.stakeAmount, state.stakeToken.decimals);
       }
       contract[method](...params, contractOption)
         .then((tx) => {
