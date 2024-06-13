@@ -442,8 +442,10 @@ const handleSubmit = () => {
     const getTx = (gas) => {
       const contractOption = {
         gasLimit: gas || 4000000,
-        value: parseUnits(state.ethAmount, state.currentEthToken.decimals),
       };
+      if (['ETH'].includes(state.currentEthToken.value)) {
+        contractOption.value = parseUnits(state.ethAmount, state.currentEthToken.decimals);
+      }
       contract[method](...params, contractOption)
         .then((tx) => {
           tx.wait()
