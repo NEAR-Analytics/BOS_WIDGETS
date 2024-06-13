@@ -109,31 +109,7 @@ const Wrapper = styled.div`
     text-decoration-line: underline;
   }
 `;
-const GridContainer = styled.div`
-  display: grid;
-  grid-template-columns: var(--grid-columns);
 
-  &.grid-pool-asset {
-    grid-template-columns: 40% 30% 30%;
-  }
-`;
-
-const GridItem = styled.div`
-  padding-left: 24px;
-  &.action-item {
-    display: flex;
-    column-gap: 10px;
-    padding-right: 18px;
-    justify-content: right;
-  }
-  &.action-item-head {
-    display: flex;
-    justify-content: center;
-  }
-`;
-const PoolItem = styled.div`
-  margin-bottom: 10px;
-`;
 const TabsList = styled.div`
   display: flex;
   align-items: center;
@@ -166,6 +142,7 @@ State.init({
   currentTab: "TAB_POOL",
   loading: false,
   pools: null,
+  poolsList: [],
 });
 
 const {
@@ -190,71 +167,55 @@ useEffect(() => {
 
 return (
   <Wrapper style={{ ...(dexConfig.theme || {}) }}>
-    <TabsList>
-      {[
-        { key: "TAB_POOL", label: "All Pools" },
-        { key: "TAB_ASSETS", label: "Your Assets" },
-      ].map((item) => (
-        <div
-          key={item.key}
-          className={`tab-head-item ${
-            state.currentTab === item.key ? "active" : ""
-          }`}
-          onClick={() => {
-            if (item.key === "TAB_ASSETS" && state.getV3Fees) {
-              state.getV3Fees(state.staked);
-            }
+    <div style={{ position: "relative", margin: "0 auto", width: "1244px" }}>
+      <TabsList>
+        {[
+          { key: "TAB_POOL", label: "All Pools" },
+          { key: "TAB_ASSETS", label: "Your Assets" },
+        ].map((item) => (
+          <div
+            key={item.key}
+            className={`tab-head-item ${
+              state.currentTab === item.key ? "active" : ""
+            }`}
+            onClick={() => {
+              if (item.key === "TAB_ASSETS" && state.getV3Fees) {
+                state.getV3Fees(state.staked);
+              }
+              State.update({
+                currentTab: item.key,
+              });
+            }}
+          >
+            {item.label}
+          </div>
+        ))}
+      </TabsList>
+      <Widget
+        src="dapdapbos.near/widget/Staking.Hyperlock.Search"
+        props={{
+          disabled: state.loading && !state.poolsList.length,
+          onChange: (val) => {
             State.update({
-              currentTab: item.key,
+              list: val
+                ? state.poolsList.filter((item) => {
+                    if (!val) return true;
+                    return item.name.toLowerCase().includes(val.toLowerCase());
+                  })
+                : state.poolsList,
             });
-          }}
-        >
-          {item.label}
-        </div>
-      ))}
-    </TabsList>
+          },
+        }}
+      />
+    </div>
     {state.currentTab === "TAB_POOL" && (
-      <>
-        <GridContainer className="grid-pool-head">
-          <GridItem>Pool</GridItem>
-          <GridItem>LP Type</GridItem>
-          <GridItem>Point Stack</GridItem>
-          <GridItem>Points/$1K</GridItem>
-          <GridItem>TVL</GridItem>
-        </GridContainer>
-        {state.loading && !Object.values(state.pools || {}).length && (
-          <Widget src="bluebiu.near/widget/Lending.Spinner" />
-        )}
-        {Object.values(state.pools || {})
-          ?.sort((a, b) => (Big(a.tvl).gt(b.tvl) ? -1 : 1))
-          .map((item) => (
-            <PoolItem key={item.id}>
-              <Widget
-                src="dapdapbos.near/widget/Staking.Hyperlock.Pool"
-                props={{
-                  ...props,
-                  data: item,
-                  stakedTokens: state.stakedMap?.[item.id] || [],
-                  unStakedTokens: state.unstakedMap?.[item.id] || [],
-                  handler: state.handler,
-                  dappLink: dexConfig.dappLink,
-                  onSuccess: () => {
-                    State.update({
-                      loading: true,
-                      userDataUpdater: Date.now(),
-                    });
-                  },
-                  onOpenStakeModal: (data) => {
-                    State.update({
-                      modelData: data,
-                    });
-                  },
-                }}
-                key={item.id}
-              />
-            </PoolItem>
-          ))}
-      </>
+      <Widget
+        src="dapdapbos.near/widget/Staking.Hyperlock.Pools"
+        props={{
+          loading: state.loading,
+          list: state.list || state.poolsList,
+        }}
+      />
     )}
     {state.currentTab === "TAB_ASSETS" && (
       <Widget
