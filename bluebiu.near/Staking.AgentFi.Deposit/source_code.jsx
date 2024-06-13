@@ -460,8 +460,10 @@ const handleSubmit = () => {
       const getTx = (gas) => {
         const contractOption = {
           gasLimit: gas || 4000000,
-          value: parseUnits(state.ethAmount, state.currentEthToken.decimals || 18),
         };
+        if (['ETH'].includes(state.currentEthToken.value)) {
+          contractOption.value = parseUnits(state.ethAmount, state.currentEthToken.decimals || 18);
+        }
         contract.executeBatch(params, contractOption)
           .then((tx) => {
             tx.wait()
@@ -667,6 +669,14 @@ const handleSubmit = () => {
           state.currentUsdToken.decimals
         ),
       ];
+      if (state.currentEthToken.value !== 'ETH') {
+        approveList[0] = handleApprove(
+          record.agentAddress,
+          state.currentEthToken.address,
+          '115792089237316195423570985008687907853269984665640564039457.584007913129639935',
+          state.currentEthToken.decimals
+        );
+      }
       Promise.all(approveList).then((approveRes) => {
         if (approveRes.some((approved) => !approved)) {
           State.update({
@@ -703,9 +713,11 @@ const handleSubmit = () => {
           Ethers.provider().getSigner()
         );
 
-        const multicallOptions = {
-          value: parseUnits(state.ethAmount, state.currentEthToken.decimals || 18),
-        };
+        const multicallOptions = {};
+
+        if (['ETH'].includes(state.currentEthToken.value)) {
+          multicallOptions.value = parseUnits(state.ethAmount, state.currentEthToken.decimals || 18);
+        }
 
         const getTx = (_gas) => {
           multicallContract
