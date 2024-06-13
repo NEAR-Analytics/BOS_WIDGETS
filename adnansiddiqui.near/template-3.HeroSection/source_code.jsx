@@ -165,8 +165,9 @@ const HeroImage1 = styled.img`
   position: absolute;
   top: 3.5rem;
   right: -2rem;
-  border-left-width: 0.5rem;
-  border-top-width: 0.5rem;
+ border-right-width: 0;
+  border-bottom-width: 0;
+  border: 0.5rem solid;
   border-color: white;
   &:not(.light *) {
     border-color: #080a11;
