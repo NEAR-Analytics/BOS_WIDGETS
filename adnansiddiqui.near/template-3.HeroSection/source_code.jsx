@@ -10,10 +10,13 @@ const style = props.style || {
   accent: "#b9ff81",
 };
 const props = props.props || {
-  backgroundImageUrl: "https://images.unsplash.com/photo-1605379399642-870262d3d051?q=80&w=1812&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  headerText: "changing chemistry for good",
-  subHeaderText:
-    "We are a team of passionate cyclists dedicated to providing high-quality bikes and accessories to our customers.",
+  backgroundImageUrl: [
+    "https://images.unsplash.com/photo-1614741118887-7a4ee193a5fa?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1509718443690-d8e2fb3474b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1593720213428-28a5b9e94613?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjd8fHByb2dyYW1taW5nfGVufDB8fDB8fHww",
+  ],
+  headerText: "Welcome to our Bike Showroom",
+  subHeaderText: "Explore our widerange of bikes for every type of rider",
   primaryButtonText: "Contact Us",
   secondaryButtonText: "View Collection",
 };
