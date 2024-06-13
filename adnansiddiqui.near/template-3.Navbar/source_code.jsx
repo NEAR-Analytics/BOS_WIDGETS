@@ -118,6 +118,7 @@ const Button = styled.button`
   padding: 0.5rem 1rem;
   font-size: 1rem;
   font-weight: 500;
+  border: none;
   color: black;
   display: flex;
   align-items: center;
