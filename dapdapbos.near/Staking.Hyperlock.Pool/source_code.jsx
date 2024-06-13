@@ -168,11 +168,10 @@ return (
       <GridContainer className="pool-head">
         <GridItem>
           <div className="title-primary">
-            <Widget
-              src="dapdapbos.near/widget/Staking.Hyperlock.PoolIcons"
-              props={{
-                icons: [data.token0.icon, data.token1.icon],
-              }}
+            <img src={data.token0.icon} style={{ width: 26, height: 26 }} />
+            <img
+              src={data.token1.icon}
+              style={{ width: 26, height: 26, marginLeft: -12 }}
             />
             <span style={{ marginLeft: 20 }}>{data.name}</span>
           </div>
@@ -186,12 +185,15 @@ return (
           </div>
         </GridItem>
         <GridItem>
-          <Widget
-            src="dapdapbos.near/widget/Staking.Hyperlock.PoolIcons"
-            props={{
-              icons: data.stackIcons,
-            }}
-          />
+          <div className="title-primary">
+            {data.stackIcons.map((item, i) => (
+              <img
+                key={item}
+                src={item}
+                style={{ width: 26, height: 26, marginLeft: i === 0 ? 0 : -12 }}
+              />
+            ))}
+          </div>
         </GridItem>
         <GridItem>{data.points || 0}</GridItem>
         <GridItem>
