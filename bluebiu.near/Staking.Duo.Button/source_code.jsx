@@ -265,6 +265,8 @@ if (!amount) {
   );
 }
 
+const amountShown = Big(amount || 0).toFixed(tokenDecimals);
+
 useEffect(() => {
   State.update({
     approving: false,
@@ -286,7 +288,7 @@ function getAllowance() {
       State.update({
         pending: false,
         isApproved: !Big(formatUnits(allowanceRaw, tokenDecimals)).lt(
-          amount || "0"
+          amountShown || "0"
         ),
       });
     })
@@ -305,12 +307,12 @@ useEffect(() => {
       isApproved: true,
     });
   }
-}, [amount, actionText]);
+}, [amountShown, actionText]);
 
 if (!state.isApproved) {
   function handleApprove() {
     const toastId = toast?.loading({
-      title: `Approve ${Big(amount).toFixed(2)} ${tokenSymbol}`,
+      title: `Approve ${Big(amountShown).toFixed(2)} ${tokenSymbol}`,
     });
     State.update({
       approving: true,
@@ -321,7 +323,7 @@ if (!state.isApproved) {
       ERC20_ABI,
       Ethers.provider().getSigner()
     );
-    TokenContract.approve(spender, parseUnits(amount, tokenDecimals))
+    TokenContract.approve(spender, parseUnits(amountShown, tokenDecimals))
       .then((tx) => {
         tx.wait()
           .then((res) => {
@@ -334,7 +336,7 @@ if (!state.isApproved) {
             });
             toast?.success({
               title: "Approve Successfully!",
-              text: `Approve ${Big(amount).toFixed(2)} ${tokenSymbol}`,
+              text: `Approve ${Big(amountShown).toFixed(2)} ${tokenSymbol}`,
               tx: transactionHash,
               chainId,
             });
@@ -356,7 +358,7 @@ if (!state.isApproved) {
           title: "Approve Failed!",
           text: err?.message?.includes("user rejected transaction")
             ? "User rejected transaction"
-            : `Approve ${Big(amount).toFixed(2)} ${tokenSymbol}`,
+            : `Approve ${Big(amountShown).toFixed(2)} ${tokenSymbol}`,
         });
         onLoad?.(false);
       });
@@ -416,7 +418,7 @@ function handleDepositErc20() {
       // token: tokenAddr
       tokenAddr,
       // amountIn
-      parseUnits(amount, tokenDecimals),
+      parseUnits(amountShown, tokenDecimals),
       // amountOutMin
       parseUnits('0', tokenDecimals),
       // minLockedYield
@@ -438,7 +440,7 @@ function handleDepositErc20() {
       // token: tokenAddr
       tokenAddr,
       // amountIn
-      parseUnits(amount, tokenDecimals),
+      parseUnits(amountShown, tokenDecimals),
       // amountOutMin
       parseUnits('0', tokenDecimals),
       // data
@@ -467,7 +469,7 @@ function handleDepositErc20() {
       gasLimit: gas || 4000000,
     }
     if (DEPOSIT_POOL_ABI_LATEST.stateMutability === 'payable') {
-      contractOption.value =  parseUnits(amount, tokenDecimals);
+      contractOption.value =  parseUnits(amountShown, tokenDecimals);
     }
     contract[DEPOSIT_POOL_ABI_LATEST.name](...params, contractOption)
       .then((tx) => {
@@ -480,10 +482,10 @@ function handleDepositErc20() {
               pending: false,
             });
             onSuccess();
-            formatAddAction(actionText, amount, status, transactionHash);
+            formatAddAction(actionText, amountShown, status, transactionHash);
             toast?.success({
               title: `${actionText} Successfully!`,
-              text: `${actionText} ${Big(amount).toFixed(2)} ${tokenSymbol}`,
+              text: `${actionText} ${Big(amountShown).toFixed(2)} ${tokenSymbol}`,
               tx: transactionHash,
               chainId,
             });
@@ -520,7 +522,7 @@ function handleDepositErc20() {
   const estimateGas = () => {
     contract.estimateGas.deposit(
       ...params,
-      { value: parseUnits(amount, tokenDecimals), gasLimit: 1 }
+      { value: parseUnits(amountShown, tokenDecimals), gasLimit: 1 }
     ).then((gas) => {
       getTx(gas);
     }).catch((err) => {
