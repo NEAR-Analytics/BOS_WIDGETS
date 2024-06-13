@@ -469,7 +469,9 @@ function handleDepositErc20() {
       gasLimit: gas || 4000000,
     }
     if (DEPOSIT_POOL_ABI_LATEST.stateMutability === 'payable') {
-      contractOption.value =  parseUnits(amountShown, tokenDecimals);
+      if (['ETH'].includes(tokenSymbol)) {
+        contractOption.value = parseUnits(amountShown, tokenDecimals);
+      }
     }
     contract[DEPOSIT_POOL_ABI_LATEST.name](...params, contractOption)
       .then((tx) => {
