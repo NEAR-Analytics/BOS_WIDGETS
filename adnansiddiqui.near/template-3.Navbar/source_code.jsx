@@ -114,7 +114,7 @@ const NavButtomContainer = styled.div`
 const Button = styled.button`
   white-space: nowrap;
   border-radius: 0.375rem;
-  background-color: #b9ff81;
+  background-color: ${({ accent }) => accent || "#b9ff81"};
   padding: 0.5rem 1rem;
   font-size: 1rem;
   font-weight: 500;
@@ -197,7 +197,7 @@ const MobileButton = styled.button`
   gap: 0.5rem;
   white-space: nowrap;
   border-radius: 0.375rem;
-  background-color: #b9ff81;
+  background-color: ${({ accent }) => accent || "#b9ff81"};
   padding: 0.25rem 1rem;
   font-size: 1rem;
   font-weight: 500;
@@ -224,7 +224,7 @@ return (
               <a
                 href={item.link}
                 style={{
-                  color: 'inherit',
+                  color: "inherit",
                   textWrap: "nowrap",
                 }}
               >
@@ -243,7 +243,7 @@ return (
       </MenuIcon>
 
       <NavButtomContainer>
-        <Button>
+        <Button accent={style?.accent}>
           {props?.buttonText}
           <svg
             style={{ width: "0.7rem", transform: "rotate(-0.25turn)" }}
@@ -272,7 +272,7 @@ return (
             </li>
           ))}
 
-          <MobileButton>
+          <MobileButton accent={style?.accent}>
             {props?.buttonText}
             <svg
               style={{ width: "0.7rem", transform: "rotate(-0.25turn)" }}
