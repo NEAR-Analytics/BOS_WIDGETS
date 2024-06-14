@@ -455,25 +455,25 @@ return (
     <StyledTitle>Dashboard</StyledTitle>
     <StyledDashboardContainer>
       <StyledColumn style={{
-        width: "20%"
+        width: "25%"
       }}>
         <StyledLabel>Deposited {FIRST_SYMBOL_NAME}</StyledLabel>
         <StyledValue>{state?.dashboard?.balanceOfAssets ?? '-'}</StyledValue>
       </StyledColumn>
       <StyledColumn style={{
-        width: "20%"
+        width: "25%"
       }}>
         <StyledLabel>Borrowed {SECOND_SYMBOL_NAME}</StyledLabel>
         <StyledValue>{state?.dashboard?.debtAmount ?? '-'}</StyledValue>
       </StyledColumn>
-      <StyledColumn style={{
+      {/* <StyledColumn style={{
         width: "20%"
       }}>
         <StyledLabel>{SECOND_SYMBOL_NAME} Borrow APY</StyledLabel>
         <StyledValue>23.65%</StyledValue>
-      </StyledColumn>
+      </StyledColumn> */}
       <StyledColumn style={{
-        width: "20%"
+        width: "25%"
       }}>
         <StyledLabel>Margin Health Factor</StyledLabel>
         <StyledValue
@@ -483,7 +483,7 @@ return (
         >{state?.dashboard?.accountHealth ?? '-'}</StyledValue>
       </StyledColumn>
       <StyledColumn style={{
-        width: "20%"
+        width: "25%"
       }}>
         <StyledLabel>PnL</StyledLabel>
         <StyledValue style={{
