@@ -336,16 +336,20 @@ const handleAmountChange = (_amount) => {
   const value = Big(
     Big(amount)
       .mul(data.underlyingPrice || 1)
-      .toFixed(20)
+      .toFixed()
   );
 
   if (isSupply) {
     if (actionText === "Withdraw") {
       if (!isZero) {
-        params.newLTV = Big(userTotalBorrowUsd || 1)
-          .div(Big(userTotalSupplyUsd || 0).minus(value))
-          .times(100)
-          .toFixed(2);
+        params.newLTV = Big(userTotalSupplyUsd || 0)
+          .minus(value)
+          .lte(0)
+          ? "0"
+          : Big(userTotalBorrowUsd || 1)
+              .div(Big(userTotalSupplyUsd || 0).minus(value))
+              .times(100)
+              .toFixed(2);
       }
       isOverSize = Big(data.userTotalBorrowUsd).eq(0)
         ? false
@@ -488,6 +492,13 @@ useEffect(() => {
     getTrade,
   });
 }, []);
+
+function getDigets(num) {
+  if (isNaN(Number(num))) return;
+  const _len = num.toString().split(".").pop().length;
+  return _len;
+}
+
 console.log("DIALOG-STATE:", state);
 return (
   <Dialog className={display ? "display" : ""}>
@@ -584,8 +595,13 @@ return (
                   onClick={(ev) => {
                     if (state.balanceLoading || isNaN(state.balance)) return;
                     handleAmountChange(state.balance);
+                    const _digets =
+                      getDigets(state.balance) > 18
+                        ? 18
+                        : getDigets(state.balance);
                     State.update({
-                      amount: Big(state.balance || 0).toFixed(16, 0),
+                      // amount: Big(state.balance || 0).toFixed(_digets, 0),
+                      amount: Big(state.balance || 0).toFixed(4, 0),
                       isMax: true,
                     });
                   }}
@@ -670,7 +686,7 @@ return (
               Amount must be &lt;= balance
             </Tips>
           )}
-          {!state.buttonClickable && actionText !== "Repay" && (
+          {!!state.isOverSize && actionText !== "Repay" && (
             <Tips>
               <div className="icon">
                 <Widget src="bluebiu.near/widget/0vix.LendingInfoIcon" />
