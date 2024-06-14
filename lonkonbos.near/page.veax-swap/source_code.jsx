@@ -42,6 +42,7 @@ const ExchangeIcon = (
         tokenIn: state.tokenOut,
         tokenOut: state.tokenIn,
       });
+      loadBalance();
     }}
   >
     <path
@@ -66,6 +67,7 @@ const Exchange = <ExchangeWrapper>{ExchangeIcon}</ExchangeWrapper>;
 State.init({
   tokenIn: NEAR_META,
   tokenOut: LONK_TOKEN_META,
+  count: 5,
   amountIn: "0.1",
   amountOut: "",
   showSetting: false,
@@ -83,9 +85,6 @@ State.init({
     }),
 });
 
-if (!Storage.get("count")) {
-  Storage.set("count", 5);
-}
 const formatToken = (v) => Math.floor(v * 10_000) / 10_000;
 const loadBalance = () => {
   asyncFetch(`https://api3.nearblocks.io/v1/account/${accountId}`).then(
@@ -137,14 +136,13 @@ if (!state.timerIntervalSet) {
     timerIntervalSet: true,
   });
   timerInterval = setTimeout(() => {
-    const count = Storage.get("count");
+    const count = state.count;
 
     if (count === 1) {
       loadBalance();
     }
-    Storage.set("count", count === 1 ? 5 : count - 1);
-
     State.update({
+      count: count === 1 ? 5 : count - 1,
       timerIntervalSet: false,
     });
 
@@ -375,10 +373,9 @@ return (
         }}
       />
     }
-
     {
       <Widget
-        src={`lonkonbos.near/widget/page.veax-token-input`}
+        src={`louisdevzz.near/widget/veax-token-input`}
         props={{
           amount: state.amountIn,
           balance: state.balanceTokenIn,
@@ -396,7 +393,7 @@ return (
     {Exchange}
     {
       <Widget
-        src={`lonkonbos.near/widget/page.veax-token-input`}
+        src={`louisdevzz.near/widget/veax-token-input`}
         props={{
           amount: state.amountOut,
           balance: state.balanceTokenOut,
@@ -417,11 +414,11 @@ return (
           clearTimeout(timerInterval);
           State.update({
             reloadPools: true,
+            count: 5,
           });
-          Storage.set("count", 5);
         }}
       >
-        <Refresh>{Storage.get("count") - 1}</Refresh>
+        <Refresh>{state.count - 1}</Refresh>
         <RefreshText>Refresh</RefreshText>
       </RefreshWrapper>
 
@@ -433,7 +430,7 @@ return (
     </RateLine>
 
     <Widget
-      src="lonkonbos.near/widget/page.ref-swap-button"
+      src="louisdevzz.near/widget/ref-swap-button"
       props={{
         accountId,
         notEnough,
