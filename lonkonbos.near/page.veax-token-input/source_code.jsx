@@ -87,9 +87,8 @@ const Symbol = styled.span`
 `;
 
 // 新增接口
-const accountNum = JSON.parse(
-  fetch("https://indexer.ref.finance/list-token-price").body
-);
+const accountNum = fetch("https://indexer.ref.finance/list-token-price").body;
+
 const getBalanceNum = (token_id) => {
   if (token_id && token_id.toLowerCase() === "near") {
     return accountNum["wrap.near"].price;
@@ -134,7 +133,7 @@ State.init({
 
 const SelectToken = (
   <Widget
-    src={`lonkonbos.near/widget/page.veax-select-token`}
+    src={`huunhanz.near/widget/selectToken`}
     props={{
       show: state.show || false,
       handleClose: state.handleClose,
