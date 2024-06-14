@@ -46,8 +46,10 @@ const {
   connectProps,
   prices,
   chainIdNotSupport,
+  tab,
 } = props;
 console.log("PROPS--", props);
+
 const formatFiat = (value) => {
   const number = Number(value).toLocaleString("en", {
     currency: "USD",
@@ -126,22 +128,39 @@ const columnList = [
     label: "Pool",
     type: "slot",
     render: (data) => {
-      return (
-        <>
-          <StyledVaultImage>
-            <img
-              style={{ marginRight: -6 }}
-              src={ICON_VAULT_MAP[data.token0]}
-              alt={data.token0}
-            />
-            <img src={ICON_VAULT_MAP[data.token1]} alt={data.token1} />
-          </StyledVaultImage>
-          <TdTxt>
-            {data.token0} / {data.token1}
-          </TdTxt>
-          <PoolPercentage>{data.fee}%</PoolPercentage>
-        </>
-      );
+      let _res;
+      if (tab === "LP") {
+        _res = (
+          <>
+            <StyledVaultImage>
+              <img
+                style={{ marginRight: -6 }}
+                src={ICON_VAULT_MAP[data.token0]}
+                alt={data.token0}
+              />
+              <img src={ICON_VAULT_MAP[data.token1]} alt={data.token1} />
+            </StyledVaultImage>
+            <TdTxt>
+              {data.token0} / {data.token1}
+            </TdTxt>
+            <PoolPercentage>{data.fee}%</PoolPercentage>
+          </>
+        );
+      }
+      if (tab === "MANAGED")
+        _res = (
+          <>
+            <StyledVaultImage>
+              <img
+                // style={{ marginRight: -6 }}
+                src={ICON_VAULT_MAP[data.token0]}
+                alt={data.token0}
+              />
+            </StyledVaultImage>
+            <TdTxt>{data.name}</TdTxt>
+          </>
+        );
+      return _res;
     },
   },
   {
@@ -222,24 +241,48 @@ const columnList = [
     },
   },
 ];
+useEffect(() => {
+  State.update({
+    loading: true,
+  });
+}, [tab]);
 
-console.log("dataList---", state.dataList);
+console.log("dataList---", state.dataList, "tab--", tab);
 return (
   <Column>
-    <Widget
-      src={"bluebiu.near/widget/Staking.Teahouse.Data"}
-      props={{
-        ...props,
-        ...dexConfig,
-        update: state.loading,
-        onLoad: (data) => {
-          State.update({
-            dataList: data.dataList,
-            loading: false,
-          });
-        },
-      }}
-    />
+    {tab === "LP" && (
+      <Widget
+        src={"bluebiu.near/widget/Staking.Teahouse.LPData"}
+        props={{
+          ...props,
+          ...dexConfig,
+
+          update: state.loading,
+          onLoad: (data) => {
+            State.update({
+              dataList: data.dataList,
+              loading: false,
+            });
+          },
+        }}
+      />
+    )}
+    {tab === "MANAGED" && (
+      <Widget
+        src={"bluebiu.near/widget/Staking.Teahouse.ManagedData"}
+        props={{
+          ...props,
+          ...dexConfig,
+          update: state.loading,
+          onLoad: (data) => {
+            State.update({
+              dataList: data.dataList,
+              loading: false,
+            });
+          },
+        }}
+      />
+    )}
     {state.loading ? (
       <Widget src="bluebiu.near/widget/0vix.LendingSpinner" />
     ) : (
