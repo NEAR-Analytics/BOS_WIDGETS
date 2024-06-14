@@ -375,7 +375,7 @@ return (
     }
     {
       <Widget
-        src={`louisdevzz.near/widget/veax-token-input`}
+        src={`lonkonbos.near/widget/page.veax-token-input`}
         props={{
           amount: state.amountIn,
           balance: state.balanceTokenIn,
@@ -393,7 +393,7 @@ return (
     {Exchange}
     {
       <Widget
-        src={`louisdevzz.near/widget/veax-token-input`}
+        src={`lonkonbos.near/widget/page.veax-token-input`}
         props={{
           amount: state.amountOut,
           balance: state.balanceTokenOut,
