@@ -275,14 +275,33 @@ return (
     <h2 style={{ alignSelf: "center" }}>SHITZU Migration</h2>
 
     <Countdown>
-      <h3>Migration will close indefinitely in:</h3>
-      {days}:{hours}:{minutes}:{seconds}
+      {state.migrationEndDiff > 0 ? (
+        <>
+          <h3>Migration will close indefinitely in:</h3>
+          {days}:{hours}:{minutes}:{seconds}
+        </>
+      ) : (
+        <>
+          Migration is closed indefinitely:
+          <a
+            href="https://dev.near.org/astraplusplus.ndctools.near/widget/home?page=dao&tab=proposals&daoId=shitzu.sputnik-dao.near&proposalId=106"
+            target="_blank"
+          >
+            Proposal
+          </a>
+          <a href="https://shitzuapes.xyz" target="_blank">
+            Website
+          </a>
+          <a href="https://app.shitzuapes.xyz" target="_blank">
+            App
+          </a>
+        </>
+      )}
     </Countdown>
 
     <Progress progress={progress}>{progress}% migrated</Progress>
 
     <h5>Market Cap: {marketCap}$</h5>
-    <span>(mcap calculation only includes SHITZUv2)</span>
 
     <a
       style={{ alignSelf: "center" }}
@@ -292,96 +311,104 @@ return (
       <button>Buy SHITZU on Ref Finance</button>
     </a>
 
-    <Text>
-      This BOS component lets you migrate SHITZU from Aurora to the new contract
-      on Near. The migration will close on June 15th 0:00am UTC. Until then you
-      can migrate SHITZU 1:1 for the new token. The old SHITZU has address
-      0x68e401B61eA53889505cc1366710f733A60C2d41 and can be bought at{" "}
-      <a href="https://www.trisolaris.io/" target="_blank">
-        Trisolaris
-      </a>
-      . The new SHITZU has address {shitzuNearAddress}
-    </Text>
-
-    <div>Logged in as: {getSender()}</div>
-
-    <label for="receiver">
-      Receiver (Near address)
-      <input
-        id="receiver"
-        disabled={!state.sender}
-        value={state.receiverId}
-        onChange={(e) =>
-          State.update({ receiverId: e.target.value, receiverError: undefined })
-        }
-        placeholder="Receiver (Near address)"
-      />
-      <button
-        onClick={() => {
-          State.update({
-            receiverId: shitzuDaoAddress,
-          });
-        }}
-      >
-        Donate to DAO
-      </button>
-      {state.receiverError && <Error>{state.receiverError}</Error>}
-    </label>
-
-    <label for="amount">
-      Amount (SHITZUv1)
-      <input
-        id="amount"
-        disabled={!state.sender}
-        value={state.amount}
-        onChange={(e) => {
-          const amount = e.target.value;
-          State.update({ amount: amount.replace(/[^0-9.]/g, "") });
-        }}
-        placeholder="Amount (SHITZUv1)"
-      />
-      <button
-        onClick={() => {
-          const shitzuBalance = state.shitzuBalance
-            .toString()
-            .replace(/[^0-9.]/g, "");
-          const amount = Big(shitzuBalance.toString())
-            .div(Big(10).pow(tokenDecimals))
-            .toString();
-          State.update({
-            amount,
-          });
-        }}
-      >
-        MAX
-      </button>
-    </label>
-
-    {state.sender && typeof shitzuBalance === "string" && (
-      <div>SHITZUv1 balance: {shitzuBalance}</div>
-    )}
-
-    {!!state.sender ? (
+    {state.migrationEndDiff > 0 && (
       <>
-        <button
-          onClick={() => {
-            if (notEnoughAllowance) {
-              setAllowance(state.amount);
-            } else {
-              migrate(state.amount);
+        <Text>
+          This BOS component lets you migrate SHITZU from Aurora to the new
+          contract on Near. The migration will close on June 15th 0:00am UTC.
+          Until then you can migrate SHITZU 1:1 for the new token. The old
+          SHITZU has address 0x68e401B61eA53889505cc1366710f733A60C2d41 and can
+          be bought at{" "}
+          <a href="https://www.trisolaris.io/" target="_blank">
+            Trisolaris
+          </a>
+          . The new SHITZU has address {shitzuNearAddress}
+        </Text>
+
+        <div>Logged in as: {getSender()}</div>
+
+        <label for="receiver">
+          Receiver (Near address)
+          <input
+            id="receiver"
+            disabled={!state.sender}
+            value={state.receiverId}
+            onChange={(e) =>
+              State.update({
+                receiverId: e.target.value,
+                receiverError: undefined,
+              })
             }
-          }}
-          disabled={disabled}
-        >
-          <span>{notEnoughAllowance ? "approve SHITZUv1" : "Migrate"}</span>
-        </button>
+            placeholder="Receiver (Near address)"
+          />
+          <button
+            onClick={() => {
+              State.update({
+                receiverId: shitzuDaoAddress,
+              });
+            }}
+          >
+            Donate to DAO
+          </button>
+          {state.receiverError && <Error>{state.receiverError}</Error>}
+        </label>
+
+        <label for="amount">
+          Amount (SHITZUv1)
+          <input
+            id="amount"
+            disabled={!state.sender}
+            value={state.amount}
+            onChange={(e) => {
+              const amount = e.target.value;
+              State.update({ amount: amount.replace(/[^0-9.]/g, "") });
+            }}
+            placeholder="Amount (SHITZUv1)"
+          />
+          <button
+            onClick={() => {
+              const shitzuBalance = state.shitzuBalance
+                .toString()
+                .replace(/[^0-9.]/g, "");
+              const amount = Big(shitzuBalance.toString())
+                .div(Big(10).pow(tokenDecimals))
+                .toString();
+              State.update({
+                amount,
+              });
+            }}
+          >
+            MAX
+          </button>
+        </label>
+
+        {state.sender && typeof shitzuBalance === "string" && (
+          <div>SHITZUv1 balance: {shitzuBalance}</div>
+        )}
+
+        {!!state.sender ? (
+          <>
+            <button
+              onClick={() => {
+                if (notEnoughAllowance) {
+                  setAllowance(state.amount);
+                } else {
+                  migrate(state.amount);
+                }
+              }}
+              disabled={disabled}
+            >
+              <span>{notEnoughAllowance ? "approve SHITZUv1" : "Migrate"}</span>
+            </button>
+          </>
+        ) : (
+          <Web3Connect
+            connectLabel="Connect Web3 Wallet"
+            disconnectLabel="Disconnect Web3 Wallet"
+            connectingLabel="Connecting..."
+          />
+        )}
       </>
-    ) : (
-      <Web3Connect
-        connectLabel="Connect Web3 Wallet"
-        disconnectLabel="Disconnect Web3 Wallet"
-        connectingLabel="Connecting..."
-      />
     )}
   </Wrapper>
 );
