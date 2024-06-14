@@ -78,6 +78,8 @@ const iconQuestionMark = (isActive) => (
   </svg>
 );
 
+console.log('##### context', context)
+
 return (
   <>
     <DappletPortal
@@ -111,6 +113,13 @@ return (
           namespace: context.namespace,
           contextType: context.type,
           if: { id: { eq: context.id } },
+          parent: context.type === 'postSouthButton' && {
+            namespace: context.namespace,
+            contextType: context.parent.type,
+            if: {
+              id: { eq: context.parent.id }
+            }
+          }
         }}
         component={ChapterWrapper}
       />
