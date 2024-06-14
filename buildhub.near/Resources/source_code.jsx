@@ -12,7 +12,7 @@ const postAccountId = props.postAccountId;
 if (mdPath && !postAccountId) {
   return (
     <div>
-      <Header>{props.feedName}</Header>
+      {/* <Header>{props.feedName}</Header> */}
       <MarkdownView path={mdPath} />
     </div>
   );
@@ -20,7 +20,7 @@ if (mdPath && !postAccountId) {
 if (!mdPath && postAccountId) {
   return (
     <div>
-      <Header>{props.feedName}</Header>
+      {/* <Header>{props.feedName}</Header> */}
       <Post
         accountId={postAccountId}
         blockHeight={props.postBlockHeight}
@@ -31,7 +31,7 @@ if (!mdPath && postAccountId) {
 }
 return (
   <div>
-    <Header>{props.feedName}</Header>
+    {/* <Header>{props.feedName}</Header> */}
     <p>No mdPath or post accountId configured</p>
   </div>
 );
