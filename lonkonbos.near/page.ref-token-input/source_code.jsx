@@ -75,6 +75,7 @@ const accountNum = JSON.parse(
 );
 const getBalanceNum = (token_id) => {
   if (token_id && token_id.toLowerCase() === "near") {
+    console.log("priceToken", accountNum["wrap.near"].price);
     return accountNum["wrap.near"].price;
   }
 
