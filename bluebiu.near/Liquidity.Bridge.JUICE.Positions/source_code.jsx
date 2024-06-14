@@ -439,8 +439,8 @@ function handleQueryPnl() {
   })
 }
 useEffect(() => {
-  // handleQueryDashboard()
-  // handleQueryPnl()
+  handleQueryDashboard()
+  handleQueryPnl()
 }, [])
 
 useEffect(() => {
