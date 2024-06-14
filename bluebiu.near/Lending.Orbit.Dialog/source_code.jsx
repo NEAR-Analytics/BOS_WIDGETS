@@ -366,7 +366,8 @@ const handleAmountChange = (_amount) => {
           .toFixed(2);
       }
 
-      isOverSize = value.gt(data.userTotalBorrowUsd);
+      // isOverSize = value.gt(data.userTotalBorrowUsd);
+      isOverSize = false;
     }
   }
 
@@ -584,7 +585,7 @@ return (
                     if (state.balanceLoading || isNaN(state.balance)) return;
                     handleAmountChange(state.balance);
                     State.update({
-                      amount: Big(state.balance || 0).toFixed(12),
+                      amount: Big(state.balance || 0).toFixed(16, 0),
                       isMax: true,
                     });
                   }}
@@ -645,7 +646,7 @@ return (
               </ValuesWrapper>
             </Row>
           )}
-          {!!state.isOverSize && (
+          {!!state.isOverSize && actionText !== "Repay" && (
             <Tips>
               <div className="icon">
                 <Widget src="bluebiu.near/widget/0vix.LendingInfoIcon" />
@@ -669,7 +670,7 @@ return (
               Amount must be &lt;= balance
             </Tips>
           )}
-          {!state.buttonClickable && (
+          {!state.buttonClickable && actionText !== "Repay" && (
             <Tips>
               <div className="icon">
                 <Widget src="bluebiu.near/widget/0vix.LendingInfoIcon" />
