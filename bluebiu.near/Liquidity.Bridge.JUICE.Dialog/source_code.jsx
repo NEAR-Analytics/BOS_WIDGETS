@@ -196,10 +196,10 @@ const {
   sender,
   chainId,
   addAction,
-  SYMBOL_ADDRESS,
   onCloseWrap,
 } = props
 
+const WETH_ADDRESS = "0x4300000000000000000000000000000000000004"
 const isWrapInSufficient = Number(state?.wrapAmount ?? 0) > Number(state?.balances["ETH"] ?? 0)
 const isUnwrapInSufficient = Number(state?.unwrapAmount ?? 0) > Number(state?.balances["WETH"] ?? 0)
 
@@ -225,7 +225,7 @@ function handleQueryBalances() {
     "outputs": [
       {
         "internalType": "uint256",
-        "name": "value",
+        "name": "",
         "type": "uint256"
       }
     ],
@@ -233,7 +233,7 @@ function handleQueryBalances() {
     "type": "function"
   }]
   const contract = new ethers.Contract(
-    ethers.utils.getAddress(SYMBOL_ADDRESS),
+    ethers.utils.getAddress(WETH_ADDRESS),
     abi,
     Ethers.provider().getSigner()
   );
@@ -275,7 +275,7 @@ function handleWrap() {
     "type": "function"
   }]
   const contract = new ethers.Contract(
-    ethers.utils.getAddress(SYMBOL_ADDRESS),
+    ethers.utils.getAddress(WETH_ADDRESS),
     abi,
     Ethers.provider().getSigner()
   );
@@ -344,7 +344,7 @@ function handleUnwrap() {
     "type": "function"
   }]
   const contract = new ethers.Contract(
-    ethers.utils.getAddress(SYMBOL_ADDRESS),
+    ethers.utils.getAddress(WETH_ADDRESS),
     abi,
     Ethers.provider().getSigner()
   );
