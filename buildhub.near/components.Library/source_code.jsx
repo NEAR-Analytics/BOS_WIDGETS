@@ -359,8 +359,7 @@ const components = [
     },
     preview: (
       <div className="d-flex flex-column gap-3 mb-3">
-        <UploadField />
-        <UploadField background />
+        <Widget src="buildhub.near/widget/components.UploadField" />
       </div>
     ),
     embedCode: `
