@@ -254,6 +254,7 @@ return (
               price0: data.token0.price,
               price1: data.token1.price,
               name: data.name,
+              fee: data.fee,
               dappLink,
               handler,
               onSuccess,
