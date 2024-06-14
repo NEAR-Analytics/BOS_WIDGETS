@@ -22,7 +22,7 @@ const Button = styled.button`
 `;
 
 const handleInfoClick = () => {
-  onClick({
+  props.notify({
     subject: "This Info",
     body: "Text Info",
 
@@ -30,7 +30,7 @@ const handleInfoClick = () => {
   });
 };
 const handleWarnClick = () => {
-  onClick({
+  props.notify({
     subject: "This Warn",
     body: "Text Warning",
 
@@ -38,7 +38,7 @@ const handleWarnClick = () => {
   });
 };
 const handleErrorClick = () => {
-  onClick({
+  props.notify({
     subject: "This Err",
     body: "Text Error",
 
@@ -50,16 +50,13 @@ const handleTxClick = () => {
   props.notify({
     subject: "This Tx",
     body: "Text Tx",
-    actions: [
-      {
-        label: "OK",
-        onClick: () => console.log("OK"),
-      },
-      {
-        label: "Cancel",
-        onClick: () => console.log("Cancel"),
-      },
-    ],
+    actions: [{
+      label: "OK",
+      onClick: () => console.log('OK'),
+    }, {
+      label: "Cancel",
+      onClick: () => console.log('Cancel'),
+    }]
   });
 
   Near.call(
