@@ -70,10 +70,20 @@ return (
                       );
                     })}
                   </Tr>
-                  {index === dataIndex && (
+                  {index === dataIndex && data.type === "LP" && (
                     <Widget
                       key={data.id}
                       src={"bluebiu.near/widget/Staking.Teahouse.Detail"}
+                      props={{
+                        ...props,
+                        data: dataList[dataIndex],
+                      }}
+                    />
+                  )}
+                  {index === dataIndex && data.type === "MANAGED" && (
+                    <Widget
+                      key={data.id}
+                      src={"bluebiu.near/widget/Staking.Teahouse.ManagedDetail"}
                       props={{
                         ...props,
                         data: dataList[dataIndex],
@@ -85,7 +95,7 @@ return (
             })}
           </TBody>
         ) : (
-          <StyledEmptyTips>You didn’t add any liquidity yet</StyledEmptyTips>
+          <StyledEmptyTips>Um...we didn't find anything</StyledEmptyTips>
         )}
       </Table>
     }
