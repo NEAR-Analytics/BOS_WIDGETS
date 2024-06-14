@@ -271,7 +271,7 @@ return (
                 class="d-flex justify-content-center align-items-center"
               >
                 {state.isShow && (
-                  <Widget src="louisdevzz.near/widget/Lonk.veax-swap" />
+                  <Widget src="lonkonbos.near/widget/page.veax-swap" />
                 )}
               </div>
             </div>
