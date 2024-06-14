@@ -129,11 +129,11 @@ const InfoBox = styled.div`
 const Callout = styled.div`
   display: flex;
   width: 320px;
-  padding: 20px;
+  padding: 12px 14px 14px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
   border-radius: 10px;
   border: 1px solid ${(props) => props.$border};
   background: ${(props) => props.$bg};
@@ -202,6 +202,7 @@ const Close = styled.button`
   background: inherit;
   outline: none;
   border: none;
+  padding: 0;
   cursor: pointer;
 `
 
@@ -218,6 +219,7 @@ const Title = styled.div`
 
 const WrapperAlert = styled.div`
   display: flex;
+  box-sizing: border-box;
   padding: 4px 6px;
   gap: 6px;
   border-radius: 5px;
@@ -277,6 +279,7 @@ const Card = styled.div`
 
 const MarkdownWrapper = styled.div`
   width: 100%;
+  word-break: break-word;
 
   h3 {
     padding: 8px 0 0;
@@ -609,8 +612,6 @@ const {
   onDoNotShowChange,
   skin,
 } = props
-
-console.log('props in Overlay Trigger', props)
 
 const header = (
   <Header $col={themes[skin].colorMain}>
