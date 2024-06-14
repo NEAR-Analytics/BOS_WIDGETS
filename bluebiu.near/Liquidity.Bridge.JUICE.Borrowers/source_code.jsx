@@ -588,7 +588,7 @@ const PROXY_ADDRESS_ABI = [
 const isDepositInSufficient = Number(state?.inDepositAmount ?? 0) > Number(state?.balances.deposit ?? 0)
 const isWithdrawInSufficient = Number(state?.inWithdrawAmount ?? 0) > Number(state?.balances.withdraw ?? 0)
 const isBorrowInSufficient = Number(state?.inBorrowAmount ?? 0) > Number(state?.balances.borrow ?? 0)
-const isRepayInSufficient = Number(state?.inRepayAmount ?? 0) > Number(state?.balances.repay ?? 0)
+const isRepayInSufficient = Number(state?.inRepayAmount ?? 0) > Number(state?.balances.secondRepay ?? 0)
 function isNotEmptyArray(value) {
   return value && value[0]
 }
@@ -1182,7 +1182,7 @@ function handleRepay() {
   const _amount = Big(state?.inRepayAmount)
     .mul(Big(10).pow(18))
     .toFixed(0);
-  const contractMethod = Big(state.balances.repay).gt(state?.accountOverview?.firstBalance ?? 0) ? "repayFrom" : "repay"
+  const contractMethod = Big(state.balances.secondRepay).gt(state?.accountOverview?.firstBalance ?? 0) ? "repayFrom" : "repay"
   contract[contractMethod](
     _amount,
     {
@@ -1244,8 +1244,8 @@ function handleGetBalances(callback) {
   })
   calls.push({
     address: PROXY_ADDRESS,
-    name: "getAccountHealth",
-    params: [smartContractAddress]
+    name: "balanceOfAssets",
+    params: [sender]
   })
   calls.push({
     address: PROXY_ADDRESS,
@@ -1257,6 +1257,13 @@ function handleGetBalances(callback) {
     name: "getDebtAmount",
     params: [smartContractAddress]
   })
+
+  calls.push({
+    address: SECOND_SYMBOL_ADDRESS,
+    name: "balanceOf",
+    params: [sender]
+  })
+
   multicall({
     abi,
     calls,
@@ -1266,28 +1273,27 @@ function handleGetBalances(callback) {
   }).then(result => {
     const [
       balanceOfResult,
-      getAccountHealthResult,
+      balanceOfAssetsResult,
       getTotalCollateralValueResult,
-      getDebtAmountResult
+      getDebtAmountResult,
+      secondBalanceOfResult
     ] = result
     const deposit = Big(isNotEmptyArray(balanceOfResult) ? ethers.utils.formatUnits(balanceOfResult[0]) : 0).toFixed()
-    const withdraw = Big(isNotEmptyArray(getAccountHealthResult) && getAccountHealthResult[0][1] ? ethers.utils.formatUnits(getAccountHealthResult[0][1]) : 0).times(Big(prices[SECOND_SYMBOL_NAME]).div(prices[FIRST_SYMBOL_NAME])).toFixed()
+    const withdraw = Big(isNotEmptyArray(balanceOfAssetsResult) ? ethers.utils.formatUnits(balanceOfAssetsResult[0]) : 0).toFixed()
     const borrow = Big(isNotEmptyArray(getTotalCollateralValueResult) ? ethers.utils.formatUnits(getTotalCollateralValueResult[0]) : 0).times(2.97).minus(isNotEmptyArray(getDebtAmountResult) ? ethers.utils.formatUnits(getDebtAmountResult[0]) : 0).toFixed()
-    const firstRepay = deposit
+    const firstRepay = Big(isNotEmptyArray(secondBalanceOfResult) ? ethers.utils.formatUnits(secondBalanceOfResult[0]) : 0).toFixed()
     const secondRepay = Big(isNotEmptyArray(getDebtAmountResult) ? ethers.utils.formatUnits(getDebtAmountResult[0]) : 0).toFixed()
-    const repay = secondRepay
     const balances = {
       deposit,
       withdraw,
       borrow: Big(borrow).gt(0) ? borrow : 0,
-      repay,
       firstRepay,
       secondRepay
     }
     State.update({
       balances
     })
-    callback && callback([deposit, withdraw, borrow, repay][categoryIndex])
+    callback && callback([deposit, withdraw, borrow, secondRepay][categoryIndex])
   }).catch(error => console.log(error))
 }
 function handleGetAccountOverview() {
@@ -1444,7 +1450,7 @@ function handleClaim() {
     abi,
     Ethers.provider().getSigner()
   );
-  const temAmount = Big(state.balances.repay).eq(0) ? state?.accountOverview?.firstBalance : state?.pnl
+  const temAmount = Big(state.balances.secondRepay).eq(0) ? state?.accountOverview?.firstBalance : state?.pnl
   const _amount = Big(temAmount)
     .mul(Big(10).pow(18))
     .toFixed(0);
@@ -1690,7 +1696,7 @@ return (
                       <StyledDepositInputTop>
                         <StyledDepositInputTopType>Repay</StyledDepositInputTopType>
                         <StyledDepositInputTopBalance>
-                          Available: <span onClick={handleMax}>{Big(state.balances?.firstRepay ?? 0).plus(state.balances?.repay ?? 0).toFixed(4)}</span>
+                          Available: <span onClick={handleMax}>{Big(state.balances?.firstRepay ?? 0).plus(state.balances?.secondRepay ?? 0).toFixed(4)}</span>
                         </StyledDepositInputTopBalance>
                       </StyledDepositInputTop>
                       <StyledDepositInputBottom>
