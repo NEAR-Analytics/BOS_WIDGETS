@@ -29,7 +29,6 @@ if (!config) {
     config = VM.require(config) || {};
   }
 }
-console.log("config", config);
 if (!config) {
   return (
     <p>
