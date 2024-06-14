@@ -108,7 +108,7 @@ const HeroSubtitle = styled.h6`
   }
 `;
 const HeroButton1 = styled.button`
-  background-color: ${({ style }) => style?.accent || "#b9ff81"};
+  background-color: ${({ accent }) => accent || "#b9ff81"};
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -165,9 +165,8 @@ const HeroImage1 = styled.img`
   position: absolute;
   top: 3.5rem;
   right: -2rem;
- border-right-width: 0;
-  border-bottom-width: 0;
-  border: 0.5rem solid;
+  border-left-width: 0.5rem;
+  border-top-width: 0.5rem;
   border-color: white;
   &:not(.light *) {
     border-color: #080a11;
@@ -196,7 +195,7 @@ return (
             gap: "1rem",
           }}
         >
-          <HeroButton1>
+          <HeroButton1 accent={style?.accent}>
             {props?.secondaryButtonText}
             <svg
               style={{
