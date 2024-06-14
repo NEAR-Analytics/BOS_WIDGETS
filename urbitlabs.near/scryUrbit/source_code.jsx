@@ -63,7 +63,7 @@ const handleScryButton = (e) => {
   e.preventDefault();
 
   Urbit.scry(scryApp, scryPath).then((res) => {
-    setScryResponse(JSON.stringify(res));
+    setScryResponse(res);
     setScryApp("");
     setScryPath("");
   });
