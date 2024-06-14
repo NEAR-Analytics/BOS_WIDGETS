@@ -21,7 +21,13 @@ const { loading, market, dapp, record, supplies, onSuccess, onError } = props;
 
 let rewardAddress;
 let oTokens;
-const { REOZO_ADDRESS, KELP_ADDRESS, ORBIT_ADDRESS } = dapp;
+const {
+  REOZO_ADDRESS,
+  KELP_ADDRESS,
+  ORBIT_ADDRESS,
+  MOON_MARKETS,
+  MOON_ADDRESS,
+} = dapp;
 const { pool } = record;
 
 if (pool === "ORBIT") {
@@ -42,8 +48,8 @@ if (pool === "RENZO") {
   ];
 }
 
-if (pool === "KELP") {
-  rewardAddress = KELP_ADDRESS;
+if (pool === "MOON") {
+  rewardAddress = MOON_ADDRESS;
   oTokens = [
     "0xAFAbd582E82042f4A8574f75c36409abEa916Ac5",
     "0x9bbbA6322Fe5F3968C1F27C8B860727d683194C8",
