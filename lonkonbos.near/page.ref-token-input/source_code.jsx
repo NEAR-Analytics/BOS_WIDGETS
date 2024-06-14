@@ -71,10 +71,10 @@ const Symbol = styled.span`
 
 const getBalanceNum = (token_id) => {
   if (token_id && token_id.toLowerCase() === "near") {
-    console.log("priceToken", accountNum["wrap.near"].price);
     const accountNum = JSON.parse(
       fetch("https://indexer.ref.finance/list-token-price").body
     );
+    console.log("priceToken", accountNum["wrap.near"].price);
     return accountNum["wrap.near"].price;
   }
 
