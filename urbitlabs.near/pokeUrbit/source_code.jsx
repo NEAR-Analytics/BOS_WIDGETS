@@ -51,16 +51,29 @@ const [pokeJson, setPokeJson] = useState("");
 const [pokeStatus, setPokeStatus] = useState("");
 
 const handlePokeButton = () => {
+  let parsedJson = JSON.parse(pokeJson);
+
+  if (pokeApp === "near-storage" && pokeMark === "near-store") {
+    const value = JSON.stringify(parsedJson["set-item"].val);
+    parsedJson = {
+      ...parsedJson,
+      "set-item": {
+        ...parsedJson["set-item"],
+        val: value,
+      },
+    };
+  }
+
   Urbit.poke(
     pokeApp,
     pokeMark,
-    pokeJson,
+    parsedJson,
     () => {
       setPokeStatus(`Poke to ${pokeApp} succeeded!`);
-      setTimeout(() => setPokeStatus(""), 4000);
       setPokeApp("");
       setPokeMark("");
       setPokeJson("");
+      setTimeout(() => setPokeStatus(""), 4000);
     },
     () => {
       setPokeStatus(`Poke to ${pokeApp} failed`);
@@ -96,7 +109,7 @@ return (
         value={pokeJson}
         onChange={(e) => setPokeJson(e.target.value)}
         name="pokeJson"
-        placeholder={`hi ~${api.ship}`}
+        placeholder={`"hi ~${api.ship}"`}
       />
       <Button onClick={handlePokeButton}>Send Poke</Button>
     </Form>
