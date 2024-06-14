@@ -69,13 +69,12 @@ const Symbol = styled.span`
   font-size: 18px;
 `;
 
-// 新增接口
-const accountNum = JSON.parse(
-  fetch("https://indexer.ref.finance/list-token-price").body
-);
 const getBalanceNum = (token_id) => {
   if (token_id && token_id.toLowerCase() === "near") {
     console.log("priceToken", accountNum["wrap.near"].price);
+    const accountNum = JSON.parse(
+      fetch("https://indexer.ref.finance/list-token-price").body
+    );
     return accountNum["wrap.near"].price;
   }
 
