@@ -31,6 +31,8 @@ const StyledButton = styled.button`
         return "var(--button-outline-bg, transparent)";
       case "secondary":
         return "var(--button-secondary-bg, #23242B)";
+      case "transparent":
+        return "transparent";
       default:
         return "var(--button-default-bg, #23242B)";
     }
@@ -83,6 +85,7 @@ function Button({
   href,
   noLink,
   style,
+  ...restProps
 }) {
   className = className + (disabled ? " disabled" : "");
   if (href && noLink) {
@@ -102,6 +105,7 @@ function Button({
           type={type}
           style={style}
           href={href}
+          {...restProps}
         >
           {children}
         </StyledButton>
@@ -125,6 +129,7 @@ function Button({
           type={type}
           style={style}
           href={href}
+          {...restProps}
         >
           {children}
         </StyledButton>
@@ -141,6 +146,7 @@ function Button({
       type={type}
       style={style}
       onClick={onClick}
+      {...restProps}
     >
       {children}
       {loading ? (
