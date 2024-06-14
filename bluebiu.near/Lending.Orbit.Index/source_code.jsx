@@ -46,8 +46,8 @@ let tabsArray = [
 
 let orbitArray = [
   { key: "ORBIT", label: "ORBIT" },
+  { key: "MOON", label: "MOON" },
   { key: "RENZO", label: "RENZO" },
-  { key: "KELP", label: "KELP" },
 ];
 
 const switchToMarkets = () => {
