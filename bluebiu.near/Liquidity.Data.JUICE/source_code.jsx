@@ -43,6 +43,7 @@ function handleGetTotalBaseDeposit() {
     for (let i = 0; i < dataList.length; i++) {
       dataList[i].pointList[0].value = Big(result[i][0] ? ethers.utils.formatUnits(result[i][0]) : 0).toString()
     }
+    
     updateDataList("handleGetTotalBaseDeposit")
   })
 }
