@@ -165,7 +165,6 @@ const TopLine = styled.div`
 
 const CalloutHeaderCaption = styled.div`
   display: inline-block;
-  max-width: 30%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -174,6 +173,7 @@ const CalloutHeaderCaption = styled.div`
   font-style: normal;
   font-weight: 600;
   line-height: 149%;
+  flex: 1;
 `
 
 const PagesIndicators = styled.div`
@@ -186,10 +186,12 @@ const PagesIndicators = styled.div`
   align-items: center;
   box-sizing: border-box;
   justify-content: center;
+  flex: 1;
 `
 
 // const Navi = styled.button` // ToDo: for navigation
 const Navi = styled.div`
+  box-sizing: border-box;
   padding: 0;
   width: 10px;
   height: 10px;
@@ -199,11 +201,14 @@ const Navi = styled.div`
 `
 
 const Close = styled.button`
+  display: flex;
+  flex-direction: row-reverse;
   background: inherit;
   outline: none;
   border: none;
   padding: 0;
   cursor: pointer;
+  flex: 1;
 `
 
 const Title = styled.div`
