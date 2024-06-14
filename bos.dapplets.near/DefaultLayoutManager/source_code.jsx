@@ -51,7 +51,7 @@ const WidgetBadgeWrapper = styled.div`
 `;
 
 return (
-  <Container id='default-layout-manager'>
+  <Container id="default-layout-manager">
     {props.widgets
       .filter((w) => w.isSuitable === undefined || w.isSuitable === true)
       .map((widget) => (
@@ -98,7 +98,12 @@ return (
           >
             <Widget
               src={widget.src}
-              props={{ ...widget.props, pickContext: props.pickContext, pickContexts: props.pickContexts }}
+              props={{
+                ...widget.props,
+                pickContext: props.pickContext,
+                pickContexts: props.pickContexts,
+                notify: props.notify,
+              }}
               loading={<></>}
             />
             <div
