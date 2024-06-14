@@ -14,7 +14,6 @@ useEffect(() => {
     onSuccess,
     onError,
   }) => {
-    console.log({ type, id, pool, amount, method, onSuccess, onError });
     let Contract = null;
     if (type === "V2") {
       Contract = new ethers.Contract(
@@ -182,6 +181,7 @@ useEffect(() => {
                           amount1: pool.amount1.toString(),
                           price0: pool.price0,
                           price1: pool.price1,
+                          fee: pool.fee,
                         };
                   addAction({
                     type: "Staking",
