@@ -1,6 +1,6 @@
 const config = {
   btse_logo:
-    "https://gateway.pinata.cloud/ipfs/QmZK8WaTq5pBQWVBFm3dQBbHD6saqyRzwiNfNEfNm5ip9p",
+    "https://ipfs.near.social/ipfs/bafkreieirh5eqtgcynyrmwu2a2hdhb4rh22r6ts6ynwdt3s6xvw44a75ty",
   orderly_network:
     "https://bafkreibdjomcmeszaxw7u4mwmc7scmhbiekdj65ftyj53ochuehhi6rb44.ipfs.nftstorage.link/",
   lonk_bot:
