@@ -1470,7 +1470,10 @@ function handleClaim() {
         tx: transactionHash,
         chainId,
       });
-      handleRefresh()
+
+      setTimeout(() => {
+        handleRefresh()
+      }, 3000)
     })
     .catch(error => {
       State.update({
