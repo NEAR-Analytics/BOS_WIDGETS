@@ -5,6 +5,7 @@ const {
   price0,
   price1,
   name,
+  fee,
   dappLink,
   handler,
   from,
@@ -130,6 +131,7 @@ return (
                 token1,
                 price0,
                 price1,
+                fee,
               },
               method: from === "stake" ? "safeTransferFrom" : "withdraw",
               onSuccess: () => {
