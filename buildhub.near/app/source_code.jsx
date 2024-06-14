@@ -25,13 +25,13 @@ const config = {
         props={{ routes: config.router.routes, ...passProps, page: props.page }}
       />
     ),
-    Footer: () => <></>, // customize your footer
+    Footer: () => <></>,
   },
   router: {
     param: "page",
     routes: {
       home: {
-        path: "buildhub.near/widget/page.home",
+        path: "builddao.near/widget/home.Home",
         blockHeight: "final",
         init: {
           name: "Home",
