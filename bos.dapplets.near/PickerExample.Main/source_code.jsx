@@ -1,7 +1,7 @@
 const NAMESPACE = 'bos.dapplets.near/parser/twitter'
 const CONTEXT_TYPE = 'post'
 
-const SKIN = 'DEFAULT'
+const SKIN = 'META_GUIDE'
 
 const [isRunnigApp, toggleIsRunningApp] = useState(false)
 const [context, setContext] = useState(null)
@@ -16,11 +16,7 @@ const handleClose = () => {
 
 useEffect(() => {
   if (!isRunnigApp) return;
-  const newPicker = props.pickContexts({ 
-    namespace: NAMESPACE,
-    contextType: CONTEXT_TYPE,
-    if: {}
-  }, (newContext) => setContext(newContext))
+  const newPicker = props.pickContexts(null, (newContext) => setContext(newContext))
 
   setPicker(newPicker)
 }, [isRunnigApp])
@@ -30,8 +26,15 @@ const ChapterWrapper = (props) => {
     id: context.id,
     type: 'callout',
     onClose: handleClose,
-    title: 'Parsed context',
     content:`
+**ID:** ${context.id}
+
+**Context type:** ${context.type}
+
+**Namespace:** ${context.namespace}
+
+**Parsed context:**
+
 \`\`\`js
 ${JSON.stringify(context.parsed, null, 2)}
 \`\`\`
@@ -105,9 +108,9 @@ return (
     {isRunnigApp && context ? (
       <DappletPortal
         target={{
-          namespace: NAMESPACE,
-          contextType: CONTEXT_TYPE,
-          if: { id: { eq: context?.id } },
+          namespace: context.namespace,
+          contextType: context.type,
+          if: { id: { eq: context.id } },
         }}
         component={ChapterWrapper}
       />
