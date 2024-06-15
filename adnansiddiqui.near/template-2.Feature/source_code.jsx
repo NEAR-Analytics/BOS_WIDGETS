@@ -1,4 +1,5 @@
 const style = props.style || {
+  flexDirection: 'row',
   paddingTop: 0,
   paddingLeft: 0,
   paddingBottom: 0,
@@ -17,7 +18,6 @@ const props = props.props || {
   imageSrc:
     "https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?q=80&w=2022&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 };
-
 
 const bp = {
   sm: "40rem",
@@ -144,28 +144,26 @@ const FeatureImage = styled.img`
   }
 `;
 
-
-  return (
-    <FeatureWrapper id={id} style={style}>
-      <div
-        style={{
-          maxWidth: "96rem",
-          marginInline: "auto",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "5rem 1rem",
-        }}
-      >
-        <FeatureContainer style={style}>
-          <FeatureContent>
-            <FeatureSubHeader>{props?.subHeaderText}</FeatureSubHeader>
-            <FeatureHeader>{props?.headerText}</FeatureHeader>
-            <FeatureDescription>{props?.description}</FeatureDescription>
-          </FeatureContent>
-          <FeatureImage src={props?.imageSrc} alt="features" loading="lazy" />
-        </FeatureContainer>
-      </div>
-    </FeatureWrapper>
-  );
-
+return (
+  <FeatureWrapper id={id} style={style}>
+    <div
+      style={{
+        maxWidth: "96rem",
+        marginInline: "auto",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "5rem 1rem",
+      }}
+    >
+      <FeatureContainer style={style}>
+        <FeatureContent>
+          <FeatureSubHeader>{props?.subHeaderText}</FeatureSubHeader>
+          <FeatureHeader>{props?.headerText}</FeatureHeader>
+          <FeatureDescription>{props?.description}</FeatureDescription>
+        </FeatureContent>
+        <FeatureImage src={props?.imageSrc} alt="features" loading="lazy" />
+      </FeatureContainer>
+    </div>
+  </FeatureWrapper>
+);
