@@ -1,5 +1,5 @@
 const style = props.style || {
-  flexDirection: "row",
+  flexDirection: "column",
   paddingTop: 0,
   paddingLeft: 0,
   paddingBottom: 0,
@@ -11,10 +11,10 @@ const style = props.style || {
   accent: "#0d9488",
 };
 const props = props.props || {
-  backgroundImageUrl:
+  imageSrc:
     "https://images.unsplash.com/photo-1485965120184-e220f721d03e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   headerText: "Welcome to our Bike Showroom",
-  subHeaderText: "Explore our widerange of bikes for every type of rider",
+  subHeaderTextarea: "Explore our widerange of bikes for every type of rider",
   primaryButtonText: "Contact Us",
   secondaryButtonText: "View Collection",
 };
@@ -33,6 +33,7 @@ const HeroSectionWrapper = styled.div`
     `${style?.marginTop}px ${style?.marginRight}px ${style?.marginBottom}px ${style?.marginLeft}px`};
 
   background-color: white;
+
   &:not(.light *) {
     background-color: #080a11;
   }
@@ -62,17 +63,17 @@ const HeroSectionContent = styled.div`
   gap: 2rem;
 `;
 const HeroSectionTitle = styled.h1`
-  font-size: 2.5rem;
-  margin-top: 1.5rem;
+  font-size: 2.5rem; // text-4xl
+  margin-top: 1.5rem; // mt-6
   color: black;
-  font-weight: 800; 
+  font-weight: 800; // font-extrabold
 
   &:not(.light *) {
     color: white;
   }
 
   @media (min-width: ${bp.lg}) {
-    font-size: 4.5rem; 
+    font-size: 4.5rem; // lg:text-7xl
   }
 `;
 const HeroSectionSubtitle = styled.h6`
@@ -87,73 +88,74 @@ const HeroSectionSubtitle = styled.h6`
   }
 `;
 
-return (
-  <HeroSectionWrapper
-    id={id}
-    style={style}
-  >
-    <HeroSectionContainer>
-      <HeroSectionContent>
-        <HeroSectionTitle>{props?.headerText}a</HeroSectionTitle>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "1.5rem",
-          }}
-        >
-          <HeroSectionSubtitle>{props?.subHeaderText}</HeroSectionSubtitle>
+
+  return (
+    <HeroSectionWrapper id={id} style={style}>
+      <HeroSectionContainer>
+        <HeroSectionContent>
+          <HeroSectionTitle>{props?.headerText}</HeroSectionTitle>
           <div
             style={{
               display: "flex",
+              flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-              gap: "1rem",
+              gap: "1.5rem",
             }}
           >
-            <button
+            <HeroSectionSubtitle>
+              {props?.subHeaderTextarea}
+            </HeroSectionSubtitle>
+            <div
               style={{
-                backgroundColor: style?.accent,
-                color: "white",
-                borderRadius: "1rem",
-                padding: "0.5rem 1.5rem",
-                fontSize: "0.875rem",
-                fontWeight: "500",
-                border: "1px solid transparent",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "1rem",
               }}
             >
-              {props?.primaryButtonText}
-            </button>
-            <button
-              style={{
-                color: style?.accent,
-                borderColor: style?.accent,
-                border: "1px solid",
-                backgroundColor: "transparent",
-                borderRadius: "1rem",
-                padding: "0.5rem 1.5rem",
-                fontSize: "0.875rem",
-              }}
-            >
-              {props?.secondaryButtonText}
-            </button>
+              <button
+                style={{
+                  backgroundColor: style?.accent,
+                  color: "white",
+                  borderRadius: "1rem",
+                  padding: "0.5rem 1.5rem",
+                  fontSize: "0.875rem",
+                  fontWeight: "500",
+                  border: "1px solid transparent",
+                }}
+              >
+                {props?.primaryButtonText}
+              </button>
+              <button
+                style={{
+                  color: style?.accent,
+                  borderColor: style?.accent,
+                  border: "1px solid",
+                  backgroundColor: "transparent",
+                  borderRadius: "1rem",
+                  padding: "0.5rem 1.5rem",
+                  fontSize: "0.875rem",
+                }}
+              >
+                {props?.secondaryButtonText}
+              </button>
+            </div>
           </div>
-        </div>
-      </HeroSectionContent>
-      <img
-        src={props?.backgroundImageUrl}
-        alt="hero"
-        style={{
-          width: "100%",
-          borderRadius: "9999px",
-          aspectRatio: "16/9",
-          objectFit: "cover",
-          objectPosition: "center",
-        }}
-        loading="lazy"
-      />
-    </HeroSectionContainer>
-  </HeroSectionWrapper>
-);
+        </HeroSectionContent>
+        <img
+          src={props?.imageSrc}
+          alt="hero"
+          style={{
+            width: "100%",
+            borderRadius: "9999px",
+            aspectRatio: "16/9",
+            objectFit: "cover",
+            objectPosition: "center",
+          }}
+          loading="lazy"
+        />
+      </HeroSectionContainer>
+    </HeroSectionWrapper>
+  );
+
