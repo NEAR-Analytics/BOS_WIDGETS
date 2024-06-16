@@ -3,8 +3,8 @@ const getTagsInArray = (tags) => {
 };
 const flattenObject = (obj, app, type) => {
   const paths = [];
-  for (const key of Object.keys(obj)) {
-    const projects = Object.keys(obj?.[key]?.[app]?.[type] ?? {});
+  for (const key of Object.keys(obj || {})) {
+    const projects = Object.keys(obj?.[key]?.[app]?.[type] || {});
     for (const project of projects) {
       if (project && project.includes("_")) {
         const convertedStr = project.replace(/_/g, "/");
@@ -50,7 +50,7 @@ const processData = (data, type) => {
           type,
           title: metadata.title,
           metadata,
-          tags: getTagsInArray(metadata.tags) || [],
+          tags: getTagsInArray(metadata.tags || []),
           collaborators: metadata.contributors,
           projectID,
         };
