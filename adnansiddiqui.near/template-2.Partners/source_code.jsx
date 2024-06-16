@@ -12,7 +12,7 @@ const style = props.style || {
 };
 const props = props.props || {
   headerText: "Trusted by the worlds best companies",
-  logos: [
+  imageSrc: [
     "https://cdn.jsdelivr.net/gh/adnansid99/theDeployer@master/Jutsu/companyLogos/107.webp",
     "https://cdn.jsdelivr.net/gh/adnansid99/theDeployer@master/Jutsu/companyLogos/40626.webp",
     "https://cdn.jsdelivr.net/gh/adnansid99/theDeployer@master/Jutsu/companyLogos/4332857.webp",
@@ -62,7 +62,7 @@ const PartnersHeader = styled.h2`
 
 const PartnersLogoContainer = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
   place-items: center;
   align-items: center;
@@ -85,42 +85,43 @@ const PartnersImageBox = styled.div`
   }
 `;
 
-return (
-  <PartnersWrapper id={id} style={style}>
-    <div
-      style={{
-        flexDirection: style?.flexDirection || "column",
-        padding: "5rem 1rem",
-        paddingBottom: "7rem",
-        marginInline: "auto",
-        maxWidth: "96rem",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: "5rem",
-      }}
-    >
-      <PartnersHeader>{props?.headerText}</PartnersHeader>
-      <PartnersLogoContainer>
-        {props?.logos?.map(
-          (logo, index) =>
-            index < 5 && (
-              <PartnersImageBox key={index}>
-                <img
-                  src={logo}
-                  alt="logos"
-                  style={{
-                    width: '100%',
-                    aspectRatio: "1 / 1",
-                    borderRadius: "0.5rem",
-                    objectFit: "cover",
-                    objectPosition: "center",
-                  }}
-                />
-              </PartnersImageBox>
-            )
-        )}
-      </PartnersLogoContainer>
-    </div>
-  </PartnersWrapper>
-);
+  return (
+    <PartnersWrapper id={id} style={style}>
+      <div
+        style={{
+          flexDirection: style?.flexDirection || "column",
+          padding: "5rem 1rem",
+          paddingBottom: "7rem",
+          marginInline: "auto",
+          maxWidth: "96rem",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "5rem",
+        }}
+      >
+        <PartnersHeader>{props?.headerText}</PartnersHeader>
+        <PartnersLogoContainer>
+          {props?.imageSrc?.map(
+            (logo, index) =>
+              index < 5 && (
+                <PartnersImageBox key={index}>
+                  <img
+                    src={logo}
+                    alt="logos"
+                    style={{
+                      aspectRatio: "1 / 1",
+                      width: '100%',
+                      borderRadius: "0.5rem",
+                      objectFit: "cover",
+                      objectPosition: "center",
+                    }}
+                  />
+                </PartnersImageBox>
+              )
+          )}
+        </PartnersLogoContainer>
+      </div>
+    </PartnersWrapper>
+  );
+
