@@ -10,6 +10,7 @@ const style = props.style || {
   accent: "#0d9488",
 };
 const props = props.props || {
+  logoSrc:"https://ipfs.near.social/ipfs/bafkreidii2ec3qsi54iknwotmnnqejoe6l6nivbq2ma65v4thyp7w7dhza",
   navItems: [
     {
       name: "Home",
@@ -43,6 +44,7 @@ const bp = {
 };
 
 const StyledNav = styled.div`
+  z-index: 100;
   position: relative;
   width: 100%;
   background-color: white;
@@ -80,14 +82,12 @@ const NavList = styled.ul`
   align-items: center;
   margin-block: auto;
   gap: 1.5rem;
+   list-style: none;
   @media (min-width: ${bp.lg}) {
     display: flex;
   }
-  list-style: none;
   &:not(.light *) {
-  & li a{
-       color: white;
-  }
+    color: white;
   }
 `;
 
@@ -116,14 +116,15 @@ const NavButtomContainer = styled.div`
 const Button = styled.button`
   white-space: nowrap;
   border-radius: 9999px;
-  background-color: #b9ff81;
+  background-color: ${({ accent }) => accent || "#b9ff81"};
   padding: 0.5rem 1.2rem;
   font-size: 0.8rem;
   font-weight: 500;
-  color: black;
+  color: white;
   display: flex;
   align-items: center;
   gap: 1rem;
+   border: none;
 `;
 
 const NavImageLight = styled.img`
@@ -182,12 +183,7 @@ const MobileNavList = styled.ul`
   align-items: center;
   justify-content: center;
   gap: 1.5rem;
-    list-style: none;
-  &:not(.light *) {
-  & li a{
-       color: white;
-  }
-  }
+   list-style: none;
 `;
 
 const MobileNavListItem = styled.a`
@@ -203,82 +199,100 @@ const MobileButton = styled.button`
   gap: 0.5rem;
   white-space: nowrap;
   border-radius: 9999px;
-  background-color: #b9ff81;
+  background-color: ${({ accent }) => accent || "#b9ff81"};
   padding: 0.25rem 1.2rem;
   font-size: 0.8rem;
   font-weight: 500;
-  color: black;
+  color: white;
+   border: none;
 `;
 
-const [showNav, setShowNav] = useState(false);
+const defaultLogoSrc =
+  "https://ipfs.near.social/ipfs/bafkreidii2ec3qsi54iknwotmnnqejoe6l6nivbq2ma65v4thyp7w7dhza";
 
-return (
-  <StyledNav id={id} style={style}>
-    <NavContainer>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: "2rem",
-          width: "100%",
-        }}
-      >
-        <NavImageLight
-          src="https://ipfs.near.social/ipfs/bafkreici2x5ecmfgjks6r4cd2ntz5hcxo27xu7j4ykhcrsfjbtmoeyeve4"
-          alt="logo"
-        />
-        <NavImageDark
-          src="https://ipfs.near.social/ipfs/bafkreidii2ec3qsi54iknwotmnnqejoe6l6nivbq2ma65v4thyp7w7dhza"
-          alt="logo"
-        />
-        <NavList>
-          {props?.navItems?.map((item, index) => (
-            <li key={index}>
-              <a
-                href={item.link}
-                style={{
-                  textWrap: "nowrap",
-                }}
-              >
-                {item.name}
-              </a>
-            </li>
-          ))}
-        </NavList>
+  const [showNav, setShowNav] = useState(false);
 
-        <MenuIcon
-          onClick={() => setShowNav(true)}
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 512 512"
+  return (
+    <StyledNav id={id} style={style}>
+      <NavContainer>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "2rem",
+            width: "100%",
+          }}
         >
-          <path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM64 256c0-17.7 14.3-32 32-32H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H96c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z" />
-        </MenuIcon>
-        <NavButtomContainer>
-          <Button>{props?.buttonText}</Button>
-        </NavButtomContainer>
-      </div>
+          {props?.logoSrc === defaultLogoSrc ? (
+            <>
+              <NavImageLight
+                src="https://ipfs.near.social/ipfs/bafkreici2x5ecmfgjks6r4cd2ntz5hcxo27xu7j4ykhcrsfjbtmoeyeve4"
+                alt="logo"
+              />
+              <NavImageDark
+                src="https://ipfs.near.social/ipfs/bafkreidii2ec3qsi54iknwotmnnqejoe6l6nivbq2ma65v4thyp7w7dhza"
+                alt="logo"
+              />
+            </>
+          ) : (
+            <img
+              style={{ height: "2rem" }}
+              src={props?.logoSrc}
+              alt="company logo"
+            />
+          )}
+          <NavList>
+            {props?.navItems?.map((item, index) => (
+              <li key={index}>
+                <a
+                  href={item.link}
+                  style={{
+                    textWrap: "nowrap",
+                    color: 'inherit'
+                  }}
+                >
+                  {item.name}
+                </a>
+              </li>
+            ))}
+          </NavList>
 
-      <MobileMenu showNav={showNav}>
-        <CloseIcon
-          onClick={() => setShowNav(false)}
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 384 512"
-        >
-          <path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
-        </CloseIcon>
-        <MobileNavList>
-          {props?.navItems?.map((item, index) => (
-            <li key={index}>
-              <MobileNavListItem href={item.link}>
-                {item.name}
-              </MobileNavListItem>
-            </li>
-          ))}
+          <MenuIcon
+            onClick={() => setShowNav(true)}
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 512"
+          >
+            <path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM64 256c0-17.7 14.3-32 32-32H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H96c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z" />
+          </MenuIcon>
+          <NavButtomContainer>
+            <Button accent={style?.accent}>{props?.buttonText}</Button>
+          </NavButtomContainer>
+        </div>
 
-          <MobileButton>{props?.buttonText}</MobileButton>
-        </MobileNavList>
-      </MobileMenu>
-    </NavContainer>
-  </StyledNav>
-);
+        <MobileMenu showNav={showNav}>
+          <CloseIcon
+            onClick={() => setShowNav(false)}
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 384 512"
+          >
+            <path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
+          </CloseIcon>
+          <MobileNavList>
+            {props?.navItems?.map((item, index) => (
+              <li key={index}>
+                <MobileNavListItem href={item.link}>
+                  {item.name}
+                </MobileNavListItem>
+              </li>
+            ))}
+
+            <MobileButton accent={style?.accent}>
+              {props?.buttonText}
+            </MobileButton>
+          </MobileNavList>
+        </MobileMenu>
+      </NavContainer>
+    </StyledNav>
+  );
+
