@@ -10,8 +10,7 @@ const style = props.style || {
   accent: "#94cc67",
 };
 const props = props.props || {
-  headerText: "Trusted by the worlds best companies",
-  logos: [
+  imageSrc: [
     "https://cdn.jsdelivr.net/gh/adnansid99/theDeployer@master/Jutsu/companyLogos/spikeball-color.svg",
     "https://cdn.jsdelivr.net/gh/adnansid99/theDeployer@master/Jutsu/companyLogos/shapeshift-color.svg",
     "https://cdn.jsdelivr.net/gh/adnansid99/theDeployer@master/Jutsu/companyLogos/goody-color.svg",
@@ -19,7 +18,6 @@ const props = props.props || {
     "https://cdn.jsdelivr.net/gh/adnansid99/theDeployer@master/Jutsu/companyLogos/facepunch-color.svg",
   ],
 };
-
 
 const bp = {
   sm: "40rem",
@@ -81,7 +79,7 @@ const PartnersLogo = styled.img`
   }
 `;
 
-  const logos = [
+  const imageSrc = [
     "https://cdn.jsdelivr.net/gh/adnansid99/theDeployer@master/Jutsu/companyLogos/spikeball-color.svg",
     "https://cdn.jsdelivr.net/gh/adnansid99/theDeployer@master/Jutsu/companyLogos/shapeshift-color.svg",
     "https://cdn.jsdelivr.net/gh/adnansid99/theDeployer@master/Jutsu/companyLogos/goody-color.svg",
@@ -93,7 +91,7 @@ const PartnersLogo = styled.img`
     <PartnersContainer id={id} style={style}>
       <PartnersWrapper>
         <PartnersLogoContainer>
-          {(logos || props?.logos)?.map((logo, index) => (
+          {(imageSrc || props?.imageSrc)?.map((logo, index) => (
             <PartnersLogo key={index} src={logo} alt="logos" />
           ))}
         </PartnersLogoContainer>
