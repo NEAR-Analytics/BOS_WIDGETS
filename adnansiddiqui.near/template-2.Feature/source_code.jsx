@@ -1,5 +1,5 @@
 const style = props.style || {
-  flexDirection: 'row',
+  flexDirection: "row",
   paddingTop: 0,
   paddingLeft: 0,
   paddingBottom: 0,
@@ -13,7 +13,7 @@ const style = props.style || {
 const props = props.props || {
   subHeaderText: "Ride in Style and Comfort",
   headerText: "Premium Bikes",
-  description:
+  descriptionTextarea:
     "Explore our collection of premium bites that offer both style and cockpit for an exceptional writing experience.",
   imageSrc:
     "https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?q=80&w=2022&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -77,7 +77,7 @@ const FeatureContent = styled.div`
   flex-direction: column;
   width: 100%;
   padding: 2.5rem;
-  gap: 1rem;
+  gap: 2rem;
 
   @media (min-width: ${bp.md}) {
     gap: 2rem;
@@ -144,26 +144,30 @@ const FeatureImage = styled.img`
   }
 `;
 
-return (
-  <FeatureWrapper id={id} style={style}>
-    <div
-      style={{
-        maxWidth: "96rem",
-        marginInline: "auto",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "5rem 1rem",
-      }}
-    >
-      <FeatureContainer style={style}>
-        <FeatureContent>
-          <FeatureSubHeader>{props?.subHeaderText}</FeatureSubHeader>
-          <FeatureHeader>{props?.headerText}</FeatureHeader>
-          <FeatureDescription>{props?.description}</FeatureDescription>
-        </FeatureContent>
-        <FeatureImage src={props?.imageSrc} alt="features" loading="lazy" />
-      </FeatureContainer>
-    </div>
-  </FeatureWrapper>
-);
+
+  return (
+    <FeatureWrapper id={id} style={style}>
+      <div
+        style={{
+          maxWidth: "96rem",
+          marginInline: "auto",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "5rem 1rem",
+        }}
+      >
+        <FeatureContainer style={style}>
+          <FeatureContent>
+            <FeatureSubHeader>{props?.subHeaderText}</FeatureSubHeader>
+            <FeatureHeader>{props?.headerText}</FeatureHeader>
+            <FeatureDescription>
+              {props?.descriptionTextarea}
+            </FeatureDescription>
+          </FeatureContent>
+          <FeatureImage src={props?.imageSrc} alt="features" loading="lazy" />
+        </FeatureContainer>
+      </div>
+    </FeatureWrapper>
+  );
+
