@@ -10,9 +10,9 @@ const style = props.style || {
   marginRight: 0,
   accent: "#94cc67",
 };
-const props = props.props ||{
+const props = props.props || {
   headerText: "Frequently Asked Questions",
-  subHeaderText:
+  subHeaderTextarea:
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.",
   qna: [
     {
@@ -37,8 +37,7 @@ const props = props.props ||{
     },
     {
       question: "What payment methods do you accept?",
-      answer:
-        "We accept all major credit cards, PayPal, and bank transfers.",
+      answer: "We accept all major credit cards, PayPal, and bank transfers.",
     },
   ],
 };
@@ -179,7 +178,6 @@ const FAQExpandIconMinus = styled.svg`
 
   transform: rotate(180deg);
 `;
-
 function FAQItem({ question, answer }) {
   const [expand, setExpand] = useState(0);
 
@@ -232,7 +230,7 @@ function FAQItem({ question, answer }) {
       >
         <FAQContent>
           <FAQHeader>{props?.headerText}</FAQHeader>
-          <FAQSubHeader>{props?.subHeaderText}</FAQSubHeader>
+          <FAQSubHeader>{props?.subHeaderTextarea}</FAQSubHeader>
         </FAQContent>
         <div
           style={{
@@ -256,7 +254,5 @@ function FAQItem({ question, answer }) {
       </div>
     </FAQWrapper>
   );
-
-
 
 
