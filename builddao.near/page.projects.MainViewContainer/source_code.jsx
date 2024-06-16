@@ -40,6 +40,9 @@ const Wrapper = styled.div`
       color: #b0b0b0;
     }
   }
+  .cursor {
+    cursor: pointer;
+  }
 `;
 const Subheading = styled.h3`
   color: #fff;
@@ -57,6 +60,7 @@ const [showFilterModal, setShowFilterModal] = useState(false);
 const [showCreateModal, setShowCreateModal] = useState(false);
 const [showCreateOptionsModal, setShowCreateOptionsModal] = useState(false);
 const [showImportModal, setShowImportModal] = useState(false);
+const [showQuickViewProjectData, setShowQuickView] = useState(null);
 const toggleFilterModal = () => {
   setShowFilterModal((prev) => !prev);
 };
@@ -68,6 +72,16 @@ const toggleImportModal = () => {
 };
 const toggleCreateOptionsModal = () => {
   setShowCreateOptionsModal((prev) => !prev);
+};
+const ProjectCardWrapper = ({ children, project }) => {
+  return (
+    <div
+      className="cursor d-flex flex-1"
+      onClick={() => setShowQuickView(project)}
+    >
+      {children}
+    </div>
+  );
 };
 const filteredProjects = useMemo(() => {
   let filtered = projects;
@@ -149,6 +163,15 @@ return (
     className="container-xl mx-auto d-flex flex-column gap-5"
     data-bs-theme="dark"
   >
+    <Widget
+      src="builddao.near/widget/page.project.QuickView"
+      loading=""
+      props={{
+        showCanvas: !!showQuickViewProjectData,
+        project: showQuickViewProjectData,
+        onClose: () => setShowQuickView(null),
+      }}
+    />
     <Widget
       src="builddao.near/widget/page.projects.FiltersModal"
       loading=""
@@ -242,53 +265,25 @@ return (
         {view === "grid" ? (
           <Container>
             {filteredProjects.map((project) => (
-              <Link
-                href={href({
-                  widgetSrc: `builddao.near/widget/Index`,
-                  params: {
-                    page: "project",
-                    id: `${project.accountId}/project/${project.projectID}`,
-                    tab: "overview",
-                  },
-                })}
-                style={{
-                  textDecoration: "none",
-                  display: "flex",
-                  flexGrow: "1",
-                }}
-              >
+              <ProjectCardWrapper project={project}>
                 <ProjectCard
                   data={project}
                   variant="grid"
                   showEditProjectAction={showEditProjectAction}
                 />
-              </Link>
+              </ProjectCardWrapper>
             ))}
           </Container>
         ) : (
           <div className="d-flex flex-column gap-3">
             {filteredProjects.map((project) => (
-              <Link
-                href={href({
-                  widgetSrc: `builddao.near/widget/Index`,
-                  params: {
-                    page: "project",
-                    id: `${project.accountId}/project/${project.projectID}`,
-                    tab: "overview",
-                  },
-                })}
-                style={{
-                  textDecoration: "none",
-                  display: "flex",
-                  flexGrow: "1",
-                }}
-              >
+              <ProjectCardWrapper project={project}>
                 <ProjectCard
                   data={project}
                   variant="list"
                   showEditProjectAction={showEditProjectAction}
                 />
-              </Link>
+              </ProjectCardWrapper>
             ))}
           </div>
         )}
