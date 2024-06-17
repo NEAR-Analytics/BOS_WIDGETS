@@ -77,15 +77,10 @@ function loadArticles(category) {
         setLoadingArticles(false)
     })
 }
-
+loadArticles(category)
 useEffect(() => {
     setLoadingArticles(true)
-    loadArticles(category)
-    const intervalId = setInterval(() => {
-        loadArticles(category)
-    }, 30000)
-    return () => clearInterval(intervalId)
-}, [category, getArticles])
+}, [category])
 
 accountId = context.accountId
 
