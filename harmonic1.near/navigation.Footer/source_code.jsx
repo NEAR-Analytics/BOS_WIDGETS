@@ -1,6 +1,3 @@
-const { Button } = VM.require("abdullahi3000.near/widget/components") || {
-  Button: () => <></>,
-};
 const logoLink =
   "https://res.cloudinary.com/dtt0cjt51/image/upload/v1711122280/cafg8h33bpq15uugd8ta.png";
 const Container = styled.div`
@@ -114,21 +111,6 @@ const XIcon = () => (
 );
 return (
   <Container className="container-xl">
-    {/* {!noBanner && (
-        <Card>
-          <div className="d-flex flex-column align-items-center">
-            <img src={logoLink} />
-            <h3>
-              Let{"’"}s Make <span>Waves!</span>
-            </h3>
-          </div>
-          <a href="https://near.social/abdullahi3000.near/widget/app?page=joinUs">
-            <Button variant="primary" noLink={true}>
-              Join Now
-            </Button>
-          </a>
-        </Card>
-      )} */}
     <FooterContainer>
       <LinksContainer>
         <a
