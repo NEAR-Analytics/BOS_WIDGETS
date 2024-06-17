@@ -134,7 +134,6 @@ return (
     style={{
       width: from === "pool" ? "210px" : "auto",
       borderColor: active ? "var(--primary)" : "#373a53",
-      height: type === "V2" ? "200px" : "310px",
     }}
     onClick={onCardClick}
   >
