@@ -1,13 +1,16 @@
 // Cheddar.Forum
+const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        resolve({})
+    }, 1)
+})
 const { getConfig } = VM.require(
     'chatter.cheddar.near/widget/config.CommunityVoice'
 ) || { getConfig: () => {} }
 const { getArticles, deleteArticle } = VM.require(
     'chatter.cheddar.near/widget/lib.article'
-) || { getArticles: () => {}, deleteArticle: () => {} }
-const { isValidUser } = VM.require('chatter.cheddar.near/widget/lib.SBT') || {
-    isValidUser: () => {},
-}
+) || { getArticles: () => promise, deleteArticle: () => {} }
+
 //===============================================INITIALIZATION=====================================================
 let {
     isTest,
@@ -206,7 +209,9 @@ const AppContainer = styled.div`
 `
 
 const SecondContainer = styled.div`
-    margin: 0 2rem;
+    padding: 0 1rem;
+    background-color: rgb(248, 248, 249);
+    min-height: 100vh;
 `
 
 const ShareInteractionGeneralContainer = styled.div`
