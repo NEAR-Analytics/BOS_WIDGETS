@@ -63,6 +63,7 @@ return (
           name,
           id: token.id,
           from: "pool",
+          fee,
           active: state.id === token.id,
           token1,
           token0,
