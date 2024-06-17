@@ -1,6 +1,12 @@
+const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        resolve({})
+    }, 1)
+})
+
 const { getFromIndex } = VM.require(
     'chatter.cheddar.near/widget/lib.socialDbIndex'
-) || { getFromIndex: () => {} }
+) || { getFromIndex: () => promise }
 const { normalize, normalizeId } = VM.require(
     'chatter.cheddar.near/widget/lib.normalization'
 ) || { normalize: () => {}, normalizeId: () => {} }
