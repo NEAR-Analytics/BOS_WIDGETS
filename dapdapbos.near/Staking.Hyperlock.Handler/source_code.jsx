@@ -170,9 +170,9 @@ useEffect(() => {
                   const extraData =
                     type === "V2"
                       ? {
-                          token: symbol,
-                          amount,
-                          price,
+                          token0Symbol: symbol,
+                          amount0: amount,
+                          price0: price,
                         }
                       : {
                           token0Symbol: pool.token0.symbol,
@@ -190,6 +190,12 @@ useEffect(() => {
                     status,
                     transactionHash,
                     amount,
+                    token:
+                      type === "V2"
+                        ? {
+                            symbol,
+                          }
+                        : null,
                     extra_data: JSON.stringify({
                       action,
                       ...extraData,
