@@ -100,7 +100,7 @@ const widgets = {
 const brand = {
     brandName: 'Cheddar Chatter',
     logoHref:
-        'https://ipfs.near.social/ipfs/bafkreiao5zwk4ww7jbj2du6io3xwdkcw2nzbpk4gtadpwbcdlfsqfnxfli',
+        'https://ipfs.near.social/ipfs/bafkreifsjardvezou35knapfyrfadz3otmujgvbbrbzfcwkjogc2ky35lu',
     logoRemWidth: 12,
     logoRemHeight: 4,
 }
