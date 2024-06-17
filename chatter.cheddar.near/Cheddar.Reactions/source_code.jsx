@@ -1,7 +1,13 @@
 // Cheddar.Reactions
+
+const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        resolve({})
+    }, 1)
+})
 const { getReactions, createReaction } = VM.require(
     'chatter.cheddar.near/widget/lib.reactions'
-) || { getReactions: () => {}, createReaction: () => {} }
+) || { getReactions: () => promise, createReaction: () => {} }
 const { getConfig } = VM.require(
     'chatter.cheddar.near/widget/config.CommunityVoice'
 ) || { getConfig: () => {} }
