@@ -190,6 +190,7 @@ useEffect(() => {
                     status,
                     transactionHash,
                     amount,
+                    action: "Stake",
                     token:
                       type === "V2"
                         ? {
