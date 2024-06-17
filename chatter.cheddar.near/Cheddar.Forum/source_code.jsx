@@ -9,7 +9,7 @@ const { getConfig } = VM.require(
 ) || { getConfig: () => {} }
 const { getArticles, deleteArticle } = VM.require(
     'chatter.cheddar.near/widget/lib.article'
-) || { getArticles: () => promise, deleteArticle: () => {} }
+) || { getArticles: () => {}, deleteArticle: () => {} }
 
 //===============================================INITIALIZATION=====================================================
 let {
@@ -85,7 +85,7 @@ useEffect(() => {
         loadArticles(category)
     }, 30000)
     return () => clearInterval(intervalId)
-}, [category])
+}, [category, getArticles])
 
 accountId = context.accountId
 
