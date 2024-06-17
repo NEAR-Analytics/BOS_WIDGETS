@@ -145,7 +145,6 @@ useEffect(() => {
               stackIcons: [...defaultStackIcons, ...stackIcons].map((address) =>
                 address ? tokens[address.toLowerCase()].logoURI : ""
               ),
-              points: config.points?.[pool.id],
             };
           })
           .filter((pool) => Big(pool.tvl).gt(0));
@@ -221,7 +220,6 @@ useEffect(() => {
               stackIcons: [...defaultStackIcons, ...stackIcons].map((address) =>
                 address ? tokens[address.toLowerCase()].logoURI : ""
               ),
-              points: config.points?.[pool.id],
             };
           })
           .filter((pool) => Big(pool.tvl).gt(0));
