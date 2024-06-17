@@ -161,7 +161,6 @@ function switchShowPreview() {
 }
 
 const GeneralContainer = styled.div`
-    background-color: rgb(248, 248, 249);
     margin: 0;
 `
 
