@@ -9,7 +9,7 @@ const { getConfig } = VM.require(
 ) || { getConfig: () => {} }
 const { getArticles, deleteArticle } = VM.require(
     'chatter.cheddar.near/widget/lib.article'
-) || { getArticles: () => {}, deleteArticle: () => {} }
+) || { getArticles: () => promise, deleteArticle: () => {} }
 
 //===============================================INITIALIZATION=====================================================
 let {
