@@ -240,7 +240,6 @@ return (
           <GridItem>Pool</GridItem>
           <GridItem>LP Type</GridItem>
           <GridItem>Point Stack</GridItem>
-          <GridItem>Points/$1K</GridItem>
           <GridItem>TVL</GridItem>
         </GridContainer>
         {state.loading && <Widget src="bluebiu.near/widget/Lending.Spinner" />}
