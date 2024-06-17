@@ -134,6 +134,7 @@ return (
     style={{
       width: from === "pool" ? "210px" : "auto",
       borderColor: active ? "var(--primary)" : "#373a53",
+      height: type === "V2" ? "200px" : "310px",
     }}
     onClick={onCardClick}
   >
@@ -175,7 +176,7 @@ return (
         {from === "in-wallet" && (
           <button
             className="button primary"
-            style={{ marginTop: 36, width: 220, height: 42 }}
+            style={{ marginTop: 13, width: 220, height: 42 }}
             onClick={onDeposit}
             disabled={props.depositing}
           >
@@ -223,7 +224,7 @@ return (
             {fee && (
               <button
                 className="button ghost"
-                style={{ marginTop: 36, width: 220, height: 42 }}
+                style={{ marginTop: 14, width: 220, height: 42 }}
                 disabled={
                   props.claiming ||
                   Big(feeAmount0 || 0)
