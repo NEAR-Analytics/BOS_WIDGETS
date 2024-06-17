@@ -1,7 +1,7 @@
 // Cheddar.Forum
 const promise = new Promise((resolve, reject) => {
     setTimeout(() => {
-        resolve({})
+        resolve([])
     }, 1)
 })
 const { getConfig } = VM.require(
@@ -203,12 +203,24 @@ if (filterBy.parameterName === 'tag') {
 //===============================================END GET DATA=======================================================
 
 //=============================================STYLED COMPONENTS====================================================
-const AppContainer = styled.div`
-    max-width: 1800px;
-    margin: 0 auto;
-`
+const data = fetch(`https://httpbin.org/headers`)
+const gatewayURL = data?.body?.headers?.Origin ?? ''
+
+const AppContainer = gatewayURL.includes('near.org')
+    ? styled.div`
+          width: 100%;
+      `
+    : styled.div`
+          position: fixed;
+          inset: 73px 0px 0px;
+          width: 100%;
+          overflow-y: scroll;
+      `
 
 const SecondContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    padding-top: calc(-1 * var(--body-top-padding));
     padding: 0 1rem;
     background-color: rgb(248, 248, 249);
     min-height: 100vh;
