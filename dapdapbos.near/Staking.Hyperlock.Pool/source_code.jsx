@@ -195,7 +195,6 @@ return (
             ))}
           </div>
         </GridItem>
-        <GridItem>{data.points || 0}</GridItem>
         <GridItem>
           <Widget
             src="bluebiu.near/widget/Avalanche.Lending.Total"
