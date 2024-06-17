@@ -2,7 +2,7 @@
 
 const promise = new Promise((resolve, reject) => {
     setTimeout(() => {
-        resolve({})
+        resolve([])
     }, 1)
 })
 const { getReactions, createReaction } = VM.require(
