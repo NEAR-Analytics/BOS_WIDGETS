@@ -16,7 +16,38 @@ const handleClose = () => {
 
 useEffect(() => {
   if (!isRunnigApp) return;
-  const newPicker = props.pickContexts(null, (newContext) => setContext(newContext))
+  const newPicker = props.pickContexts({
+    // target: [
+    //   {
+    //     namespace: NAMESPACE,
+    //     contextType: 'post',
+    //     if: {}
+    //   },
+    //   {
+    //     namespace: NAMESPACE,
+    //     contextType: 'postSouthButton',
+    //     if: {}
+    //   },
+    //   {
+    //     namespace: NAMESPACE,
+    //     contextType: 'profile',
+    //     if: {}
+    //   },
+    //   {
+    //     namespace: 'mweb',
+    //     contextType: 'shadow-dom',
+    //     if: {}
+    //   },
+    //   {
+    //     namespace: 'mweb',
+    //     contextType: 'injected-widget',
+    //     if: {}
+    //   },
+    // ],
+    callback: (newContext) => setContext(newContext),
+    // styles: { backgroundColor: 'rgb(255 127 56 / 9%)' },
+    highlightChildren: true,
+  })
 
   setPicker(newPicker)
 }, [isRunnigApp])
