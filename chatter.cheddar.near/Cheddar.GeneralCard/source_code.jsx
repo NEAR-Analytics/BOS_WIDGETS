@@ -7,7 +7,7 @@ const promise = new Promise((resolve, reject) => {
 
 const { getUpVotes } = VM.require(
     'chatter.cheddar.near/widget/lib.upVotes'
-) || { getUpVotes: () => promise }
+) || { getUpVotes: () => {} }
 const { getConfig } = VM.require(
     'chatter.cheddar.near/widget/config.CommunityVoice'
 ) || { getConfig: () => {} }
@@ -62,12 +62,7 @@ function loadUpVotes() {
     })
 }
 
-useEffect(() => {
-    loadUpVotes()
-    setInterval(() => {
-        loadUpVotes()
-    }, 30000)
-}, [])
+loadUpVotes()
 
 function stateUpdate(obj) {
     State.update(obj)
