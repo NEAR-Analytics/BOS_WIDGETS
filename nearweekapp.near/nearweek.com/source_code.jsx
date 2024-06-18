@@ -2,7 +2,7 @@ const rootUser = "nearweekapp.near";
 const nwSite = "https://nearweek.com";
 
 const coverImgSrc =
-  "https://ipfs.near.social/ipfs/bafkreidut5xt37mha7pds5hpolrdsvfnkvctt6ixwla2qa2cjdd5oxy2pi";
+  "https://ipfs.near.social/ipfs/bafkreidb4qtfdndct4rzymrm4p6u2k7gcjw5fohh5izs5lhkzdmjrlrknu";
 
 const mobCoverImgSrc =
   "https://ipfs.near.social/ipfs/bafkreihzi6htmib5soiama557tr5bhwblm5gjxnnenvdtvxqzhvsoraztq";
@@ -11,6 +11,7 @@ const mobTopImgSrc =
   "https://ipfs.near.social/ipfs/bafkreiesqutrfntbmeazszo4lfy774wrzoekblijbbpjmufzcwdhfj5dtu";
 
 const breakpoints = {
+  sm: "767px",
   md: "768px",
   lg: "1100px",
   xl: "1300px",
@@ -459,7 +460,7 @@ return (
     {/*main section*/}
     <Widget src={`${rootUser}/widget/nw-navbar`} />
     <TopHeader />
-    <TopText>The Official Newsletter & Community Platform</TopText>
+    <TopText>The Official NEAR Newsletter & Community Platform</TopText>
     <MobRequestServicesButton
       href="https://4efdmh2cgdi.typeform.com/NWservices"
       target="_blank"
