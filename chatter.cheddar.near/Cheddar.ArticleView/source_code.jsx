@@ -14,7 +14,7 @@ const { getConfig } = VM.require(
 ) || { getConfig: () => {} }
 const { getUpVotes } = VM.require(
     'chatter.cheddar.near/widget/lib.upVotes'
-) || { getUpVotes: () => promise }
+) || { getUpVotes: () => {} }
 const { getArticlesVersions } = VM.require(
     'chatter.cheddar.near/widget/lib.article'
 ) || { getArticlesVersions: () => promise }
