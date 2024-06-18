@@ -376,23 +376,29 @@ const TrustedTitle = styled.h2`
 const TrustedList = styled.div`
   display: flex;
   flex-wrap: wrap;
-  margin-top: 3rem;
-  margin-bottom: 3rem;
   @media screen and (min-width: ${breakpoints.xs}) {
     gap:5px;
     justify-content: space-between;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   }
   @media screen and (min-width: ${breakpoints.sm}) {
     gap:10px;
     justify-content: space-between;
+    margin-top: 1rem;
+  margin-bottom: 1rem;
   }
   @media screen and (min-width: ${breakpoints.md}) {
     gap: 20px;
     justify-content: center;
+    margin-top: 3rem;
+  margin-bottom: 3rem;
   }
   @media screen and (min-width: ${breakpoints.lg}) {
     gap: 25px;
     justify-content: center;
+    margin-top: 3rem;
+  margin-bottom: 3rem;
   }
 `;
 
