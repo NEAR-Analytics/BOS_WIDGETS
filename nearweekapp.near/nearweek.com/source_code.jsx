@@ -283,12 +283,11 @@ const Header = styled.div`
   aspect-ratio: 16 / 9;
   @media screen and (max-width: ${breakpoints.md}) {
       background-image: url("${mobCoverImgSrc}"); 
-
   }
   & div {
     position: relative;
     width: 50%;
-    top: 50%;
+    top: 40%;
   }
 `;
 
