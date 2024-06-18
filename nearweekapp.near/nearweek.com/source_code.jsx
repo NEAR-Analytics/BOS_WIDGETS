@@ -375,12 +375,14 @@ const TrustedTitle = styled.h2`
 
 const TrustedList = styled.div`
   display: flex;
-  gap: 25px;
   flex-wrap: wrap;
-  justify-content: space-around;
-  @media screen and (max-width: ${breakpoints.md}) {
+  @media screen and (min-width: ${breakpoints.xs}) {
     gap:5px;
     justify-content: space-between;
+  }
+  @media screen and (min-width: ${breakpoints.md}) {
+    gap: 25px;
+    justify-content: center;
   }
 `;
 
@@ -396,11 +398,19 @@ const TrustedLink = styled.a`
   align-items: center;
   & img {
     border-radius:50%;
+      @media screen and (min-width: ${breakpoints.xs}) {
+        width: 24px;
+        height: 24px;
+    }
       @media screen and (min-width: ${breakpoints.sm}) {
         width: 24px;
         height: 24px;
     }
       @media screen and (min-width: ${breakpoints.md}) {
+        width: 96px;
+        height: 96px;
+    }
+      @media screen and (min-width: ${breakpoints.lg}) {
         width: 106px;
         height: 106px;
     }
@@ -417,7 +427,7 @@ const TrustedLink = styled.a`
     }
 
   }
-  @media screen and (min-width: ${breakpoints.sm}) {
+  @media screen and (min-width: ${breakpoints.xs}) {
     margin-top: 5px;
     margin-bottom: 0;
   }
