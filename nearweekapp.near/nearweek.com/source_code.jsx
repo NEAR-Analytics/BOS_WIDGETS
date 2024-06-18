@@ -7,8 +7,10 @@ const coverImgSrc =
 const mobCoverImgSrc =
   "https://ipfs.near.social/ipfs/bafkreihzi6htmib5soiama557tr5bhwblm5gjxnnenvdtvxqzhvsoraztq";
 
+// const mobTopImgSrc =
+//   "https://ipfs.near.social/ipfs/bafkreidoc56kd36uju7texnjhz3xvvak2kduh62qqx4p67fhm4qoxbhus4";
 const mobTopImgSrc =
-  "https://ipfs.near.social/ipfs/bafkreidoc56kd36uju7texnjhz3xvvak2kduh62qqx4p67fhm4qoxbhus4";
+  "https://ipfs.near.social/ipfs/bafkreiesqutrfntbmeazszo4lfy774wrzoekblijbbpjmufzcwdhfj5dtu";
 
 const breakpoints = {
   md: "768px",
