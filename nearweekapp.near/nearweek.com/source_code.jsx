@@ -380,7 +380,15 @@ const TrustedList = styled.div`
     gap:5px;
     justify-content: space-between;
   }
+  @media screen and (min-width: ${breakpoints.sm}) {
+    gap:10px;
+    justify-content: space-between;
+  }
   @media screen and (min-width: ${breakpoints.md}) {
+    gap: 20px;
+    justify-content: center;
+  }
+  @media screen and (min-width: ${breakpoints.lg}) {
     gap: 25px;
     justify-content: center;
   }
@@ -403,8 +411,8 @@ const TrustedLink = styled.a`
         height: 24px;
     }
       @media screen and (min-width: ${breakpoints.sm}) {
-        width: 24px;
-        height: 24px;
+        width: 56px;
+        height: 56px;
     }
       @media screen and (min-width: ${breakpoints.md}) {
         width: 96px;
@@ -430,7 +438,7 @@ const TrustedLink = styled.a`
     margin-top: 5px;
     margin-bottom: 0;
   }
-  @media screen and (min-width: ${breakpoints.md}) {
+  @media screen and (min-width: ${breakpoints.lg}) {
     margin-top: 55px;
     margin-bottom: 55px;
   }
