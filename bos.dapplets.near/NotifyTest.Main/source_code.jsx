@@ -8,7 +8,8 @@ const Button = styled.button`
   font-weight: 500;
   line-height: 15px;
   text-align: left;
-  border: none;
+  border: 1px solid #5b7083;
+  border-radius:10px;
   background: none;
   gap: 6px;
 
@@ -26,7 +27,7 @@ const handleInfoClick = () => {
     subject: "This Info",
     body: "Text Info",
 
-    type: "INFO",
+    type: "info",
   });
 };
 const handleWarnClick = () => {
@@ -34,7 +35,7 @@ const handleWarnClick = () => {
     subject: "This Warn",
     body: "Text Warning",
 
-    type: "WARN",
+    type: "warning",
   });
 };
 const handleErrorClick = () => {
@@ -42,7 +43,7 @@ const handleErrorClick = () => {
     subject: "This Err",
     body: "Text Error",
 
-    type: "ERROR",
+    type: "error",
   });
 };
 
@@ -50,29 +51,40 @@ const handleTxClick = () => {
   props.notify({
     subject: "This Tx",
     body: "Text Tx",
-    actions: [{
-      label: "OK",
-      onClick: () => console.log('OK'),
-    }, {
-      label: "Cancel",
-      onClick: () => console.log('Cancel'),
-    }]
+    actions: [
+      {
+        label: "OK",
+        onClick: () => alert(accountId),
+      },
+      {
+        label: "Cancel",
+        onClick: () => console.log("Cancel"),
+      },
+    ],
+    type: "info",
   });
 
-  Near.call(
-    TIPPING_CONTRACT_NAME,
-    "sendTips",
-    {
-      accountGId: accountId,
-      itemId: itemGlobalId,
-    },
-    "50000000000000",
-    total
-  );
+  //   Near.call(
+  //     TIPPING_CONTRACT_NAME,
+  //     "sendTips",
+  //     {
+  //       accountGId: accountId,
+  //       itemId: itemGlobalId,
+  //     },
+  //     "50000000000000",
+  //     total
+  //   );
 };
 
 return (
-  <div>
+  <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: "10px",
+    }}
+  >
     <Button onClick={() => handleInfoClick()}>
       <div style={{ color: "#384BFF" }}>INFO</div>
     </Button>
