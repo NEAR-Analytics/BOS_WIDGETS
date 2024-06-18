@@ -376,6 +376,8 @@ const TrustedTitle = styled.h2`
 const TrustedList = styled.div`
   display: flex;
   flex-wrap: wrap;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
   @media screen and (min-width: ${breakpoints.xs}) {
     gap:5px;
     justify-content: space-between;
@@ -433,14 +435,6 @@ const TrustedLink = styled.a`
         display: block;
     }
 
-  }
-  @media screen and (min-width: ${breakpoints.xs}) {
-    margin-top: 5px;
-    margin-bottom: 0;
-  }
-  @media screen and (min-width: ${breakpoints.lg}) {
-    margin-top: 55px;
-    margin-bottom: 55px;
   }
 `;
 
