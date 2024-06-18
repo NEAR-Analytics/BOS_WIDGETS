@@ -445,9 +445,11 @@ function handleWithdraw({ curPointsAndYield, token, vault, amount, tokenDecimals
 
   // get gas
   const estimateGas = () => {
-    contract.estimateGas.withdraw(
+    contract.estimateGas[WITHDRAW_ABI_LATEST.name](
       ...params,
-      { value: parseUnits(amount, tokenDecimals) }
+      {
+        // value: parseUnits(amount, tokenDecimals),
+      }
     ).then((gas) => {
       getTx(gas);
     }).catch((err) => {
