@@ -2,13 +2,11 @@ const rootUser = "nearweekapp.near";
 const nwSite = "https://nearweek.com";
 
 const coverImgSrc =
-  "https://ipfs.near.social/ipfs/bafkreia6gzxm37bhrmhoco3mmqwc5cejacqu3qfev7hrwcor2hzaomuncu";
+  "https://ipfs.near.social/ipfs/bafkreicu7wb43kex7qqgcja2llyf2jzebzsztgzfhcnkakllywlcnw7fj4";
 
 const mobCoverImgSrc =
   "https://ipfs.near.social/ipfs/bafkreihzi6htmib5soiama557tr5bhwblm5gjxnnenvdtvxqzhvsoraztq";
 
-// const mobTopImgSrc =
-//   "https://ipfs.near.social/ipfs/bafkreidoc56kd36uju7texnjhz3xvvak2kduh62qqx4p67fhm4qoxbhus4";
 const mobTopImgSrc =
   "https://ipfs.near.social/ipfs/bafkreiesqutrfntbmeazszo4lfy774wrzoekblijbbpjmufzcwdhfj5dtu";
 
