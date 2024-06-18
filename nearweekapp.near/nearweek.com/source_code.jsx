@@ -11,11 +11,19 @@ const mobTopImgSrc =
   "https://ipfs.near.social/ipfs/bafkreiesqutrfntbmeazszo4lfy774wrzoekblijbbpjmufzcwdhfj5dtu";
 
 const breakpoints = {
-  sm: "767px",
+  xs: "0px",
+  sm: "576px",
   md: "768px",
-  lg: "1100px",
-  xl: "1300px",
+  lg: "992px",
+  xl: "1200px",
+  xxl: "1400px",
 };
+// const breakpoints = {
+//   sm: "767px",
+//   md: "768px",
+//   lg: "1100px",
+//   xl: "1300px",
+// };
 
 if (!state.theme) {
   State.update({
@@ -382,32 +390,40 @@ const TrustedLink = styled.a`
   font-weight: 300;
   fon-size: 10px;
   text-align: center;
-  margin-top: 55px;
-  margin-bottom: 55px;
   color: #000;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   & img {
     border-radius:50%;
-    width: 106px;
-    height: 106px;
-      @media screen and (max-width: ${breakpoints.md}) {
+      @media screen and (min-width: ${breakpoints.sm}) {
         width: 24px;
         height: 24px;
+    }
+      @media screen and (min-width: ${breakpoints.md}) {
+        width: 106px;
+        height: 106px;
     }
   }
   & span{
     display: block;
     font-size: 9px;
     margin-top: 10px;
-    @media screen and (max-width: ${breakpoints.md}) {
+    @media screen and (min-width: ${breakpoints.sm}) {
         display: none;
     }
+    @media screen and (min-width: ${breakpoints.md}) {
+        display: block;
+    }
+
   }
-  @media screen and (max-width: ${breakpoints.md}) {
+  @media screen and (min-width: ${breakpoints.sm}) {
     margin-top: 5px;
     margin-bottom: 0;
+  }
+  @media screen and (min-width: ${breakpoints.md}) {
+    margin-top: 55px;
+    margin-bottom: 55px;
   }
 `;
 
