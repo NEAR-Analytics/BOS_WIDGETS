@@ -464,15 +464,15 @@ function handleDepositErc20() {
     ],
     Ethers.provider().getSigner()
   );
+  const contractOption = {
+    gasLimit: gas || 4000000,
+  }
+  if (DEPOSIT_POOL_ABI_LATEST.stateMutability === 'payable') {
+    if (['ETH'].includes(tokenSymbol)) {
+      contractOption.value = parseUnits(amountShown, tokenDecimals);
+    }
+  }
   const getTx = (gas) => {
-    const contractOption = {
-      gasLimit: gas || 4000000,
-    }
-    if (DEPOSIT_POOL_ABI_LATEST.stateMutability === 'payable') {
-      if (['ETH'].includes(tokenSymbol)) {
-        contractOption.value = parseUnits(amountShown, tokenDecimals);
-      }
-    }
     contract[DEPOSIT_POOL_ABI_LATEST.name](...params, contractOption)
       .then((tx) => {
         tx.wait()
@@ -522,9 +522,9 @@ function handleDepositErc20() {
   };
   // get gas
   const estimateGas = () => {
-    contract.estimateGas.deposit(
+    contract.estimateGas[DEPOSIT_POOL_ABI_LATEST.name](
       ...params,
-      { value: parseUnits(amountShown, tokenDecimals), gasLimit: 1 }
+      contractOption
     ).then((gas) => {
       getTx(gas);
     }).catch((err) => {
