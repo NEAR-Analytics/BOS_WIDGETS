@@ -113,12 +113,7 @@ function loadUpVotes() {
     })
 }
 
-useEffect(() => {
-    loadUpVotes()
-    setInterval(() => {
-        loadUpVotes()
-    }, 30000)
-}, [])
+loadUpVotes()
 
 const timeLastEdit = new Date(
     articleToRenderData.value.metadata.lastEditTimestamp
