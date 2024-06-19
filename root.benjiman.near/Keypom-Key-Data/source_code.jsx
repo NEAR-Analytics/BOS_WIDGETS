@@ -40,7 +40,6 @@ function getNumKeypomKeys() {
 }
 
 function fetchKeypomKeyDataFromDb(offset, limit) {
-  console.log(`fetching offset: ${offset}, limit: ${limit}`);
   let data = fetch(`${GRAPHQL_ENDPOINT}/v1/graphql`, {
     method: "POST",
     headers: { "x-hasura-role": "root_benjiman_near" },
@@ -57,7 +56,6 @@ const paginateKeys = (limit, keysPerQuery) => {
   let keyData = [];
   for (let i = 0; i < limit; i += keysPerQuery) {
     let fetchedKeyData = fetchKeypomKeyDataFromDb(i, keysPerQuery);
-    console.log("fetchedKeyData: ", fetchedKeyData.length);
 
     keyData = keyData.concat(fetchedKeyData);
   }
@@ -78,7 +76,6 @@ for (var data of keyData) {
   let date = new Date(0);
   date.setUTCMilliseconds(data.block_timestamp / 1e6);
   let dateForSet = date.toLocaleDateString();
-  console.log("dateForSet: ", dateForSet);
   dataSet[dateForSet] = dataSet[dateForSet] || 0;
   dataSet[dateForSet] = totalNumberOfExperiences;
 
