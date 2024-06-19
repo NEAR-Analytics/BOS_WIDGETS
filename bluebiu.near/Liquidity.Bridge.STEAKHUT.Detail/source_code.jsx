@@ -128,7 +128,7 @@ const {
   isPostTx,
 } = state;
 
-const detailLoading = Object.keys(balances).length < 2 && lpBalance === ""
+const detailLoading = Object.keys(balances).length < 2 || lpBalance === ""
 
 const handleCheckApproval = (symbol, amount, decimals) => {
   const wei = ethers.utils.parseUnits(
