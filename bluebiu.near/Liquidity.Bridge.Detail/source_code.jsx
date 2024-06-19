@@ -175,7 +175,7 @@ const {
   isPostTx,
 } = state;
 
-const detailLoading = Object.keys(balances).length < 2 && lpBalance === ""
+const detailLoading = Object.keys(balances).length < 2 || lpBalance === ""
 
 const handleCheckApproval = (symbol, amount, decimals) => {
   const wei = ethers.utils.parseUnits(
@@ -256,13 +256,13 @@ const handleTokenChange = (amount, symbol, callback) => {
     .getDepositAmount(vaultAddress, addresses[symbol], tokenWei)
     .then((depositAmount) => {
       const otherAmount = getFromDepositAmount(depositAmount, otherDecimals);
-      console.log('=depositAmount', depositAmount, '=otherAmount', otherAmount)
       State.update({
         [symbol === token0 ? 'amount1' : 'amount0']: otherAmount,
+        focusedSymbol: symbol,
         isLoading: false
       });
       if (callback) {
-        callback(amount, otherAmount)
+        symbol === token0 ? callback(amount, otherAmount) : callback(otherAmount, amount)
       } else {
         checkApproval(amount, otherAmount, symbol);
       }
@@ -359,85 +359,87 @@ const handleDeposit = () => {
     isError: false,
     loadingMsg: "Depositing...",
   });
+  handleTokenChange(
+    state.focusedSymbol === token0 ? amount0 : amount1,
+    state.focusedSymbol === token0 ? token0 : token1,
+    (amount, otherAmount) => {
+      const tokenWei = ethers.utils.parseUnits(
+        Big(amount).toFixed(decimals0),
+        decimals0
+      );
+      const otherTokenWei = ethers.utils.parseUnits(
+        Big(otherAmount).toFixed(decimals1),
+        decimals1
+      );
+      const proxyAbi = [
+        "function deposit(uint256, uint256,address,address,uint256[4] memory)  external returns (uint256)",
+      ];
+      const proxyContract = new ethers.Contract(
+        proxyAddress,
+        proxyAbi,
+        Ethers.provider().getSigner()
+      );
+      proxyContract
+        .deposit(tokenWei, otherTokenWei, sender, ethers.utils.getAddress(vaultAddress), [0, 0, 0, 0])
+        .then((tx) => {
+          return tx.wait();
+        })
+        .then((receipt) => {
+          const { status, transactionHash } = receipt;
 
-  handleTokenChange(amount0, token0, (amount, otherAmount) => {
-    const tokenWei = ethers.utils.parseUnits(
-      Big(amount).toFixed(decimals0),
-      decimals0
-    );
-    const otherTokenWei = ethers.utils.parseUnits(
-      Big(otherAmount).toFixed(decimals1),
-      decimals1
-    );
-    const proxyAbi = [
-      "function deposit(uint256, uint256,address,address,uint256[4] memory)  external returns (uint256)",
-    ];
-    const proxyContract = new ethers.Contract(
-      proxyAddress,
-      proxyAbi,
-      Ethers.provider().getSigner()
-    );
-    proxyContract
-      .deposit(tokenWei, otherTokenWei, sender, ethers.utils.getAddress(vaultAddress), [0, 0, 0, 0])
-      .then((tx) => {
-        return tx.wait();
-      })
-      .then((receipt) => {
-        const { status, transactionHash } = receipt;
-
-        addAction?.({
-          type: "Liquidity",
-          action: "Deposit",
-          token0,
-          token1,
-          amount: amount0,
-          template: defaultDex,
-          status: status,
-          add: 1,
-          transactionHash,
-          chain_id: props.chainId,
-          extra_data: JSON.stringify({
+          addAction?.({
+            type: "Liquidity",
             action: "Deposit",
-            amount0,
-            amount1,
-          })
-        });
+            token0,
+            token1,
+            amount: amount0,
+            template: defaultDex,
+            status: status,
+            add: 1,
+            transactionHash,
+            chain_id: props.chainId,
+            extra_data: JSON.stringify({
+              action: "Deposit",
+              amount0,
+              amount1,
+            })
+          });
 
-        State.update({
-          isLoading: false,
-          isPostTx: true,
-        });
+          State.update({
+            isLoading: false,
+            isPostTx: true,
+          });
 
-        setTimeout(() => State.update({ isPostTx: false }), 10_000);
+          setTimeout(() => State.update({ isPostTx: false }), 10_000);
 
-        const { refetch } = props;
-        if (refetch) {
-          setTimeout(() => {
-            refetch()
-          }, 3000)
-        }
+          const { refetch } = props;
+          if (refetch) {
+            setTimeout(() => {
+              refetch()
+            }, 3000)
+          }
 
-        toast?.dismiss(toastId);
-        toast?.success({
-          title: "Deposit Successfully!",
+          toast?.dismiss(toastId);
+          toast?.success({
+            title: "Deposit Successfully!",
+          });
+        })
+        .catch((error) => {
+          console.log(error)
+          State.update({
+            isError: true,
+            isLoading: false,
+            loadingMsg: error,
+          });
+          toast?.dismiss(toastId);
+          toast?.fail({
+            title: "Deposit Failed!",
+            text: error?.message?.includes("user rejected transaction")
+              ? "User rejected transaction"
+              : error?.message ?? "",
+          });
         });
-      })
-      .catch((error) => {
-        console.log('error: ', error)
-        State.update({
-          isError: true,
-          isLoading: false,
-          loadingMsg: error,
-        });
-        toast?.dismiss(toastId);
-        toast?.fail({
-          title: "Deposit Failed!",
-          text: error?.message?.includes("user rejected transaction")
-            ? "User rejected transaction"
-            : error?.message ?? "",
-        });
-      });
-  })
+    })
 };
 
 const handleWithdraw = () => {
