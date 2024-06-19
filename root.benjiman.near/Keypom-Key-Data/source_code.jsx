@@ -2,7 +2,7 @@ console.log("Hello from node.js");
 
 const GRAPHQL_ENDPOINT = "https://near-queryapi.api.pagoda.co";
 
-const paginationQuery = (offset, limit) => `
+const paginationQuery = (offset, limit) => `sadasd
 query MyQuery {
   root_benjiman_near_all_keypom_key_additions_keys(
     offset: ${offset}
@@ -28,6 +28,7 @@ query MyQuery {
   }
 `;
 
+//
 function getNumKeypomKeys() {
   return fetch(`${GRAPHQL_ENDPOINT}/v1/graphql`, {
     method: "POST",
@@ -64,7 +65,7 @@ const paginateKeys = (limit, keysPerQuery) => {
 
   return keyData;
 };
-
+// First get the number of keypom keys and then paginate 1000 at a time using fetch and .then instead of async await
 const getKeyData = () => {
   let numKeys = getNumKeypomKeys();
   return paginateKeys(numKeys, 10000);
@@ -85,11 +86,7 @@ for (var data of keyData) {
   totalNumberOfExperiences += 1;
 }
 
-const sortedDates = Object.keys(dataSet).sort(
-  (a, b) => new Date(a) - new Date(b)
-);
-const sortedExperiences = sortedDates.map((date) => dataSet[date]);
-
+//return <div>{JSON.stringify(data)}</div>;
 const colsToShow = ["Experiences"];
 const definition = {
   title: {
@@ -118,7 +115,7 @@ const definition = {
   xAxis: {
     type: "category",
     boundaryGap: false,
-    data: sortedDates,
+    data: Object.keys(dataSet),
   },
   yAxis: {
     type: "value",
@@ -126,7 +123,7 @@ const definition = {
   series: colsToShow.map((col) => ({
     name: col,
     type: "line",
-    data: sortedExperiences,
+    data: Object.values(dataSet),
   })),
 };
 
