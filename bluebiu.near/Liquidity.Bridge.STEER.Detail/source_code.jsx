@@ -204,16 +204,18 @@ const handleTokenChange = (amount, symbol) => {
     .then((response) => {
       const total0 = ethers.utils.formatUnits(response[0], decimals0)
       const total1 = ethers.utils.formatUnits(response[1], decimals1)
-      const otherAmount = (symbol === token0 ?
+      console.log('=response', response, '=total0', total0, '=total1', total1)
+      const otherAmount = Big((symbol === token0 ?
         Big(amount).times(total1).div(total0) :
-        Big(amount).times(total0).div(total1)).toFixed()
+        Big(amount).times(total0).div(total1))).toFixed()
       State.update({
         isLoading: false,
-        [symbol === token0 ? 'amount1' : 'amount0']: otherAmount.toFixed(),
+        [symbol === token0 ? 'amount1' : 'amount0']: otherAmount,
       })
       checkApproval(amount, otherAmount, symbol);
     })
-    .catch((e) => {
+    .catch((error) => {
+      console.log("error: ", error)
       State.update({
         isLoading: true,
         isError: true,
