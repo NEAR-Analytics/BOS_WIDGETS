@@ -334,6 +334,7 @@ const handleApprove = (isToken0) => {
       });
     })
     .catch((error) => {
+      console.log('error: ', error)
       State.update({
         isError: true,
         isLoading: false,
@@ -425,7 +426,7 @@ const handleDeposit = () => {
           });
         })
         .catch((error) => {
-          console.log(error)
+          console.log('error: ', error)
           State.update({
             isError: true,
             isLoading: false,
