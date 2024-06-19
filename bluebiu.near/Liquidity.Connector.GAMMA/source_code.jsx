@@ -175,7 +175,7 @@ useEffect(() => {
         userPositions: null
       })
       fetchAllData()
-      fetchUserData()
+      // fetchUserData()
     }
   }
 }, [curChain])
@@ -306,7 +306,6 @@ const columnList = isDapps ? [{
     const userBalance = userPositions && addresses[data.id] in userPositions
       ? userPositions[addresses[data.id]].balanceUSD
       : undefined;
-      console.log('=userBalance', userBalance)
 
     return (
       <>
