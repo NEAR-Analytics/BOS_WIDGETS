@@ -78,7 +78,7 @@ const updateLPBalance = () => {
 };
 const updateBalance = (token) => {
   const { address, decimals, symbol } = token;
-  if (symbol === "ETH") {
+  if (symbol === "ETH" || symbol === "AVAX") {
     Ethers.provider()
       .getBalance(sender)
       .then((balanceBig) => {
