@@ -28,7 +28,6 @@ query MyQuery {
   }
 `;
 
-//
 function getNumKeypomKeys() {
   return fetch(`${GRAPHQL_ENDPOINT}/v1/graphql`, {
     method: "POST",
@@ -65,7 +64,7 @@ const paginateKeys = (limit, keysPerQuery) => {
 
   return keyData;
 };
-// First get the number of keypom keys and then paginate 1000 at a time using fetch and .then instead of async await
+
 const getKeyData = () => {
   let numKeys = getNumKeypomKeys();
   return paginateKeys(numKeys, 10000);
@@ -86,7 +85,11 @@ for (var data of keyData) {
   totalNumberOfExperiences += 1;
 }
 
-//return <div>{JSON.stringify(data)}</div>;
+const sortedDates = Object.keys(dataSet).sort(
+  (a, b) => new Date(a) - new Date(b)
+);
+const sortedExperiences = sortedDates.map((date) => dataSet[date]);
+
 const colsToShow = ["Experiences"];
 const definition = {
   title: {
@@ -115,7 +118,7 @@ const definition = {
   xAxis: {
     type: "category",
     boundaryGap: false,
-    data: Object.keys(dataSet),
+    data: sortedDates,
   },
   yAxis: {
     type: "value",
@@ -123,7 +126,7 @@ const definition = {
   series: colsToShow.map((col) => ({
     name: col,
     type: "line",
-    data: Object.values(dataSet),
+    data: sortedExperiences,
   })),
 };
 
