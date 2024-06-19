@@ -259,7 +259,7 @@ const handleTokenChange = (amount, symbol, callback) => {
       State.update({
         [symbol === token0 ? 'amount1' : 'amount0']: otherAmount,
         focusedSymbol: symbol,
-        isLoading: false
+        isLoading: callback ? true : false
       });
       if (callback) {
         symbol === token0 ? callback(amount, otherAmount) : callback(otherAmount, amount)
