@@ -11,7 +11,6 @@ const {
   LAST_SNAP_SHOT_DATA_URL,
   prices
 } = props
-
 let loading = false
 let dataList = []
 const MULTICALL_ABI = [
@@ -276,14 +275,16 @@ function getTotalApr() {
       }
     )
   }
-  if ([137, 1101].includes(chain_id)) {
+  console.log('=chain_id', chain_id)
+  if ([137, 1101, 3776].includes(chain_id)) {
     asyncFetch("https://api.angle.money/v2/merkl?chainIds[]=" + chain_id)
       .then(res => {
         if (!res.ok) return;
         const { pools } = res.body[chain_id]
         dataList = dataList.map(data => {
           const pool = pools[ethers.utils.getAddress(data.poolAddress)]
-          if (pool) {
+          console.log('=pool', pool)
+          if (pool && Object.keys(pool.aprs).length > 0) {
             Object.keys(pool.aprs).forEach(key => {
               if (key.indexOf(ethers.utils.getAddress(data.vaultAddress)) > -1) {
                 data.totalApr = Big(data.returns.weekly.feeApr).times(100).plus(pool.aprs[key]).toFixed(2) + '%'
@@ -331,7 +332,7 @@ function getFeeTiers() {
           dataList.forEach((data, index) => {
             const findIndex = res.body.findIndex(source => data.vaultAddress === source.address)
             if (findIndex > -1) {
-              dataList[index]['fee'] = Big(res.body[findIndex].fee).div(100).toFixed(2)
+              dataList[index]['fee'] = Big(res.body[findIndex]?.pool?.fee ?? 0).div(10000).toFixed(2)
             }
           })
           formatedData('getFeeTiers')
