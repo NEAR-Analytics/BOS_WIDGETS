@@ -70,7 +70,7 @@ return (
                       );
                     })}
                   </Tr>
-                  {index === dataIndex && data.type === "LP" && (
+                  {index === dataIndex && (
                     <Widget
                       key={data.id}
                       src={"bluebiu.near/widget/Staking.Teahouse.Detail"}
@@ -80,7 +80,18 @@ return (
                       }}
                     />
                   )}
-                  {index === dataIndex && data.type === "MANAGED" && (
+                  {/* TODO */}
+                  {/* {index === dataIndex && data.type === "LP" && (
+                    <Widget
+                      key={data.id}
+                      src={"bluebiu.near/widget/Staking.Teahouse.Detail"}
+                      props={{
+                        ...props,
+                        data: dataList[dataIndex],
+                      }}
+                    />
+                  )} */}
+                  {/* {index === dataIndex && data.type === "MANAGED" && (
                     <Widget
                       key={data.id}
                       src={"bluebiu.near/widget/Staking.Teahouse.ManagedDetail"}
@@ -89,7 +100,7 @@ return (
                         data: dataList[dataIndex],
                       }}
                     />
-                  )}
+                  )} */}
                 </TrWrapper>
               );
             })}
