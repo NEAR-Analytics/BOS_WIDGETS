@@ -1,4 +1,15 @@
 const accountId = context.accountId;
+if (!context.accountId) {
+  return (
+    <Widget
+      src="builddao.near/widget/components.LoginAction"
+      loading=""
+      props={{
+        text: "Please log in in order to see create or edit a project.",
+      }}
+    />
+  );
+}
 const { Button, InputField, TextEditor, Modal } = VM.require(
   "buildhub.near/widget/components"
 ) || {
@@ -10,7 +21,9 @@ const { Button, InputField, TextEditor, Modal } = VM.require(
 const { normalize } = VM.require("devs.near/widget/lib.stringUtils") || {
   normalize: () => {},
 };
-const { getProjectMeta } = VM.require("builddao.near/widget/lib.projects") || {
+const { getProjectMeta, getProjectIdFromPath } = VM.require(
+  "builddao.near/widget/lib.projects"
+) || {
   getProjectMeta: () => {},
 };
 const { href } = VM.require("buildhub.near/widget/lib.url") || {
@@ -28,7 +41,7 @@ const isNearAddress = (address) => {
   if (!address.endsWith(".near") && !address.endsWith(".testnet")) {
     return false;
   }
-  const parts = address.split(".");
+  const parts = (address ?? "").split(".");
   if (parts[0].length < 2 || parts[0].length > 32) {
     return false;
   }
@@ -87,6 +100,8 @@ const [roles, setRoles] = useState([]);
 const [currentScreen, setCurrentScreen] = useState(1);
 const [projectIdForSocialDB, setProjectId] = useState(null); // for edit changes
 const [contributorSearchTerm, setContributorSearch] = useState("");
+const [showDeleteModal, setShowDeleteModal] = useState(false);
+const [showDeleteSuccessModal, setShowDeleteSuccessModal] = useState(false);
 function removeWhiteSpace(str) {
   return str.replace(/\s/g, "-").toLowerCase();
 }
@@ -143,6 +158,9 @@ useEffect(() => {
   }
 }, [potlockProjectProfile]);
 useEffect(() => {
+  setProjectId(getProjectIdFromPath(editProjectId));
+}, [editProjectId]);
+useEffect(() => {
   if (editProjectData && !title) {
     const {
       title,
@@ -162,7 +180,6 @@ useEffect(() => {
     setTitle(title);
     setLocation(location);
     setTeamSize(teamSize);
-    setProjectId(editProjectId.split("project/")[1]);
     setDescription(description);
     setContributorsWithRoles(contributorsWithRoles ?? []);
     setContributors(contributors ?? []);
@@ -305,6 +322,14 @@ const Container = styled.div`
       background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%27-4 -4 8 8%27%3e%3ccircle r=%273%27 fill=%27%23fff%27/%3e%3c/svg%3e");
     }
   }
+  .destructive {
+    background-color: #fd2a5c;
+    color: white;
+    border-color: #fd2a5c;
+    &:hover {
+      background-color: #fd2a5c !important;
+    }
+  }
   .err,
   .err-p_id {
     color: #ff8888;
@@ -382,6 +407,80 @@ const SuccessModal = () => {
     </ModalContainer>
   );
 };
+function onSuccessDeleteModalToggle(v) {
+  setShowDeleteSuccessModal(v);
+}
+const SuccessDeleteModal = () => {
+  return (
+    <ModalContainer>
+      <Modal
+        open={showDeleteSuccessModal}
+        onOpenChange={onSuccessDeleteModalToggle}
+        toggle={onSuccessDeleteModalToggle}
+      >
+        <div className="d-flex flex-column gap-2 align-items-center">
+          <img
+            src="https://ipfs.near.social/ipfs/bafkreidhpcgdofhhvyybz3d4xmoheovksulnatfsdyfljpphwvm74kl43e"
+            width={50}
+          />
+          <div className="h5">Project Deleted successfully!</div>
+          <div className="text-center mt-2">
+            <Button
+              variant="primary"
+              href={href({
+                widgetSrc: `builddao.near/widget/Index`,
+                params: {
+                  page: "projects",
+                  tab: "myProjects",
+                },
+              })}
+            >
+              View My Projects Page
+            </Button>
+          </div>
+        </div>
+      </Modal>
+    </ModalContainer>
+  );
+};
+function onDeletModalToggle(v) {
+  setShowDeleteModal(v);
+}
+const DeleteConfirmationModal = () => {
+  return (
+    <ModalContainer>
+      <Modal
+        open={showDeleteModal}
+        onOpenChange={onDeletModalToggle}
+        toggle={onDeletModalToggle}
+      >
+        <div className="d-flex flex-column gap-2 align-items-center">
+          <img
+            src="https://ipfs.near.social/ipfs/bafkreicuj5kuflnu4w3gsjre7erix2pxqmtcrp3aamdkt7viea3pldafpi"
+            width={50}
+          />
+          <div className="h5 mb-0">Would like to delete this project?</div>
+          <div>This action can't be undone.</div>
+          <div className="d-flex justify-content-center gap-3 mt-2">
+            <Button variant="outline" onClick={() => setShowDeleteModal(false)}>
+              Cancel
+            </Button>
+            <Button
+              variant="outline"
+              className="destructive"
+              onClick={() => {
+                setShowDeleteModal(true);
+                onDeleteProject();
+              }}
+            >
+              Confirm
+            </Button>
+          </div>
+        </div>
+      </Modal>
+    </ModalContainer>
+  );
+};
 function onCreateProject() {
   const projectID = isEditScreen ? projectIdForSocialDB : normalize(title, "-");
   const project = {
@@ -443,7 +542,7 @@ function onCreateProject() {
       methodName: "add_proposal",
       args: {
         proposal: {
-          description: `Project creation using BuildDAO created by ${context.accountId}`,
+          description: `This project was created using the Nearbuilder's gateway by ${context.accountId}`,
           kind: {
             FunctionCall: {
               receiver_id: "social.near",
@@ -466,6 +565,61 @@ function onCreateProject() {
     Social.set(data, {
       onCommit: () => {
         setShowSuccessModal(true);
+      },
+    });
+  }
+}
+function onDeleteProject() {
+  const projectID = projectIdForSocialDB;
+  const data = {
+    project: {
+      [projectID]: null,
+    },
+    [app]: {
+      project: {
+        [`${context.accountId}_project_${projectID}`]: null,
+      },
+    },
+  };
+  if (projectAccount.includes(".sputnik-dao.near")) {
+    const policy = Near.view(projectAccount, "get_policy");
+    const base64 = Buffer.from(
+      JSON.stringify({
+        data: {
+          [projectAccount]: data,
+        },
+        options: { refund_unused_deposit: true },
+      }),
+      "utf-8"
+    ).toString("base64");
+    Near.call({
+      contractName: projectAccount,
+      methodName: "add_proposal",
+      args: {
+        proposal: {
+          description: `This project was deleted using the Nearbuilder's gateway by ${context.accountId}`,
+          kind: {
+            FunctionCall: {
+              receiver_id: "social.near",
+              actions: [
+                {
+                  method_name: "set",
+                  args: base64,
+                  deposit: "100000000000000000000000",
+                  gas: "200000000000000",
+                },
+              ],
+            },
+          },
+        },
+      },
+      deposit: policy?.proposal_bond || 100000000000000000000000,
+      gas: 200000000000000,
+    });
+  } else {
+    Social.set(data, {
+      onCommit: () => {
+        setShowDeleteSuccessModal(true);
       },
     });
   }
@@ -506,6 +660,19 @@ function getSuggestiveAccounts() {
   }
   return suugestiveAccounts.slice(0, limit);
 }
+const DeleteProjectBtn = () => {
+  if (isEditScreen) {
+    return (
+      <Button
+        variant="outline"
+        className="destructive"
+        onClick={() => setShowDeleteModal(true)}
+      >
+        Delete Project
+      </Button>
+    );
+  } else return null;
+};
 const SecondScreen = () => {
   return (
     <>
@@ -610,7 +777,7 @@ const SecondScreen = () => {
             src="buildhub.near/widget/components.UploadField"
             props={{
               image: avatar,
-              onChange: (image) => setAvatar({ image }),
+              onChange: (image) => setAvatar(image),
             }}
           />
         </div>
@@ -620,7 +787,7 @@ const SecondScreen = () => {
             src="buildhub.near/widget/components.UploadField"
             props={{
               image: coverImage,
-              onChange: (image) => setCoverImage({ image }),
+              onChange: (image) => setCoverImage(image),
             }}
           />
         </div>
@@ -668,10 +835,15 @@ const SecondScreen = () => {
           />
         </div>
         <div className="d-flex align-items-center justify-content-end gap-2 mt-3">
+          <DeleteProjectBtn />
           <Button variant="outline" onClick={() => setCurrentScreen(1)}>
             Back
           </Button>
-          <Button variant="primary" onClick={onCreateProject}>
+          <Button
+            variant="primary"
+            onClick={onCreateProject}
+            disabled={invalidContributorFound}
+          >
             {isEditScreen ? "Save Changes" : "Create"}
           </Button>
         </div>
@@ -811,6 +983,7 @@ const FirstScreen = () => {
           </div>
         </div>
         <div className="d-flex align-items-center justify-content-end gap-2 mt-3">
+          <DeleteProjectBtn />
           <Button
             variant="outline"
             href={href({
@@ -825,11 +998,7 @@ const FirstScreen = () => {
           <Button
             variant="primary"
             disabled={
-              invalidContributorFound ||
-              invalidProjectAccount ||
-              !title ||
-              !description ||
-              !projectAccount
+              invalidProjectAccount || !title || !description || !projectAccount
             }
             onClick={() => setCurrentScreen(2)}
           >
@@ -848,6 +1017,8 @@ return (
         Easily create, share, and track all projects within our vibrant builder
         community.
       </p>
+      <DeleteConfirmationModal />
+      <SuccessDeleteModal />
       <SuccessModal />
       {currentScreen === 1 ? <FirstScreen /> : <SecondScreen />}
     </div>
