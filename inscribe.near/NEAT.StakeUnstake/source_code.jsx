@@ -282,7 +282,7 @@ const RedText = styled.div`
   color: red;
   text-align: center;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
 `;
 
 const AbsoluteContainer = styled.div`
