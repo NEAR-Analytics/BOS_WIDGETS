@@ -12,7 +12,7 @@ let tabsArray = [
   { key: "MANAGED", label: "Managed" },
 ];
 State.init({
-  tab: "MANAGED",
+  tab: "LP",
 });
 return (
   <StyledContainer style={dexConfig.theme}>
