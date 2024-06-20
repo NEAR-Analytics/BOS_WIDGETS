@@ -165,5 +165,11 @@ const CSS = styled.div`
   .placeholder-glow {
     background: var(--bg-1, black);
   }
+  .content {
+    background: var(--bg-1, #000);
+    .main {
+      min-width: 0;
+    }
+  }
 `;
 return { CSS };
