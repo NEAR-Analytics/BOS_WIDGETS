@@ -92,6 +92,7 @@ const Tag = styled.div`
 const EditButton = ({ item }) => {
   return (
     <Button
+      data-testid="edit-btn"
       href={href({
         widgetSrc: `builddao.near/widget/Index`,
         params: {
