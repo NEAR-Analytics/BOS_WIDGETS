@@ -1,23 +1,23 @@
 const StyledFont = styled.div`
-  color: ${(props) => props.color || '#000'};
-  font-family: ${(props) => props.fontFamily || 'Gantari'};
-  font-size: ${(props) => props.fontSize || '16px'};
-  font-style: ${(props) => props.fontStyle || 'normal'};
-  font-weight: ${(props) => props.fontWeight || '400'};
-  line-height: ${(props) => props.lineHeight || 'normal'};
-  white-space: ${(props) => props.whiteSpace || 'normal'};
+  color: ${(props) => props.color || "#000"};
+  font-family: ${(props) => props.fontFamily || "Gantari"};
+  font-size: ${(props) => props.fontSize || "16px"};
+  font-style: ${(props) => props.fontStyle || "normal"};
+  font-weight: ${(props) => props.fontWeight || "400"};
+  line-height: ${(props) => props.lineHeight || "normal"};
+  white-space: ${(props) => props.whiteSpace || "normal"};
 `;
 const StyledFlex = styled.div`
   display: flex;
-  flex-direction: ${(props) => props.flexDirection || 'row'};
-  align-items: ${(props) => props.alignItems || 'center'};
-  justify-content: ${(props) => props.justifyContent || 'flex-start'};
-  gap: ${(props) => props.gap || '0px'};
+  flex-direction: ${(props) => props.flexDirection || "row"};
+  align-items: ${(props) => props.alignItems || "center"};
+  justify-content: ${(props) => props.justifyContent || "flex-start"};
+  gap: ${(props) => props.gap || "0px"};
 `;
 const StyledDashedUndeline = styled.div`
   padding: 2px 0;
-  border-bottom: 1px dashed #979ABE;
-`
+  border-bottom: 1px dashed #979abe;
+`;
 
 const TitleText = styled.div`
   font-size: 20px;
@@ -60,7 +60,7 @@ const ContainerLogin = styled.div`
 // List
 const ListWrapper = styled.div`
   margin-top: 20px;
-`
+`;
 const SvgIcon = styled.div`
   display: flex;
   justify-content: center;
@@ -75,17 +75,15 @@ const SvgIcon = styled.div`
       transform: translateY(-50%) rotate(90deg);
     }
   }
-`
-const Table = styled.div`
-  
-`
+`;
+const Table = styled.div``;
 const THead = styled.div`
   display: flex;
   align-items: center;
   padding: 12px 30px;
-`
+`;
 const Th = styled.div`
-  color: #979ABE;
+  color: #979abe;
   font-family: Gantari;
   font-size: 14px;
   font-style: normal;
@@ -113,17 +111,16 @@ const Th = styled.div`
   &:nth-of-type(7) {
     width: 10%;
   }
-`
-const TBody = styled.div`
-`
+`;
+const TBody = styled.div``;
 const TrWrapper = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: 16px;
-  border: 1px solid #373A53;
+  border: 1px solid #373a53;
   margin-bottom: 8px;
   overflow: hidden;
-`
+`;
 const Tr = styled.div`
   cursor: pointer;
   display: flex;
@@ -131,7 +128,7 @@ const Tr = styled.div`
   height: 84px;
   background: #262836;
   padding: 0 24px;
-`
+`;
 const Td = styled.div`
   position: relative;
   display: flex;
@@ -163,41 +160,41 @@ const Td = styled.div`
   &:nth-of-type(7) {
     width: 10%;
   }
-`
+`;
 const TdTxt = styled.div`
-  color: #FFF;
+  color: #fff;
   font-family: Gantari;
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
   &.gray {
-    color: #979ABE;
+    color: #979abe;
     font-size: 12px;
   }
-`
+`;
 const PoolPercentage = styled.div`
   padding: 3px 8px;
   border-radius: 24px;
   background: rgba(151, 154, 190, 0.1);
-  color: #979ABE;
+  color: #979abe;
   font-family: Gantari;
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-`
+`;
 const StrategyTxt = styled.div`
   padding: 7px 10px;
   border-radius: 6px;
   background: rgba(151, 154, 190, 0.1);
-  color: #979ABE;
+  color: #979abe;
   font-family: Gantari;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-`
+`;
 const StyledVaultImage = styled.div`
   display: flex;
   align-items: center;
@@ -207,7 +204,7 @@ const StyledVaultImage = styled.div`
     height: 26px;
     border-radius: 50%;
   }
-`
+`;
 // Detail
 
 const Row = styled.div`
@@ -220,25 +217,24 @@ const Row = styled.div`
     justify-content: center;
     gap: 14px;
   }
-`
+`;
 const Column = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-`
+`;
 const DetailWrapper = styled.div`
   background: #262836;
-
-`
+`;
 const FilterButtonList = styled.div`
   margin-bottom: 20px;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-top: 1px solid #373A53;
-  border-bottom: 1px solid #373A53;
-`
+  border-top: 1px solid #373a53;
+  border-bottom: 1px solid #373a53;
+`;
 const FilterButton = styled.div`
   cursor: pointer;
   position: relative;
@@ -247,9 +243,9 @@ const FilterButton = styled.div`
   justify-content: center;
   width: 250px;
   height: 48px;
-  border-left: 1px solid #373A53;
-  border-right: 1px solid #373A53;
-  color: #979ABE;
+  border-left: 1px solid #373a53;
+  border-right: 1px solid #373a53;
+  color: #979abe;
   font-family: Gantari;
   font-size: 16px;
   font-style: normal;
@@ -258,7 +254,7 @@ const FilterButton = styled.div`
     border-right: none;
   }
   &.isActive {
-    color: #FFF;
+    color: #fff;
     &:after {
       content: "";
       position: absolute;
@@ -267,54 +263,53 @@ const FilterButton = styled.div`
       bottom: -2px;
       height: 5px;
       flex-shrink: 0;
-      background: #1362E4;
+      background: #1362e4;
     }
   }
-`
+`;
 const InputWrapList = styled.div`
   margin-bottom: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-`
+`;
 const InputWrap = styled.div`
   position: relative;
   height: 46px;
-  background: #33364B;
+  background: #33364b;
   border-radius: 12px;
-  border: 1px solid #33364B;
+  border: 1px solid #33364b;
   overflow: hidden;
   input::-webkit-inner-spin-button {
     -webkit-appearance: none !important;
   }
-  
-  input::-webkit-outer-spin-button{
+
+  input::-webkit-outer-spin-button {
     -webkit-appearance: none !important;
   }
-  input[type="number"]{
+  input[type="number"] {
     -moz-appearance: textfield;
   }
   &.inSufficient {
-    border-color: #FF547D;
+    border-color: #ff547d;
   }
-
-`
+`;
 const Input = styled.input`
   border: none;
   outline: none;
-  background: #1B1E27;
+  background: #1b1e27;
   margin: 0;
   width: 100%;
   height: 100%;
-  color: #FFF;
+  color: #fff;
   font-family: Gantari;
   font-size: 13px;
   font-style: normal;
   font-weight: 400;
   padding: 0 80px 0 10px;
   border-radius: 8px;
-  border: 1px solid #33364B;
-`
+  border: 1px solid #33364b;
+`;
 const InputSuffix = styled.div`
   position: absolute;
   top: 13px;
@@ -323,7 +318,7 @@ const InputSuffix = styled.div`
   align-items: center;
   gap: 6px;
   span {
-    color: #FFF;
+    color: #fff;
     text-align: right;
     font-family: Gantari;
     font-size: 14px;
@@ -335,30 +330,28 @@ const InputSuffix = styled.div`
     width: 20px;
     border-radius: 50%;
   }
-
-`
+`;
 const StyledImageList = styled.div`
   display: flex;
   align-items: center;
-  
-`
+`;
 const PriceWrap = styled.div`
   margin-top: 6px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-`
+`;
 const TotalPrice = styled.span`
-  color: #979ABE;
+  color: #979abe;
   font-family: Gantari;
   font-size: 12px;
   opacity: 0.3;
-`
+`;
 const BalancePrice = styled.div`
   display: flex;
   align-items: center;
   gap: 4px;
-  color: #979ABE;
+  color: #979abe;
   text-align: right;
   font-family: Gantari;
   font-size: 12px;
@@ -366,11 +359,11 @@ const BalancePrice = styled.div`
   font-weight: 400;
   line-height: normal;
   span {
-    color: #FFF;
+    color: #fff;
     text-decoration-line: underline;
     cursor: pointer;
   }
-`
+`;
 
 const StyledButtonList = styled.div`
   width: 500px;
@@ -379,7 +372,7 @@ const StyledButtonList = styled.div`
   align-items: center;
   justify-content: center;
   gap: 14px;
-`
+`;
 const StyledButton = styled.button`
   outline: none;
   border: none;
@@ -395,19 +388,19 @@ const StyledButton = styled.button`
   font-size: 16px;
   font-weight: 500;
   &[disabled] {
-    opacity: 0.5!important;
+    opacity: 0.5 !important;
     cursor: not-allowed;
   }
   &:hover {
     opacity: 0.8;
   }
-`
+`;
 
 const StyledLoading = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: rotate 1.5s linear  infinite;
+  animation: rotate 1.5s linear infinite;
   @keyframes rotate {
     0% {
       transform: rotate(0deg);
@@ -416,17 +409,49 @@ const StyledLoading = styled.div`
       transform: rotate(360deg);
     }
   }
-`
+`;
 const StyledEmptyTips = styled.div`
   text-align: center;
   padding-top: 82px;
-  color: #979ABE;
+  color: #979abe;
   font-family: Gantari;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-`
+`;
+
+const CycleWrap = styled.div`
+  width: 500px;
+  margin: 0 auto 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  .times {
+    width: 150px;
+    text-align: right;
+  }
+  .assets {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .title {
+    border-bottom: 1px dashed #8e9ab9;
+    cursor: default;
+  }
+  .svg {
+    width: 18px;
+  }
+`;
+
+const TokenImg = styled.img`
+  width: 20px;
+  height: 20px;
+`;
+
 return {
   StyledFont,
   StyledFlex,
@@ -462,5 +487,7 @@ return {
   StyledButtonList,
   StyledButton,
   StyledLoading,
-  StyledEmptyTips
-}
+  StyledEmptyTips,
+  CycleWrap,
+  TokenImg,
+};
