@@ -5,52 +5,12 @@ const SKIN = 'META_GUIDE'
 
 const [isRunnigApp, toggleIsRunningApp] = useState(false)
 const [context, setContext] = useState(null)
-
-const [picker, setPicker] = useState(null)
+const [focusedContext, setFocusedContext] = useState(null);
 
 const handleClose = () => {
-  picker.stop()
   setContext(null)
   toggleIsRunningApp(false)
 }
-
-useEffect(() => {
-  if (!isRunnigApp) return;
-  const newPicker = props.pickContexts({
-    // target: [
-    //   {
-    //     namespace: NAMESPACE,
-    //     contextType: 'post',
-    //     if: {}
-    //   },
-    //   {
-    //     namespace: NAMESPACE,
-    //     contextType: 'postSouthButton',
-    //     if: {}
-    //   },
-    //   {
-    //     namespace: NAMESPACE,
-    //     contextType: 'profile',
-    //     if: {}
-    //   },
-    //   {
-    //     namespace: 'mweb',
-    //     contextType: 'shadow-dom',
-    //     if: {}
-    //   },
-    //   {
-    //     namespace: 'mweb',
-    //     contextType: 'injected-widget',
-    //     if: {}
-    //   },
-    // ],
-    callback: (newContext) => setContext(newContext),
-    // styles: { backgroundColor: 'rgb(255 127 56 / 9%)' },
-    highlightChildren: true,
-  })
-
-  setPicker(newPicker)
-}, [isRunnigApp])
 
 const ChapterWrapper = (props) => {
   const widgetProps = {
@@ -111,8 +71,37 @@ const iconQuestionMark = (isActive) => (
 
 console.log('##### context', context)
 
+const Latch = styled.div`
+  background-color: #384bff;
+  height: 20px;
+  width: 300px;
+  border-radius: 6px 6px 0 0;
+  color: #fff;
+  text-align: center;
+  position: absolute;
+  top: -20px;
+  left: 0;
+  transform: translateX(+50%);
+`
+
+const ContextTypeLatch = ({ context }) => {
+  if (context.type === 'timeline') {
+    return <Latch>Latch over the timeline</Latch>
+  } else {
+    return null
+  }
+}
+
 return (
   <>
+    {isRunnigApp ? (
+      <DappletContextPicker
+        // target={}
+        onClick={ctx => setContext(ctx)}
+        LatchComponent={ContextTypeLatch}
+      />
+    ) : null}
+    
     <DappletPortal
       target={{
         namespace: "mweb",
