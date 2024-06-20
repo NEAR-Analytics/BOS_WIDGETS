@@ -214,7 +214,7 @@ const RedText = styled.div`
   color: red;
   text-align: center;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
 `;
 
 const AbsoluteContainer = styled.div`
@@ -973,8 +973,8 @@ return (
         <AbsoluteContainer>
           <FormContainer style={{ maxWidth: "500px" }}>
             <RedText>
-              ***$NEAT in pending unstake status will be burned if withdraw
-              before {state.unstakeFinishedTime}***
+              $NEAT in pending unstake status will be burned if withdraw before{" "}
+              {state.unstakeFinishedTime}
             </RedText>
             <WithdrawRow>
               <div>Burn Amount</div>
@@ -999,6 +999,63 @@ return (
                 onClick={() => {
                   State.update({
                     showWithdrawModal: false,
+                  });
+                }}
+              >
+                Cancel
+              </OutlineButton>
+              <OutlineButton
+                onClick={() => {
+                  State.update({
+                    showWithdrawModal: false,
+                    showWithdrawConfirmModal: true,
+                  });
+                }}
+              >
+                Confirm
+              </OutlineButton>
+            </WithdrawRow>
+          </FormContainer>
+        </AbsoluteContainer>
+      )}
+      {state.showWithdrawConfirmModal && (
+        <AbsoluteContainer>
+          <FormContainer style={{ maxWidth: "500px" }}>
+            <RedText>⚠️ EARLY WITHDRAWAL PENALTY</RedText>
+            <div>
+              <div>
+                If you choose to withdraw your funds before
+                <span style={{ color: "red", fontWeight: "bold" }}>
+                  {state.unstakeFinishedTime}
+                </span>
+                , you will only receive
+                <span style={{ color: "red", fontWeight: "bold" }}>
+                  {state.releasedAmount + " $NEAT"}
+                </span>{" "}
+                . The remaining balance (
+                <span style={{ color: "red", fontWeight: "bold" }}>
+                  {state.userUnstakedSeedRaw && state.releasedAmountRaw
+                    ? formatAmount(
+                        Big(state.userUnstakedSeedRaw)
+                          .sub(state.releasedAmountRaw)
+                          .toFixed(),
+                        config.neatDecimals
+                      )
+                    : "-"}
+                  {" $NEAT"}
+                </span>
+                ) will be permanently burned and lost.
+              </div>
+              <br />
+              <div>
+                Do you still wish to continue with the early withdrawal?
+              </div>
+            </div>
+            <WithdrawRow>
+              <OutlineButton
+                onClick={() => {
+                  State.update({
+                    showWithdrawConfirmModal: false,
                   });
                 }}
               >
