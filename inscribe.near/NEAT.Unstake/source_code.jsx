@@ -273,7 +273,7 @@ const RedText = styled.div`
   color: red;
   text-align: center;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
 `;
 
 const AbsoluteContainer = styled.div`
@@ -1156,8 +1156,8 @@ return (
         <FormContainer style={{ maxWidth: "500px" }}>
           <FormTitle>Please withdraw first</FormTitle>
           <RedText>
-            ***$NEAT in pending unstake status will be burned if withdraw before{" "}
-            {state.unstakeFinishedTime}***
+            $NEAT in pending unstake status will be burned if withdraw before{" "}
+            {state.unstakeFinishedTime}
           </RedText>
           <WithdrawRow>
             <div>Burn Amount</div>
