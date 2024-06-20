@@ -8,7 +8,7 @@ const {
   rewardToken,
   onLoad,
 } = props;
-
+console.log("zeroLend--", props);
 useEffect(() => {
   if (!account) return "";
 
@@ -20,6 +20,7 @@ useEffect(() => {
       name: "getRewardsData",
       params: [addr, config.rewardAddress],
     }));
+    console.log("zeroLend-data--", calls);
 
     multicall({
       abi: [
