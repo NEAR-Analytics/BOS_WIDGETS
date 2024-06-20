@@ -203,21 +203,11 @@ function getFeeApr() {
   })
   const promiseArray = []
   promiseArray.push(handleGetBaseApr(baseAprUrl))
-  promiseArray.push(asyncFetchWithPromise(`https://api.angle.money/v2/merkl?chainIds[]=${curChain.chain_id}&user=${sender}`))
+  // promiseArray.push(asyncFetchWithPromise(`https://api.angle.money/v2/merkl?chainIds[]=${curChain.chain_id}&user=${sender}`))
   Promise.all(promiseArray).then(result => {
-    const [baseAprResult, merklResult] = result
+    const [baseAprResult] = result
     for (let i = 0; i < dataList.length; i++) {
-      const vaultAddress = addresses[dataList[i].id]
-      const poolAddress = dataList[i].poolAddress
-      let almAPR = null
-      try {
-        const merkl = merklResult[curChain.chain_id]?.pools[ethers.utils.getAddress(poolAddress)]
-        const alm = merkl?.alm[ethers.utils.getAddress(vaultAddress)]
-        almAPR = alm?.almAPR ?? 0
-      } catch (error) {
-        almAPR = 0
-      }
-      dataList[i].feeApr = Big(baseAprResult[i]?.apr ?? 0).plus(almAPR).toFixed(2) + '%'
+      dataList[i].feeApr = Big(baseAprResult[i]?.apr ?? 0).toFixed(2) + '%'
     }
     formatedData("getFeeApr")
   }).catch(error => {
