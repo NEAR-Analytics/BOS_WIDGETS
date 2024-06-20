@@ -6,6 +6,7 @@ const StyledHeader = styled.div`
 `;
 
 const { dexConfig, CHAIN_LIST, curChain, onSwitchChain } = props;
+console.log("CHAIN_LIST--", CHAIN_LIST);
 let tabsArray = [
   { key: "LP", label: "LP" },
   { key: "MANAGED", label: "Managed" },
