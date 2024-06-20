@@ -14,49 +14,34 @@ const {
   BalancePrice,
   StyledButtonList,
   StyledButton,
+  CycleWrap,
+  TokenImg,
 } = VM.require("bluebiu.near/widget/Staking.Teahouse.Styles");
 const ABI = [
   {
     inputs: [
-      { internalType: "uint256", name: "_shares", type: "uint256" },
-      { internalType: "uint256", name: "_amount0Max", type: "uint256" },
-      { internalType: "uint256", name: "_amount1Max", type: "uint256" },
+      { internalType: "uint256", name: "_assets", type: "uint256" },
+      { internalType: "address", name: "_receiver", type: "address" },
     ],
-    name: "deposit",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "depositedAmount0",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "depositedAmount1",
-        type: "uint256",
-      },
-    ],
+    name: "claimAndRequestDeposit",
+    outputs: [{ internalType: "uint256", name: "assets", type: "uint256" }],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
     inputs: [
       { internalType: "uint256", name: "_shares", type: "uint256" },
-      { internalType: "uint256", name: "_amount0Min", type: "uint256" },
-      { internalType: "uint256", name: "_amount1Min", type: "uint256" },
+      { internalType: "address", name: "_owner", type: "address" },
     ],
-    name: "withdraw",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "withdrawnAmount0",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "withdrawnAmount1",
-        type: "uint256",
-      },
-    ],
+    name: "claimAndRequestWithdraw",
+    outputs: [{ internalType: "uint256", name: "shares", type: "uint256" }],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "_receiver", type: "address" }],
+    name: "claimOwedAssets",
+    outputs: [{ internalType: "uint256", name: "assets", type: "uint256" }],
     stateMutability: "nonpayable",
     type: "function",
   },
@@ -81,65 +66,22 @@ const defaultDeposit = props.tab === "deposit" || !props.tab;
 const curPositionUSD = userPositions[data.vaultAddress]?.balanceUSD;
 
 State.init({
-  isDeposit: defaultDeposit,
+  isDeposit: true,
   lpBalance: "",
   balances: [],
   amount0: "",
-  amount1: "",
   lpAmount: "",
   isError: false,
   isLoading: false,
   isToken0Approved: true,
-  isToken1Approved: true,
   isToken0Approving: false,
-  isToken1Approving: false,
   loadingMsg: "",
   isPostTx: false,
   showPairs: false,
   updater: 0,
 });
 
-const getFromDepositAmount = (depositAmount, tokenDecimal) => {
-  let a = new Big(depositAmount[0].toString());
-  let b = new Big(depositAmount[1].toString());
-
-  if (a.eq(0) && b.eq(0)) return "0";
-
-  let diff;
-  let midpoint;
-  if (a.gt(b)) {
-    diff = a.minus(b);
-    midpoint = diff.div(new Big(2)).plus(b);
-  } else {
-    diff = b.minus(a);
-    midpoint = diff.div(new Big(2)).plus(a);
-  }
-
-  for (let i = tokenDecimal; i > 0; i--) {
-    const midpointFixed = midpoint
-      .div(new Big(10).pow(tokenDecimal))
-      .toFixed(i);
-    if (
-      a.div(Big(10).pow(tokenDecimal)).lte(midpointFixed) &&
-      b.div(Big(10).pow(tokenDecimal)).gte(midpointFixed)
-    ) {
-      return midpointFixed;
-    }
-  }
-
-  return "0";
-};
-
-const {
-  vaultAddress,
-  token0,
-  token1,
-  decimals0,
-  decimals1,
-  totalAmount0,
-  totalAmount1,
-  totalSupply,
-} = data;
+const { vaultAddress, token0, decimals0, totalAmount0, totalSupply } = data;
 
 function isValid(a) {
   if (!a) return false;
@@ -148,63 +90,6 @@ function isValid(a) {
   return true;
 }
 
-function calcAmount1(_amount0Input) {
-  if (!isValid(_amount0Input)) return 0;
-  const _amount1 = Big(totalAmount1)
-    .div(totalAmount0)
-    .times(_amount0Input)
-    .toFixed(decimals1, 0);
-  return _amount1;
-}
-function calcAmount0(_amount1Input) {
-  if (!isValid(_amount1Input)) return 0;
-  const _amount0 = Big(totalAmount0)
-    .div(totalAmount1)
-    .times(_amount1Input)
-    .toFixed(decimals0, 0);
-  return _amount0;
-}
-function calcShares(_amount0Input) {
-  if (!isValid(_amount0Input)) return 0;
-  const _shares = Big(_amount0Input)
-    .times(totalSupply)
-    .div(totalAmount0)
-    .div(Math.pow(10, 12))
-    .toFixed(4, 0);
-  return _shares;
-}
-function calcShareToTokens(_shares) {
-  const _token0 = Big(_shares)
-    .times(Math.pow(10, 12))
-    .times(totalAmount0)
-    .div(totalSupply)
-    .times(0.99)
-    .toString();
-  const _token1 = Big(_shares)
-    .times(Math.pow(10, 12))
-    .times(totalAmount1)
-    .div(totalSupply)
-    .times(0.99)
-    .toString();
-  console.log("sharesToToken--", _token0, _token1);
-  return { _token0, _token1 };
-}
-
-const updateLPBalance = () => {
-  console.log("updateLPBalance--");
-  const abi = ["function balanceOf(address) view returns (uint256)"];
-  const vaultContract = new ethers.Contract(
-    vaultAddress,
-    abi,
-    Ethers.provider()
-  );
-  vaultContract.balanceOf(account).then((balanceBig) => {
-    const adjustedBalance = formatUnits(balanceBig, 18);
-    State.update({
-      lpBalance: adjustedBalance,
-    });
-  });
-};
 const updateBalance = (token) => {
   console.log("updateBalance--", token, account);
   const { address, decimals, symbol } = token;
@@ -255,21 +140,17 @@ useEffect(() => {
   [{ symbol: token0, address: addresses[token0], decimals: decimals0 }].map(
     updateBalance
   );
-
-  updateLPBalance();
 }, [account, token0, state.updater]);
 
 const {
   isDeposit,
   balances,
   amount0,
-  amount1,
+
   isLoading,
   isError,
   isToken0Approved,
-  isToken1Approved,
   isToken0Approving,
-  isToken1Approving,
   loadingMsg,
   lpBalance,
   lpAmount,
@@ -279,9 +160,8 @@ const {
 // const detailLoading = Object.keys(balances).length < 2 && lpBalance === "";
 const detailLoading = false;
 
-const checkApproval = (token0Amount, token1Amount) => {
+const checkApproval = (token0Amount) => {
   const token0Wei = parseUnits(Big(token0Amount).toFixed(decimals0), decimals0);
-  const token1Wei = parseUnits(Big(token1Amount).toFixed(decimals1), decimals1);
 
   const abi = [
     "function allowance(address, address) external view returns (uint256)",
@@ -301,37 +181,19 @@ const checkApproval = (token0Amount, token1Amount) => {
       });
     })
     .catch((e) => console.log(e));
-
-  const token1Contract = new ethers.Contract(
-    addresses[token1],
-    abi,
-    Ethers.provider()
-  );
-
-  token1Contract
-    .allowance(account, vaultAddress)
-    .then((allowance1) => {
-      State.update({
-        isToken1Approved: !new Big(allowance1.toString()).lt(token1Wei),
-      });
-    })
-    .catch((e) => console.log(e));
 };
 const changeMode = (isDeposit) => {
   State.update({ isDeposit });
 };
 
-const handleMax = (isToken0) => {
-  if (isToken0) handleToken0Change(balances[token0]);
-  else handleToken1Change(balances[token1]);
+const handleMax = () => {
+  handleToken0Change(balances[token0]);
 };
 const handleToken0Change = (amount) => {
   State.update({ amount0: amount });
   if (Number(amount) === 0) {
     State.update({
-      amount1: "",
       isToken0Approved: true,
-      isToken1Approved: true,
     });
     return;
   }
@@ -342,34 +204,8 @@ const handleToken0Change = (amount) => {
     loadingMsg: "Computing deposit amount...",
   });
 
-  const amount1 = calcAmount1(amount);
-  State.update({ amount1 });
   State.update({ isLoading: false });
-  checkApproval(amount, amount1);
-};
-
-const handleToken1Change = (amount) => {
-  State.update({ amount1: amount });
-
-  if (Number(amount) === 0) {
-    State.update({
-      amount0: "",
-      isToken0Approved: true,
-      isToken1Approved: true,
-    });
-    return;
-  }
-
-  State.update({
-    isLoading: true,
-    isError: false,
-    loadingMsg: "Computing deposit amount...",
-  });
-
-  const amount0 = calcAmount0(amount);
-  State.update({ amount0 });
-  State.update({ isLoading: false });
-  checkApproval(amount0, amount);
+  checkApproval(amount);
 };
 
 const handleLPChange = (amount) => {
@@ -379,14 +215,10 @@ const handleLPChange = (amount) => {
 };
 
 const handleApprove = (isToken0) => {
-  const _token = isToken0 ? token0 : token1;
-  const payload = isToken0
-    ? { isToken0Approving: true }
-    : { isToken1Approving: true };
+  const _token = token0;
+  const payload = { isToken0Approving: true };
 
-  const amount = isToken0
-    ? Big(amount0).toFixed(decimals0)
-    : Big(amount1).toFixed(decimals1);
+  const amount = Big(amount0).toFixed(decimals0);
 
   const toastId = toast?.loading({
     title: `Approve ${amount} ${_token}`,
@@ -398,7 +230,7 @@ const handleApprove = (isToken0) => {
     loadingMsg: `Approving ${_token}...`,
   });
 
-  const tokenWei = parseUnits(amount, isToken0 ? decimals0 : decimals1);
+  const tokenWei = parseUnits(amount, decimals0);
 
   const abi = ["function approve(address, uint) public"];
 
@@ -412,9 +244,7 @@ const handleApprove = (isToken0) => {
     .approve(vaultAddress, tokenWei)
     .then((tx) => tx.wait())
     .then((receipt) => {
-      const payload = isToken0
-        ? { isToken0Approved: true, isToken0Approving: false }
-        : { isToken1Approved: true, isToken1Approving: false };
+      const payload = { isToken0Approved: true, isToken0Approving: false };
 
       State.update({ ...payload, isLoading: false, loadingMsg: "" });
       toast?.dismiss(toastId);
@@ -431,7 +261,6 @@ const handleApprove = (isToken0) => {
         isLoading: false,
         loadingMsg: error,
         isToken0Approving: false,
-        isToken1Approving: false,
       });
       toast?.dismiss(toastId);
       toast?.fail({
@@ -452,15 +281,9 @@ const handleDeposit = () => {
     loadingMsg: "Depositing...",
   });
 
-  const token0Wei = parseUnits(
-    Big(amount0).times(1.01).toFixed(decimals0),
-    decimals0
-  );
-  const token1Wei = parseUnits(
-    Big(amount1).times(1.01).toFixed(decimals1),
-    decimals1
-  );
-  const _shares = parseUnits(calcShares(amount0));
+  const token0Wei = parseUnits(Big(amount0).toFixed(decimals0), decimals0);
+
+  // const _shares = parseUnits(calcShares(amount0));
 
   const depositContract = new ethers.Contract(
     vaultAddress,
@@ -468,7 +291,7 @@ const handleDeposit = () => {
     Ethers.provider().getSigner()
   );
   depositContract
-    .deposit(_shares, token0Wei, token1Wei, {
+    .claimAndRequestDeposit(token0Wei, account, {
       gasLimit: 4000000,
     })
     .then((tx) => {
@@ -481,7 +304,6 @@ const handleDeposit = () => {
         type: "Liquidity",
         action: "Deposit",
         token0,
-        token1,
         amount: amount0,
         template: defaultDex,
         status: status,
@@ -492,7 +314,6 @@ const handleDeposit = () => {
 
       State.update({
         amount0: "",
-        amount1: "",
         isLoading: false,
         isPostTx: true,
         updater: new Date().getTime(),
@@ -523,6 +344,76 @@ const handleDeposit = () => {
     });
 };
 
+const handleRedeem = () => {
+  const toastId = toast?.loading({
+    title: `Redeeming...`,
+  });
+  State.update({
+    isLoading: true,
+    isError: false,
+    loadingMsg: "Redeeming...",
+  });
+
+  const lpWeiAmount = parseUnits(Big(lpAmount).toFixed(18));
+
+  const withdrawContract = new ethers.Contract(
+    vaultAddress,
+    ABI,
+    Ethers.provider().getSigner()
+  );
+
+  withdrawContract
+    .claimAndRequestWithdraw(lpWeiAmount, account, {
+      gasLimit: 4000000,
+    })
+    .then((tx) => {
+      return tx.wait();
+    })
+    .then((receipt) => {
+      State.update({
+        lpAmount: "",
+        isLoading: false,
+        isPostTx: true,
+        updater: new Date().getTime(),
+      });
+
+      const { status, transactionHash } = receipt;
+
+      // addAction?.({
+      //   type: "Liquidity",
+      //   action: "Withdraw",
+      //   token0,
+      //   amount: lpAmount,
+      //   template: defaultDex,
+      //   status: status,
+      //   add: false,
+      //   transactionHash,
+      //   chain_id: state.chainId,
+      // });
+
+      setTimeout(() => State.update({ isPostTx: false }), 10_000);
+
+      toast?.dismiss(toastId);
+      toast?.success({
+        title: "Redeem Successfully!",
+      });
+      onSuccess?.();
+    })
+    .catch((error) => {
+      State.update({
+        isError: true,
+        isLoading: false,
+        loadingMsg: error,
+      });
+      toast?.dismiss(toastId);
+      toast?.fail({
+        title: "Redeem Failed!",
+        text: error?.message?.includes("user rejected transaction")
+          ? "User rejected transaction"
+          : error?.message ?? "",
+      });
+    });
+};
 const handleWithdraw = () => {
   const toastId = toast?.loading({
     title: `Withdrawing...`,
@@ -534,9 +425,7 @@ const handleWithdraw = () => {
   });
 
   const lpWeiAmount = parseUnits(Big(lpAmount).toFixed(18));
-  const { _token0, _token1 } = calcShareToTokens(lpAmount);
-  const token0Amount = parseUnits(Big(_token0).toFixed(decimals0), decimals0);
-  const token1Amount = parseUnits(Big(_token1).toFixed(decimals1), decimals1);
+
   const withdrawContract = new ethers.Contract(
     vaultAddress,
     ABI,
@@ -544,7 +433,7 @@ const handleWithdraw = () => {
   );
 
   withdrawContract
-    .withdraw(lpWeiAmount, token0Amount, token1Amount, {
+    .claimOwedAssets(account, {
       gasLimit: 4000000,
     })
     .then((tx) => {
@@ -564,7 +453,6 @@ const handleWithdraw = () => {
         type: "Liquidity",
         action: "Withdraw",
         token0,
-        token1,
         amount: lpAmount,
         template: defaultDex,
         status: status,
@@ -597,47 +485,20 @@ const handleWithdraw = () => {
     });
 };
 
-const isInSufficient =
-  Number(amount0) > Number(balances[token0]) ||
-  Number(amount1) > Number(balances[token1]);
+const isInSufficient = Number(amount0) > Number(balances[token0]);
 
-const isWithdrawInsufficient = Number(lpAmount) > Number(lpBalance);
+const isWithdrawInsufficient = Number(lpAmount) > Number(data?.shares);
 
 const balance0 =
   !amount0 || !prices?.[token0]
     ? "-"
     : parseFloat(Big(amount0).times(prices[token0]).toFixed(4));
 
-const balance1 =
-  !amount1 || !prices?.[token1]
-    ? "-"
-    : parseFloat(Big(amount1).times(prices[token1]).toFixed(4));
-
-const balanceLp =
-  !lpAmount || !lpBalance || !curPositionUSD
-    ? "-"
-    : parseFloat(
-        Big(lpAmount)
-          .div(Big(lpBalance).gt(0) ? lpBalance : 1)
-          .times(curPositionUSD)
-          .toFixed(4)
-      );
-
-const onUpdateLpPercent = (percent) => {
-  State.update({
-    lpPercent: percent,
-  });
-};
-
-const onChangeSlider = (percent) => {
-  console.log("percent: ", percent);
-  const newLpValue = Big(percent)
-    .div(100)
-    .times(lpBalance || 0)
-    .toFixed(6);
-
-  handleLPChange(newLpValue);
-};
+// const onUpdateLpPercent = (percent) => {
+//   State.update({
+//     lpPercent: percent,
+//   });
+// };
 
 useEffect(() => {
   if (amount0) {
@@ -661,6 +522,17 @@ return (
         Withdraw
       </FilterButton>
     </FilterButtonList>
+    <CycleWrap>
+      <span>Round #{data?.cycleIndex} in progress</span>
+      <span className="times">
+        <Widget
+          src="bluebiu.near/widget/Utils.CountDown"
+          props={{
+            time: data?.fundingLockTimestamp - Date.now() / 1000,
+          }}
+        />
+      </span>
+    </CycleWrap>
     {detailLoading ? (
       <div style={{ padding: "30px 0 45px" }}>
         <Widget
@@ -710,12 +582,9 @@ return (
                 <StyledButton disabled>InSufficient Balance</StyledButton>
               )}
               {!isInSufficient &&
-                (isToken0Approved &&
-                isToken1Approved &&
-                !isToken0Approving &&
-                !isToken1Approving ? (
+                (isToken0Approved && !isToken0Approving ? (
                   <StyledButton
-                    disabled={isLoading || !amount0 || !amount1}
+                    disabled={isLoading || !amount0}
                     onClick={handleDeposit}
                   >
                     {isLoading ? (
@@ -738,21 +607,47 @@ return (
                         </>
                       )}
                     </StyledButton>
-                    <StyledButton
-                      disabled={isToken1Approved || isToken1Approving}
-                      onClick={() => handleApprove(false)}
-                    >
-                      {isToken1Approving ? (
-                        <Widget src="bluebiu.near/widget/Liquidity.Bridge.Loading" />
-                      ) : (
-                        <>
-                          {isToken1Approved ? "Approved" : "Approve"} {token1}
-                        </>
-                      )}
-                    </StyledButton>
                   </>
                 ))}
             </StyledButtonList>
+            <CycleWrap>
+              <span
+                className="assets"
+                title="Amount will be deployed after processing.
+This may take up to 2 workdays in the UTC+8 timezone."
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  className="svg"
+                >
+                  <path fill="#8DC0D6" d="M6 4h12v.895H6z"></path>
+                  <path
+                    fill="#8DC0D6"
+                    fill-rule="evenodd"
+                    d="M8.23 4.895H7.154V8.1a4.846 4.846 0 1 0 9.693 0V4.895h-1.078v3.388a3.77 3.77 0 1 1-7.539 0V4.895Z"
+                    clip-rule="evenodd"
+                  ></path>
+                  <path fill="#8DC0D6" d="M18 21H6v-.895h12z"></path>
+                  <path
+                    fill="#8DC0D6"
+                    fill-rule="evenodd"
+                    d="M15.77 20.105h1.076V16.9a4.846 4.846 0 1 0-9.693 0v3.206h1.078v-3.388a3.77 3.77 0 1 1 7.539 0v3.388Z"
+                    clip-rule="evenodd"
+                  ></path>
+                  <path
+                    fill="#F4D2B9"
+                    d="M9.308 7.579h5.384v.886a2.692 2.692 0 0 1-5.384 0V7.58ZM8.23 17.421h7.538v2.684H8.23z"
+                  ></path>
+                </svg>
+                <span className="title">Pending</span>
+              </span>
+              <span className="assets">
+                <TokenImg src={ICON_VAULT_MAP[token0]} alt={token0} />
+                {formatUnits(data?.pendingAssets, decimals0)}
+              </span>
+            </CycleWrap>
           </>
         ) : (
           <>
@@ -764,35 +659,17 @@ return (
                     type="number"
                     onChange={(e) => {
                       handleLPChange(e.target.value);
-
-                      const value = e.target.value;
-
-                      if (!value) {
-                        onUpdateLpPercent(0);
-                      }
-
-                      if (value && Big(value).gt(0)) {
-                        const newSliderPercent = Big(value || 0)
-                          .div(Big(lpBalance).gt(0) ? lpBalance : 1)
-                          .times(100)
-                          .toFixed(0);
-                        onUpdateLpPercent(newSliderPercent);
-                      }
                     }}
                   />
 
                   <InputSuffix>
                     <StyledImageList>
-                      <img src={ICON_VAULT_MAP[token0]} alt={token0} />
                       <img
-                        src={ICON_VAULT_MAP[token1]}
-                        alt={token1}
-                        style={{ marginLeft: -6 }}
+                        src="https://ipfs.near.social/ipfs/bafkreid5qrwbz7xq56opxfhi5pxukxf2kxs53ciuxpnhfqugaf7c4rw4jy"
+                        alt=""
                       />
                     </StyledImageList>
-                    <span>
-                      {token0}/{token1}
-                    </span>
+                    {/* <span>{token0}</span> */}
                   </InputSuffix>
                 </InputWrap>
                 <PriceWrap>
@@ -801,17 +678,10 @@ return (
                     Balance:{" "}
                     <span
                       onClick={() => {
-                        const newSliderPercent = Big(lpBalance || 0)
-                          .div(Big(lpBalance).gt(0) ? lpBalance : 1)
-                          .times(100)
-                          .toFixed(0);
-
-                        onUpdateLpPercent(newSliderPercent);
-
-                        handleLPChange(lpBalance);
+                        handleLPChange(data?.shares);
                       }}
                     >
-                      {Number(lpBalance).toFixed(6)}
+                      {Number(data?.shares).toFixed(4)}
                     </span>
                     Shares
                   </BalancePrice>
@@ -821,18 +691,108 @@ return (
             <StyledButtonList>
               <StyledButton
                 disabled={
-                  isWithdrawInsufficient || isLoading || Number(lpAmount) <= 0
+                  true
+                  // isWithdrawInsufficient || isLoading || Number(lpAmount) <= 0
                 }
-                onClick={handleWithdraw}
+                onClick={handleRedeem}
               >
                 {isLoading ? (
                   <Widget src="bluebiu.near/widget/Liquidity.Bridge.Loading" />
                 ) : (
                   <>
-                    {isWithdrawInsufficient
-                      ? "InSufficient Balance"
-                      : "Withdraw"}
+                    {isWithdrawInsufficient ? "InSufficient Balance" : "Redeem"}
                   </>
+                )}
+              </StyledButton>
+            </StyledButtonList>
+            <CycleWrap>
+              <span
+                className="assets"
+                title={`Amount will be exchanged back into ${token0} after processing.
+This may take up to 2 workdays in the UTC+8 timezone.`}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  className="svg"
+                >
+                  <path fill="#8DC0D6" d="M6 4h12v.895H6z"></path>
+                  <path
+                    fill="#8DC0D6"
+                    fill-rule="evenodd"
+                    d="M8.23 4.895H7.154V8.1a4.846 4.846 0 1 0 9.693 0V4.895h-1.078v3.388a3.77 3.77 0 1 1-7.539 0V4.895Z"
+                    clip-rule="evenodd"
+                  ></path>
+                  <path fill="#8DC0D6" d="M18 21H6v-.895h12z"></path>
+                  <path
+                    fill="#8DC0D6"
+                    fill-rule="evenodd"
+                    d="M15.77 20.105h1.076V16.9a4.846 4.846 0 1 0-9.693 0v3.206h1.078v-3.388a3.77 3.77 0 1 1 7.539 0v3.388Z"
+                    clip-rule="evenodd"
+                  ></path>
+                  <path
+                    fill="#F4D2B9"
+                    d="M9.308 7.579h5.384v.886a2.692 2.692 0 0 1-5.384 0V7.58ZM8.23 17.421h7.538v2.684H8.23z"
+                  ></path>
+                </svg>
+                <span className="title">Pending</span>
+              </span>
+              <span className="assets">
+                <TokenImg
+                  src="https://ipfs.near.social/ipfs/bafkreid5qrwbz7xq56opxfhi5pxukxf2kxs53ciuxpnhfqugaf7c4rw4jy"
+                  alt=""
+                />
+                {data?.requestedWithdrawals}
+              </span>
+            </CycleWrap>
+            <CycleWrap>
+              <span
+                className="assets"
+                title="Amount ready to be claimed and moved to your wallet"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  className="svg"
+                >
+                  <path
+                    fill="#8DC0D6"
+                    d="M4.455 20.727H17.69v1.026H4.455v-1.026Z"
+                  ></path>
+                  <path
+                    stroke="#8DC0D6"
+                    stroke-width="1.2"
+                    d="M5.054 8.237h11.891v9a1.8 1.8 0 0 1-1.8 1.8h-8.29a1.8 1.8 0 0 1-1.8-1.8v-9Z"
+                  ></path>
+                  <path
+                    stroke="#8DC0D6"
+                    stroke-width="1.3"
+                    d="M18 9.35h-.65v4.573h2.032c.8 0 1.45-.65 1.45-1.45V10.8c0-.8-.65-1.45-1.45-1.45H18Z"
+                  ></path>
+                  <path
+                    fill="#F4D2B9"
+                    d="m9.95 16.257-2.128-2.378a.397.397 0 0 1 0-.517l.463-.517a.304.304 0 0 1 .463 0l1.433 1.601 3.07-3.43a.304.304 0 0 1 .462 0l.463.518a.397.397 0 0 1 0 .517l-3.764 4.206a.304.304 0 0 1-.462 0Z"
+                  ></path>
+                  <path
+                    fill="#FFE9D9"
+                    d="M8.528 2.247h1.018v3.08H8.528zM12.602 3.273h1.018v2.053h-1.018z"
+                  ></path>
+                </svg>
+                <span className="title">Ready</span>
+              </span>
+              <span className="assets">
+                <TokenImg src={ICON_VAULT_MAP[token0]} alt={token0} />
+                {/* {formatUnits(data?.pendingAssets, decimals0)} */}
+              </span>
+            </CycleWrap>
+            <StyledButtonList>
+              <StyledButton disabled={true} onClick={handleWithdraw}>
+                {isLoading ? (
+                  <Widget src="bluebiu.near/widget/Liquidity.Bridge.Loading" />
+                ) : (
+                  "Withdraw"
                 )}
               </StyledButton>
             </StyledButtonList>
