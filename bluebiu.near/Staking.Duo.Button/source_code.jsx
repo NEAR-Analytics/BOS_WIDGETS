@@ -464,15 +464,14 @@ function handleDepositErc20() {
     ],
     Ethers.provider().getSigner()
   );
-  const contractOption = {
-    gasLimit: gas || 4000000,
-  }
+  const contractOption = {}
   if (DEPOSIT_POOL_ABI_LATEST.stateMutability === 'payable') {
     if (['ETH'].includes(tokenSymbol)) {
       contractOption.value = parseUnits(amountShown, tokenDecimals);
     }
   }
   const getTx = (gas) => {
+    contractOption.gasLimit = gas || 4000000;
     contract[DEPOSIT_POOL_ABI_LATEST.name](...params, contractOption)
       .then((tx) => {
         tx.wait()
