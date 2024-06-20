@@ -67,7 +67,6 @@ const Container = styled.div`
 const Content = styled.div`
   width: 100%;
   height: 100%;
-  background: var(--bg-1, #000);
 `;
 // const Template = config.Template ?? (({children}) => <>{children}</>);
 return (
@@ -77,7 +76,7 @@ return (
         {...(config.layout?.props ?? { variant: "standard" })}
         blocks={config.blocks}
       >
-        <Content>
+        <Content className="content">
           <Router config={config.router} {...passProps} />
         </Content>
       </Layout>
