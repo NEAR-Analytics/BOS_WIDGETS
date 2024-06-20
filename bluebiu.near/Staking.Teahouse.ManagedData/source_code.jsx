@@ -44,10 +44,57 @@ const ABI = [
   },
   {
     inputs: [],
-    name: "vaultAllUnderlyingAssets",
+    name: "globalState",
     outputs: [
-      { internalType: "uint256", name: "amount0", type: "uint256" },
-      { internalType: "uint256", name: "amount1", type: "uint256" },
+      { internalType: "uint128", name: "depositLimit", type: "uint128" },
+      { internalType: "uint128", name: "lockedAssets", type: "uint128" },
+      { internalType: "uint32", name: "cycleIndex", type: "uint32" },
+      {
+        internalType: "uint64",
+        name: "cycleStartTimestamp",
+        type: "uint64",
+      },
+      {
+        internalType: "uint64",
+        name: "fundingLockTimestamp",
+        type: "uint64",
+      },
+      { internalType: "bool", name: "fundClosed", type: "bool" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "_owner", type: "address" }],
+    name: "requestedFunds",
+    outputs: [
+      { internalType: "uint256", name: "assets", type: "uint256" },
+      { internalType: "uint256", name: "shares", type: "uint256" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "userState",
+    outputs: [
+      {
+        internalType: "uint128",
+        name: "requestedDeposits",
+        type: "uint128",
+      },
+      { internalType: "uint128", name: "owedShares", type: "uint128" },
+      {
+        internalType: "uint128",
+        name: "requestedWithdrawals",
+        type: "uint128",
+      },
+      { internalType: "uint128", name: "owedAssets", type: "uint128" },
+      {
+        internalType: "uint32",
+        name: "requestCycleIndex",
+        type: "uint32",
+      },
     ],
     stateMutability: "view",
     type: "function",
@@ -65,14 +112,16 @@ useEffect(() => {
   }
   let count = 0;
   let _pairsDataRes = {};
+  let _vaultStateRes = [];
+  let _userStateRes = [];
+  let _shareInfo = {};
   let _totalSupplyRes = [];
-  let _underlyingAssetsRes = [];
   let _userPositionsRes = [];
 
   function formatData(params) {
     console.log(params, count);
 
-    if (count < 1) return;
+    if (count < 4) return;
     count = 0;
 
     for (let i = 0; i < managed.length; i++) {
@@ -82,36 +131,33 @@ useEffect(() => {
       managed[i].APR = Big(shareTokenApr).div(10000).toFixed(2, 0);
       managed[i].AUM = Big(tvl).div(1000000).toString();
       // let _totalSupply = _totalSupplyRes[i][0].toString();
-      // let _totalAmount0 = _underlyingAssetsRes[i][0].toString();
-      // let _totalAmount1 = _underlyingAssetsRes[i][1].toString();
-      // let _shares = _userPositionsRes[i]
-      //   ? formatUnits(_userPositionsRes[i][0])
-      //   : 0;
-      // pairs[i].totalSupply = _totalSupply;
-      // pairs[i].totalAmount0 = _totalAmount0;
-      // pairs[i].totalAmount1 = _totalAmount1;
-      // pairs[i].shares = _shares;
-      // pairs[i].shares = _userPositionsRes[i]
-      //   ? formatUnits(_userPositionsRes[i][0])
-      //   : 0;
-      // if (_userPositionsRes[i]) {
-      //   let _token0Amount = Big(_shares)
-      //     .times(_totalAmount0)
-      //     .div(_totalSupply)
-      //     .toString();
-      //   let _token1Amount = Big(_shares)
-      //     .times(_totalAmount1)
-      //     .div(_totalSupply)
-      //     .toString();
-      //   pairs[i].token0Amount = _token0Amount;
-      //   pairs[i].token1Amount = _token1Amount;
-      //   pairs[i].token0Value = Big(_token0Amount)
-      //     .times(prices[token0] || 0)
-      //     .toString();
-      //   pairs[i].token1Value = Big(_token1Amount)
-      //     .times(prices[token0] || 0)
-      //     .toString();
-      // }
+      // let _totalAmount0 = _vaultStateRes[i][0].toString();
+      // let _totalAmount1 = _vaultStateRes[i][1].toString();
+      const [
+        depositLimit,
+        lockedAssets,
+        cycleIndex,
+        cycleStartTimestamp,
+        fundingLockTimestamp,
+        fundClosed,
+      ] = _vaultStateRes[i];
+      const [
+        requestedDeposits,
+        owedShares,
+        requestedWithdrawals,
+        owedAssets,
+        requestCycleIndex,
+      ] = _userStateRes[i];
+
+      managed[i].depositLimit = depositLimit;
+      managed[i].lockedAssets = lockedAssets;
+      managed[i].cycleIndex = cycleIndex;
+      managed[i].cycleStartTimestamp = cycleStartTimestamp;
+      managed[i].fundingLockTimestamp = fundingLockTimestamp;
+      managed[i].fundClosed = fundClosed;
+      managed[i].pendingAssets = requestedDeposits.toString();
+      managed[i].shares = formatUnits(_shareInfo["amount"]);
+      managed[i].requestedWithdrawals = formatUnits(requestedWithdrawals);
     }
 
     onLoad({
@@ -187,10 +233,10 @@ useEffect(() => {
         console.log("getTotalSupply-error--", err);
       });
   }
-  function getAllUnderlyingAssets() {
-    const calls = pairs.map((item) => ({
+  function getVaultState() {
+    const calls = managed.map((item) => ({
       address: item.vaultAddress,
-      name: "vaultAllUnderlyingAssets",
+      name: "globalState",
       //   params: [],
     }));
     multicall({
@@ -201,17 +247,58 @@ useEffect(() => {
       provider: Ethers.provider(),
     })
       .then((res) => {
-        console.log("getAllUnderlyingAssets--", res);
-        _underlyingAssetsRes = res;
+        console.log("getVaultState--", res);
+        _vaultStateRes = res;
         count++;
-        formatData("getAllUnderlyingAssets");
+        formatData("getVaultState");
       })
       .catch((err) => {
-        console.log("getAllUnderlyingAssets-error--", err);
+        console.log("getVaultState-error--", err);
+      });
+  }
+  function getUserState() {
+    const calls = managed.map((item) => ({
+      address: item.vaultAddress,
+      name: "userState",
+      params: [account],
+    }));
+    multicall({
+      abi: ABI,
+      calls,
+      options: {},
+      multicallAddress,
+      provider: Ethers.provider(),
+    })
+      .then((res) => {
+        console.log("getUserState--", res);
+        _userStateRes = res;
+        count++;
+        formatData("getUserState");
+      })
+      .catch((err) => {
+        console.log("getUserState-error--", err);
+      });
+  }
+  function getUserShares() {
+    asyncFetch(
+      `https://vault-api.teahouse.finance/vaults/managed/position/42161/${managed[0].vaultAddress}/${account}`
+    )
+      .then((res) => {
+        _shareInfo = res.body.shareInfo;
+      })
+      .catch((err) => {
+        console.log("catch-getUserShares-error--", err);
+      })
+      .finally(() => {
+        count++;
+        formatData("getUserShares");
       });
   }
 
   getPairsData();
+  getVaultState();
+  getUserState();
+  getUserShares();
   // getTotalSupply();
   // getAllUnderlyingAssets();
   // getUserPositions();
