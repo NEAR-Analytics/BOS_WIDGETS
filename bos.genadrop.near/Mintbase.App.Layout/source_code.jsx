@@ -26,7 +26,7 @@ return {
               height: "100%",
             }}
           >
-            <Header isHome={isHome.page === "home"} />
+            <Header isHome={isHome?.page === "home"} />
             <div
               className="content"
               style={{
