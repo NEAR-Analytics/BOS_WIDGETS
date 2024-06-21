@@ -99,6 +99,7 @@ return (
         // target={}
         onClick={ctx => setContext(ctx)}
         LatchComponent={ContextTypeLatch}
+        highlightChildren
       />
     ) : null}
     
