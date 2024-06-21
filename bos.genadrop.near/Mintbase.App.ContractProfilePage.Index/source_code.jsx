@@ -249,7 +249,6 @@ useEffect(() => {
 const minters =
   storeData && storeData.mb_store_minters.map((minter) => minter.minter_id);
 const connectedUserIsMinter = minters && minters?.includes(context.accountId);
-console.log("connectedUserIsMinter", connectedUserIsMinter);
 const connectedUser =
   connectedUserIsMinter &&
   context.accountId === storeData.nft_contracts[0].owner_id
