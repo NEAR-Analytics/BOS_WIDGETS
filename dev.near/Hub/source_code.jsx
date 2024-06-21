@@ -207,7 +207,7 @@ const sessionContainer = (
         message: "Welcome to NEAR.AI",
         recipient: SIGNATURE_RECIPIENT,
         callbackUrl: CALLBACK_URL,
-        apiUrl: API_URL,
+        apiUrl: `${API_URL}/auth/`,
         headers: {
           "Content-Type": "application/json",
         },
