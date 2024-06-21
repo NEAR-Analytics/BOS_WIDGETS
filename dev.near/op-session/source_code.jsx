@@ -74,11 +74,10 @@ const logout = () => {
 
 const verifySignature = () => {
   State.update({ pendingVerifySignature: true });
-  asyncFetch(`${apiUrl}/auth/`, {
+  const headers = props.headers ?? {};
+  asyncFetch(`${apiUrl}`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers,
     body: JSON.stringify({
       account_id: context.accountId,
       public_key: state.publicKey,
