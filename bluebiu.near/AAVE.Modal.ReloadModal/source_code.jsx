@@ -19,9 +19,9 @@ const ModalWrapper = styled.div`
 
 const ModalContainer = styled.div`
   width: 334px;
-  background: #262836;
+  background: var(--agg-secondary-color, #262836);
   border-radius: 16px;
-  color: white;
+  color: var(--agg-primary-color, white);
 `;
 
 const Title = styled.div`
@@ -33,7 +33,6 @@ const Title = styled.div`
 
 const ModalBody = styled.div`
   padding: 0 33px 10px;
-  color: white;
 `;
 return (
   <ModalWrapper>
