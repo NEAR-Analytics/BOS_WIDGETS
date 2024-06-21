@@ -208,6 +208,9 @@ const sessionContainer = (
         recipient: SIGNATURE_RECIPIENT,
         callbackUrl: CALLBACK_URL,
         apiUrl: API_URL,
+        headers: {
+          "Content-Type": "application/json",
+        },
         signature: hashParams?.signature,
         publicKey: hashParams?.publicKey,
         onAuth,
@@ -307,6 +310,8 @@ const filesUpload = () => {
 
     console.log("body", body);
 
+    State.update({ pendingRequest: true });
+
     asyncFetch(`${API_URL}/file_upload`, {
       method: "POST",
       headers: {
@@ -315,7 +320,7 @@ const filesUpload = () => {
       body: requestBody,
     }).then((res) => {
       console.log("res filesUpload", res);
-      State.update({ files: [] });
+      State.update({ files: [], pendingRequest: false });
     });
   }
 };
@@ -325,6 +330,7 @@ const submitUserCommand = () => {
     State.update({ userCommandPending: true });
     let commandsLog = state.commandsLog ?? [];
     commandsLog.push(state.userCommand);
+    State.update({ pendingRequest: true });
     asyncFetch(`${API_URL}/run`, {
       method: "POST",
       headers: {
@@ -349,7 +355,12 @@ const submitUserCommand = () => {
       }
 
       console.log("commandsLog", commandsLog);
-      State.update({ commandsLog, userCommand: "", userCommandPending: false });
+      State.update({
+        commandsLog,
+        userCommand: "",
+        userCommandPending: false,
+        pendingRequest: false,
+      });
     });
   }
 };
@@ -458,6 +469,7 @@ return (
             </div>
             <button
               onClick={() => {
+                State.update({ pendingRequest: true });
                 asyncFetch(`${API_URL}/run`, {
                   method: "POST",
                   headers: {
@@ -470,7 +482,10 @@ return (
                   }),
                 }).then((res) => {
                   console.log("res", res);
-                  State.update({ value1: res.ok ? res.body : "Error" });
+                  State.update({
+                    value1: res.ok ? res.body : "Error",
+                    pendingRequest: false,
+                  });
                 });
               }}
             >
@@ -482,6 +497,7 @@ return (
             <h4>Run Server</h4>
             <button
               onClick={() => {
+                State.update({ pendingRequest: true });
                 asyncFetch(`${API_URL}/start_server`, {
                   method: "POST",
                   headers: {
@@ -492,7 +508,10 @@ return (
                     account_id: context.accountId,
                   }),
                 }).then((res) => {
-                  State.update({ value2: res.ok ? res.body : "Error" });
+                  State.update({
+                    value2: res.ok ? res.body : "Error",
+                    pendingRequest: false,
+                  });
                   console.log(res);
                 });
               }}
