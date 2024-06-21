@@ -4,6 +4,9 @@ const Title = styled.div`
   font-weight: 600;
   margin: 30px 0;
 `;
+const { href } = VM.require("buildhub.near/widget/lib.url") || {
+  href: () => {},
+};
 const Bottom = styled.div`
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -82,7 +85,6 @@ const Container = styled.div`
     font-size: 17px;
     color: ${isDarkModeOn ? "#ffffff" : "#000000"};
   }
-
   .sub-text {
     color: ${isDarkModeOn ? "rgb(90, 91, 104)" : "#86868a"};
   }
@@ -104,6 +106,10 @@ const Footer = styled.div`
   gap: 30px;
   margin-top: 3rem;
   color: ${isDarkModeOn ? "#ffffff" : "#000000"};
+  .link {
+    text-decoration: none;
+    margin: 0 !important;
+  }
   .button {
     padding: 5px 20px;
     background: none;
@@ -117,59 +123,40 @@ const Footer = styled.div`
   }
 `;
 return (
-  <div style={{ marginBottom: "5rem", marginTop: "3rem" }}>
+  <div style={{ margin: "5rem 1rem" }}>
     <Title>More from this contract</Title>
     <Bottom>
       {dataNFT &&
         dataNFT.map((dt, index) => (
-          <Card
-            href={`https://www.mintbase.xyz/meta/${dt.token.metadata_id}`}
-            target="_blank"
-            className="text-decoration-none"
-            key={index}
-          >
-            <Header>
-              <div className="header">
-                <div className="layout-image">
-                  <div className="img">
-                    <img className="image" src={dt.media} alt="NFT" />
-                  </div>
-                </div>
-              </div>
-            </Header>
-            <Container>
-              <div>
-                <small className="sub-text">{dt.nft_contract_id}</small>
-                <div className="text">{dt.title}</div>
-              </div>
-              <div className="desc">
-                <div>
-                  <img
-                    height={"24px"}
-                    src="https://image-cache-service-z3w7d7dnea-ew.a.run.app/small?url=https%3A%2F%2Ffirebasestorage.googleapis.com%2Fv0%2Fb%2Fomni-live.appspot.com%2Fo%2Fprofile%252Fnearmedianft.near%253Aprofile%3Falt%3Dmedia%26token%3D696a6c76-1c87-4cb4-93f5-b6f58296a730"
-                    alt="logo"
-                  />
-                </div>
-                <small className="text-s">
-                  {dt.listed_by ? "1/1" : "Not Listed"}
-                </small>
-              </div>
-            </Container>
-          </Card>
+          <div key={index}>
+            <Widget
+              src="bos.genadrop.near/widget/Mintbase.NFT.Index"
+              props={{ data: dt, isDarkModeOn, isConnected }}
+            />
+          </div>
         ))}
     </Bottom>
     <Footer>
-      <a
-        href={`https://www.mintbase.xyz/contract/${dataNFT[0].nft_contract_id}/nfts/all/0`}
-        target="_blank"
-        style={{ color: "black" }}
-        className="button d-flex text-align-center justify-content-center text-decoration-none"
+      <Link
+        to={href({
+          widgetSrc: "bos.genadrop.near/widget/Mintbase.App.Index",
+          params: {
+            page: "contract",
+            accountId: dataNFT[0].nft_contract_id,
+          },
+        })}
+        className="link"
       >
-        See Contract
-      </a>
+        <p
+          style={{ color: "black", textDecoration: "none" }}
+          className="button d-flex text-align-center justify-content-center text-decoration-none"
+        >
+          See Contract
+        </p>
+      </Link>
       <a
         href={`https://nearblocks.io/address/${dataNFT[0].nft_contract_id}`}
-        className="button d-flex text-align-center justify-content-center text-decoration-none"
+        className="button  d-flex text-align-center justify-content-center text-decoration-none"
         target="_blank"
         style={{ border: "none", color: "black" }}
       >
