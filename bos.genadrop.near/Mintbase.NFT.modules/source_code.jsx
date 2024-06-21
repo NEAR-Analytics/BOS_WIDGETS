@@ -1,5 +1,6 @@
 const LISTING_DEPOSIT = `1000${"0".repeat(18)}`;
 const GAS = "200000000000000";
+const MAX_GAS = "300000000000000";
 const MARKET_CONTRACT_ADDRESS = {
   mainnet: "simple.market.mintbase1.near",
   testnet: "market-v2-beta.mintspace2.testnet",
@@ -51,16 +52,29 @@ const nftTransfer = (tokenId, accountIds, contractName) => {
     console.log(err);
   }
 };
+// a0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.factory.bridge.near
 const listNFT = (contractAddress, tokenIds, mainnet, price, listAmount, ft) => {
+  const storageDeposit = listAmount * 1e22;
   if (!contractAddress) return;
   if (tokenIds.length < 1) return;
-  const gas = 2e14;
-  const storageDeposit = 1e22;
-  const msg = { price: _price(price) };
+  const gas = 2.25e14;
+  // const storageDeposit = 1e22;
+  let msg = { price: _price(price) };
+  let optionalDeposit = [];
   if (ft) {
     const ftContractId = ftContracts[ft].mainnet;
     msg.ft_contract = ftContractId;
-    msg.price = Number(price) * 1000000;
+    msg.price = `${Number(price) * 1000000}`;
+    // Extra Deposit
+    optionalDeposit.push({
+      contractName: ftContracts[ft].mainnet,
+      methodName: "storage_deposit",
+      args: {
+        registration_only: true,
+      },
+      gas: gas,
+      deposit: `1250${"0".repeat(18)}`,
+    });
   }
   const ids = tokenIds.slice(0, listAmount).map((data) => ({
     contractName: contractAddress,
@@ -72,7 +86,7 @@ const listNFT = (contractAddress, tokenIds, mainnet, price, listAmount, ft) => {
       msg: JSON.stringify(msg),
     },
     methodName: "nft_approve",
-    deposit: LISTING_DEPOSIT,
+    deposit: listAmount > 1 ? `9300${"0".repeat(18)}` : LISTING_DEPOSIT,
     gas: GAS,
   }));
   try {
@@ -82,10 +96,13 @@ const listNFT = (contractAddress, tokenIds, mainnet, price, listAmount, ft) => {
           ? MARKET_CONTRACT_ADDRESS.mainnet
           : MARKET_CONTRACT_ADDRESS.testnet,
         methodName: "deposit_storage",
-        args: {},
+        args: {
+          autotransfer: true,
+        },
         gas: gas,
-        deposit: storageDeposit,
+        deposit: storageDeposit.toString(),
       },
+      ...optionalDeposit,
       ...ids,
     ]);
   } catch (error) {
@@ -142,6 +159,47 @@ function mintingDeposit({ nTokens, nRoyalties, nSplits, metadata }) {
     80 * nRoyalties;
   return `${Math.ceil(totalBytes)}${"0".repeat(19)}`;
 }
+const buyToken = (contractId, tokenId, price, mainnet, ftAddress) => {
+  if (ftAddress !== "near") {
+    //  WORK IN PROGRESS
+    return Near.call([
+      {
+        contractName: ftAddress,
+        methodName: "ft_transfer_call",
+        args: {
+          amount: price,
+          receiver_id: mainnet
+            ? MARKET_CONTRACT_ADDRESS.mainnet
+            : MARKET_CONTRACT_ADDRESS.testnet,
+          msg: JSON.stringify({
+            nft_contract_id: contractId,
+            token_id: tokenId,
+          }),
+        },
+        gas: MAX_GAS,
+        deposit: `1`,
+      },
+    ]);
+  }
+  return Near.call([
+    {
+      contractName: mainnet
+        ? MARKET_CONTRACT_ADDRESS.mainnet
+        : MARKET_CONTRACT_ADDRESS.testnet,
+      methodName: "buy",
+      args: {
+        nft_contract_id: contractId,
+        token_id: tokenId,
+        referrer_id: null,
+      },
+      gas: MAX_GAS,
+      deposit: price,
+    },
+  ]);
+};
+const buyFTToken = (contractAddress, contractId, tokenId, price) => {
+  return Near.call([{}]);
+};
 const multiplyNFT = (
   contractAddress,
   ownerId,
@@ -181,10 +239,10 @@ const multiplyNFT = (
     console.log(error);
   }
 };
-// const buyNft = (contractAddress, ownerId, reference, media, numberToMint) => {};
 return {
   nftTransfer,
   listNFT,
+  buyToken,
   delist,
   burnNFT,
   multiplyNFT,
