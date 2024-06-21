@@ -19,7 +19,7 @@ const ModalWrapper = styled.div`
 
 const ModalContainer = styled.div`
   width: 100%;
-  background: var(--bg-color, #151718);
+  background: var(--agg-bg-color, #151718);
   border-radius: 16px;
 
   @media (min-width: 640px) {
