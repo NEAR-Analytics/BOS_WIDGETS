@@ -3,10 +3,10 @@ const { children, loading, config, disabled, width, theme, ...properties } =
 
 const PrimaryButton = styled.button`
   border: 0;
-  color: var(--agg-primary-color, --button-text-color);
+  color: var(--agg-secondary-color, --button-text-color);
   background: ${loading || disabled
     ? "var(--button-disabled-color)"
-    : "var(--agg-secondary-color,--button-color)"};
+    : "var(--agg-primary-color,--button-color)"};
   border-radius: 5px;
 
   height: 40px;
