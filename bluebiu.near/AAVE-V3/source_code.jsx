@@ -1743,9 +1743,7 @@ const body = isChainSupported ? (
                   config,
                   // theme: dexConfig.theme,
                   style: {
-                    color: "#979ABE",
                     marginTop: 5,
-                    fontWeight: "normal",
                   },
                   children: "Close",
                   onClick: () => {
