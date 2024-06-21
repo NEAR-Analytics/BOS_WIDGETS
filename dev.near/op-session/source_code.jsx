@@ -76,6 +76,9 @@ const verifySignature = () => {
   State.update({ pendingVerifySignature: true });
   asyncFetch(`${apiUrl}/auth/`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
       account_id: context.accountId,
       public_key: state.publicKey,
