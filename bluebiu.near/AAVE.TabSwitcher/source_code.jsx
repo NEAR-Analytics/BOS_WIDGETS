@@ -29,7 +29,7 @@ const TabItem = styled.div`
     : "var(--button-color)"}; */
   ${(props) =>
     props.selected &&
-    "color: var(--button-text-color);background: var(--button-color);"}
+    "color: var(--agg-primary-color,--button-text-color);background: var(--agg-secondary-color,--button-color);"}
   ${(props) =>
     props.disabled &&
     `
@@ -46,8 +46,8 @@ const TabItem = styled.div`
     `
     cursor: pointer;
     &:hover {
-      color: var(--button-text-color);
-      background: var(--button-color);
+      color: var(--agg-primary-color,--button-text-color);
+      background: var(--agg-secondary-color,--button-color);
       opacity: 0.7;
     }
   `}
