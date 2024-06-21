@@ -87,8 +87,6 @@ const Latch = styled.div`
 const ContextTypeLatch = ({ context }) => {
   if (context.type === 'timeline') {
     return <Latch>Latch over the timeline</Latch>
-  } else if (context.type === 'postSouthButton' && context.id === 'like') {
-    return <button>Like Latch</button>
   } else {
     return null
   }
