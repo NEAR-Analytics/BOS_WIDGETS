@@ -14,7 +14,7 @@ const SwitchContainer = styled.div`
     top: 50px;
     min-width: 260px;
 
-    background: #151718;
+    background: var(--bg-color, #151718);
     padding: 20px 16px;
     border-radius: 10px;
     font-size: 12px;
@@ -54,7 +54,7 @@ const DropdownMobile = styled.div`
   left: 0;
   bottom: 0;
   width: 100%;
-  background: #151718;
+  background: var(--bg-color, #151718);
 
   display: flex;
   flex-direction: column;
