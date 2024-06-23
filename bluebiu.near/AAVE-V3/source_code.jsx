@@ -6,7 +6,11 @@ const Wrap = styled.div`
   font-family: Gantari;
 `;
 
-const FlexContainer = styled.div``;
+const FlexContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
 
 const ChainsWrap = styled.div`
   display: flex;
@@ -1477,7 +1481,41 @@ console.log("STATE: ", state);
 
 const body = isChainSupported ? (
   <Wrap>
+    <Widget
+      src={`${config.ownerId}/widget/AAVE.HeroData`}
+      props={{
+        config,
+        netWorth: `$ ${
+          state.netWorthUSD ? Big(state.netWorthUSD || 0).toFixed(2) : "-"
+        }`,
+        netAPY: `${
+          state.netAPY
+            ? Number(
+                Big(state.netAPY || 0)
+                  .times(100)
+                  .toFixed(2)
+              )
+            : "-"
+        }%`,
+        healthFactor: formatHealthFactor(state.healthFactor),
+        totalMarketSize: state.totalMarketSize,
+        totalAvailable: state.totalAvailable,
+        totalBorrows: state.totalBorrows,
+        theme: dexConfig?.theme,
+        yourBorrows: state.yourBorrows,
+      }}
+    />
+
     <FlexContainer>
+      <Widget
+        src={`${config.ownerId}/widget/AAVE.TabSwitcher`}
+        props={{
+          config,
+          theme: dexConfig?.theme,
+          select: state.selectTab,
+          setSelect: (tabName) => State.update({ selectTab: tabName }),
+        }}
+      />
       <ChainsWrap>
         <Widget
           src="bluebiu.near/widget/Lending.Chains"
@@ -1493,40 +1531,7 @@ const body = isChainSupported ? (
           }}
         />
       </ChainsWrap>
-      <Widget
-        src={`${config.ownerId}/widget/AAVE.HeroData`}
-        props={{
-          config,
-          netWorth: `$ ${
-            state.netWorthUSD ? Big(state.netWorthUSD || 0).toFixed(2) : "-"
-          }`,
-          netAPY: `${
-            state.netAPY
-              ? Number(
-                  Big(state.netAPY || 0)
-                    .times(100)
-                    .toFixed(2)
-                )
-              : "-"
-          }%`,
-          healthFactor: formatHealthFactor(state.healthFactor),
-          totalMarketSize: state.totalMarketSize,
-          totalAvailable: state.totalAvailable,
-          totalBorrows: state.totalBorrows,
-          theme: dexConfig?.theme,
-          yourBorrows: state.yourBorrows,
-        }}
-      />
     </FlexContainer>
-    <Widget
-      src={`${config.ownerId}/widget/AAVE.TabSwitcher`}
-      props={{
-        config,
-        theme: dexConfig?.theme,
-        select: state.selectTab,
-        setSelect: (tabName) => State.update({ selectTab: tabName }),
-      }}
-    />
     {state.selectTab === "MARKET" && (
       <>
         <Widget
