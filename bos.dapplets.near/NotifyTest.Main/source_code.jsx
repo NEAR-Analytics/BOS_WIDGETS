@@ -51,6 +51,7 @@ const handleTxClick = () => {
     type: "info",
     subject: "This Tx",
     body: "Text Tx",
+    onClick: () => console.log("onClick"),
     actions: [
       {
         label: "OK",
