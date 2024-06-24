@@ -12,6 +12,8 @@ const COLOR_DIFF_ADD = "#D0FFD0";
 
 const [showRegenerateResponseDialog, setShowRegenerateResponseDialog] =
   useState(false);
+const [showRemoveAnnotationDialog, setShowRemoveAnnotationDialog] =
+  useState(false);
 const [regenerateResponseFromIndex, setRegenerateResponseFromIndex] =
   useState(-1);
 
@@ -957,6 +959,45 @@ return (
       />
     )}
 
+    {showRemoveAnnotationDialog && (
+      <Widget
+        src={`${ACCOUNT_ID}/widget/op-dialog`}
+        props={{
+          showRemoveAnnotationDialog,
+          headerText: "Remove this annotation",
+          modalText:
+            "You are about to remove this annotation task. Are you sure that's what you want?",
+          onButtonOk: () => {
+            setPendingRequest(true);
+            asyncFetch(`${apiUrl}/delete_annotation/`, {
+              method: "POST",
+              body: JSON.stringify({
+                id: annotationId,
+                account_id: context.accountId,
+                session_id: sessionId,
+                problem_id: problemId,
+              }),
+            }).then((res) => {
+              if (res.ok) {
+                if (res.body.is_session_valid) {
+                  response.refreshUserAnnotations = true;
+                }
+
+                onRequest(response);
+              }
+
+              setPendingRequest(false);
+            });
+
+            setShowRemoveAnnotationDialog(false);
+          },
+          onButtonCancel: () => {
+            setShowRemoveAnnotationDialog(false);
+          },
+        }}
+      />
+    )}
+
     {state.promptsUnlocked && state.showPromptsEditor && getPromptsContainer()}
     <div class="row" style={{ height: "38px" }}>
       <div class="col">
@@ -1081,6 +1122,19 @@ return (
                               Share link
                             </a>
                           </li>
+                          {annotationId > 0 && (
+                            <li>
+                              <div
+                                class="dropdown-item"
+                                role="button"
+                                onClick={() => {
+                                  setShowRemoveAnnotationDialog(true);
+                                }}
+                              >
+                                Remove task
+                              </div>
+                            </li>
+                          )}
                           <li>
                             <span
                               class="dropdown-item"
