@@ -20,20 +20,27 @@ const CardsTable = styled.div`
     font-size: 14px;
     font-weight: normal;
     th {
-      padding: 8px;
+      padding: 10px 8px;
+      font-size: 16px;
+      font-weight: normal;
+      color: #6f6f6f;
     }
   }
   tbody {
+    border: 1px solid var(--agg-border-color, transparent);
     tr {
+      border-bottom: 1px solid var(--agg-border-color, transparent);
       &:hover {
         background-color: var(--agg-hover-color, transparent);
       }
+      &:last-child {
+        border-bottom: none;
+      }
+      td {
+        padding: 14px 8px;
+        color: var(--agg-primary-color, #fff);
+      }
     }
-  }
-
-  tr td {
-    padding: 8px;
-    color: var(--agg-primary-color, #fff);
   }
 
   display: none;
