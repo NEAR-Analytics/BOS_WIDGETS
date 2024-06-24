@@ -44,7 +44,7 @@ const WithdrawContainer = styled.div`
 const TokenTexture = styled.div`
   font-size: 20px;
   font-weight: bold;
-  color: white;
+  color: var(--agg-primary-color, #fff);
 `;
 
 const TokenWrapper = styled.div`
@@ -57,25 +57,19 @@ const TokenWrapper = styled.div`
 const GrayTexture = styled.div`
   font-size: 12px;
   font-weight: 500;
-  color: #7c7c86;
+  color: #9b9b9b;
 `;
 
 const PurpleTexture = styled.div`
   font-size: 14px;
   font-weight: 500;
-  color: #8a8db9;
+  color: #6f6f6f;
 `;
 
 const WhiteTexture = styled.div`
   font-size: 14px;
   font-weight: bold;
-  color: white;
-`;
-
-const GreenTexture = styled.div`
-  font-size: 14px;
-  font-weight: bold;
-  color: #2cffa7;
+  color: var(--agg-primary-color, #fff);
 `;
 
 const TransactionOverviewContainer = styled.div`
@@ -106,7 +100,7 @@ const Input = styled.input`
 `;
 
 const Max = styled.span`
-  color: #8247e5;
+  color: #9b9b9b;
   cursor: pointer;
 `;
 const Icon = styled.img`
@@ -226,7 +220,7 @@ return (
                       left: <PurpleTexture>Health Factor</PurpleTexture>,
                       right: (
                         <div style={{ textAlign: "right" }}>
-                          <GreenTexture>
+                          <PurpleTexture>
                             {formatHealthFactor(healthFactor)}
 
                             <img
@@ -235,10 +229,7 @@ return (
                               height={16}
                             />
                             {state.newHealthFactor}
-                          </GreenTexture>
-                          <WhiteTexture>
-                            Liquidation at &lt; {config.FIXED_LIQUIDATION_VALUE}
-                          </WhiteTexture>
+                          </PurpleTexture>
                         </div>
                       ),
                     }}
