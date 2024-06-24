@@ -180,6 +180,9 @@ const onTask = (data) => {
       pendingRequest: false,
     });
   } else {
+    if (data.resetAnnotationId) {
+      State.update({ annotationId: null });
+    }
     if (data.refreshUserAnnotations) {
       State.update({ refreshUserAnnotations: true });
     }
