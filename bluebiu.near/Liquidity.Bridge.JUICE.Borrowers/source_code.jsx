@@ -909,7 +909,7 @@ function handleDeposit() {
         addAction?.({
           type: "Yield",
           action: "Deposit",
-          token0: symbol,
+          token0: FIRST_SYMBOL_NAME,
           amount: state?.inDepositAmount,
           template: "Juice",
           add: true,
