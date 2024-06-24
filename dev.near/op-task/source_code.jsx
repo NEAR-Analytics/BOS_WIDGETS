@@ -979,7 +979,8 @@ return (
               }),
             }).then((res) => {
               if (res.ok) {
-                if (res.body.is_session_valid) {
+                let response = res.body;
+                if (response.is_session_valid) {
                   response.refreshUserAnnotations = true;
                 }
 
