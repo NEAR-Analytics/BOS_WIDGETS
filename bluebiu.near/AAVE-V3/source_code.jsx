@@ -1,9 +1,6 @@
 const Wrap = styled.div`
   padding: 24px 15px;
-  /* background: #0e0e26; */
   min-height: 100vh;
-  color: white;
-  font-family: Gantari;
 `;
 
 const FlexContainer = styled.div`
@@ -22,12 +19,15 @@ const Yours = styled.div`
   margin-top: 16px;
 `;
 const YoursTableWrapper = styled.div`
-  background-color: rgba(53, 55, 73, 0.2);
-  border-radius: 6px;
+  color: var(--agg-primary-color, #fff);
+  background-color: var(--agg-secondary-color, rgba(53, 55, 73, 0.2));
+  border: 1px solid var(--agg-border-color, rgba(53, 55, 73, 0.2));
+  border-radius: 12px;
   width: 50%;
 `;
 const Title = styled.div`
   padding: 10px 20px 0;
+  color: var(--agg-primary-color, #fff);
   /* border-bottom: 1px solid #292c42; */
 `;
 const SubTitle = styled.div`
@@ -68,6 +68,7 @@ const {
   toast,
   addAction,
   refresh,
+  from,
 } = props;
 const { CONTRACT_ABI } = dexConfig;
 console.log("PROPS: ", props);
@@ -1481,31 +1482,6 @@ console.log("STATE: ", state);
 
 const body = isChainSupported ? (
   <Wrap>
-    <Widget
-      src={`${config.ownerId}/widget/AAVE.HeroData`}
-      props={{
-        config,
-        netWorth: `$ ${
-          state.netWorthUSD ? Big(state.netWorthUSD || 0).toFixed(2) : "-"
-        }`,
-        netAPY: `${
-          state.netAPY
-            ? Number(
-                Big(state.netAPY || 0)
-                  .times(100)
-                  .toFixed(2)
-              )
-            : "-"
-        }%`,
-        healthFactor: formatHealthFactor(state.healthFactor),
-        totalMarketSize: state.totalMarketSize,
-        totalAvailable: state.totalAvailable,
-        totalBorrows: state.totalBorrows,
-        theme: dexConfig?.theme,
-        yourBorrows: state.yourBorrows,
-      }}
-    />
-
     <FlexContainer>
       <Widget
         src={`${config.ownerId}/widget/AAVE.TabSwitcher`}
@@ -1516,28 +1492,24 @@ const body = isChainSupported ? (
           setSelect: (tabName) => State.update({ selectTab: tabName }),
         }}
       />
-      <ChainsWrap>
-        <Widget
-          src="bluebiu.near/widget/Lending.Chains"
-          props={{
-            chains: CHAIN_LIST,
-            curChain,
-            onSwitchChain,
-            // onChange: (tab) => {
-            //   State.update({
-            //     tab: tab.key,
-            //   });
-            // },
-          }}
-        />
-      </ChainsWrap>
+      {from === "layer" ? null : (
+        <ChainsWrap>
+          <Widget
+            src="bluebiu.near/widget/Lending.Chains"
+            props={{
+              chains: CHAIN_LIST,
+              curChain,
+              onSwitchChain,
+            }}
+          />
+        </ChainsWrap>
+      )}
     </FlexContainer>
     {state.selectTab === "MARKET" && (
       <>
         <Widget
           src={`${config.ownerId}/widget/AAVE.Card.Markets`}
           props={{
-            formatUSD,
             config,
             dexConfig,
             chainId: chainId,
@@ -1559,12 +1531,37 @@ const body = isChainSupported ? (
             addAction,
             dexConfig,
             prices,
+            from,
           }}
         />
       </>
     )}
     {state.selectTab === "YOURS" && (
       <>
+        <Widget
+          src={`${config.ownerId}/widget/AAVE.HeroData`}
+          props={{
+            config,
+            netWorth: `$ ${
+              state.netWorthUSD ? Big(state.netWorthUSD || 0).toFixed(2) : "-"
+            }`,
+            netAPY: `${
+              state.netAPY
+                ? Number(
+                    Big(state.netAPY || 0)
+                      .times(100)
+                      .toFixed(2)
+                  )
+                : "-"
+            }%`,
+            healthFactor: formatHealthFactor(state.healthFactor),
+            totalMarketSize: state.totalMarketSize,
+            totalAvailable: state.totalAvailable,
+            totalBorrows: state.totalBorrows,
+            theme: dexConfig?.theme,
+            yourBorrows: state.yourBorrows,
+          }}
+        />
         <Yours>
           <YoursTableWrapper>
             <Title>
