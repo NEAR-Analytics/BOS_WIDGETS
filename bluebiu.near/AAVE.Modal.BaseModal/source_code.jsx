@@ -1,4 +1,5 @@
-const { config } = props;
+const { config, from } = props;
+
 const ModalWrapper = styled.div`
   position: fixed;
   z-index: 9999;
@@ -42,17 +43,22 @@ const CloseImage = () => (
     onClick={props.onRequestClose}
     height={20}
     width={20}
-    src={`${config.ipfsPrefix}/bafkreibxrur3pqmc4pnf5yeutvr22q2cgbtov2prwcyuammf5hxazhl52e`}
+    src={
+      from === "layer"
+        ? `${config.ipfsPrefix}/bafkreiarl7nhluzuyzvew72lc4l5cepbcphdgkvedbgjdieysf6lqyiuhq`
+        : `${config.ipfsPrefix}/bafkreibxrur3pqmc4pnf5yeutvr22q2cgbtov2prwcyuammf5hxazhl52e`
+    }
   />
 );
 
 const Title = styled.div`
   font-size: 15px;
   font-weight: bold;
+  color: var(--agg-primary-color, #fff);
 `;
 
 const ModalBody = styled.div`
-  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  border-top: 1px solid var(--agg-primary-color, rgba(255, 255, 255, 0.16));
   padding: 30px 14px;
 `;
 return (
