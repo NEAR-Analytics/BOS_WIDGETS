@@ -982,6 +982,7 @@ return (
                 let response = res.body;
                 if (response.is_session_valid) {
                   response.refreshUserAnnotations = true;
+                  response.resetAnnotationId = true;
                 }
 
                 onRequest(response);
