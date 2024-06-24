@@ -49,7 +49,7 @@ const WithdrawContainer = styled.div`
 const TokenTexture = styled.div`
   font-size: 20px;
   font-weight: bold;
-  color: white;
+  color: var(--agg-primary-color, #fff);
 `;
 
 const TokenWrapper = styled.div`
@@ -62,19 +62,13 @@ const TokenWrapper = styled.div`
 const GrayTexture = styled.div`
   font-size: 12px;
   font-weight: 500;
-  color: #7c7c86;
+  color: #9b9b9b;
 `;
 
 const PurpleTexture = styled.div`
   font-size: 14px;
   font-weight: 500;
-  color: #8a8db9;
-`;
-
-const GreenTexture = styled.div`
-  font-size: 14px;
-  font-weight: bold;
-  color: #2cffa7;
+  color: #6f6f6f;
 `;
 
 const RedTexture = styled.div`
@@ -86,7 +80,7 @@ const RedTexture = styled.div`
 const WhiteTexture = styled.div`
   font-size: 14px;
   font-weight: bold;
-  color: white;
+  color: var(--agg-primary-color, #fff);
 `;
 const TransactionOverviewContainer = styled.div`
   display: flex;
@@ -101,7 +95,7 @@ const Input = styled.input`
 
   font-size: 20px;
   font-weight: bold;
-  color: white;
+  color: var(--agg-primary-color, #fff);
   flex: 1;
   width: 160px;
 
@@ -116,7 +110,7 @@ const Input = styled.input`
 `;
 
 const Max = styled.span`
-  color: #8247e5;
+  text-decoration: underline;
   cursor: pointer;
 `;
 
@@ -598,8 +592,8 @@ return (
   <Widget
     src={`${config.ownerId}/widget/AAVE.Modal.BaseModal`}
     props={{
+      ...props,
       title: `Supply ${symbol}`,
-      onRequestClose: onRequestClose,
       children: (
         <WithdrawContainer>
           <Widget
@@ -638,16 +632,15 @@ return (
                       left: <GrayTexture>${state.amountInUSD}</GrayTexture>,
                       right: (
                         <GrayTexture>
-                          Wallet Balance:{" "}
-                          {isValid(balance) && balance !== "-"
-                            ? Big(balance).toFixed(7)
-                            : balance}
+                          Balance:
                           <Max
                             onClick={() => {
                               changeValue(maxValue);
                             }}
                           >
-                            MAX
+                            {isValid(balance) && balance !== "-"
+                              ? Big(balance).toFixed(7)
+                              : balance}
                           </Max>
                         </GrayTexture>
                       ),
@@ -680,7 +673,7 @@ return (
                     props={{
                       left: <PurpleTexture>Collateralization</PurpleTexture>,
                       right: usageAsCollateralEnabled ? (
-                        <GreenTexture>Enabled</GreenTexture>
+                        <PurpleTexture>Enabled</PurpleTexture>
                       ) : (
                         <RedTexture>Disabled</RedTexture>
                       ),
@@ -693,7 +686,7 @@ return (
                       left: <PurpleTexture>Health Factor</PurpleTexture>,
                       right: (
                         <div style={{ textAlign: "right" }}>
-                          <GreenTexture>
+                          <PurpleTexture style={{ display: "flex" }}>
                             {formatHealthFactor(healthFactor)}
 
                             <img
@@ -702,10 +695,7 @@ return (
                               height={16}
                             />
                             {state.newHealthFactor}
-                          </GreenTexture>
-                          <WhiteTexture>
-                            Liquidation at &lt; {config.FIXED_LIQUIDATION_VALUE}
-                          </WhiteTexture>
+                          </PurpleTexture>
                         </div>
                       ),
                     }}
@@ -714,10 +704,10 @@ return (
               ),
             }}
           />
-          <Widget
+          {/* <Widget
             src={`${config.ownerId}/widget/AAVE.GasEstimation`}
             props={{ gas: state.gas, config }}
-          />
+          /> */}
           {state.needApprove && (
             <Widget
               src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
@@ -804,7 +794,6 @@ return (
           )}
         </WithdrawContainer>
       ),
-      config,
     }}
   />
 );
