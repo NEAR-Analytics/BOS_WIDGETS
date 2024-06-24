@@ -1527,7 +1527,6 @@ const body = isChainSupported ? (
           props={{
             account,
             toast,
-            formatUSD,
             config,
             dexConfig,
             chainId: chainId,
