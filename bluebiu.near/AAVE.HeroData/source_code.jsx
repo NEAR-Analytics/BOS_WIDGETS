@@ -22,6 +22,7 @@ const HeroDataContainer = styled.div`
   width: 500px;
   display: flex;
   justify-content: space-between;
+  color: var(--agg-primary-color, #fff);
 `;
 
 const KVData = styled.div`
