@@ -1,7 +1,7 @@
 const StyledContainer = styled.div`
   font-size: 14px;
   font-weight: 400;
-  color: #979abe;
+  color: var(--agg-thirdry-color, #979abe);
   margin-top: 20px;
   margin-bottom: 16px;
   .price_impact {
@@ -24,7 +24,7 @@ const StyledContainer = styled.div`
     background: rgba(255, 84, 125, 0.1);
   }
   .fee {
-    border-bottom: 1px dashed #979abe;
+    border-bottom: 1px dashed var(--agg-thirdry-color, #979abe);
     position: relative;
     cursor: pointer;
   }
@@ -80,9 +80,9 @@ const StyledPanelWrapper = styled.div`
 
 const StyledPanel = styled.div`
   border-radius: 12px;
-  border: 1px solid #373a53;
+  border: 1px solid var(--agg-border-color, #373a53);
   padding: 16px 12px 0px;
-  color: #979abe;
+  color: var(--agg-thirdry-color, #979abe);
   margin-top: 16px;
   display: none;
 
@@ -137,7 +137,7 @@ const StyledFeePanel = styled.div`
   background: #262836;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
   padding: 10px;
-  color: #979abe;
+  color: var(--agg-thirdry-color, #979abe);
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
