@@ -1,4 +1,4 @@
-const { headers, data, config } = props;
+const { headers, data, config, noDivider } = props;
 
 if (!headers || !data) {
   return null;
@@ -12,15 +12,28 @@ const CardsTable = styled.div`
 
   table {
     width: 100%;
+    text-align: left;
   }
 
   thead {
     color: var(--agg-primary-color, #777790);
     font-size: 14px;
     font-weight: normal;
+    th {
+      padding: 8px;
+    }
   }
+  tbody {
+    tr {
+      &:hover {
+        background-color: var(--agg-hover-color, transparent);
+      }
+    }
+  }
+
   tr td {
-    padding: 15px 0;
+    padding: 8px;
+    color: var(--agg-primary-color, #fff);
   }
 
   display: none;
@@ -30,10 +43,10 @@ const CardsTable = styled.div`
 `;
 return (
   <>
-    <Widget
-      src={`${config.ownerId}/widget/AAVE.Card.Divider`}
-      props={{ config }}
-    />
+    {noDivider ? null : (
+      <Widget src={`${config.ownerId}/widget/AAVE.Card.Divider`} />
+    )}
+
     <CardsTable>
       <table>
         <thead>
