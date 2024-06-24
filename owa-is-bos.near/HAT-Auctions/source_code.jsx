@@ -502,7 +502,11 @@ return (
                         </label>
                         <br />
                         <label style={{ marginTop: "10px" }}>
-                          {currentBidder}
+                          {currentBidder.length > 17
+                            ? currentBidder.substring(0, 17) +
+                              "..." +
+                              currentBidder.slice(-5)
+                            : currentBidder}
                         </label>
                       </div>
                     )}
