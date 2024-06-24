@@ -530,7 +530,7 @@ return (
                       </label>
                       <br />
                       <label style={{ marginTop: "10px" }}>
-                        {currentBid.toFixed(1)} ⋈
+                        {currentBid.toFixed(2)} ⋈
                       </label>
                     </div>
                   )}
@@ -579,9 +579,9 @@ return (
                         <>
                           <Input
                             type="number"
-                            min={minBid.toFixed(1)}
+                            min={minBid.toFixed(2)}
                             step="0.5"
-                            placeholder={minBid.toFixed(1) + "⋈ or more"}
+                            placeholder={minBid.toFixed(2) + "⋈ or more"}
                             onChange={(e) => setNewBit(e.target.value)}
                           />
                           <Button onClick={addBid}>Place bid</Button>
