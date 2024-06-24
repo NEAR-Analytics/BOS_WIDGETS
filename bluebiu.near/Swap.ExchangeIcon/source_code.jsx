@@ -5,8 +5,8 @@ const ExchangeIcon = styled.div`
   width: 34px;
   height: 34px;
   border-radius: 8px;
-  border: 4px solid #262836;
-  background: #2e3142;
+  border: 4px solid var(--agg-border-color, #262836);
+  background: var(--agg-bg-color, #2e3142);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -23,9 +23,9 @@ return (
     >
       <path
         d="M6.49992 1.5V12M6.49992 12L1 6.5M6.49992 12L12 6.5"
-        stroke="white"
-        stroke-width="2"
-        stroke-linecap="round"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
       />
     </svg>
   </ExchangeIcon>
