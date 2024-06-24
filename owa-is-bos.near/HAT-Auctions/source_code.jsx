@@ -139,7 +139,7 @@ const TimerContent = () => {
 const addBid = () => {
   console.log("addBid");
   if (auction.claimed && auctionStatus == "finish") {
-    if (newBid >= 1 && newBid % 0.5 == 0) {
+    if (newBid >= 1) {
       setValidBit(true);
       setValidBitAmount(0);
       Near.call(
@@ -154,7 +154,7 @@ const addBid = () => {
       setValidBitAmount(1);
     }
   } else {
-    if (newBid >= currentBid + 0.5 && newBid % 0.5 == 0) {
+    if (newBid >= currentBid + 0.5) {
       setValidBit(true);
       setValidBitAmount(0);
       Near.call(
@@ -200,7 +200,7 @@ const claimTokens = () => {
 const sendTokensAndAddBid = () => {
   console.log("sendTokensAndAddBid");
   if (winnerHasStorageBalance) {
-    if (newBid >= 1 && newBid % 0.5 === 0) {
+    if (newBid >= 1) {
       setValidBit(true);
       setValidBitAmount(0);
       Near.call([
@@ -224,7 +224,7 @@ const sendTokensAndAddBid = () => {
       setValidBitAmount(1);
     }
   } else {
-    if (newBid >= 1 && newBid % 0.5 === 0) {
+    if (newBid >= 1) {
       setValidBit(true);
       setValidBitAmount(0);
       Near.call([
