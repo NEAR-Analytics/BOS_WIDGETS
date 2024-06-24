@@ -24,56 +24,44 @@ const Button = styled.button`
 
 const handleInfoClick = () => {
   props.notify({
+    type: "info",
     subject: "This Info",
     body: "Text Info",
-
-    type: "info",
   });
 };
+
 const handleWarnClick = () => {
   props.notify({
+    type: "warning",
     subject: "This Warn",
     body: "Text Warning",
-
-    type: "warning",
   });
 };
+
 const handleErrorClick = () => {
   props.notify({
+    type: "error",
     subject: "This Err",
     body: "Text Error",
-
-    type: "error",
   });
 };
 
 const handleTxClick = () => {
   props.notify({
+    type: "info",
     subject: "This Tx",
     body: "Text Tx",
     actions: [
       {
         label: "OK",
-        onClick: () => alert(accountId),
+        onClick: () => console.log("OK"),
       },
       {
         label: "Cancel",
         onClick: () => console.log("Cancel"),
       },
     ],
-    type: "info",
   });
-
-  //   Near.call(
-  //     TIPPING_CONTRACT_NAME,
-  //     "sendTips",
-  //     {
-  //       accountGId: accountId,
-  //       itemId: itemGlobalId,
-  //     },
-  //     "50000000000000",
-  //     total
-  //   );
 };
 
 return (
