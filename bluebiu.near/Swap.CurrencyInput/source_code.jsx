@@ -26,7 +26,7 @@ const InputWarpper = styled.div`
 const Input = styled.input`
   font-size: 32px;
   width: 100%;
-  color: #fff;
+  color: var(--agg-text-color, #fff);
   font-weight: 500;
   background-color: transparent;
   outline: none;
@@ -40,7 +40,7 @@ const Input = styled.input`
 `;
 const Value = styled.div`
   padding-top: 10px;
-  color: #979abe;
+  color: var(--agg-fourth-color, #979abe);
   font-size: 14px;
   line-height: 16px;
 `;
@@ -52,8 +52,8 @@ const CurrencySelect = styled.div`
   align-items: center;
 
   border-radius: 8px;
-  border: 1px solid #373a53;
-  background: #2e3142;
+  border: 1px solid var(--agg-border-active-color, #373a53);
+  background: var(--agg-bg-color, #2e3142);
   padding: 3px 10px 3px 8px;
 
   cursor: pointer;
@@ -63,7 +63,7 @@ const CurrencySelect = styled.div`
   gap: 12px;
   cursor: pointer;
   svg {
-    color: #979abe;
+    color: var(--agg-text-color, #979abe);
   }
   @media (max-width: 768px) {
     svg {
@@ -88,7 +88,7 @@ const CurrencyIcon = styled.img`
 `;
 const CurrencySymbol = styled.div`
   font-size: 18px;
-  color: #fff;
+  color: var(--agg-text-color, #fff);
   margin-left: 7px;
   white-space: nowrap;
   .fz-14 {
@@ -106,14 +106,14 @@ const CurrencySymbol = styled.div`
 `;
 const Amount = styled.div`
   padding-top: 18px;
-  color: #979abe;
+  color: var(--agg-fourth-color, #979abe);
   font-size: 14px;
   line-height: 16px;
   text-align: right;
   cursor: pointer;
 `;
 const Label = styled.div`
-  color: #979abe;
+  color: var(--agg-text-color, #979abe);
   font-family: Gantari;
   font-size: 14px;
   font-style: normal;
@@ -150,7 +150,16 @@ const tokenPrice =
   props.prices[props.currency.priceKey || props.currency.symbol];
 
 return (
-  <Wrapper style={{ background: !state.focus ? "#2e3142" : "#1B1E27" }}>
+  <Wrapper
+    style={{
+      background: !state.focus
+        ? "var(--agg-bg-color,#2e3142)"
+        : "var(--agg-bg-color,#1B1E27)",
+      borderColor: !state.focus
+        ? "var(--agg-border-color,#373a53)"
+        : "var(--agg-border-active-color,#1B1E27)",
+    }}
+  >
     <Widget
       src="bluebiu.near/widget/Arbitrum.Swap.CurrencyBalance"
       props={{
