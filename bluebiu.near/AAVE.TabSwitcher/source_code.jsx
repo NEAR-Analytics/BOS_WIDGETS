@@ -1,7 +1,9 @@
 const { config, select, setSelect, theme } = props;
 
 const TabContainer = styled.div`
-  background: #212233;
+  background: var(--agg-secondary-color, #212233);
+  color: var(--agg-primary-color, #fff);
+  border: 1px solid #212233;
   display: flex;
   width: 244px;
   height: 52px;
@@ -15,7 +17,7 @@ const TabItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 48px;
+  height: 44px;
   border-radius: 28px;
   ${(props) =>
     props.selected && "color: white;background: var(--agg-primary-color,#000);"}
@@ -41,7 +43,7 @@ const TabItem = styled.div`
     }
   `} */
 `;
-console.log(1111, select);
+
 return (
   <TabContainer>
     <TabItem
