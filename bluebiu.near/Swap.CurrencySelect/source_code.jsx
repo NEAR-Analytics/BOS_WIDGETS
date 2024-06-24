@@ -45,8 +45,8 @@ const Overlay = styled.div`
 const Content = styled.div`
   width: 320px;
   border-radius: 16px;
-  border: 1px solid #373a53;
-  background: #303142;
+  border: 1px solid var(--agg-border-color, #373a53);
+  background: var(--agg-bg-color, #303142);
   @media (max-width: 900px) {
     width: 100%;
     border-radius: 16px 16px 0px 0px;
@@ -56,7 +56,7 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #fff;
+  color: var(--agg-text-color, #fff);
   padding: 21px 12px 0px 12px;
 `;
 const InputWarpper = styled.div`
@@ -67,12 +67,12 @@ const InputWarpper = styled.div`
   display: flex;
   align-items: center;
   border-radius: 8px;
-  border: 1px solid #373a53;
-  background: #1b1e27;
+  border: 1px solid var(--agg-border-color, #373a53);
+  background: var(--agg-bg-color, #1b1e27);
 `;
 
 const Input = styled.input`
-  color: #fff;
+  color: var(--agg-text-color, #fff);
   font-size: 14px;
   font-weight: 400;
   width: 100%;
@@ -97,7 +97,7 @@ const Empty = styled.div`
   line-height: 100px;
   text-align: center;
   font-size: 18px;
-  color: #fff;
+  color: var(--agg-text-color, #fff);
 `;
 const IconBox = styled.div`
   cursor: pointer;
