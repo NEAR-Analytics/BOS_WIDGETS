@@ -54,11 +54,15 @@ const handleTxClick = () => {
     actions: [
       {
         label: "OK",
-        onClick: () => console.log("OK"),
+        onClick: () => {
+          console.log("OK");
+        },
       },
       {
         label: "Cancel",
-        onClick: () => console.log("Cancel"),
+        onClick: () => {
+          console.log("Cancel");
+        },
       },
     ],
   });
