@@ -59,7 +59,7 @@ if (tokensPerAuction && currentSupply && auction) {
   setMinBit(auction.highest_bid / 1e24 + 0.5);
   setStartTime(auction.start_time.toString().substring(0, 13));
   setEndTime(auction.end_time.toString().substring(0, 13));
-  setCurrentBid(auction.highest_bid == 0 ? 1.5 : auction.highest_bid / 1e24);
+  setCurrentBid(auction.highest_bid == 0 ? 0.5 : auction.highest_bid / 1e24);
   setCurrentBidder(auction.highest_bidder);
 }
 
