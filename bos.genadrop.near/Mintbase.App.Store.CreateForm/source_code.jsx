@@ -1,5 +1,7 @@
 const { isDarkModeOn, setModalOpen } = props;
 const isInModal = props.isInModal ?? true;
+const accountId = props.accountId ?? context.accountId;
+const isLoggedIntoMintbase = accountId ? true : false;
 const { MbModal } = VM.require(
   "bos.genadrop.near/widget/Mintbase.components"
 ) || {
@@ -39,7 +41,7 @@ const onDeploy = () => {
     deployStore({
       storeName,
       storeSymbol,
-      accountId: context.accountId,
+      accountId,
       isMainnet: true,
     });
   } catch (error) {
@@ -117,7 +119,8 @@ return (
             state: `${
               storeName.length > 0 &&
               storeSymbol.length > 0 &&
-              storeSymbol.length <= 3
+              storeSymbol.length <= 3 &&
+              isLoggedIntoMintbase
                 ? "active"
                 : "disabled"
             }`,
