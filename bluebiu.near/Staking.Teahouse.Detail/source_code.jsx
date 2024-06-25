@@ -279,7 +279,7 @@ const {
   isPostTx,
 } = state;
 
-const detailLoading = Object.keys(balances).length < 2 && lpBalance === "";
+const detailLoading = Object.keys(balances).length < 2 || lpBalance === "";
 
 const checkApproval = (token0Amount, token1Amount) => {
   const token0Wei = parseUnits(Big(token0Amount).toFixed(decimals0), decimals0);
