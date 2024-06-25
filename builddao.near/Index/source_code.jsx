@@ -4,6 +4,20 @@ const { CSS } = VM.require("builddao.near/widget/CSS") || {
 const { Footer } = VM.require("builddao.near/widget/components.Footer") || {
   Footer: () => <></>,
 };
+const { isNearSocial } = VM.require("builddao.near/widget/lib.gateway") || {
+  isNearSocial: false,
+};
+const Container = isNearSocial
+  ? styled.div`
+      position: fixed;
+      inset: 73px 0px 0px;
+      width: 100%;
+      overflow-y: scroll;
+      height: 100%;
+    `
+  : styled.div`
+      width: 100%;
+    `;
 const config = {
   theme: {},
   layout: {
@@ -108,7 +122,12 @@ const config = {
   },
 };
 return (
-  <CSS>
-    <Widget src="buildhub.near/widget/app.view" props={{ config, ...props }} />
-  </CSS>
+  <Container>
+    <CSS>
+      <Widget
+        src="buildhub.near/widget/app.view"
+        props={{ config, ...props }}
+      />
+    </CSS>
+  </Container>
 );
