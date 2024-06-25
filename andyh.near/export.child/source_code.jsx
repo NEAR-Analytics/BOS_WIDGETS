@@ -1,9 +1,9 @@
 import Markdown from "marked-react";
 
-export interface ChildProps {
+interface ChildProps {
   name: string;
 }
 
-export const BWEComponent = (props: ChildProps) => {
+export const Child = (props: ChildProps) => {
   return <Markdown>{`#### child ${props.name}`}</Markdown>;
 };

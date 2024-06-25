@@ -28,7 +28,9 @@ if (!data.ok || !nftMetadata) {
 }
 const owners = data.body.data.mb_views_nft_tokens.map((o) => o.owner);
 const isMember = owners.includes(context.accountId);
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  width: 100%;
+`;
 const indexKey = `nft:${groupId}`;
 return (
   <Wrapper>
@@ -41,13 +43,13 @@ return (
         <Widget
           key="compose"
           loading=""
-          src="jgodwill.near/widget/CPlanet.MainPage.Compose"
+          src="bos.genadrop.near/widget/CPlanet.MainPage.Compose"
           props={{ indexKey, groupId }}
         />
       ) : (
         <Widget
           loading=""
-          src="bos.genadrop.near/widget/N.Group.NotMemberCompose"
+          src="bos.genadrop.near/widget/CPlanet.Group.NotMemberCompose"
           props={{ groupId }}
         />
       ))}

@@ -242,6 +242,7 @@ return (
                   hideButtons: !context.accountId,
                   isWaiting: waitingAppIdsSet.has(app.id),
                 }}
+                 loading={<></>}
               />
             </Item>
           );

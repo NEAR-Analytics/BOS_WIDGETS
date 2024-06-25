@@ -24,7 +24,6 @@ const flattenObject = (obj) => {
   } catch (e) {}
   return paths;
 };
-// devs.near/project/name-of-the-project
 const fetchProjects = () => {
   const keys = Social.keys(`*/${app}/${type}/*`, "final", {
     order: "desc",
@@ -104,12 +103,12 @@ const [filters, setFilters] = useState({
   title: "",
 });
 const [showFilterModal, setShowFilterModal] = useState(false);
-const [showCreateModal, setShowCreateModal] = useState(false);
+const [showCreateOptionsModal, setShowCreateOptionsModal] = useState(false);
 const toggleFilterModal = () => {
   setShowFilterModal((prev) => !prev);
 };
-const toggleCreateModal = () => {
-  setShowCreateModal((prev) => !prev);
+const toggleCreateOptionsModal = () => {
+  setShowCreateOptionsModal((prev) => !prev);
 };
 const filteredProjects = useMemo(() => {
   let filtered = projects;
@@ -159,7 +158,7 @@ return (
     data-bs-theme="dark"
   >
     <Widget
-      src="buildhub.near/widget/components.modals.FilterProjects"
+      src="builddao.near/widget/page.projects.FiltersModal"
       loading=""
       props={{
         showModal: showFilterModal,
@@ -170,14 +169,11 @@ return (
       }}
     />
     <Widget
-      src="buildhub.near/widget/components.modals.CreateProject"
+      src="builddao.near/widget/page.projects.ImportAndCreateModal"
       loading=""
       props={{
-        showModal: showCreateModal,
-        toggleModal: toggleCreateModal,
-        filters: filters,
-        setFilters: setFilters,
-        tagFilters,
+        showModal: showCreateOptionsModal,
+        toggleModal: toggleCreateOptionsModal,
       }}
     />
     <div className="my-3 d-flex align-items-center justify-content-between">
@@ -185,7 +181,10 @@ return (
         Projects
       </h2>
       {context.accountId && (
-        <Button variant="primary" onClick={() => setShowCreateModal(true)}>
+        <Button
+          variant="primary"
+          onClick={() => setShowCreateOptionsModal(true)}
+        >
           Create Project
         </Button>
       )}

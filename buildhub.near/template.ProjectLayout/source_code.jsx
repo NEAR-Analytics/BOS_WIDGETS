@@ -130,7 +130,7 @@ const ProjectLayout = ({
           />
         )}
       </BackgroundImage>
-      <ProfileInfo>
+      <ProfileInfo className="mt-3">
         <div className="left">
           <Widget
             src="mob.near/widget/Image"

@@ -4,8 +4,8 @@ const { Card } =
 const { Page } =
   VM.require("thomasguntenaar.near/widget/devhub.entity.addon.blogv2.Page") ||
   (() => <></>);
+const { href } = VM.require("thomasguntenaar.near/widget/core.lib.url") || (() => {});
 
-// TODO: change with settings
 const categories = [
   {
     label: "Guide",
@@ -93,7 +93,7 @@ const DropdownBtnContainer = styled.div`
 
   .options-card {
     position: absolute;
-    top: 100%;
+    bottom: 100%;
     right: 0;
     width: 200%;
     border: 1px solid #ccc;
@@ -155,11 +155,11 @@ const DropdownBtnContainer = styled.div`
   }
 
   .grey {
-    background-color: #818181;
+    background-color: rgba(129, 129, 129, 0.5);
   }
 
   .green {
-    background-color: #04a46e;
+    background-color: #00ec97;
   }
 
   a:hover {
@@ -169,12 +169,29 @@ const DropdownBtnContainer = styled.div`
 }
 `;
 
-const { data, handle, onSubmit, onCancel, onDelete } = props;
+const {
+  data,
+  handle,
+  onSubmit,
+  onCancel,
+  onDelete,
+  allBlogs: allBlogsOfThisInstance,
+  communityAddonId,
+  setSelectedItemChanged,
+} = props;
+
+const allBlogKeys =
+  Social.keys(`${handle}.community.devhub.near/blog/*`, "final") || {};
 
 const initialData = data;
 
+const [initialBlogAmount, setInitialBlogAmount] = useState(
+  Object.keys(allBlogKeys[`${handle}.community.devhub.near`]["blog"] || {})
+    .length || 0
+);
+
 // Parse the date string to create a Date object
-const publishedAtDate = new Date(initialData.publishedAt);
+const publishedAtDate = new Date(initialData.publishedAt || new Date());
 const year = publishedAtDate.getFullYear();
 const month = (publishedAtDate.getMonth() + 1).toString().padStart(2, "0");
 const day = publishedAtDate.getDate().toString().padStart(2, "0");
@@ -184,20 +201,104 @@ const [content, setContent] = useState(initialData.content || "");
 const [title, setTitle] = useState(initialData.title || "");
 const [subtitle, setSubtitle] = useState(initialData.subtitle || "");
 const [description, setDescription] = useState(initialData.description || "");
-const [author, setAuthor] = useState(initialData.author || "");
-const [previewMode, setPreviewMode] = useState("card"); // "card" or "page"
+const [author, setAuthor] = useState(initialData.author || context.accountId);
+const [previewMode, setPreviewMode] = useState("edit"); // "edit" or "preview" // "card" or "page"
 const [date, setDate] = useState(initialFormattedDate || new Date());
-// TODO configurable by settings in addon parameters
 const [category, setCategory] = useState(initialData.category || "guide");
 const [disabledSubmitBtn, setDisabledSubmitBtn] = useState(false);
 const [isDraftBtnOpen, setDraftBtnOpen] = useState(false);
 const [selectedStatus, setSelectedStatus] = useState(
   initialData.status || "DRAFT"
 );
+const [isDeleteModalOpen, setDeleteModal] = useState(false);
+
+// Dont ask me again check when deleting
+const [submittedBlogDeleted, setSubmittedBlogDeleted] = useState(null);
+useEffect(() => {
+  const checkForDeletedBlogInSocialDB = () => {
+    const communityAccount = `${handle}.community.devhub.near`;
+    Near.asyncView("social.near", "get", {
+      keys: [`${communityAccount}/blog/**`],
+      options: {
+        return_deleted: true,
+      },
+    }).then((result) => {
+      try {
+        if (
+          JSON.parse(result[communityAccount].blog[submittedBlogDeleted]) ===
+          null
+        ) {
+          // Blog is deleted
+          setSubmittedBlogDeleted(null);
+        }
+      } catch (e) {}
+      setTimeout(() => checkForDeletedBlogInSocialDB(), 1000);
+    });
+  };
+  if (submittedBlogDeleted) {
+    checkForDeletedBlogInSocialDB();
+  }
+}, [submittedBlogDeleted]);
+
+// Dont ask me again check when updating and creating blogs
+const [submittedBlogData, setSubmittedBlogData] = useState(null);
+useEffect(() => {
+  const checkForNewOrUpdatedBlogInSocialDB = () => {
+    const communityAccount = `${handle}.community.devhub.near`;
+    Near.asyncView("social.near", "get", {
+      keys: [`${communityAccount}/blog/**`],
+    }).then((result) => {
+      try {
+        if (initialData.id) {
+          // Update
+          const updatedBlog =
+            result[communityAccount]["blog"][initialData.id].metadata;
+          updatedBlog.content =
+            result[communityAccount]["blog"][initialData.id][""];
+
+          let theyMatch = true;
+          let keys = Object.keys(submittedBlogData);
+          for (const key of keys) {
+            // Get the full data of the new blog and compare it to socialDB
+            if (updatedBlog[key] !== submittedBlogData[key]) {
+              theyMatch = false;
+              break;
+            }
+          }
+          if (theyMatch) {
+            setSubmittedBlogData(null);
+          }
+        } else {
+          // Create
+          let blogArray = Object.keys(result).map(
+            (blogKey) => result[communityAccount]["blog"][blogKey]
+          );
+
+          if (
+            blogArray.length &&
+            blogArray.find(
+              (blog) =>
+                blog.metadata.title === submittedBlogData.title &&
+                blog.metadata.description === submittedBlogData.description
+            )
+          ) {
+            setSubmittedBlogData(null);
+          }
+        }
+      } catch (e) {
+        console.log("Error in useEffect checkForNewOrUpdatedBlogInSocialDB", e);
+      }
+      setTimeout(() => checkForNewOrUpdatedBlogInSocialDB(), 1000);
+    });
+  };
+  if (submittedBlogData) {
+    checkForNewOrUpdatedBlogInSocialDB();
+  }
+}, [submittedBlogData]);
 
 const LoadingButtonSpinner = (
   <span
-    class="submit-proposal-draft-loading-indicator spinner-border spinner-border-sm"
+    class="submit-blog-loading-indicator spinner-border spinner-border-sm"
     role="status"
     aria-hidden="true"
   ></span>
@@ -213,7 +314,7 @@ const SubmitBtn = () => {
       value: "DRAFT",
     },
     {
-      iconColor: "green",
+      iconColor: "bg-devhub-green",
       label: "Publish",
       description:
         "The blog will be shared with the community and can be viewed by everyone.",
@@ -224,14 +325,31 @@ const SubmitBtn = () => {
   const handleOptionClick = (option) => {
     setDraftBtnOpen(false);
     setSelectedStatus(option.value);
+    setSubmittedBlogData(null);
+    // TODO test is
+    handleSubmit(option.value);
   };
 
   const toggleDropdown = () => {
     setDraftBtnOpen(!isDraftBtnOpen);
+    setSubmittedBlogData(null);
   };
 
-  const handleSubmit = () => {
-    handlePublish(selectedStatus);
+  const handleSubmit = (status) => {
+    // Set the title for dont ask me again check
+    setSubmittedBlogData({
+      title,
+      subtitle,
+      description,
+      author,
+      date,
+      content,
+      category,
+      community: handle,
+      publishedAt,
+      status,
+    });
+    handlePublish(status);
   };
 
   const selectedOption = btnOptions.find((i) => i.value === selectedStatus);
@@ -239,33 +357,39 @@ const SubmitBtn = () => {
   return (
     <DropdownBtnContainer>
       <div
-        className="custom-select"
+        className="custom-select shadow-sm"
         tabIndex="0"
         onBlur={() => setDraftBtnOpen(false)}
       >
         <div
-          className={
-            "select-header d-flex gap-1 align-items-center submit-draft-button " +
-            (!hasDataChanged() && "disabled")
-          }
+          data-testid="parent-submit-blog-button"
+          className={`select-header d-flex gap-1 align-items-center submit-draft-button ${
+            shouldBeDisabled() ? "disabled" : ""
+          }`}
         >
           <div
-            onClick={() => hasDataChanged() && handleSubmit()}
-            className="p-2 d-flex gap-2 align-items-center "
+            onClick={() =>
+              !shouldBeDisabled() && handleSubmit(selectedOption.value)
+            }
+            className="py-2.5 px-2 d-flex gap-2 align-items-center "
+            data-testid="submit-blog-button"
           >
-            {/* {isTxnCreated ? (
+            {submittedBlogData ? (
               LoadingButtonSpinner
-            ) : ( */}
-            <div className={"circle " + selectedOption.iconColor}></div>
-            {/* )} */}
+            ) : (
+              <div className={"circle " + selectedOption.iconColor}></div>
+            )}
             <div className={`selected-option`}>{selectedOption.label}</div>
           </div>
           <div
-            className="h-100 p-2"
+            className="h-100 py-2.5 px-2"
             style={{ borderLeft: "1px solid #ccc" }}
             onClick={toggleDropdown}
           >
-            <i class={`bi bi-chevron-${isDraftBtnOpen ? "up" : "down"}`}></i>
+            <i
+              data-testid="toggle-dropdown"
+              class={`bi bi-chevron-${isDraftBtnOpen ? "up" : "down"}`}
+            ></i>
           </div>
         </div>
 
@@ -278,6 +402,7 @@ const SubmitBtn = () => {
                   selectedOption.value === option.value ? "selected" : ""
                 }`}
                 onClick={() => handleOptionClick(option)}
+                data-testid={"submit-button-option-" + option.value}
               >
                 <div className={`d-flex gap-2 align-items-center`}>
                   <div className={"circle " + option.iconColor}></div>
@@ -293,27 +418,57 @@ const SubmitBtn = () => {
   );
 };
 
-// padding 20
 const Container = styled.div`
   width: 100%;
   margin: 0 auto;
-
   text-align: left;
 `;
 
-console.log("content publishedAt", initialData.publishedAt);
+const shouldBeDisabled = () => {
+  return hasEmptyFields() || submittedBlogData;
+};
 
-const hasDataChanged = () => {
+const hasEmptyFields = () => {
   return (
-    content !== initialData.content ||
-    title !== initialData.title ||
-    subtitle !== initialData.subtitle ||
-    description !== initialData.description ||
-    author !== initialData.author ||
-    date !== initialData.publishedAt ||
-    category !== initialData.category
+    content.trim() === "" ||
+    title.trim() === "" ||
+    subtitle.trim() === "" ||
+    description.trim() === "" ||
+    author.trim() === "" ||
+    date === "NaN-NaN-NaN" ||
+    category.trim() === ""
   );
 };
+
+const unsavedChanges = () => {
+  return (
+    initialData.content !== content ||
+    initialData.title !== title ||
+    initialData.subtitle !== subtitle ||
+    initialData.description !== description ||
+    initialData.author !== author ||
+    initialData.category !== category ||
+    initialData.publishedAt !== date ||
+    initialData.status !== selectedStatus
+  );
+};
+
+useEffect(() => {
+  if (unsavedChanges()) {
+    setSelectedItemChanged(true);
+  } else {
+    setSelectedItemChanged(false);
+  }
+}, [
+  content,
+  title,
+  subtitle,
+  description,
+  author,
+  category,
+  date,
+  selectedStatus,
+]);
 
 const handlePublish = (status) => {
   onSubmit &&
@@ -328,164 +483,211 @@ const handlePublish = (status) => {
         status,
         author,
         category,
-        community: handle, // TODO see if we can remove this
+        community: handle,
       },
       data.id !== undefined
     );
 };
 
-function Preview() {
-  switch (previewMode) {
-    case "card": {
-      return (
-        <Card
-          data={{
-            title,
-            subtitle,
-            description,
-            date,
-            content,
-            author,
-            category,
-            community: handle,
-          }}
-        />
-      );
-    }
-    case "page": {
-      return (
-        <Page
-          data={{
-            title,
-            subtitle,
-            description,
-            date,
-            content,
-            author,
-            category,
-            community: handle,
-          }}
-        />
-      );
-    }
-  }
+function handleDelete() {
+  setSubmittedBlogDeleted(initialData.id);
+  onDelete(data.id);
 }
+
+const tabs = [
+  { name: "Edit", value: "edit" },
+  { name: "Preview", value: "preview" },
+];
 
 return (
   <Container>
-    <div className="d-flex gap-1 justify-content-end w-100 mb-4">
-      <button className="btn btn-light" onClick={onCancel}>
-        Cancel
-      </button>
-      <SubmitBtn />
+    <div className="flex flex-wrap-reverse gap-1 justify-between w-100 mb-4">
+      <div className="sm:hidden grow rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
+        <label
+          htmlFor="tabs"
+          className="sr-only block text-xs font-medium text-gray-900"
+        >
+          Select a tab
+        </label>
+        <select
+          id="tabs"
+          name="tabs"
+          className="block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 h-9 border-gray-300 block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+          defaultValue={tabs.find((tab) => tab.value === previewMode).name}
+        >
+          {tabs.map((tab) => {
+            return (
+              <option key={tab.name} onClick={() => setPreviewMode(tab.value)}>
+                {tab.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+      <div className="hidden sm:block">
+        <div className="-mb-px flex gap-x-3 px-2" aria-label="Tabs">
+          {tabs.map((tab) => {
+            return (
+              <a
+                key={tab.name}
+                onClick={() => setPreviewMode(tab.value)}
+                className={`${
+                  tab.value === previewMode ? "hidden" : ""
+                } rounded-md px-3.5 py-2.5 text-sm cursor-pointer font-semibold whitespace-nowrap overflow-hidden truncate text-devhub-gray`}
+              >
+                {tab.name}
+              </a>
+            );
+          })}
+        </div>
+      </div>
+      <div className="flex gap-x-3">
+        <p className="text-nowrap text-sm text-devhub-gray font-semibold py-2.5 px-1">
+          Status:{" "}
+          <span
+            className={`px-3 py-2 rounded-full font-semibold text-xs ${
+              initialData.status == "PUBLISH"
+                ? "text-green-600 bg-green-50"
+                : "text-blue-600 bg-blue-50"
+            }`}
+          >
+            {initialData.status === "PUBLISH" ? (
+              <Link
+                to={href({
+                  widgetSrc: "thomasguntenaar.near/widget/app",
+                  params: {
+                    page: "blogv2",
+                    id: initialData.id,
+                    community: handle,
+                    communityAddonId,
+                  },
+                })}
+                target="_blank"
+                className="cursor-pointer underline"
+              >
+                Published
+              </Link>
+            ) : (
+              <>Draft</>
+            )}
+          </span>
+        </p>
+      </div>
     </div>
 
-    <ul className="nav nav-tabs" id="editPreviewTabs" role="tablist">
-      <li className="nav-item" role="presentation">
-        <button
-          className="nav-link active"
-          id="edit-tab"
-          data-bs-toggle="tab"
-          data-bs-target="#edit"
-          type="button"
-          role="tab"
-          aria-controls="edit"
-          aria-selected="true"
-        >
-          Edit
-        </button>
-      </li>
-      <li className="nav-item" role="presentation">
-        <button
-          className="nav-link"
-          id="preview-tab"
-          data-bs-toggle="tab"
-          data-bs-target="#preview"
-          type="button"
-          role="tab"
-          aria-controls="preview"
-          aria-selected="false"
-        >
-          Preview
-        </button>
-      </li>
-    </ul>
-    <div className="tab-content" id="editPreviewTabsContent">
-      <div
-        className="tab-pane show active p-4"
-        id="edit"
-        role="tabpanel"
-        aria-labelledby="edit-tab"
-      >
-        <Widget
-          src="thomasguntenaar.near/widget/devhub.entity.addon.blogv2.editor.form"
-          props={{
-            title,
-            setTitle,
-            subtitle,
-            setSubtitle,
-            options: selectOptions,
-            category,
-            setCategory,
-            description,
-            setDescription,
-            author,
-            setAuthor,
-            date,
-            setDate,
-            content,
-            setContent,
-          }}
-        />
-        {data.id ? (
-          <div
-            className={
-              "d-flex align-items-center justify-content-start gap-3 mt-4"
-            }
-          >
-            <Widget
-              src={"thomasguntenaar.near/widget/devhub.components.molecule.Button"}
-              props={{
-                classNames: { root: "btn-danger" },
-                disabled: !hasDataChanged(),
-                icon: {
-                  type: "bootstrap_icon",
-                  variant: "bi-trash",
-                },
-                label: "Delete",
-                onClick: () => onDelete(data.id),
-              }}
-            />
-          </div>
-        ) : null}
-      </div>
-      <div
-        className="tab-pane"
-        id="preview"
-        role="tabpanel"
-        aria-labelledby="preview-tab"
-        style={{ position: "relative" }}
-      >
-        <div style={{ position: "absolute", top: 10, right: 0, zIndex: 9999 }}>
+    <div>
+      {previewMode === "edit" && (
+        <div className="tab-pane show active p-4" id="edit">
           <Widget
-            src="thomasguntenaar.near/widget/devhub.components.molecule.Switch"
+            src="thomasguntenaar.near/widget/devhub.entity.addon.blogv2.editor.form"
             props={{
-              currentValue: previewMode,
-              key: "previewMode",
-              onChange: (e) => setPreviewMode(e.target.value),
-              options: [
-                { label: "Card", value: "card" },
-                { label: "Page", value: "page" },
-              ],
+              title,
+              setTitle,
+              subtitle,
+              setSubtitle,
+              options: selectOptions,
+              category,
+              setCategory,
+              description,
+              setDescription,
+              author,
+              setAuthor,
+              date,
+              setDate,
+              content,
+              setContent,
+            }}
+          />
+          {/* Show delete button */}
+          <div
+            className={"d-flex align-items-center justify-between gap-3 mt-4"}
+          >
+            {data.id ? (
+              <>
+                <Widget
+                  src={
+                    "thomasguntenaar.near/widget/devhub.entity.addon.blogv2.editor.ConfirmModal"
+                  }
+                  props={{
+                    isOpen: isDeleteModalOpen,
+                    onCancelClick: () => setDeleteModal(false),
+                    onConfirmClick: () => {
+                      setDeleteModal(false);
+                      handleDelete();
+                    },
+                    title: "Are you sure you want to delete this blog?",
+                    content: "This will permanently remove your blog.",
+                    confirmLabel: "Ready to Delete",
+                    cancelLabel: "Cancel",
+                  }}
+                />
+                <Widget
+                  src={`thomasguntenaar.near/widget/devhub.components.molecule.Button`}
+                  props={{
+                    classNames: {
+                      root: "btn-outline-danger shadow-none border-0 btn-sm",
+                    },
+                    label: (
+                      <div className="d-flex align-items-center gap-1">
+                        <i class="bi bi-trash3"></i> Delete
+                      </div>
+                    ),
+                    testId: "delete-blog-button",
+                    disabled: submittedBlogDeleted,
+                    onClick: () => setDeleteModal(true),
+                  }}
+                />
+              </>
+            ) : null}
+            <div className="flex gap-x-3">
+              <Widget
+                src={`thomasguntenaar.near/widget/devhub.components.molecule.Button`}
+                props={{
+                  classNames: {
+                    root: "d-flex h-100 text-muted fw-bold btn-outline shadow-none border-0 btn-sm",
+                  },
+                  label: "Cancel",
+                  onClick: onCancel,
+                }}
+              />
+              <SubmitBtn />
+            </div>
+          </div>
+        </div>
+      )}
+      {previewMode === "preview" && (
+        <div
+          className="w-100 h-100 p-4 flex flex-column gap-4"
+          id="preview"
+          style={{ position: "relative" }}
+        >
+          <Card
+            data={{
+              title,
+              subtitle,
+              description,
+              publishedAt: date,
+              content,
+              author,
+              category,
+              community: handle,
+            }}
+          />
 
-              title: "Preview mode selection",
+          <Page
+            data={{
+              title,
+              subtitle,
+              description,
+              publishedAt: date,
+              content,
+              author,
+              category,
+              community: handle,
             }}
           />
         </div>
-        <div className="w-100 h-100 p-4">
-          <Preview />
-        </div>
-      </div>
+      )}
     </div>
   </Container>
 );

@@ -2,7 +2,7 @@ const [authorsOptions, setAuthorsOptions] = useState([]);
 const [selectedAuthor, setSelectedAuthor] = useState(null);
 
 if (!authorsOptions.length) {
-  const data = [{ label: "None", value: "" }];
+  const data = [{ label: "All", value: "" }];
   const authors = Near.view(
     "devhub.near",
     "get_all_proposal_authors",
@@ -17,8 +17,14 @@ if (!authorsOptions.length) {
   }
 }
 
+const Container = styled.div`
+  .dropdown-menu {
+    max-height: 400px;
+    overflow-x: auto;
+  }
+`;
 return (
-  <div>
+  <Container>
     <Widget
       src="thomasguntenaar.near/widget/devhub.components.molecule.DropDown"
       props={{
@@ -31,5 +37,5 @@ return (
         selectedValue: props.author,
       }}
     />
-  </div>
+  </Container>
 );

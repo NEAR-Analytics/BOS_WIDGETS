@@ -28,6 +28,7 @@ const IconRight = (
 )
 const {
   toast,
+  account,
   CHAIN_LIST,
   multicallAddress,
   dexConfig,
@@ -35,10 +36,10 @@ const {
   isChainSupported,
   onSwitchChain,
   addAction,
+  defaultDex,
   connectProps,
   prices,
 } = props
-
 const formatFiat = (value) => {
   const number = Number(value).toLocaleString("en", {
     currency: "USD",
@@ -56,15 +57,16 @@ const formatPercent = (value) => {
   })}%`;
 };
 
-const sender = Ethers.send("eth_requestAccounts", [])[0];
-if (!sender) {
+const sender = account;
+if (!sender || !isChainSupported) {
   return (
     <Widget
-      style={dexConfig.theme}
-      src="bluebiu.near/widget/Arbitrum.Swap.ConnectButton"
+      src="bluebiu.near/widget/Swap.ChainWarnigBox"
       props={{
-        ...connectProps,
-        isWrongNetwork: false,
+        chain: curChain,
+        onSwitchChain: onSwitchChain,
+        switchingChain: switchingChain,
+        theme: dexConfig.theme?.button,
       }}
     />
   );
@@ -174,7 +176,7 @@ useEffect(() => {
       })
     } else if (state.categoryIndex === 1) {
       state.dataList.forEach(data => {
-        if (Big(data.balance).gt(0)) {
+        if (Big(data?.liquidity ?? 0).gt(0)) {
           filterList.push(data)
         }
       })
@@ -276,8 +278,8 @@ const columnList = [{
   render: (data, index) => {
     return (
       <>
-        <TdTxt>{Big(data?.liquidity ?? 0).gt(0) ? `${formatFiat(data.liquidity)}` : "-"}</TdTxt>
-        {Big(data?.balance ?? 0).gt(0) && <TdTxt className="gray">{data.balance} LP</TdTxt>}
+        <TdTxt>{Big(data?.liquidity ?? 0).gt(0) ? `${Big(data?.liquidity ?? 0).lt(0.01) ? '<$0.01' : formatFiat(data.liquidity)}` : "-"}</TdTxt>
+        {Big(data?.balance ?? 0).gt(0) && <TdTxt className="gray">{Big(data?.balance ?? 0).lt(0.01) ? '<0.01' : Big(data.balance).toFixed(2)} LP</TdTxt>}
         <SvgIcon className={["icon-right", index === state.dataIndex ? "rotate" : ""]}>
           {IconRight}
         </SvgIcon>
@@ -293,6 +295,7 @@ return state.loading ? <Widget src="bluebiu.near/widget/0vix.LendingSpinner" /> 
         src={"bluebiu.near/widget/Liquidity.Data.STEER"}
         props={{
           pairs,
+          sender,
           addresses,
           allData: state.allData,
           stakingPoolsData: state.stakingPoolsData,
@@ -328,27 +331,18 @@ return state.loading ? <Widget src="bluebiu.near/widget/0vix.LendingSpinner" /> 
         prices,
         refetch,
         columnList,
+        curChain,
         userPositions: state.userPositions,
         dataIndex: state.dataIndex,
         onChangeDataIndex: handleChangeDataIndex,
         dataList: state.filterList,
         addresses,
         addAction,
+        defaultDex,
         proxyAddress,
         multicallAddress,
         ICON_VAULT_MAP,
       }}
     />
-    {!isChainSupported && (
-      <Widget
-        src="bluebiu.near/widget/Swap.ChainWarnigBox"
-        props={{
-          chain: curChain,
-          onSwitchChain: onSwitchChain,
-          switchingChain: switchingChain,
-          theme: dexConfig.theme?.button,
-        }}
-      />
-    )}
   </Column>
 )

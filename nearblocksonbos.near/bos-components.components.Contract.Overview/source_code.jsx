@@ -8,6 +8,7 @@
  * @param {Function} [t] - A function for internationalization (i18n) provided by the next-translate package.
  * @param {string} [id] - The account identifier passed as a string.
  * @param {ContractInfo} [contract] - Information about the user's contract.
+ * @param {boolean} [isLocked] - Boolean indicating whether the account or contract with full access key or not.
  * @param {any} [schema] - The schema data for the component.
  * @param {ContractParseInfo} [contractInfo] - Additional parsed information about the contract.
  * @param {Function} [requestSignInWithWallet] - Function to initiate sign-in with a wallet.
@@ -33,12 +34,18 @@
 
 
 
+
+
+
+
+
 function MainComponent(props) {
   const {
     network,
     t,
     id,
     contract,
+    isLocked,
     schema,
     contractInfo,
     requestSignInWithWallet,
@@ -97,6 +104,7 @@ function MainComponent(props) {
               t: t,
               id: id,
               contract: contract,
+              isLocked: isLocked,
               ownerId,
             }}
           />
@@ -105,26 +113,23 @@ function MainComponent(props) {
       <Tabs.Content value={tabs[1]}>
         <div className="border-t dark:border-black-200 p-4">
           {connected ? (
-            <Tooltip.Provider>
-              <Tooltip.Root>
-                <Tooltip.Trigger asChild>
-                  <button
-                    className="px-2 mr-1 md:px-3 bg-neargreen py-2 text-xs font-medium rounded-md text-white inline-flex items-center"
-                    onClick={logOut}
-                  >
-                    <span className="h-3 w-3 inline-block rounded-full mr-2 bg-white dark:bg-black-600 dark:text-neargray-10" />
-                    Connected
-                  </button>
-                </Tooltip.Trigger>
-                <Tooltip.Content
-                  className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                  align="start"
-                  side="bottom"
-                >
-                  Connect to Contract
-                </Tooltip.Content>
-              </Tooltip.Root>
-            </Tooltip.Provider>
+            <OverlayTrigger
+              placement="bottom-start"
+              delay={{ show: 500, hide: 0 }}
+              overlay={
+                <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
+                  Connected to Contract
+                </Tooltip>
+              }
+            >
+              <button
+                className="px-2 mr-1 md:px-3 bg-neargreen py-2 text-xs font-medium rounded-md text-white inline-flex items-center"
+                onClick={logOut}
+              >
+                <span className="h-3 w-3 inline-block rounded-full mr-2 bg-white dark:bg-black-600 dark:text-neargray-10" />
+                Connected
+              </button>
+            </OverlayTrigger>
           ) : (
             <button
               className="px-2 mr-1 md:px-3 bg-red-400 py-2 text-xs font-medium rounded-md text-white inline-flex items-center"

@@ -1,13 +1,15 @@
 const RewardsTable = styled.div`
-  background-color: rgba(53, 55, 73, 0.2);
+  color: var(--agg-primary-color, #fff);
+  background-color: var(--agg-secondary-color, rgba(53, 55, 73, 0.2));
+  border: 1px solid var(--agg-border-color, rgba(53, 55, 73, 0.2));
   margin-top: 20px;
-  border-radius: 6px;
+  border-radius: 12px;
 `;
 const Title = styled.div`
   padding: 10px 20px;
   font-size: 16px;
   font-weight: 400;
-  color: #fff;
+  color: var(--agg-primary-color, #fff);
 `;
 
 const NoReward = styled.div`

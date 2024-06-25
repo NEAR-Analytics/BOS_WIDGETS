@@ -17,7 +17,9 @@
  *                                    Example: onTab={onHandleTab} where onHandleTab is a function to change tab on the page.
  * @param {string} [pageTab] - The page tab being displayed. (Optional)
  *                                 Example: If provided, tab=transfer in the url it will select the transfer tab of token details.
+ * @param {Function} [requestSignInWithWallet] - Function to initiate sign-in with a wallet.
  */
+
 
 
 
@@ -45,7 +47,7 @@ const ErrorMessage = ({ icons, message, mutedText }) => {
         {message}
       </h3>
 
-      <p className="mb-0 py-4 font-bold break-words px-2">{mutedText}</p>
+      <p className="mb-0 py-1 font-bold break-words px-2">{mutedText}</p>
     </div>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/ErrorMessage.jsx" */
@@ -342,29 +344,25 @@ function MainComponent({
   ownerId,
   onHandleTab,
   pageTab,
+  requestSignInWithWallet,
 }) {
   const { dollarFormat, dollarNonCentFormat, localFormat, getTimeAgoString } =
     VM.require(`${ownerId}/widget/includes.Utils.formats`);
 
-  const { getConfig, handleRateLimit, nanoToMilli } = VM.require(
+  const { getConfig, handleRateLimit, nanoToMilli, fetchData } = VM.require(
     `${ownerId}/widget/includes.Utils.libs`,
   );
 
-  const tabs = [
-    t ? t('token:fts.ft.transfers') : 'Transfers',
-    t ? t('token:fts.ft.holders') : 'Holders',
-    'Info',
-    'FAQ',
-    'Comments',
-  ];
+  const tabs = ['Transfers', 'Holders', 'Info', 'FAQ', 'Comments'];
   const [isLoading, setIsLoading] = useState(false);
   const [txnLoading, setTxnLoading] = useState(false);
   const [holderLoading, setHolderLoading] = useState(false);
   const [stats, setStats] = useState({} );
   const [token, setToken] = useState({} );
+  const [spamTokens, setSpamTokens] = useState({ blacklist: [] });
   const [transfers, setTransfers] = useState('');
   const [holders, setHolders] = useState('');
-
+  const [isVisible, setIsVisible] = useState(true);
   const [showMarketCap, setShowMarketCap] = useState(false);
   const [status, setStatus] = useState({
     height: 0,
@@ -372,7 +370,6 @@ function MainComponent({
     timestamp: '',
   });
   const config = getConfig && getConfig(network);
-
   useEffect(() => {
     function fetchFTData() {
       setIsLoading(true);
@@ -478,6 +475,15 @@ function MainComponent({
         )
         .catch(() => {});
     }
+
+    fetchData &&
+      fetchData(
+        'https://raw.githubusercontent.com/Nearblocks/spam-token-list/main/tokens.json',
+        (response) => {
+          const data = JSON.parse(response);
+          setSpamTokens(data);
+        },
+      );
     if (config?.backendUrl) {
       fetchStatsData();
       fetchFTData();
@@ -485,10 +491,22 @@ function MainComponent({
       fetchHoldersCount();
       fetchStatus();
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [config.backendUrl, id]);
 
+  function isTokenSpam(tokenName) {
+    if (spamTokens)
+      for (const spamToken of spamTokens.blacklist) {
+        const cleanedToken = spamToken.replace(/^\*/, '');
+        if (tokenName.endsWith(cleanedToken)) {
+          return true;
+        }
+      }
+    return false;
+  }
+  const handleClose = () => {
+    setIsVisible(false);
+  };
   const onTab = (index) => {
     onHandleTab(tabs[index]);
   };
@@ -520,6 +538,32 @@ function MainComponent({
         )}
       </div>
       <div>
+        {isTokenSpam(token.contract || id) && isVisible && (
+          <>
+            <div className="w-full flex justify-between text-left border dark:bg-nearred-500  dark:border-nearred-400 dark:text-nearred-300 bg-red-50 border-red-100 text-red-500 text-sm rounded-lg p-4">
+              <p className="items-center">
+                <WarningIcon className="w-5 h-5 fill-current mx-1 inline-flex" />
+                This token is reported to have been spammed to many users.
+                Please exercise caution when interacting with it. Click
+                <a
+                  href="https://github.com/Nearblocks/spam-token-list"
+                  className="underline mx-0.5"
+                  target="_blank"
+                >
+                  here
+                </a>
+                for more info.
+              </p>
+              <span
+                className="text-sm text-gray-500 hover:text-gray-800 dark:hover:text-gray-400 cursor-pointer"
+                onClick={handleClose}
+              >
+                X
+              </span>
+            </div>
+            <div className="py-2"></div>
+          </>
+        )}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-2 md:mb-2">
           <div className="w-full">
             <div className="h-full bg-white dark:bg-black-600 soft-shadow rounded-xl overflow-hidden">
@@ -578,64 +622,53 @@ function MainComponent({
                           : 'FULLY DILUTED MARKET CAP'}
                       </span>
                       <span>
-                        <Tooltip.Provider>
-                          <Tooltip.Root>
-                            <Tooltip.Trigger asChild>
-                              <Question className="w-4 h-4 fill-current ml-1" />
-                            </Tooltip.Trigger>
-                            <Tooltip.Content
-                              className="h-auto max-w-xs bg-black  bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words"
-                              align="start"
-                              side="bottom"
-                            >
+                        <OverlayTrigger
+                          placement="bottom-start"
+                          delay={{ show: 500, hide: 0 }}
+                          overlay={
+                            <Tooltip className="fixed h-auto max-w-xs bg-black  bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words">
                               {
                                 'Calculated by multiplying the tokens Total Supply on Near with the current market price per token.'
                               }
-                            </Tooltip.Content>
-                          </Tooltip.Root>
-                        </Tooltip.Provider>
+                            </Tooltip>
+                          }
+                        >
+                          <Question className="w-4 h-4 fill-current ml-1" />
+                        </OverlayTrigger>
                       </span>
                     </div>
                     {isLoading ? (
                       <div className="w-20">
                         <Skeleton className="h-4" />
                       </div>
-                    ) : (token?.fully_diluted_market_cap !== null &&
-                        token?.fully_diluted_market_cap !== undefined) ||
-                      (token?.market_cap !== null &&
-                        token?.market_cap !== undefined) ? (
+                    ) : Number(token?.fully_diluted_market_cap) > 0 ||
+                      Number(token?.market_cap) > 0 ? (
                       <div className="w-full break-words flex flex-wrap text-sm">
-                        {token?.fully_diluted_market_cap !== null &&
-                        token?.fully_diluted_market_cap !== undefined &&
-                        token?.market_cap !== null &&
-                        token?.market_cap !== undefined ? (
-                          <Tooltip.Provider>
-                            <Tooltip.Root>
-                              <Tooltip.Trigger asChild>
-                                <p
-                                  className="px-1 py-1 text-xs cursor-pointer rounded bg-gray-100 dark:bg-black-200"
-                                  onClick={onToggle}
-                                >
-                                  {showMarketCap
-                                    ? '$' +
-                                      dollarNonCentFormat(token?.market_cap)
-                                    : '$' +
-                                      dollarNonCentFormat(
-                                        token?.fully_diluted_market_cap,
-                                      )}
-                                </p>
-                              </Tooltip.Trigger>
-                              <Tooltip.Content
-                                className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words"
-                                align="start"
-                                side="bottom"
-                              >
+                        {Number(token?.fully_diluted_market_cap) > 0 &&
+                        Number(token?.market_cap) > 0 ? (
+                          <OverlayTrigger
+                            placement="bottom-start"
+                            delay={{ show: 500, hide: 0 }}
+                            overlay={
+                              <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words">
                                 {showMarketCap
                                   ? 'Click to switch back'
                                   : 'Click to switch'}
-                              </Tooltip.Content>
-                            </Tooltip.Root>
-                          </Tooltip.Provider>
+                              </Tooltip>
+                            }
+                          >
+                            <p
+                              className="px-1 py-1 text-xs cursor-pointer rounded bg-gray-100 dark:bg-black-200"
+                              onClick={onToggle}
+                            >
+                              {showMarketCap
+                                ? '$' + dollarNonCentFormat(token?.market_cap)
+                                : '$' +
+                                  dollarNonCentFormat(
+                                    token?.fully_diluted_market_cap,
+                                  )}
+                            </p>
+                          </OverlayTrigger>
                         ) : (
                           <p className="px-1 py-1 text-xs cursor-pointer rounded bg-gray-100 dark:bg-black-200">
                             {'$' +
@@ -701,16 +734,11 @@ function MainComponent({
                       <div className="flex items-center">
                         {holders ? localFormat(holders) : holders ?? ''}
                         {!status.sync && (
-                          <Tooltip.Provider>
-                            <Tooltip.Root>
-                              <Tooltip.Trigger asChild>
-                                <WarningIcon className="w-4 h-4 fill-current ml-1" />
-                              </Tooltip.Trigger>
-                              <Tooltip.Content
-                                className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words"
-                                align="start"
-                                side="bottom"
-                              >
+                          <OverlayTrigger
+                            placement="bottom-start"
+                            delay={{ show: 500, hide: 0 }}
+                            overlay={
+                              <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words">
                                 Holders count is out of sync. Last synced block
                                 is
                                 <span className="font-bold mx-0.5">
@@ -721,9 +749,11 @@ function MainComponent({
                                     nanoToMilli(status?.timestamp),
                                   )}).`}
                                 Holders data will be delayed.
-                              </Tooltip.Content>
-                            </Tooltip.Root>
-                          </Tooltip.Provider>
+                              </Tooltip>
+                            }
+                          >
+                            <WarningIcon className="w-4 h-4 fill-current ml-1" />
+                          </OverlayTrigger>
                         )}
                       </div>
                     </div>
@@ -734,7 +764,7 @@ function MainComponent({
           </div>
           <div className="w-full">
             <div className="h-full bg-white dark:bg-black-600 soft-shadow rounded-xl overflow-hidden">
-              <h2 className="border dark:border-black-200 -b p-3 text-nearblue-600 dark:text-neargray-10 text-sm font-semibold">
+              <h2 className="border-b dark:border-black-200 p-3 text-nearblue-600 dark:text-neargray-10 text-sm font-semibold">
                 Profile Summary
               </h2>
               <div className="px-3 divide-y dark:divide-black-200 text-sm text-nearblue-600 dark:text-neargray-10">
@@ -833,7 +863,15 @@ function MainComponent({
                     }`}
                     value={tab}
                   >
-                    {tab === 'FAQ' && token ? <h2>{tab}</h2> : <h2>{tab}</h2>}
+                    {tab === 'FAQ' && token ? (
+                      <h2>{tab}</h2>
+                    ) : tab === 'Transfers' ? (
+                      <h2>{t ? t('token:fts.ft.transfers') : tab}</h2>
+                    ) : tab === 'Holders' ? (
+                      <h2>{t ? t('token:fts.ft.holders') : tab}</h2>
+                    ) : (
+                      <h2>{tab}</h2>
+                    )}
                   </button>
                 ))}
             </div>
@@ -874,8 +912,67 @@ function MainComponent({
                       network: network,
                       id: id,
                       token: token,
+                      isLoading,
                       ownerId,
                     }}
+                    loading={
+                      <>
+                        <div className="w-full mx-auto">
+                          <div className="px-3 pt-2 pb-5 text-sm text-gray">
+                            <h3 className="text-nearblue-600  dark:text-neargray-10 text-sm font-semibold py-2 underline">
+                              Overview
+                            </h3>
+                            <div className="text-sm py-2 text-nearblue-600 dark:text-neargray-10">
+                              <Skeleton className="w-1/2 h-4" />
+                            </div>
+
+                            <h3 className="text-nearblue-600  dark:text-neargray-10 text-sm font-semibold py-2 underline">
+                              Market
+                            </h3>
+                            <div className="flex flex-wrap lg:w-1/2 py-2 text-nearblue-600 dark:text-neargray-10">
+                              <div className="w-full md:w-1/4 mb-2 md:mb-0">
+                                Volume (24H):
+                              </div>
+                              <div className="w-full md:w-3/4 break-words">
+                                <Skeleton className="w-full h-4" />
+                              </div>
+                            </div>
+                            <div className="flex flex-wrap lg:w-1/2 py-2 text-nearblue-600 dark:text-neargray-10">
+                              <div className="w-full md:w-1/4 mb-2 md:mb-0">
+                                Circulating MC:
+                              </div>
+                              <div className="w-full md:w-3/4 break-words">
+                                <Skeleton className="w-full h-4" />
+                              </div>
+                            </div>
+                            <div className="flex flex-wrap lg:w-1/2 py-2 text-nearblue-600 dark:text-neargray-10">
+                              <div className="w-full md:w-1/4 mb-2 md:mb-0">
+                                On-chain MC:
+                              </div>
+                              <div className="w-full md:w-3/4 break-words">
+                                <Skeleton className="w-full h-4" />
+                              </div>
+                            </div>
+                            <div className="flex flex-wrap lg:w-1/2 py-2 text-nearblue-600 dark:text-neargray-10">
+                              <div className="w-full md:w-1/4 mb-2 md:mb-0">
+                                Circulating Supply:
+                              </div>
+                              <div className="w-full md:w-3/4 break-words">
+                                <Skeleton className="w-full h-4" />
+                              </div>
+                            </div>
+                            <div className="flex flex-wrap lg:w-1/2 pt-6 text-gray-400 dark:text-neargray-10 text-xs">
+                              <div className="w-full md:w-1/4 mb-2 md:mb-0">
+                                Market Data Source:
+                              </div>
+                              <div className="w-full md:w-3/4 break-words flex">
+                                <Skeleton className="w-full h-4" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    }
                   />
                 }
               </div>
@@ -890,6 +987,42 @@ function MainComponent({
                         token: token,
                         ownerId,
                       }}
+                      loading={
+                        <div>
+                          <div className="px-3 pb-2 text-sm divide-y divide-gray-200 dark:divide-black-200 space-y-2">
+                            <div>
+                              <h3 className="text-nearblue-600 dark:text-neargray-10 text-sm font-semibold pt-4 pb-2">
+                                <Skeleton className="w-40 h-4" />
+                              </h3>
+                              <div>
+                                <div className="text-sm text-nearblue-600 dark:text-neargray-10 py-2">
+                                  <Skeleton className="w-full h-8" />
+                                </div>
+                              </div>
+                            </div>
+                            <div>
+                              <h3 className="text-nearblue-600 dark:text-neargray-10 text-sm font-semibold pt-4 pb-2">
+                                <Skeleton className="w-40 h-4" />
+                              </h3>
+                              <div>
+                                <div className="text-sm text-nearblue-600 dark:text-neargray-10 py-2">
+                                  <Skeleton className="w-full h-8" />
+                                </div>
+                              </div>
+                            </div>
+                            <div>
+                              <h3 className="text-nearblue-600 dark:text-neargray-10 text-sm font-semibold pt-4 pb-2">
+                                <Skeleton className="w-40 h-4" />
+                              </h3>
+                              <div>
+                                <div className="text-sm text-nearblue-600 dark:text-neargray-10 py-2">
+                                  <Skeleton className="w-full h-8" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      }
                     />
                   ) : (
                     <div className="px-6 py-4 dark:text-gray-400 text-nearblue-700 text-xs">
@@ -911,7 +1044,21 @@ function MainComponent({
                         path: `nearblocks.io/ft/${id}`,
                         limit: 10,
                         ownerId,
+                        requestSignInWithWallet,
                       }}
+                      loading={
+                        <div className="w-full mx-auto">
+                          <div className="p-4 md:px-8">
+                            <div className="md:flex justify-center w-full">
+                              <div className="w-full">
+                                <div className="py-2">
+                                  <Skeleton className="w-full h-28" />{' '}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      }
                     />
                   }
                 </div>

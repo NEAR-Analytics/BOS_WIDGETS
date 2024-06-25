@@ -1,7 +1,7 @@
 const {
   account,
   curChain,
-  bridgeCb,
+  windowOpen,
   theme,
   dexConfig,
   isChainSupported,
@@ -100,11 +100,11 @@ return (
       <BridgeBanner
         onClick={() => {
           if (!isChainSupported) return;
-          if (bridgeCb) bridgeCb();
+          if (windowOpen) windowOpen("/super-bridge", "_blank");
         }}
         style={theme?.bridge ? theme.bridge : {}}
       >
-        <div className="bridge-text ">
+        <div className="bridge-text">
           <img className="icon" src={curChain.logo} />
 
           <div className="text-wrapper">

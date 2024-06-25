@@ -104,6 +104,7 @@ const StyledWrapOrUnwrapInputTopBalance = styled.div`
   font-weight: 400;
   line-height: normal;
   span {
+    cursor: pointer;
     color: #FFF;
     text-decoration-line: underline;
   }
@@ -195,10 +196,10 @@ const {
   sender,
   chainId,
   addAction,
-  SYMBOL_ADDRESS,
   onCloseWrap,
 } = props
 
+const WETH_ADDRESS = "0x4300000000000000000000000000000000000004"
 const isWrapInSufficient = Number(state?.wrapAmount ?? 0) > Number(state?.balances["ETH"] ?? 0)
 const isUnwrapInSufficient = Number(state?.unwrapAmount ?? 0) > Number(state?.balances["WETH"] ?? 0)
 
@@ -224,7 +225,7 @@ function handleQueryBalances() {
     "outputs": [
       {
         "internalType": "uint256",
-        "name": "value",
+        "name": "",
         "type": "uint256"
       }
     ],
@@ -232,7 +233,7 @@ function handleQueryBalances() {
     "type": "function"
   }]
   const contract = new ethers.Contract(
-    ethers.utils.getAddress(SYMBOL_ADDRESS),
+    ethers.utils.getAddress(WETH_ADDRESS),
     abi,
     Ethers.provider().getSigner()
   );
@@ -274,7 +275,7 @@ function handleWrap() {
     "type": "function"
   }]
   const contract = new ethers.Contract(
-    ethers.utils.getAddress(SYMBOL_ADDRESS),
+    ethers.utils.getAddress(WETH_ADDRESS),
     abi,
     Ethers.provider().getSigner()
   );
@@ -343,7 +344,7 @@ function handleUnwrap() {
     "type": "function"
   }]
   const contract = new ethers.Contract(
-    ethers.utils.getAddress(SYMBOL_ADDRESS),
+    ethers.utils.getAddress(WETH_ADDRESS),
     abi,
     Ethers.provider().getSigner()
   );
@@ -394,6 +395,10 @@ function handleUnwrap() {
 function handleRefresh() {
   handleQueryBalances()
 }
+function handleMax() {
+  const amount = state.categoryIndex === 0 ? state.balances["ETH"] : state.balances["WETH"]
+  handleAmountChange(amount)
+}
 useEffect(() => {
   handleRefresh()
 }, [])
@@ -429,7 +434,7 @@ return (
               <StyledWrapOrUnwrapInputTop>
                 <StyledWrapOrUnwrapInputTopType>Deposit</StyledWrapOrUnwrapInputTopType>
                 <StyledWrapOrUnwrapInputTopBalance>
-                  Balance: <span>{state.balances["ETH"]}</span>
+                  Balance: <span onClick={handleMax}>{state.balances["ETH"]}</span>
                 </StyledWrapOrUnwrapInputTopBalance>
               </StyledWrapOrUnwrapInputTop>
               <StyledWrapOrUnwrapInputBottom>
@@ -460,7 +465,7 @@ return (
               <StyledWrapOrUnwrapInputTop>
                 <StyledWrapOrUnwrapInputTopType>Deposit</StyledWrapOrUnwrapInputTopType>
                 <StyledWrapOrUnwrapInputTopBalance>
-                  Balance: <span>{state.balances["WETH"]}</span>
+                  Balance: <span onClick={handleMax}>{state.balances["WETH"]}</span>
                 </StyledWrapOrUnwrapInputTopBalance>
               </StyledWrapOrUnwrapInputTop>
               <StyledWrapOrUnwrapInputBottom>

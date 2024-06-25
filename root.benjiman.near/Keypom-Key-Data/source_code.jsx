@@ -28,7 +28,6 @@ query MyQuery {
   }
 `;
 
-//
 function getNumKeypomKeys() {
   return fetch(`${GRAPHQL_ENDPOINT}/v1/graphql`, {
     method: "POST",
@@ -41,7 +40,6 @@ function getNumKeypomKeys() {
 }
 
 function fetchKeypomKeyDataFromDb(offset, limit) {
-  console.log(`fetching offset: ${offset}, limit: ${limit}`);
   let data = fetch(`${GRAPHQL_ENDPOINT}/v1/graphql`, {
     method: "POST",
     headers: { "x-hasura-role": "root_benjiman_near" },
@@ -58,14 +56,13 @@ const paginateKeys = (limit, keysPerQuery) => {
   let keyData = [];
   for (let i = 0; i < limit; i += keysPerQuery) {
     let fetchedKeyData = fetchKeypomKeyDataFromDb(i, keysPerQuery);
-    console.log("fetchedKeyData: ", fetchedKeyData.length);
 
     keyData = keyData.concat(fetchedKeyData);
   }
 
   return keyData;
 };
-// First get the number of keypom keys and then paginate 1000 at a time using fetch and .then instead of async await
+
 const getKeyData = () => {
   let numKeys = getNumKeypomKeys();
   return paginateKeys(numKeys, 10000);
@@ -79,14 +76,19 @@ for (var data of keyData) {
   let date = new Date(0);
   date.setUTCMilliseconds(data.block_timestamp / 1e6);
   let dateForSet = date.toLocaleDateString();
-  console.log("dateForSet: ", dateForSet);
   dataSet[dateForSet] = dataSet[dateForSet] || 0;
   dataSet[dateForSet] = totalNumberOfExperiences;
 
   totalNumberOfExperiences += 1;
 }
 
-//return <div>{JSON.stringify(data)}</div>;
+// Extract dates and values
+const dates = Object.keys(dataSet);
+const experiences = Object.values(dataSet);
+
+// Reverse dates
+const reversedDates = dates.reverse();
+
 const colsToShow = ["Experiences"];
 const definition = {
   title: {
@@ -115,7 +117,7 @@ const definition = {
   xAxis: {
     type: "category",
     boundaryGap: false,
-    data: Object.keys(dataSet),
+    data: reversedDates,
   },
   yAxis: {
     type: "value",
@@ -123,7 +125,7 @@ const definition = {
   series: colsToShow.map((col) => ({
     name: col,
     type: "line",
-    data: Object.values(dataSet),
+    data: experiences,
   })),
 };
 

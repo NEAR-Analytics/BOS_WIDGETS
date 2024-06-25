@@ -23,15 +23,11 @@ const Wrapper = styled.div`
   }
 
   .inline-flex {
-    display: inline-flex !important;
+    display: -webkit-inline-box !important;
     align-items: center !important;
     gap: 0.25rem !important;
-  }
-
-  @media screen and (max-width: 768px) {
-    .inline-flex {
-      display: -webkit-inline-box !important;
-    }
+    margin-right: 2px;
+    flex-wrap: wrap;
   }
 `;
 
@@ -85,7 +81,7 @@ State.init({
 });
 
 function sortTimelineAndComments() {
-  const comments = Social.index("comment", props.item);
+  const comments = Social.index("comment", props.item, { subscribe: true });
 
   if (state.changedKeysListWithValues === null) {
     const changedKeysListWithValues = snapshotHistory
@@ -198,9 +194,10 @@ const Comment = ({ commentItem }) => {
 
             <div className="d-flex gap-2 align-items-center mt-4">
               <Widget
-                src="near/widget/v1.LikeButton"
+                src="thomasguntenaar.near/widget/devhub.entity.proposal.LikeButton"
                 props={{
                   item: item,
+                  notifyAccountId: accountId,
                 }}
               />
               <Widget
@@ -263,6 +260,8 @@ function parseTimelineKeyAndValue(timeline, originalValue, modifiedValue) {
           </span>
         )
       );
+    case "payouts":
+      return <span>updated the funding payment links.</span>;
     // we don't have this step for now
     // case "request_for_trustees_created":
     //   return !oldValue && newValue && <span>successfully created request for trustees</span>;
@@ -351,10 +350,7 @@ const parseProposalKeyAndValue = (key, modifiedValue, originalValue) => {
           text && (
             <span key={index} className="inline-flex">
               {text}
-              {text &&
-                originalKeys.length > 1 &&
-                index < modifiedKeys.length - 1 &&
-                "･"}
+              {text && "･"}
             </span>
           )
         );
@@ -394,7 +390,7 @@ const Log = ({ timestamp }) => {
   }
 
   return valuesArray.map((i, index) => {
-    if (i.key && i.key !== "timestamp") {
+    if (i.key && i.key !== "timestamp" && i.key !== "proposal_body_version") {
       return (
         <LogIconContainer
           className="d-flex gap-3 align-items-center"
@@ -417,7 +413,7 @@ const Log = ({ timestamp }) => {
               <AccountProfile accountId={editorId} showAccountId={true} />
             </span>
             {parseProposalKeyAndValue(i.key, i.modifiedValue, i.originalValue)}
-            on
+            {i.key !== "timeline" && "･"}
             <Widget
               src="near/widget/TimeAgo"
               props={{

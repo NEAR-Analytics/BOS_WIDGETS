@@ -5,9 +5,6 @@ const { ProgressState } = VM.require(
 const { Bullet } = VM.require("buildhub.near/widget/components.Bullet");
 const { Step } = VM.require("buildhub.near/widget/components.Step");
 const { InputField } = VM.require("buildhub.near/widget/components.InputField");
-const { UploadField } = VM.require(
-  "buildhub.near/widget/components.UploadField"
-);
 const { TextBox } = VM.require("buildhub.near/widget/components.TextBox");
 const { TextEditor } = VM.require("buildhub.near/widget/components.TextEditor");
 const { Checkbox } = VM.require("buildhub.near/widget/components.Checkbox");
@@ -63,7 +60,6 @@ return {
   Step,
   Hashtag,
   InputField,
-  UploadField,
   TextBox,
   TextEditor,
   Checkbox,

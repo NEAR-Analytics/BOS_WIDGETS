@@ -30,10 +30,12 @@ const IconRight = (
 )
 const {
   toast,
+  account,
   isDapps,
   CHAIN_LIST,
   multicallAddress,
   dexConfig,
+  defaultDex,
   curChain,
   isChainSupported,
   onSwitchChain,
@@ -41,7 +43,6 @@ const {
   connectProps,
   prices,
 } = props
-console.log('=multicallAddress', multicallAddress)
 
 const formatFiat = (value) => {
   const number = Number(value).toLocaleString("en", {
@@ -60,15 +61,16 @@ const formatPercent = (value) => {
   })}%`;
 };
 
-const sender = Ethers.send("eth_requestAccounts", [])[0];
-if (!sender) {
+const sender = account;
+if (!sender || !isChainSupported && !isDapps) {
   return (
     <Widget
-      style={dexConfig.theme}
-      src="bluebiu.near/widget/Arbitrum.Swap.ConnectButton"
+      src="bluebiu.near/widget/Swap.ChainWarnigBox"
       props={{
-        ...connectProps,
-        isWrongNetwork: false,
+        chain: curChain,
+        onSwitchChain: onSwitchChain,
+        switchingChain: switchingChain,
+        theme: dexConfig.theme?.button,
       }}
     />
   );
@@ -102,7 +104,7 @@ function fetchUserData() {
   asyncFetch(USER_DATA_BASE + `${sender}`).then((res) => {
     if (!res.ok) return;
     State.update({
-      userPositions: res.body[sender],
+      userPositions: res.body[sender.toLocaleLowerCase()],
     });
   });
 };
@@ -133,7 +135,6 @@ function refetch() {
   fetchAllData()
   fetchUserData()
 }
-
 useEffect(() => {
   if (state.dataList) {
     let filterList = []
@@ -174,7 +175,7 @@ useEffect(() => {
         userPositions: null
       })
       fetchAllData()
-      fetchUserData()
+      // fetchUserData()
     }
   }
 }, [curChain])
@@ -305,10 +306,11 @@ const columnList = isDapps ? [{
     const userBalance = userPositions && addresses[data.id] in userPositions
       ? userPositions[addresses[data.id]].balanceUSD
       : undefined;
+
     return (
       <>
-        <TdTxt>{Big(userBalance ?? 0).gt(0) ? `${formatFiat(userBalance)}` : "-"}</TdTxt>
-        {Big(data?.liquidity ?? 0).gt(0) && <TdTxt className="gray">{data.liquidity} LP</TdTxt>}
+        <TdTxt>{Big(userBalance ?? 0).gt(0) ? `${Big(userBalance ?? 0).lt(0.01) ? '<$0.01' : formatFiat(userBalance)}` : "-"}</TdTxt>
+        {Big(data?.liquidity ?? 0).gt(0) && <TdTxt className="gray">{Big(data?.liquidity ?? 0).lt(0.01) ? '<0.01' : Big(data.liquidity).toFixed(2)} LP</TdTxt>}
         <SvgIcon className={["icon-right", index === state.dataIndex ? "rotate" : ""]}>
           {IconRight}
         </SvgIcon>
@@ -324,6 +326,7 @@ return state.loading ? <Widget src="bluebiu.near/widget/0vix.LendingSpinner" /> 
         src={"bluebiu.near/widget/Liquidity.Data.Gamma"}
         props={{
           pairs,
+          sender,
           addresses,
           allData: state.allData,
           prices,
@@ -365,6 +368,7 @@ return state.loading ? <Widget src="bluebiu.near/widget/0vix.LendingSpinner" /> 
         columnList,
         userPositions: state.userPositions,
         dataIndex: state.dataIndex,
+        defaultDex,
         onChangeDataIndex: handleChangeDataIndex,
         dataList: state.filterList,
         addresses,
@@ -374,7 +378,7 @@ return state.loading ? <Widget src="bluebiu.near/widget/0vix.LendingSpinner" /> 
         ICON_VAULT_MAP,
       }}
     />
-    {!isChainSupported && !isDapps && (
+    {/* {!isChainSupported && !isDapps && (
       <Widget
         src="bluebiu.near/widget/Swap.ChainWarnigBox"
         props={{
@@ -384,6 +388,6 @@ return state.loading ? <Widget src="bluebiu.near/widget/0vix.LendingSpinner" /> 
           theme: dexConfig.theme?.button,
         }}
       />
-    )}
+    )} */}
   </Column>
 )

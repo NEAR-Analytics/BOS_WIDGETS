@@ -43,28 +43,43 @@ const Wrapper = styled.div`
 
 return (
   <Wrapper>
-    <div className="aside">
-      <div id="tabs">
-        {/* Render the objs as links */}
-        {props.objs.map((obj) =>
-          obj.type === "button" ? (
-            <a
-              key={obj.link}
-              href={obj.link}
-              className={`tab ${active === obj.link ? "active" : ""}`}
-            >
-              <button>{obj.name}</button>
-            </a>
-          ) : (
-            <a
-              key={obj.link}
-              href={obj.link}
-              className={`tab ${active === obj.link ? "active" : ""}`}
-            >
-              {obj.name}
-            </a>
-          )
-        )}
+    <div className="card text-center">
+      <div id="tabs" className="card-header">
+        <ul className="nav nav-tabs card-header-tabs">
+          <a
+            href="https://near.social/abnakore.near/widget/VoteChain"
+            className={`nav-item  ${
+              active === "https://near.social/abnakore.near/widget/VoteChain"
+                ? "active"
+                : ""
+            }`}
+          >
+            <i class="bi bi-house-fill fs-4"></i>
+          </a>
+          {/* Render the objs as links */}
+          {props.objs.map((obj) =>
+            obj.type === "button" ? (
+              <a
+                class={`nav-link tab ${active === obj.link ? "active" : ""}`}
+                aria-current={active === obj.link}
+                href={obj.link}
+              >
+                <button>{obj.name}</button>
+              </a>
+            ) : (
+              <li key={obj.link} class="nav-item">
+                <a
+                  class={`nav-link tab ${active === obj.link ? "active" : ""}`}
+                  aria-current={active === obj.link}
+                  href={obj.link}
+                >
+                  {obj.name}
+                </a>
+              </li>
+            )
+          )}
+        </ul>
+
         {/* <Link to='/' className="tab">Vote Page</Link>
                     <Link to='/result' className="tab">Results</Link>
                     <Link to='/' className="tab">Login/Logout</Link> */}
@@ -72,6 +87,7 @@ return (
     </div>
   </Wrapper>
 );
+//
 
 // .aside {
 //   position: fixed;

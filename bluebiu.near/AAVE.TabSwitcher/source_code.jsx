@@ -1,35 +1,26 @@
 const { config, select, setSelect, theme } = props;
 
 const TabContainer = styled.div`
-  background: #212233;
-
+  background: var(--agg-secondary-color, #212233);
+  color: var(--agg-primary-color, #fff);
+  border: 1px solid #212233;
   display: flex;
-  padding: 4px;
-  border-radius: 10px;
-
-  margin-top: 30px;
-
-  @media (min-width: 640px) {
-    max-width: 355px;
-    margin: 0 auto;
-    margin-top: 50px;
-  }
+  width: 244px;
+  height: 52px;
+  border-radius: 28px;
+  align-items: center;
+  padding: 0 4px;
 `;
 
 const TabItem = styled.div`
   flex: 1;
-  height: 48px;
-
-  display: grid;
-  place-content: center;
-  border-radius: 10px;
-  /* color: var(--button-text-color);
-  background: ${loading || disabled
-    ? "var(--button-disabled-color)"
-    : "var(--button-color)"}; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  border-radius: 28px;
   ${(props) =>
-    props.selected &&
-    "color: var(--button-text-color);background: var(--button-color);"}
+    props.selected && "color: white;background: var(--agg-primary-color,#000);"}
   ${(props) =>
     props.disabled &&
     `
@@ -39,18 +30,18 @@ const TabItem = styled.div`
 
   font-size: 16px;
   font-weight: bold;
-
+  cursor: pointer;
   transition: all 0.3s ease-in-out;
-  ${(props) =>
+  /* ${(props) =>
     !props.selected &&
     `
     cursor: pointer;
     &:hover {
-      color: var(--button-text-color);
-      background: var(--button-color);
+      color: var(--agg-primary-color,--button-text-color);
+      background: var(--agg-secondary-color,--button-color);
       opacity: 0.7;
     }
-  `}
+  `} */
 `;
 
 return (

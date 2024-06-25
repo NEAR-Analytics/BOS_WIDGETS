@@ -51,7 +51,7 @@ const WidgetBadgeWrapper = styled.div`
 `;
 
 return (
-  <Container>
+  <Container id="default-layout-manager">
     {props.widgets
       .filter((w) => w.isSuitable === undefined || w.isSuitable === true)
       .map((widget) => (
@@ -82,6 +82,7 @@ return (
                     props={{
                       onClick: () => handleRemoveWidget(widget.linkId),
                     }}
+                    loading={<></>}
                   />
                 )
               ) : null}
@@ -95,7 +96,16 @@ return (
               widgetSrc: widget.src,
             })}
           >
-            <Widget src={widget.src} props={widget.props} />
+            <Widget
+              src={widget.src}
+              props={{
+                ...widget.props,
+                pickContext: props.pickContext,
+                pickContexts: props.pickContexts,
+                notify: props.notify,
+              }}
+              loading={<></>}
+            />
             <div
               data-mweb-insertion-point="hidden"
               style={{ display: "none" }}

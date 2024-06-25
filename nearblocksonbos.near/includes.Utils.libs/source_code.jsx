@@ -202,6 +202,9 @@ function MainComponent() {
   }
 
   function fiatValue(big, price) {
+    if (big === '0') {
+      return '0';
+    }
     const value = Big(big).mul(Big(price));
     const stringValue = value.toFixed(6); // Set the desired maximum fraction digits
 
@@ -267,29 +270,34 @@ function MainComponent() {
       100,
     );
   }
-  function mapFeilds(fields) {
+
+  const strToType = (str, type) => {
+    switch (type) {
+      case 'json':
+        return JSON.parse(str);
+      case 'number':
+        return Number(str);
+      case 'boolean':
+        return (
+          str.trim().length > 0 && !['false', '0'].includes(str.toLowerCase())
+        );
+      case 'null':
+        return null;
+      default:
+        return str + '';
+    }
+  };
+
+  const mapFeilds = (fields) => {
     const args = {};
 
     fields.forEach((fld) => {
-      let value = fld.value;
-
-      if (fld.type === 'number') {
-        value = Number(value);
-      } else if (fld.type === 'boolean') {
-        value =
-          value.trim().length > 0 &&
-          !['false', '0'].includes(value.toLowerCase());
-      } else if (fld.type === 'json') {
-        value = JSON.parse(value);
-      } else if (fld.type === 'null') {
-        value = null;
-      }
-
-      (args )[fld.name] = value + '';
+      args[fld.name] = strToType(fld.value, fld.type );
     });
 
     return args;
-  }
+  };
+
   return {
     getConfig,
     handleRateLimit,

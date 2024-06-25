@@ -54,6 +54,8 @@ function shortText(text) {
   return words.slice(0, 70).join("") + "...";
 }
 
+useEffect(() => console.log(props), []);
+
 // Styles
 const Card = styled.div`
     .card-div {

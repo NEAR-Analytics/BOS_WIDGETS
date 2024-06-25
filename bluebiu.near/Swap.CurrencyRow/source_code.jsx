@@ -47,11 +47,11 @@ const CurrencyLabel = styled.div`
 const CurrencySymbol = styled.div`
   font-size: 16px;
   font-weight: 600;
-  color: #fff;
+  color: var(--agg-text-color, #fff);
 `;
 const CurrencyName = styled.div`
   font-size: 14px;
-  color: #fff;
+  color: var(--agg-text-color, #fff);
 `;
 const CurrencyIcon = styled.img`
   width: 26px;
@@ -62,7 +62,10 @@ const CurrencyIcon = styled.img`
 const CurrencyAmount = styled.div`
   font-size: 16px;
   font-weight: 400;
-  color: #fff;
+  color: var(--agg-text-color, #fff);
+  display: flex;
+  align-items: center;
+  gap: 4px;
 `;
 
 State.init({
@@ -112,7 +115,7 @@ return (
     <CurrencyAmount>
       {!chainIdNotSupport ? utils.balanceFormated() : "-"}
 
-      {isActive ? checkIcon : ""}
+      {isActive ? checkIcon : <div style={{ width: 16 }} />}
     </CurrencyAmount>
   </CurrencyRow>
 );

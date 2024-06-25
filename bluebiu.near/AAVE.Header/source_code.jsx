@@ -2,7 +2,7 @@ const { config } = props;
 
 const Header = styled.div`
   padding: 18px 15px;
-  background: #151718;
+  background: var(--agg-bg-color, #151718);
 
   display: flex;
   justify-content: space-between;

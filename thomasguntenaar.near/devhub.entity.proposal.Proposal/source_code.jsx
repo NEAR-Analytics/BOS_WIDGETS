@@ -4,10 +4,6 @@ const { href } = VM.require("thomasguntenaar.near/widget/core.lib.url") || {
 const { readableDate } = VM.require(
   "thomasguntenaar.near/widget/core.lib.common"
 ) || { readableDate: () => {} };
-const { getDepositAmountForWriteAccess } = VM.require(
-  "thomasguntenaar.near/widget/core.lib.common"
-);
-getDepositAmountForWriteAccess || (getDepositAmountForWriteAccess = () => {});
 
 const accountId = context.accountId;
 /*
@@ -28,6 +24,12 @@ const TIMELINE_STATUS = {
   PAYMENT_PROCESSING: "PAYMENT_PROCESSING",
   FUNDED: "FUNDED",
 };
+
+const DecisionStage = [
+  TIMELINE_STATUS.APPROVED,
+  TIMELINE_STATUS.REJECTED,
+  TIMELINE_STATUS.APPROVED_CONDITIONALLY,
+];
 
 const Container = styled.div`
   .full-width-div {
@@ -193,6 +195,10 @@ const Container = styled.div`
   red-icon i {
     color: red;
   }
+
+  input[type="radio"] {
+    min-width: 13px;
+  }
 `;
 
 const ProposalContainer = styled.div`
@@ -307,11 +313,15 @@ const KycVerificationStatus = () => {
   );
 };
 
-const SidePanelItem = ({ title, children, hideBorder }) => {
+const SidePanelItem = ({ title, children, hideBorder, ishidden }) => {
   return (
     <div
       style={{ gap: "8px" }}
-      className={"d-flex flex-column pb-3 " + (!hideBorder && " border-bottom")}
+      className={
+        ishidden
+          ? "d-none"
+          : "d-flex flex-column pb-3 " + (!hideBorder && " border-bottom")
+      }
     >
       <div className="h6 mb-0">{title} </div>
       <div className="text-muted">{children}</div>
@@ -527,10 +537,15 @@ const proposalStatus = useCallback(
     ),
   [snapshot]
 );
-const [updatedProposalStatus, setUpdatedProposalStatus] = useState({
-  ...proposalStatus(),
-  value: { ...proposalStatus().value, ...snapshot.timeline },
-});
+const [updatedProposalStatus, setUpdatedProposalStatus] = useState({});
+
+useEffect(() => {
+  setUpdatedProposalStatus({
+    ...proposalStatus(),
+    value: { ...proposalStatus().value, ...snapshot.timeline },
+  });
+}, [proposal]);
+
 const [paymentHashes, setPaymentHashes] = useState([""]);
 const [supervisor, setSupervisor] = useState(snapshot.supervisor);
 
@@ -892,6 +907,7 @@ return (
                 title={
                   "Linked Proposals " + `(${snapshot.linked_proposals.length})`
                 }
+                ishidden={!snapshot.linked_proposals.length}
               >
                 <LinkedProposals />
               </SidePanelItem>
@@ -1388,12 +1404,13 @@ return (
                           }
                           props={{
                             label: "Save",
-                            disabled: !supervisor,
+                            disabled:
+                              !supervisor &&
+                              DecisionStage.includes(
+                                updatedProposalStatus.value.status
+                              ),
                             classNames: { root: "green-btn btn-sm" },
                             onClick: () => {
-                              if (!supervisor) {
-                                return;
-                              }
                               if (snapshot.supervisor !== supervisor) {
                                 editProposal({
                                   timeline: updatedProposalStatus.value,

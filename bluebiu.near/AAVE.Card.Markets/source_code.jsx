@@ -1,4 +1,6 @@
 const {
+  account,
+  toast,
   config,
   addAction,
   dexConfig,
@@ -177,7 +179,7 @@ if (["ZeroLend", "AAVE V3", "Seamless Protocol"].includes(dexConfig.name)) {
     "Supply APY",
     "Available to borrow",
     "Borrow APY",
-    "Can be Collateral",
+    // "Can be Collateral",
     "",
   ];
   tableData = assetsToSupply.map((row) => [
@@ -232,17 +234,17 @@ if (["ZeroLend", "AAVE V3", "Seamless Protocol"].includes(dexConfig.name)) {
           : ""}
       </div>
     </div>,
-    <div style={{ paddingLeft: "50px" }}>
-      {(row.isIsolated || (!row.isIsolated && !row.usageAsCollateralEnabled)) &&
-        "—"}
-      {!row.isIsolated && row.usageAsCollateralEnabled && (
-        <img
-          src={`${config.ipfsPrefix}/bafkreibsy5fzn67veowyalveo6t34rnqvktmok2zutdsp4f5slem3grc3i`}
-          width={16}
-          height={16}
-        />
-      )}
-    </div>,
+    // <div style={{ paddingLeft: "50px" }}>
+    //   {(row.isIsolated || (!row.isIsolated && !row.usageAsCollateralEnabled)) &&
+    //     "—"}
+    //   {!row.isIsolated && row.usageAsCollateralEnabled && (
+    //     <img
+    //       src={`${config.ipfsPrefix}/bafkreibsy5fzn67veowyalveo6t34rnqvktmok2zutdsp4f5slem3grc3i`}
+    //       width={16}
+    //       height={16}
+    //     />
+    //   )}
+    // </div>,
     <div style={{ display: "flex", gap: 10 }}>
       <SupplyButton data={row} />
 
@@ -350,7 +352,7 @@ return (
         style: {
           marginTop: "16px",
         },
-        title: "Market",
+        // title: "Market",
         body:
           !assetsToSupply || assetsToSupply.length === 0 ? (
             <Widget
@@ -368,6 +370,7 @@ return (
                   config,
                   headers,
                   data: tableData,
+                  noDivider: true,
                 }}
               />
             </>
@@ -378,22 +381,12 @@ return (
       <Widget
         src={`${config.ownerId}/widget/AAVE.Modal.SupplyModal`}
         props={{
-          config,
-          theme,
+          ...props,
           onRequestClose: () => setShowSupplyModal(false),
           data: {
             ...state.data,
             healthFactor,
           },
-          onActionSuccess,
-          chainId,
-          depositETHGas,
-          depositERC20Gas,
-          formatHealthFactor,
-          calcHealthFactor,
-          addAction,
-          dexConfig,
-          prices,
         }}
       />
     )}
@@ -401,8 +394,7 @@ return (
       <Widget
         src={`${config.ownerId}/widget/AAVE.Modal.BorrowModal`}
         props={{
-          config,
-          theme,
+          ...props,
           onRequestClose: () => {
             State.update({
               showBorrowModal: false,
@@ -413,15 +405,6 @@ return (
             ...state.data,
             healthFactor,
           },
-          onActionSuccess,
-          chainId,
-          borrowETHGas,
-          borrowERC20Gas,
-          formatHealthFactor,
-          calcHealthFactor,
-          addAction,
-          dexConfig,
-          prices,
         }}
       />
     )}
@@ -429,8 +412,7 @@ return (
       <Widget
         src={`${config.ownerId}/widget/AAVE.Modal.LoopModal`}
         props={{
-          config,
-          theme,
+          ...props,
           // onRequestClose: () => setShowSupplyModal(false),
           onRequestClose: () => {
             State.update({
@@ -441,15 +423,6 @@ return (
             ...state.data,
             healthFactor,
           },
-          onActionSuccess,
-          chainId,
-          depositETHGas,
-          depositERC20Gas,
-          formatHealthFactor,
-          calcHealthFactor,
-          addAction,
-          dexConfig,
-          prices,
         }}
       />
     )}

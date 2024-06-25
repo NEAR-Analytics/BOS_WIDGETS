@@ -1,5 +1,28 @@
 const StyledContainer = styled.div``;
-
+const Summary = styled.div`
+  padding: 40px 0;
+  display: flex;
+  justify-content: space-evenly;
+  .key {
+    color: #979abe;
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+  }
+  .value {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 500;
+  }
+  .icon {
+    width: 20px;
+    height: 20px;
+  }
+`;
 const {
   // totalCollateralUsd,
   // userTotalBorrowUsd,
@@ -13,7 +36,12 @@ const {
   prices,
   IS_ETHOS_DAPP,
   IS_GRAVITA_DAPP,
+  IS_LYVE_DAPP,
   IS_PREON_DAPP,
+  totalDebt,
+  totalCollateral,
+  marketTotalCollateral,
+  marketTotalDebt,
 } = props;
 const data = Object.values(dexConfig.markets || {});
 console.log("LiquityMarkets:", props);
@@ -30,7 +58,7 @@ const COLUMNS = [
     width: "15%",
     // type: "amount",
   },
-  IS_GRAVITA_DAPP || IS_PREON_DAPP
+  IS_GRAVITA_DAPP || IS_PREON_DAPP || IS_LYVE_DAPP
     ? {
         key: "MAX_LTV",
         label: "MAX LTV",
@@ -59,7 +87,7 @@ const COLUMNS = [
     // type: "apy",
     // type: "amount",
   },
-  IS_GRAVITA_DAPP || IS_PREON_DAPP
+  IS_GRAVITA_DAPP || IS_PREON_DAPP || IS_LYVE_DAPP
     ? {
         key: "MINTED_CAP",
         label: "MINTED/CAP",
@@ -81,6 +109,47 @@ const COLUMNS = [
 
 return (
   <StyledContainer>
+    <Summary>
+      {IS_LYVE_DAPP && (
+        <>
+          <div className="item">
+            <div className="key">Total Collateral</div>
+            <div className="value">
+              $
+              <Widget
+                src="bluebiu.near/widget/Utils.FormatNumber"
+                props={{
+                  number: marketTotalCollateral,
+                }}
+              />
+            </div>
+          </div>
+          <div className="item">
+            <div className="key">Total Debt</div>
+            <div className="value">
+              <Widget
+                src="bluebiu.near/widget/Utils.FormatNumber"
+                props={{
+                  number: marketTotalDebt,
+                }}
+              />
+              {dexConfig?.BORROW_TOKEN}
+            </div>
+          </div>
+        </>
+      )}
+
+      <div className="item">
+        <div className="key">Your Collateral</div>
+        <div className="value">${totalCollateral}</div>
+      </div>
+      <div className="item">
+        <div className="key">Your Debt</div>
+        <div className="value">
+          {totalDebt} <img className="icon" src={dexConfig.BORROW_URL} alt="" />
+        </div>
+      </div>
+    </Summary>
     <Widget
       src="bluebiu.near/widget/Lending.MarketHeader"
       props={{

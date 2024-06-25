@@ -230,7 +230,6 @@ const handleOptionSelect = (option) => {
   onOrderByChange(auxOption);
 };
 if (!labels.length) return <></>;
-console.log("labels", labels);
 return (
   <Tabs>
     <ul>

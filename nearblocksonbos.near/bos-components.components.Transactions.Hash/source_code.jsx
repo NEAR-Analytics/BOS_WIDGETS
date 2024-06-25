@@ -12,7 +12,9 @@
  * @param {string} [pageTab] - The page tab being displayed. (Optional)
  *                                 Example: If provided, tab=overview in the url it will select the overview tab of transaction details.
  * @param {string} ownerId - The identifier of the owner of the component.
+ * @param {Function} [requestSignInWithWallet] - Function to initiate sign-in with a wallet.
  */
+
 
 
 
@@ -37,7 +39,7 @@ const ErrorMessage = ({ icons, message, mutedText }) => {
         {message}
       </h3>
 
-      <p className="mb-0 py-4 font-bold break-words px-2">{mutedText}</p>
+      <p className="mb-0 py-1 font-bold break-words px-2">{mutedText}</p>
     </div>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/ErrorMessage.jsx" */
@@ -61,7 +63,15 @@ const FileSlash = () => {
 
 
 function MainComponent(props) {
-  const { t, network, hash, onHandleTab, pageTab, ownerId } = props;
+  const {
+    t,
+    network,
+    hash,
+    onHandleTab,
+    pageTab,
+    ownerId,
+    requestSignInWithWallet,
+  } = props;
 
   const { getConfig, handleRateLimit } = VM.require(
     `${ownerId}/widget/includes.Utils.libs`,
@@ -168,7 +178,7 @@ function MainComponent(props) {
     <Fragment key="hash">
       {error || (!isLoading && !txn) ? (
         <div className="bg-white dark:bg-black-600 soft-shadow rounded-xl pb-1">
-          <div className="text-sm text-nearblue-600 dark:text-neargray-10 divide-solid dark:divide-black-200 divide-gray-200 divide-y">
+          <div className="text-sm text-nearblue-600 dark:text-neargray-10 divide-solid dark:divide-black-200 divide-gray-200 !divide-y">
             <ErrorMessage
               icons={<FileSlash />}
               message="Sorry, We are unable to locate this TxnHash"
@@ -203,6 +213,18 @@ function MainComponent(props) {
               <div className="absolute text-white bg-neargreen text-[8px] h-4 inline-flex items-center rounded-md -top-1.5 -right-1.5 px-1">
                 NEW
               </div>
+            </button>{' '}
+            <button
+              onClick={() => onTab('tree')}
+              className={buttonStyles('tree')}
+            >
+              <h2 className="p-2">Tree Plan</h2>
+            </button>
+            <button
+              onClick={() => onTab('summary')}
+              className={buttonStyles('summary')}
+            >
+              <h2 className="p-2">Receipt Summary</h2>
             </button>
             <button
               onClick={() => onTab('comments')}
@@ -227,6 +249,7 @@ function MainComponent(props) {
                 }}
               />
             </div>
+
             <div className={`${pageTab === 'execution' ? '' : 'hidden'} `}>
               <Widget
                 src={`${ownerId}/widget/bos-components.components.Transactions.Receipt`}
@@ -253,6 +276,32 @@ function MainComponent(props) {
                 }}
               />
             </div>
+            <div className={`${pageTab === 'tree' ? '' : 'hidden'} `}>
+              <Widget
+                src={`${ownerId}/widget/bos-components.components.Transactions.Tree`}
+                props={{
+                  network: network,
+                  t: t,
+                  txn: txn,
+                  rpcTxn: rpcTxn,
+                  loading: isLoading,
+                  ownerId,
+                }}
+              />
+            </div>
+            <div className={`${pageTab === 'summary' ? '' : 'hidden'} `}>
+              <Widget
+                src={`${ownerId}/widget/bos-components.components.Transactions.ReceiptSummary`}
+                props={{
+                  network: network,
+                  t: t,
+                  txn: txn,
+                  rpcTxn: rpcTxn,
+                  loading: isLoading,
+                  ownerId,
+                }}
+              />
+            </div>
             <div className={`${pageTab === 'comments' ? '' : 'hidden'} `}>
               <div className="py-3">
                 <Widget
@@ -262,6 +311,7 @@ function MainComponent(props) {
                     path: `nearblocks.io/txns/${hash}`,
                     limit: 10,
                     ownerId,
+                    requestSignInWithWallet,
                   }}
                 />
               </div>

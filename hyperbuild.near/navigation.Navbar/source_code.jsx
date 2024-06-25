@@ -32,13 +32,11 @@ const StyledButton = styled.button`
   }
 `;
 const StyledNavbar = styled.div`
-  width: 64px;
-  display: flex;
-  flex-direction: column;
+  width: 100%;
   justify-content: space-between;
   align-items: center;
   padding: 15px 23px;
-  width: 100%;
+  height: 80px;
   background-color: #0b0c14;
   border-bottom: 1px solid var(--stroke-color, rgba(255, 255, 255, 0.2));
   border-radius: 8px;

@@ -1,31 +1,29 @@
 const Css = styled.div`
-.awesome-trending-content{
-    overflow-x: scroll; 
+  .awesome-trending-content {
+    overflow-x: scroll;
     text-align: center;
-}
-
-.awesome-trending-content .near-item-sm { 
-    display: inline-block; 
-    float: none; 
-}
-
-@media screen and ( max-width : 700px ){
-    .awesome-trending-content{white-space: nowrap !important;} 
-}
-
-
+  }
+  .awesome-trending-content .near-item-sm {
+    display: inline-block;
+    float: none;
+  }
+  @media screen and (max-width: 700px) {
+    .awesome-trending-content {
+      white-space: nowrap !important;
+    }
+  }
 `;
 State.init({
   projects: false,
 });
 const router = props.router || "";
 if (props.cat == "trending") return <></>;
-
-asyncFetch(props.indexer + "/projects-by-category?cid=trending").then((res) => {
-  State.update({ projects: res.body });
-  console.log("Trending: ", res.body);
-});
-
+setTimeout(() => {
+  const ftd = fetch(props.indexer + "/projects-by-category?cid=trending").body;
+  State.update({
+    trendingProjects: ftd ? ftd.data : null,
+  });
+}, 100);
 if (!state.projects) {
   return "🔥🔥🔥";
 }

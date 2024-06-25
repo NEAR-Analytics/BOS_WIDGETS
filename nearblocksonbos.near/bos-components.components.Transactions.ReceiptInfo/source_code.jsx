@@ -32,6 +32,219 @@ const Question = (props) => {
     </svg>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/Question.jsx" */
+/* INCLUDE: "includes/hexy.jsx" */
+function hexy(buffer, config) {
+  const MAX_ADDRESS_LENGTH = 8;
+  const defaults = {
+    width: 16,
+    numbering: 'hex_bytes',
+    format: 'fours',
+    littleEndian: false,
+    radix: 16,
+    caps: 'lower',
+    annotate: 'ascii',
+    prefix: '',
+    indent: 0,
+    html: false,
+    offset: 0,
+    length: -1,
+    extendedChs: false,
+    display_offset: 0,
+  };
+  const options = { ...defaults, ...config };
+
+  let bufferData;
+  if (Buffer.isBuffer(buffer)) {
+    bufferData = buffer;
+  } else if (Array.isArray(buffer)) {
+    bufferData = Buffer.from(buffer);
+  } else {
+    throw new Error('Input must be a Buffer or an array of numbers.');
+  }
+
+  const {
+    width,
+    numbering,
+    format,
+    littleEndian,
+    radix,
+    annotate,
+    indent,
+    html,
+    offset,
+    length,
+    extendedChs,
+    display_offset,
+  } = options;
+
+  const prefixSpaces = ' '.repeat(indent);
+  const htmlOpenTag = html ? "<div class='hexy'>\n" : '';
+  const htmlCloseTag = html ? '</div>\n' : '';
+
+  const bufferSlice = bufferData.slice(
+    offset,
+    length === -1 ? undefined : offset + length,
+  );
+  let str = htmlOpenTag;
+  let addr = offset + display_offset;
+
+  const numGroups = Math.ceil(bufferSlice.length / width);
+
+  for (let group = 0; group < numGroups; group++) {
+    const startIndex = group * width;
+    const endIndex = Math.min(startIndex + width, bufferSlice.length);
+    const slice = bufferSlice.slice(startIndex, endIndex);
+
+    if (html) {
+      str += `<div class='${num2str(addr, MAX_ADDRESS_LENGTH, 16)}'>`;
+    }
+
+    str += `${prefixSpaces}${
+      numbering === 'hex_bytes'
+        ? num2str(addr, MAX_ADDRESS_LENGTH, 16) + ': '
+        : ''
+    }`;
+    str += hex(slice, width, format, radix, littleEndian);
+
+    if (annotate === 'ascii') {
+      str += ` ${
+        html
+          ? html_escape(getTextRepresentation(slice, extendedChs))
+          : ascii_escape(getTextRepresentation(slice, extendedChs))
+      }`;
+    }
+
+    str += html ? '</div>\n' : '\n';
+    addr += width;
+  }
+
+  str += htmlCloseTag;
+
+  return str;
+}
+
+function hex(
+  buffer,
+  width,
+  format,
+  radix,
+  littleEndian,
+) {
+  let str = '';
+  const delimiter = format === 'none' ? '' : ' ';
+  const group_len = maxnumberlen(format === 'none' ? 1 : 2, radix);
+  const padlen =
+    (width - buffer.length) *
+    (format === 'none' ? group_len : (group_len + 1) / 2);
+
+  const numGroups = Math.ceil(buffer.length / 2);
+
+  for (let group = 0; group < numGroups; ++group) {
+    const startIndex = group * 2;
+    const endIndex = Math.min(startIndex + 2, buffer.length);
+    const bytes = buffer.slice(startIndex, endIndex);
+
+    if (bytes.length === 0) break;
+
+    if (bytes.length === 2) {
+      let val = littleEndian ? bytes.readUInt16LE(0) : bytes.readUInt16BE(0);
+      const text = val.toString(radix);
+      str += '0'.repeat(group_len - text.length) + text;
+      str += delimiter;
+    } else {
+      str += '0'.repeat(group_len);
+      str += delimiter;
+    }
+  }
+
+  if (buffer.length < width) {
+    str += ' '.repeat(padlen);
+  }
+
+  return str;
+}
+
+function num2str(b, len, radix) {
+  const s = b.toString(radix);
+  return '0'.repeat(len - s.length) + s;
+}
+
+function maxnumberlen(bytes, radix) {
+  let result = 2;
+  if (bytes === 0) {
+    bytes = 1;
+  }
+  switch (radix) {
+    case 2:
+      result = bytes * 8;
+      break;
+    case 8:
+      switch (bytes) {
+        case 1:
+          result = 3;
+          break;
+        case 2:
+          result = 6;
+          break;
+        case 4:
+          result = 11;
+          break;
+        case 8:
+          result = 22;
+          break;
+      }
+      break;
+    case 10:
+      switch (bytes) {
+        case 1:
+          result = 3;
+          break;
+        case 2:
+          result = 6;
+          break;
+        case 4:
+          result = 10;
+          break;
+        case 8:
+          result = 20;
+          break;
+      }
+      break;
+    case 16:
+      result = 2 * bytes;
+      break;
+  }
+  return result;
+}
+
+function getTextRepresentation(buffer, extendedChs) {
+  let text = '';
+  for (const byte of buffer) {
+    if (extendedChs) {
+      text += byte >= 32 && byte <= 126 ? String.fromCharCode(byte) : '.';
+    } else {
+      text += byte >= 32 && byte <= 126 ? String.fromCharCode(byte) : '.';
+    }
+  }
+  return text;
+}
+
+function ascii_escape(str) {
+  return str.replace(/[^\x20-\x7E]/g, '.');
+}
+
+function html_escape(str) {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/\'/g, '&apos;')
+    .replace(/\"/g, '&quot;')
+    .replace(/[^\x20-\x7E]/g, function (ch) {
+      return '&#x' + ch.codePointAt(0)?.toString(16) + ';';
+    });
+}
+/* END_INCLUDE: "includes/hexy.jsx" */
 
 
 
@@ -116,10 +329,14 @@ function MainComponent(props) {
       let prettyArgs;
       try {
         const parsedJSONArgs = JSON.parse(decodedArgs.toString());
-        prettyArgs =
-          typeof parsedJSONArgs === 'boolean'
-            ? JSON.stringify(parsedJSONArgs)
-            : parsedJSONArgs;
+        if (parsedJSONArgs !== null) {
+          prettyArgs =
+            typeof parsedJSONArgs === 'boolean'
+              ? JSON.stringify(parsedJSONArgs)
+              : parsedJSONArgs;
+        } else {
+          prettyArgs = hexy(decodedArgs, { format: 'twos' });
+        }
       } catch {
         prettyArgs = Array.from(decodedArgs)
           .map((byte) => byte.toString(16).padStart(2, '0'))
@@ -139,7 +356,9 @@ function MainComponent(props) {
             <div className="bg-gray-100 dark:bg-black-200 rounded-md p-5 font-medium my-3">
               <div className="bg-inherit text-inherit font-inherit border-none p-0">
                 <div className="max-h-52 overflow-auto">
-                  <div className="h-full w-full">{prettyArgs}</div>
+                  <div className="h-full w-full">
+                    <pre>{prettyArgs}</pre>
+                  </div>
                 </div>
               </div>
             </div>
@@ -207,6 +426,11 @@ function MainComponent(props) {
         '0',
       );
 
+  const getPreCharged = (receipt) =>
+    Big(receipt?.outcome?.tokensBurnt || '0')
+      .plus(getRefund(receipt?.outcome?.nestedReceipts))
+      .toString();
+
   return (
     <div className="flex flex-col ">
       <Tabs.Root defaultValue={'output'}>
@@ -229,26 +453,26 @@ function MainComponent(props) {
               </Tabs.Trigger>
             ))}
         </Tabs.List>
-        <Tabs.Content value={hashes[0]} className={'w-full'}>
+        <Tabs.Content
+          value={hashes[0]}
+          className={'w-full focus:border-none focus:outline-none'}
+        >
           <div className="flex flex-col my-4 ml-6">
             <div className="">
               <h2 className="flex items-center text-sm font-medium">
-                <Tooltip.Provider>
-                  <Tooltip.Root>
-                    <Tooltip.Trigger asChild>
-                      <div>
-                        <Question className="w-4 h-4 fill-current mr-1" />
-                      </div>
-                    </Tooltip.Trigger>
-                    <Tooltip.Content
-                      className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                      align="start"
-                      side="bottom"
-                    >
+                <OverlayTrigger
+                  placement="bottom-start"
+                  delay={{ show: 500, hide: 0 }}
+                  overlay={
+                    <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
                       Logs included in the receipt
-                    </Tooltip.Content>
-                  </Tooltip.Root>
-                </Tooltip.Provider>
+                    </Tooltip>
+                  }
+                >
+                  <div>
+                    <Question className="w-4 h-4 fill-current mr-1" />
+                  </div>
+                </OverlayTrigger>
                 Logs
               </h2>
               <div className="bg-gray-100 dark:bg-black-200 rounded-md p-0  mt-3 overflow-x-auto">
@@ -270,50 +494,47 @@ function MainComponent(props) {
             </div>
             <div className="mt-4">
               <h2 className="flex items-center text-sm font-medium">
-                <Tooltip.Provider>
-                  <Tooltip.Root>
-                    <Tooltip.Trigger asChild>
-                      <div>
-                        <Question className="w-4 h-4 fill-current mr-1" />
-                      </div>
-                    </Tooltip.Trigger>
-                    <Tooltip.Content
-                      className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                      align="start"
-                      side="bottom"
-                    >
+                <OverlayTrigger
+                  placement="bottom-start"
+                  delay={{ show: 500, hide: 0 }}
+                  overlay={
+                    <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
                       The result of the receipt execution
-                    </Tooltip.Content>
-                  </Tooltip.Root>
-                </Tooltip.Provider>
+                    </Tooltip>
+                  }
+                >
+                  <div>
+                    <Question className="w-4 h-4 fill-current mr-1" />
+                  </div>
+                </OverlayTrigger>
                 Result
               </h2>
               {statusInfo}
             </div>
           </div>
         </Tabs.Content>
-        <Tabs.Content value={hashes[1]} className={'w-fit'}>
+        <Tabs.Content
+          value={hashes[1]}
+          className={'w-fit focus:border-none focus:outline-none'}
+        >
           <div className="overflow-x-auto">
             <table className="my-4 mx-6 whitespace-nowrap table-auto">
               <tbody>
                 <tr>
                   <td className="flex items-center py-2 pr-4">
-                    <Tooltip.Provider>
-                      <Tooltip.Root>
-                        <Tooltip.Trigger asChild>
-                          <div>
-                            <Question className="w-4 h-4 fill-current mr-1" />
-                          </div>
-                        </Tooltip.Trigger>
-                        <Tooltip.Content
-                          className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                          align="start"
-                          side="bottom"
-                        >
+                    <OverlayTrigger
+                      placement="bottom-start"
+                      delay={{ show: 500, hide: 0 }}
+                      overlay={
+                        <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
                           Unique identifier (hash) of this receipt.
-                        </Tooltip.Content>
-                      </Tooltip.Root>
-                    </Tooltip.Provider>
+                        </Tooltip>
+                      }
+                    >
+                      <div>
+                        <Question className="w-4 h-4 fill-current mr-1" />
+                      </div>
+                    </OverlayTrigger>
                     Receipt
                   </td>
                   <td className="font-semibold py-2 pl-4">{receipt?.id}</td>
@@ -324,22 +545,19 @@ function MainComponent(props) {
                       !block ? 'whitespace-normal' : 'whitespace-nowrap'
                     }`}
                   >
-                    <Tooltip.Provider>
-                      <Tooltip.Root>
-                        <Tooltip.Trigger asChild>
-                          <div>
-                            <Question className="w-4 h-4 fill-current mr-1" />
-                          </div>
-                        </Tooltip.Trigger>
-                        <Tooltip.Content
-                          className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                          align="start"
-                          side="bottom"
-                        >
+                    <OverlayTrigger
+                      placement="bottom-start"
+                      delay={{ show: 500, hide: 0 }}
+                      overlay={
+                        <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
                           Block height
-                        </Tooltip.Content>
-                      </Tooltip.Root>
-                    </Tooltip.Provider>
+                        </Tooltip>
+                      }
+                    >
+                      <div>
+                        <Question className="w-4 h-4 fill-current mr-1" />
+                      </div>
+                    </OverlayTrigger>
                     Block
                   </td>
                   <td className="py-2 pl-4">
@@ -348,29 +566,28 @@ function MainComponent(props) {
                         href={`/blocks/${receipt?.outcome?.blockHash}`}
                         className="text-green-500 dark:text-green-250"
                       >
-                        {!loading && localFormat(block?.block_height)}
+                        {!loading &&
+                          block?.block_height &&
+                          localFormat(block?.block_height)}
                       </Link>
                     )}
                   </td>
                 </tr>
                 <tr>
                   <td className="flex items-center py-2 pr-4">
-                    <Tooltip.Provider>
-                      <Tooltip.Root>
-                        <Tooltip.Trigger asChild>
-                          <div>
-                            <Question className="w-4 h-4 fill-current mr-1" />
-                          </div>
-                        </Tooltip.Trigger>
-                        <Tooltip.Content
-                          className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                          align="start"
-                          side="bottom"
-                        >
+                    <OverlayTrigger
+                      placement="bottom-start"
+                      delay={{ show: 500, hide: 0 }}
+                      overlay={
+                        <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
                           The account which issued the receipt
-                        </Tooltip.Content>
-                      </Tooltip.Root>
-                    </Tooltip.Provider>
+                        </Tooltip>
+                      }
+                    >
+                      <div>
+                        <Question className="w-4 h-4 fill-current mr-1" />
+                      </div>
+                    </OverlayTrigger>
                     From
                   </td>
                   <td className="py-2 pl-4">
@@ -384,22 +601,19 @@ function MainComponent(props) {
                 </tr>
                 <tr>
                   <td className="flex items-center py-2 pr-4">
-                    <Tooltip.Provider>
-                      <Tooltip.Root>
-                        <Tooltip.Trigger asChild>
-                          <div>
-                            <Question className="w-4 h-4 fill-current mr-1" />
-                          </div>
-                        </Tooltip.Trigger>
-                        <Tooltip.Content
-                          className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                          align="start"
-                          side="bottom"
-                        >
+                    <OverlayTrigger
+                      placement="bottom-start"
+                      delay={{ show: 500, hide: 0 }}
+                      overlay={
+                        <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
                           The destination account of the receipt
-                        </Tooltip.Content>
-                      </Tooltip.Root>
-                    </Tooltip.Provider>
+                        </Tooltip>
+                      }
+                    >
+                      <div>
+                        <Question className="w-4 h-4 fill-current mr-1" />
+                      </div>
+                    </OverlayTrigger>
                     To
                   </td>
                   <td className="py-2 pl-4">
@@ -413,47 +627,65 @@ function MainComponent(props) {
                 </tr>
                 <tr>
                   <td className="flex items-center py-2 pr-4">
-                    <Tooltip.Provider>
-                      <Tooltip.Root>
-                        <Tooltip.Trigger asChild>
-                          <div>
-                            <Question className="w-4 h-4 fill-current mr-1" />
-                          </div>
-                        </Tooltip.Trigger>
-                        <Tooltip.Content
-                          className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                          align="start"
-                          side="bottom"
-                        >
+                    <OverlayTrigger
+                      placement="bottom-start"
+                      delay={{ show: 500, hide: 0 }}
+                      overlay={
+                        <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
                           Maximum amount of gas allocated for the Receipt
-                        </Tooltip.Content>
-                      </Tooltip.Root>
-                    </Tooltip.Provider>
+                        </Tooltip>
+                      }
+                    >
+                      <div>
+                        <Question className="w-4 h-4 fill-current mr-1" />
+                      </div>
+                    </OverlayTrigger>
                     Gas Limit
                   </td>
                   <td className="py-2 pl-4">{`${
                     !loading &&
+                    receipt?.actions &&
                     convertToMetricPrefix(getGasAttached(receipt?.actions))
                   }gas`}</td>
                 </tr>
                 <tr>
                   <td className="flex items-center py-2 pr-4">
-                    <Tooltip.Provider>
-                      <Tooltip.Root>
-                        <Tooltip.Trigger asChild>
-                          <div>
-                            <Question className="w-4 h-4 fill-current mr-1" />
-                          </div>
-                        </Tooltip.Trigger>
-                        <Tooltip.Content
-                          className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                          align="start"
-                          side="bottom"
-                        >
+                    <OverlayTrigger
+                      placement="bottom-start"
+                      delay={{ show: 500, hide: 0 }}
+                      overlay={
+                        <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
+                          Fees Pre-charged on Receipt
+                        </Tooltip>
+                      }
+                    >
+                      <div>
+                        <Question className="w-4 h-4 fill-current mr-1" />
+                      </div>
+                    </OverlayTrigger>
+                    Pre-charged Fee
+                  </td>
+                  <td className="py-2 pl-4">{`${
+                    !loading &&
+                    receipt &&
+                    yoctoToNear(getPreCharged(receipt), true)
+                  } Ⓝ`}</td>
+                </tr>
+                <tr>
+                  <td className="flex items-center py-2 pr-4">
+                    <OverlayTrigger
+                      placement="bottom-start"
+                      delay={{ show: 500, hide: 0 }}
+                      overlay={
+                        <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
                           Burnt Gas by Receipt
-                        </Tooltip.Content>
-                      </Tooltip.Root>
-                    </Tooltip.Provider>
+                        </Tooltip>
+                      }
+                    >
+                      <div>
+                        <Question className="w-4 h-4 fill-current mr-1" />
+                      </div>
+                    </OverlayTrigger>
                     Burnt Gas
                   </td>
                   <td className="text-xs py-2 pl-4">
@@ -469,22 +701,19 @@ function MainComponent(props) {
                 </tr>
                 <tr>
                   <td className="flex items-center py-2 pr-4">
-                    <Tooltip.Provider>
-                      <Tooltip.Root>
-                        <Tooltip.Trigger asChild>
-                          <div>
-                            <Question className="w-4 h-4 fill-current mr-1" />
-                          </div>
-                        </Tooltip.Trigger>
-                        <Tooltip.Content
-                          className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                          align="start"
-                          side="bottom"
-                        >
+                    <OverlayTrigger
+                      placement="bottom-start"
+                      delay={{ show: 500, hide: 0 }}
+                      overlay={
+                        <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
                           Burnt Tokens by Receipt
-                        </Tooltip.Content>
-                      </Tooltip.Root>
-                    </Tooltip.Provider>
+                        </Tooltip>
+                      }
+                    >
+                      <div>
+                        <Question className="w-4 h-4 fill-current mr-1" />
+                      </div>
+                    </OverlayTrigger>
                     Burnt Tokens
                   </td>
                   <td className="text-xs py-2 pl-4">
@@ -499,26 +728,24 @@ function MainComponent(props) {
                 </tr>
                 <tr>
                   <td className="flex items-center py-2 pr-4">
-                    <Tooltip.Provider>
-                      <Tooltip.Root>
-                        <Tooltip.Trigger asChild>
-                          <div>
-                            <Question className="w-4 h-4 fill-current mr-1" />
-                          </div>
-                        </Tooltip.Trigger>
-                        <Tooltip.Content
-                          className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                          align="start"
-                          side="bottom"
-                        >
+                    <OverlayTrigger
+                      placement="bottom-start"
+                      delay={{ show: 500, hide: 0 }}
+                      overlay={
+                        <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
                           Refund from the receipt
-                        </Tooltip.Content>
-                      </Tooltip.Root>
-                    </Tooltip.Provider>
+                        </Tooltip>
+                      }
+                    >
+                      <div>
+                        <Question className="w-4 h-4 fill-current mr-1" />
+                      </div>
+                    </OverlayTrigger>
                     Refund
                   </td>
                   <td className="py-2 pl-4">
                     {!loading &&
+                      receipt?.outcome?.nestedReceipts &&
                       yoctoToNear(
                         getRefund(receipt?.outcome?.nestedReceipts) || '0',
                         true,

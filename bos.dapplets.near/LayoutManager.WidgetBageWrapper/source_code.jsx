@@ -34,6 +34,7 @@ return (
   >
     {widget.linkAuthorId === context.accountId ? (
       <Widget
+       loading={<></>}
         src="bos.dapplets.near/widget/LayoutManager.DeleteWidgetButton"
         props={{
           onClick: () => deleteUserLink(widget.linkId),

@@ -1,8 +1,8 @@
 const accountId = context.accountId;
 const Owner = "dropcast.near";
 const CLIENT_ID = "1206878767633534976";
-const CLIENT_SECRET = "GhYxHW-FZyo0pqK26xx7BVgwTa5VCLn6";
-const BASE_URL = "https://near.org/dropcast.near/widget/";
+const CLIENT_SECRET = "3f2WepIdp6pZfHsRa-M6JctxN-a_dPrV";
+const BASE_URL = "https://dev.near.org/dropcast.near/widget/";
 const OAuthScope = ["identify", "guilds"].join(" ");
 const API_URL = "https://dropcast.nearverselabs.com";
 // const API_URL = "http://localhost:2402";
@@ -58,6 +58,7 @@ const fetchData = () => {
           body: convertObject({ ...data.body, wallet: accountId }),
         }).then((res) => {
           const result = res.body;
+          console.log(result);
 
           if (result.token) {
             Storage.set("token", result.token);

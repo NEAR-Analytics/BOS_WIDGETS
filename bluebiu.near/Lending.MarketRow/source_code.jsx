@@ -40,11 +40,32 @@ const {
   onSuccess,
   account,
   prices,
+  totalCollateralUsd,
+  userTotalBorrowUsd,
+  userTotalCollateralUsd,
 } = props;
 
 State.init({
   expand: false,
 });
+
+let _borrowLimit = 0;
+
+// for Ionic
+if (dexConfig.name === "Ionic") {
+  const currentTokenCollateralUSD = Big(data.userCollateralUSD || 0).times(
+    Big(data.COLLATERAL_FACTOR)
+  );
+
+  _borrowLimit = Big(totalCollateralUsd)
+    .div(1.03)
+    .minus(currentTokenCollateralUSD)
+    .minus(Big(userTotalBorrowUsd));
+
+  _borrowLimit = _borrowLimit.lte(0) ? 0 : _borrowLimit.toFixed(6);
+} else {
+  _borrowLimit = borrowLimit;
+}
 
 return (
   <StyledRow>
@@ -109,7 +130,7 @@ return (
       src="bluebiu.near/widget/Lending.MarketExpand"
       props={{
         expand: state.expand,
-        borrowLimit,
+        borrowLimit: _borrowLimit,
         data,
         addAction,
         toast,

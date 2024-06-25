@@ -6,6 +6,10 @@ const ipfsPrefix = "https://ipfs.near.social/ipfs";
 const landingUrl = "https://neatprotocol.ai";
 const partnerProgramUrl = "https://forms.gle/4M3fvw3LPiJSyffcA";
 const nrc20DocHost = "https://docs.nrc-20.io/";
+const SEC_OF_MS = 1000;
+const MIN_OF_MS = 60 * SEC_OF_MS;
+const HOUR_OF_MS = 60 * MIN_OF_MS;
+const DAY_OF_MS = HOUR_OF_MS * 24;
 function toLocaleString(source, decimals, rm) {
   if (typeof source === "string") {
     return toLocaleString(Number(source), decimals);
@@ -56,7 +60,7 @@ function getConfig(network) {
       return {
         ownerId: "inscribe.near",
         graphUrl:
-          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat",
+          "https://gateway-arbitrum.network.thegraph.com/api/98b4f8ff96be187a889dddcac0e3ef13/subgraphs/id/47RQk8YD4XqgczsgNYSNaWVQLNNwt49DuAuMAxCiLXJZ",
         nodeUrl: "https://rpc.mainnet.near.org",
         contractName: "inscription.near",
         methodName: "inscribe",
@@ -77,12 +81,18 @@ function getConfig(network) {
         minMintEvents: 1_000_000,
         minHolders: 1_000,
         neatDecimals: 8,
+        nearDecimals: 24,
+        stakingContractName: "neat-staking.near",
+        wNearTokenId: "wrap.near",
+        refContractId: "v2.ref-finance.near",
+        neatPoolId: 4243,
+        firstFarmStartTimeUTC: "2024-06-03T08:00Z",
       };
     case "testnet":
       return {
         ownerId: "inscribe.testnet",
         graphUrl:
-          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat-test",
+          "https://api.studio.thegraph.com/query/76896/neat-test/version/latest",
         nodeUrl: "https://rpc.testnet.near.org",
         contractName: "inscription.testnet",
         methodName: "inscribe",
@@ -103,6 +113,12 @@ function getConfig(network) {
         minMintEvents: 10,
         minHolders: 5,
         neatDecimals: 8,
+        nearDecimals: 24,
+        stakingContractName: "neat-staking.testnet",
+        wNearTokenId: "wrap.testnet",
+        refContractId: "exchange.ref-dev.testnet",
+        neatPoolId: 728,
+        firstFarmStartTimeUTC: "2024-06-03T08:00Z",
       };
     default:
       throw Error(`Unconfigured environment '${network}'.`);
@@ -115,6 +131,8 @@ const tx = {
   args: config.args,
   gas: GasPerTransaction,
 };
+
+const RPS_MULTIPLIER = 1e24;
 
 function ftWrapperAddress(tick) {
   return tick.toLowerCase() + "." + config.ftWrapperFactory;
@@ -229,7 +247,44 @@ const FooterWrapper = styled.div`
   margin: 40px 0;
 `;
 
+const Notification = styled.div`
+  position: absolute;
+  right: 40px;
+  top: 50px;
+  z-index: 1;
 
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const NRC20Link = styled.a`
+  color: white;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+`;
+
+const NotificationImg = () => {
+  return (
+    <img
+      style={{ cursor: "pointer" }}
+      onClick={() =>
+        State.update({
+          showNotification: false,
+        })
+      }
+      src={`${ipfsPrefix}/bafkreifzxbehbqzwatzsilj4tmxh3r6rypdm2wiutud34rifx5oxkvdmea`}
+      width={24}
+      height={24}
+    />
+  );
+};
+
+
+
+State.init({
+  showNotification: true,
+});
 
 function getTab() {
   const tab = props.tab;
@@ -253,6 +308,24 @@ const tab = getTab();
 const tickParam = props.tick ? `&tick=${props.tick}` : "";
 return (
   <Main>
+    {state.showNotification && (
+      <Notification>
+        <FormContainer
+          style={{
+            gap: "20px",
+            flexDirection: "row",
+          }}
+        >
+          <NRC20Link
+            href={`/${config.ownerId}/widget/NEAT?tab=stake`}
+            target="_blank"
+          >
+            📣 Stake $NEAT and earn $NEAR
+          </NRC20Link>
+          <NotificationImg />
+        </FormContainer>
+      </Notification>
+    )}
     <HeaderContainer>
       <a href={landingUrl} target="_blank">
         <Logo

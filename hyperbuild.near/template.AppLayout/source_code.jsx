@@ -1,6 +1,3 @@
-/**
- * This is a standard layout with a header, body, and a footer
- */
 const StyledButton = styled.button`
   all: unset;
   display: ${(props) => (props.type === "icon" ? "flex" : "inline-flex")};
@@ -42,6 +39,7 @@ const ContentContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
+  height: 100%;
 `;
 const Header = ({ page, routes, ...props }) => (
   <Widget

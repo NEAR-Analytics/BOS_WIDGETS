@@ -6,6 +6,8 @@ const accountIds = [
   "alan777.near",
   "bheegem.near",
   "microchipgnu.near",
+  "starpause.near",
+  "bjirken.near",
 ];
 
 // -- Get all the roles from the DAO policy

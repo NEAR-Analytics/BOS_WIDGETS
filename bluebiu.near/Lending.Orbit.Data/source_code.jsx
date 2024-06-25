@@ -155,6 +155,8 @@ const {
   ORBIT_ADDRESS,
   REOZO_ADDRESS,
   KELP_ADDRESS,
+  MOON_MARKETS,
+  MOON_ADDRESS,
   prices,
   orbitTab,
 } = props;
@@ -173,9 +175,9 @@ useEffect(() => {
     markets = RENZO_MARKETS;
     spaceAddress = REOZO_ADDRESS;
   }
-  if (orbitTab === "KELP") {
-    markets = KELP_MARKETS;
-    spaceAddress = KELP_ADDRESS;
+  if (orbitTab === "MOON") {
+    markets = MOON_MARKETS;
+    spaceAddress = MOON_ADDRESS;
   }
   console.log(`${name}-update`);
   let _cTokensData = {};

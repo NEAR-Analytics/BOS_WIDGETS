@@ -22,5 +22,19 @@ return {
         name: "Explore",
       },
     },
+    profile: {
+      path: "hyperbuild.near/widget/page.profile",
+      blockHeight: "final",
+      init: {
+        name: "Profile",
+      },
+    },
+    tools: {
+      path: "hyperbuild.near/widget/page.tools",
+      blockHeight: "final",
+      init: {
+        name: "Tools",
+      },
+    },
   },
 };

@@ -5,10 +5,12 @@ const {
   data,
   toast,
   prices,
+  curChain,
   refetch,
   addresses,
   proxyAddress,
   addAction,
+  defaultDex,
   userPositions,
   ICON_VAULT_MAP
 } = props;
@@ -32,15 +34,8 @@ const {
   BalancePrice,
   StyledButtonList,
   StyledButton,
-  StyledLoading
 } = VM.require('bluebiu.near/widget/Liquidity.Handler.Styles')
 
-const iconCircle = (
-  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-    <path d="M8 15C11.866 15 15 11.866 15 8C15 4.13401 11.866 1 8 1C4.13401 1 1 4.13401 1 8" stroke="#1E2028" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-  </svg>
-
-)
 const defaultDeposit = props.tab === "deposit" || !props.tab;
 
 // const curPositionUSD = userPositions[data.vaultAddress]?.balanceUSD;
@@ -63,36 +58,6 @@ State.init({
   showPairs: false,
 });
 
-const getFromDepositAmount = (depositAmount, tokenDecimal) => {
-  let a = new Big(depositAmount[0].toString());
-  let b = new Big(depositAmount[1].toString());
-
-  if (a.eq(0) && b.eq(0)) return "0";
-
-  let diff;
-  let midpoint;
-  if (a.gt(b)) {
-    diff = a.minus(b);
-    midpoint = diff.div(new Big(2)).plus(b);
-  } else {
-    diff = b.minus(a);
-    midpoint = diff.div(new Big(2)).plus(a);
-  }
-
-  for (let i = tokenDecimal; i > 0; i--) {
-    const midpointFixed = midpoint
-      .div(new Big(10).pow(tokenDecimal))
-      .toFixed(i);
-    if (
-      a.div(Big(10).pow(tokenDecimal)).lte(midpointFixed) &&
-      b.div(Big(10).pow(tokenDecimal)).gte(midpointFixed)
-    ) {
-      return midpointFixed;
-    }
-  }
-
-  return "0";
-};
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 const { token0, token1, decimals0, decimals1, id, poolAddress, liquidity } = data || defaultPair;
@@ -137,7 +102,7 @@ const updateBalance = (token) => {
     tokenContract.balanceOf(sender).then((balanceBig) => {
       const adjustedBalance = Big(
         ethers.utils.formatUnits(balanceBig, decimals)
-      ).toString();
+      ).toFixed();
       State.update({
         balances: {
           ...state.balances,
@@ -165,6 +130,7 @@ const {
   isPostTx,
 } = state;
 
+const detailLoading = Object.keys(balances).length < 2 || lpBalance === ""
 const handleCheckApproval = (symbol, amount, decimals) => {
   const wei = ethers.utils.parseUnits(
     Big(amount).toFixed(decimals),
@@ -179,6 +145,7 @@ const handleCheckApproval = (symbol, amount, decimals) => {
     abi,
     Ethers.provider()
   );
+  console.log('=addresses[symbol]', addresses[symbol])
 
   contract
     .allowance(sender, vaultAddress)
@@ -194,7 +161,7 @@ const checkApproval = (amount, otherAmount, symbol) => {
   const otherSymbol = symbol === token0 ? token1 : token0
   const decimals = symbol === token0 ? decimals0 : decimals1
   const otherDecimals = symbol === token0 ? decimals1 : decimals0
-
+  console.log('=otherSymbol', otherSymbol)
   handleCheckApproval(symbol, amount, decimals)
   handleCheckApproval(otherSymbol, otherAmount, otherDecimals)
 };
@@ -237,16 +204,18 @@ const handleTokenChange = (amount, symbol) => {
     .then((response) => {
       const total0 = ethers.utils.formatUnits(response[0], decimals0)
       const total1 = ethers.utils.formatUnits(response[1], decimals1)
-      const otherAmount = (symbol === token0 ?
+      console.log('=response', response, '=total0', total0, '=total1', total1)
+      const otherAmount = Big((symbol === token0 ?
         Big(amount).times(total1).div(total0) :
-        Big(amount).times(total0).div(total1)).toString()
+        Big(amount).times(total0).div(total1))).toFixed()
       State.update({
         isLoading: false,
-        [symbol === token0 ? 'amount1' : 'amount0']: otherAmount.toString(),
+        [symbol === token0 ? 'amount1' : 'amount0']: otherAmount,
       })
       checkApproval(amount, otherAmount, symbol);
     })
-    .catch((e) => {
+    .catch((error) => {
+      console.log("error: ", error)
       State.update({
         isLoading: true,
         isError: true,
@@ -348,7 +317,7 @@ const handleApprove = (isToken0) => {
   );
 
   contract
-    .approve(curChain.chain_id === 169 ? vaultAddress : ethers.utils.getAddress(STEER_PERIPHERY_ADDRESS), tokenWei)
+    .approve(ethers.utils.getAddress(STEER_PERIPHERY_ADDRESS), tokenWei)
     .then((tx) => tx.wait())
     .then((receipt) => {
       const payload = isToken0
@@ -456,10 +425,16 @@ const handleDeposit = () => {
         token0,
         token1,
         amount: amount0,
-        template: "Steer",
+        template: defaultDex,
         status: status,
+        add: 1,
         transactionHash,
         chain_id: props.chainId,
+        extra_data: JSON.stringify({
+          action: "Deposit",
+          amount0,
+          amount1,
+        })
       });
 
       State.update({
@@ -569,8 +544,9 @@ const handleWithdraw = () => {
         token0,
         token1,
         amount: lpAmount,
-        template: "Arrakis",
+        template: defaultDex,
         status: status,
+        add: 0,
         transactionHash,
         chain_id: state.chainId,
       });
@@ -669,144 +645,158 @@ return (
       <FilterButton className={!isDeposit ? 'isActive' : ''} onClick={() => changeMode(false)}>Withdraw</FilterButton>
     </FilterButtonList>
     {
-      isDeposit ? <>
-        <Row className="price-input">
-          <Column>
-            <InputWrap className={Number(amount0) > Number(balances[token0]) ? "inSufficient" : ""}>
-              <Input value={amount0} type="number" onChange={(e) => handleTokenChange(e.target.value, token0)} />
-              <InputSuffix>
-                <img src={ICON_VAULT_MAP[token0]} alt={token0} />
-                <span>{token0}</span>
-              </InputSuffix>
-            </InputWrap>
-            <PriceWrap>
-              <TotalPrice>${balance0}</TotalPrice>
-              <BalancePrice>Balance:<span onClick={() => handleMax(true)}>{Big(balances[token0] ?? 0).toFixed(6)}</span> {token0}</BalancePrice>
-            </PriceWrap>
-          </Column>
-          <Column>
-            <InputWrap className={Number(amount1) > Number(balances[token1]) ? "inSufficient" : ""}>
-              <Input value={amount1} type="number" onChange={(e) => handleTokenChange(e.target.value, token1)} />
-              <InputSuffix>
-                <img src={ICON_VAULT_MAP[token1]} alt={token1} />
-                <span>{token1}</span>
-              </InputSuffix>
-            </InputWrap>
-            <PriceWrap>
-              <TotalPrice>${balance1}</TotalPrice>
-              <BalancePrice>Balance:<span onClick={() => handleMax(false)}>{Big(balances[token1] ?? 0).toFixed(6)}</span> {token1}</BalancePrice>
-            </PriceWrap>
-          </Column>
-        </Row>
-        <StyledButtonList>
-          {isInSufficient && <StyledButton disabled>InSufficient Balance</StyledButton>}
+      detailLoading ? (
+        <div style={{ padding: "30px 0 45px" }}>
+          <Widget
+            props={{
+              color: "#999"
+            }}
+            src="bluebiu.near/widget/Liquidity.Bridge.Loading"
+          />
+        </div>
+      ) : (
+        <>
           {
-            !isInSufficient &&
-            (isToken0Approved &&
-              isToken1Approved &&
-              !isToken0Approving &&
-              !isToken1Approving ? (
-
-              <StyledButton disabled={isLoading || !amount0 || !amount1} onClick={handleDeposit}>
+            isDeposit ? <>
+              <Row className="price-input">
+                <Column>
+                  <InputWrap className={Number(amount0) > Number(balances[token0]) ? "inSufficient" : ""}>
+                    <Input value={amount0} type="number" onChange={(e) => handleTokenChange(e.target.value, token0)} />
+                    <InputSuffix>
+                      <img src={ICON_VAULT_MAP[token0]} alt={token0} />
+                      <span>{token0}</span>
+                    </InputSuffix>
+                  </InputWrap>
+                  <PriceWrap>
+                    <TotalPrice>${balance0}</TotalPrice>
+                    <BalancePrice>Balance:<span onClick={() => handleMax(true)}>{Big(balances[token0] ?? 0).toFixed(6)}</span> {token0}</BalancePrice>
+                  </PriceWrap>
+                </Column>
+                <Column>
+                  <InputWrap className={Number(amount1) > Number(balances[token1]) ? "inSufficient" : ""}>
+                    <Input value={amount1} type="number" onChange={(e) => handleTokenChange(e.target.value, token1)} />
+                    <InputSuffix>
+                      <img src={ICON_VAULT_MAP[token1]} alt={token1} />
+                      <span>{token1}</span>
+                    </InputSuffix>
+                  </InputWrap>
+                  <PriceWrap>
+                    <TotalPrice>${balance1}</TotalPrice>
+                    <BalancePrice>Balance:<span onClick={() => handleMax(false)}>{Big(balances[token1] ?? 0).toFixed(6)}</span> {token1}</BalancePrice>
+                  </PriceWrap>
+                </Column>
+              </Row>
+              <StyledButtonList>
+                {isInSufficient && <StyledButton disabled>InSufficient Balance</StyledButton>}
                 {
-                  isLoading ? (
-                    <StyledLoading>{iconCircle}</StyledLoading>
+                  !isInSufficient &&
+                  (isToken0Approved &&
+                    isToken1Approved &&
+                    !isToken0Approving &&
+                    !isToken1Approving ? (
+
+                    <StyledButton disabled={isLoading || !amount0 || !amount1} onClick={handleDeposit}>
+                      {
+                        isLoading ? (
+                          <Widget src="bluebiu.near/widget/Liquidity.Bridge.Loading" />
+                        ) : (
+                          "Deposit"
+                        )
+                      }
+                    </StyledButton>
                   ) : (
-                    "Deposit"
-                  )
+                    <>
+                      <StyledButton disabled={isToken0Approved || isToken0Approving} onClick={() => handleApprove(true)}>{
+                        isToken0Approving ? (
+                          <Widget src="bluebiu.near/widget/Liquidity.Bridge.Loading" />
+                        ) : (
+                          <>
+                            {isToken0Approved ? "Approved" : "Approve"} {token0}
+                          </>
+                        )}
+                      </StyledButton>
+                      <StyledButton disabled={isToken1Approved || isToken1Approving} onClick={() => handleApprove(false)}>{
+                        isToken1Approving ? (
+                          <Widget src="bluebiu.near/widget/Liquidity.Bridge.Loading" />
+                        ) : (
+                          <>
+                            {isToken1Approved ? "Approved" : "Approve"} {token1}
+                          </>
+                        )}
+                      </StyledButton>
+                    </>
+                  ))
                 }
-              </StyledButton>
-            ) : (
-              <>
-                <StyledButton disabled={isToken0Approved || isToken0Approving} onClick={() => handleApprove(true)}>{
-                  isToken0Approving ? (
-                    <StyledLoading>{iconCircle}</StyledLoading>
+              </StyledButtonList>
+            </> : <>
+              <Row className="price-input">
+                <Column>
+                  <InputWrap>
+                    <Input value={lpAmount} type="number" onChange={(e) => {
+                      handleLPChange(e.target.value);
+
+                      const value = e.target.value;
+
+                      if (!value) {
+                        onUpdateLpPercent(0);
+                      }
+
+                      if (value && Big(value).gt(0)) {
+                        const newSliderPercent = Big(value || 0)
+                          .div(Big(lpBalance).gt(0) ? lpBalance : 1)
+                          .times(100)
+                          .toFixed(0);
+                        onUpdateLpPercent(newSliderPercent);
+                      }
+                    }} />
+
+                    <InputSuffix>
+                      <StyledImageList>
+                        <img src={ICON_VAULT_MAP[token0]} alt={token0} />
+                        <img src={ICON_VAULT_MAP[token1]} alt={token1} style={{ marginLeft: -6 }} />
+                      </StyledImageList>
+                      <span>{token0}/{token1}</span>
+                    </InputSuffix>
+                  </InputWrap>
+                  <PriceWrap>
+                    <TotalPrice>${balanceLp}</TotalPrice>
+                    <BalancePrice>Balance: <span
+                      onClick={() => {
+                        const newSliderPercent = Big(lpBalance || 0)
+                          .div(Big(lpBalance).gt(0) ? lpBalance : 1)
+                          .times(100)
+                          .toFixed(0);
+
+                        onUpdateLpPercent(newSliderPercent);
+
+                        handleLPChange(lpBalance);
+                      }}
+                      className="v"
+                    >
+                      {lpBalance}
+                    </span></BalancePrice>
+                  </PriceWrap>
+                </Column>
+              </Row>
+              <StyledButtonList>
+                <StyledButton
+                  disabled={isWithdrawInsufficient || isLoading || !lpAmount}
+                  onClick={handleWithdraw}
+                >
+                  {isLoading ? (
+                    <Widget src="bluebiu.near/widget/Liquidity.Bridge.Loading" />
                   ) : (
                     <>
-                      {isToken0Approved ? "Approved" : "Approve"} {token0}
+                      {isWithdrawInsufficient ? "InSufficient Balance" : "Withdraw"}
                     </>
                   )}
                 </StyledButton>
-                <StyledButton disabled={isToken1Approved || isToken1Approving} onClick={() => handleApprove(false)}>{
-                  isToken1Approving ? (
-                    <StyledLoading>{iconCircle}</StyledLoading>
-                  ) : (
-                    <>
-                      {isToken1Approved ? "Approved" : "Approve"} {token1}
-                    </>
-                  )}
-                </StyledButton>
-              </>
-            ))
+
+              </StyledButtonList>
+            </>
           }
-        </StyledButtonList>
-      </> : <>
-        <Row className="price-input">
-          <Column>
-            <InputWrap>
-              <Input value={lpAmount} type="number" onChange={(e) => {
-                handleLPChange(e.target.value);
-
-                const value = e.target.value;
-
-                if (!value) {
-                  onUpdateLpPercent(0);
-                }
-
-                if (value && Big(value).gt(0)) {
-                  const newSliderPercent = Big(value || 0)
-                    .div(Big(lpBalance).gt(0) ? lpBalance : 1)
-                    .times(100)
-                    .toFixed(0);
-                  onUpdateLpPercent(newSliderPercent);
-                }
-              }} />
-
-              <InputSuffix>
-                <StyledImageList>
-                  <img src={ICON_VAULT_MAP[token0]} alt={token0} />
-                  <img src={ICON_VAULT_MAP[token1]} alt={token1} style={{ marginLeft: -6 }} />
-                </StyledImageList>
-                <span>{token0}/{token1}</span>
-              </InputSuffix>
-            </InputWrap>
-            <PriceWrap>
-              <TotalPrice>${balanceLp}</TotalPrice>
-              <BalancePrice>Balance: <span
-                onClick={() => {
-                  const newSliderPercent = Big(lpBalance || 0)
-                    .div(Big(lpBalance).gt(0) ? lpBalance : 1)
-                    .times(100)
-                    .toFixed(0);
-
-                  onUpdateLpPercent(newSliderPercent);
-
-                  handleLPChange(lpBalance);
-                }}
-                className="v"
-              >
-                {lpBalance}
-              </span></BalancePrice>
-            </PriceWrap>
-          </Column>
-        </Row>
-        <StyledButtonList>
-          <StyledButton
-            disabled={isWithdrawInsufficient || isLoading || !lpAmount}
-            onClick={handleWithdraw}
-          >
-            {isLoading ? (
-              <StyledLoading>{iconCircle}</StyledLoading>
-            ) : (
-              <>
-                {isWithdrawInsufficient ? "InSufficient Balance" : "Withdraw"}
-              </>
-            )}
-          </StyledButton>
-
-        </StyledButtonList>
-      </>
+        </>
+      )
     }
-
   </DetailWrapper>
 )

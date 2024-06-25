@@ -208,6 +208,10 @@ const {
   multicall,
   multicallAddress,
   tokenBal,
+  IS_ETHOS_DAPP,
+  IS_PREON_DAPP,
+  IS_GRAVITA_DAPP,
+  IS_LYVE_DAPP,
 } = props;
 
 const data = props.data || {};
@@ -325,6 +329,10 @@ return (
               <Widget
                 src="bluebiu.near/widget/Lending.Liquity.PoolButton"
                 props={{
+                  IS_ETHOS_DAPP,
+                  IS_PREON_DAPP,
+                  IS_GRAVITA_DAPP,
+                  IS_LYVE_DAPP,
                   disabled: !state.buttonClickable,
                   actionText: state.tab,
                   amount: state.amount,

@@ -109,10 +109,22 @@ const Theme = state.theme;
 
 const featured = [
   {
-    widgetSrc: "syi216.near/widget/Ejemplo-API-Pokemon",
+    widgetSrc: "syi216.near/widget/PruebaComponenteVara",
     accountId: "syi216.near",
-    widgetName: "Ejemplo-API-Pokemon",
-    alt: "Ejemplo-API-Pokemon",
+    widgetName: "Interaccion basica Vara",
+    alt: "Interaccion basica Vara",
+  },
+  {
+    widgetSrc: "syi216.near/widget/EjemploContratoFT",
+    accountId: "syi216.near",
+    widgetName: "Ejemplo Contrato Fungible Token",
+    alt: "Ejemplo Contrato Fungible Token",
+  },
+  {
+    widgetSrc: "syi216.near/widget/EjemploContratoNFT",
+    accountId: "syi216.near",
+    widgetName: "Ejemplo Contrato Non Fungible Token",
+    alt: "Ejemplo Contrato Non Fungible Token",
   },
 ];
 

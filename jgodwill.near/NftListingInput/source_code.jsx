@@ -2,22 +2,6 @@
 //   return <div></div>;
 // }
 
-const data = Social.keys("*/profile", "final");
-
-if (!data) {
-  return "Loading";
-}
-
-const accounts = Object.entries(data);
-
-const allWidgets = [];
-
-for (let i = 0; i < accounts.length; ++i) {
-  const accountId = accounts[i][0];
-  allWidgets.push(accountId);
-}
-console.log(allWidgets);
-
 const Label = styled.p`
   font-size: 1.1rem;
   color: #04111D;
@@ -26,17 +10,11 @@ const Label = styled.p`
   line-height: 1.02;
   white-space: nowrap;
   margin: unset;
-  @media (max-width: 992px) {
-    text-align:center;
-  }
 `;
 
 const GrayLabel = styled.p`
   color: #6C757D;
   font-size: 14px;
-  @media (max-width: 992px) {
-    text-align:center;
-  }
 `;
 const SecondaryText = styled.h3`
   font-size: 1.1rem;
@@ -45,18 +23,11 @@ const SecondaryText = styled.h3`
   font-family: "SF Pro Display",sans-serif;
   line-height: 1.02;
   white-space: nowrap;
-  @media (max-width: 992px) {
-    text-align:center;
-  }
   
 `;
 const Card = styled.div`
   overflow: hidden;
-    @media (max-width: 992px) {
-     text-align:center;
-   }
 `;
-
 const BorderedShadowedCard = styled.div`
   display: flex;
    flex-flow: column nowrap;
@@ -70,9 +41,6 @@ const BorderedShadowedCard = styled.div`
    background-color:#fff;
    & img{
      border-radius: inherit;
-   }
-   @media (max-width: 992px) {
-     text-align:center;
    }
 `;
 const Main = styled.div`
@@ -88,7 +56,7 @@ const Main = styled.div`
 `;
 
 const ImgCard = styled.div`
-  height:300px;
+  height:fit-content;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -97,11 +65,10 @@ const ImgCard = styled.div`
   max-width: 500px;
   border-radius: inherit;
   overflow:hidden;
+  aspect-ratio: 1/1;
   margin: 0 auto;
-  & img{
+  &>img{
   object-fit: cover;
-  width:100%;
-  height:100%;
   }
   object-fit:cover;
 `;
@@ -110,10 +77,6 @@ const TopSellCard = styled.div`
   background-color: #E2E4E8;
   padding: 1rem;
   width:100%;
-  @media (max-width: 810px) {
-    flex-flow: column nowrap;
-    text-align:center;
-  }
 `;
 
 const Text = styled.p`
@@ -165,32 +128,7 @@ const BlueSub = styled.div`
  color: #0d99ff;
  font-size: .8rem;
 `;
-
-const ResponsiveDiv = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 1rem;
-  gap: 1rem;
-  @media (max-width: 992px) {
-    flex-flow: column nowrap;
-    align-items:center;
-    justify-conent:center;
-    text-align: center;
-  }
-`;
-
-const ViewOnTradeport = styled.div`
-    width: 40%;
-    align-self: flex-end;
- &>a{
-   width:100%;
- }
-   @media (max-width: 810px) {
-     align-self:center;
-   }
-`;
-console.log(props.state.tokenInfo.metadata.title);
+console.log(props.state.nftMetadata);
 // {props.state.tokenId && (
 return (
   <>
@@ -199,7 +137,9 @@ return (
         <BorderedShadowedCard className="shadow-sm rounded-4">
           <div>
             <SecondaryText>
-              {props.state.tokenInfo.metadata.title || "NFT Name"}
+              {/*{`...${props.state.tokenId?.slice(
+                props.state.tokenId.length / 2
+              )} ${props.state.nftMetadata.name}`}*/}
             </SecondaryText>
           </div>
           <ImgCard className="shadow-sm">
@@ -214,16 +154,13 @@ return (
               }}
             />
           </ImgCard>
-          <ResponsiveDiv>
+          <div className="d-flex justify-content-between mt-3">
             <span>
               <BlueSub>Contract ID</BlueSub>
               <SecondaryText>
                 {props.state.contractId.length > 6
-                  ? `${props.state.contractId?.slice(
-                      0,
-                      5
-                    )}...${props.state.contractId?.slice(
-                      props.state.contractId.length - 8
+                  ? `...${props.state.contractId?.slice(
+                      props.state.contractId.length - 4
                     )}`
                   : props.state.contractId || "Sample Contract"}
               </SecondaryText>
@@ -234,27 +171,26 @@ return (
                 {props.state.nftMetadata.name || "Sample Name"}
               </SecondaryText>
             </span>
-          </ResponsiveDiv>
+          </div>
           <div className="card rounded-4 shadow-sm p-3 my-3">
             <SecondaryText>Description</SecondaryText>
             <p>{props.state.tokenInfo.metadata.description}</p>
           </div>
-          <ViewOnTradeport>
-            <a
-              href={props.state.tradeportLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-dark mt-3"
-            >
-              View on Tradeport
-            </a>
-          </ViewOnTradeport>
+          <a
+            href={props.state.tradeportLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-dark mt-3"
+            style={{ alignSelf: "flex-end" }}
+          >
+            View on Tradeport
+          </a>
           <p>
             <a href={props.state.tokenInfo.media} target="_blank">
               {props.state.tokenInfo.media}
             </a>
           </p>
-          {/*{!props.state.ownsNFT && (
+          {!props.state.ownsNFT && (
             <div className="alert alert-danger">
               <i className="bi bi-x"></i> You do not own this NFT & cannot list
               or transfer it
@@ -264,7 +200,7 @@ return (
             <div className="alert alert-success">
               <i className="bi bi-x"></i> You own this NFT
             </div>
-          )}*/}
+          )}
           <div className="col-lg-12">
             <h3> Listed Markets</h3>
             <div>
@@ -299,7 +235,7 @@ return (
                 Choose how you want to list you NFT for sale
               </GrayLabel>
 
-              <ResponsiveDiv>
+              <div className="d-flex justify-content-between">
                 <div
                   className="card rounded-4 shadow-sm p-3"
                   role="button"
@@ -308,51 +244,11 @@ return (
                   <Label className="text-center">SET PRICE</Label>
                   <Text>Sell the NFT at a fixed price</Text>
                 </div>
-                <div className="card rounded-4 shadow-sm p-3">
-                  <Label className="text-center">Transfer</Label>
-                  <div className=" mb-2">
-                    Receiver Address
-                    <Typeahead
-                      id="async-example"
-                      isLoading={isLoading}
-                      labelKey="search"
-                      minLength={1}
-                      options={allWidgets}
-                      onChange={(value) => props.onChangeReceiver(value)}
-                      placeholder="🔍 Search for a Near user..."
-                      // renderMenuItemChildren={(option: accountId) => (
-                      //   <div className="mb-2">
-                      //     <Widget
-                      //       src="mob.near/widget/Profile"
-                      //       props={{ accountId }}
-                      //     />
-                      //   </div>
-                      // )}
-                    />
-                  </div>
-                  <div className="row">
-                    {props.state.ownsNFT && props.state.validReceiver && (
-                      <button
-                        className="btn btn-primary mt-3"
-                        onClick={props.transfer}
-                      >
-                        Transfer
-                      </button>
-                    )}
-                    <div className="col-lg-6"></div>
-                    {props.state.ownsNFT && !props.state.validReceiver && (
-                      <button className="btn btn-warning mt-3">
-                        Can't Transfer (Invalid Receiver)
-                      </button>
-                    )}
-                    {!props.state.ownsNFT && props.state.validReceiver && (
-                      <button className="btn btn-danger mt-3">
-                        Can't Transfer (Don't Own)
-                      </button>
-                    )}
-                  </div>
-                </div>
-              </ResponsiveDiv>
+                <GrayCard className="rounded-4 p-3">
+                  <Label className="text-center">HIGHEST BID</Label>
+                  <Text>Auction to the highest bidder</Text>
+                </GrayCard>
+              </div>
             </div>
           </Card>
           <div className="">
@@ -371,7 +267,7 @@ return (
           </div>
           <div className="rounded-4 mt-3 border shadow-sm">
             <div className="p-3">
-              <ResponsiveDiv>
+              <div className="d-flex align-items-center justify-content-between">
                 <Label>Price and listing option</Label>
                 <div className="d-flex align-items-center gap-3">
                   <span>Price(In NEAR)</span>
@@ -384,7 +280,7 @@ return (
                     />
                   </PriceInput>
                 </div>
-              </ResponsiveDiv>
+              </div>
             </div>
             <hr className="m-auto" />
             <GrayLabel className="mt-3 mx-3 mb-0">

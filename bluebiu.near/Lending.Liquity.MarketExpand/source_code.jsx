@@ -99,7 +99,7 @@ const StyledInfo = styled.div`
   padding-bottom: 16px;
 `;
 const StyledInfoContent = styled.div`
-  width: 390px;
+  /* width: 390px; */
   .icon {
     width: 16px;
     margin: 0 4px;
@@ -221,12 +221,14 @@ const {
   IS_ETHOS_DAPP,
   IS_PREON_DAPP,
   IS_GRAVITA_DAPP,
+  IS_LYVE_DAPP,
   multicall,
   multicallAddress,
 } = props;
-
 const data = props.data || {};
+console.log("LyveMarketExpand--", data);
 const vesselStatus = data.vesselStatus; //ACTIVE INACTIVE
+const { Liquidation_Reserve } = data;
 let TABS = [];
 switch (vesselStatus) {
   case "ACTIVE":
@@ -309,10 +311,19 @@ function getVesselManager(_amount) {
       console.log("error:", err);
     });
 }
+// for Lyve
+function calcLTV(totalDebtUSD, totalDepositUSD) {
+  if (isNaN(Number(totalDebtUSD)) || isNaN(Number(totalDepositUSD))) return "-";
+  if (Big(totalDebtUSD).eq(0) || Big(totalDepositUSD).eq(0)) return "-";
+  return Big(totalDebtUSD).div(Big(totalDepositUSD)).toFixed(2);
+}
 
 useEffect(() => {
   if (state.tab === "Close") return;
-  if ((IS_GRAVITA_DAPP || IS_PREON_DAPP) && state.isDebtBigerThanBalance)
+  if (
+    (IS_GRAVITA_DAPP || IS_PREON_DAPP || IS_LYVE_DAPP) &&
+    state.isDebtBigerThanBalance
+  )
     return;
   const price = prices[data.underlyingToken.symbol];
 
@@ -389,6 +400,68 @@ useEffect(() => {
       maxBorrowAmount,
     });
   }
+  if (IS_LYVE_DAPP) {
+    let assetInUSD,
+      totalDebt,
+      _yourLTV,
+      borrowingFee,
+      liquidationPrice,
+      maxBorrowAmount,
+      borrowTokenBal;
+
+    if (state.tab === "Borrow") {
+      if (isNaN(Number(state.amount)) || !Number(state.amount)) return;
+      assetInUSD = Big(state.amount || 0).mul(price);
+      borrowTokenBal = assetInUSD
+        .mul(0.6067)
+        .minus(Liquidation_Reserve)
+        .toFixed(2);
+
+      if (state.borrowAmount) {
+        _yourLTV = Big(state.borrowAmount).div(assetInUSD);
+        borrowingFee = Big(state.borrowAmount).mul(0.01).toFixed(2);
+        totalDebt = Big(state.borrowAmount)
+          .plus(Liquidation_Reserve)
+          .plus(borrowingFee);
+        liquidationPrice = totalDebt.div(0.9091).div(state.amount).toFixed(2);
+      }
+    }
+    if (state.tab === "Adjust") {
+      // if (isNaN(Number(state.amount)) || !Number(state.amount)) return;
+      assetInUSD = Big(state.amount || 0)
+        .plus(data.vesselDeposit)
+        .mul(price);
+      _yourLTV = Big(state.borrowAmount || 0)
+        .plus(data.vesselDebt)
+        .div(assetInUSD);
+
+      maxBorrowAmount = Big(assetInUSD)
+        .mul(0.6067)
+        .minus(data.vesselDebt)
+        .toFixed();
+
+      borrowingFee = Big(state.borrowAmount || 0)
+        .mul(0.01)
+        .toFixed(2);
+      totalDebt = Big(state.borrowAmount || 0)
+        .plus(data.vesselDebt)
+        .plus(borrowingFee);
+
+      liquidationPrice = totalDebt
+        .div(0.9091)
+        .div(Big(state.amount || 0).plus(data.vesselDeposit))
+        .toFixed(2);
+    }
+
+    State.update({
+      totalDebt: Big(totalDebt || 0).toFixed(2),
+      yourLTV: Big(_yourLTV || 0).toFixed(2),
+      borrowingFee,
+      liquidationPrice,
+      borrowTokenBal,
+      maxBorrowAmount,
+    });
+  }
   if (IS_PREON_DAPP) {
     if (isNaN(Number(state.amount)) || !Number(state.amount)) return;
     let assetInUSD,
@@ -412,7 +485,9 @@ useEffect(() => {
     if (assetInUSD) {
       borrowTokenBal = assetInUSD
         .minus(20)
-        .minus(assetInUSD.minus(20).mul(0.02))
+        .minus(
+          Big(0.067).mul(Big(state.amount)).mul(price).mul(Big(data["MAX_LTV"]))
+        )
         .toFixed();
     }
 
@@ -545,7 +620,7 @@ return (
               <StyledInfoTitle>Adjust Your Position</StyledInfoTitle>
             )}
             {(state.tab === "Borrow" || state.tab === "Adjust") &&
-            (IS_GRAVITA_DAPP || IS_PREON_DAPP) ? (
+            (IS_GRAVITA_DAPP || IS_PREON_DAPP || IS_LYVE_DAPP) ? (
               <StyledInfoItem>
                 <div>Your LTV</div>
                 <div className="white">
@@ -572,7 +647,9 @@ return (
               <StyledInfoItem>
                 <div>Your Collateral</div>
                 <div className="white">
-                  {data.vesselDeposit}
+                  {Big(data.vesselDeposit || 0)
+                    .plus(Big(state.amount || 0))
+                    .toFixed(2)}
                   {data.underlyingToken?.symbol}
                 </div>
               </StyledInfoItem>
@@ -659,7 +736,8 @@ return (
               </StyledInfoItem> */}
               {Big(tokenBal || 0).lt(Big(data.vesselDebt || 0)) ? (
                 <StyledInfoTips>
-                  More GRAI must be acquired in order to close the Vessel.
+                  More {data.BORROW_TOKEN} must be acquired in order to close
+                  the Vessel.
                 </StyledInfoTips>
               ) : null}
 
@@ -739,47 +817,48 @@ return (
           ) : null}
 
           <StyledButtonWrapper>
-            {state.tab === "Borrow" || state.tab === "Close" ? (
-              <div style={{ flexGrow: 1 }}>
-                <Widget
-                  src="bluebiu.near/widget/Lending.Liquity.MarketButton"
-                  props={{
-                    actionText: state.tab,
-                    ...props,
-                    data: {
-                      ...data,
-                      config: dexConfig,
-                    },
+            {state.tab === "Borrow" ||
+              (state.tab === "Close" && (
+                <div style={{ flexGrow: 1 }}>
+                  <Widget
+                    src="bluebiu.near/widget/Lending.Liquity.MarketButton"
+                    props={{
+                      actionText: state.tab,
+                      ...props,
+                      data: {
+                        ...data,
+                        config: dexConfig,
+                      },
 
-                    isDebtBigerThanBalance: state.isDebtBigerThanBalance,
-                    addAction,
-                    toast,
-                    chainId,
-                    unsignedTx: state.unsignedTx,
-                    isError: state.isError,
-                    // loading: state.loading,
-                    // gas: state.gas,
-                    yourLTV: state.yourLTV,
-                    _assetAmount: state.amount,
-                    _debtTokenAmount: state.borrowAmount,
-                    _maxFeePercentage: state._maxFeePercentage,
-                    collateralRatio: state.collateralRatio,
-                    onApprovedSuccess: () => {
-                      if (!state.gas) state.getTrade();
-                    },
-                    onSuccess: () => {
-                      onSuccess?.();
-                    },
-                    isCloseDisabled: Big(tokenBal || 0).lt(
-                      Big(data.vesselDebt || 0)
-                    )
-                      ? true
-                      : false,
-                  }}
-                />
-              </div>
-            ) : null}
-            {state.tab === "Adjust" ? (
+                      isDebtBigerThanBalance: state.isDebtBigerThanBalance,
+                      addAction,
+                      toast,
+                      chainId,
+                      unsignedTx: state.unsignedTx,
+                      isError: state.isError,
+                      // loading: state.loading,
+                      // gas: state.gas,
+                      yourLTV: state.yourLTV,
+                      _assetAmount: state.amount,
+                      _debtTokenAmount: state.borrowAmount,
+                      _maxFeePercentage: state._maxFeePercentage,
+                      collateralRatio: state.collateralRatio,
+                      onApprovedSuccess: () => {
+                        if (!state.gas) state.getTrade();
+                      },
+                      onSuccess: () => {
+                        onSuccess?.();
+                      },
+                      isCloseDisabled: Big(tokenBal || 0).lt(
+                        Big(data.vesselDebt || 0)
+                      )
+                        ? true
+                        : false,
+                    }}
+                  />
+                </div>
+              ))}
+            {state.tab === "Adjust" && (
               <div style={{ flexGrow: 1 }}>
                 <Widget
                   src="bluebiu.near/widget/Lending.Liquity.AdjustButton"
@@ -805,12 +884,16 @@ return (
                       if (!state.gas) state.getTrade();
                     },
                     onSuccess: () => {
+                      State.update({
+                        amount: "",
+                        borrowAmount: "",
+                      });
                       onSuccess?.();
                     },
                   }}
                 />
               </div>
-            ) : null}
+            )}
           </StyledButtonWrapper>
         </div>
       </StyledContent>

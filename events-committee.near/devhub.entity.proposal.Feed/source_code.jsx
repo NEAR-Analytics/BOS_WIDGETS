@@ -207,12 +207,12 @@ const FeedPage = () => {
     input: "",
     loading: false,
     loadingMore: false,
-    aggregatedCount: 0,
+    aggregatedCount: null,
     currentlyDisplaying: 0,
   });
 
   const queryName =
-    "thomasguntenaar_near_events_committee_proposals_proposals_with_latest_snapshot";
+    "thomasguntenaar_near_events_committee_proposals_2_proposals_with_latest_snapshot";
   const query = `query GetLatestSnapshot($offset: Int = 0, $limit: Int = 10, $where: ${queryName}_bool_exp = {}) {
     ${queryName}(
       offset: $offset
@@ -272,8 +272,9 @@ const FeedPage = () => {
       where = { author_id: { _eq: state.author }, ...where };
     }
 
+    // TODO - category -> labels
     if (state.category) {
-      where = { category: { _eq: state.category }, ...where };
+      where = { labels: { _contains: state.category }, ...where };
     }
 
     if (state.stage) {
@@ -326,10 +327,10 @@ const FeedPage = () => {
         if (result.body.data) {
           const data =
             result.body.data
-              .thomasguntenaar_near_events_committee_proposals_proposals_with_latest_snapshot;
+              .thomasguntenaar_near_events_committee_proposals_2_proposals_with_latest_snapshot;
           const totalResult =
             result.body.data
-              .thomasguntenaar_near_events_committee_proposals_proposals_with_latest_snapshot_aggregate;
+              .thomasguntenaar_near_events_committee_proposals_2_proposals_with_latest_snapshot_aggregate;
           State.update({ aggregatedCount: totalResult.aggregate.count });
           // Parse timeline
           fetchBlockHeights(data, offset);
@@ -511,7 +512,7 @@ const FeedPage = () => {
         </div>
       </div>
       <div style={{ minHeight: "50vh" }}>
-        {!Array.isArray(state.data) ? (
+        {state.aggregatedCount === null ? (
           loader
         ) : (
           <div className="card no-border rounded-0 mt-4 py-3 full-width-div">
@@ -542,7 +543,7 @@ const FeedPage = () => {
                 </p>
               </div>
               <div className="mt-4 border rounded-2">
-                {state.data.length > 0 ? (
+                {state.data.length > 0 || state.aggregatedCount === 0 ? (
                   <InfiniteScroll
                     pageStart={0}
                     loadMore={makeMoreItems}

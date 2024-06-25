@@ -193,6 +193,7 @@ return (
       </span>
       <span className={`count ${hasDislike ? "disliked" : ""}`}>
         <Widget
+         loading={<></>}
           loading={dislikeCount || ""}
           src="mob.near/widget/N.Overlay.Faces"
           props={{ accounts: dislikesByUsers, limit: 10 }}

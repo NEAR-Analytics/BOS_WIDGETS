@@ -100,7 +100,7 @@ return (
       </CloseButton>
       <div className="d-flex justify-content-center align-items-center flex-column pt-5">
         <LogoIcon
-          src="https://dropcast.nearverselabs.com/logo.png"
+          src="https://ipfs.near.social/ipfs/bafkreihlvxcsjmvptzkn5way4ffun3njuebgrmjcolnxvz37gro7h54r5e"
           decoding="async"
           data-nimg="fill"
         />

@@ -236,7 +236,7 @@ return (
           <div className="manage-settings">
             <Link
               key={"storeFront"}
-              className="route"
+              className="route tab"
               to={href({
                 widgetSrc: "bos.genadrop.near/widget/Mintbase.App.Index",
                 params: {
@@ -244,22 +244,20 @@ return (
                   tab: `nfts&accountId=${contract.nft_contract_id}`,
                 },
               })}
-              className="tab"
             >
               Manage NFTs
             </Link>
             {isConnected && (
               <Link
                 key={"settings"}
-                className="route"
+                className="route tab"
                 to={href({
                   widgetSrc: "bos.genadrop.near/widget/Mintbase.App.Index",
                   params: {
                     page: "contract",
-                    tab: `settings&accountId=${contract.nft_contract_id}`,
+                    tab: `contract-settings&accountId=${contract.nft_contract_id}`,
                   },
                 })}
-                className="tab"
               >
                 Settings
               </Link>

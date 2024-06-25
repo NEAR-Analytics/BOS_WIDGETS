@@ -198,8 +198,8 @@ function BottomSection() {
                       <div className="d-flex">
                         <img
                           className="rounded"
-                          width="67"
-                          height="49"
+                          width="70"
+                          height="70"
                           src={nwSite + issue.image.formats.thumbnail.url}
                           alt={issue.image.alternativeText}
                         />

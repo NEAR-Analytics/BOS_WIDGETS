@@ -1,9 +1,6 @@
 const { Button } = VM.require("buildhub.near/widget/components") || {
   Button: () => <></>,
 };
-if (!Button) {
-  return "";
-}
 const { href } = VM.require("buildhub.near/widget/lib.url") || {
   href: () => {},
 };
@@ -18,6 +15,19 @@ const NavContainer = styled.div`
   font-family: "Poppins", sans-serif;
   background-color: var(--bg, #000);
   border-bottom: 1px solid var(--stroke-color, rgba(255, 255, 255, 0.2));
+  .grey-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #23242b;
+    color: #9ba1a6;
+    border-radius: 8px;
+    outline: none;
+    border: 0px;
+    width: 90px;
+    height: 40px;
+    text-decoration: none;
+  }
 `;
 const MainContent = styled.div`
   display: flex;
@@ -43,7 +53,7 @@ const Left = styled.div`
 const Right = styled.div`
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 8px;
   @media screen and (max-width: 768px) {
     display: none;
   }
@@ -174,11 +184,81 @@ const MobileContent = styled.div`
   flex-direction: column;
   justify-content: space-between;
 `;
+const getNotificationCount = () => {
+  const lastBlockHeight = Storage.get("lastBlockHeight");
+  if (lastBlockHeight === null) {
+    return "";
+  }
+  const notifications = Social.index("notify", context.accountId, {
+    order: "asc",
+    from: (lastBlockHeight ?? 0) + 1,
+    subscribe: true,
+  });
+  return notifications.length;
+};
+const unreadNotifications = getNotificationCount();
 function Navbar(props) {
   const { page, routes } = props;
   const [dropdown, setDropdown] = useState(false);
   const toggleDropdown = () => {
     setDropdown((prev) => !prev);
+  };
+  const TestBtn = () => {
+    const { networkId } = context;
+    const isTestnet = networkId === "testnet";
+    const config = {
+      mainnet: {
+        href: isTestnet ? "https://www.nearbuilders.org/" : "#",
+        label: "Mainnet",
+        icon: "bi bi-wifi",
+        disabled: !isTestnet,
+      },
+      testnet: {
+        href: isTestnet ? "#" : "https://test.nearbuilders.org/",
+        label: "Testnet",
+        icon: "bi bi-cloud",
+        disabled: isTestnet,
+      },
+    };
+    return (
+      <StyledDropdown className="dropdown">
+        <div className="d-flex justify-content-end align-items-center gap-3">
+          <button
+            className="grey-btn"
+            type="button"
+            id="networksDropdown"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Network
+          </button>
+          <ul
+            className="dropdown-menu"
+            aria-labelledby="networksDropdown"
+            style={{ minWidth: "fit-content" }}
+          >
+            {Object.entries(config).map(([key, value]) => (
+              <li key={key}>
+                <a
+                  style={{
+                    textDecoration: "none",
+                    color: value.disabled ? "green" : "#9ba1a6",
+                  }}
+                  href={value.href}
+                  className="dropdown-item d-flex align-items-center gap-2"
+                >
+                  <i
+                    className={value.icon}
+                    style={{ color: value.disabled ? "green" : "#9ba1a6" }}
+                  />
+                  <span>{value.label}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </StyledDropdown>
+    );
   };
   return (
     <NavContainer>
@@ -227,6 +307,37 @@ function Navbar(props) {
           </NavLinks>
         </Left>
         <Right>
+          {context.accountId && (
+            <Button
+              className="rounded-3 position-relative"
+              type="icon"
+              href={href({
+                widgetSrc: "buildhub.near/widget/app",
+                params: {
+                  page: "notifications",
+                },
+              })}
+            >
+              <i className="bi bi-bell"></i>
+              {unreadNotifications > 0 && (
+                <div
+                  className="position-absolute d-flex align-items-center justify-content-center text-white fw-bold"
+                  style={{
+                    top: 0,
+                    background: "red",
+                    borderRadius: "100%",
+                    right: 0,
+                    width: 18,
+                    height: 18,
+                    fontSize: 10,
+                    margin: -4,
+                  }}
+                >
+                  {unreadNotifications}
+                </div>
+              )}
+            </Button>
+          )}
           <div
             style={{
               flex: 1,
@@ -236,67 +347,76 @@ function Navbar(props) {
               gap: "0.5rem",
             }}
           >
-            <StyledDropdown className="dropdown">
-              <button
-                className="dropdown-toggle"
-                type="button"
-                id="dropdownMenu2222"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <i style={{ color: "white" }} className="bi bi-three-dots"></i>
-              </button>
-              <ul className="dropdown-menu" aria-labelledby="dropdownMenu2222">
-                <li>
-                  <Link
-                    style={{ textDecoration: "none" }}
-                    href={href({
-                      widgetSrc: "buildhub.near/widget/app",
-                      params: {
-                        page: "inspect",
-                        widgetPath: routes[page].path,
-                      },
-                    })}
-                    type="icon"
-                    variant="outline"
-                    className="d-flex align-tiems-center gap-2"
-                  >
-                    <i className="bi bi-code"></i>
-                    <span>View source</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    style={{ textDecoration: "none" }}
-                    href={`/edit/${routes[page].path}`}
-                    type="icon"
-                    variant="outline"
-                    className="d-flex align-items-center gap-2"
-                  >
-                    <i className="bi bi-pencil"></i>
-                    <span>Edit code</span>
-                  </Link>
-                </li>
-              </ul>
+            <StyledDropdown className="dropdown ">
+              <div className="d-flex justify-content-end align-items-center gap-3">
+                <button
+                  className="dropdown-toggle"
+                  type="button"
+                  id="dropdownMenu2222"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <i
+                    style={{ color: "white" }}
+                    className="bi bi-three-dots"
+                  ></i>
+                </button>
+                <ul
+                  className="dropdown-menu"
+                  aria-labelledby="dropdownMenu2222"
+                >
+                  <li>
+                    <Link
+                      style={{ textDecoration: "none" }}
+                      href={href({
+                        widgetSrc: "buildhub.near/widget/app",
+                        params: {
+                          page: "inspect",
+                          widgetPath: routes[page].path,
+                        },
+                      })}
+                      type="icon"
+                      variant="outline"
+                      className="d-flex align-tiems-center gap-2"
+                    >
+                      <i className="bi bi-code"></i>
+                      <span>View source</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      style={{ textDecoration: "none" }}
+                      href={`/edit/${routes[page].path}`}
+                      type="icon"
+                      variant="outline"
+                      className="d-flex align-items-center gap-2"
+                    >
+                      <i className="bi bi-pencil"></i>
+                      <span>Edit code</span>
+                    </Link>
+                  </li>
+                </ul>
+              </div>
             </StyledDropdown>
+            {context.accountId ? (
+              <Widget
+                src="buildhub.near/widget/components.buttons.UserDropdown"
+                loading=""
+                props={props}
+              />
+            ) : (
+              <Button
+                variant="primary"
+                linkClassName="d-flex"
+                href="https://nearbuilders.org/join"
+                noLink={true}
+                className="w-100"
+              >
+                Sign In
+              </Button>
+            )}
+            <TestBtn />
           </div>
-          {context.accountId ? (
-            <Widget
-              src="buildhub.near/widget/components.buttons.UserDropdown"
-              loading=""
-              props={props}
-            />
-          ) : (
-            <Button
-              variant="primary"
-              linkClassName="d-flex"
-              href="https://nearbuilders.org/join"
-              noLink={true}
-              className="w-100"
-            >
-              Sign In
-            </Button>
-          )}
         </Right>
         <MobileNavigation>
           <Link
@@ -315,14 +435,46 @@ function Navbar(props) {
               alt="BuildDAO"
             />
           </Link>
-          <Button
-            type="icon"
-            variant="outline"
-            className="rounded-2 border-0"
-            onClick={toggleDropdown}
-          >
-            <i style={{ fontSize: 24 }} className="bi bi-list"></i>
-          </Button>
+          <div className="d-flex align-items-center gap-2">
+            {context.accountId && (
+              <Button
+                className="rounded-3 position-relative"
+                type="icon"
+                href={href({
+                  widgetSrc: "buildhub.near/widget/app",
+                  params: {
+                    page: "notifications",
+                  },
+                })}
+              >
+                <i className="bi bi-bell"></i>
+                {unreadNotifications > 0 && (
+                  <div
+                    className="position-absolute d-flex align-items-center justify-content-center text-white fw-bold"
+                    style={{
+                      top: 0,
+                      background: "red",
+                      borderRadius: "100%",
+                      right: 0,
+                      width: 18,
+                      height: 18,
+                      fontSize: 10,
+                      margin: -4,
+                    }}
+                  >
+                    {unreadNotifications}
+                  </div>
+                )}
+              </Button>
+            )}
+            <Button
+              type="icon"
+              className="rounded-2 border-0"
+              onClick={toggleDropdown}
+            >
+              <i style={{ fontSize: 24 }} className="bi bi-list"></i>
+            </Button>
+          </div>
         </MobileNavigation>
       </MainContent>
       {dropdown && (
@@ -406,28 +558,31 @@ function Navbar(props) {
                   Edit Code
                 </Button>
               </div>
-              {context.accountId ? (
-                <div className="mx-auto d-flex align-items-stretch ">
-                  <Widget
-                    src="buildhub.near/widget/components.buttons.UserDropdown"
-                    loading=""
-                    props={props}
-                  />
-                </div>
-              ) : (
-                <>
-                  <Button
-                    variant="primary"
-                    linkClassName="d-flex"
-                    href="https://nearbuilders.org/join"
-                    noLink={true}
-                    className="w-100"
-                    onClick={() => setDropdown(false)}
-                  >
-                    Sign In
-                  </Button>
-                </>
-              )}
+              <div className="d-flex gap-2">
+                {context.accountId ? (
+                  <div className="mx-auto d-flex align-items-stretch ">
+                    <Widget
+                      src="buildhub.near/widget/components.buttons.UserDropdown"
+                      loading=""
+                      props={props}
+                    />
+                  </div>
+                ) : (
+                  <>
+                    <Button
+                      variant="primary"
+                      linkClassName="d-flex"
+                      href="https://nearbuilders.org/join"
+                      noLink={true}
+                      className="w-100"
+                      onClick={() => setDropdown(false)}
+                    >
+                      Sign In
+                    </Button>
+                  </>
+                )}
+                <TestBtn />
+              </div>
             </div>
           </MobileContent>
         </MobileView>

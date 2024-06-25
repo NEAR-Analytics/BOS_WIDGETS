@@ -14,6 +14,8 @@ const ContainerTable = styled.div`
     flex-direction: column;
     overflow-x: scroll; /* Prevent horizontal overflow */
     width:100%;
+    max-height: 700px;
+    overflow-y: scroll;
     @media (max-width: 500px) {
         width: 100vw;
         font-size: 12px;
@@ -210,11 +212,9 @@ const getTimePassed = (date) => {
   const timestamp = new Date(date).getTime();
   // Get the current date in the local time zone
   const currentDate = new Date();
-
   // Calculate the time zone offset in milliseconds
   let localTimeZoneOffsetMinutes = currentDate.getTimezoneOffset();
   localTimeZoneOffsetMinutes = localTimeZoneOffsetMinutes * 60 * 1000;
-
   const currentTimestamp = new Date().getTime();
   // Calculate the difference in milliseconds
   const timePassed = currentTimestamp + localTimeZoneOffsetMinutes - timestamp;

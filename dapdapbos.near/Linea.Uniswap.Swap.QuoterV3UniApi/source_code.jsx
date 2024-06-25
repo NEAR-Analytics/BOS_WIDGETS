@@ -65,8 +65,9 @@ State.update({
 const _amountIn = Big(inputCurrencyAmount)
   .mul(Big(10).pow(inputCurrency.decimals))
   .toFixed();
+
 const fetchTradeInfo = () => {
-  asyncFetch(`https://api.dapdap.net/api/uniswap/v2/quote`, {
+  asyncFetch(`/dapdap/uniswap/v2/quote`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -89,6 +90,10 @@ const fetchTradeInfo = () => {
             gasCost: data.gasUseEstimateUSD,
             priceImpact: Number(data.priceImpact) ? data.priceImpact : 0,
             routes: data.route,
+            gas: Big(data.gasPriceWei || 0)
+              .mul(data.gasUseEstimate)
+              .div(Big(10).pow(18))
+              .toString(),
           },
         });
         setTimeout(() => {
@@ -113,7 +118,7 @@ const fetchTradeInfo = () => {
       }
       setTimeout(() => {
         fetchTradeInfo();
-      }, 2000);
+      }, 5000);
     })
     .catch(() => {
       onError();

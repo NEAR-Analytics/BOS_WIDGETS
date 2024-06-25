@@ -38,6 +38,17 @@ const Right = styled.div`
   text-align: right;
 `;
 
+const PoolTitle = styled.div`
+  margin: 20px 0;
+  color: #fff;
+  font-family: Gantari;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  text-transform: capitalize;
+`;
+
 const {
   dexConfig,
   account,
@@ -46,10 +57,15 @@ const {
   tvl,
   deposits,
   tokenBal,
+  IS_ETHOS_DAPP,
+  IS_PREON_DAPP,
+  IS_GRAVITA_DAPP,
+  IS_LYVE_DAPP,
 } = props;
 
 return (
   <>
+    <PoolTitle>Stability Pool</PoolTitle>
     <Widget
       src="bluebiu.near/widget/Lending.Liquity.Pools"
       props={{
@@ -58,6 +74,10 @@ return (
         tvl: tvl,
         deposits: deposits,
         tokenBal: tokenBal,
+        IS_ETHOS_DAPP,
+        IS_PREON_DAPP,
+        IS_GRAVITA_DAPP,
+        IS_LYVE_DAPP,
       }}
     />
   </>

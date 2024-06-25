@@ -132,12 +132,17 @@ const {
   sender,
   vaults,
   prices,
+  symbolIndex,
   PROXY_ADDRESS,
+  SYMBOL_NAME_MAPPING,
   multicall,
   multicallAddress,
   smartContractAddress,
   onManage
 } = props
+
+const FIRST_SYMBOL_NAME = SYMBOL_NAME_MAPPING[symbolIndex][0]
+const SECOND_SYMBOL_NAME = SYMBOL_NAME_MAPPING[symbolIndex][1]
 State.init({
   dashboard: null,
   filterVaults: [],
@@ -148,7 +153,52 @@ function isNotEmptyArray(value) {
 }
 function handleQueryDashboard() {
   const calls = []
-  const abi = [{
+  const GET_ACCOUNT_HEALTH_ABI = symbolIndex === 1 ? {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "getAccountHealth",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "debtAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "collateralValue",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "investmentValue",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bool",
+            "name": "isLiquidatable",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "hasBadDebt",
+            "type": "bool"
+          }
+        ],
+        "internalType": "struct AccountLib.Health",
+        "name": "health",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  } : {
     "inputs": [
       {
         "internalType": "address",
@@ -203,7 +253,9 @@ function handleQueryDashboard() {
     ],
     "stateMutability": "view",
     "type": "function"
-  }, {
+  }
+  console.log('111111')
+  const abi = [GET_ACCOUNT_HEALTH_ABI, {
     "inputs": [
       {
         "internalType": "address",
@@ -222,24 +274,24 @@ function handleQueryDashboard() {
     "stateMutability": "view",
     "type": "function"
   }, {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "account",
-        "type": "address"
-      }
-    ],
-    "name": "balanceOfAssets",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "assets",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  }]
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "balanceOfAssets",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "assets",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }]
   calls.push({
     address: PROXY_ADDRESS,
     name: "getAccountHealth",
@@ -403,40 +455,40 @@ return (
     <StyledTitle>Dashboard</StyledTitle>
     <StyledDashboardContainer>
       <StyledColumn style={{
-        width: "20%"
+        width: "25%"
       }}>
-        <StyledLabel>Deposited WETH</StyledLabel>
-        <StyledValue>{state.dashboard?.balanceOfAssets}</StyledValue>
+        <StyledLabel>Deposited {FIRST_SYMBOL_NAME}</StyledLabel>
+        <StyledValue>{state?.dashboard?.balanceOfAssets ?? '-'}</StyledValue>
       </StyledColumn>
       <StyledColumn style={{
-        width: "20%"
+        width: "25%"
       }}>
-        <StyledLabel>Borrowed WETH</StyledLabel>
-        <StyledValue>{state.dashboard?.debtAmount}</StyledValue>
+        <StyledLabel>Borrowed {SECOND_SYMBOL_NAME}</StyledLabel>
+        <StyledValue>{state?.dashboard?.debtAmount ?? '-'}</StyledValue>
       </StyledColumn>
-      <StyledColumn style={{
+      {/* <StyledColumn style={{
         width: "20%"
       }}>
-        <StyledLabel>WETH Borrow APY</StyledLabel>
+        <StyledLabel>{SECOND_SYMBOL_NAME} Borrow APY</StyledLabel>
         <StyledValue>23.65%</StyledValue>
-      </StyledColumn>
+      </StyledColumn> */}
       <StyledColumn style={{
-        width: "20%"
+        width: "25%"
       }}>
         <StyledLabel>Margin Health Factor</StyledLabel>
         <StyledValue
           style={{
             color: "#74F368"
           }}
-        >{state.dashboard?.accountHealth}</StyledValue>
+        >{state?.dashboard?.accountHealth ?? '-'}</StyledValue>
       </StyledColumn>
       <StyledColumn style={{
-        width: "20%"
+        width: "25%"
       }}>
         <StyledLabel>PnL</StyledLabel>
         <StyledValue style={{
           color: "#FF547D"
-        }}>{Big(state.pnl).toFixed(4)}</StyledValue>
+        }}>{Big(state?.pnl ?? 0).toFixed(4)}</StyledValue>
       </StyledColumn>
     </StyledDashboardContainer>
     <StyledTitle
@@ -484,12 +536,12 @@ return (
               <StyledPositionColumn style={{
                 width: "15%"
               }}>
-                <StyledPositionColumnTxt>WETH</StyledPositionColumnTxt>
+                <StyledPositionColumnTxt>{FIRST_SYMBOL_NAME + '/' + SECOND_SYMBOL_NAME}</StyledPositionColumnTxt>
               </StyledPositionColumn>
               <StyledPositionColumn style={{
                 width: "15%"
               }}>
-                <StyledPositionColumnTxt>{"$" + Big(vault?.positionValue ?? 0).times(prices["WETH"]).toFixed(2)}</StyledPositionColumnTxt>
+                <StyledPositionColumnTxt>{"$" + Big(vault?.positionValue ?? 0).times(prices[SECOND_SYMBOL_NAME]).toFixed(2)}</StyledPositionColumnTxt>
               </StyledPositionColumn>
               <StyledPositionColumn style={{
                 width: "15%"

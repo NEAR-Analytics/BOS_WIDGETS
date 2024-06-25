@@ -37,6 +37,30 @@ const Skeleton = (props) => {
     ></div>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
+/* INCLUDE COMPONENT: "includes/icons/Question.jsx" */
+/**
+ * @interface Props
+ * @param {string} [className] - The CSS class name(s) for styling purposes.
+ */
+
+
+
+
+
+const Question = (props) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width={16}
+      height={16}
+      {...props}
+    >
+      <path fill="none" d="M0 0h24v24H0z" />
+      <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 100-16 8 8 0 000 16zm-1-5h2v2h-2v-2zm2-1.645V14h-2v-1.5a1 1 0 011-1 1.5 1.5 0 10-1.471-1.794l-1.962-.393A3.501 3.501 0 1113 13.355z" />
+    </svg>
+  );
+};/* END_INCLUDE COMPONENT: "includes/icons/Question.jsx" */
 
 
 function MainComponent(props) {
@@ -45,6 +69,12 @@ function MainComponent(props) {
     `${ownerId}/widget/includes.Utils.libs`,
   );
   const [chartTpsData, setChartTpsData] = useState([]);
+  const [logView, setLogView] = useState(false);
+
+  const handleToggle = () => {
+    setLogView((prevState) => !prevState);
+  };
+
   const config = getConfig && getConfig(network);
   const charts = [
     {
@@ -267,6 +297,9 @@ function MainComponent(props) {
       }
       <script type="text/javascript">
         const chartConfig = ${JSON.stringify(chartConfig)};
+        if (${logView}) {
+          chartConfig.yAxis.type = 'logarithmic'
+        }
         Highcharts.chart('chart-container', chartConfig);
       </script>
     </body>
@@ -281,10 +314,45 @@ function MainComponent(props) {
             className="block bg-white dark:bg-black-600 dark:border-black-200 border soft-shadow rounded-xl overflow-hidden mb-10"
             style={{ height: 580 }}
           >
-            <p className="leading-7 px-4 text-sm py-4 text-nearblue-600 dark:text-neargray-10 border-b dark:border-black-200">
-              Near Transactions per Second Chart shows the transactions occuring
-              per second on Near blockchain.
-            </p>
+            <div className="border-b dark:border-black-200 flex justify-between items-center text-center">
+              <p className="leading-7 px-4 text-sm py-4 text-nearblue-600 dark:text-neargray-10">
+                Near Transactions per Second Chart shows the transactions
+                occuring per second on Near blockchain.
+              </p>
+              {chartTpsData && chartTpsData?.length > 0 && (
+                <div className="flex items-center text-nearblue-600 dark:text-neargray-10">
+                  <OverlayTrigger
+                    placement="top-start"
+                    delay={{ show: 500, hide: 0 }}
+                    overlay={
+                      <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
+                        {
+                          'Toggle between Log View and Normal View. Log View uses logarithmic scale.'
+                        }
+                      </Tooltip>
+                    }
+                  >
+                    <Question className="w-4 h-4 fill-current mr-1" />
+                  </OverlayTrigger>
+                  <div className="w-6 flex">
+                    <Switch.Root
+                      className="w-[24px] h-[14px] bg-neargray-50 dark:bg-neargray-600 rounded-full data-[state=checked]:bg-teal-800 dark:data-[state=checked]:bg-green-250 outline-none cursor-pointer"
+                      id="airplane-mode"
+                      style={{
+                        '-webkit-tap-highlight-color': 'rgba(0, 0, 0, 0)',
+                      }}
+                      onCheckedChange={handleToggle}
+                      checked={logView}
+                    >
+                      <Switch.Thumb className="block w-[10px] h-[10px] bg-neargray-10 dark:bg-neargray-10 rounded-full transition-transform duration-100 translate-x-0.5 will-change-transform data-[state=checked]:translate-x-[13px]" />
+                    </Switch.Root>
+                  </div>
+                  <label className="text-nearblue-600 dark:text-neargray-10 text-sm leading-none pr-[15px] px-2">
+                    {'Log View'}
+                  </label>
+                </div>
+              )}
+            </div>
             <div className="pl-2 pr-2 py-8 h-full ">
               {chartTpsData && chartTpsData?.length ? (
                 <iframe

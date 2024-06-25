@@ -1,4 +1,7 @@
-if (!props.widgets || props.widgets.length === 0) return <></>;
+if (
+  (!props.widgets || props.widgets.length === 0) &&
+  (!props.components || props.components.length === 0)
+) return <></>;
 
 const [waitingAppIdsSet, changeWaitingAppIdsSet] = useState(new Set())
 
@@ -21,6 +24,10 @@ const Container = styled.div`
   gap: 10px;
 `;
 
+const WidgetWrapper = styled.div`
+  position: relative;
+`;
+
 const WidgetBadgeWrapper = styled.div`
   position: absolute;
   right: 0;
@@ -37,11 +44,11 @@ const WidgetBadgeWrapper = styled.div`
 `;
 
 return (
-  <Container>
+  <Container id='vertical-layout-manager'>
     {props.widgets
       .filter((w) => w.isSuitable === undefined || w.isSuitable === true)
       .map((widget) => (
-        <div style={{ position: "relative" }} key={widget.linkId}>
+        <WidgetWrapper key={widget.linkId}>
           {props.isEditMode ? (
             <WidgetBadgeWrapper
               title={
@@ -57,6 +64,7 @@ return (
                 <span role="status" aria-hidden="true" class="spinner-grow spinner-grow-sm" />
               ) : (
                 <Widget
+                  loading={<></>}
                   src="bos.dapplets.near/widget/LayoutManager.DeleteWidgetButton"
                   props={{
                     onClick: () => handleRemoveWidget(widget.linkId),
@@ -65,9 +73,40 @@ return (
               ) : null}
             </WidgetBadgeWrapper>
           ) : null}
-
-          <Widget src={widget.src} props={widget.props} />
-        </div>
+          <div
+            data-mweb-context-type="injected-widget"
+            data-mweb-context-parsed={JSON.stringify({
+              id: `${props.context.id}/${widget.linkId}`,
+              parentContextId: props.context.id,
+              widgetSrc: widget.src,
+            })}
+          >
+            <Widget
+              loading={<></>}
+              src={widget.src}
+              props={{ ...widget.props, pickContext: props.pickContext, pickContexts: props.pickContexts}}
+            />
+            <div
+              data-mweb-insertion-point="hidden"
+              style={{ display: "none" }}
+            />
+          </div>
+        </WidgetWrapper>
       ))}
+
+      {props.components
+        ? props.components.map((cmp, i) => {
+            const WrapperComponent = cmp.component;
+            return (
+              <WidgetWrapper key={i}>
+                <WrapperComponent
+                  context={props.context}
+                  attachContextRef={props.attachContextRef}
+                  attachInsPointRef={props.attachInsPointRef}
+                />
+              </WidgetWrapper>
+            );
+          })
+        : null}
   </Container>
 );

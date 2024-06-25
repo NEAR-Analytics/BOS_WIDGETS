@@ -1,6 +1,5 @@
-const accountId = props.accountId || "bos.genadrop.near";
 // const { disabled, label, value, id, checked, ref, onChange } = props;
-const { getFontType } = VM.require(`${accountId}/widget/Mintbase.Theme`);
+const { getFontType } = VM.require(`bos.genadrop.near/widget/Mintbase.Theme`);
 const { disabled, label, value, id, onChange, isDarkModeOn } = props;
 const SwitchContainer = styled.div`
   display: flex;

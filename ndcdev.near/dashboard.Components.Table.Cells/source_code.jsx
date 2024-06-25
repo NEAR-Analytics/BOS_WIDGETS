@@ -1,26 +1,101 @@
-const Cell = styled.div`
-  min-width: 270px;
+const { dataSet, loading } = props;
+
+const Loading = <Widget src="flashui.near/widget/Loading" />;
+
+const DesktopRow = styled.div`
+  display: flex;
+  padding: 16px;
+  align-items: center;
+  gap: 35px;
+  align-self: stretch;
+  border-bottom: 1px solid #e3e3e0;
+
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+
+  .desktop-value {
+    min-width: 100px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    position: relative;
+    border-radius: 100px;
+
+    span {
+      z-index: 100;
+    }
+  }
+`;
+
+const MobileRow = styled.div`
+  display: none;
   width: 100%;
-  height: 36px;
-  background: #e8ecf0;
+  padding: 24px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  border-radius: 12px;
+  border: 1px solid #e3e3e0;
+  background: var(--Primary-Base-White, #fff);
+  box-shadow:
+    0px 97px 27px 0px rgba(0, 0, 0, 0),
+    0px 62px 25px 0px rgba(0, 0, 0, 0),
+    0px 35px 21px 0px rgba(0, 0, 0, 0.02),
+    0px 16px 16px 0px rgba(0, 0, 0, 0.03),
+    0px 4px 9px 0px rgba(0, 0, 0, 0.03);
+
+  @media screen and (max-width: 768px) {
+    display: flex;
+  }
+
+  .mobile-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 12px;
+    align-self: stretch;
+    border-bottom: 1px solid #e3e3e0;
+
+    .mobile-value {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .title {
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        color: #5c656a;
+      }
+    }
+  }
+`;
+
+const Colored = styled.div`
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #1e1d22;
-  text-align: center;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 350;
-  line-height: 36px;
   position: relative;
+  border-radius: 100px;
+  background: #f5f5f5;
+  height: ${(props) => props.height}px;
 
-  .dao-name {
-    display: block;
-    width: 90%;
-    text-align: center;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    text-wrap: nowrap;
+  .value {
+    position: absolute;
+    height: ${(props) => props.height}px;
+    left: 0;
+    width: ${(props) => props.width ?? 0}%;
+    background: ${(props) => props.color ?? "inherit"};
+    border-radius: ${(props) =>
+      props.width === 100 ? "100px" : "100px 0 0 100px"};
   }
 `;
 
@@ -30,55 +105,45 @@ const Container = styled.div`
   gap: 1rem;
   align-items: flex-start;
   padding-top: 1rem;
-  -webkit-overflow-scrolling: touch;
-
-  @media screen and (max-width: 1341px) {
-    padding-bottom: 1rem;
-  }
 `;
 
-const Colored = styled.div`
-  height: 100%;
-  position: absolute;
-  left: 0;
-  width: ${(props) => props.width}%;
-  background: ${(props) => props.color};
-  animation: slide 1s ease;
-
-  @keyframes slide {
-    from {
-      width: 0%;
-    }
-
-    to {
-      width: "${props.width}%";
-    }
-  }
+const DaoName = styled.div`
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-wrap: nowrap;
+  font-size: 16px;
+  font-weight: 600;
+  justify-content: flex-start;
+  background: transparent;
 `;
 
-const getPercentage = (start, end, divider) => {
-  const val = parseInt(((end / start) * 100) / (divider ?? 1));
+const TRESHOLD = 75;
 
-  return val > 100 ? 100 : val;
+const maxPercentage = (value, field) =>
+  parseFloat(value / Math.max(...dataSet.map((d) => d[field] ?? 0))) * 100;
+
+const getPercentage = (min, max) => {
+  const res = parseFloat(min / max) * 100;
+
+  return res > 1 ? 100 : res;
 };
 
 const formatValue = (value) => {
-  const val = value ? parseFloat(value) : null;
+  const val = value ? parseFloat(value) : value === 0 ? 0 : null;
 
-  if (!val) return "n/a";
+  if (val === null) return "—";
 
   return val >= 1000000000
     ? `${parseFloat(val / 1000000000).toFixed(2)}B`
     : val >= 1000000
-      ? `${parseFloat(val / 1000000).toFixed(2)}M`
-      : val >= 1000
-        ? `${parseFloat(val / 1000).toFixed(2)}K`
-        : Number.isInteger(val)
-          ? val
-          : val.toFixed(2);
+    ? `${parseFloat(val / 1000000).toFixed(2)}M`
+    : val >= 1000
+    ? `${parseFloat(val / 1000).toFixed(2)}K`
+    : Number.isInteger(val)
+    ? val
+    : val.toFixed(2);
 };
-
-const { dataSet, daos } = props;
 
 const TooltipContent = ({ key, value }) => (
   <div className="justify-content-between w-100 d-flex gap-2">
@@ -86,70 +151,124 @@ const TooltipContent = ({ key, value }) => (
   </div>
 );
 
-const DaoName = styled.div`
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-`;
+const DesktopCell = ({ width, color, value }) => (
+  <div className="desktop-value">
+    <Colored width={width} color={color} height={22}>
+      <div className="value"></div>
+      <span>{formatValue(value)}</span>
+    </Colored>
+  </div>
+);
+
+const MobileCell = ({ title, value, width, color }) => (
+  <div className="mobile-cell">
+    <div className="mobile-value">
+      <div className="d-flex gap-1 title">
+        <i className="ph ph-info" />
+        <span>{title}</span>
+      </div>
+      {formatValue(value)}
+    </div>
+
+    <Colored width={width} color={color} height={10}>
+      <div className="value"></div>
+    </Colored>
+  </div>
+);
 
 return (
   <Container>
-    {daos &&
-      daos.map((dao, index) => {
-        const { userRetentions, dappsUsed, acquisitionCost } = dataSet[dao.id];
+    {dataSet.map(
+      (
+        { title, userRetentions, dappsUsed, acquisitionCost, socialEngagement },
+        index,
+      ) => (
+        <>
+          <DesktopRow>
+            <DaoName>{title}</DaoName>
+            <DesktopCell
+              width={getPercentage(userRetentions, 1)}
+              color={
+                getPercentage(userRetentions, 1) >= TRESHOLD
+                  ? "#51D38E"
+                  : "#FC6F60"
+              }
+              value={userRetentions}
+            />
+            <DesktopCell
+              width={maxPercentage(dappsUsed, "dappsUsed")}
+              color={
+                maxPercentage(dappsUsed, "dappsUsed") >= TRESHOLD
+                  ? "#51D38E"
+                  : "#FC6F60"
+              }
+              value={dappsUsed}
+            />
+            <DesktopCell
+              width={
+                acquisitionCost < 1 ? getPercentage(1 - acquisitionCost, 1) : 5
+              }
+              color={
+                acquisitionCost && (acquisitionCost < 1 ? "#51D38E" : "#FC6F60")
+              }
+              value={acquisitionCost}
+            />
+            <DesktopCell
+              width={maxPercentage(socialEngagement, "socialEngagement")}
+              color={
+                maxPercentage(socialEngagement, "socialEngagement") >= TRESHOLD
+                  ? "#51D38E"
+                  : "#FC6F60"
+              }
+              value={socialEngagement}
+            />
+          </DesktopRow>
 
-        return (
-          <div key={index} className="w-100 d-flex align-items-center gap-2">
-            <Cell>
-              <DaoName className="dao-name">{dao.title}</DaoName>
-            </Cell>
-            <Cell>
-              <Colored
-                width={getPercentage(userRetentions, 10, 2)}
-                color={userRetentions >= 1 ? "#68D895" : "#EB9DBB"}
-              />
-              <div className="position-relative">
-                <Widget
-                  src={`ndcdev.near/widget/Dashboard.Components.Tooltip`}
-                  props={{
-                    content: (
-                      <>
-                        <TooltipContent key="Start" value={userRetentions} />
-                      </>
-                    ),
-                    minWidth: "max-content",
-                    icon: <i>{formatValue(userRetentions)}</i>,
-                  }}
-                />
-              </div>
-            </Cell>
-            <Cell>{formatValue(dappsUsed)}</Cell>
-            <Cell>
-              <Colored
-                width={10}
-                color={acquisitionCost < 1 ? "#68D895" : "#EB9DBB"}
-              />
-              <div className="position-relative">
-                <Widget
-                  src={`ndcdev.near/widget/Dashboard.Components.Tooltip`}
-                  props={{
-                    content: (
-                      <>
-                        <TooltipContent
-                          key="Accounts"
-                          value={acquisitionCost}
-                        />
-                      </>
-                    ),
-                    minWidth: "max-content",
-                    icon: <i>{formatValue(acquisitionCost)}</i>,
-                  }}
-                />
-              </div>
-            </Cell>
-          </div>
-        );
-      })}
+          <MobileRow>
+            <DaoName>{title}</DaoName>
+            <MobileCell
+              title="User Retention"
+              width={getPercentage(userRetentions, 1)}
+              color={
+                getPercentage(userRetentions, 1) >= TRESHOLD
+                  ? "#51D38E"
+                  : "#FC6F60"
+              }
+              value={userRetentions}
+            />
+            <MobileCell
+              title="DApp's Used"
+              width={maxPercentage(dappsUsed, "dappsUsed")}
+              color={
+                maxPercentage(dappsUsed, "dappsUsed") >= TRESHOLD
+                  ? "#51D38E"
+                  : "#FC6F60"
+              }
+              value={dappsUsed}
+            />
+            <MobileCell
+              title="Acquisition Cost"
+              width={
+                acquisitionCost < 1 ? getPercentage(1 - acquisitionCost, 1) : 5
+              }
+              color={
+                acquisitionCost && (acquisitionCost < 1 ? "#51D38E" : "#FC6F60")
+              }
+              value={acquisitionCost}
+            />
+            <MobileCell
+              title="Social Engagement"
+              width={maxPercentage(socialEngagement, "socialEngagement")}
+              color={
+                maxPercentage(socialEngagement, "socialEngagement") >= TRESHOLD
+                  ? "#51D38E"
+                  : "#FC6F60"
+              }
+              value={socialEngagement}
+            />
+          </MobileRow>
+        </>
+      ),
+    )}
   </Container>
 );

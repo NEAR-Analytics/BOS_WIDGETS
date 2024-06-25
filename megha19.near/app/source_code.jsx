@@ -1,17 +1,109 @@
+/*
+License: MIT
+Author: devhub.near
+Homepage: https://github.com/NEAR-DevHub/near-prpsls-bos#readme
+*/
+/* INCLUDE: "includes/common.jsx" */
+const REPL_DEVHUB = "devhub.near";
+const REPL_INFRASTRUCTURE_COMMITTEE = "megha19.near";
+const REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT = "truedove38.near";
+const REPL_RPC_URL = "https://rpc.mainnet.near.org";
+const REPL_NEAR = "near";
+const REPL_SOCIAL_CONTRACT = "social.near";
+const RFP_IMAGE =
+  "https://ipfs.near.social/ipfs/bafkreicbygt4kajytlxij24jj6tkg2ppc2dw3dlqhkermkjjfgdfnlizzy";
+
+const RFP_FEED_INDEXER_QUERY_NAME =
+  "polyprogrammist_near_devhub_objects_s_rfps_with_latest_snapshot";
+
+const RFP_INDEXER_QUERY_NAME =
+  "polyprogrammist_near_devhub_objects_s_rfp_snapshots";
+
+const PROPOSAL_FEED_INDEXER_QUERY_NAME =
+  "polyprogrammist_near_devhub_objects_s_proposals_with_latest_snapshot";
+
+const PROPOSAL_QUERY_NAME =
+  "polyprogrammist_near_devhub_objects_s_proposal_snapshots";
+const RFP_TIMELINE_STATUS = {
+  ACCEPTING_SUBMISSIONS: "ACCEPTING_SUBMISSIONS",
+  EVALUATION: "EVALUATION",
+  PROPOSAL_SELECTED: "PROPOSAL_SELECTED",
+  CANCELLED: "CANCELLED",
+};
+
+const PROPOSAL_TIMELINE_STATUS = {
+  DRAFT: "DRAFT",
+  REVIEW: "REVIEW",
+  APPROVED: "APPROVED",
+  REJECTED: "REJECTED",
+  CANCELED: "CANCELLED",
+  APPROVED_CONDITIONALLY: "APPROVED_CONDITIONALLY",
+  PAYMENT_PROCESSING: "PAYMENT_PROCESSING",
+  FUNDED: "FUNDED",
+};
+
+const QUERYAPI_ENDPOINT = `https://near-queryapi.api.pagoda.co/v1/graphql`;
+
+async function fetchGraphQL(operationsDoc, operationName, variables) {
+  return asyncFetch(QUERYAPI_ENDPOINT, {
+    method: "POST",
+    headers: { "x-hasura-role": `polyprogrammist_near` },
+    body: JSON.stringify({
+      query: operationsDoc,
+      variables: variables,
+      operationName: operationName,
+    }),
+  });
+}
+
+const CANCEL_RFP_OPTIONS = {
+  CANCEL_PROPOSALS: "CANCEL_PROPOSALS",
+  UNLINK_PROPOSALS: "UNLINK_PROPOSALSS",
+  NONE: "NONE",
+};
+
+function parseJSON(json) {
+  if (typeof json === "string") {
+    try {
+      return JSON.parse(json);
+    } catch (error) {
+      return json;
+    }
+  } else {
+    return json;
+  }
+}
+
+function isNumber(value) {
+  return typeof value === "number";
+}
+
+const PROPOSALS_APPROVED_STATUS_ARRAY = [
+  PROPOSAL_TIMELINE_STATUS.APPROVED,
+  PROPOSAL_TIMELINE_STATUS.APPROVED_CONDITIONALLY,
+  PROPOSAL_TIMELINE_STATUS.PAYMENT_PROCESSING,
+  PROPOSAL_TIMELINE_STATUS.FUNDED,
+];
+
+function getLinkUsingCurrentGateway(url) {
+  const data = fetch(`https://httpbin.org/headers`);
+  const gatewayURL = data?.body?.headers?.Origin ?? "";
+  return `https://${
+    gatewayURL.includes("near.org") ? "dev.near.org" : "near.social"
+  }/${url}`;
+}
+/* END_INCLUDE: "includes/common.jsx" */
+
 /**
- * This is the main entry point for the DevHub application.
+ * This is the main entry point for the RFP application.
  * Page route gets passed in through params, along with all other page props.
  */
-
-const { onDraftStateChange } = VM.require(
-  "megha19.near/widget/devhub.entity.post.draft"
-);
 
 const { page, ...passProps } = props;
 
 // Import our modules
 const { AppLayout } = VM.require(
-  "megha19.near/widget/devhub.components.templates.AppLayout"
+  `${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.template.AppLayout`
 );
 
 if (!AppLayout) {
@@ -37,137 +129,49 @@ const Theme = styled.div`
 
 if (!page) {
   // If no page is specified, we default to the feed page TEMP
-  page = "home";
-}
-
-// Track visits
-
-if ("${REPL_POSTHOG_API_KEY}".length === 47) {
-  useEffect(() => {
-    const hashedUserId = context.accountId
-      ? Array.from(nacl.hash(Buffer.from(context.accountId)))
-          .map((b) => ("00" + b.toString(16)).slice(-2))
-          .join("")
-      : "unauthenticated";
-
-    fetch("https://eu.posthog.com/capture/", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-
-      body: JSON.stringify({
-        api_key: "${REPL_POSTHOG_API_KEY}",
-        event: "devhub_pageview",
-        properties: {
-          distinct_id: hashedUserId,
-          page,
-          ...props,
-        },
-        timestamp: new Date().toISOString(),
-      }),
-    });
-  }, [props]);
+  page = "about";
 }
 
 // This is our navigation, rendering the page based on the page parameter
 function Page() {
   const routes = page.split(".");
   switch (routes[0]) {
-    case "home": {
+    case "about": {
       return (
         <Widget
-          src="megha19.near/widget/devhub.page.home"
+          src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.pages.about`}
           props={passProps}
         />
       );
     }
-    // ?page=communities
-    case "communities": {
+    case "rfps": {
       return (
         <Widget
-          src={"megha19.near/widget/devhub.page.communities"}
+          src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.rfps.Feed`}
           props={passProps}
         />
       );
     }
-    case "announcements": {
+    case "rfp": {
       return (
         <Widget
-          src={"megha19.near/widget/devhub.page.announcements"}
+          src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.rfps.Rfp`}
           props={passProps}
         />
       );
     }
-
-    // ?page=community
-    case "community": {
-      return (
-        // Considering to consolidate this into a single widget,
-        // where each level handles its own routing.
-        // Modularizing a page just like we do with addons
-        <Widget
-          src={"megha19.near/widget/devhub.entity.community.Provider"}
-          props={{
-            ...passProps,
-            Children: (p) => {
-              // passing props from the Provider into the Children
-              switch (routes[1]) {
-                // ?page=community.configuration
-                case "configuration": {
-                  return (
-                    <Widget
-                      src={
-                        "megha19.near/widget/devhub.page.community.configuration"
-                      }
-                      props={{
-                        ...passProps,
-                        ...p,
-                      }}
-                    />
-                  );
-                }
-                // ?page=community
-                default: {
-                  return (
-                    <Widget
-                      src={"megha19.near/widget/devhub.page.community.index"}
-                      props={{
-                        ...passProps,
-                        ...p,
-                      }}
-                    />
-                  );
-                }
-              }
-            },
-          }}
-        />
-      );
-    }
-    // ?page=feed
-    case "feed": {
+    case "create-rfp": {
       return (
         <Widget
-          src={"megha19.near/widget/devhub.page.feed"}
+          src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.rfps.Editor`}
           props={passProps}
         />
       );
     }
-    // ?page=create
-    case "create": {
-      return (
-        <Widget
-          src={"megha19.near/widget/devhub.entity.post.PostEditor"}
-          props={{ ...passProps, isCreatePostPage: true, onDraftStateChange }}
-        />
-      );
-    }
-
     case "create-proposal": {
       return (
         <Widget
-          src={"megha19.near/widget/devhub.entity.proposal.Editor"}
+          src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.proposals.Editor`}
           props={{ ...passProps }}
         />
       );
@@ -176,7 +180,7 @@ function Page() {
     case "proposals": {
       return (
         <Widget
-          src={"megha19.near/widget/devhub.page.proposals"}
+          src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.proposals.Feed`}
           props={passProps}
         />
       );
@@ -184,49 +188,15 @@ function Page() {
     case "proposal": {
       return (
         <Widget
-          src={"megha19.near/widget/devhub.entity.proposal.Proposal"}
+          src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.proposals.Proposal`}
           props={passProps}
         />
       );
     }
-    // ?page=about
     case "about": {
       return (
         <Widget
-          src={"megha19.near/widget/devhub.page.about"}
-          props={passProps}
-        />
-      );
-    }
-    case "contribute": {
-      return (
-        <Widget
-          src={"megha19.near/widget/devhub.page.contribute"}
-          props={passProps}
-        />
-      );
-    }
-    case "profile": {
-      return (
-        <Widget
-          src={"megha19.near/widget/devhub.page.profile"}
-          props={passProps}
-        />
-      );
-    }
-    // ?page=blog
-    case "blog": {
-      return (
-        <Widget
-          src={"megha19.near/widget/devhub.page.blog"}
-          props={passProps}
-        />
-      );
-    }
-    case "post": {
-      return (
-        <Widget
-          src={"megha19.near/widget/devhub.page.post"}
+          src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.pages.about`}
           props={passProps}
         />
       );
@@ -234,7 +204,7 @@ function Page() {
     case "admin": {
       return (
         <Widget
-          src={"megha19.near/widget/devhub.page.admin.index"}
+          src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.pages.admin`}
           props={passProps}
         />
       );

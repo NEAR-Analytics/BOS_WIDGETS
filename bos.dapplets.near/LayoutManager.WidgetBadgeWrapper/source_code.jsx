@@ -43,6 +43,7 @@ return (
       <span role="status" aria-hidden="true" class="spinner-grow spinner-grow-sm" />
     ) : (
       <Widget
+       loading={<></>}
         src="bos.dapplets.near/widget/LayoutManager.DeleteWidgetButton"
         props={{
           onClick: () => handleRemoveWidget(widget.linkId),

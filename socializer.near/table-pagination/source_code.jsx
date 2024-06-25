@@ -127,16 +127,16 @@ useEffect(() => {
       //   if (!state.temp.length) clearInterval(Interval);
       startTimer();
     }, 1000);
-    State.update({
-      ...state,
-      loaded: true,
-    });
+    // State.update({
+    //   ...state,
+    //   loaded: true,
+    // });
     // Interval = interval;
     return () => {
       clearInterval(intervalId);
     };
   }
-}, [timer, state.loaded, state.temp]);
+}, [timer, state.temp]);
 // else if (!timer && Interval) clearInterval(Interval);
 
 return (

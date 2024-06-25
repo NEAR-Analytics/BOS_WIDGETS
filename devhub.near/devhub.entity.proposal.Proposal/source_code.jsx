@@ -1,13 +1,12 @@
-const { href } = VM.require("devhub.near/widget/core.lib.url") || {
+const { href, getLinkUsingCurrentGateway } = VM.require(
+  "devhub.near/widget/core.lib.url"
+) || {
   href: () => {},
+  getLinkUsingCurrentGateway: () => {},
 };
 const { readableDate } = VM.require(
   "devhub.near/widget/core.lib.common"
 ) || { readableDate: () => {} };
-const { getDepositAmountForWriteAccess } = VM.require(
-  "devhub.near/widget/core.lib.common"
-);
-getDepositAmountForWriteAccess || (getDepositAmountForWriteAccess = () => {});
 
 const accountId = context.accountId;
 /*
@@ -295,7 +294,9 @@ const item = {
   path: `devhub.near/post/main`,
   blockHeight,
 };
-const proposalURL = `https://near.org/devhub.near/widget/app?page=proposal&id=${proposal.id}&timestamp=${snapshot.timestamp}`;
+const proposalURL = getLinkUsingCurrentGateway(
+  `devhub.near/widget/app?page=proposal&id=${proposal.id}&timestamp=${snapshot.timestamp}`
+);
 
 const KycVerificationStatus = () => {
   const isVerified = true;
@@ -417,9 +418,12 @@ const LinkedProposals = () => {
   return (
     <div className="d-flex flex-column gap-3">
       {linkedProposalsData.map((item) => {
-        const link = `https://near.org/devhub.near/widget/app?page=proposal&id=${item.id}`;
         return (
-          <a href={link} target="_blank" rel="noopener noreferrer">
+          <a
+            href={`?page=proposal&id=${item.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <div className="d-flex gap-2">
               <Widget
                 src={"devhub.near/widget/devhub.entity.proposal.Profile"}
@@ -428,9 +432,11 @@ const LinkedProposals = () => {
                 }}
               />
               <div className="d-flex flex-column" style={{ maxWidth: 250 }}>
-                <LinkProfile account={item.snapshot.name}>
-                  <b className="text-truncate">{item.snapshot.name}</b>
-                </LinkProfile>
+                <div className="text-truncate">
+                  <LinkProfile account={item.snapshot.name}>
+                    <b>{item.snapshot.name}</b>
+                  </LinkProfile>
+                </div>
                 <div className="text-sm text-muted">
                   created on {readableDate(item.snapshot.timestamp / 1000000)}
                 </div>
@@ -529,10 +535,15 @@ const editProposalStatus = ({ timeline }) => {
       gas: 270000000000000,
     },
   ]);
+  setEditProposalTimelineCalled(true);
 };
 
 const [isReviewModalOpen, setReviewModal] = useState(false);
 const [isCancelModalOpen, setCancelModal] = useState(false);
+const [isEditProposalTimelineCalled, setEditProposalTimelineCalled] =
+  useState(false);
+const [showTimeLineStatusSubmittedToast, setShowTimeLineStatusSubmittedToast] =
+  useState(false);
 const [showTimelineSetting, setShowTimelineSetting] = useState(false);
 const proposalStatus = useCallback(
   () =>
@@ -544,6 +555,10 @@ const proposalStatus = useCallback(
 const [updatedProposalStatus, setUpdatedProposalStatus] = useState({});
 
 useEffect(() => {
+  if (isEditProposalTimelineCalled) {
+    setShowTimeLineStatusSubmittedToast(true);
+    setEditProposalTimelineCalled(false);
+  }
   setUpdatedProposalStatus({
     ...proposalStatus(),
     value: { ...proposalStatus().value, ...snapshot.timeline },
@@ -620,6 +635,17 @@ const createdDate =
 
 return (
   <Container className="d-flex flex-column gap-2 w-100 mt-4">
+    <Widget
+      src="near/widget/DIG.Toast"
+      props={{
+        title: "Timeline status submitted successfully",
+        type: "success",
+        open: showTimeLineStatusSubmittedToast,
+        onOpenChange: (v) => setShowTimeLineStatusSubmittedToast(v),
+        trigger: <></>,
+        providerProps: { duration: 3000 },
+      }}
+    />
     <Widget
       src={"devhub.near/widget/devhub.entity.proposal.ConfirmReviewModal"}
       props={{

@@ -158,7 +158,24 @@ const Stats = styled.div`
 
 const SocialLinks = styled.div`
   display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 9px;
+  marginTop: 10px;
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+  height: 100%;
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+    grid-row-gap: 20px;
+    grid-column-gap: 20px;
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: repeat(1, 1fr);
+    grid-row-gap: 7px;
+  }
+
 `;
 
 const Verifications = styled.div`
@@ -179,6 +196,12 @@ const Button = styled.button`
     border: 0px;
     color: white;
     width: 120px;
+
+    &:hover{
+      background: #ecedee;
+      color: black;
+      box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    }
 `;
 
 // Rendering of the UI putting into use the styled components in each corresponding section,
@@ -229,17 +252,6 @@ return (
           </Text>
         </div>
       </div>
-      <Verifications
-        style={{
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        <Widget
-          src="near/widget/ProfilePage.ProfileBadges"
-          props={{ accountId }}
-        />
-      </Verifications>
     </Section>
 
     <Section
@@ -250,16 +262,7 @@ return (
         "align-items": "center",
       }}
     >
-      <SocialLinks
-        style={{
-          marginTop: "10px",
-          display: "grid",
-          "grid-template-columns": "repeat(4, 1fr)",
-          "grid-column-gap": "10px",
-          "grid-row-gap": "10px",
-          height: "100%",
-        }}
-      >
+      <SocialLinks>
         <a href={`https://ow.academy/`} target="_blank">
           <Button>
             <i className="bi bi-globe mx-1"></i> Website

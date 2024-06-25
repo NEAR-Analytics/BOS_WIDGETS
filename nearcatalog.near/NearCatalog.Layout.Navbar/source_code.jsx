@@ -1,11 +1,11 @@
 const Css = styled.div`
-    margin-top:10px;
-    .nav-item{
-        list-style:none;
-    }
-    #nearcatalog-navbar .navbar-nav{
-        margin:0;
-    }
+  margin-top: 10px;
+  .nav-item {
+    list-style: none;
+  }
+  #nearcatalog-navbar .navbar-nav {
+    margin: 0;
+  }
 `;
 const navItems = [
   { t: "🏠Home", l: ``, r: "home" },
@@ -31,7 +31,6 @@ return (
         <Link className="navbar-brand" href={`/${props.indexPath}`}>
           📒NEARCatalog{" "}
         </Link>
-
         <button
           className="navbar-toggler"
           type="button"
@@ -43,7 +42,6 @@ return (
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav">
             {navItems.map((e) => {

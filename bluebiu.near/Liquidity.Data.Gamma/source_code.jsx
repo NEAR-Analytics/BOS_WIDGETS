@@ -1,6 +1,7 @@
 
 const {
   pairs,
+  sender,
   addresses,
   allData,
   onLoad,
@@ -10,7 +11,6 @@ const {
   LAST_SNAP_SHOT_DATA_URL,
   prices
 } = props
-
 let loading = false
 let dataList = []
 const MULTICALL_ABI = [
@@ -198,7 +198,6 @@ function getDataList() {
 
 function getLiquidity() {
   const calls = [];
-  const sender = Ethers.send("eth_requestAccounts", [])[0];
   dataList.forEach(data => {
     calls.push({
       address: data.vaultAddress,
@@ -213,7 +212,7 @@ function getLiquidity() {
     (res) => {
       for (let i = 0, len = res.length; i < len; i++) {
         if (res[i]) {
-          dataList[i].liquidity = Big(ethers.utils.formatUnits(res[i][0]._hex)).toFixed(2)
+          dataList[i].liquidity = Big(ethers.utils.formatUnits(res[i][0]._hex)).toFixed()
         }
       }
       formatedData('getLiquidity')
@@ -227,7 +226,7 @@ function getLiquidity() {
 }
 function getTotalApr() {
   const chain_id = curChain.chain_id
-  if ([8453, 10, 1101, 5000].includes(chain_id)) {
+  if ([8453, 10, 5000].includes(chain_id)) {
     dataList = dataList.map(data => {
       data.totalApr = formatPercent(data.returns.weekly.feeApr)
       return data
@@ -240,11 +239,7 @@ function getTotalApr() {
       const fusionsData = res?.body?.data
       dataList = dataList.map(data => {
         const fusionData = fusionsData.find(fusionData => fusionData.address === data.vaultAddress)
-        data.totalApr = ((fusionData?.gauge?.tvl ?? 0 > 0) ? Big(fusionData?.gauge?.rewardPerSecond ?? 0)
-          .times(365 * 24 * 60 * 60)
-          .times(prices?.Lynex ?? 0)
-          .times(100)
-          .div(fusionData?.gauge?.tvl ?? 0).toFixed(2) : '0.00') + '%'
+        data.totalApr = Big(fusionData?.gauge?.minApr ?? 0).toFixed(2) + '%'
         return data
       })
       formatedData('getTotalApr')
@@ -252,14 +247,6 @@ function getTotalApr() {
   }
   if (chain_id === 56) {
     const calls = [];
-    // const addressMap = {
-    //   'N ETH-WBNB-0': '0xD777E84b0D29128351A35045D7AE728780dEf54D',
-    //   'N BTCB-WBNB-0': '0x65E40E779560199F5e68126Bc95bdc03083e5AA4',
-    //   'S USDT-USDC-0': '0x1011530830c914970CAa96a52B9DA1C709Ea48fb',
-    //   'N USDT-WBNB-0': '0xf50Af14BC4953Dcf9d27EbCA8BB3625855F5B42d',
-    //   'P ankrBNB-WBNB-0': '0xf50Af14BC4953Dcf9d27EbCA8BB3625855F5B42d',
-    //   'P BNBx-WBNB-0': '0xf50Af14BC4953Dcf9d27EbCA8BB3625855F5B42d',
-    // }
     dataList.forEach(data => {
       data?.gaugeV2Address && calls.push({
         address: data?.gaugeV2Address,
@@ -276,6 +263,7 @@ function getTotalApr() {
             .mul(365 * 24 * 60 * 60)
             .mul(prices['THE'])
             .div(dataList[i].tvlUSD)
+            .times(100)
             .toFixed(2) : '0.00') + '%'
         }
         formatedData('getTotalApr')
@@ -287,10 +275,33 @@ function getTotalApr() {
       }
     )
   }
+  console.log('=chain_id', chain_id)
+  if ([137, 1101, 3776].includes(chain_id)) {
+    asyncFetch("https://api.angle.money/v2/merkl?chainIds[]=" + chain_id)
+      .then(res => {
+        if (!res.ok) return;
+        const { pools } = res.body[chain_id]
+        dataList = dataList.map(data => {
+          const pool = pools[ethers.utils.getAddress(data.poolAddress)]
+          console.log('=pool', pool)
+          if (pool && Object.keys(pool.aprs).length > 0) {
+            Object.keys(pool.aprs).forEach(key => {
+              if (key.indexOf(ethers.utils.getAddress(data.vaultAddress)) > -1) {
+                data.totalApr = Big(data.returns.weekly.feeApr).times(100).plus(pool.aprs[key]).toFixed(2) + '%'
+              }
+            })
+          } else {
+            data.totalApr = formatPercent(data?.returns?.weekly?.feeApr ?? 0)
+          }
+          return data
+        })
+        formatedData('getTotalApr')
+      })
+  }
 }
 function getFeeTiers() {
   const chain_id = curChain.chain_id
-  if ([59144, 56].includes(chain_id)) {
+  if ([59144, 56, 137, 1101].includes(chain_id)) {
     const calls = [];
     dataList.forEach(data => {
       calls.push({
@@ -321,7 +332,7 @@ function getFeeTiers() {
           dataList.forEach((data, index) => {
             const findIndex = res.body.findIndex(source => data.vaultAddress === source.address)
             if (findIndex > -1) {
-              dataList[index]['fee'] = Big(res.body[findIndex].fee).div(100).toFixed(2)
+              dataList[index]['fee'] = Big(res.body[findIndex]?.pool?.fee ?? 0).div(10000).toFixed(2)
             }
           })
           formatedData('getFeeTiers')

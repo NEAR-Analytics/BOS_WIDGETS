@@ -435,6 +435,7 @@ return (
       {allApps && allApps.length
         ? allApps.map((app, i) => (
             <Widget
+             loading={<></>}
               key={i}
               src="bos.dapplets.near/widget/ApplicationCard"
               props={{

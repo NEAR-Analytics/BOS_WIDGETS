@@ -51,20 +51,20 @@ useEffect(() => {
 const [pages, setPage] = useState([
   {
     name: "All Votes",
-    link: "https://near.org/abnakore.near/widget/VoteChain",
+    link: "https://near.social/abnakore.near/widget/VoteChain",
   },
   {
     name: "My Votes",
-    link: "https://near.org/abnakore.near/widget/VoteChain?tab=my_votes",
+    link: "https://near.social/abnakore.near/widget/VoteChain?tab=my_votes",
   },
   {
     name: "Watchlist",
-    link: "https://near.org/abnakore.near/widget/VoteChain?tab=watchlist",
+    link: "https://near.social/abnakore.near/widget/VoteChain?tab=watchlist",
   },
   {
     name: "Create New Vote",
     type: "button",
-    link: "https://near.org/abnakore.near/widget/CreateVote",
+    link: "https://near.social/abnakore.near/widget/CreateVote",
   },
 ]);
 
@@ -104,7 +104,8 @@ return (
           body: (
             <div className="main-body">
               <div className="body-contents">
-                <div className="two-sides">
+                <Widget src="abnakore.near/widget/Hero" props={{}} />
+                <div id="votes" className="two-sides">
                   <Widget
                     src="abnakore.near/widget/Aside"
                     props={{ objs: pages, active: "/admin/manage_candidates" }}
@@ -113,14 +114,19 @@ return (
                     <List>
                       {votesToRender.map((vote) => (
                         <a
-                          href={`https://near.org/abnakore.near/widget/App.jsx?vote=${vote.blockHeight}`}
+                          href={`https://near.social/abnakore.near/widget/App.jsx?vote=${vote.blockHeight}`}
                         >
                           <Widget
                             src="abnakore.near/widget/VoteCard"
                             props={{
                               ...vote.value,
-                              candidates:
-                                vote.value.candidates.concat(otherCandidates),
+                              candidates: vote.value.candidates.concat(
+                                otherCandidates.filter(
+                                  (candidate) =>
+                                    parseFloat(candidate.value.voteId) ===
+                                    parseFloat(vote.blockHeight)
+                                )
+                              ),
                               style: {},
                             }}
                           />
@@ -151,15 +157,15 @@ return (
 // const [pages, setPage] = useState([
 //   {
 //     name: "Home",
-//     link: "https://near.org/sandbox#/abnakore.near/widget/AdminHome",
+//     link: "https://near.social/sandbox#/abnakore.near/widget/AdminHome",
 //   },
 //   {
 //     name: "Manage Candidates",
-//     link: "https://near.org/sandbox#/abnakore.near/widget/ManageCandidates",
+//     link: "https://near.social/sandbox#/abnakore.near/widget/ManageCandidates",
 //   },
 //   {
 //     name: "Mange Parties",
-//     link: "https://near.org/sandbox#/abnakore.near/widget/ManageParties",
+//     link: "https://near.social/sandbox#/abnakore.near/widget/ManageParties",
 //   },
 // ]);
 // return (

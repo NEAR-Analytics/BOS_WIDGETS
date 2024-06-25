@@ -29,7 +29,6 @@ if (!config) {
     config = VM.require(config) || {};
   }
 }
-console.log("config", config);
 if (!config) {
   return (
     <p>
@@ -38,8 +37,9 @@ if (!config) {
     </p>
   );
 }
-const { Layout } =
-  VM.require(config.layout?.src ?? "devs.near/widget/Layout") || (() => <></>);
+const { Layout } = VM.require(
+  config.layout?.src ?? "devs.near/widget/Layout"
+) || { Layout: () => <></> };
 // While something like Theme should be in the parent...
 const CSS = styled.div`
   .container {
@@ -76,7 +76,7 @@ return (
         {...(config.layout?.props ?? { variant: "standard" })}
         blocks={config.blocks}
       >
-        <Content>
+        <Content className="content">
           <Router config={config.router} {...passProps} />
         </Content>
       </Layout>

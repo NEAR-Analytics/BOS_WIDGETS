@@ -45,6 +45,7 @@ const COLUMNS = [
 const data = Object.values(props.markets || {});
 
 const {
+  userTotalCollateralUsd,
   totalCollateralUsd,
   userTotalBorrowUsd,
   addAction,
@@ -92,6 +93,9 @@ return (
           onSuccess,
           account,
           prices,
+          totalCollateralUsd,
+          userTotalBorrowUsd,
+          userTotalCollateralUsd,
         }}
       />
     ))}

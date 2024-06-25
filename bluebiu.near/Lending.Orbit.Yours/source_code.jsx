@@ -192,11 +192,11 @@ if (orbitTab === "RENZO") {
     },
   ];
 }
-if (orbitTab === "KELP") {
+if (orbitTab === "MOON") {
   rewardsData = [
     {
       dappName: "Orbit Protocol",
-      pool: "KELP",
+      pool: "MOON",
       reward: formatRate(rewards),
     },
   ];

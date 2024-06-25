@@ -3,19 +3,14 @@ const rootUser = "nearweekapp.near";
 function NewsletterCard() {
   State.init({ page: 1 });
 
-  const data = fetch(
-    `https://nearweek.com/api/md/editions?populate=deep&sort=createdAt:desc&pagination[pageSize]=${
-      state.page * 9
-    }`,
-    {
-      method: "GET",
-      headers: {
-        Accept: "*/*",
-        Authorization:
-          "Bearer 15699f0723aa9fe9f655b1a94e450552476c08807f67b525b5a3c8011eecc8aee6d45923443620f17815b897858be058cd7bd89ddf23a28aabaecb178e7ebc55d380293beeb51a8ce87b40e1518ce4708e4d51a06b115f27fa64ab5cbee5a3511cec785d7ae6a155ecd05ac8196aadae3e9b8e9401b8df8d8b69904f7364f925",
-      },
-    }
-  );
+  const data = fetch(`https://nearweek.com/api/mailchimp/campaigns`, {
+    method: "GET",
+    headers: {
+      Accept: "*/*",
+      Authorization:
+        "Bearer 15699f0723aa9fe9f655b1a94e450552476c08807f67b525b5a3c8011eecc8aee6d45923443620f17815b897858be058cd7bd89ddf23a28aabaecb178e7ebc55d380293beeb51a8ce87b40e1518ce4708e4d51a06b115f27fa64ab5cbee5a3511cec785d7ae6a155ecd05ac8196aadae3e9b8e9401b8df8d8b69904f7364f925",
+    },
+  });
 
   const ReadButtonLink = styled.a`
     display: flex;
@@ -71,7 +66,8 @@ function NewsletterCard() {
     }
   `;
 
-  const Card = styled.div`
+  const Card = styled.a`
+    display: block;
     position: relative;
     cursor: pointer;
     width: 100%;
@@ -129,7 +125,7 @@ function NewsletterCard() {
     font-weight: 500;
   `;
 
-  const TopCardTitleContainer = styled.h2`
+  const TopCardTitleContainer = styled.div`
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -201,7 +197,8 @@ function NewsletterCard() {
     margin-bottom: 15px;
 `;
 
-  const ButtonLoadMore = styled.button`
+  const ButtonLoadMore = styled.a`
+  display: block;
   width: 180px;
   padding: 8px;
   height: 31px;
@@ -257,17 +254,14 @@ function NewsletterCard() {
 
     return "Just Now";
   }
-  const issues = data.body.data;
-  const nwSite = "https://nearweek.com";
-
-  const updateDetailsPage = props.updateDetailsPage;
+  const campaigns = data?.body?.campaigns ?? [];
 
   return (
     <div>
       <H2>NEWSLETTER</H2>
-      {issues !== null && issues.length > 0 ? (
-        issues.map((issue, index) => (
-          <div key={index}>
+      {campaigns !== null && campaigns.length > 0 ? (
+        campaigns.map((campaign, index) => (
+          <div key={campaign.id}>
             {/* Display the top card with unique styling */}
             {index === 0 && (
               <TopCard>
@@ -277,10 +271,8 @@ function NewsletterCard() {
                       class="rounded"
                       width="100%"
                       height="100%"
-                      style={{ cursor: "pointer" }}
-                      onClick={() => updateDetailsPage(issue)}
-                      src={nwSite + issue.image.formats.small.url}
-                      alt={issue.image.alternativeText}
+                      src={campaign.image_src}
+                      alt=""
                     />
                   </CardContent>
                 </TopCardBody>
@@ -288,16 +280,14 @@ function NewsletterCard() {
                 {index === 0 && (
                   <CardFooter>
                     <TopCardTitleContainer>
-                      <TopCardTitle
-                        style={{ cursor: "pointer" }}
-                        onClick={() => updateDetailsPage(issue)}
-                      >
-                        {issue.title}
-                      </TopCardTitle>
-                      <p>{formatDate(issue.createdAt)}</p>
+                      <TopCardTitle>{campaign.subject_line}</TopCardTitle>
+                      <p>{formatDate(campaign.create_time)}</p>
                     </TopCardTitleContainer>
                     <TopCardFooterButtons>
-                      <ReadButtonLink onClick={() => updateDetailsPage(issue)}>
+                      <ReadButtonLink
+                        href={campaign.archive_url}
+                        target="_blank"
+                      >
                         Read
                       </ReadButtonLink>
                       <SubscribeButtonLink
@@ -320,24 +310,24 @@ function NewsletterCard() {
 
             {/* Display the other three cards with the same styling */}
             {index > 0 && (
-              <Card onClick={() => updateDetailsPage(issue)}>
+              <Card href={campaign.archive_url} target="_blank">
                 <CardBody>
                   <CardContent>
                     <div class="d-flex clearfix">
                       <div class="d-flex">
                         <img
                           class="rounded"
-                          width="67"
-                          height="49"
-                          src={nwSite + issue.image.formats.thumbnail.url}
-                          alt={issue.image.alternativeText}
+                          width="70"
+                          height="70"
+                          src={campaign.image_src}
+                          alt=""
                         />
                         <div class="d-flex flex-column ms-3 mt-0">
                           {/* Display "Edition -" followed by the number */}
-                          <CardTitle>{issue.title}</CardTitle>
+                          <CardTitle>{campaign.subject_line}</CardTitle>
                           {/* Display time elapsed since creation date */}
                           <CordDate>{`${calculateTimeDifference(
-                            issue.createdAt
+                            campaign.create_time
                           )}`}</CordDate>
                         </div>
                       </div>
@@ -351,7 +341,10 @@ function NewsletterCard() {
       ) : (
         <div>Loading ...</div>
       )}
-      <ButtonLoadMore onClick={() => State.update({ page: state.page + 1 })}>
+      <ButtonLoadMore
+        href="https://us1.campaign-archive.com/home/?u=ed13caf5cf7d37689d81ef60b&id=86d4e11a12"
+        target="_blank"
+      >
         Load more
       </ButtonLoadMore>
     </div>

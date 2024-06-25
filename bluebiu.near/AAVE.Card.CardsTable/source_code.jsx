@@ -15,7 +15,7 @@ const CardsTable = styled.div`
   }
 
   thead {
-    color: #777790;
+    color: var(--agg-primary-color, #777790);
     font-size: 14px;
     font-weight: normal;
   }

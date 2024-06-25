@@ -47,6 +47,10 @@ const ipfsPrefix = "https://ipfs.near.social/ipfs";
 const landingUrl = "https://neatprotocol.ai";
 const partnerProgramUrl = "https://forms.gle/4M3fvw3LPiJSyffcA";
 const nrc20DocHost = "https://docs.nrc-20.io/";
+const SEC_OF_MS = 1000;
+const MIN_OF_MS = 60 * SEC_OF_MS;
+const HOUR_OF_MS = 60 * MIN_OF_MS;
+const DAY_OF_MS = HOUR_OF_MS * 24;
 function toLocaleString(source, decimals, rm) {
   if (typeof source === "string") {
     return toLocaleString(Number(source), decimals);
@@ -97,7 +101,7 @@ function getConfig(network) {
       return {
         ownerId: "inscribe.near",
         graphUrl:
-          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat",
+          "https://gateway-arbitrum.network.thegraph.com/api/98b4f8ff96be187a889dddcac0e3ef13/subgraphs/id/47RQk8YD4XqgczsgNYSNaWVQLNNwt49DuAuMAxCiLXJZ",
         nodeUrl: "https://rpc.mainnet.near.org",
         contractName: "inscription.near",
         methodName: "inscribe",
@@ -118,12 +122,18 @@ function getConfig(network) {
         minMintEvents: 1_000_000,
         minHolders: 1_000,
         neatDecimals: 8,
+        nearDecimals: 24,
+        stakingContractName: "neat-staking.near",
+        wNearTokenId: "wrap.near",
+        refContractId: "v2.ref-finance.near",
+        neatPoolId: 4243,
+        firstFarmStartTimeUTC: "2024-06-03T08:00Z",
       };
     case "testnet":
       return {
         ownerId: "inscribe.testnet",
         graphUrl:
-          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat-test",
+          "https://api.studio.thegraph.com/query/76896/neat-test/version/latest",
         nodeUrl: "https://rpc.testnet.near.org",
         contractName: "inscription.testnet",
         methodName: "inscribe",
@@ -144,6 +154,12 @@ function getConfig(network) {
         minMintEvents: 10,
         minHolders: 5,
         neatDecimals: 8,
+        nearDecimals: 24,
+        stakingContractName: "neat-staking.testnet",
+        wNearTokenId: "wrap.testnet",
+        refContractId: "exchange.ref-dev.testnet",
+        neatPoolId: 728,
+        firstFarmStartTimeUTC: "2024-06-03T08:00Z",
       };
     default:
       throw Error(`Unconfigured environment '${network}'.`);
@@ -156,6 +172,8 @@ const tx = {
   args: config.args,
   gas: GasPerTransaction,
 };
+
+const RPS_MULTIPLIER = 1e24;
 
 function ftWrapperAddress(tick) {
   return tick.toLowerCase() + "." + config.ftWrapperFactory;

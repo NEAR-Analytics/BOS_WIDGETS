@@ -249,6 +249,15 @@ const onAmountChange = (amount) => {
     });
     return;
   }
+  if (dexConfig.name === "Ionic" && state.tab === "Borrow") {
+    if (Big(amount).lt(data.minBorrowAmount)) {
+      State.update({
+        amount,
+        buttonClickable: false,
+      });
+      return;
+    }
+  }
   const params = { amount };
   const value = Big(Big(amount).mul(data.underlyingPrice).toFixed(20));
   if (state.tab === "Supply") {
@@ -263,8 +272,15 @@ const onAmountChange = (amount) => {
     params.isBigerThanBalance = false;
 
     params.isOverSize = value.gt(borrowLimit || 0);
+
+    if (dexConfig.name === "Ionic") {
+      if (Big(data.totalBorrows).gt(Big(data.borrowCaps))) {
+        params.isBorrowCapsFull = true;
+      }
+    }
   }
-  params.buttonClickable = !params.isOverSize && !params.isBigerThanBalance;
+  params.buttonClickable =
+    !params.isOverSize && !params.isBigerThanBalance && !isBorrowCapsFull;
   State.update(params);
 
   state.debouncedGetTrade();
@@ -292,7 +308,7 @@ return (
         <StyledInfo>
           <StyledInfoContent>
             <StyledInfoTitle>Your info</StyledInfoTitle>
-            <StyledInfoItem>
+            {/* <StyledInfoItem>
               <div>Your borrow limit</div>
               <div className="white">
                 {" "}
@@ -305,7 +321,7 @@ return (
                   }}
                 />
               </div>
-            </StyledInfoItem>
+            </StyledInfoItem> */}
             <StyledInfoItem>
               <div>Available to Supply</div>
               <div>
@@ -340,6 +356,16 @@ return (
                 {data.underlyingToken?.symbol}
               </div>
             </StyledInfoItem>
+
+            {dexConfig.name === "Ionic" && (
+              <StyledInfoItem>
+                <div>Min Borrow</div>
+                <div>
+                  <span className="white">{data.minBorrowAmount}</span>{" "}
+                  {data.underlyingToken?.symbol}
+                </div>
+              </StyledInfoItem>
+            )}
             <StyledInfoTips>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -384,7 +410,7 @@ return (
             }}
           />
           <StyledDetailPanel>
-            {state.tab === "Supply" && (
+            {state.tab === "Supply" && dexConfig.name !== "Ionic" && (
               <StyledDetailItem>
                 <div>Collateral factor</div>
                 <div className="white">

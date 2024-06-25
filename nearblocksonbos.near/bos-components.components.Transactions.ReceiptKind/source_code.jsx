@@ -245,10 +245,14 @@ function MainComponent(props) {
   try {
     if (decodedArgs) {
       const parsedJSONArgs = JSON.parse(decodedArgs.toString());
-      prettyArgs =
-        typeof parsedJSONArgs === 'boolean'
-          ? JSON.stringify(parsedJSONArgs)
-          : parsedJSONArgs;
+      if (parsedJSONArgs !== null) {
+        prettyArgs =
+          typeof parsedJSONArgs === 'boolean'
+            ? JSON.stringify(parsedJSONArgs)
+            : parsedJSONArgs;
+      } else {
+        prettyArgs = hexy(decodedArgs, { format: 'twos' });
+      }
     } else {
       prettyArgs = '';
     }
@@ -304,7 +308,8 @@ function MainComponent(props) {
         <div className="inline-flex justify-center">
           <span className="text-xs whitespace-nowrap">
             {action?.args?.deposit
-              ? yoctoToNear(action?.args?.deposit, false)
+              ? action?.args?.deposit &&
+                yoctoToNear(action?.args?.deposit, false)
               : action?.args?.deposit ?? ''}
             Ⓝ
           </span>
@@ -312,28 +317,40 @@ function MainComponent(props) {
       ) : null}
       {isTxTypeActive ? (
         action?.kind === 'functionCall' ? (
-          <div className="py-3">
-            {prettyArgs && typeof prettyArgs === 'object' ? (
-              <textarea
-                readOnly
-                rows={4}
-                defaultValue={displayArgs(args?.args_base64 || args)}
-                className="block appearance-none outline-none w-full border dark:border-black-200 dark:bg-black-200 rounded-lg bg-gray-100 p-3 resize-y"
-              ></textarea>
-            ) : (
-              <div>
-                <div className="bg-gray-100 dark:bg-black-200 rounded-md p-3 font-medium">
-                  <div className="bg-inherit text-inherit font-inherit border-none p-0">
-                    <div className="max-h-52 overflow-auto">
-                      <div className="p-3 h-full w-full">{prettyArgs}</div>
+          action?.args?.methodName === 'rlp_execute' ? (
+            <Widget
+              src={`${ownerId}/widget/includes.Common.Receipts.RlpTransaction`}
+              props={{
+                ownerId: props.ownerId,
+                pretty: args.args_base64 || args,
+              }}
+            />
+          ) : (
+            <div className="py-3">
+              {prettyArgs && typeof prettyArgs === 'object' ? (
+                <textarea
+                  readOnly
+                  rows={4}
+                  defaultValue={displayArgs(args?.args_base64 || args)}
+                  className="block appearance-none outline-none w-full border dark:border-black-200 dark:bg-black-200 rounded-lg bg-gray-100 p-3 resize-y"
+                ></textarea>
+              ) : (
+                <div>
+                  <div className="bg-gray-100 dark:bg-black-200 rounded-md p-3 font-medium">
+                    <div className="bg-inherit text-inherit font-inherit border-none p-0">
+                      <div className="max-h-52 overflow-auto">
+                        <div className="p-3 h-full w-full">
+                          <pre>{prettyArgs}</pre>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          )
         ) : action?.kind === 'delegateAction' ? (
-          <div className="py-3">
+          <div className="pt-2">
             {[...action.args.actions]
               .sort(
                 (actionA, actionB) =>

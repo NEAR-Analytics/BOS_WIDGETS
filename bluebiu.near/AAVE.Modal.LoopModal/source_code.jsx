@@ -1,4 +1,38 @@
+const ERC20ABI = [
+  {
+    inputs: [{ internalType: "address", name: "owner", type: "address" }],
+    name: "nonces",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "spender", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
+    ],
+    name: "approve",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "owner", type: "address" },
+      { internalType: "address", name: "spender", type: "address" },
+    ],
+    name: "allowance",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+];
+
+const { parseUnits, formatUnits } = ethers.utils;
+
 const {
+  account,
+  toast,
   dexConfig,
   config,
   data,
@@ -41,7 +75,7 @@ const {
   LEVERAGE,
   LTV,
 } = data;
-console.log("loopModal---", data);
+console.log("loopModal---", props);
 const WithdrawContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -51,7 +85,7 @@ const WithdrawContainer = styled.div`
 const TokenTexture = styled.div`
   font-size: 20px;
   font-weight: bold;
-  color: white;
+  color: var(--agg-primary-color, #fff);
 `;
 
 const TokenWrapper = styled.div`
@@ -64,19 +98,13 @@ const TokenWrapper = styled.div`
 const GrayTexture = styled.div`
   font-size: 12px;
   font-weight: 500;
-  color: #7c7c86;
+  color: #9b9b9b;
 `;
 
 const PurpleTexture = styled.div`
   font-size: 14px;
   font-weight: 500;
-  color: #8a8db9;
-`;
-
-const GreenTexture = styled.div`
-  font-size: 14px;
-  font-weight: bold;
-  color: rgb(178, 232, 16);
+  color: #6f6f6f;
 `;
 
 const RedTexture = styled.div`
@@ -88,7 +116,7 @@ const RedTexture = styled.div`
 const WhiteTexture = styled.div`
   font-size: 14px;
   font-weight: bold;
-  color: white;
+  color: var(--agg-primary-color, #fff);
 `;
 const TransactionOverviewContainer = styled.div`
   display: flex;
@@ -103,7 +131,7 @@ const Input = styled.input`
 
   font-size: 20px;
   font-weight: bold;
-  color: white;
+  color: var(--agg-primary-color, #fff);
   flex: 1;
   width: 160px;
 
@@ -118,7 +146,7 @@ const Input = styled.input`
 `;
 
 const Max = styled.span`
-  color: #8247e5;
+  text-decoration: underline;
   cursor: pointer;
 `;
 
@@ -151,7 +179,7 @@ updateGas();
 function getNonce(tokenAddress, userAddress) {
   const token = new ethers.Contract(
     tokenAddress,
-    config.erc20Abi.body,
+    ERC20ABI,
     Ethers.provider().getSigner()
   );
 
@@ -336,7 +364,7 @@ function approve(amount) {
   const tokenAddress = underlyingAsset;
   const token = new ethers.Contract(
     tokenAddress,
-    config.erc20Abi.body,
+    ERC20ABI,
     Ethers.provider().getSigner()
   );
   return token["approve(address,uint256)"](config.aavePoolV3Address, amount);
@@ -518,66 +546,75 @@ const onSliderChange = (_value) => {
   updateNewHealthFactor();
 };
 
-function getAccount() {
-  return Ethers.provider()
-    .getSigner()
-    .getAddress()
-    .then((userAddress) => {
-      return userAddress;
-    })
-    .catch((err) => {
-      console.log("catch_getAccount:", err);
-    });
-}
-function getTokenAllowance(userAddress) {
+function getTokenAllowance() {
   return new ethers.Contract(
     underlyingAsset,
-    config.erc20Abi.body,
+    ERC20ABI,
     Ethers.provider().getSigner()
   )
-    .allowance(userAddress, config.LoopDelegateeAddress)
+    .allowance(account, config.LoopDelegateeAddress)
     .then((_allowance) => {
+      let supplyAmount = parseUnits(state.amount, decimals);
       console.log(
         "tokenAllowance--",
+        _allowance,
         _allowance?.toString(),
-        decimals,
-        Number(state.amount),
-        Number(allowanceAmount) < Number(state.amount)
+        supplyAmount,
+        Big(_allowance).lt(supplyAmount)
       );
-      if (!_allowance) return false;
-      const allowanceAmount = _allowance;
 
-      if (Number(allowanceAmount) < Number(state.amount)) {
+      if (Big(_allowance).lt(supplyAmount)) {
+        const toastId = toast?.loading({
+          title: `Approve ${state.amount} ${symbol}`,
+        });
         new ethers.Contract(
           data.underlyingAsset,
-          config.erc20Abi.body,
+          ERC20ABI,
           Ethers.provider().getSigner()
         )
-          .approve(config.LoopDelegateeAddress, state.amount)
+          .approve(config.LoopDelegateeAddress, supplyAmount)
           .then((tx) => {
             tx.wait()
               .then((res) => {
-                const { status } = res;
+                const { status, transactionHash } = res;
                 if (status === 1) {
-                  console.log("approve succeeded", res);
-                  return true;
-                } else {
-                  console.log("approve failed", res);
-                  State.update({
-                    loading: false,
+                  toast?.dismiss(toastId);
+                  toast?.success({
+                    title: "Approve Successfully!",
+                    text: `Approved ${state.amount} ${symbol}`,
+                    tx: transactionHash,
+                    chainId,
                   });
+                  console.log("approve succeeded", res);
                 }
+                State.update({
+                  loading: false,
+                });
               })
-              .catch(() => State.update({ loading: false }));
+              .catch(() => {
+                State.update({
+                  loading: false,
+                });
+                toast?.dismiss(toastId);
+                toast?.fail({
+                  title: "Approve Failed!",
+                  text: err?.message?.includes("user rejected transaction")
+                    ? "User rejected transaction"
+                    : `Approved ${state.amount} ${symbol}`,
+                });
+              });
           })
           .catch(() => State.update({ loading: false }));
       } else {
         return true;
       }
+    })
+    .catch((err) => {
+      console.log("CATCH-getTokenAllowance_ERROR:", err);
     });
 }
 
-function loop(userAddress) {
+function loop(isNative) {
   new ethers.Contract(
     data.variableDebtTokenAddress,
     [
@@ -598,13 +635,13 @@ function loop(userAddress) {
     ],
     Ethers.provider().getSigner()
   )
-    .borrowAllowance(userAddress, config.LoopDelegateeAddress)
+    .borrowAllowance(account, config.LoopDelegateeAddress)
     .then((_debtAllowance) => {
       const _borrowAmount = Big(state.leverage)
         .times(Big(state.amount))
         .minus(Big(state.amount))
         .toString();
-      const borrowAmount = ethers.utils.parseUnits(_borrowAmount, decimals);
+      const borrowAmount = parseUnits(_borrowAmount, decimals);
       console.log("borrowAmount--", borrowAmount.toString());
       console.log(
         "debtAllowance--",
@@ -662,7 +699,18 @@ function loop(userAddress) {
     })
     .then(({ step2, borrowAmount }) => {
       if (!step2) return;
-
+      const asset =
+        data.symbol === "ETH"
+          ? "0x0000000000000000000000000000000000000000"
+          : data.underlyingAsset;
+      const options = isNative
+        ? {
+            gasLimit: 4000000,
+            value: parseUnits(state.amount, decimals),
+          }
+        : {
+            gasLimit: 4000000,
+          };
       new ethers.Contract(
         config.LoopDelegateeAddress,
         [
@@ -689,12 +737,10 @@ function loop(userAddress) {
         Ethers.provider().getSigner()
       )
         .leverageDeposit(
-          data.underlyingAsset,
-          ethers.utils.parseUnits(state.amount, decimals),
+          asset,
+          parseUnits(state.amount, decimals),
           borrowAmount,
-          {
-            gasLimit: 4000000,
-          }
+          options
         )
         .then((tx) => {
           tx.wait()
@@ -752,24 +798,17 @@ function handleLoop() {
   });
 
   if (data.symbol === "ETH") {
-    getAccount()
-      .then((userAddress) => {
-        loop(userAddress);
+    loop(true);
+  } else {
+    getTokenAllowance()
+      .then((step1) => {
+        console.log("handleLoop--", step1);
+        if (!step1) return;
+        loop();
       })
       .catch((err) => {
         console.log("handleLoop_error:", err);
       });
-  } else {
-    getAccount().then((userAddress) => {
-      getTokenAllowance(userAddress)
-        .then((step1) => {
-          if (!step1) return;
-          loop(userAddress);
-        })
-        .catch((err) => {
-          console.log("handleLoop_error:", err);
-        });
-    });
   }
 }
 
@@ -817,16 +856,15 @@ return (
                       left: <GrayTexture>${state.amountInUSD}</GrayTexture>,
                       right: (
                         <GrayTexture>
-                          Wallet Balance:{" "}
-                          {isValid(balance) && balance !== "-"
-                            ? Big(balance).toFixed(7)
-                            : balance}
+                          Balance:
                           <Max
                             onClick={() => {
                               changeValue(maxValue);
                             }}
                           >
-                            MAX
+                            {isValid(balance) && balance !== "-"
+                              ? Big(balance).toFixed(7)
+                              : balance}
                           </Max>
                         </GrayTexture>
                       ),
@@ -867,7 +905,7 @@ return (
                       left: <PurpleTexture>Health Factor</PurpleTexture>,
                       right: (
                         <div style={{ textAlign: "right" }}>
-                          <GreenTexture>
+                          <PurpleTexture>
                             {formatHealthFactor(healthFactor)}
 
                             <img
@@ -876,10 +914,7 @@ return (
                               height={16}
                             />
                             {state.newHealthFactor}
-                          </GreenTexture>
-                          {/* <WhiteTexture>
-                            Liquidation at &lt; {config.FIXED_LIQUIDATION_VALUE}
-                          </WhiteTexture> */}
+                          </PurpleTexture>
                         </div>
                       ),
                     }}
@@ -900,7 +935,7 @@ return (
                     props={{
                       left: <PurpleTexture>Points Rewards</PurpleTexture>,
                       right: (
-                        <GreenTexture>{`${state.pointsRewards} x`}</GreenTexture>
+                        <PurpleTexture>{`${state.pointsRewards} x`}</PurpleTexture>
                       ),
                     }}
                   />
@@ -910,7 +945,7 @@ return (
                     props={{
                       left: <PurpleTexture>Flash loan fee</PurpleTexture>,
                       right: (
-                        <GreenTexture>
+                        <PurpleTexture>
                           0.01% (${" "}
                           {`${Big(state.amount || 0)
                             .times(Big(state.leverage))
@@ -919,7 +954,7 @@ return (
                             .times(0.0001)
                             .toFixed(6)} `}
                           )
-                        </GreenTexture>
+                        </PurpleTexture>
                       ),
                     }}
                   />

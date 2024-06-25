@@ -26,6 +26,28 @@ const Tokens = [
 return (
   <Theme>
     <Widget
+      src="bluebiu.near/widget/Blast.BridgeXY.XyRules"
+      props={{
+        showRules: () => {
+          State.update({
+            showRule: true
+          })
+        }
+      }}
+    />
+    {
+      state.showRule && <Widget
+        src="bluebiu.near/widget/Blast.BridgeXY.XyRulesLayer"
+        props={{
+          hideRules: () => {
+            State.update({
+              showRule: false
+            })
+          }
+        }}
+      />
+    }
+    <Widget
       src="bluebiu.near/widget/Base.Bridge.Index"
       props={{
         connectProps: {
@@ -59,8 +81,8 @@ return (
           routerAddress: "0x8731d54E9D02c286767d56ac03e8037C07e01e98",
         },
         tokens: Tokens,
-        amountOutFn: "bluebiu.near/widget/Scroll.BridgeXY.AmountOut",
-        handlerSwap: "bluebiu.near/widget/Scroll.BridgeXY.HandlerSwap",
+        amountOutFn: "bluebiu.near/widget/Blast.BridgeXY.AmountOut",
+        handlerSwap: "bluebiu.near/widget/Blast.BridgeXY.HandlerSwap",
         showFee: true,
         getTxStatus: (tx) => {
           const BASE_API = 'https://open-api.xy.finance/v1'

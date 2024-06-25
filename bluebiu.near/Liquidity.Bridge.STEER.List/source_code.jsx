@@ -11,6 +11,7 @@ const {
   TdTxt,
   PoolPercentage,
   StrategyTxt,
+  StyledEmptyTips,
   StyledVaultImage,
 } = VM.require('bluebiu.near/widget/Liquidity.Handler.Styles')
 
@@ -18,12 +19,14 @@ const {
   toast,
   prices,
   refetch,
+  curChain,
   dataList,
   dataIndex,
   columnList,
   onChangeDataIndex,
   addresses,
   addAction,
+  defaultDex,
   proxyAddress,
   userPositions,
   ICON_VAULT_MAP
@@ -58,40 +61,46 @@ return (
             })
           }
         </THead>
-        <TBody>
-          {dataList && dataList.map((data, index) => {
-            return (
-              <TrWrapper key={data.id}>
-                <Tr onClick={() => onChangeDataIndex(index)}>
-                  {
-                    columnList.map((column, columnIndex) => {
-                      return (
-                        <Td key={index + columnIndex} className={column.direction === 'column' ? 'column' : ''} style={{ width: column.width }}>{renderTD(data, column, index, columnIndex)}</Td>
-                      )
-                    })
-                  }
-                </Tr>
-                {index === dataIndex && <Widget
-                  key={data.id}
-                  src={"bluebiu.near/widget/Liquidity.Bridge.STEER.Detail"}
-                  props={{
-                    data: dataList[dataIndex],
-                    toast,
-                    theme,
-                    prices,
-                    refetch,
-                    addresses,
-                    addAction,
-                    proxyAddress,
-                    userPositions,
-                    ICON_VAULT_MAP
-                  }}
-                />}
-              </TrWrapper>
-            )
-          })}
+        {dataList && dataList.length > 0 ? (
+          <TBody>
+            {dataList.map((data, index) => {
+              return (
+                <TrWrapper key={data.id}>
+                  <Tr onClick={() => onChangeDataIndex(index)}>
+                    {
+                      columnList.map((column, columnIndex) => {
+                        return (
+                          <Td key={index + columnIndex} className={column.direction === 'column' ? 'column' : ''} style={{ width: column.width }}>{renderTD(data, column, index, columnIndex)}</Td>
+                        )
+                      })
+                    }
+                  </Tr>
+                  {index === dataIndex && <Widget
+                    key={data.id}
+                    src={"bluebiu.near/widget/Liquidity.Bridge.STEER.Detail"}
+                    props={{
+                      data: dataList[dataIndex],
+                      toast,
+                      theme,
+                      prices,
+                      refetch,
+                      addresses,
+                      curChain,
+                      addAction,
+                      defaultDex,
+                      proxyAddress,
+                      userPositions,
+                      ICON_VAULT_MAP
+                    }}
+                  />}
+                </TrWrapper>
+              )
+            })}
 
-        </TBody>
+          </TBody>
+        ) : (
+          <StyledEmptyTips>You didn’t add any liquidity yet</StyledEmptyTips>
+        )}
       </Table>
     }
   </ListWrapper>

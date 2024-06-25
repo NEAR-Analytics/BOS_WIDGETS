@@ -359,8 +359,7 @@ const components = [
     },
     preview: (
       <div className="d-flex flex-column gap-3 mb-3">
-        <UploadField />
-        <UploadField background />
+        <Widget src="buildhub.near/widget/components.UploadField" />
       </div>
     ),
     embedCode: `
@@ -676,6 +675,7 @@ const renderMenuItem = (c, i) => {
 const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
+  background: var(--bg-1, #000000);
   gap: 1rem;
   .main {
     grid-column: span 4 / span 4;

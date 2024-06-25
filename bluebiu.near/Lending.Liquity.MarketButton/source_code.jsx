@@ -98,11 +98,13 @@ const {
   IS_ETHOS_DAPP,
   IS_PREON_DAPP,
   IS_GRAVITA_DAPP,
+  IS_LYVE_DAPP,
   _maxFeePercentage,
   GAS_LIMIT_RECOMMENDATIONS,
   isCloseDisabled,
 } = props;
 
+const { _upperHint, _lowerHint } = data;
 const account = Ethers.send("eth_requestAccounts", [])[0];
 
 const tokenSymbol = data.underlyingToken.symbol;
@@ -129,7 +131,7 @@ useEffect(() => {
 }, [account, gas]);
 
 function makeCloseContract() {
-  if (IS_PREON_DAPP || IS_GRAVITA_DAPP) {
+  if (IS_PREON_DAPP || IS_GRAVITA_DAPP || IS_LYVE_DAPP) {
     const contract = new ethers.Contract(
       data.config.BorrowerOperations,
       [
@@ -256,7 +258,7 @@ if (!_assetAmount) {
   );
 }
 
-if (IS_GRAVITA_DAPP && IS_PREON_DAPP) {
+if (IS_GRAVITA_DAPP && IS_PREON_DAPP && IS_LYVE_DAPP) {
   if (isDebtBigerThanBalance) {
     return (
       <Button disabled={true} className={actionText.toLowerCase()}>
@@ -397,7 +399,7 @@ if (!state.isApproved) {
 }
 
 function makeOpenContract() {
-  if (IS_PREON_DAPP || IS_GRAVITA_DAPP) {
+  if (IS_PREON_DAPP || IS_GRAVITA_DAPP || IS_LYVE_DAPP) {
     const _asset = data.underlyingToken.address;
     const _assetAmount = ethers.utils.parseUnits(
       _assetAmount,
@@ -407,8 +409,7 @@ function makeOpenContract() {
       _debtTokenAmount,
       data.decimals
     );
-    const _upperHint = "0x544f96434f77437425d5aC40fd4755C0cf39399A";
-    const _lowerHint = "0xA1B7bbade134DB3B14B56056480e81c60Ab77377";
+
     const params = [
       _asset,
       _assetAmount,
@@ -416,6 +417,7 @@ function makeOpenContract() {
       _upperHint,
       _lowerHint,
     ];
+    console.log("handleBorrow--", params);
     const contract = new ethers.Contract(
       data.config.BorrowerOperations,
       [
@@ -455,8 +457,7 @@ function makeOpenContract() {
       _debtTokenAmount,
       data.decimals
     );
-    const _upperHint = "0xc655B790FF812109c8F6c3f24fd20b3495164A51";
-    const _lowerHint = "0x0000000000000000000000000000000000000000";
+
     const params = [
       _collateral,
       _collAmount,
@@ -516,7 +517,7 @@ function handleBorrow() {
             action: actionText,
             token: data.underlyingToken,
             amount: _assetAmount,
-            template: data.dappName,
+            template: data.config.name,
             add: false,
             status,
             transactionHash,

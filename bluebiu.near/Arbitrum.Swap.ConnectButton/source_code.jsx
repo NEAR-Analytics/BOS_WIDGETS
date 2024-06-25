@@ -6,7 +6,6 @@ const {
   chainId,
   chainName,
 } = props;
-
 const account = props.account || Ethers.send("eth_requestAccounts", [])[0];
 
 const ConnectWrapper = styled.div`

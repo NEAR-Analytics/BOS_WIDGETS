@@ -1,7 +1,7 @@
 const StyledContainer = styled.div``
 
 const {
-  dexConfig
+  dexConfig,
 } = props
 
 return (

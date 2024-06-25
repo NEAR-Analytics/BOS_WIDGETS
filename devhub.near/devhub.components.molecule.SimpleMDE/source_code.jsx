@@ -2,9 +2,12 @@
  * iframe embedding a SimpleMDE component
  * https://github.com/sparksuite/simplemde-markdown-editor
  */
-
+const { getLinkUsingCurrentGateway } = VM.require(
+  "devhub.near/widget/core.lib.url"
+) || { getLinkUsingCurrentGateway: () => {} };
 const data = props.data;
 const onChange = props.onChange ?? (() => {});
+const onChangeKeyup = props.onChangeKeyup ?? (() => {}); // in case where we want immediate action
 const height = props.height ?? "390";
 const className = props.className ?? "w-100";
 const embeddCSS = props.embeddCSS;
@@ -26,9 +29,10 @@ const alignToolItems = props.alignToolItems ?? "right";
 const placeholder = props.placeholder ?? "";
 const showAccountAutoComplete = props.showAutoComplete ?? false;
 const showProposalIdAutoComplete = props.showProposalIdAutoComplete ?? false;
+const autoFocus = props.autoFocus ?? false;
 
 const queryName =
-  "thomasguntenaar_near_devhub_proposals_quebec_proposals_with_latest_snapshot";
+  "polyprogrammist_near_devhub_prod_v1_proposals_with_latest_snapshot";
 const query = `query GetLatestSnapshot($offset: Int = 0, $limit: Int = 10, $where: ${queryName}_bool_exp = {}) {
 ${queryName}(
   offset: $offset
@@ -40,6 +44,10 @@ ${queryName}(
   proposal_id
 }
 }`;
+
+const proposalLink = getLinkUsingCurrentGateway(
+  `devhub.near/widget/app?page=proposal&id=`
+);
 
 const code = `
 <!doctype html>
@@ -80,6 +88,14 @@ const code = `
   .editor-toolbar {
       text-align: ${alignToolItems};
   }
+  
+  .CodeMirror {
+    min-height:200px !important; // for autocomplete to be visble 
+  }
+
+  .CodeMirror-scroll {
+    min-height:200px !important; // for autocomplete to be visble 
+  }
 
   ${embeddCSS}
 
@@ -114,6 +130,7 @@ let codeMirrorInstance;
 let isEditorInitialized = false;
 let followingData = {};
 let profilesData = {};
+let proposalLink = '';
 let query = '';
 let showAccountAutoComplete = ${showAccountAutoComplete};
 let showProposalIdAutoComplete = ${showProposalIdAutoComplete};
@@ -203,12 +220,18 @@ async function getSuggestedProposals(id) {
     if (proposalId) {
       variables["where"] = { proposal_id: { _eq: id } };
     } else {
-      variables["where"] = { name: { _ilike: "%" + id + "%" } };
+      variables["where"] = {
+        _or: [
+          { name: { _iregex: id } },
+          { summary: { _iregex: id } },
+          { description: { _iregex: id } },
+        ],
+      };
     }
   }
   await asyncFetch("https://near-queryapi.api.pagoda.co/v1/graphql", {
     method: "POST",
-    headers: { "x-hasura-role": "thomasguntenaar_near" },
+    headers: { "x-hasura-role": "polyprogrammist_near" },
     body: JSON.stringify({
       query: query,
       variables: variables,
@@ -218,7 +241,7 @@ async function getSuggestedProposals(id) {
     .then((res) => {
       const proposals =
         res?.data?.[
-          "thomasguntenaar_near_devhub_proposals_quebec_proposals_with_latest_snapshot"
+          "polyprogrammist_near_devhub_prod_v1_proposals_with_latest_snapshot"
         ];
       results = proposals;
     })
@@ -250,6 +273,7 @@ const simplemde = new SimpleMDE({
 		singleLineBreaks: false,
 		codeSyntaxHighlighting: true,
 	},
+  autofocus:${autoFocus}
 });
 
 codeMirrorInstance = simplemde.codemirror;
@@ -273,8 +297,14 @@ const updateIframeHeight = () => {
 // On Change
 simplemde.codemirror.on('blur', () => {
   updateContent();
-  updateIframeHeight();
 });
+
+simplemde.codemirror.on('keyup', () => {
+  updateIframeHeight();
+  const content = simplemde.value();
+  window.parent.postMessage({ handler: "updateOnKeyup", content }, "*");
+});
+
 
 if (showAccountAutoComplete) {
   let mentionToken;
@@ -385,7 +415,7 @@ if (showProposalIdAutoComplete) {
             const startIndex = selectedText.indexOf('#') + 1; 
             const endIndex = selectedText.indexOf(' ', startIndex);
             const id = endIndex !== -1 ? selectedText.substring(startIndex, endIndex) : selectedText.substring(startIndex);
-            const link = "https://near.social/devhub.near/widget/app?page=proposal&id=" + id;
+            const link = proposalLink + id;
             const adjustedStart = {
               line: referenceCursorStart.line,
               ch: referenceCursorStart.ch - 1
@@ -445,7 +475,7 @@ window.addEventListener("message", (event) => {
     simplemde.value(event.data.content);
     isEditorInitialized = true;
   } else {
-    if (event.data.handler === 'autocompleteSelected') {
+    if (event.data.handler === 'refreshEditor' || event.data.handler === 'committed') {
       codeMirrorInstance.getDoc().setValue(event.data.content);
     }
   }
@@ -458,6 +488,9 @@ window.addEventListener("message", (event) => {
   if (event.data.query) {
     query = event.data.query;
   }
+  if (event.data.proposalLink) {
+    proposalLink = event.data.proposalLink;
+  }
 });
 </script>
 </body>
@@ -469,6 +502,8 @@ return (
     className={className}
     style={{
       height: `${state.iframeHeight}px`,
+      maxHeight: "410px",
+      minHeight: "250px",
     }}
     srcDoc={code}
     message={{
@@ -476,6 +511,8 @@ return (
       followingData,
       profilesData: JSON.stringify(profilesData),
       query: query,
+      handler: props.data.handler,
+      proposalLink: proposalLink,
     }}
     onMessage={(e) => {
       switch (e.handler) {
@@ -488,6 +525,11 @@ return (
           {
             const offset = 10;
             State.update({ iframeHeight: e.height + offset });
+          }
+          break;
+        case "updateOnKeyup":
+          {
+            onChangeKeyup(e.content);
           }
           break;
       }

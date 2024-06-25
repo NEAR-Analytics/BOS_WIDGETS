@@ -164,7 +164,7 @@ return (
           className="dropdown-item"
           type="button"
           to={href({
-            widgetSrc: "buildhub.near/widget/app",
+            widgetSrc: "builddao.near/widget/Index",
             params: {
               page: "profile",
               accountId: context.accountId,

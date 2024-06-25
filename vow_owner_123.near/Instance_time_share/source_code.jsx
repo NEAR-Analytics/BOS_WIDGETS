@@ -47,7 +47,7 @@ return (
             letterSpacing: "-0.01em",
           }}
         >
-          Use this link to share the instance time with your participants
+          Use this link to share the poll with your participants
         </p>
         <div
           className="d-flex justify-content-between align-items-center"
@@ -59,7 +59,7 @@ return (
         >
           <span
             style={{ color: "#0065FF", wordWrap: "anywhere" }}
-          >{`https://near.social/#/${widgetOwner}/widget/Instance_time_card?accountId=${accountId}`}</span>
+          >{`https://near.social/#/${widgetOwner}/vow_owner_123.near/widget/Instance_time_card?accountId=${accountId}`}</span>
           <div
             style={{
               display: "flex",
@@ -85,9 +85,11 @@ return (
                     }
               }
               onClick={() => {
-                clipboard.writeText(
-                  `https://near.social/#/${widgetOwner}/widget/Instance_time_card?accountId=${accountId}`
+                console.log(
+                  "*****",
+                  `https://near.social/#/${widgetOwner}/vow_owner_123.near/widget/Instance_time_card?accountId=${accountId}`
                 );
+                clipboard.writeText(`zxcvzxcvzxcv`);
                 State.update({ linkCopied: true });
               }}
             ></i>

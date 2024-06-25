@@ -1,14 +1,14 @@
 const accountId = props.accountId ?? context.accountId;
 const className = props.className ?? "profile-image d-inline-block";
-const style = props.style ?? { border: "none", width: "3em", height: "3em" };
+const style = props.style ?? { width: "3em", height: "3em" };
 const imageStyle = props.imageStyle ?? { objectFit: "cover" };
 const imageClassName = props.imageClassName ?? "rounded-circle w-100 h-100";
 const thumbnail = props.thumbnail ?? "thumbnail";
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 
-const name = profile.name || "Nameless profile";
-const image = profile.image;
+const name = profile.name || "No-name profile";
+const image = props.image || profile.image;
 const title = props.title ?? `${name} @${accountId}`;
 const tooltip =
   props.tooltip && (props.tooltip === true ? title : props.tooltip);
@@ -65,7 +65,7 @@ const inner = fast ? (
 return props.tooltip ? (
   <Widget
     loading={inner}
-    src="james.near/widget/profile.hover"
+    src="mob.near/widget/Profile.OverlayTrigger"
     props={{ accountId, children: inner }}
   />
 ) : (

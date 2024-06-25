@@ -8,7 +8,9 @@
  * @param {string} [id] - The token identifier passed as a string
  * @param {string} ownerId - The identifier of the owner of the component.
  * @param {Function} [t] - A function for internationalization (i18n) provided by the next-translate package.
+ * @param {Function} [requestSignInWithWallet] - Function to initiate sign-in with a wallet.
  */
+
 
 
 
@@ -262,12 +264,18 @@ const WarningIcon = (props) => {
 
 const tabs = ['Transfers', 'Holders', 'Inventory', 'Comments'];
 
-function MainComponent({ network, id, ownerId, t }) {
+function MainComponent({
+  network,
+  id,
+  ownerId,
+  t,
+  requestSignInWithWallet,
+}) {
   const { localFormat, getTimeAgoString } = VM.require(
     `${ownerId}/widget/includes.Utils.formats`,
   );
 
-  const { getConfig, handleRateLimit, nanoToMilli } = VM.require(
+  const { getConfig, handleRateLimit, nanoToMilli, fetchData } = VM.require(
     `${ownerId}/widget/includes.Utils.libs`,
   );
 
@@ -283,7 +291,11 @@ function MainComponent({ network, id, ownerId, t }) {
     sync: true,
     timestamp: '',
   });
-
+  const [spamTokens, setSpamTokens] = useState({ blacklist: [] });
+  const [isVisible, setIsVisible] = useState(true);
+  const handleClose = () => {
+    setIsVisible(false);
+  };
   const config = getConfig && getConfig(network);
 
   useEffect(() => {
@@ -372,6 +384,15 @@ function MainComponent({ network, id, ownerId, t }) {
         )
         .catch(() => {});
     }
+    fetchData &&
+      fetchData(
+        'https://raw.githubusercontent.com/Nearblocks/spam-token-list/main/tokens.json',
+        (response) => {
+          const data = JSON.parse(response);
+          setSpamTokens(data);
+        },
+      );
+
     if (config?.backendUrl) {
       fetchNFTData();
       fetchTxnsCount();
@@ -381,7 +402,16 @@ function MainComponent({ network, id, ownerId, t }) {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [config.backendUrl, id]);
-
+  function isTokenSpam(tokenName) {
+    if (spamTokens)
+      for (const spamToken of spamTokens.blacklist) {
+        const cleanedToken = spamToken.replace(/^\*/, '');
+        if (tokenName.endsWith(cleanedToken)) {
+          return true;
+        }
+      }
+    return false;
+  }
   const onTab = (index) => {
     setPageTab(tabs[index]);
   };
@@ -410,6 +440,32 @@ function MainComponent({ network, id, ownerId, t }) {
           </h1>
         )}
       </div>
+      {isTokenSpam(token?.contract || id) && isVisible && (
+        <>
+          <div className="w-full flex justify-between text-left border dark:bg-nearred-500  dark:border-nearred-400 dark:text-nearred-300 bg-red-50 border-red-100 text-red-500 text-sm rounded-lg p-4">
+            <p className="items-center">
+              <WarningIcon className="w-5 h-5 fill-current mx-1 inline-flex" />
+              This token is reported to have been spammed to many users. Please
+              exercise caution when interacting with it. Click
+              <a
+                href="https://github.com/Nearblocks/spam-token-list"
+                className="underline mx-0.5"
+                target="_blank"
+              >
+                here
+              </a>
+              for more info.
+            </p>
+            <span
+              className="text-sm text-gray-500 hover:text-gray-800 dark:hover:text-gray-400 cursor-pointer"
+              onClick={handleClose}
+            >
+              X
+            </span>
+          </div>
+          <div className="py-2"></div>
+        </>
+      )}
       <div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className="w-full">
@@ -452,16 +508,11 @@ function MainComponent({ network, id, ownerId, t }) {
                       <div className="flex items-center">
                         {holders ? localFormat(holders) : ''}
                         {!status.sync && (
-                          <Tooltip.Provider>
-                            <Tooltip.Root>
-                              <Tooltip.Trigger asChild>
-                                <WarningIcon className="w-4 h-4 fill-current ml-1" />
-                              </Tooltip.Trigger>
-                              <Tooltip.Content
-                                className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words"
-                                align="start"
-                                side="bottom"
-                              >
+                          <OverlayTrigger
+                            placement="bottom-start"
+                            delay={{ show: 500, hide: 0 }}
+                            overlay={
+                              <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words">
                                 Holders count is out of sync. Last synced block
                                 is
                                 <span className="font-bold mx-0.5">
@@ -472,9 +523,11 @@ function MainComponent({ network, id, ownerId, t }) {
                                     nanoToMilli(status.timestamp),
                                   )}).`}
                                 Holders data will be delayed.
-                              </Tooltip.Content>
-                            </Tooltip.Root>
-                          </Tooltip.Provider>
+                              </Tooltip>
+                            }
+                          >
+                            <WarningIcon className="w-4 h-4 fill-current ml-1" />
+                          </OverlayTrigger>
                         )}
                       </div>
                     </div>
@@ -610,6 +663,7 @@ function MainComponent({ network, id, ownerId, t }) {
                         path: `nearblocks.io/nft/${id}`,
                         limit: 10,
                         ownerId,
+                        requestSignInWithWallet,
                       }}
                     />
                   }

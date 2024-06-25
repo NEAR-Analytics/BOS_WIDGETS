@@ -1,4 +1,3 @@
-// TODO Social.get
 const { getAccountCommunityPermissions } = VM.require(
   "thomasguntenaar.near/widget/core.adapter.devhub-contract"
 ) || {
@@ -7,7 +6,7 @@ const { getAccountCommunityPermissions } = VM.require(
 const imagelink =
   "https://ipfs.near.social/ipfs/bafkreiajzvmy7574k7mp3if6u53mdukfr3hoc2kjkhjadt6x56vqhd5swy";
 
-function Page({ data, onEdit, labels, accountId, handle }) {
+function Page({ data, onEdit, accountId, community }) {
   const {
     category,
     title,
@@ -15,19 +14,16 @@ function Page({ data, onEdit, labels, accountId, handle }) {
     subtitle,
     publishedAt: date,
     content,
+    author,
   } = data;
 
-  // TODO blog page has to have community handle in the query parameters
-  // TODO use of labels is removed
   const permissions = getAccountCommunityPermissions({
     account_id: accountId,
-    community_handle: "webassemblymusic",
+    community_handle: community,
   });
+
   const isAllowedToEdit = permissions?.can_configure ?? false;
 
-  console.log("isAllowedToEdit", { isAllowedToEdit, handle });
-
-  // TODO: category is not configurable
   const Container = styled.div`
     display: flex;
     flex-direction: column;
@@ -54,13 +50,14 @@ function Page({ data, onEdit, labels, accountId, handle }) {
     }
     `}
 
-    span.date {
+    div.date {
       color: #818181;
       font-size: 1rem;
       font-style: normal;
       font-weight: 400;
       line-height: 20px; /* 125% */
       margin: 1.5rem 0;
+      width: 100%;
     }
 
     h1 {
@@ -127,7 +124,10 @@ function Page({ data, onEdit, labels, accountId, handle }) {
         {category && <span className="category">{category}</span>}
         <h1>{title}</h1>
         <p className="subtitle">{subtitle}</p>
-        <span className="date">{formattedDate}</span>
+        <div className="d-flex flex-row justify-content-between date">
+          {author && <div>{author}</div>}
+          <div>{formattedDate}</div>
+        </div>
         <p>{description}</p>
         <Widget
           src={

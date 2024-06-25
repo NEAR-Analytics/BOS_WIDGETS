@@ -73,7 +73,7 @@ const ProjectCard = ({ project, type }) => {
           <Widget
             src="mob.near/widget/Image"
             props={{
-              image: metadata.profileImage.image,
+              image: metadata.profileImage?.image ?? metadata.profileImage,
               alt: metadata.title,
               className: "rounded-circle w-100 h-100",
               style: { objectFit: "cover" },

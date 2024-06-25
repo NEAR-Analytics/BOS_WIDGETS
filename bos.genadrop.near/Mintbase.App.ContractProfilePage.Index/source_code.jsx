@@ -10,22 +10,31 @@ const { MbInputField } = VM.require(
 ) || {
   MbInputField: () => <></>,
 };
-const { getCombinedStoreData } = VM.require(
+const { getCombinedStoreData, checkStoreOwner, fetchStoreMinters } = VM.require(
   "bos.genadrop.near/widget/Mintbase.utils.sdk"
 ) || {
   getCombinedStoreData: () => {},
+  checkStoreOwner: () => {},
+  fetchStoreMinters: () => {},
 };
+const [isStoreOwner, setIsStoreOwner] = useState(false);
+const [isMinter, setIsMinter] = useState(false);
 const actualTabs = {
   tabLabels: [
     { id: 0, title: "NFTs" },
     { id: 1, title: "_About", hidden: !connectedUserIsMinter },
-    // { id: 2, title: "_Mint NFTS" },
+    { id: 2, title: "Discussions" },
     // { id: 3, title: "_User Settings", hidden: !connectedUserIsMinter },
     { id: 4, title: "Activity" },
     { id: 5, title: "Analytics" },
-    // { id: 6, title: "Minters" },
   ],
 };
+if (isStoreOwner && context.accountId) {
+  actualTabs.tabLabels.splice(2, 0, { id: 7, title: "Contract Settings" });
+}
+if (isMinter) {
+  actualTabs.tabLabels.splice(1, 0, { id: 2, title: "Mint NFT" });
+}
 const hiddenTabs = actualTabs.tabLabels
   .filter((tab) => !tab.hidden)
   .map((tab) => tab.title);
@@ -199,6 +208,16 @@ const createStoreHandler = () => {
   setOpen(true);
 };
 useEffect(() => {
+  checkStoreOwner(accountId, context.accountId)
+    .then((data) => setIsStoreOwner(data))
+    .catch((error) => {
+      console.error("in contracts", error);
+    });
+  fetchStoreMinters(accountId)
+    .then((data) => setIsMinter(data))
+    .catch((error) => {
+      console.error("in contracts", error);
+    });
   getCombinedStoreData({ id: accountId, limit, offset })
     .then(({ data, errors }) => {
       if (errors) {
@@ -230,7 +249,6 @@ useEffect(() => {
 const minters =
   storeData && storeData.mb_store_minters.map((minter) => minter.minter_id);
 const connectedUserIsMinter = minters && minters?.includes(context.accountId);
-console.log("connectedUserIsMinter", connectedUserIsMinter);
 const connectedUser =
   connectedUserIsMinter &&
   context.accountId === storeData.nft_contracts[0].owner_id
@@ -244,7 +262,6 @@ const details = [
   { name: "Transactions", value: "1776" },
   { name: "Last Activity", value: "3 hours ago" },
 ];
-console.log("profile", profile);
 const PageContent = () => {
   switch (selectedTab) {
     case "nfts":
@@ -260,10 +277,39 @@ const PageContent = () => {
           <h2>About User</h2> <p>Nothing to show yet</p>
         </div>
       );
+    case "discussions":
+      return (
+        <Widget
+          key="discussion"
+          src="bos.genadrop.near/widget/CPlanet.Group.Index"
+          props={{ groupId: accountId, isDarkModeOn }}
+        />
+      );
+    case "contract-settings":
+      return (
+        <Widget
+          src="bos.genadrop.near/widget/Mintbase.App.ContractProfilePage.ContractSettings.Index"
+          props={{ contractId: accountId, isDarkModeOn }}
+        />
+      );
+    case "mint-nft":
+      return (
+        <Widget
+          src="bos.genadrop.near/widget/Mintbase.App.ContractProfilePage.Mint.Index"
+          props={{ contractId: accountId, isDarkModeOn }}
+        />
+      );
     case "activity":
       return (
         <Widget
           src={`bos.genadrop.near/widget/Mintbase.App.ContractProfilePage.Activity`}
+          props={{ isDarkModeOn, contract: accountId }}
+        />
+      );
+    case "analytics":
+      return (
+        <Widget
+          src={`bos.genadrop.near/widget/Mintbase.App.ContractProfilePage.Analytics`}
           props={{ isDarkModeOn, contract: accountId }}
         />
       );

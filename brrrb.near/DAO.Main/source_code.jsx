@@ -24,7 +24,7 @@ return (
     <div className="mt-3">
       <Widget
         src="linearprotocol.near/widget/DAO.Proposals"
-        props={{ daoId, limit: 20 }}
+        props={{ daoId, limit: 40 }}
       />
     </div>
   </div>

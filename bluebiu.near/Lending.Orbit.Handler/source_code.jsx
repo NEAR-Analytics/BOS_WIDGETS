@@ -95,15 +95,21 @@ useEffect(() => {
 
   const isETH = data.underlyingToken.isNative;
   let spaceAddress;
-  const { ORBIT_ADDRESS, REOZO_ADDRESS, KELP_ADDRESS } = data.config;
+  const {
+    ORBIT_ADDRESS,
+    REOZO_ADDRESS,
+    MOON_MARKETS,
+    MOON_ADDRESS,
+    KELP_ADDRESS,
+  } = data.config;
   if (orbitTab === "ORBIT") {
     spaceAddress = ORBIT_ADDRESS;
   }
   if (orbitTab === "RENZO") {
     spaceAddress = REOZO_ADDRESS;
   }
-  if (orbitTab === "KELP") {
-    spaceAddress = KELP_ADDRESS;
+  if (orbitTab === "MOON") {
+    spaceAddress = MOON_ADDRESS;
   }
 
   let options = {};

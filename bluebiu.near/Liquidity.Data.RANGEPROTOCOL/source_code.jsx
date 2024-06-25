@@ -1,6 +1,7 @@
 
 const {
   pairs,
+  sender,
   addresses,
   allData,
   onLoad,
@@ -196,7 +197,7 @@ function getLiquidity() {
             token0,
             token1
           } = balance
-          dataList[i].liquidity = Big(ethers.utils.formatUnits(token0, data.decimals0)).times(prices[data.token0]).plus(Big(ethers.utils.formatUnits(token1, data.decimals1)).times(prices[data.token1])).toFixed(4)
+          dataList[i].liquidity = Big(ethers.utils.formatUnits(token0, data.decimals0)).times(prices[data.token0]).plus(Big(ethers.utils.formatUnits(token1, data.decimals1)).times(prices[data.token1])).toFixed()
         }
       }
       formatedData('getLiquidity')
@@ -206,7 +207,7 @@ function getLiquidity() {
 function getFee() {
   for (let i = 0; i < dataList.length; i++) {
     const data = dataList[i];
-    dataList[i].fee = Big(data.fee).div(10000).toFixed(2)
+    dataList[i].fee = Big(data?.fee ?? 0).div(10000).toFixed(2)
   }
   formatedData('getFee')
 }
@@ -254,7 +255,6 @@ function getTvl() {
           balance1
         } = result[i].data.vault
         const data = dataList[i]
-        console.log('token0===', data.token0, '=balance0', balance0, 'token1===', data.token1, '=balance1', balance1, "=prices", prices)
         dataList[i].tvlUSD = Big(ethers.utils.formatUnits(balance0, data.decimals0))
           .times(prices[data.token0] ?? 0)
           .plus(Big(ethers.utils.formatUnits(balance1, data.decimals1)).times(prices[data.token1] ?? 0))
@@ -265,22 +265,14 @@ function getTvl() {
 
 }
 function getApy() {
-  if (curChain.chain_id === 56) {
-    for (let i = 0; i < dataList.length; i++) {
-      const vault = dataList[i].vault
-      dataList[i].apy = Big(feesData[vault]?.apy ?? 0).toFixed(2) + '%'
-    }
-  } else {
-    for (let i = 0; i < dataList.length; i++) {
-      const data = dataList[i]
-      dataList[i].apy = Big(data?.fee_apy ?? 0).plus(data?.asset_yield ?? 0).toFixed(2) + '%'
-    }
+  for (let i = 0; i < dataList.length; i++) {
+    const data = dataList[i]
+    dataList[i].apy = Big(data?.fee_apy ?? 0).plus(data?.asset_yield ?? 0).toFixed(2) + '%'
   }
   formatedData('getApy')
 }
 function getBalance() {
   const calls = [];
-  const sender = Ethers.send("eth_requestAccounts", [])[0];
   dataList.forEach(data => {
     calls.push({
       address: ethers.utils.getAddress(addresses[data.id]),

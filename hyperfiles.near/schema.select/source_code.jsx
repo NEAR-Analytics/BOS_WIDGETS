@@ -20,6 +20,7 @@ const FormContainer = styled.div`
 const Select = styled.select`
   `;
 const Label = styled.label`
+  font-weight: bold;
 `;
 const Input = styled.input`
   `;
@@ -73,17 +74,18 @@ const handleApplySchemaSrc = () => {
 
 return (
   <FormContainer>
-    <Label>Schema Owner:</Label>
+    <Label>Import Schemas</Label>
     <Row>
       <Input
         type="text"
-        onChange={handleSchemaOwnerChange} // Corrected to use the handleSchemaOwnerChange function
+        onChange={handleSchemaOwnerChange}
         value={newSchemaSrc}
         placeholder="accountId"
       />
       <Button onClick={handleApplySchemaSrc}>apply</Button>
     </Row>
-    <Label>Schema:</Label>
+    <br />
+    <Label>Structure Your Input Data</Label>
     <Row>
       {isLoading ? (
         <div>Loading...</div>
@@ -97,10 +99,6 @@ return (
           ))}
         </Select>
       )}
-    </Row>
-    <br />
-    <Row>
-      <Button onClick="">Create a schema</Button>
     </Row>
   </FormContainer>
 );

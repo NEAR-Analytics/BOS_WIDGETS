@@ -40,7 +40,7 @@ const PanelLabelWrapper = styled.div`
   padding-bottom: 16px;
   padding-left: 16px;
 
-  color: white;
+  color: var(--agg-text-color, white);
   font-size: 20px;
   font-weight: 700;
   line-height: 22px;
@@ -96,8 +96,8 @@ const Panel = styled.div`
   position: relative;
   padding: 24px 16px 16px;
   border-radius: 16px;
-  border: 1px solid #373a53;
-  background: #262836;
+  border: 1px solid var(--agg-border-color, #373a53);
+  background: var(--agg-bg-color, #262836);
 `;
 
 const ExchangeIconWrapper = styled.div`
@@ -113,7 +113,7 @@ const ExchangeIcon = styled.div`
   left: 50%;
   top: 50%;
   svg {
-    color: #ffffff;
+    color: var(--agg-text-color, #fff);
   }
 `;
 const PanelLabel = styled.div``;
@@ -133,7 +133,7 @@ const ResultItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: #979abe;
+  color: var(--agg-thirdry-color, #979abe);
   font-size: 14px;
   font-weight: 400;
   margin-bottom: 16px;

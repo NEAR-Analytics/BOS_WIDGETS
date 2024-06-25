@@ -6,6 +6,7 @@ const {
   refetch,
   addresses,
   addAction,
+  defaultDex,
   storeAddress,
   ICON_VAULT_MAP
 } = props;
@@ -28,16 +29,9 @@ const {
   BalancePrice,
   StyledButtonList,
   StyledButton,
-  StyledLoading
 } = VM.require('bluebiu.near/widget/Liquidity.Handler.Styles')
 
 
-const iconCircle = (
-  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-    <path d="M8 15C11.866 15 15 11.866 15 8C15 4.13401 11.866 1 8 1C4.13401 1 1 4.13401 1 8" stroke="#1E2028" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-  </svg>
-
-)
 const defaultDeposit = props.tab === "deposit" || !props.tab;
 
 // const curPositionUSD = userPositions[data.vaultAddress]?.balanceUSD;
@@ -126,7 +120,7 @@ const updateBalance = () => {
     contract.balanceOf(sender).then((balanceBig) => {
       const adjustedBalance = Big(
         ethers.utils.formatUnits(balanceBig, decimals)
-      ).toString();
+      ).toFixed();
       State.update({
         balances: {
           ...state.balances,
@@ -151,6 +145,7 @@ const {
   isPostTx,
 } = state;
 
+const detailLoading = Object.keys(balances).length < 2 || lpBalance === ""
 const changeMode = (isDeposit) => {
   State.update({ isDeposit });
 };
@@ -223,16 +218,17 @@ const handleDeposit = () => {
     })
     .then((receipt) => {
       const { status, transactionHash } = receipt;
-      // addAction?.({
-      //   type: "Liquidity",
-      //   action: "Deposit",
-      //   token,
-      //   amount,
-      //   template: "Metavault",
-      //   status: status,
-      //   transactionHash,
-      //   chain_id: props.chainId,
-      // });
+      addAction?.({
+        type: "Liquidity",
+        action: "Deposit",
+        token0: token,
+        amount,
+        template: defaultDex,
+        status: status,
+        add: 1,
+        transactionHash,
+        chain_id: props.chainId,
+      });
 
       State.update({
         isLoading: false,
@@ -316,16 +312,17 @@ const handleWithdraw = () => {
 
       const { status, transactionHash } = receipt;
 
-      // addAction?.({
-      //   type: "Liquidity",
-      //   action: "Withdraw",
-      //   token,
-      //   amount: lpAmount,
-      //   template: "Metavault",
-      //   status: status,
-      //   transactionHash,
-      //   chain_id: state.chainId,
-      // });
+      addAction?.({
+        type: "Liquidity",
+        action: "Withdraw",
+        token0: token,
+        amount: lpAmount,
+        template: defaultDex,
+        status: status,
+        add: 0,
+        transactionHash,
+        chain_id: state.chainId,
+      });
 
       setTimeout(() => State.update({ isPostTx: false }), 10_000);
 
@@ -408,117 +405,133 @@ return (
       <FilterButton className={!isDeposit ? 'isActive' : ''} onClick={() => changeMode(false)}>Withdraw</FilterButton>
     </FilterButtonList>
     {
-      isDeposit ? <>
-        <Row className="price-input">
-          <Column>
-            <InputWrap className={Number(amount) > Number(balances[token]) ? "inSufficient" : ""}>
-              <Input value={amount} type="number" onChange={(e) => handleTokenChange(e.target.value, token)} />
-              <InputSuffix>
-                <img src={ICON_VAULT_MAP[token]} alt={token} />
-                <span>{token}</span>
-              </InputSuffix>
-            </InputWrap>
-            <PriceWrap>
-              <TotalPrice>${balance}</TotalPrice>
-              <BalancePrice>Balance:<span onClick={() => handleMax(true)}>{Big(balances[token] ?? 0).toFixed(6)}</span> {token}</BalancePrice>
-            </PriceWrap>
-          </Column>
-        </Row>
-        <StyledButtonList>
-          {isInSufficient && <StyledButton disabled>InSufficient Balance</StyledButton>}
+      detailLoading ? (
+        <div style={{ padding: "30px 0 45px" }}>
+          <Widget
+            props={{
+              color: "#999"
+            }}
+            src="bluebiu.near/widget/Liquidity.Bridge.Loading"
+          />
+        </div>
+      ) : (
+        <>
           {
-            !isInSufficient &&
-            (isTokenApproved &&
-              !isTokenApproving ? (
-
-              <StyledButton disabled={isLoading || !amount} onClick={handleDeposit}>
+            isDeposit ? <>
+              <Row className="price-input">
+                <Column>
+                  <InputWrap className={Number(amount) > Number(balances[token]) ? "inSufficient" : ""}>
+                    <Input value={amount} type="number" onChange={(e) => handleTokenChange(e.target.value, token)} />
+                    <InputSuffix>
+                      <img src={ICON_VAULT_MAP[token]} alt={token} />
+                      <span>{token}</span>
+                    </InputSuffix>
+                  </InputWrap>
+                  <PriceWrap>
+                    <TotalPrice>${balance}</TotalPrice>
+                    <BalancePrice>Balance:<span onClick={() => handleMax(true)}>{Big(balances[token] ?? 0).toFixed(6)}</span> {token}</BalancePrice>
+                  </PriceWrap>
+                </Column>
+              </Row>
+              <StyledButtonList>
+                {isInSufficient && <StyledButton disabled>InSufficient Balance</StyledButton>}
                 {
-                  isLoading ? (
-                    <StyledLoading>{iconCircle}</StyledLoading>
-                  ) : (
-                    "Deposit"
-                  )
-                }
-              </StyledButton>
-            ) : (
-              <>
-                <StyledButton disabled={isTokenApproved || isTokenApproving} onClick={() => handleApprove(true)}>{
-                  isTokenApproving ? (
-                    <StyledLoading>{iconCircle}</StyledLoading>
+                  !isInSufficient &&
+                  (isTokenApproved &&
+                    !isTokenApproving ? (
+
+                    <StyledButton disabled={isLoading || !amount} onClick={handleDeposit}>
+                      {
+                        isLoading ? (
+                          <Widget src="bluebiu.near/widget/Liquidity.Bridge.Loading" />
+                        ) : (
+                          "Deposit"
+                        )
+                      }
+                    </StyledButton>
                   ) : (
                     <>
-                      {isTokenApproved ? "Approved" : "Approve"} {token}
+                      <StyledButton disabled={isTokenApproved || isTokenApproving} onClick={() => handleApprove(true)}>{
+                        isTokenApproving ? (
+                          <Widget src="bluebiu.near/widget/Liquidity.Bridge.Loading" />
+                        ) : (
+                          <>
+                            {isTokenApproved ? "Approved" : "Approve"} {token}
+                          </>
+                        )}
+                      </StyledButton>
+                    </>
+                  ))
+                }
+              </StyledButtonList>
+            </> : <>
+              <Row className="price-input">
+                <Column>
+                  <InputWrap>
+                    <Input value={lpAmount} type="number" onChange={(e) => {
+                      handleLPChange(e.target.value);
+
+                      const value = e.target.value;
+
+                      if (!value) {
+                        onUpdateLpPercent(0);
+                      }
+
+                      if (value && Big(value).gt(0)) {
+                        const newSliderPercent = Big(value || 0)
+                          .div(Big(lpBalance).gt(0) ? lpBalance : 1)
+                          .times(100)
+                          .toFixed(0);
+                        onUpdateLpPercent(newSliderPercent);
+                      }
+                    }} />
+
+                    <InputSuffix>
+                      <StyledImageList>
+                        <img src={ICON_VAULT_MAP[token]} alt={token} />
+                      </StyledImageList>
+                      <span>{token}</span>
+                    </InputSuffix>
+                  </InputWrap>
+                  <PriceWrap>
+                    <TotalPrice>${balanceLp}</TotalPrice>
+                    <BalancePrice>Balance: <span
+                      onClick={() => {
+                        const newSliderPercent = Big(lpBalance || 0)
+                          .div(Big(lpBalance).gt(0) ? lpBalance : 1)
+                          .times(100)
+                          .toFixed(0);
+
+                        onUpdateLpPercent(newSliderPercent);
+
+                        handleLPChange(lpBalance);
+                      }}
+                    >
+                      {lpBalance}
+                    </span></BalancePrice>
+                  </PriceWrap>
+                </Column>
+              </Row>
+              <StyledButtonList>
+                <StyledButton
+                  disabled={isWithdrawInsufficient || isLoading || !lpAmount}
+                  onClick={handleWithdraw}
+                >
+                  {isLoading ? (
+                    <Widget src="bluebiu.near/widget/Liquidity.Bridge.Loading" />
+                  ) : (
+                    <>
+                      {isWithdrawInsufficient ? "InSufficient Balance" : "Withdraw"}
                     </>
                   )}
                 </StyledButton>
-              </>
-            ))
+              </StyledButtonList>
+            </>
           }
-        </StyledButtonList>
-      </> : <>
-        <Row className="price-input">
-          <Column>
-            <InputWrap>
-              <Input value={lpAmount} type="number" onChange={(e) => {
-                handleLPChange(e.target.value);
-
-                const value = e.target.value;
-
-                if (!value) {
-                  onUpdateLpPercent(0);
-                }
-
-                if (value && Big(value).gt(0)) {
-                  const newSliderPercent = Big(value || 0)
-                    .div(Big(lpBalance).gt(0) ? lpBalance : 1)
-                    .times(100)
-                    .toFixed(0);
-                  onUpdateLpPercent(newSliderPercent);
-                }
-              }} />
-
-              <InputSuffix>
-                <StyledImageList>
-                  <img src={ICON_VAULT_MAP[token]} alt={token} />
-                </StyledImageList>
-                <span>{token}</span>
-              </InputSuffix>
-            </InputWrap>
-            <PriceWrap>
-              <TotalPrice>${balanceLp}</TotalPrice>
-              <BalancePrice>Balance: <span
-                onClick={() => {
-                  const newSliderPercent = Big(lpBalance || 0)
-                    .div(Big(lpBalance).gt(0) ? lpBalance : 1)
-                    .times(100)
-                    .toFixed(0);
-
-                  onUpdateLpPercent(newSliderPercent);
-
-                  handleLPChange(lpBalance);
-                }}
-              >
-                {lpBalance}
-              </span></BalancePrice>
-            </PriceWrap>
-          </Column>
-        </Row>
-        <StyledButtonList>
-          <StyledButton
-            disabled={isWithdrawInsufficient || isLoading || !lpAmount}
-            onClick={handleWithdraw}
-          >
-            {isLoading ? (
-              <StyledLoading>{iconCircle}</StyledLoading>
-            ) : (
-              <>
-                {isWithdrawInsufficient ? "InSufficient Balance" : "Withdraw"}
-              </>
-            )}
-          </StyledButton>
-        </StyledButtonList>
-      </>
+        </>
+      )
     }
+
 
   </DetailWrapper>
 )

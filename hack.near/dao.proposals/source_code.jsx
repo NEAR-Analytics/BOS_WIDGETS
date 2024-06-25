@@ -1,49 +1,47 @@
-const daoId = props.daoId ?? "rc-dao.sputnik-dao.near";
-const limit = parseInt(props.limit) || 888;
+const daoId = props.daoId ?? "multi.sputnik-dao.near";
 
-if (!daoId) {
-  return "";
-}
+const proposals = Near.view(daoId, "get_proposals", {
+  from_index: 0,
+  limit: 888,
+});
 
-const daoVersion = Near.view(daoId, "version");
-if (!daoVersion) {
-  return "";
-}
+State.init({
+  daoId,
+});
 
-const config = Near.view(daoId, "get_config");
-const policy = Near.view(daoId, "get_policy");
-const lastProposalId = Near.view(daoId, "get_last_proposal_id");
-
-let proposals = [];
-
-if (lastProposalId) {
-  proposals =
-    Near.view(daoId, "get_proposals", {
-      from_index: Math.max(0, lastProposalId - limit),
-      limit,
-    }) || [];
-  proposals.reverse();
-}
+const onChangeDAO = (daoId) => {
+  State.update({
+    daoId,
+  });
+};
 
 return (
-  <div className="m-3">
-    <h3>Recent Proposals</h3>
-    {proposals.map((proposal, i) => (
-      <div key={proposal.id} className="mb-3">
-        <Widget
-          src="hack.near/widget/dao.proposal"
-          props={{ daoId, proposal, policy }}
+  <>
+    <div>
+      <h3>DAO Proposals</h3>
+      <div className="mb-2">
+        <p className="m-1">Sputnik Contract ID:</p>
+        <input
+          type="text"
+          placeholder="example.sputnik-dao.near"
+          onChange={(e) => onChangeDAO(e.target.value)}
         />
       </div>
-    ))}
-    <Widget
-      src="near/widget/DIG.Button"
-      props={{
-        href: "#/hack.near/widget/dao.proposals",
-        label: "See All Proposals",
-        variant: "outline-dark",
-        size: "small",
-      }}
-    />
-  </div>
+
+      <hr />
+
+      <div>
+        {proposals
+          .slice()
+          .reverse()
+          .map((proposal, i) => (
+            <Widget
+              key={i}
+              src="hack.near/widget/DAO.Proposal"
+              props={{ daoId: state.daoId, id: proposals.length - i - 1 }}
+            />
+          ))}
+      </div>
+    </div>
+  </>
 );

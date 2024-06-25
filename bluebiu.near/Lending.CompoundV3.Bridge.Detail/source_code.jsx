@@ -417,7 +417,7 @@ return (
                   if (state.loading) return;
                   State.update({
                     showDialog: true,
-                    type: "Withraw",
+                    type: "Withdraw",
                     asset: {
                       ...data.baseToken,
                       walletBalance: state.balance,
@@ -426,7 +426,7 @@ return (
                   });
                 }}
               >
-                Withraw
+                Withdraw
               </StyledWithraw>
             </>
           )}

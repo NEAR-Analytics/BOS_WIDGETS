@@ -223,6 +223,14 @@ function Page() {
         />
       );
     }
+    case "blogv2": {
+      return (
+        <Widget
+          src={"devhub.near/widget/devhub.page.blogv2"}
+          props={passProps}
+        />
+      );
+    }
     case "post": {
       return (
         <Widget

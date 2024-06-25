@@ -81,7 +81,7 @@ return (
         id="menu1-k"
       >
         <div className="navbar navbar-dropdown navbar-expand-lg">
-          <div className="container-fluid">
+          <div className="container-fluid d-flex justify-content-between align-items-center">
             <button
               className="navbar-toggler"
               type="button"
@@ -94,10 +94,10 @@ return (
               ariaLabel="Toggle navigation"
             >
               <div className="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
+                <span>1</span>
+                <span>2</span>
+                <span>3</span>
+                <span>4</span>
               </div>
             </button>
 
@@ -149,6 +149,7 @@ return (
         </div>
       </div>
     </div>
+
     <div>
       <div
         id="carouselExampleInterval"
@@ -166,8 +167,14 @@ return (
             </div>
           ))}
           <div
-            className="carousel-caption d-none d-md-block w-100 h-100"
-            style={{ display: "flex", left: 0, top: 0, placeContent: "center" }}
+            className="carousel-caption d-md-block w-100 h-100"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              left: 0,
+              top: 0,
+              placeContent: "center",
+            }}
           >
             <h2 className="fw-bold fs-1">Welcome To TNE!</h2>
             <p className="fw-medium fs-6 text-wrap">
@@ -263,126 +270,128 @@ return (
         ))}
       </div>
     </div>
-    <div className="container">
-      <div className="py-5">
-        <div className="row">
-          <div className="col-6 col-md-2 mb-3">
-            <h5>About Us</h5>
-            <ul className="nav flex-column">
-              <li className="nav-item mb-2">
-                <a href="#" className="nav-link p-0 text-muted">
-                  Mission Statement
-                </a>
-              </li>
-              <li className="nav-item mb-2">
-                <a href="#" className="nav-link p-0 text-muted">
-                  Our Team
-                </a>
-              </li>
-              <li className="nav-item mb-2">
-                <a href="#" className="nav-link p-0 text-muted">
-                  Membership
-                </a>
-              </li>
-            </ul>
-          </div>
+    <div className="footer pt-8">
+      <div className="container">
+        <div className="py-5">
+          <div className="row">
+            <div className="col-6 col-md-2 mb-3">
+              <h5>About Us</h5>
+              <ul className="nav flex-column">
+                <li className="nav-item mb-2">
+                  <a href="#" className="nav-link p-0 text-muted">
+                    Mission Statement
+                  </a>
+                </li>
+                <li className="nav-item mb-2">
+                  <a href="#" className="nav-link p-0 text-muted">
+                    Our Team
+                  </a>
+                </li>
+                <li className="nav-item mb-2">
+                  <a href="#" className="nav-link p-0 text-muted">
+                    Membership
+                  </a>
+                </li>
+              </ul>
+            </div>
 
-          <div className="col-6 col-md-2 mb-3">
-            <h5>Events</h5>
-            <ul className="nav flex-column">
-              <li className="nav-item mb-2">
-                <a href="#" className="nav-link p-0 text-muted">
-                  Upcoming Events
-                </a>
-              </li>
-              <li className="nav-item mb-2">
-                <a href="#" className="nav-link p-0 text-muted">
-                  Past Events
-                </a>
-              </li>
-              <li className="nav-item mb-2">
-                <a href="#" className="nav-link p-0 text-muted">
-                  Events Calender
-                </a>
-              </li>
-            </ul>
-          </div>
+            <div className="col-6 col-md-2 mb-3">
+              <h5>Events</h5>
+              <ul className="nav flex-column">
+                <li className="nav-item mb-2">
+                  <a href="#" className="nav-link p-0 text-muted">
+                    Upcoming Events
+                  </a>
+                </li>
+                <li className="nav-item mb-2">
+                  <a href="#" className="nav-link p-0 text-muted">
+                    Past Events
+                  </a>
+                </li>
+                <li className="nav-item mb-2">
+                  <a href="#" className="nav-link p-0 text-muted">
+                    Events Calender
+                  </a>
+                </li>
+              </ul>
+            </div>
 
-          <div className="col-6 col-md-2 mb-3">
-            <h5>Resources</h5>
-            <ul className="nav flex-column">
-              <li className="nav-item mb-2">
-                <a href="#" className="nav-link p-0 text-muted">
-                  Scholarships
-                </a>
-              </li>
-              <li className="nav-item mb-2">
-                <a href="#" className="nav-link p-0 text-muted">
-                  Music Education
-                </a>
-              </li>
-              <li className="nav-item mb-2">
-                <a href="#" className="nav-link p-0 text-muted">
-                  Publications
-                </a>
-              </li>
-            </ul>
-          </div>
+            <div className="col-6 col-md-2 mb-3">
+              <h5>Resources</h5>
+              <ul className="nav flex-column">
+                <li className="nav-item mb-2">
+                  <a href="#" className="nav-link p-0 text-muted">
+                    Scholarships
+                  </a>
+                </li>
+                <li className="nav-item mb-2">
+                  <a href="#" className="nav-link p-0 text-muted">
+                    Music Education
+                  </a>
+                </li>
+                <li className="nav-item mb-2">
+                  <a href="#" className="nav-link p-0 text-muted">
+                    Publications
+                  </a>
+                </li>
+              </ul>
+            </div>
 
-          <div className="col-6 col-md-2 mb-3">
-            <h5>Connect</h5>
-            <ul className="nav flex-column">
-              <li className="nav-item mb-2">
-                <a href="#" className="nav-link p-0 text-muted">
-                  Contact Us
-                </a>
-              </li>
-              <li className="nav-item mb-2">
-                <a href="#" className="nav-link p-0 text-muted">
-                  Support
-                </a>
-              </li>
-              <li className="nav-item mb-2">
-                <a href="#" className="nav-link p-0 text-muted">
-                  Social Media
-                </a>
-              </li>
-            </ul>
-          </div>
+            <div className="col-6 col-md-2 mb-3">
+              <h5>Connect</h5>
+              <ul className="nav flex-column">
+                <li className="nav-item mb-2">
+                  <a href="#" className="nav-link p-0 text-muted">
+                    Contact Us
+                  </a>
+                </li>
+                <li className="nav-item mb-2">
+                  <a href="#" className="nav-link p-0 text-muted">
+                    Support
+                  </a>
+                </li>
+                <li className="nav-item mb-2">
+                  <a href="#" className="nav-link p-0 text-muted">
+                    Social Media
+                  </a>
+                </li>
+              </ul>
+            </div>
 
-          <div className="col-md-5 offset-md-1 mb-3">
-            <div>
-              <h5>Subscribe to our newsletter</h5>
-              <p>Monthly digest of what's new and exciting from us.</p>
-              <div className="d-flex flex-column flex-sm-row w-100 gap-2">
-                <label for="newsletter1" className="visually-hidden">
-                  Email address
-                </label>
-                <input
-                  id="newsletter1"
-                  type="email"
-                  className="form-control"
-                  placeholder="Email address"
-                />
-                <button className="btn btn-primary" type="button">
-                  Subscribe
-                </button>
+            <div className="col-md-4 ml-0 mb-0">
+              <div>
+                <h5>Subscribe to our newsletter</h5>
+                <p>Monthly digest of what's new and exciting from us.</p>
+                <div className="d-flex flex-column flex-sm-row w-100 gap-2">
+                  <label for="newsletter1" className="visually-hidden">
+                    Email address
+                  </label>
+                  <input
+                    id="newsletter1"
+                    type="email"
+                    className="form-control"
+                    placeholder="Email address"
+                  />
+                  <button className="btn btn-primary" type="button">
+                    Subscribe
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div className="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
-          <p>© 2024 TNE, Inc. All rights reserved.</p>
-          <ul className="list-unstyled d-flex">
-            {socials.map((media) => (
-              <li className="ms-3">
-                <a className="link-dark" href={media.link}>
-                  {media.icon}
-                </a>
-              </li>
-            ))}
-          </ul>
+          <div className="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
+            <p>© 2024 TNE, Inc. All rights reserved.</p>
+            <ul className="list-unstyled d-flex">
+              {socials.map((media) => (
+                <li className="ms-3">
+                  <a className="link-dark" href={media.link}>
+                    {media.icon}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </div>

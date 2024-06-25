@@ -3,7 +3,7 @@ State.init({ page: 1 });
 let mediumPosts = [];
 
 const data = fetch(
-  `https://nearweek.com/api/md/dao-news?populate=deep&sort=createdAt:desc&pagination[pageSize]=${
+  `https://nearweek.com/api/nw-newswire?populate=deep&sort=createdAt:desc&pagination[pageSize]=${
     state.page * 13
   }`,
   {

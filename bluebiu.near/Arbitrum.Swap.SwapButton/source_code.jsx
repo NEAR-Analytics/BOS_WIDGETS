@@ -74,6 +74,7 @@ const {
   onSwitchChain,
   switchingChain,
   account,
+  noPair,
 } = props;
 
 if (!account) {
@@ -126,7 +127,7 @@ if (props.loading) {
   );
 }
 
-if (Big(outputCurrencyAmount || 0).lt("0.00000000001")) {
+if (noPair) {
   return <SwapButton disabled>Insufficient Liquidity</SwapButton>;
 }
 if (Big(inputCurrencyAmount || 0).gt(maxInputBalance || 0)) {
@@ -188,7 +189,7 @@ const getAllowance = () => {
   });
 };
 
-if (!inputCurrency.isNative) {
+if (!inputCurrency.isNative || inputCurrency.chainId === 1088) {
   getAllowance();
 } else {
   State.update({ isApproved: true });

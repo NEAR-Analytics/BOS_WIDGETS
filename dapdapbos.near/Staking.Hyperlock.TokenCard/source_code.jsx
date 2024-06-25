@@ -111,6 +111,9 @@ const {
   active,
   feeAmount0,
   feeAmount1,
+  type,
+  balance,
+  price,
   onCardClick,
   onDeposit,
   onClaim,
@@ -123,6 +126,8 @@ const _token1 = Big(amount1 || 0).mul(price1 || 0);
 const total = _token0.add(_token1);
 
 const isInRange = Big(amount0 || 0).gt(0) && Big(amount1 || 0).gt(0);
+
+const _balance = Big(balance || 0).mul(price || 0);
 
 return (
   <StyledContainer
@@ -147,28 +152,30 @@ return (
       <Widget
         src="bluebiu.near/widget/Avalanche.Lending.Total"
         props={{
-          total,
+          total: fee ? total : _balance,
           digit: 4,
           unit: "$",
         }}
       />
     </StyledValue>
-    <StyledId>ID: {id}</StyledId>
+    <StyledId>ID: {fee ? id : `${id.slice(0, 6)}...${id.slice(-4)}`}</StyledId>
     {from !== "pool" && (
       <>
         <StyledFeeWrapper>
           <div className="fee-wrapper">
-            <div>{fee / 10000} %</div>
-            <div className="type-label">V3</div>
+            {fee && <div>{fee / 10000} %</div>}
+            <div className="type-label">{type || "V3"}</div>
           </div>
-          <StyledRange style={{ color: isInRange ? "#57e041" : "#EA580A" }}>
-            {isInRange ? "In" : "Out"} range
-          </StyledRange>
+          {fee && (
+            <StyledRange style={{ color: isInRange ? "#57e041" : "#EA580A" }}>
+              {isInRange ? "In" : "Out"} range
+            </StyledRange>
+          )}
         </StyledFeeWrapper>
         {from === "in-wallet" && (
           <button
             className="button primary"
-            style={{ marginTop: 36, width: 220, height: 42 }}
+            style={{ marginTop: 13, width: 220, height: 42 }}
             onClick={onDeposit}
             disabled={props.depositing}
           >
@@ -186,51 +193,57 @@ return (
         )}
         {from === "deposited" && (
           <>
-            <StyledId>Accrued Fees</StyledId>
-            <StyledAccuredFee>
-              <StyledAccureItem>
-                <StyledIcon src={token0.icon} />
-                <Widget
-                  src="bluebiu.near/widget/Avalanche.Lending.Total"
-                  props={{
-                    total: feeAmount0,
-                    digit: 2,
-                  }}
-                />
-              </StyledAccureItem>
-              <StyledAccureItem>
-                <StyledIcon src={token1.icon} />
-                <Widget
-                  src="bluebiu.near/widget/Avalanche.Lending.Total"
-                  props={{
-                    total: feeAmount1,
-                    digit: 2,
-                  }}
-                />
-              </StyledAccureItem>
-            </StyledAccuredFee>
-            <button
-              className="button ghost"
-              style={{ marginTop: 36, width: 220, height: 42 }}
-              disabled={
-                props.claiming ||
-                Big(feeAmount0 || 0)
-                  .add(feeAmount1)
-                  .eq(0)
-              }
-              onClick={onClaim}
-            >
-              {props.claiming ? (
-                <Widget
-                  src="bluebiu.near/widget/0vix.LendingLoadingIcon"
-                  props={{
-                    size: 16,
-                  }}
-                />
-              ) : (
-                "Claim"
-              )}
-            </button>
+            {type !== "V2" && (
+              <>
+                <StyledId>Accrued Fees</StyledId>
+                <StyledAccuredFee>
+                  <StyledAccureItem>
+                    <StyledIcon src={token0.icon} />
+                    <Widget
+                      src="bluebiu.near/widget/Avalanche.Lending.Total"
+                      props={{
+                        total: feeAmount0,
+                        digit: 2,
+                      }}
+                    />
+                  </StyledAccureItem>
+                  <StyledAccureItem>
+                    <StyledIcon src={token1.icon} />
+                    <Widget
+                      src="bluebiu.near/widget/Avalanche.Lending.Total"
+                      props={{
+                        total: feeAmount1,
+                        digit: 2,
+                      }}
+                    />
+                  </StyledAccureItem>
+                </StyledAccuredFee>
+              </>
+            )}
+            {fee && (
+              <button
+                className="button ghost"
+                style={{ marginTop: 14, width: 220, height: 42 }}
+                disabled={
+                  props.claiming ||
+                  Big(feeAmount0 || 0)
+                    .add(feeAmount1)
+                    .eq(0)
+                }
+                onClick={onClaim}
+              >
+                {props.claiming ? (
+                  <Widget
+                    src="bluebiu.near/widget/0vix.LendingLoadingIcon"
+                    props={{
+                      size: 16,
+                    }}
+                  />
+                ) : (
+                  "Claim"
+                )}
+              </button>
+            )}
             <button
               className="button primary"
               style={{ marginTop: 10, width: 220, height: 42 }}

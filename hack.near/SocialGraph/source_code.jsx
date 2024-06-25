@@ -1,17 +1,48 @@
-const accountIds = props.accountIds || [
-  "every.near",
-  `${context.accountId ?? "hack.near"}`,
-];
+const accountId = props.accountId ?? context.accountId ?? "buildcommons.near";
 
-const things =
-  props.things ??
-  accountIds.map((accountId) => {
-    return `${accountId}/graph/${props.thingId ?? "follow"}`;
-  });
+const GraphContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: ${(props) => props.height || "325px"};
+`;
+const ProfileContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 19px;
+  width: 100%;
+`;
 
-const data = Social.getr(things, "final");
+const [accountIds, setAccountIds] = useState(
+  props.accountIds || [
+    accountId,
+    "every.near",
+    "hack.near",
+    "buildcommons.near",
+  ]
+);
+
+const graphId = props.graphId ?? "commons";
+
+const generatePaths = () => {
+  return (
+    props.paths ??
+    accountIds.map((accountId) => {
+      return `${accountId}/graph/${graphId}`;
+    })
+  );
+};
+
+const paths = generatePaths();
+
+const data = Social.getr(paths, "final");
+
 const [nodesState, setNodesState] = useState(null);
-const [selectedAccountId, setSelectedAccountId] = useState(context.accountId);
+const [focus, setFocus] = useState(null);
+
 const debug = false;
 
 useEffect(() => {
@@ -19,8 +50,10 @@ useEffect(() => {
 }, [data]);
 
 if (!nodesState) {
-  return "Loading...";
+  return <GraphContainer></GraphContainer>;
 }
+
+const [selectedAccountId, setSelectedAccountId] = useState(accountId);
 
 const [message, setMessage] = useState(null);
 
@@ -28,36 +61,95 @@ useEffect(() => {
   if (!nodesState) {
     return;
   }
+
   const nodes = {};
-  const links = [];
-  Object.entries(nodesState).forEach(([accountId, graphData]) => {
+  const edges = [];
+
+  const createNodesAndEdges = (accountId, graphData) => {
     if (!(accountId in nodes)) {
       nodes[accountId] = {
         id: accountId,
-        size: 10,
+        size: 139,
       };
     }
-    Object.values(graphData.graph).forEach((edges) => {
-      Object.keys(edges).forEach((memberId) => {
+    Object.values(graphData).forEach((links) => {
+      console.log(graphData);
+      Object.keys(links).forEach((memberId) => {
         if (!(memberId in nodes)) {
           nodes[memberId] = {
             id: memberId,
-            size: 10,
+            size: 139,
           };
         }
-        links.push({
+        edges.push({
           source: accountId,
           target: memberId,
           value: 1,
         });
       });
     });
-  });
+  };
+
+  if (accountIds.length === 1) {
+    const accountId = accountIds[0];
+    createNodesAndEdges(accountId, { [graphId]: nodesState });
+  } else if (accountIds.length > 1) {
+    Object.entries(nodesState).forEach(([accountId, graphData]) => {
+      createNodesAndEdges(accountId, graphData.graph);
+    });
+  }
+  console.log("nodes", nodes);
+  console.log("edges", edges);
+
   setMessage({
     nodes: Object.values(nodes),
-    links,
+    edges,
   });
-}, [nodesState]);
+}, [nodesState, accountIds]);
+
+useEffect(() => {
+  if (selectedAccountId) {
+    if (accountIds.includes(selectedAccountId)) {
+      setAccountIds(accountIds.filter((it) => it !== selectedAccountId));
+    } else {
+      setAccountIds([...accountIds, selectedAccountId]);
+    }
+  }
+}, [selectedAccountId]);
+
+const commons = Social.getr(`${accountId}/graph/commons`);
+
+const graphEdge = Social.keys(
+  `${context.accountId}/graph/${graphId}/${accountId}`,
+  undefined,
+  {
+    values_only: true,
+  }
+);
+
+const inverseEdge = Social.keys(
+  `${accountId}/graph/${graphId}/${context.accountId}`,
+  undefined,
+  {
+    values_only: true,
+  }
+);
+
+const loading = graphEdge === null || inverseEdge === null;
+const attested = graphEdge && Object.keys(graphEdge).length;
+const inverse = inverseEdge && Object.keys(inverseEdge).length;
+
+const type = attested ? "undo" : graphId;
+
+const attestation = props.attestation ?? {
+  graph: { [graphId]: { [accountId]: attested ? null : "" } },
+};
+
+const attest = () => {
+  Social.set(data);
+};
+
+let height = props.height || 325;
 
 const code = `
 <!DOCTYPE html>
@@ -66,31 +158,43 @@ const code = `
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v6.js"></script>
 
-<svg id="graph"></svg>
+<div class="container">
+  <svg id="graph" width="100%" height="auto" viewBox="0 0 650 325" preserveAspectRatio="xMidYMid meet" style="display: block; margin: auto;">
+</div>
+
+<style>
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 100%;
+    }
+</style>
 
 <script>
 
 const run = (data) => {
-  const width = 1080;
-  const height = 768;
+  const width = 650;
+  const height = \`${height}\`;
   let dragIsOn = false;
 
   // The force simulation mutates links and nodes, so create a copy
   // so that re-evaluating this cell produces the same result.
-  const links = data.links.map(d => ({...d}));
+  const links = data.edges.map(d => ({...d}));
   const nodes = data.nodes.map(d => ({...d}));
 
   // Create a simulation with several forces.
   const simulation = d3.forceSimulation(nodes)
       .force("link", d3.forceLink(links).id(d => d.id))
-      .force("charge", d3.forceManyBody())
-      .force("collide", d3.forceCollide())
+      .force("charge", d3.forceManyBody().strength(-500))
+      .force("collide", d3.forceCollide().radius(d => Math.sqrt(d.size) ))
       .force("center", d3.forceCenter(width / 2, height / 2))
       .on("tick", ticked);
 
   simulation.force("collide")
         .strength(.7)
-        .radius(d => Math.sqrt(d.size) + 5)
+        .radius(d => Math.sqrt(d.size))
         .iterations(1);
 
   // Create the SVG container.
@@ -109,12 +213,12 @@ const run = (data) => {
     .join("line")
       .attr("stroke-width", 1);
 
-  const node = svg.append("g")
-      .attr("stroke", "#fff")
-      .attr("stroke-width", 1.5)
-    .selectAll()
-    .data(nodes)
-    .join("g");
+
+const node = svg.append("g")
+  .selectAll("g")
+  .data(nodes)
+  .enter()
+  .append("g");
 
   node
     .append("image")
@@ -144,7 +248,7 @@ const run = (data) => {
 
   function handleMouseClick(e) {
     const d = e.target.__data__;
-    window.top.postMessage(d.id, "*");
+    window.top.postMessage({ handler: "click", data:  d.id }, "*");
   }
 
   function handleMouseOver(d) {
@@ -156,6 +260,8 @@ const run = (data) => {
     node.attr("opacity", function (n) {
         return n === d || isConnected(d, n) ? 1: 0.3;
     });
+
+    window.top.postMessage({ handler: "mouseover", data:  d.id }, "*");
 }
 
 function handleMouseOut() {
@@ -166,6 +272,8 @@ function handleMouseOut() {
     link
       .attr("stroke-opacity", 0.6);
     node.attr("opacity", 1);
+
+    window.top.postMessage({ handler: "mouseout", data:  "out" }, "*");
 }
 
 function isConnected(a, b) {
@@ -237,21 +345,48 @@ window.addEventListener("message", (event) => {
 const [onMessage] = useState(() => {
   return (data) => {
     if (data) {
-      setSelectedAccountId(data);
+      switch (data.handler) {
+        case "click":
+          setSelectedAccountId(data.data);
+          break;
+      }
     }
   };
 });
 
 return (
-  <div>
-    <div>
+  <>
+    <GraphContainer height={height}>
       <iframe
         className="w-100 h-100"
-        style={{ minHeight: "888px" }}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "325px",
+          maxWidth: "888px",
+          width: "100%",
+        }}
         srcDoc={code}
         message={message}
         onMessage={onMessage}
       />
-    </div>
-  </div>
+    </GraphContainer>
+    <ProfileContainer>
+      {commons ? (
+        <Widget
+          src="hack.near/widget/profile.create"
+          props={{ accountId: selectedAccountId ?? accountId }}
+        />
+      ) : (
+        <h5 style={{ fontFamily: "Courier" }} className="m-1">
+          JOIN
+        </h5>
+      )}
+      <Widget
+        src="hack.near/widget/attest"
+        props={{ accountId: selectedAccountId ?? accountId }}
+      />
+    </ProfileContainer>
+  </>
 );

@@ -1,15 +1,24 @@
-const { id, community } = props;
+const { id, community, communityAddonId } = props;
 
 const { Page } =
   VM.require("thomasguntenaar.near/widget/devhub.entity.addon.blogv2.Page") ||
   (() => <></>);
 
+const { getAccountCommunityPermissions } = VM.require(
+  "thomasguntenaar.near/widget/core.adapter.devhub-contract"
+) || {
+  getAccountCommunityPermissions: () => {},
+};
+
 const [showEditScreenData, setShowEditScreen] = useState(null);
 
-// TODO Dont grab the post
-// TODO use a socialdb widget
-
-console.log("page blogv2", { id, community, showEditScreenData });
+const permissions = getAccountCommunityPermissions({
+  account_id: context.accountId,
+  community_handle: community,
+}) || {
+  can_configure: false,
+  can_delete: false,
+};
 
 if (id && !showEditScreenData) {
   return (
@@ -17,8 +26,7 @@ if (id && !showEditScreenData) {
       src="thomasguntenaar.near/widget/devhub.entity.addon.blogv2.Blog"
       props={{
         blogId: id,
-        // TODO
-        handle: "thomasguntenaar.near", //community,
+        handle: community,
         template: (p) => (
           <Page
             {...(p || {})}
@@ -26,6 +34,7 @@ if (id && !showEditScreenData) {
               setShowEditScreen({ ...p, data: { ...p.data, id: id } });
             }}
             accountId={context.accountId}
+            community={community}
           />
         ),
       }}
@@ -69,31 +78,50 @@ const EditorContainer = styled.div`
   position: relative;
   width: 100%;
   padding: 20px;
+  padding-top: 40px;
   .cancel-icon {
     position: absolute;
-    top: 30px;
-    right: 30px;
-    font-size: 25px;
+    top: 0px;
+    left: 30px;
+    font-size: 18px;
     cursor: pointer;
+    display: flex;
+  }
+
+  .back-button {
+    font-size: 18px;
+    line-height: 25px;
+    margin-left: 10px;
+    justify-content: center;
+    align-items: center;
   }
 `;
-
-// I like that this reduces duplicate code with the Viewer, but I don't like
-// that "Latest Blog Posts" carries over... // TOOD: create a common blog
-// feed... I think the addon.blog.Feed naming is confusing, as this should be a
-// generic feed component.
 
 if (showEditScreenData) {
   return (
     <EditorContainer>
       <div className="cancel-icon" onClick={() => setShowEditScreen(null)}>
-        <i class="bi bi-x-circle"></i>
+        <i class="bi bi-arrow-left"></i> <p className="back-button">Back</p>
       </div>
       <Widget
-        src={`thomasguntenaar.near/widget/devhub.entity.addon.blogv2.Configurator`}
+        src="thomasguntenaar.near/widget/devhub.entity.addon.blogv2.Blog"
         props={{
-          ...showEditScreenData,
+          blogId: id,
           handle: community,
+          template: (p) => {
+            return (
+              <Widget
+                src={`thomasguntenaar.near/widget/devhub.entity.addon.blogv2.Configurator`}
+                props={{
+                  ...showEditScreenData,
+                  handle: community,
+                  communityAddonId: p.data.communityAddonId,
+                  selectedBlog: { ...p.data, id },
+                  permissions,
+                }}
+              />
+            );
+          },
         }}
       />
     </EditorContainer>
@@ -106,7 +134,6 @@ return (
       <Header>Blog</Header>
     </HeaderContainer>
     <BlogContainer>
-      {/* TODO: developer-dao?? */}
       <Widget
         src={"thomasguntenaar.near/widget/devhub.entity.addon.blogv2.Viewer"}
         props={{

@@ -307,6 +307,9 @@ const StyledIconRight = styled.div`
   align-items: center;
   justify-content: center;
 `
+
+
+
 State.init({
   categoryList: ["Deposit", "Withdraw", "Borrow", "Repay"],
   categoryIndex: 0,
@@ -345,6 +348,8 @@ const {
 const {
   toast,
   sender,
+  prices,
+  symbolIndex,
   addAction,
   multicall,
   multicallAddress,
@@ -354,16 +359,236 @@ const {
   ICON_MAP,
   PROXY_ADDRESS,
   SYMBOL_ADDRESS,
+  SYMBOL_NAME_MAPPING,
   LENDING_POOL_ADDRESS,
   smartContractAddress,
   onCreateSubAccount,
   onOpenWrap
 } = props
 
+const FIRST_SYMBOL_ADDRESS = typeof SYMBOL_ADDRESS === 'string' ? SYMBOL_ADDRESS : SYMBOL_ADDRESS[0]
+const SECOND_SYMBOL_ADDRESS = typeof SYMBOL_ADDRESS === 'string' ? SYMBOL_ADDRESS : SYMBOL_ADDRESS[1]
+const FIRST_SYMBOL_NAME = SYMBOL_NAME_MAPPING[symbolIndex][0]
+const SECOND_SYMBOL_NAME = SYMBOL_NAME_MAPPING[symbolIndex][1]
+
+const SYMBOL_ADDRESS_ABI = [{
+  "inputs": [
+    {
+      "internalType": "address",
+      "name": "account",
+      "type": "address"
+    }
+  ],
+  "name": "balanceOf",
+  "outputs": [
+    {
+      "internalType": "uint256",
+      "name": "value",
+      "type": "uint256"
+    }
+  ],
+  "stateMutability": "view",
+  "type": "function"
+}]
+const GET_ACCOUNT_HEALTH_ABI = symbolIndex === 1 ? {
+  "inputs": [
+    {
+      "internalType": "address",
+      "name": "account",
+      "type": "address"
+    }
+  ],
+  "name": "getAccountHealth",
+  "outputs": [
+    {
+      "components": [
+        {
+          "internalType": "uint256",
+          "name": "debtAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "collateralValue",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "investmentValue",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "isLiquidatable",
+          "type": "bool"
+        },
+        {
+          "internalType": "bool",
+          "name": "hasBadDebt",
+          "type": "bool"
+        }
+      ],
+      "internalType": "struct AccountLib.Health",
+      "name": "health",
+      "type": "tuple"
+    }
+  ],
+  "stateMutability": "view",
+  "type": "function"
+} : {
+  "inputs": [
+    {
+      "internalType": "address",
+      "name": "account",
+      "type": "address"
+    }
+  ],
+  "name": "getAccountHealth",
+  "outputs": [
+    {
+      "components": [
+        {
+          "internalType": "uint256",
+          "name": "debtAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "collateralValue",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "investmentValue",
+          "type": "uint256"
+        },
+        {
+          "internalType": "UD60x18",
+          "name": "healthFactor",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "isLiquidatable",
+          "type": "bool"
+        },
+        {
+          "internalType": "bool",
+          "name": "isRisky",
+          "type": "bool"
+        },
+        {
+          "internalType": "bool",
+          "name": "hasBadDebt",
+          "type": "bool"
+        }
+      ],
+      "internalType": "struct AccountLib.Health",
+      "name": "health",
+      "type": "tuple"
+    }
+  ],
+  "stateMutability": "view",
+  "type": "function"
+}
+const PROXY_ADDRESS_ABI = [
+  GET_ACCOUNT_HEALTH_ABI, {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "getTotalCollateralValue",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "totalValue",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }, {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "getDebtAmount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }, {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "balanceOfAssets",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "assets",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }, {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "getTotalAccountValue",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "totalValue",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }, {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      }
+    ],
+    "name": "balanceOf",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "result",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]
+
 const isDepositInSufficient = Number(state?.inDepositAmount ?? 0) > Number(state?.balances.deposit ?? 0)
 const isWithdrawInSufficient = Number(state?.inWithdrawAmount ?? 0) > Number(state?.balances.withdraw ?? 0)
 const isBorrowInSufficient = Number(state?.inBorrowAmount ?? 0) > Number(state?.balances.borrow ?? 0)
-const isRepayInSufficient = Number(state?.inRepayAmount ?? 0) > Number(state?.balances.repay ?? 0)
+const isRepayInSufficient = Number(state?.inRepayAmount ?? 0) > Number(state?.balances.secondRepay ?? 0)
 function isNotEmptyArray(value) {
   return value && value[0]
 }
@@ -400,7 +625,7 @@ function handleCheckApprove(amount) {
   }];
   if (categoryIndex === 0) {
     const contract = new ethers.Contract(
-      SYMBOL_ADDRESS,
+      FIRST_SYMBOL_ADDRESS,
       abi,
       Ethers.provider()
     );
@@ -413,18 +638,6 @@ function handleCheckApprove(amount) {
       })
   }
   if (categoryIndex === 3) {
-    // const contract = new ethers.Contract(
-    //   SYMBOL_ADDRESS,
-    //   abi,
-    //   Ethers.provider()
-    // );
-    // contract
-    //   .allowance(sender, smartContractAddress)
-    //   .then((allowance) => {
-    //     State.update({
-    //       repayApproved: !new Big(allowance.toString()).lt(_amount)
-    //     })
-    //   })
     State.update({
       repayApproved: Big(state.accountOverview?.firstBalance ?? 0).gt(amount)
     })
@@ -509,12 +722,10 @@ function handleInAmountChange(amount) {
             sender,
           )
           .then((result) => {
-            console.log('===result', result)
             State.update({
               withRevert: false
             })
           }).catch((error) => {
-            console.log('===error', error)
             State.update({
               withRevert: true
             })
@@ -524,7 +735,7 @@ function handleInAmountChange(amount) {
 }
 function doApprove(amount, APPROVE_ADDRESS, onSuccess, onError) {
   const toastId = toast?.loading({
-    title: `Approve ${amount} WETH`,
+    title: `Approve ${amount} ${symbol}`,
   });
   const abi = [{
     "inputs": [
@@ -551,7 +762,7 @@ function doApprove(amount, APPROVE_ADDRESS, onSuccess, onError) {
     "type": "function"
   }]
   const contract = new ethers.Contract(
-    ethers.utils.getAddress(SYMBOL_ADDRESS),
+    ethers.utils.getAddress(FIRST_SYMBOL_ADDRESS),
     abi,
     Ethers.provider().getSigner()
   );
@@ -569,7 +780,7 @@ function doApprove(amount, APPROVE_ADDRESS, onSuccess, onError) {
       toast?.dismiss(toastId);
       toast?.success({
         title: "Approve Successfully!",
-        text: `Approved ${amount} WETH`,
+        text: `Approved ${amount} ${symbol}`,
         tx: transactionHash,
         chainId,
       });
@@ -580,7 +791,7 @@ function doApprove(amount, APPROVE_ADDRESS, onSuccess, onError) {
         title: "Approve Failed!",
         text: error?.message?.includes("user rejected transaction")
           ? "User rejected transaction"
-          : `Approved ${amount} WETH`,
+          : `Approved ${amount} ${symbol}`,
       });
     });
 }
@@ -635,7 +846,7 @@ function handleDeposit() {
     depositLoading: true
   })
   const toastId = toast?.loading({
-    title: `Deposit ${state.inDepositAmount} WETH`,
+    title: `Deposit ${state.inDepositAmount} ${FIRST_SYMBOL_NAME}`,
   });
   const abi = [{
     "inputs": [
@@ -690,7 +901,7 @@ function handleDeposit() {
       })
       toast?.success({
         title: "Deposit Successfully!",
-        text: `Deposit ${state.inDepositAmount} WETH`,
+        text: `Deposit ${state.inDepositAmount} ${FIRST_SYMBOL_NAME}`,
         tx: transactionHash,
         chainId,
       });
@@ -698,7 +909,7 @@ function handleDeposit() {
         addAction?.({
           type: "Yield",
           action: "Deposit",
-          token0: "WETH",
+          token0: FIRST_SYMBOL_NAME,
           amount: state?.inDepositAmount,
           template: "Juice",
           add: true,
@@ -708,6 +919,7 @@ function handleDeposit() {
         handleRefresh()
       }
     }).catch(error => {
+      console.log('error:', error)
       State.update({
         depositLoading: false
       })
@@ -715,7 +927,7 @@ function handleDeposit() {
         title: "Deposit Failed!",
         text: error?.message?.includes("user rejected transaction")
           ? "User rejected transaction"
-          : `Deposited ${state.inDepositAmount} WETH`,
+          : `Deposited ${state.inDepositAmount} ${FIRST_SYMBOL_NAME}`,
       });
     });
 }
@@ -761,7 +973,7 @@ function handleWithdraw() {
     withdrawLoading: true
   })
   const toastId = toast?.loading({
-    title: `Withdraw ${state.inWithdrawAmount} WETH`,
+    title: `Withdraw ${state.inWithdrawAmount} ${FIRST_SYMBOL_NAME}`,
   });
   const abi = [{
     "inputs": [
@@ -818,7 +1030,7 @@ function handleWithdraw() {
         })
         toast?.success({
           title: "Withdraw Successfully!",
-          text: `Withdraw ${state.inWithdrawAmount} WETH`,
+          text: `Withdraw ${state.inWithdrawAmount} ${FIRST_SYMBOL_NAME}`,
           tx: transactionHash,
           chainId,
         });
@@ -826,7 +1038,7 @@ function handleWithdraw() {
           addAction?.({
             type: "Yield",
             action: "Withdraw",
-            token0: "WETH",
+            token0: FIRST_SYMBOL_NAME,
             amount: state?.inWithdrawAmount,
             template: "Juice",
             add: false,
@@ -836,7 +1048,7 @@ function handleWithdraw() {
           handleRefresh()
         }
       }).catch(error => {
-        console.log('=error', error)
+        console.log('error:', error)
         State.update({
           withdrawLoading: false
         })
@@ -844,7 +1056,7 @@ function handleWithdraw() {
           title: "Withdraw Failed!",
           text: error?.message?.includes("user rejected transaction")
             ? "User rejected transaction"
-            : `Withdraw ${state.inWithdrawAmount} WETH`,
+            : `Withdraw ${state.inWithdrawAmount} ${FIRST_SYMBOL_NAME}`,
         });
       });
   })
@@ -854,7 +1066,7 @@ function handleBorrow() {
     borrowLoading: true
   })
   const toastId = toast?.loading({
-    title: `Borrow ${state.inBorrowAmount} WETH`,
+    title: `Borrow ${state.inBorrowAmount} ${SECOND_SYMBOL_NAME}`,
   });
   const abi = [{
     "inputs": [
@@ -899,7 +1111,7 @@ function handleBorrow() {
       })
       toast?.success({
         title: "Borrow Successfully!",
-        text: `Borrow ${state.inBorrowAmount} WETH`,
+        text: `Borrow ${state.inBorrowAmount} ${SECOND_SYMBOL_NAME}`,
         tx: transactionHash,
         chainId,
       });
@@ -907,7 +1119,7 @@ function handleBorrow() {
         addAction?.({
           type: "Yield",
           action: "Borrow",
-          token0: "WETH",
+          token0: SECOND_SYMBOL_NAME,
           amount: state?.inBorrowAmount,
           template: "Juice",
           add: true,
@@ -917,7 +1129,7 @@ function handleBorrow() {
         handleRefresh()
       }
     }).catch(error => {
-      console.log('=error', error)
+      console.log('error:', error)
       State.update({
         borrowLoading: false
       })
@@ -925,7 +1137,7 @@ function handleBorrow() {
         title: "Borrow Failed!",
         text: error?.message?.includes("user rejected transaction")
           ? "User rejected transaction"
-          : `Borrowed ${state.inBorrowAmount} WETH`,
+          : `Borrowed ${state.inBorrowAmount} ${SECOND_SYMBOL_NAME}`,
       });
     });
 }
@@ -934,7 +1146,7 @@ function handleRepay() {
     repayLoading: true
   })
   const toastId = toast?.loading({
-    title: `Repay ${state.inRepayAmount} WETH`,
+    title: `Repay ${state.inRepayAmount} ${SECOND_SYMBOL_NAME}`,
   });
   const abi = [{
     "inputs": [
@@ -970,8 +1182,7 @@ function handleRepay() {
   const _amount = Big(state?.inRepayAmount)
     .mul(Big(10).pow(18))
     .toFixed(0);
-  const contractMethod = Big(state.balances.repay).gt(state?.accountOverview?.firstBalance ?? 0) ? "repayFrom" : "repay"
-  console.log('=state.balances.repay', state.balances.repay, '=state?.accountOverview?.firstBalance', state?.accountOverview?.firstBalance)
+  const contractMethod = Big(state.balances.secondRepay).gt(state?.accountOverview?.firstBalance ?? 0) ? "repayFrom" : "repay"
   contract[contractMethod](
     _amount,
     {
@@ -989,7 +1200,7 @@ function handleRepay() {
       })
       toast?.success({
         title: "Repay Successfully!",
-        text: `Repay ${state.inRepayAmount} WETH`,
+        text: `Repay ${state.inRepayAmount} ${SECOND_SYMBOL_NAME}`,
         tx: transactionHash,
         chainId,
       });
@@ -997,7 +1208,7 @@ function handleRepay() {
         addAction?.({
           type: "Yield",
           action: "Repay",
-          token0: "WETH",
+          token0: SECOND_SYMBOL_NAME,
           amount: state?.inRepayAmount,
           template: "Juice",
           add: false,
@@ -1007,7 +1218,7 @@ function handleRepay() {
         handleRefresh()
       }
     }).catch(error => {
-      console.log('=error', error)
+      console.log('error:', error)
       State.update({
         repayLoading: false
       })
@@ -1015,136 +1226,26 @@ function handleRepay() {
         title: "Repay Failed!",
         text: error?.message?.includes("user rejected transaction")
           ? "User rejected transaction"
-          : `Repayed ${state.inRepayAmount} WETH`,
+          : `Repayed ${state.inRepayAmount} ${SECOND_SYMBOL_NAME}`,
       });
     });
 }
-// function handleGetCurrentBalance(balances) {
-//   const key = ["deposit", "withdraw", "borrow", "repay"][categoryIndex]
-//   return balances[key]
-// }
-// function handleGetDeposit
 function handleGetBalances(callback) {
   const calls = []
-  const abi = [{
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "account",
-        "type": "address"
-      }
-    ],
-    "name": "balanceOf",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "value",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  }, {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "account",
-        "type": "address"
-      }
-    ],
-    "name": "getAccountHealth",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "debtAmount",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "collateralValue",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "investmentValue",
-            "type": "uint256"
-          },
-          {
-            "internalType": "UD60x18",
-            "name": "healthFactor",
-            "type": "uint256"
-          },
-          {
-            "internalType": "bool",
-            "name": "isLiquidatable",
-            "type": "bool"
-          },
-          {
-            "internalType": "bool",
-            "name": "isRisky",
-            "type": "bool"
-          },
-          {
-            "internalType": "bool",
-            "name": "hasBadDebt",
-            "type": "bool"
-          }
-        ],
-        "internalType": "struct AccountLib.Health",
-        "name": "health",
-        "type": "tuple"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  }, {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "account",
-        "type": "address"
-      }
-    ],
-    "name": "getTotalCollateralValue",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "totalValue",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  }, {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "account",
-        "type": "address"
-      }
-    ],
-    "name": "getDebtAmount",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  }]
+  // console.log('==PROXY_ADDRESS_ABI', PROXY_ADDRESS_ABI)
+  // console.log('==PROXY_ADDRESS', PROXY_ADDRESS)
+  // console.log('==smartContractAddress', smartContractAddress)
+  const abi = [...SYMBOL_ADDRESS_ABI, ...PROXY_ADDRESS_ABI]
+  console.log('=FIRST_SYMBOL_ADDRESS', FIRST_SYMBOL_ADDRESS)
   calls.push({
-    address: SYMBOL_ADDRESS,
+    address: FIRST_SYMBOL_ADDRESS,
     name: "balanceOf",
     params: [sender]
   })
   calls.push({
     address: PROXY_ADDRESS,
-    name: "getAccountHealth",
-    params: [smartContractAddress]
+    name: "balanceOfAssets",
+    params: [sender]
   })
   calls.push({
     address: PROXY_ADDRESS,
@@ -1156,6 +1257,13 @@ function handleGetBalances(callback) {
     name: "getDebtAmount",
     params: [smartContractAddress]
   })
+
+  calls.push({
+    address: SECOND_SYMBOL_ADDRESS,
+    name: "balanceOf",
+    params: [sender]
+  })
+
   multicall({
     abi,
     calls,
@@ -1165,161 +1273,32 @@ function handleGetBalances(callback) {
   }).then(result => {
     const [
       balanceOfResult,
-      getAccountHealthResult,
+      balanceOfAssetsResult,
       getTotalCollateralValueResult,
-      getDebtAmountResult
+      getDebtAmountResult,
+      secondBalanceOfResult
     ] = result
     const deposit = Big(isNotEmptyArray(balanceOfResult) ? ethers.utils.formatUnits(balanceOfResult[0]) : 0).toFixed()
-    const withdraw = Big(isNotEmptyArray(getAccountHealthResult) && getAccountHealthResult[0][1] ? ethers.utils.formatUnits(getAccountHealthResult[0][1]) : 0).toFixed()
+    const withdraw = Big(isNotEmptyArray(balanceOfAssetsResult) ? ethers.utils.formatUnits(balanceOfAssetsResult[0]) : 0).toFixed()
     const borrow = Big(isNotEmptyArray(getTotalCollateralValueResult) ? ethers.utils.formatUnits(getTotalCollateralValueResult[0]) : 0).times(2.97).minus(isNotEmptyArray(getDebtAmountResult) ? ethers.utils.formatUnits(getDebtAmountResult[0]) : 0).toFixed()
-    // const firstRepay = Big(isNotEmptyArray(balanceOfResult) ? ethers.utils.formatUnits(balanceOfResult[0]) : 0).toFixed()
-    const firstRepay = deposit
+    const firstRepay = Big(isNotEmptyArray(secondBalanceOfResult) ? ethers.utils.formatUnits(secondBalanceOfResult[0]) : 0).toFixed()
     const secondRepay = Big(isNotEmptyArray(getDebtAmountResult) ? ethers.utils.formatUnits(getDebtAmountResult[0]) : 0).toFixed()
-    const repay = secondRepay
     const balances = {
       deposit,
       withdraw,
       borrow: Big(borrow).gt(0) ? borrow : 0,
-      repay,
       firstRepay,
       secondRepay
     }
     State.update({
       balances
     })
-    callback && callback([deposit, withdraw, borrow, repay][categoryIndex])
-  })
+    callback && callback([deposit, withdraw, borrow, secondRepay][categoryIndex])
+  }).catch(error => console.log(error))
 }
 function handleGetAccountOverview() {
   const calls = []
-  const abi = [{
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "account",
-        "type": "address"
-      }
-    ],
-    "name": "balanceOfAssets",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "assets",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  }, {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "account",
-        "type": "address"
-      }
-    ],
-    "name": "getDebtAmount",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  }, {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "account",
-        "type": "address"
-      }
-    ],
-    "name": "getTotalCollateralValue",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "totalValue",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  }, {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "account",
-        "type": "address"
-      }
-    ],
-    "name": "getAccountHealth",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "debtAmount",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "collateralValue",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "investmentValue",
-            "type": "uint256"
-          },
-          {
-            "internalType": "UD60x18",
-            "name": "healthFactor",
-            "type": "uint256"
-          },
-          {
-            "internalType": "bool",
-            "name": "isLiquidatable",
-            "type": "bool"
-          },
-          {
-            "internalType": "bool",
-            "name": "isRisky",
-            "type": "bool"
-          },
-          {
-            "internalType": "bool",
-            "name": "hasBadDebt",
-            "type": "bool"
-          }
-        ],
-        "internalType": "struct AccountLib.Health",
-        "name": "health",
-        "type": "tuple"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  }, {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "owner",
-        "type": "address"
-      }
-    ],
-    "name": "balanceOf",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "result",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  }]
+  const abi = [...SYMBOL_ADDRESS_ABI, ...PROXY_ADDRESS_ABI]
   calls.push({
     address: PROXY_ADDRESS,
     name: "balanceOfAssets",
@@ -1341,12 +1320,12 @@ function handleGetAccountOverview() {
     params: [smartContractAddress]
   })
   calls.push({
-    address: SYMBOL_ADDRESS,
+    address: SECOND_SYMBOL_ADDRESS,
     name: "balanceOf",
     params: [smartContractAddress]
   })
   calls.push({
-    address: SYMBOL_ADDRESS,
+    address: SECOND_SYMBOL_ADDRESS,
     name: "balanceOf",
     params: [LENDING_POOL_ADDRESS]
   })
@@ -1423,46 +1402,7 @@ function doQueryPnl(x, y) {
 }
 function handleQueryPnl() {
   const calls = []
-  const abi = [
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "account",
-          "type": "address"
-        }
-      ],
-      "name": "getTotalAccountValue",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "totalValue",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "account",
-          "type": "address"
-        }
-      ],
-      "name": "getDebtAmount",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    }
-  ]
+  const abi = [...PROXY_ADDRESS_ABI]
   calls.push({
     address: PROXY_ADDRESS,
     name: "getTotalAccountValue",
@@ -1510,7 +1450,7 @@ function handleClaim() {
     abi,
     Ethers.provider().getSigner()
   );
-  const temAmount = Big(state.balances.repay).eq(0) ? state?.accountOverview?.firstBalance : state?.pnl
+  const temAmount = Big(state.balances.secondRepay).eq(0) ? state?.accountOverview?.firstBalance : state?.pnl
   const _amount = Big(temAmount)
     .mul(Big(10).pow(18))
     .toFixed(0);
@@ -1530,10 +1470,12 @@ function handleClaim() {
         tx: transactionHash,
         chainId,
       });
-      handleRefresh()
+
+      setTimeout(() => {
+        handleRefresh()
+      }, 3000)
     })
     .catch(error => {
-      console.log('=error', error)
       State.update({
         claimLoading: false
       })
@@ -1616,9 +1558,9 @@ return (
                         <StyledDepositInputBottomInput type="number" placeholder="0.0" value={state.inDepositAmount} onChange={(event) => handleInAmountChange(event.target.value)} />
                         <StyledDepositInputBottomSymbol>
                           <StyledDepositInputBottomSymbolImageContainer>
-                            <StyledDepositInputBottomSymbolImage src={ICON_MAP["WETH"]} />
+                            <StyledDepositInputBottomSymbolImage src={ICON_MAP[FIRST_SYMBOL_NAME]} />
                           </StyledDepositInputBottomSymbolImageContainer>
-                          <StyledDepositInputBottomSymbolTxt>WETH</StyledDepositInputBottomSymbolTxt>
+                          <StyledDepositInputBottomSymbolTxt>{FIRST_SYMBOL_NAME}</StyledDepositInputBottomSymbolTxt>
                         </StyledDepositInputBottomSymbol>
                       </StyledDepositInputBottom>
                     </StyledDepositInput>
@@ -1664,9 +1606,9 @@ return (
                         <StyledDepositInputBottomInput type="number" placeholder="0.0" value={state.inWithdrawAmount} onChange={(event) => handleInAmountChange(event.target.value)} />
                         <StyledDepositInputBottomSymbol>
                           <StyledDepositInputBottomSymbolImageContainer>
-                            <StyledDepositInputBottomSymbolImage src={ICON_MAP["WETH"]} />
+                            <StyledDepositInputBottomSymbolImage src={ICON_MAP[FIRST_SYMBOL_NAME]} />
                           </StyledDepositInputBottomSymbolImageContainer>
-                          <StyledDepositInputBottomSymbolTxt>WETH</StyledDepositInputBottomSymbolTxt>
+                          <StyledDepositInputBottomSymbolTxt>{FIRST_SYMBOL_NAME}</StyledDepositInputBottomSymbolTxt>
                         </StyledDepositInputBottomSymbol>
                       </StyledDepositInputBottom>
                     </StyledDepositInput>
@@ -1710,9 +1652,9 @@ return (
                         <StyledDepositInputBottomInput type="number" placeholder="0.0" value={state.inBorrowAmount} onChange={(event) => handleInAmountChange(event.target.value)} />
                         <StyledDepositInputBottomSymbol>
                           <StyledDepositInputBottomSymbolImageContainer>
-                            <StyledDepositInputBottomSymbolImage src={ICON_MAP["WETH"]} />
+                            <StyledDepositInputBottomSymbolImage src={ICON_MAP[SECOND_SYMBOL_NAME]} />
                           </StyledDepositInputBottomSymbolImageContainer>
-                          <StyledDepositInputBottomSymbolTxt>WETH</StyledDepositInputBottomSymbolTxt>
+                          <StyledDepositInputBottomSymbolTxt>{SECOND_SYMBOL_NAME}</StyledDepositInputBottomSymbolTxt>
                         </StyledDepositInputBottomSymbol>
                       </StyledDepositInputBottom>
                     </StyledDepositInput>
@@ -1757,16 +1699,16 @@ return (
                       <StyledDepositInputTop>
                         <StyledDepositInputTopType>Repay</StyledDepositInputTopType>
                         <StyledDepositInputTopBalance>
-                          Available: <span onClick={handleMax}>{Big(state.balances?.firstRepay ?? 0).plus(state.balances?.repay ?? 0).toFixed(4)}</span>
+                          Available: <span onClick={handleMax}>{Big(state.balances?.firstRepay ?? 0).plus(state.balances?.secondRepay ?? 0).toFixed(4)}</span>
                         </StyledDepositInputTopBalance>
                       </StyledDepositInputTop>
                       <StyledDepositInputBottom>
                         <StyledDepositInputBottomInput type="number" placeholder="0.0" value={state.inRepayAmount} onChange={(event) => handleInAmountChange(event.target.value)} />
                         <StyledDepositInputBottomSymbol>
                           <StyledDepositInputBottomSymbolImageContainer>
-                            <StyledDepositInputBottomSymbolImage src={ICON_MAP["WETH"]} />
+                            <StyledDepositInputBottomSymbolImage src={ICON_MAP[SECOND_SYMBOL_NAME]} />
                           </StyledDepositInputBottomSymbolImageContainer>
-                          <StyledDepositInputBottomSymbolTxt>WETH</StyledDepositInputBottomSymbolTxt>
+                          <StyledDepositInputBottomSymbolTxt>{SECOND_SYMBOL_NAME}</StyledDepositInputBottomSymbolTxt>
                         </StyledDepositInputBottomSymbol>
                       </StyledDepositInputBottom>
                     </StyledDepositInput>
@@ -1836,15 +1778,15 @@ return (
       <StyledOverviewTitle>Juice Account Overview</StyledOverviewTitle>
       <StyledOverviewList>
         <StyledOverview>
-          <StyledOverviewLabel>Deposited WETH</StyledOverviewLabel>
+          <StyledOverviewLabel>Deposited {FIRST_SYMBOL_NAME}</StyledOverviewLabel>
           <StyledOverviewValue>{state.accountOverview?.balanceOfAssets}</StyledOverviewValue>
         </StyledOverview>
         <StyledOverview>
-          <StyledOverviewLabel>Total Deposited WETH</StyledOverviewLabel>
+          <StyledOverviewLabel>Total {SECOND_SYMBOL_NAME} borrowed</StyledOverviewLabel>
           <StyledOverviewValue>{state.accountOverview?.debtAmount}</StyledOverviewValue>
         </StyledOverview>
         <StyledOverview>
-          <StyledOverviewLabel>Remaining WETH to borrow</StyledOverviewLabel>
+          <StyledOverviewLabel>Remaining {SECOND_SYMBOL_NAME} to borrow</StyledOverviewLabel>
           <StyledOverviewValue>{Big(state.balances?.borrow).toFixed(4)}</StyledOverviewValue>
         </StyledOverview>
         <StyledOverview>
@@ -1856,7 +1798,7 @@ return (
           <StyledOverviewValue>125.00%</StyledOverviewValue>
         </StyledOverview>
         <StyledOverview>
-          <StyledOverviewLabel>Total WETH Balance</StyledOverviewLabel>
+          <StyledOverviewLabel>Total {SECOND_SYMBOL_NAME} Balance</StyledOverviewLabel>
           <StyledOverviewValue>{Big(state?.accountOverview?.firstBalance ?? 0).toFixed(4)}</StyledOverviewValue>
         </StyledOverview>
         <StyledOverview>
