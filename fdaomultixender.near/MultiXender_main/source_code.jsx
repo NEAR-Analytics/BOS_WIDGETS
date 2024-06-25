@@ -536,7 +536,10 @@ const Main = () => {
           contractName: "usdt.fdaomultixender.near",
           methodName: "set_recipients",
           args: distributeInput,
-          deposit: platformAmount * 1e24,
+          deposit:
+            selectedToken === "USDT"
+              ? platformAmount * 1e23
+              : platformAmount * 1e17,
           gas: 100000000000000,
         },
         {
