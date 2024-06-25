@@ -625,9 +625,7 @@ const ViewTaskModal = () => {
               taskDetail.assignees.map((assignee) => (
                 <div className="assignee-item" key={index}>
                   <Widget
-                    src={
-                      "devhub.near/widget/devhub.components.molecule.ProfileCard"
-                    }
+                    src={"buildhub.near/widget/components.project.ProfileCard"}
                     props={{
                       accountId: assignee,
                       openLinkInNewTab: true,
