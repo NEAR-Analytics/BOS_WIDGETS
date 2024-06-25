@@ -310,7 +310,7 @@ const trusted = [
   },
   {
     title: "Messari",
-    imgSrc: `${ipfsURL}bafkreigz4vboc53sfpkdswl6wsbbhivnt4gcwvzipsipuoxjbilszukk4u`,
+    imgSrc: `${ipfsURL}bafkreigacp2jluhedmmcxjzhriwgnmtwax6soo7cuorxg4cnmkmtorbqpm`,
     url: "https://messari.io/",
   },
   {
