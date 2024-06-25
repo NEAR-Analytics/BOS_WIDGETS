@@ -1,3 +1,10 @@
+let current_user = context.accountId;
+let User = styled.div`
+text-align: right;
+font-weight: 500;
+font-size: 1.2rem;
+`;
+
 return (
   <>
     <div
@@ -9,6 +16,13 @@ return (
       }}
     >
       <div class="text-center">
+        {current_user ? (
+          <User>{current_user}</User>
+        ) : (
+          <a href="https://near.org/signin">
+            <button>Connect with NEAR</button>
+          </a>
+        )}
         <h1 style={{ fontSize: "3.5em" }}>
           Master the markets with <br />
           Dropouts' College

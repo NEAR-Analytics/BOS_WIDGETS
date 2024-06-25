@@ -1,24 +1,37 @@
-const path = props.path; // every piece of data on social contract has a path
-const blockHeight = props.blockHeight || "final"; // and a blockHeight (~version)
-const options = props.options;
+const path = props.path;
+const blockHeight = props.blockHeight || "final";
 
-// split the path
-const parts = path.split("/");
-const creatorId = parts[0];
+// Replace all in the VM? Thing keyword?
+let parts = [];
+try {
+  parts = path.split("/");
+} catch (e) {
+  // TODO : Better error handling?
+  console.log(`path not valid.`);
+  return <></>;
+}
 
+// GET THE TYPE BASED ON THE PATH //
+// TODO: replace with Type.get(path) //
 let type;
 if (parts.length === 1) {
-  // every root of a path is an account
   type = "account";
+} else if (parts[1] === "thing") {
+  const thing = Social.get(path, blockHeight);
+  thing = JSON.parse(thing || "null");
+  type = thing.type || null;
 } else {
-  // otherwise the "standard" is the type (widget, post, type, thing...)
-  // for thing, we'll extract the actual "Type" later
   type = parts[1];
 }
 
-State.init({
-  view: "THING",
-});
+if (type === null) {
+  console.log(`type not found: ${type}`);
+  return <></>;
+}
+
+// GET THE CREATOR ID //
+// ROOT ID? //
+const creatorId = parts[0];
 
 const Container = styled.div`
   border: 1px solid #ccc;
@@ -42,7 +55,7 @@ const IconBox = styled.div`
 
 const Content = styled.div`
   padding: 1px;
-  min-height: 300px;
+  min-height: 10px;
 `;
 
 const Button = styled.button`
@@ -57,155 +70,254 @@ const ButtonRow = styled.div`
   gap: 4px;
 `;
 
-// PLUGINS
-// This should move to settings
-const plugins = {
-  EDIT: {
-    state: {
-      active: {
-        icon: "bi bi-arrow-counterclockwise",
-        label: "Cancel Edit",
-      },
-      inactive: {
-        icon: "bi bi-pencil",
-        label: "Edit",
-      },
-    },
-    src: "efiz.near/widget/every.thing.edit",
-    creatorRequired: true,
-  },
-  EDITV2: {
-    state: {
-      active: {
-        icon: "bi bi-arrow-counterclockwise",
-        label: "Cancel Edit",
-      },
-      inactive: {
-        icon: "bi bi-pencil",
-        label: "Edit v2",
-      },
-    },
-    src: "efiz.near/widget/every.thing.editor.provider",
-    creatorRequired: true,
-  },
-  RAW: {
-    state: {
-      active: {
-        icon: "bi bi-arrow-up-left-circle",
-        label: "Show Thing",
-      },
-      inactive: {
-        icon: "bi bi-filetype-raw",
-        label: "Raw",
-      },
-    },
-    src: "efiz.near/widget/every.thing.raw",
-  },
-  HISTORY: {
-    state: {
-      active: {
-        icon: "bi bi-clock",
-        label: "Hide History",
-      },
-      inactive: {
-        icon: "bi bi-clock-history",
-        label: "Show History",
-      },
-    },
-    src: "efiz.near/widget/Every.Thing.History",
-  },
-  DUPLICATE: {
-    state: {
-      active: {
-        icon: "bi bi-arrow-counterclockwise",
-        label: "Cancel Duplicate",
-      },
-      inactive: {
-        icon: "bi bi-back",
-        label: "Duplicate",
-      },
-    },
-    src: "efiz.near/widget/every.thing.edit",
-  },
-  BUILD: {
-    state: {
-      active: {
-        icon: "bi bi-arrow-counterclockwise",
-        label: "Cancel Build",
-      },
-      inactive: {
-        icon: "bi bi-hammer",
-        label: "Build",
-      },
-    },
-    src: "efiz.near/widget/every.thing.build",
-    creatorRequired: true,
-  },
-  EDGES: {
-    state: {
-      active: {
-        icon: "bi bi-arrow-counterclockwise",
-        label: "Show Thing",
-      },
-      inactive: {
-        icon: "bi bi-link",
-        label: "Edges",
-      },
-    },
-    src: "efiz.near/widget/every.edge",
-  },
-  CAMERA: {
-    state: {
-      active: {
-        icon: "bi bi-arrow-counterclockwise",
-        label: "Show Thing",
-      },
-      inactive: {
-        icon: "bi bi-camera",
-        label: "Camera",
-      },
-    },
-    src: "efiz.near/widget/Camera",
-    typeRequired: "every.near/type/marketplace",
-  },
-};
+const Row = styled.div`
+  display: flex;
+  margin-bottom: 5px;
+`;
 
-// DROPDOWN //
-function Modifier() {
-  const renderIcon = () => {
-    return (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="black"
-        width="24px"
-        height="24px"
-      >
-        <circle cx="12" cy="12" r="8" />
-      </svg>
-    );
-  };
+const Key = styled.span`
+  font-weight: bold;
+  margin-right: 5px;
+`;
 
-  function createButton(key, data) {
-    const stateVal = state.view === key ? "active" : "inactive";
-    if (data.creatorRequired && context.accountId !== creatorId) {
-      return <></>;
-    } else {
-      return (
-        <button
-          className={"btn"}
-          onClick={() =>
-            State.update({ view: stateVal === "active" ? "THING" : key })
-          }
-        >
-          <i className={data.state[stateVal].icon}></i>
-          {data.state[stateVal].label}
-        </button>
-      );
+const Value = styled.span`
+  color: #888;
+`;
+
+const Item = styled.div`
+  padding: 0;
+  .btn {
+    width: 100%;
+    border: 0;
+    text-align: left;
+    &:hover,
+    &:focus {
+      background-color: #ecedee;
+      text-decoration: none;
+      outline: none;
+    }
+
+    i {
+      color: #7e868c;
+    }
+
+    span {
+      font-weight: 500;
     }
   }
+`;
 
-  function nearPad() {
+const Input = styled.input`
+`;
+
+function renderContent() {
+  if (state.showDuplicate) {
+    const thing = JSON.parse(Social.get(path, blockHeight));
+    return (
+      <>
+        <Input
+          placeholder={"thing name"}
+          value={state.duplicateName}
+          onChange={(e) => State.update({ duplicateName: e.target.value })}
+        />
+        <Widget
+          src="efiz.near/widget/Every.Raw.Edit"
+          props={{ value: thing, handleSubmit: handleDuplicate }}
+        />
+      </>
+    );
+  }
+  if (state.showHistory) {
+    return (
+      <Widget
+        src="efiz.near/widget/Every.Thing.History"
+        props={{ path, blockHeight }}
+      />
+    );
+  }
+  if (state.showRaw) {
+    let thing;
+    if (type === "settings") {
+      // Need to normalize to accountId/settings/**
+      // Or fix the path that is given to the settings component.
+      // Every thing takes a path and a blockHeight
+      parts.pop();
+      parts.push("**");
+      path = parts.join("/");
+      thing = Social.get(path, blockHeight);
+    } else {
+      thing = JSON.parse(Social.get(path, blockHeight));
+    }
+    if (state.showEdit) {
+      function handleSubmit(val) {
+        const parts = path.split("/");
+        parts.shift(); // Remove the first element
+        const newData = {
+          [parts[0]]: {
+            [parts[1]]: val.replace(/\n/g, ""),
+          },
+        };
+        if (context.accountId === creatorId) {
+          Social.set(newData, {
+            force: true,
+          });
+        }
+      }
+      return (
+        <Widget
+          src="efiz.near/widget/Every.Raw.Edit"
+          props={{ value: thing, handleSubmit: handleSubmit }}
+        />
+      );
+    } else {
+      return (
+        <>
+          <p>{path}</p>
+          <Widget
+            src="efiz.near/widget/Every.Raw.View"
+            props={{ value: thing }}
+          />
+        </>
+      );
+    }
+  } else {
+    if (type.split("/").length > 1) {
+      const thingType = type;
+      const type = JSON.parse(Social.get(thingType, blockHeight) || "null");
+      if (type === null) {
+        console.log(
+          `edge case: thing ${path} had an invalid type: ${thingType}`
+        );
+      }
+      let widgetSrc;
+      if (state.showEdit) {
+        // Can I merge state with accessor
+        widgetSrc = type?.widgets?.edit;
+      } else {
+        widgetSrc = type?.widgets?.view; // Or settings
+      }
+      const thing = Social.get(path, blockHeight);
+      thing = JSON.parse(thing || "null"); // I already fetched thing when I got type
+      // what if thing data comes from somewhere else? auditable backend according to type, api keys are stored browser side or proxy
+      return (
+        <Widget
+          src={thing.template?.src || widgetSrc}
+          props={{ data: thing.data, blockHeight, ...props }}
+        />
+      );
+      // HERE IS THE TYPE RENDER
+      // We have an idea... it should render as the default idea view
+      // But first should check if user has a custom in settings
+      // What if the creator of the idea wants to display it in their own way?
+      // What if we want to force a specific way for it to be displayed?
+    } else {
+      switch (type) {
+        case "widget":
+          return <Widget src={path} props={props} />;
+        case "account":
+          return (
+            <Widget src="efiz.near/widget/Tree" props={{ rootPath: path }} />
+          );
+        case "settings":
+          return (
+            <Widget
+              src="efiz.near/widget/Every.Setting"
+              props={{ path, blockHeight }}
+            />
+          );
+        case "type":
+          return <Widget src="efiz.near/widget/Every.Type" />;
+        case "profile":
+          return <Widget src={"efiz.near/widget/Every.Profile"} />;
+        case "graph":
+          return <p>graph</p>;
+        case "post":
+          return <Widget src={"efiz.near/widget/Every.Post"} />;
+        case "thing":
+          console.log(`edge case: ${path} had "thing" type`);
+          return <></>;
+        default:
+          // TODO: this doesn't work in current vm
+          return null;
+      }
+    }
+  }
+}
+
+// DROPDOWN //
+// where can I put this? I'd like a better editor
+// this is a separate plugin
+// put in settings acording to the type
+function toggleEdit() {
+  if (state.showEdit) {
+    return (
+      <button
+        className={`btn`}
+        onClick={() => State.update({ showEdit: false })}
+      >
+        <i className="bi bi-arrow-counterclockwise me-1" />
+        <span>Cancel Edit</span>
+      </button>
+    );
+  } else {
+    return (
+      <button
+        className={`btn`}
+        onClick={() => State.update({ showEdit: true, showRaw: true })}
+      >
+        <i className="bi bi-pencil me-1" />
+        <span>Edit</span>
+      </button>
+    );
+  }
+}
+// These are two very similiar functions
+function toggleRaw() {
+  if (state.showRaw) {
+    return (
+      <button
+        className={`btn`}
+        onClick={() => State.update({ showRaw: false })}
+      >
+        <i className="bi bi-arrow-up-left-circle me-1" />
+        <span>Show Thing</span>
+      </button>
+    );
+  } else {
+    return (
+      <button className={`btn`} onClick={() => State.update({ showRaw: true })}>
+        <i className="bi bi-filetype-raw me-1" />
+        <span>Raw</span>
+      </button>
+    );
+  }
+}
+function toggleHistory() {
+  if (state.showHistory) {
+    return (
+      <button
+        className={`btn`}
+        onClick={() => State.update({ showHistory: false })}
+      >
+        <i className="bi bi-clock me-1" />
+        <span>Hide History</span>
+      </button>
+    );
+  } else {
+    return (
+      <button
+        className={`btn`}
+        onClick={() => State.update({ showHistory: true })}
+      >
+        <i className="bi bi-clock-history me-1" />
+        <span>Show History</span>
+      </button>
+    );
+  }
+}
+
+function nearPad() {
+  if (type === "widget") {
     return (
       <a
         className={`btn`}
@@ -227,127 +339,106 @@ function Modifier() {
       </a>
     );
   }
-
-  return (
-    <Widget
-      src="efiz.near/widget/Common.Dropdown"
-      props={{
-        renderIcon: renderIcon,
-        elements:
-          type === "widget"
-            ? [nearPad()]
-            : Object.keys(plugins)?.map((it) => createButton(it, plugins[it])),
-      }}
-    />
-  );
 }
 
-function Thing() {
-  // Renders the path according to type
-  switch (type) {
-    case "thing": {
-      // get the thing data
-      const thing = JSON.parse(Social.get(path, blockHeight) || "null");
-      type = thing.type || null;
-      // get the type data
-      const typeObj = JSON.parse(Social.get(type, blockHeight) || "null");
-      if (typeObj === null) {
-        console.log(
-          `edge case: thing ${path} had an invalid type: ${thingType}`
-        );
-      }
-      // determine the widget to render this thing (is there a default view?)
-      const widgetSrc =
-        options?.templateOverride ||
-        thing.template?.src ||
-        typeObj?.widgets?.view;
-      // Template
-      if (!widgetSrc) {
-        return (
-          <Widget
-            src="efiz.near/widget/MonacoEditor"
-            props={{
-              code: JSON.stringify(thing),
-              path,
-              language: "javascript",
-            }}
-          />
-        );
-      }
-      return (
-        <Widget
-          src={widgetSrc}
-          props={{ data: thing.data, path, blockHeight }}
-        />
-      );
-    }
-    case "post": {
-      return (
-        <Widget
-          src="every.near/widget/every.post.view"
-          props={{
-            path,
-            blockHeight: a.blockHeight,
-          }}
-        />
-      );
-    }
-    case "widget": {
-      return <Widget src={path} props={props} />;
-    }
-    case "account": {
-      return <Widget src="efiz.near/widget/Tree" props={{ rootPath: path }} />;
-    }
-    case "settings": {
-      // Standardize path to {accountId}/settings/**
-      parts.splice(2);
-      parts.push("**");
-      path = parts.join("/");
-      return (
-        <Widget
-          src="efiz.near/widget/Every.Setting"
-          props={{ path, blockHeight }}
-        />
-      );
-    }
-    case "type": {
-      return (
-        <Widget
-          src="every.near/widget/every.type.create"
-          props={{ typeSrc: path }}
-        />
-      );
-    }
+function handleDuplicate(thing) {
+  let thingId = state.duplicateName;
+  if (thingId.trim() === "") {
+    thingId = Math.random();
   }
-  // DEFAULT:
-  return <p>The type: {type} is not yet supported.</p>;
+  const data = {
+    thing: {
+      [thingId]: thing,
+    },
+    index: {
+      thing: JSON.stringify({
+        key: thingId,
+        value: {
+          type: JSON.parse(thing).type,
+        },
+      }),
+    },
+  };
+  Social.set(data);
 }
 
-function Plugin() {
-  const plugin = plugins[state.view];
+function toggleDuplicate() {
+  if (state.showDuplicate) {
+    return (
+      <button
+        className={`btn`}
+        onClick={() => State.update({ showDuplicate: false })}
+      >
+        <i className="bi bi-arrow-counterclockwise me-1" />
+        <span>Cancel Duplicate</span>
+      </button>
+    );
+  } else {
+    return (
+      <button
+        className={`btn`}
+        onClick={() => State.update({ showDuplicate: true })}
+      >
+        <i className="bi bi-back me-1" />
+        <span>Duplicate</span>
+      </button>
+    );
+  }
+}
+
+// This should be a prop
+const renderIcon = () => {
   return (
-    <Container>
-      <Header style={{ justifyContent: "flex-start" }}>
-        <Button
-          onClick={() => {
-            State.update({ view: "THING" });
-          }}
-        >
-          back
-        </Button>
-      </Header>
-      <Widget src={plugin.src} props={{ path, blockHeight }} />
-    </Container>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="black"
+      width="24px"
+      height="24px"
+    >
+      <circle cx="12" cy="12" r="8" />
+    </svg>
   );
+};
+
+function toggleView(path, blockHeight) {}
+
+// We need it to be able to change state.
+// I need a widget referenced in state
+const plugins = [];
+const typeParts = type.split("/");
+if (typeParts.length > 1 || type === "widget") {
+  plugins = Social.get(
+    `${context.accountId}/settings/every/${type}/plugins`
+  ) || [
+    toggleEdit(),
+    toggleRaw(),
+    toggleHistory(),
+    nearPad(),
+    toggleDuplicate(),
+    // toggleBuild(),
+  ];
 }
 
 return (
   <Container id={path}>
     <Header>
       <ButtonRow>
-        <Modifier />
+        <Widget
+          src="efiz.near/widget/Common.Dropdown"
+          props={{
+            renderIcon: renderIcon,
+            elements: plugins,
+          }}
+        />
       </ButtonRow>
     </Header>
-    <Content>{state.view === "THING" ? <Thing /> : <Plugin />}</Content>
+    <Content>{renderContent()}</Content>
   </Container>
 );
+
+// I think that there is a standard install
+// You start with some default settings
+// Type = "every.near/type/plugin"
+// plugins apply to types...
+// pluginType =

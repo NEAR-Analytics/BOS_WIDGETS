@@ -1,214 +1,105 @@
-const data = props.data;
+const path = props.path;
+const type = props.type;
 
-const Header = styled.div`
-  height: 40px;
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 4px;
-`;
+if (path.endsWith("/")) {
+  path = path.slice(0, -1);
+}
 
-const Container = styled.div`
-  width: 100%;
-  height: 30vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+const parts = path.split("/");
+let value = {};
 
-  @media (max-width: 767px) {
-    justify-content: flex-start;
-  }
-`;
+console.log(`path: ${path}, type: ${type}`);
 
-const InnerContainer = styled.div`
-  width: 80%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 535px;
-
-  @media (max-width: 767px) {
-    width: 100%;
-  }
-`;
-
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;  
-//   border: 2px solid orange;
-
-  @media (max-width: 767px) {
-    flex-direction: column;
-  }
-`;
-
-const Column = styled.div`
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-//   border: 2px solid green;
-  padding: 20px;
-
-  @media (max-width: 767px) {
-    border-top: none;
-    padding: 10px;
-  }
-`;
-
-const IconBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 10px;
-  
-
-  svg {
-    width: 50px;
-    height: 50px;
-  }
-
-  @media (max-width: 767px) {
-    margin-top: 0;
-    svg {
-      width: 40px;
-      height: 40px;
-    }
-  }
-`;
-
-const ActionButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-`;
-
-const Button = styled.button`
-  text-transform: lowercase !important;
-`;
-
-const ButtonRow = styled.div`
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
-`;
-
-const Link = styled.a`
-  text-decoration: none;
-  color: inherit;
-  cursor: pointer;
-`;
-
-const SubjectField = styled.input`
-  font-size: 4em;
-  line-height: 1.25;
-  font-weight: 400;
-  cursor: pointer;
-  border: none;
-  outline: none;
-  background: none;
-  width: 100%;
-
-  @media (max-width: 767px) {
-    font-size: 1.5em;
-  }
-`;
-
-const Title = styled.p`
-  line-height: 1.25;
-  font-weight: 400;
-  font-size: 4em;
-  margin-bottom: 0;
-`;
-
-const Subtitle = styled.p`
-  line-height: 1.25;
-  font-weight: 400;
-  font-size: 2em;
-  margin-left: 70px;
-`;
-
-const Text = styled.p`
-  line-height: 1.25;
-  font-weight: 400;
-  font-size: 2em;
-`;
-
-const Subtext = styled.p`
-  line-height: 1.25;
-  font-weight: 400;
-  font-size: 1em;
-`;
-
-State.init({
-  thingSrc: data.views[0]?.src,
-});
-
-function Thing() {
-  if (state.thingSrc) {
+// ACCOUNT //
+if (type === "account") {
+  if (parts.length > 1) {
     return (
-      <>
-        <Widget
-          src={"every.near/widget/every.thing.view"}
-          props={{ path: state.thingSrc }}
-        />
-      </>
+      <Widget
+        src="efiz.near/widget/Tree"
+        props={{ rootPath: parts[parts.length - 1], rootType: type }}
+      />
     );
   }
-}
+  // THING //
+} else if (type === "thing") {
+  // path: "everything"
+  // type: "thing"
+  return "VIEW: thing";
+  // WIDGET //
+} else if (type === "widget") {
+  return <Widget src={path} />;
+  // PROFILE //
+} else if (type === "graph") {
+  parts.push("**");
+  value = Social.get(parts.join("/"), "final");
+} else if (type === "index") {
+  value = Social.get(parts.join("/"), "final");
+} else if (type === "profile") {
+  value = Social.get(parts.join("/"), "final");
+  return <p>{value}</p>;
+} else if (type === "settings") {
+  return (
+    <Widget
+      src="efiz.near/widget/Every.Setting"
+      props={{ accountId: parts[0] }}
+    />
+  );
+} else if (type === "post") {
+  // Replace this with a better component
+  // with hashtag filter
 
-// how can we have this be custom?
-// settings/every/subject
+  if (parts[0].endsWith(".near")) {
+    const index = {
+      action: parts[1],
+      key: parts[2],
+      options: {
+        limit: 10,
+        order: "desc",
+        accountId: parts[0],
+      },
+    };
 
-function handleInputChange(e) {
-  State.update({
-    path: e.target.value,
-  });
-}
-
-return (
-  <>
-    <Container>
-      <InnerContainer>
-        <Row>
-          <Column>
-            <Title>{data.name}</Title>
-            <Subtitle>{data.tagline}</Subtitle>
-          </Column>
-        </Row>
-      </InnerContainer>
-    </Container>
-    {data.isUnderConstruction === "true" ? (
+    function renderItem(a) {
+      if (a.value.type === "md") {
+        return (
+          <Widget
+            src="near/widget/Posts.Post"
+            props={{ accountId: a.accountId, blockHeight: a.blockHeight }}
+          />
+        );
+      }
+    }
+    return (
       <Widget
-        src="every.near/widget/every.thing.view"
-        props={{ path: "efiz.near/thing/under.construction" }}
+        src="efiz.near/widget/MergedIndexFeed"
+        props={{ index, renderItem, disableCaching: true }}
       />
-    ) : null}
-    <ButtonRow>
-      {data &&
-        data.views?.map((view) => (
-          <Button onClick={() => State.update({ thingSrc: view.src })}>
-            {view.name}
-          </Button>
-        ))}
-      {/**
-      <Button
-        onClick={() =>
-          State.update({
-            thingSrc: "efiz.near/widget/every.type.create",
-          })
-        }
-      >
-        +
-      </Button>
-      */}
-    </ButtonRow>
-    <>
-      <Thing />
-    </>
-  </>
-);
+    );
+  } else {
+    let hashtagFilter = [];
+    if (parts[2] !== "main") {
+      hashtagFilter = [{ name: parts[2], required: true }];
+    }
+    return (
+      <Widget
+        src="efiz.near/widget/Community.Posts"
+        props={{
+          communityHashtags: hashtagFilter,
+          communityMembers: [],
+          exclusive: false,
+          allowPublicPosting: true,
+        }}
+      />
+    );
+  }
+} else {
+  value = Social.get(parts.join("/"), "final");
+  value = JSON.parse(value);
+}
+
+const text = `
+\`\`\`json
+${JSON.stringify(value, undefined, 2)}
+\`\`\`
+`;
+return <Markdown text={text} />;
