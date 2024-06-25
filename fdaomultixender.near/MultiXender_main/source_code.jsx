@@ -451,19 +451,7 @@ const Main = () => {
       setSimplePopupVisibility(true);
       return {};
     } else {
-      let platformAmount = 0;
-      if (newList.length >= 1 && newList.length <= 10) {
-        platformAmount = sumOfAmounts * 0.01;
-      } else if (newList.length >= 11 && newList.length <= 25) {
-        platformAmount = sumOfAmounts * 0.02;
-      } else if (newList.length >= 26 && newList.length <= 50) {
-        platformAmount = sumOfAmounts * 0.03;
-      } else if (newList.length >= 50 && newList.length <= 100) {
-        platformAmount = sumOfAmounts * 0.04;
-      } else {
-        platformAmount = sumOfAmounts * 0.06;
-      }
-
+      let platformAmount = sumOfAmounts * 0.005 + newList.length * 0.004;
       const calculatedTotalAmount = sumOfAmounts + platformAmount;
 
       setPopupContent(
