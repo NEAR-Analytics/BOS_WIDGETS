@@ -375,7 +375,7 @@ const TrustedTitle = styled.h2`
 
 const TrustedList = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  #flex-wrap: wrap;
   @media screen and (min-width: ${breakpoints.xs}) {
     gap:5px;
     justify-content: space-between;
@@ -414,33 +414,28 @@ const TrustedLink = styled.a`
   align-items: center;
   & img {
     border-radius:50%;
-      @media screen and (min-width: ${breakpoints.xs}) {
-        width: 24px;
-        height: 24px;
-    }
-      @media screen and (min-width: ${breakpoints.sm}) {
-        width: 56px;
-        height: 56px;
-    }
-      @media screen and (min-width: ${breakpoints.md}) {
-        width: 96px;
-        height: 96px;
-    }
-      @media screen and (min-width: ${breakpoints.lg}) {
-        width: 106px;
-        height: 106px;
-    }
+    width: 100%;
+    max-width:106px;
+    height: auto;    
   }
   & span{
     font-size: 9px;
     margin-top: 10px;
     @media screen and (min-width: ${breakpoints.xs}) {
-        display: none;
+        font-size: .25vw;
+    }
+    @media screen and (min-width: ${breakpoints.sm}) {
+        display: block;
+        font-size: .25vw;
     }
     @media screen and (min-width: ${breakpoints.md}) {
         display: block;
+        font-size: .35vw;
     }
-
+    @media screen and (min-width: ${breakpoints.lg}) {
+        display: block;
+        font-size: .5vw;
+    }
   }
 `;
 
