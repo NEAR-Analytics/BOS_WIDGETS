@@ -422,7 +422,7 @@ const TrustedLink = styled.a`
     font-size: 9px;
     margin-top: 10px;
     @media screen and (min-width: ${breakpoints.xs}) {
-        font-size: .25vw;
+        display: none;
     }
     @media screen and (min-width: ${breakpoints.sm}) {
         display: block;
