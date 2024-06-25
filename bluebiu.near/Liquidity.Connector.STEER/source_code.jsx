@@ -11,6 +11,22 @@ const {
   ContainerLogin,
 } = VM.require('bluebiu.near/widget/Liquidity.Handler.Styles')
 
+const UnKnownSvgContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFF;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  overflow: hidden;
+  svg {
+    min-width: 24px;
+    min-height: 24px;
+    margin-left: 1px;
+    margin-top: 1px;
+  }
+`
 State.init({
   allData: null,
   loading: false,
@@ -21,9 +37,17 @@ State.init({
   chainIndex: 0,
   token: '',
 })
+
 const IconRight = (
   <svg xmlns="http://www.w3.org/2000/svg" width="8" height="10" viewBox="0 0 8 10" fill="none">
     <path d="M7.18407 4.21913C7.68448 4.61945 7.68448 5.38054 7.18407 5.78087L2.28485 9.70024C1.63009 10.2241 0.660156 9.75788 0.660156 8.91937L0.660156 1.08062C0.660156 0.242118 1.63009 -0.224055 2.28485 0.299756L7.18407 4.21913Z" fill="#979ABE" />
+  </svg>
+)
+const UnKnownSvg = (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="10"></circle>
+    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+    <path d="M12 17h.01"></path>
   </svg>
 )
 const {
@@ -37,7 +61,6 @@ const {
   onSwitchChain,
   addAction,
   defaultDex,
-  connectProps,
   prices,
 } = props
 const formatFiat = (value) => {
@@ -210,8 +233,25 @@ const columnList = [{
     return (
       <>
         <StyledVaultImage>
-          <img style={{ marginRight: -6 }} src={ICON_VAULT_MAP[data.token0]} alt={data.token0} />
-          <img src={ICON_VAULT_MAP[data.token1]} alt={data.token1} />
+          {
+            ICON_VAULT_MAP[data.token0] ? (
+
+              <img style={{ marginRight: -6 }} src={ICON_VAULT_MAP[data.token0]} alt={data.token0} />
+            ) : (
+              <UnKnownSvgContainer style={{ marginRight: -6 }}>
+                {UnKnownSvg}
+              </UnKnownSvgContainer>
+            )
+          }
+          {
+            ICON_VAULT_MAP[data.token1] ? (
+              <img src={ICON_VAULT_MAP[data.token1]} alt={data.token1} />
+            ) : (
+              <UnKnownSvgContainer>
+                {UnKnownSvg}
+              </UnKnownSvgContainer>
+            )
+          }
         </StyledVaultImage>
         <TdTxt>{data.token0} / {data.token1}</TdTxt>
         <PoolPercentage>{data?.fee}%</PoolPercentage>
@@ -229,8 +269,13 @@ const columnList = [{
   key: 'amm',
   label: 'AMM',
   type: 'slot',
-  render: () => {
-    return (
+  render: (data) => {
+    return data.ammImage && data.ammName ? (
+      <>
+        <img src={data.ammImage} alt={data.ammImage} style={{ width: 22 }} />
+        <TdTxt>{data.ammName}</TdTxt>
+      </>
+    ) : (
       <>
         <img src={ammImage} alt={ammName} style={{ width: 22 }} />
         <TdTxt>{ammName}</TdTxt>
