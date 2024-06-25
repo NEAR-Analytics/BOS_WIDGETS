@@ -29,9 +29,12 @@ const IconRight = (
   </svg>
 )
 const {
+  from,
   toast,
   account,
+  markets,
   isDapps,
+  currentMarket,
   CHAIN_LIST,
   multicallAddress,
   dexConfig,
@@ -40,10 +43,10 @@ const {
   isChainSupported,
   onSwitchChain,
   addAction,
-  connectProps,
   prices,
+  onChangeMarket
 } = props
-
+console.log('=props', props)
 const formatFiat = (value) => {
   const number = Number(value).toLocaleString("en", {
     currency: "USD",
@@ -342,22 +345,22 @@ return state.loading ? <Widget src="bluebiu.near/widget/0vix.LendingSpinner" /> 
         }}
       />
     )}
-    {
-      !isDapps && (
-        <Widget
-          src={"bluebiu.near/widget/Liquidity.Bridge.Filter"}
-          props={{
-            token: state.token,
-            chains: CHAIN_LIST,
-            categoryIndex: state.categoryIndex,
-            chainIndex: state.chainIndex,
-            onSearchInput: handleSearchInput,
-            onChangeCategoryIndex: handleChangeCategoryIndex,
-            onChangeChainIndex: handleChangeChainIndex,
-          }}
-        />
-      )
-    }
+    <Widget
+      src={"bluebiu.near/widget/Liquidity.Bridge.Filter"}
+      props={{
+        from,
+        markets,
+        currentMarket,
+        token: state.token,
+        chains: CHAIN_LIST,
+        categoryIndex: state.categoryIndex,
+        chainIndex: state.chainIndex,
+        onSearchInput: handleSearchInput,
+        onChangeCategoryIndex: handleChangeCategoryIndex,
+        onChangeChainIndex: handleChangeChainIndex,
+        onChangeMarket
+      }}
+    />
 
     <Widget
       src={"bluebiu.near/widget/Liquidity.Bridge.List"}
