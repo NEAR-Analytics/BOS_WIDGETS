@@ -564,7 +564,6 @@ if (
 
 const handleClose = () => {
   setShowApp(false)
-  console.log('props', props)
 }
 
 const handleAction = () => {
