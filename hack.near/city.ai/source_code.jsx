@@ -18,7 +18,8 @@ const [messages, setMessages] = useState(
     {
       role: "assistant",
       content:
-        "Nice to meet you! Let's build AI together. Submit questions to learn how fun and easy it is to make your own pre-prompted chatbot like this one.",
+        props.initialMessage ??
+        "Nice to meet you! Let's build AI together. Submit questions to learn how fun and easy it is to make your own customizable chatbot like this one.",
     },
   ]
 );
