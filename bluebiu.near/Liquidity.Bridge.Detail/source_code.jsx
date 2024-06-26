@@ -52,6 +52,26 @@ State.init({
   isPostTx: false,
   showPairs: false,
 });
+const sourceBalances = {
+}
+const {
+  isDeposit,
+  balances,
+  amount0,
+  amount1,
+  isLoading,
+  isError,
+  isToken0Approved,
+  isToken1Approved,
+  isToken0Approving,
+  isToken1Approving,
+  loadingMsg,
+  lpBalance,
+  lpAmount,
+  isPostTx,
+} = state;
+
+const detailLoading = Object.keys(balances).length < 2 || lpBalance === ""
 
 const getFromDepositAmount = (depositAmount, tokenDecimal) => {
   let a = new Big(depositAmount[0].toString());
@@ -113,11 +133,9 @@ const updateBalance = (token) => {
       .getBalance(sender)
       .then((balanceBig) => {
         const adjustedBalance = ethers.utils.formatEther(balanceBig);
+        sourceBalances[symbol] = adjustedBalance
         State.update({
-          balances: {
-            ...state.balances,
-            [symbol]: adjustedBalance,
-          },
+          balances: sourceBalances,
         });
       });
   } else {
@@ -132,11 +150,9 @@ const updateBalance = (token) => {
         const adjustedBalance = Big(
           ethers.utils.formatUnits(balanceBig, decimals)
         ).toFixed();
+        sourceBalances[symbol] = adjustedBalance
         State.update({
-          balances: {
-            ...state.balances,
-            [symbol]: adjustedBalance,
-          },
+          balances: sourceBalances,
         });
       })
       .catch(error => {
@@ -158,24 +174,7 @@ useEffect(() => {
   updateLPBalance();
 }, [sender, token0, token1]);
 
-const {
-  isDeposit,
-  balances,
-  amount0,
-  amount1,
-  isLoading,
-  isError,
-  isToken0Approved,
-  isToken1Approved,
-  isToken0Approving,
-  isToken1Approving,
-  loadingMsg,
-  lpBalance,
-  lpAmount,
-  isPostTx,
-} = state;
 
-const detailLoading = Object.keys(balances).length < 2 || lpBalance === ""
 
 const handleCheckApproval = (symbol, amount, decimals) => {
   const wei = ethers.utils.parseUnits(
@@ -191,24 +190,40 @@ const handleCheckApproval = (symbol, amount, decimals) => {
     abi,
     Ethers.provider()
   );
-  console.log('=addresses[symbol]', addresses[symbol], '=sender', sender, '=vaultAddress', vaultAddress)
-
-  contract
-    .allowance(sender, vaultAddress)
-    .then((allowance) => {
-      State.update({
-        [symbol === token0 ? 'isToken0Approved' : 'isToken1Approved']: !new Big(allowance.toString()).lt(wei),
-      });
-    })
-    .catch((e) => console.log(e));
+  return new Promise((resolve) => {
+    contract
+      .allowance(sender, vaultAddress)
+      .then((allowance) => {
+        const approved = !new Big(allowance.toString()).lt(wei)
+        State.update({
+          [symbol === token0 ? 'isToken0Approved' : 'isToken1Approved']: approved,
+        });
+        resolve(approved)
+      })
+      .catch((e) => console.log(e));
+  })
 }
-const checkApproval = (amount, otherAmount, symbol) => {
+const checkApproval = (amount, otherAmount, symbol, callback) => {
   const otherSymbol = symbol === token0 ? token1 : token0
   const decimals = symbol === token0 ? decimals0 : decimals1
   const otherDecimals = symbol === token0 ? decimals1 : decimals0
-
-  handleCheckApproval(symbol, amount, decimals)
-  handleCheckApproval(otherSymbol, otherAmount, otherDecimals)
+  const promiseArray = [
+    handleCheckApproval(symbol, amount, decimals),
+    handleCheckApproval(otherSymbol, otherAmount, otherDecimals)
+  ]
+  Promise.all(promiseArray).then(result => {
+    const [firstApproved, secondApproved] = result
+    if (callback) {
+      if (firstApproved && secondApproved) {
+        symbol === token0 ? callback(amount, otherAmount) : callback(otherAmount, amount)
+      } else {
+        toast?.dismiss(state.toastId);
+        State.update({
+          isLoading: false
+        })
+      }
+    }
+  })
 };
 const changeMode = (isDeposit) => {
   State.update({ isDeposit });
@@ -261,11 +276,7 @@ const handleTokenChange = (amount, symbol, callback) => {
         focusedSymbol: symbol,
         isLoading: callback ? true : false
       });
-      if (callback) {
-        symbol === token0 ? callback(amount, otherAmount) : callback(otherAmount, amount)
-      } else {
-        checkApproval(amount, otherAmount, symbol);
-      }
+      checkApproval(amount, otherAmount, symbol, callback);
     })
     .catch((e) => {
       State.update({
@@ -356,6 +367,7 @@ const handleDeposit = () => {
     title: `Depositing...`,
   });
   State.update({
+    toastId,
     isLoading: true,
     isError: false,
     loadingMsg: "Depositing...",
