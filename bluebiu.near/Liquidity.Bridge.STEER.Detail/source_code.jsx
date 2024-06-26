@@ -165,7 +165,6 @@ const checkApproval = (amount, otherAmount, symbol) => {
   const otherSymbol = symbol === token0 ? token1 : token0
   const decimals = symbol === token0 ? decimals0 : decimals1
   const otherDecimals = symbol === token0 ? decimals1 : decimals0
-  console.log('=otherSymbol', otherSymbol)
   handleCheckApproval(symbol, amount, decimals)
   handleCheckApproval(otherSymbol, otherAmount, otherDecimals)
 };
@@ -178,7 +177,7 @@ const handleMax = (isToken0) => {
   else handleTokenChange(balances[token1], token1);
 };
 
-const handleTokenChange = (amount, symbol) => {
+const handleTokenChange = (amount, symbol, callback) => {
   State.update({
     [symbol === token0 ? 'amount0' : 'amount1']: amount
   })
@@ -212,11 +211,17 @@ const handleTokenChange = (amount, symbol) => {
       const otherAmount = Big((symbol === token0 ?
         Big(amount).times(total1).div(total0) :
         Big(amount).times(total0).div(total1))).toFixed()
+      
       State.update({
-        isLoading: false,
         [symbol === token0 ? 'amount1' : 'amount0']: otherAmount,
+        isLoading: callback ? true : false,
+        focusedSymbol: symbol,
       })
-      checkApproval(amount, otherAmount, symbol);
+      if (callback) {
+        symbol === token0 ? callback(amount, otherAmount) : callback(otherAmount, amount)
+      } else {
+        checkApproval(amount, otherAmount, symbol);
+      }
     })
     .catch((error) => {
       console.log("error: ", error)
@@ -364,111 +369,113 @@ const handleDeposit = () => {
     loadingMsg: "Depositing...",
   });
 
-  const amount0Desired = Big(amount0)
-    .mul(Big(10).pow(decimals0))
-    .toFixed(0);
-  const amount1Desired = Big(amount1)
-    .mul(Big(10).pow(decimals1))
-    .toFixed(0);
-
-
-  const abi = [{
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "vaultAddress",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amount0Desired",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amount1Desired",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amount0Min",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amount1Min",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      }
-    ],
-    "name": "deposit",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  }];
-
-  const contract = new ethers.Contract(
-    ethers.utils.getAddress(STEER_PERIPHERY_ADDRESS),
-    abi,
-    Ethers.provider().getSigner()
-  );
-  contract
-    .deposit(vaultAddress, amount0Desired, amount1Desired, 0, 0, sender)
-    .then((tx) => {
-      return tx.wait();
-    })
-    .then((receipt) => {
-      const { status, transactionHash } = receipt;
-      addAction?.({
-        type: "Liquidity",
-        action: "Deposit",
-        token0,
-        token1,
-        amount: amount0,
-        template: defaultDex,
-        status: status,
-        add: 1,
-        transactionHash,
-        chain_id: props.chainId,
-        extra_data: JSON.stringify({
-          action: "Deposit",
-          amount0,
-          amount1,
+  handleTokenChange(
+    state.focusedSymbol === token0 ? amount0 : amount1,
+    state.focusedSymbol === token0 ? token0 : token1,
+    (amount, otherAmount) => {
+      const amount0Desired = Big(amount)
+        .mul(Big(10).pow(decimals0))
+        .toFixed(0);
+      const amount1Desired = Big(otherAmount)
+        .mul(Big(10).pow(decimals1))
+        .toFixed(0);
+      const abi = [{
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "vaultAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount0Desired",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount1Desired",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount0Min",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount1Min",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "to",
+            "type": "address"
+          }
+        ],
+        "name": "deposit",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      }];
+      const contract = new ethers.Contract(
+        ethers.utils.getAddress(STEER_PERIPHERY_ADDRESS),
+        abi,
+        Ethers.provider().getSigner()
+      );
+      contract
+        .deposit(vaultAddress, amount0Desired, amount1Desired, 0, 0, sender)
+        .then((tx) => {
+          return tx.wait();
         })
-      });
+        .then((receipt) => {
+          const { status, transactionHash } = receipt;
+          addAction?.({
+            type: "Liquidity",
+            action: "Deposit",
+            token0,
+            token1,
+            amount: amount0,
+            template: defaultDex,
+            status: status,
+            add: 1,
+            transactionHash,
+            chain_id: props.chainId,
+            extra_data: JSON.stringify({
+              action: "Deposit",
+              amount0,
+              amount1,
+            })
+          });
 
-      State.update({
-        isLoading: false,
-        isPostTx: true,
-      });
+          State.update({
+            isLoading: false,
+            isPostTx: true,
+          });
 
-      setTimeout(() => State.update({ isPostTx: false }), 10_000);
+          setTimeout(() => State.update({ isPostTx: false }), 10_000);
 
-      if (refetch) refetch();
+          if (refetch) refetch();
 
-      toast?.dismiss(toastId);
-      toast?.success({
-        title: "Deposit Successfully!",
-      });
+          toast?.dismiss(toastId);
+          toast?.success({
+            title: "Deposit Successfully!",
+          });
+        })
+        .catch((error) => {
+          State.update({
+            isError: true,
+            isLoading: false,
+            loadingMsg: error,
+          });
+          toast?.dismiss(toastId);
+          toast?.fail({
+            title: "Deposit Failed!",
+            text: error?.message?.includes("user rejected transaction")
+              ? "User rejected transaction"
+              : "",
+          });
+        });
     })
-    .catch((error) => {
-      State.update({
-        isError: true,
-        isLoading: false,
-        loadingMsg: error,
-      });
-      toast?.dismiss(toastId);
-      toast?.fail({
-        title: "Deposit Failed!",
-        text: error?.message?.includes("user rejected transaction")
-          ? "User rejected transaction"
-          : "",
-      });
-    });
 };
 
 const handleWithdraw = () => {
