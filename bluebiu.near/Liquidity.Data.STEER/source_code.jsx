@@ -184,7 +184,12 @@ function getTvlUSD() {
       token0Balance,
       token1Balance,
     } = data.initialData
-    dataList[i].tvlUSD = Big(ethers.utils.formatUnits(token0Balance ?? 0, data.decimals0)).times(prices[data.token0]).plus(Big(ethers.utils.formatUnits(token1Balance ?? 0, data.decimals1)).times(prices[data.token1])).toFixed(2)
+    console.log('=data', data)
+    if (data.poolAddress === "0x559e44572145aabf6fdbc7e49db92bb6e6079c66") {
+      dataList[i].tvlUSD = Big(ethers.utils.formatUnits(token1Balance ?? 0, data.decimals1)).times(prices[data.token1]).toFixed(2)
+    } else {
+      dataList[i].tvlUSD = Big(ethers.utils.formatUnits(token0Balance ?? 0, data.decimals0)).times(prices[data.token0]).plus(Big(ethers.utils.formatUnits(token1Balance ?? 0, data.decimals1)).times(prices[data.token1])).toFixed(2)
+    }
   }
   formatedData('getTvlUSD')
 }
