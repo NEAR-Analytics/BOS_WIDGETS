@@ -14,6 +14,27 @@ const {
   userPositions,
   ICON_VAULT_MAP
 } = props;
+const UnKnownSvgContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFF;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  overflow: hidden;
+  svg {
+    min-width: 24px;
+    min-height: 24px;
+  }
+`
+const UnKnownSvg = (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="10"></circle>
+    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+    <path d="M12 17h.01"></path>
+  </svg>
+)
 const STEER_PERIPHERY_ADDRESS_MAPPING = {
   169: '0xD90c8970708FfdFC403bdb56636621e3E9CCe921',
   1088: '0x806c2240793b3738000fcb62C66BF462764B903F',
@@ -43,11 +64,13 @@ const {
 const defaultDeposit = props.tab === "deposit" || !props.tab;
 
 // const curPositionUSD = userPositions[data.vaultAddress]?.balanceUSD;
-
+const sender = Ethers.send("eth_requestAccounts", [])[0];
 State.init({
   isDeposit: defaultDeposit,
   lpBalance: "",
-  balances: [],
+  balances: {
+
+  },
   amount0: "",
   amount1: "",
   lpAmount: "",
@@ -61,9 +84,25 @@ State.init({
   isPostTx: false,
   showPairs: false,
 });
-
-
-const sender = Ethers.send("eth_requestAccounts", [])[0];
+const sourceBalances = {
+}
+const {
+  isDeposit,
+  balances,
+  amount0,
+  amount1,
+  isLoading,
+  isError,
+  isToken0Approved,
+  isToken1Approved,
+  isToken0Approving,
+  isToken1Approving,
+  loadingMsg,
+  lpBalance,
+  lpAmount,
+  isPostTx,
+} = state;
+const detailLoading = Object.keys(balances).length < 2 || lpBalance === ""
 const { token0, token1, decimals0, decimals1, id, poolAddress, liquidity } = data || defaultPair;
 
 const vaultAddress = addresses[id];
@@ -89,13 +128,11 @@ const updateBalance = (token) => {
       .getBalance(sender)
       .then((balanceBig) => {
         const adjustedBalance = ethers.utils.formatEther(balanceBig);
+        sourceBalances[symbol] = adjustedBalance
         State.update({
-          balances: {
-            ...state.balances,
-            [symbol]: adjustedBalance,
-          },
+          balances: sourceBalances,
         });
-      });
+      }).catch(error => console.log("error: ", error));
   } else {
     const erc20Abi = ["function balanceOf(address) view returns (uint256)"];
     const tokenContract = new ethers.Contract(
@@ -103,38 +140,21 @@ const updateBalance = (token) => {
       erc20Abi,
       Ethers.provider()
     );
-    tokenContract.balanceOf(sender).then((balanceBig) => {
-      const adjustedBalance = Big(
-        ethers.utils.formatUnits(balanceBig, decimals)
-      ).toFixed();
-      State.update({
-        balances: {
-          ...state.balances,
-          [symbol]: adjustedBalance,
-        },
-      });
-    });
+    tokenContract
+      .balanceOf(sender)
+      .then((balanceBig) => {
+        const adjustedBalance = Big(
+          ethers.utils.formatUnits(balanceBig, decimals)
+        ).toFixed();
+        sourceBalances[symbol] = adjustedBalance
+        State.update({
+          balances: sourceBalances,
+        })
+      })
+      .catch(error => console.log("error: ", error));
   }
 };
 
-const {
-  isDeposit,
-  balances,
-  amount0,
-  amount1,
-  isLoading,
-  isError,
-  isToken0Approved,
-  isToken1Approved,
-  isToken0Approving,
-  isToken1Approving,
-  loadingMsg,
-  lpBalance,
-  lpAmount,
-  isPostTx,
-} = state;
-
-const detailLoading = Object.keys(balances).length < 2 || lpBalance === ""
 const handleCheckApproval = (symbol, amount, decimals) => {
   const wei = ethers.utils.parseUnits(
     Big(amount).toFixed(decimals),
@@ -151,22 +171,42 @@ const handleCheckApproval = (symbol, amount, decimals) => {
   );
   console.log('=addresses[symbol]', addresses[symbol])
 
-  contract
-    .allowance(sender, vaultAddress)
-    .then((allowance) => {
-      State.update({
-        [symbol === token0 ? 'isToken0Approved' : 'isToken1Approved']: !new Big(allowance.toString()).lt(wei),
-      });
-    })
-    .catch((e) => console.log(e));
+  return new Promise((resolve) => {
+    contract
+      .allowance(sender, vaultAddress)
+      .then((allowance) => {
+        const approved = !new Big(allowance.toString()).lt(wei)
+        State.update({
+          [symbol === token0 ? 'isToken0Approved' : 'isToken1Approved']: approved,
+        });
+        resolve(approved)
+      })
+      .catch((e) => console.log(e));
+  })
 
 }
 const checkApproval = (amount, otherAmount, symbol) => {
+  
   const otherSymbol = symbol === token0 ? token1 : token0
   const decimals = symbol === token0 ? decimals0 : decimals1
   const otherDecimals = symbol === token0 ? decimals1 : decimals0
-  handleCheckApproval(symbol, amount, decimals)
-  handleCheckApproval(otherSymbol, otherAmount, otherDecimals)
+  const promiseArray = [
+    handleCheckApproval(symbol, amount, decimals),
+    handleCheckApproval(otherSymbol, otherAmount, otherDecimals)
+  ]
+  Promise.all(promiseArray).then(result => {
+    const [firstApproved, secondApproved] = result
+    if (callback) {
+      if (firstApproved && secondApproved) {
+        symbol === token0 ? callback(amount, otherAmount) : callback(otherAmount, amount)
+      } else {
+        toast?.dismiss(state.toastId);
+        State.update({
+          isLoading: false
+        })
+      }
+    }
+  })
 };
 const changeMode = (isDeposit) => {
   State.update({ isDeposit });
@@ -211,17 +251,18 @@ const handleTokenChange = (amount, symbol, callback) => {
       const otherAmount = Big((symbol === token0 ?
         Big(amount).times(total1).div(total0) :
         Big(amount).times(total0).div(total1))).toFixed()
-      
+
       State.update({
         [symbol === token0 ? 'amount1' : 'amount0']: otherAmount,
         isLoading: callback ? true : false,
         focusedSymbol: symbol,
       })
-      if (callback) {
-        symbol === token0 ? callback(amount, otherAmount) : callback(otherAmount, amount)
-      } else {
-        checkApproval(amount, otherAmount, symbol);
-      }
+      // if (callback) {
+      //   symbol === token0 ? callback(amount, otherAmount) : callback(otherAmount, amount)
+      // } else {
+      //   checkApproval(amount, otherAmount, symbol);
+      // }
+      checkApproval(amount, otherAmount, symbol, callback);
     })
     .catch((error) => {
       console.log("error: ", error)
@@ -674,7 +715,15 @@ return (
                   <InputWrap className={Number(amount0) > Number(balances[token0]) ? "inSufficient" : ""}>
                     <Input value={amount0} type="number" onChange={(e) => handleTokenChange(e.target.value, token0)} />
                     <InputSuffix>
-                      <img src={ICON_VAULT_MAP[token0]} alt={token0} />
+                      {
+                        ICON_VAULT_MAP[token0] ? (
+                          <img src={ICON_VAULT_MAP[token0]} alt={token0} />
+                        ) : (
+                          <UnKnownSvgContainer>
+                            {UnKnownSvg}
+                          </UnKnownSvgContainer>
+                        )
+                      }
                       <span>{token0}</span>
                     </InputSuffix>
                   </InputWrap>
@@ -687,7 +736,15 @@ return (
                   <InputWrap className={Number(amount1) > Number(balances[token1]) ? "inSufficient" : ""}>
                     <Input value={amount1} type="number" onChange={(e) => handleTokenChange(e.target.value, token1)} />
                     <InputSuffix>
-                      <img src={ICON_VAULT_MAP[token1]} alt={token1} />
+                      {
+                        ICON_VAULT_MAP[token1] ? (
+                          <img src={ICON_VAULT_MAP[token1]} alt={token1} />
+                        ) : (
+                          <UnKnownSvgContainer>
+                            {UnKnownSvg}
+                          </UnKnownSvgContainer>
+                        )
+                      }
                       <span>{token1}</span>
                     </InputSuffix>
                   </InputWrap>
@@ -763,8 +820,24 @@ return (
 
                     <InputSuffix>
                       <StyledImageList>
-                        <img src={ICON_VAULT_MAP[token0]} alt={token0} />
-                        <img src={ICON_VAULT_MAP[token1]} alt={token1} style={{ marginLeft: -6 }} />
+                        {
+                          ICON_VAULT_MAP[token0] ? (
+                            <img src={ICON_VAULT_MAP[token0]} alt={token0} />
+                          ) : (
+                            <UnKnownSvgContainer>
+                              {UnKnownSvg}
+                            </UnKnownSvgContainer>
+                          )
+                        }
+                        {
+                          ICON_VAULT_MAP[token1] ? (
+                            <img src={ICON_VAULT_MAP[token1]} alt={token1} style={{ marginLeft: -6 }} />
+                          ) : (
+                            <UnKnownSvgContainer style={{ marginLeft: -6 }}>
+                              {UnKnownSvg}
+                            </UnKnownSvgContainer>
+                          )
+                        }
                       </StyledImageList>
                       <span>{token0}/{token1}</span>
                     </InputSuffix>
