@@ -1,6 +1,6 @@
 const accountId = props.accountId ?? context.accountId;
 
-const template = "hack.near/widget/city.ai";
+const template = "hack.near/widget/chatbot";
 
 const [systemPrompt, setSystemPrompt] = useState("");
 const [creatorId, setCreatorId] = useState(accountId);
@@ -11,7 +11,7 @@ const handleCreate = () =>
   Social.set({
     widget: {
       [`${name}`]: {
-        "": `return <Widget src="hack.near/widget/city.ai" props={{ systemPrompt: "${systemPrompt}", initialMessage: "${initialMessage}" }} />;`,
+        "": `return <Widget src="hack.near/widget/chatbot" props={{ systemPrompt: "${systemPrompt}", initialMessage: "${initialMessage}" }} />;`,
         metadata: {
           tags: {
             build: "",
@@ -46,7 +46,7 @@ return (
       <h5>Name (for the widget)</h5>
       <input
         type="text"
-        placeholder="city.ai"
+        placeholder="chatbot"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
@@ -61,7 +61,7 @@ return (
       </button>
       <a
         className="btn btn-outline-success mx-1"
-        href="#/edit/hack.near/widget/city.ai"
+        href="/edit/hack.near/widget/chatbot"
       >
         Customize
       </a>
