@@ -254,7 +254,7 @@ return (
       <ItemContainer>
         <ItemHeader>
           <ItemTitle>
-            <label>List Of Winners</label>
+            <label>Winners who have claimed their $HATs</label>
           </ItemTitle>
         </ItemHeader>
         <ItemBody>
