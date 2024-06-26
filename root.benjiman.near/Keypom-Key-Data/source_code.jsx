@@ -65,6 +65,7 @@ const paginateKeys = (limit, keysPerQuery) => {
 
 const getKeyData = () => {
   let numKeys = getNumKeypomKeys();
+  console.log("Num Keys: ", numKeys);
   return paginateKeys(numKeys, 10000);
 };
 
