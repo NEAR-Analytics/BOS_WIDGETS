@@ -13,12 +13,14 @@ const [prompt, setPrompt] = useState("");
 const [loading, setLoading] = useState(false);
 const [response, setResponse] = useState("");
 
+const initialMessage = props.initialMessage;
+
 const [messages, setMessages] = useState(
   props.messages ?? [
     {
       role: "assistant",
       content:
-        props.initialMessage ??
+        initialMessage ??
         "Nice to meet you! Let's build AI together. Submit questions to learn how fun and easy it is to make your own customizable chatbot like this one.",
     },
   ]
