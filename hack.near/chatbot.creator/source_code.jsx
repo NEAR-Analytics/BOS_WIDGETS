@@ -22,7 +22,7 @@ const handleCreate = () =>
   });
 
 return (
-  <>
+  <div className="m-2">
     <h3>Create Your Own AI Chatbot</h3>
     <div className="m-2 mt-3">
       <h5>System Prompt</h5>
@@ -66,5 +66,10 @@ return (
         Customize
       </a>
     </div>
-  </>
+    <hr />
+    <div>
+      <h4 className="m-3">Demo</h4>
+      <Widget src={template} />
+    </div>
+  </div>
 );
