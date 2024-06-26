@@ -50,12 +50,27 @@ State.init({
   isPostTx: false,
   showPairs: false,
 });
+const sourceBalances = {
+}
+const {
+  isDeposit,
+  balances,
+  amount,
+  isLoading,
+  isError,
+  isTokenApproved,
+  isTokenApproving,
+  loadingMsg,
+  lpBalance,
+  lpAmount,
+  isPostTx,
+} = state;
+
+const detailLoading = Object.keys(balances).length < 2 || lpBalance === ""
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 const { token, decimals, id, poolAddress } = data || defaultPair;
-
 const vaultAddress = addresses[id];
-
 const updateLPBalance = () => {
   const sender = Ethers.send("eth_requestAccounts", [])[0];
   const abi = [{
@@ -103,11 +118,10 @@ const updateBalance = () => {
       .getBalance(sender)
       .then((balanceBig) => {
         const adjustedBalance = ethers.utils.formatEther(balanceBig);
+        sourceBalances[symbol] = adjustedBalance
+        
         State.update({
-          balances: {
-            ...state.balances,
-            [symbol]: adjustedBalance,
-          },
+          balances: sourceBalances,
         });
       });
   } else {
@@ -121,31 +135,15 @@ const updateBalance = () => {
       const adjustedBalance = Big(
         ethers.utils.formatUnits(balanceBig, decimals)
       ).toFixed();
+      sourceBalances[symbol] = adjustedBalance
       State.update({
-        balances: {
-          ...state.balances,
-          [symbol]: adjustedBalance,
-        },
+        balances: sourceBalances,
       });
     });
   }
 };
 
-const {
-  isDeposit,
-  balances,
-  amount,
-  isLoading,
-  isError,
-  isTokenApproved,
-  isTokenApproving,
-  loadingMsg,
-  lpBalance,
-  lpAmount,
-  isPostTx,
-} = state;
 
-const detailLoading = Object.keys(balances).length < 2 || lpBalance === ""
 const changeMode = (isDeposit) => {
   State.update({ isDeposit });
 };
