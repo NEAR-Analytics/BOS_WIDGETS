@@ -23,8 +23,6 @@ const UnKnownSvgContainer = styled.div`
   svg {
     min-width: 24px;
     min-height: 24px;
-    margin-left: 1px;
-    margin-top: 1px;
   }
 `
 State.init({
