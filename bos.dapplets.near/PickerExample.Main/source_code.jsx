@@ -211,13 +211,9 @@ return (
             },
           ]
         }
-        onClick={ctx => setContext(ctx)}
+        onClick={setContext}
         LatchComponent={ContextTypeLatch}
-        highlightChildren
-      // />
-      >
-        {/* {iconTimelineLatch("blue")} */}
-      </DappletContextPicker>
+      />
     ) : null}
     
     <DappletPortal
@@ -248,18 +244,7 @@ return (
 
     {isRunnigApp && context ? (
       <DappletPortal
-        target={{
-          namespace: context.namespace,
-          contextType: context.type,
-          if: { id: { eq: context.id } },
-          parent: context.type === 'postSouthButton' && {
-            namespace: context.namespace,
-            contextType: context.parent.type,
-            if: {
-              id: { eq: context.parent.id }
-            }
-          }
-        }}
+        target={context}
         component={ChapterWrapper}
       />
     ) : null}
