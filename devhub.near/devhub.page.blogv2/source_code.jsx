@@ -1,8 +1,4 @@
-const { id, community, communityAddonId } = props;
-
-const { Page } =
-  VM.require("devhub.near/widget/devhub.entity.addon.blogv2.Page") ||
-  (() => <></>);
+const { id, community } = props;
 
 const { getAccountCommunityPermissions } = VM.require(
   "devhub.near/widget/core.adapter.devhub-contract"
@@ -28,13 +24,17 @@ if (id && !showEditScreenData) {
         blogId: id,
         handle: community,
         template: (p) => (
-          <Page
-            {...(p || {})}
-            onEdit={() => {
-              setShowEditScreen({ ...p, data: { ...p.data, id: id } });
+          <Widget
+            src="devhub.near/widget/devhub.entity.addon.blogv2.Page"
+            props={{
+              data: { ...p.data, id },
+              onEdit: () => {
+                setShowEditScreen({ ...p, data: { ...p.data, id } });
+              },
+              community,
+              accountId: context.accountId,
+              isAllowedToEdit: permissions.can_configure,
             }}
-            accountId={context.accountId}
-            community={community}
           />
         ),
       }}
