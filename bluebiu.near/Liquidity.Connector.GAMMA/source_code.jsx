@@ -149,7 +149,8 @@ useEffect(() => {
       })
     } else if (state.categoryIndex === 1 && state.userPositions) {
       state.dataList.forEach(data => {
-        if (state.userPositions && addresses[data.id] in state.userPositions) {
+        console.log('=data', data)
+        if (Big(data?.liquidity ?? 0).gt(0) && state.userPositions && addresses[data.id] in state.userPositions) {
           filterList.push(data)
         }
       })
@@ -168,7 +169,7 @@ useEffect(() => {
     fetchAllData()
     fetchUserData()
   } else {
-    const index = CHAIN_LIST.findIndex(chain => chain.id === curChain.id)
+    const index = CHAIN_LIST?.findIndex(chain => chain.id === curChain.id) ?? -1
     if (index > -1) {
       State.update({
         chainIndex: index,
@@ -182,55 +183,7 @@ useEffect(() => {
     }
   }
 }, [curChain])
-const columnList = isDapps ? [{
-  width: '40%',
-  key: 'pool',
-  label: 'Position',
-  type: 'slot',
-  render: (data) => {
-    return (
-      <>
-        <StyledVaultImage>
-          <img style={{ marginRight: -6 }} src={ICON_VAULT_MAP[data.token0]} alt={data.token0} />
-          <img src={ICON_VAULT_MAP[data.token1]} alt={data.token1} />
-        </StyledVaultImage>
-        <TdTxt>{data.token0} - {data.token1}</TdTxt>
-      </>
-    )
-  }
-}, {
-  width: '20%',
-  key: 'strategy',
-  label: 'Strategy',
-  type: 'slot',
-  render: (data) => {
-    return (
-      <StrategyTxt>{data.strategy2 ? data.strategy2 : data.strategy}</StrategyTxt>
-    )
-  }
-}, {
-  width: '20%',
-  key: 'tvlUSD',
-  label: 'TVL',
-  type: 'slot',
-  render: (data) => {
-    return (
-      <TdTxt>{formatFiat(data.tvlUSD)}</TdTxt>
-    )
-  }
-}, {
-  width: '20%',
-  key: 'totalApr',
-  label: 'APR',
-  type: 'slot',
-  render: (data) => {
-    return (
-      <StyledDashedUndeline>
-        <TdTxt>{data.totalApr}</TdTxt>
-      </StyledDashedUndeline>
-    )
-  }
-}] : [{
+const columnList = [{
   width: '25%',
   key: 'pool',
   label: 'Pool',
@@ -312,7 +265,7 @@ const columnList = isDapps ? [{
 
     return (
       <>
-        <TdTxt>{Big(userBalance ?? 0).gt(0) ? `${Big(userBalance ?? 0).lt(0.01) ? '<$0.01' : formatFiat(userBalance)}` : "-"}</TdTxt>
+        <TdTxt>{Big(data?.liquidity ?? 0).gt(0) && Big(userBalance ?? 0).gt(0) ? `${Big(userBalance ?? 0).lt(0.01) ? '<$0.01' : formatFiat(userBalance)}` : "-"}</TdTxt>
         {Big(data?.liquidity ?? 0).gt(0) && <TdTxt className="gray">{Big(data?.liquidity ?? 0).lt(0.01) ? '<0.01' : Big(data.liquidity).toFixed(2)} LP</TdTxt>}
         <SvgIcon className={["icon-right", index === state.dataIndex ? "rotate" : ""]}>
           {IconRight}
