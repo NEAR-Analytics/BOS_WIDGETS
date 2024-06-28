@@ -51,21 +51,32 @@ return (
         onChange={(e) => setName(e.target.value)}
       />
     </div>
-    <div className="m-2 mt-3">
-      <button
-        disabled={!name || !systemPrompt || !initialMessage}
-        className="btn btn-success mx-1"
-        onClick={handleCreate}
-      >
-        Create
-      </button>
-      <a
-        className="btn btn-outline-success mx-1"
-        href="/edit/hack.near/widget/chatbot"
-      >
-        Customize
-      </a>
-    </div>
+    {context.accountId ? (
+      <div className="m-2 mt-3">
+        <button
+          disabled={!name || !systemPrompt || !initialMessage}
+          className="btn btn-success mx-1"
+          onClick={handleCreate}
+        >
+          Create
+        </button>
+        <a
+          className="btn btn-outline-success mx-1"
+          href="/edit/hack.near/widget/chatbot"
+        >
+          Customize
+        </a>
+      </div>
+    ) : (
+      <div className="m-2 mt-3">
+        <a
+          className="btn btn-success mx-1"
+          href="https://wallet.mintbase.xyz/account/new"
+        >
+          Get Account
+        </a>
+      </div>
+    )}
     <hr />
     <div>
       <h4 className="m-3">Demo</h4>
