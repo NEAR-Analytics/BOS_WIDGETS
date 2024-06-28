@@ -481,15 +481,18 @@ const handleDeposit = () => {
 
       addAction?.({
         type: "Liquidity",
-        action: "Deposit",
+        action: "Add Liquidity",
         token0,
         token1,
-        amount: amount0,
+        extra_data: JSON.stringify({
+          amount0,
+          amount1,
+          action: "Add Liquidity",
+        }),
         template: defaultDex,
-        status: status,
+        status,
         add: false,
         transactionHash,
-        chain_id: props.chainId,
       });
 
       State.update({
@@ -572,7 +575,6 @@ const handleWithdraw = () => {
         status: status,
         add: false,
         transactionHash,
-        chain_id: state.chainId,
       });
 
       setTimeout(() => State.update({ isPostTx: false }), 10_000);
