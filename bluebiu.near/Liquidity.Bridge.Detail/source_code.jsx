@@ -427,9 +427,7 @@ const handleDeposit = () => {
 
           const { refetch } = props;
           if (refetch) {
-            setTimeout(() => {
-              refetch()
-            }, 3000)
+            refetch()
           }
 
           toast?.dismiss(toastId);
