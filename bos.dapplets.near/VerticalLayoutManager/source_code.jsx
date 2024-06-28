@@ -84,7 +84,7 @@ return (
             <Widget
               loading={<></>}
               src={widget.src}
-              props={{ ...widget.props, pickContext: props.pickContext, pickContexts: props.pickContexts}}
+              props={{ ...widget.props, notify: props.notify }}
             />
             <div
               data-mweb-insertion-point="hidden"
