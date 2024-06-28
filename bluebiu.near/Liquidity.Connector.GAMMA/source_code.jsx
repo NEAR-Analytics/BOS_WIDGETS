@@ -122,6 +122,7 @@ function handleChangeCategoryIndex(index) {
   State.update({
     categoryIndex: index
   })
+  refetch()
 }
 function handleChangeChainIndex(index) {
   const chain = CHAIN_LIST[index]
@@ -149,7 +150,6 @@ useEffect(() => {
       })
     } else if (state.categoryIndex === 1 && state.userPositions) {
       state.dataList.forEach(data => {
-        console.log('=data', data)
         if (Big(data?.liquidity ?? 0).gt(0) && state.userPositions && addresses[data.id] in state.userPositions) {
           filterList.push(data)
         }
