@@ -4,30 +4,29 @@ const CONTEXT_TYPE = 'post'
 const SKIN = 'META_GUIDE'
 
 const [isRunnigApp, toggleIsRunningApp] = useState(false)
-const [context, setContext] = useState(null)
-const [focusedContext, setFocusedContext] = useState(null);
+const [selectedContext, setSelectedContext] = useState(null)
 
 const handleClose = () => {
-  setContext(null)
+  setSelectedContext(null)
   toggleIsRunningApp(false)
 }
 
 const ChapterWrapper = (props) => {
   const widgetProps = {
-    id: context.id,
+    id: selectedContext.id,
     type: 'callout',
     onClose: handleClose,
     content:`
-**ID:** ${context.id}
+**ID:** ${selectedContext.id}
 
-**Context type:** ${context.type}
+**Context type:** ${selectedContext.type}
 
-**Namespace:** ${context.namespace}
+**Namespace:** ${selectedContext.namespace}
 
 **Parsed context:**
 
 \`\`\`js
-${JSON.stringify(context.parsed, null, 2)}
+${JSON.stringify(selectedContext.parsed, null, 2)}
 \`\`\`
 `,
     skin: SKIN,
@@ -116,7 +115,7 @@ const iconNotchLatch = (
 )
 
 const TimelineLatch = styled.button`
-  background-color: ${(props) => props.$variant === 'primary' ? '#384bff' : '#384BFF4D'};
+  background-color: ${(props) => props.$variant === 'current' ? '#384bff' : '#384BFF4D'};
   height: 20px;
   width: ${(props) => `${props.$width + 6}px`};
   border-radius: 6px;
@@ -138,7 +137,7 @@ const NotchLatch = styled.button`
   padding: 0;
   background: none;
   border: none;
-  opacity: ${(props) => props.$variant === 'primary' ? '1' : '.5'};
+  opacity: ${(props) => props.$variant === 'current' ? '1' : '.5'};
 `
 
 const ContextTypeLatch = ({ context, variant, contextDimensions }) => {
@@ -147,7 +146,7 @@ const ContextTypeLatch = ({ context, variant, contextDimensions }) => {
       <TimelineLatch
         $variant={variant}
         $width={contextDimensions.width}
-        onClick={() => setContext(context)}
+        onClick={() => setSelectedContext(context)}
       >
         {iconTimelineLatch("white")}
       </TimelineLatch>
@@ -159,7 +158,7 @@ const ContextTypeLatch = ({ context, variant, contextDimensions }) => {
         $variant={variant}
         $width={contextDimensions.width}
         $height={contextDimensions.height}
-        onClick={() => setContext(context)}
+        onClick={() => setSelectedContext(context)}
       >
         {iconNotchLatch}
       </NotchLatch>
@@ -211,7 +210,7 @@ return (
             },
           ]
         }
-        onClick={setContext}
+        onClick={setSelectedContext}
         LatchComponent={ContextTypeLatch}
       />
     ) : null}
@@ -242,9 +241,9 @@ return (
       />}
     />
 
-    {isRunnigApp && context ? (
+    {isRunnigApp && selectedContext ? (
       <DappletPortal
-        target={context}
+        target={selectedContext}
         component={ChapterWrapper}
       />
     ) : null}
