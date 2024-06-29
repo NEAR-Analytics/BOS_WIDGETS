@@ -488,6 +488,7 @@ const handleDeposit = () => {
           amount0,
           amount1,
           action: "Add Liquidity",
+          type: "univ3",
         }),
         template: defaultDex,
         status,
