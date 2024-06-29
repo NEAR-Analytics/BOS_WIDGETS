@@ -215,7 +215,7 @@ const sendTokensAndAddBid = () => {
           methodName: "claim_tokens",
           args: {},
           gas: 300000000000000,
-          deposit: 1,
+          deposit: 1 * 1e22,
         },
         {
           contractName: auctionsContract,
@@ -246,7 +246,7 @@ const sendTokensAndAddBid = () => {
           methodName: "claim_tokens",
           args: {},
           gas: 300000000000000,
-          deposit: 1,
+          deposit: 1 * 1e22,
         },
         {
           contractName: auctionsContract,
