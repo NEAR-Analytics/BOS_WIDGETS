@@ -175,7 +175,13 @@ const addBid = () => {
 const claimTokens = () => {
   console.log("claimTokens");
   if (winnerHasStorageBalance) {
-    Near.call(auctionsContract, "claim_tokens", {}, "300000000000000", 1);
+    Near.call(
+      auctionsContract,
+      "claim_tokens",
+      {},
+      "300000000000000",
+      1 * 1e22
+    );
   } else {
     Near.call([
       {
@@ -190,7 +196,7 @@ const claimTokens = () => {
         methodName: "claim_tokens",
         args: {},
         gas: 300000000000000,
-        deposit: 1,
+        deposit: 1 * 1e22,
       },
     ]);
   }
