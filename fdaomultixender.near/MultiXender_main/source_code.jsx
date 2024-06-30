@@ -517,7 +517,7 @@ const Main = () => {
 
     setSimplePopupVisibility(false);
     let newsumOfAmounts =
-      selectedToken === "USDT" ? sumOfAmounts * 1e6 : sumOfAmounts;
+      selectedToken === "USDT" ? sumOfAmounts * 1e6 : sumOfAmounts * 1e7;
     try {
       Near.call([
         {
