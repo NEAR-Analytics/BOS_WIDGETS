@@ -13,7 +13,9 @@ const ToCDocs = "https://aipgf.com/terms";
 const CoCDocs = "https://aipgf.com/conduct";
 if (!author) {
   return (
-    <Widget src={`devhub.near/widget/devhub.entity.proposal.LoginScreen`} />
+    <Widget
+      src={`bos.forum.potlock.near/widget/components.molecule.LoginScreen`}
+    />
   );
 }
 let editProposalData = null;
