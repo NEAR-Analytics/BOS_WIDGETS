@@ -119,7 +119,7 @@ const updateBalance = () => {
       .then((balanceBig) => {
         const adjustedBalance = ethers.utils.formatEther(balanceBig);
         sourceBalances[symbol] = adjustedBalance
-        
+
         State.update({
           balances: sourceBalances,
         });
@@ -143,7 +143,6 @@ const updateBalance = () => {
   }
 };
 
-
 const changeMode = (isDeposit) => {
   State.update({ isDeposit });
 };
@@ -151,7 +150,32 @@ const changeMode = (isDeposit) => {
 const handleMax = () => {
   handleTokenChange(balances[token], token);
 };
-
+const handleCheckApproval = (symbol, amount, decimals) => {
+  const wei = ethers.utils.parseUnits(
+    Big(amount).toFixed(decimals),
+    decimals
+  );
+  const abi = [
+    "function allowance(address, address) external view returns (uint256)",
+  ];
+  const contract = new ethers.Contract(
+    addresses[symbol],
+    abi,
+    Ethers.provider()
+  );
+  return new Promise((resolve) => {
+    contract
+      .allowance(sender, storeAddress)
+      .then((allowance) => {
+        const approved = !new Big(allowance.toString()).lt(wei)
+        State.update({
+          isTokenApproved: approved,
+        });
+        resolve(approved)
+      })
+      .catch((e) => console.log(e));
+  })
+}
 const handleTokenChange = (value, symbol) => {
   State.update({
     amount: value
@@ -162,8 +186,73 @@ const handleTokenChange = (value, symbol) => {
     })
     return;
   }
+  if (symbol === 'ETH') {
+    State.update({
+      isTokenApproved: true
+    })
+  } else {
+    handleCheckApproval(symbol, value, decimals)
+  }
 };
 
+const handleApprove = () => {
+  const _token = token;
+  const _amount = Big(amount).toFixed(decimals)
+
+  const toastId = toast?.loading({
+    title: `Approve ${_amount} ${_token}`,
+  });
+
+  State.update({
+    isTokenApproving: true,
+    isLoading: true,
+    loadingMsg: `Approving ${_token}...`,
+  });
+
+  const wei = ethers.utils.parseUnits(
+    _amount,
+    decimals
+  );
+
+  const abi = ["function approve(address, uint) public"];
+
+  const contract = new ethers.Contract(
+    vaultAddress,
+    abi,
+    Ethers.provider().getSigner()
+  );
+
+  contract
+    .approve(storeAddress, wei)
+    .then((tx) => tx.wait())
+    .then((receipt) => {
+      State.update({ isTokenApproved: true, isTokenApproving: false, isLoading: false, loadingMsg: "" });
+      toast?.dismiss(toastId);
+      toast?.success({
+        title: "Approve Successfully!",
+        text: `Approve ${_amount} ${_token}`,
+        tx: receipt.transactionHash,
+        chainId: props.chainId,
+      });
+    })
+    .catch((error) => {
+      console.log('error: ', error)
+      State.update({
+        isError: true,
+        isLoading: false,
+        loadingMsg: error,
+        isToken0Approving: false,
+        isToken1Approving: false,
+      });
+      toast?.dismiss(toastId);
+      toast?.fail({
+        title: "Approve Failed!",
+        text: error?.message?.includes("user rejected transaction")
+          ? "User rejected transaction"
+          : `Approve ${_amount} ${_token}`,
+      });
+    });
+};
 const handleLPChange = (amount) => {
   State.update({
     lpAmount: amount,
@@ -449,7 +538,7 @@ return (
                     </StyledButton>
                   ) : (
                     <>
-                      <StyledButton disabled={isTokenApproved || isTokenApproving} onClick={() => handleApprove(true)}>{
+                      <StyledButton disabled={isTokenApproved || isTokenApproving} onClick={() => handleApprove()}>{
                         isTokenApproving ? (
                           <Widget src="bluebiu.near/widget/Liquidity.Bridge.Loading" />
                         ) : (
