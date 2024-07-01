@@ -575,56 +575,66 @@ const handleWithdraw = () => {
     abi,
     Ethers.provider().getSigner()
   );
+  const params = [shares, 0, 0, sender]
   contract
-    .withdraw(shares, 0, 0, sender)
-    .then((tx) => {
-      return tx.wait();
+    .callStatic
+    .withdraw(...params)
+    .then(result => {
+      contract
+        .withdraw(...params)
+        .then((tx) => {
+          return tx.wait();
+        })
+        .then((receipt) => {
+          State.update({
+            isLoading: false,
+            isPostTx: true,
+          });
+
+          const { status, transactionHash } = receipt;
+          addAction?.({
+            type: "Liquidity",
+            action: "Withdraw",
+            token0,
+            token1,
+            amount: lpAmount,
+            template: defaultDex,
+            status: status,
+            add: 0,
+            transactionHash,
+            chain_id: state.chainId,
+            extra_data: JSON.stringify({
+              action: "Withdraw",
+              amount0: ethers.utils.formatUnits(result[0], decimals0),
+              amount1: ethers.utils.formatUnits(result[1], decimals1),
+            })
+          });
+
+          setTimeout(() => State.update({ isPostTx: false }), 10_000);
+
+          if (refetch) refetch();
+
+          toast?.dismiss(toastId);
+          toast?.success({
+            title: "Withdraw Successfully!",
+          });
+        })
+        .catch((error) => {
+          console.log('===error', error)
+          State.update({
+            isError: true,
+            isLoading: false,
+            loadingMsg: error,
+          });
+          toast?.dismiss(toastId);
+          toast?.fail({
+            title: "Withdraw Failed!",
+            text: error?.message?.includes("user rejected transaction")
+              ? "User rejected transaction"
+              : "",
+          });
+        });
     })
-    .then((receipt) => {
-      State.update({
-        isLoading: false,
-        isPostTx: true,
-      });
-
-      const { status, transactionHash } = receipt;
-
-      addAction?.({
-        type: "Liquidity",
-        action: "Withdraw",
-        token0,
-        token1,
-        amount: lpAmount,
-        template: defaultDex,
-        status: status,
-        add: 0,
-        transactionHash,
-        chain_id: state.chainId,
-      });
-
-      setTimeout(() => State.update({ isPostTx: false }), 10_000);
-
-      if (refetch) refetch();
-
-      toast?.dismiss(toastId);
-      toast?.success({
-        title: "Withdraw Successfully!",
-      });
-    })
-    .catch((error) => {
-      console.log('===error', error)
-      State.update({
-        isError: true,
-        isLoading: false,
-        loadingMsg: error,
-      });
-      toast?.dismiss(toastId);
-      toast?.fail({
-        title: "Withdraw Failed!",
-        text: error?.message?.includes("user rejected transaction")
-          ? "User rejected transaction"
-          : "",
-      });
-    });
 };
 
 const tokensPrice = prices;
