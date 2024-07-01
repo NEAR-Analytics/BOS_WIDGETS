@@ -1,6 +1,6 @@
-const { readableDate } = VM.require(`devhub.near/widget/core.lib.common`) || {
-  readableDate: () => {},
-};
+const { readableDate } = VM.require(
+  `devhub.near/widget/core.lib.common`,
+) || { readableDate: () => {} };
 const { href } = VM.require(`devhub.near/widget/core.lib.url`) || {
   href: () => {},
 };
@@ -37,13 +37,16 @@ return (
           rel="noopener noreferrer"
         >
           <div className="d-flex gap-2">
+<<<<<<< Updated upstream
+            <img src={"https://ipfs.near.social/ipfs/bafkreicbygt4kajytlxij24jj6tkg2ppc2dw3dlqhkermkjjfgdfnlizzy"} height={40} width={40} />
+=======
             <Widget
               src={`bos.forum.potlock.near/widget/components.molecule.Profile`}
               props={{
                 accountId: item.author_id,
               }}
             />
-
+>>>>>>> Stashed changes
             <div className="d-flex flex-column" style={{ maxWidth: 250 }}>
               <b className="text-truncate">{item.snapshot.name}</b>
               <div className="text-sm text-muted">
