@@ -166,77 +166,6 @@ const handleMax = (isToken0) => {
   else handleTokenChange(balances[token1], token1);
 };
 const handleGetMintAmount = (amount0Max, amount1Max, callback) => {
-  const abi = [{
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "amount0Max",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amount1Max",
-        "type": "uint256"
-      }
-    ],
-    "name": "getMintAmounts",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "amount0",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amount1",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "mintAmount",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  }];
-  const contract = new ethers.Contract(
-    ethers.utils.getAddress(vaultAddress),
-    abi,
-    Ethers.provider()
-  );
-  contract
-    .getMintAmounts(amount0Max, amount1Max)
-    .then((response) => {
-      callback && callback(response[2])
-    })
-}
-const handleTokenChange = (amount, symbol) => {
-  State.update({
-    [symbol === token0 ? 'amount0' : 'amount1']: amount
-  })
-  console.log('==amount', amount)
-  if (Number(amount) === 0) {
-    State.update({
-      [symbol === token0 ? 'amount1' : 'amount0']: "",
-      isToken0Approved: true,
-      isToken1Approved: true
-    })
-    return;
-  }
-  State.update({
-    isLoading: true,
-    isError: false,
-    loadingMsg: "Computing deposit amount..."
-  })
-
-  const decimals = (symbol === token0 ? decimals0 : decimals1)
-  const otherDecimals = symbol === token0 ? decimals1 : decimals0
-  const targetAmount = props?.data?.chain_id === 169 ? '340282366920938463463374607431768211455' : '1157920892373161954235709850086879078532699846656405'
-  const amount0Max = symbol === token0 ? Big(amount)
-    .mul(Big(10).pow(decimals)).toFixed(0) : targetAmount
-  const amount1Max = symbol === token1 ? Big(amount)
-    .mul(Big(10).pow(decimals)).toFixed(0) : targetAmount
   const abi = props?.data?.chain_id === 169 ? [{
     "inputs": [
       {
@@ -293,6 +222,78 @@ const handleTokenChange = (amount, symbol) => {
       {
         "internalType": "uint256",
         "name": "amount1",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "mintAmount",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }];
+
+  const contract = new ethers.Contract(
+    ethers.utils.getAddress(vaultAddress),
+    abi,
+    Ethers.provider()
+  );
+  contract
+    .getMintAmounts(amount0Max, amount1Max)
+    .then((response) => {
+      callback && callback(response)
+    })
+}
+const handleTokenChange = (amount, symbol) => {
+  State.update({
+    [symbol === token0 ? 'amount0' : 'amount1']: amount
+  })
+  console.log('==amount', amount)
+  if (Number(amount) === 0) {
+    State.update({
+      [symbol === token0 ? 'amount1' : 'amount0']: "",
+      isToken0Approved: true,
+      isToken1Approved: true
+    })
+    return;
+  }
+  State.update({
+    isLoading: true,
+    isError: false,
+    loadingMsg: "Computing deposit amount..."
+  })
+
+  const decimals = (symbol === token0 ? decimals0 : decimals1)
+  const otherDecimals = symbol === token0 ? decimals1 : decimals0
+  const targetAmount = props?.data?.chain_id === 169 ? '340282366920938463463374607431768211455' : '1157920892373161954235709850086879078532699846656405'
+  const amount0Max = symbol === token0 ? Big(amount)
+    .mul(Big(10).pow(decimals)).toFixed(0) : targetAmount
+  const amount1Max = symbol === token1 ? Big(amount)
+    .mul(Big(10).pow(decimals)).toFixed(0) : targetAmount
+  const abi = [{
+    "inputs": [
+      {
+        "internalType": "uint128",
+        "name": "amountXMax",
+        "type": "uint128"
+      },
+      {
+        "internalType": "uint128",
+        "name": "amountYMax",
+        "type": "uint128"
+      }
+    ],
+    "name": "getMintAmounts",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "amountX",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amountY",
         "type": "uint256"
       },
       {
@@ -420,7 +421,35 @@ const handleDeposit = () => {
     isError: false,
     loadingMsg: "Depositing...",
   });
-  const abi = [
+  const abi = props?.data?.chain_id === 169 ? [{
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "mintAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256[2]",
+        "name": "maxAmounts",
+        "type": "uint256[2]"
+      }
+    ],
+    "name": "mint",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "amountX",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amountY",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }] : [
     {
       "inputs": [
         {
@@ -456,9 +485,12 @@ const handleDeposit = () => {
   handleGetMintAmount(
     Big(amount0).mul(Big(10).pow(decimals0)).toFixed(0),
     targetAmount,
-    mintAmount => {
+    response => {
+      const [amount0, amount1, mintAmount] = response
+      const params = props?.data?.chain_id === 169 ? [mintAmount, [ethers.BigNumber.from(Big(amount0).times(1.002).toFixed(0)), ethers.BigNumber.from(Big(amount1).times(1.002).toFixed(0))]] : [mintAmount]
+      console.log('=params', params)
       contract
-        .mint(mintAmount)
+        .mint(...params)
         .then((tx) => {
           return tx.wait();
         })
