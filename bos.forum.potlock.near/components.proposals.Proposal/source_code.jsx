@@ -214,7 +214,7 @@ const LinkProfile = ({ account, children }) => {
     <a
       rel="noopener noreferrer"
       target="_blank"
-      href={`https://app.potlock.org/?tab=profile&accountId=${account}`}
+      href={`https://bos.potlock.org/?tab=profile&accountId=${account}`}
     >
       {children}
     </a>
@@ -695,7 +695,10 @@ return (
                   position: "relative",
                 }}
               >
-                <div className="d-none d-sm-flex">
+                <div
+                  className="d-none d-sm-flex"
+                  style={{ height: "max-content" }}
+                >
                   <Widget
                     src={`bos.forum.potlock.near/widget/components.molecule.Profile`}
                     props={{
