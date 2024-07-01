@@ -131,10 +131,11 @@ const NotchLatch = styled.button`
   display: flex;
   position: absolute;
   top: ${(props) => `${props.$height / 2 - 14}px`};
-  left: ${(props) => `${props.$width}px`};
-  width: 28px;
-  height: 28px;
+  left: ${(props) => `${props.$position === 'right' ? props.$width : '-35'}px`};
+  width: ${(props) => `${props.$position === 'right' ? '28' : '32'}px`};
+  height: 29px;
   padding: 0;
+  padding-right: ${(props) => `${props.$position === 'right' ? '0' : '4px'}`};
   background: none;
   border: none;
   opacity: ${(props) => props.$variant === 'current' ? '1' : '.5'};
@@ -159,6 +160,20 @@ const ContextTypeLatch = ({ context, variant, contextDimensions }) => {
         $width={contextDimensions.width}
         $height={contextDimensions.height}
         onClick={() => setSelectedContext(context)}
+        $position={'right'}
+      >
+        {iconNotchLatch}
+      </NotchLatch>
+    )
+  }
+  if (context.type === 'mweb-overlay' || context.type === 'mweb-overlay-action') {
+    return (
+      <NotchLatch
+        $variant={variant}
+        $width={contextDimensions.width}
+        $height={contextDimensions.height}
+        onClick={() => setSelectedContext(context)}
+        $position={'left'}
       >
         {iconNotchLatch}
       </NotchLatch>
@@ -195,7 +210,17 @@ return (
             },
             {
               namespace: 'mweb',
-              contextType: 'shadow-dom',
+              contextType: 'mweb-overlay',
+              if: { id: { eq: 'mutation-button' } }
+            },
+            {
+              namespace: 'mweb',
+              contextType: 'mweb-overlay',
+              if: { id: { eq: 'open-apps-button' } }
+            },
+            {
+              namespace: 'mweb',
+              contextType: 'mweb-overlay-action',
               if: {}
             },
             {
