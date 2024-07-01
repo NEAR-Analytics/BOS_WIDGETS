@@ -66,7 +66,7 @@ const {
   isPostTx,
 } = state;
 
-const detailLoading = Object.keys(balances).length < 2 || lpBalance === ""
+const detailLoading = Object.keys(balances).length < 1 || lpBalance === ""
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 const { token, decimals, id, poolAddress } = data || defaultPair;
