@@ -675,11 +675,12 @@ return (
         >
           <div className="d-flex gap-3 w-100">
             <div className="d-none d-sm-flex">
-              <Widget
-                src={`bos.forum.potlock.near/widget/components.molecule.Profile`}
-                props={{
-                  accountId: author,
-                }}
+              <img
+                src={
+                  "https://ipfs.near.social/ipfs/bafkreicbygt4kajytlxij24jj6tkg2ppc2dw3dlqhkermkjjfgdfnlizzy"
+                }
+                height={35}
+                width={35}
               />
             </div>
             <div className="d-flex flex-column gap-4 w-100">
