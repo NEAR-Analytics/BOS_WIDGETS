@@ -20,6 +20,11 @@ const Logo = () => {
         })}
       >
         <div className="d-flex gap-2 align-items-center">
+          <img
+            height={35}
+            width={35}
+            src="https://ipfs.near.social/ipfs/bafkreicgbhtzxgdb3noivjfx4xcwsx6nq5pnjttdc4fpgfq74ynqj5h6mq"
+          />
           <b className="text-lg">AI-PGF</b>
         </div>
       </Link>
@@ -35,8 +40,10 @@ const ProfileIcon = () => {
   `;
   return (
     <Widget
-      src={`devhub.near/widget/devhub.components.molecule.ProfileCard`}
-      props={{ iconOnly: true, accountId: context.accountId || null }}
+      src={`bos.forum.potlock.near/widget/components.molecule.Profile`}
+      props={{
+        accountId: context.accountId,
+      }}
     />
   );
 };
