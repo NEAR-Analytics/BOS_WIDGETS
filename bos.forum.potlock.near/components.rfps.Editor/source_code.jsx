@@ -22,7 +22,9 @@ const isAllowedToWriteRfp = Near.view(
 );
 if (!author || !isAllowedToWriteRfp) {
   return (
-    <Widget src={`devhub.near/widget/devhub.entity.proposal.LoginScreen`} />
+    <Widget
+      src={`bos.forum.potlock.near/widget/components.molecule.LoginScreen`}
+    />
   );
 }
 let editRfpData = null;
