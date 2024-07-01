@@ -343,13 +343,9 @@ const handleTokenChange = (amount, symbol) => {
     abi,
     Ethers.provider()
   );
-  console.log('=vaultAddress', vaultAddress)
-  console.log('=amount0Max', amount0Max)
-  console.log('=amount1Max', amount1Max)
   contract
     .getMintAmounts(amount0Max, amount1Max)
     .then((response) => {
-      console.log('=response', response)
       const amountX = ethers.utils.formatUnits(response[0], otherDecimals)
       const amountY = ethers.utils.formatUnits(response[1], otherDecimals)
       const otherAmount = symbol === token0 ? amountY : amountX
@@ -578,7 +574,40 @@ const handleDeposit = () => {
   )
 
 };
-
+const handleGetMinAmounts = (shares, callback) => {
+  const abi = [{
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "shares",
+        "type": "uint256"
+      }
+    ],
+    "name": "getUnderlyingBalancesByShare",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount0",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount1",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }]
+  const contract = new ethers.Contract(
+    vaultAddress,
+    abi,
+    Ethers.provider().getSigner()
+  )
+  contract
+    .getUnderlyingBalancesByShare(shares)
+    .then(result => callback && callback(result))
+}
 const handleWithdraw = () => {
   const toastId = toast?.loading({
     title: `Withdrawing...`,
@@ -590,7 +619,35 @@ const handleWithdraw = () => {
   });
 
   const amount = ethers.utils.parseUnits(Big(lpAmount).toFixed(18), 18);
-  const abi = [
+  const abi = props?.data?.chain_id === 169 ? [{
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "burnAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256[2]",
+        "name": "minAmounts",
+        "type": "uint256[2]"
+      }
+    ],
+    "name": "burn",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "amountX",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amountY",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }] : [
     {
       "inputs": [
         {
@@ -617,70 +674,73 @@ const handleWithdraw = () => {
     }
   ];
 
-  const contract = new ethers.Contract(
-    vaultAddress,
-    abi,
-    Ethers.provider().getSigner()
-  );
-  contract
-    .callStatic
-    .burn(amount)
-    .then(result => {
-      contract
-        .burn(amount)
-        .then((tx) => {
-          return tx.wait();
-        })
-        .then((receipt) => {
-          State.update({
-            isLoading: false,
-            isPostTx: true,
-          });
-
-          const { status, transactionHash } = receipt;
-
-          addAction?.({
-            type: "Liquidity",
-            action: "Withdraw",
-            token0,
-            token1,
-            amount: lpAmount,
-            template: defaultDex,
-            status: status,
-            add: 0,
-            transactionHash,
-            chain_id: state.chainId,
-            extra_data: JSON.stringify({
+  handleGetMinAmounts(amount, (response) => {
+    const [amount0, amount1] = response
+    const contract = new ethers.Contract(
+      vaultAddress,
+      abi,
+      Ethers.provider().getSigner()
+    );
+    const params = props?.data?.chain_id === 169 ? [amount, [ethers.BigNumber.from(Big(amount0).times(0.99).toFixed(0)), ethers.BigNumber.from(Big(amount1).times(0.99).toFixed(0))]] : [amount]
+    contract
+      .callStatic
+      .burn(...params)
+      .then(result => {
+        contract
+          .burn(...params)
+          .then((tx) => {
+            return tx.wait();
+          })
+          .then((receipt) => {
+            State.update({
+              isLoading: false,
+              isPostTx: true,
+            });
+            const { status, transactionHash } = receipt;
+            addAction?.({
+              type: "Liquidity",
               action: "Withdraw",
-              amount0: ethers.utils.formatUnits(result[0], decimals0),
-              amount1: ethers.utils.formatUnits(result[1], decimals1),
-            })
-          });
+              token0,
+              token1,
+              amount: lpAmount,
+              template: defaultDex,
+              status: status,
+              add: 0,
+              transactionHash,
+              chain_id: state.chainId,
+              extra_data: JSON.stringify({
+                action: "Withdraw",
+                amount0: ethers.utils.formatUnits(result[0], decimals0),
+                amount1: ethers.utils.formatUnits(result[1], decimals1),
+              })
+            });
 
-          setTimeout(() => State.update({ isPostTx: false }), 10_000);
+            setTimeout(() => State.update({ isPostTx: false }), 10_000);
 
-          if (refetch) refetch();
+            if (refetch) refetch();
 
-          toast?.dismiss(toastId);
-          toast?.success({
-            title: "Withdraw Successfully!",
+            toast?.dismiss(toastId);
+            toast?.success({
+              title: "Withdraw Successfully!",
+            });
+          })
+          .catch((error) => {
+            console.log('=error', error)
+            State.update({
+              isError: true,
+              isLoading: false,
+              loadingMsg: error,
+            });
+            toast?.dismiss(toastId);
+            toast?.fail({
+              title: "Withdraw Failed!",
+              text: error?.message?.includes("user rejected transaction")
+                ? "User rejected transaction"
+                : "",
+            });
           });
-        })
-        .catch((error) => {
-          State.update({
-            isError: true,
-            isLoading: false,
-            loadingMsg: error,
-          });
-          toast?.dismiss(toastId);
-          toast?.fail({
-            title: "Withdraw Failed!",
-            text: error?.message?.includes("user rejected transaction")
-              ? "User rejected transaction"
-              : "",
-          });
-        });
-    })
+      })
+  })
 
 
 };
