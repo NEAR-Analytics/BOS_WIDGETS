@@ -116,11 +116,12 @@ const FeedItem = ({ rfp, index }) => {
         }
       >
         <div className="d-flex gap-4 w-100">
-          <Widget
-            src={`bos.forum.potlock.near/widget/components.molecule.Profile`}
-            props={{
-              accountId: rfp.author_id,
-            }}
+          <img
+            src={
+              "https://ipfs.near.social/ipfs/bafkreicbygt4kajytlxij24jj6tkg2ppc2dw3dlqhkermkjjfgdfnlizzy"
+            }
+            height={35}
+            width={35}
           />
           <div className="d-flex flex-column gap-2 w-100 text-wrap">
             <div className="d-flex gap-2 align-items-center flex-wrap w-100">
