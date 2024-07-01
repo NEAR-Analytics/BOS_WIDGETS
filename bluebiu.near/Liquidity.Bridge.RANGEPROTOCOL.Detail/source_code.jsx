@@ -271,7 +271,7 @@ const handleTokenChange = (amount, symbol) => {
     .mul(Big(10).pow(decimals)).toFixed(0) : targetAmount
   const amount1Max = symbol === token1 ? Big(amount)
     .mul(Big(10).pow(decimals)).toFixed(0) : targetAmount
-  const abi = [{
+  const abi = props?.data?.chain_id === 169 ? [{
     "inputs": [
       {
         "internalType": "uint128",
@@ -294,6 +294,39 @@ const handleTokenChange = (amount, symbol) => {
       {
         "internalType": "uint256",
         "name": "amountY",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "mintAmount",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }] : [{
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount0Max",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount1Max",
+        "type": "uint256"
+      }
+    ],
+    "name": "getMintAmounts",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount0",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount1",
         "type": "uint256"
       },
       {
@@ -488,7 +521,6 @@ const handleDeposit = () => {
     response => {
       const [amount0, amount1, mintAmount] = response
       const params = props?.data?.chain_id === 169 ? [mintAmount, [ethers.BigNumber.from(Big(amount0).times(1.002).toFixed(0)), ethers.BigNumber.from(Big(amount1).times(1.002).toFixed(0))]] : [mintAmount]
-      console.log('=params', params)
       contract
         .mint(...params)
         .then((tx) => {
