@@ -152,16 +152,16 @@ function isValid(a) {
 
 function calcAmount1(_amount0Input) {
   if (!isValid(_amount0Input)) return 0;
-  const _amount1 = Big(totalAmount1)
-    .div(totalAmount0)
+  const _amount1 = Big(formatUnits(totalAmount1, decimals1))
+    .div(formatUnits(totalAmount0, decimals0))
     .times(_amount0Input)
     .toFixed(decimals1, 0);
   return _amount1;
 }
 function calcAmount0(_amount1Input) {
   if (!isValid(_amount1Input)) return 0;
-  const _amount0 = Big(totalAmount0)
-    .div(totalAmount1)
+  const _amount0 = Big(formatUnits(totalAmount0, decimals0))
+    .div(formatUnits(totalAmount1, decimals1))
     .times(_amount1Input)
     .toFixed(decimals0, 0);
   return _amount0;
