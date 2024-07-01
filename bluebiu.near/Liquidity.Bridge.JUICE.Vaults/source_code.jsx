@@ -134,7 +134,7 @@ function renderPointValue(vault, point) {
   } else {
     return (
       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="11" viewBox="0 0 14 11" fill="none">
-        <path d="M1 4.65217L5.17391 8.82609L13 1" stroke="#CE94FA" stroke-width="2" />
+        <path d="M1 4.65217L5.17391 8.82609L13 1" stroke="#CE94FA" strokeWidth="2" />
       </svg>
     )
   }
