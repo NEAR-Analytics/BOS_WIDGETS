@@ -536,11 +536,12 @@ return (
                 }}
               >
                 <div className="d-none d-sm-flex">
-                  <Widget
-                    src={`bos.forum.potlock.near/widget/components.molecule.Profile`}
-                    props={{
-                      accountId: authorId,
-                    }}
+                  <img
+                    src={
+                      "https://ipfs.near.social/ipfs/bafkreicbygt4kajytlxij24jj6tkg2ppc2dw3dlqhkermkjjfgdfnlizzy"
+                    }
+                    height={35}
+                    width={35}
                   />
                 </div>
                 <RfpContainer className="rounded-2 flex-1">
