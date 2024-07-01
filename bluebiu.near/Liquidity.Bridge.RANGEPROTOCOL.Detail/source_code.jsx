@@ -514,8 +514,8 @@ const handleDeposit = () => {
     Big(amount0).mul(Big(10).pow(decimals0)).toFixed(0),
     targetAmount,
     response => {
-      const [amount0, amount1, mintAmount] = response
-      const params = props?.data?.chain_id === 169 ? [mintAmount, [ethers.BigNumber.from(Big(amount0).times(1.002).toFixed(0)), ethers.BigNumber.from(Big(amount1).times(1.002).toFixed(0))]] : [mintAmount]
+      const [_amount0, _amount1, mintAmount] = response
+      const params = props?.data?.chain_id === 169 ? [mintAmount, [ethers.BigNumber.from(Big(_amount0).times(1.002).toFixed(0)), ethers.BigNumber.from(Big(_amount1).times(1.002).toFixed(0))]] : [mintAmount]
       contract
         .mint(...params)
         .then((tx) => {
