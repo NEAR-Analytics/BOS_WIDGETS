@@ -1007,7 +1007,7 @@ return (
           className="flex-2 w-100 order-2 order-md-1"
         >
           <div className="d-flex gap-2 w-100">
-            <div className="d-none d-sm-flex">
+            <div className="d-none d-sm-flex" style={{ height: "max-content" }}>
               <Widget
                 src={`bos.forum.potlock.near/widget/components.molecule.Profile`}
                 props={{
