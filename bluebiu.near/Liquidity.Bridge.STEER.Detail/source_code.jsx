@@ -169,11 +169,10 @@ const handleCheckApproval = (symbol, amount, decimals) => {
     abi,
     Ethers.provider()
   );
-  console.log('=addresses[symbol]', addresses[symbol])
 
   return new Promise((resolve) => {
     contract
-      .allowance(sender, vaultAddress)
+      .allowance(sender, ethers.utils.getAddress(STEER_PERIPHERY_ADDRESS))
       .then((allowance) => {
         const approved = !new Big(allowance.toString()).lt(wei)
         State.update({
@@ -185,8 +184,7 @@ const handleCheckApproval = (symbol, amount, decimals) => {
   })
 
 }
-const checkApproval = (amount, otherAmount, symbol) => {
-  
+const checkApproval = (amount, otherAmount, symbol, callback) => {
   const otherSymbol = symbol === token0 ? token1 : token0
   const decimals = symbol === token0 ? decimals0 : decimals1
   const otherDecimals = symbol === token0 ? decimals1 : decimals0
