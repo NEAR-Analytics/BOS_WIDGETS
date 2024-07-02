@@ -1,26 +1,10 @@
-State.init({
-  value: "value to update",
-});
+// define the HTML and JavaScript code for the canvas element
 
-console.log(Near.view("nearsocialexamples.near", "get_greeting"));
-
-const testCall = () => {
-  return Near.call("nearsocialexamples.near", "set_greeting", {
-    message: "Hi Near Social",
-  });
-};
-
-const testView = () => {
-  State.update({
-    value: Near.view("nearsocialexamples.near", "get_greeting"),
-  });
-};
+const url =
+  "https://drive.google.com/file/d/1Gz8pmtkWzKGGfnzKeCXOUImhwGKkca56/view?usp=sharing";
 
 return (
   <div>
-    <button onClick={testCall}>test call</button>
-    <button onClick={testView}>test view</button>
-
-    <div>{state.value}</div>
+    <iframe iframeResizer src={url} />
   </div>
 );

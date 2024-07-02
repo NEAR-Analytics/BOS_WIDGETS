@@ -58,6 +58,26 @@ State.init({
 });
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
+const sourceBalances = {
+}
+const {
+  isDeposit,
+  balances,
+  amount0,
+  amount1,
+  isLoading,
+  isError,
+  isToken0Approved,
+  isToken1Approved,
+  isToken0Approving,
+  isToken1Approving,
+  loadingMsg,
+  lpBalance,
+  lpAmount,
+  isPostTx,
+} = state;
+
+const detailLoading = Object.keys(balances).length < 2 || lpBalance === ""
 const { token0, token1, decimals0, decimals1, id, poolAddress } = data || defaultPair;
 
 const hypeAddress = poolAddress;
@@ -83,11 +103,9 @@ const updateBalance = (token) => {
       .getBalance(sender)
       .then((balanceBig) => {
         const adjustedBalance = ethers.utils.formatEther(balanceBig);
+        sourceBalances[symbol] = adjustedBalance
         State.update({
-          balances: {
-            ...state.balances,
-            [symbol]: adjustedBalance,
-          },
+          balances: sourceBalances,
         });
       });
   } else {
@@ -101,34 +119,14 @@ const updateBalance = (token) => {
       const adjustedBalance = Big(
         ethers.utils.formatUnits(balanceBig, decimals)
       ).toFixed();
+      sourceBalances[symbol] = adjustedBalance
       State.update({
-        balances: {
-          ...state.balances,
-          [symbol]: adjustedBalance,
-        },
+        balances: sourceBalances,
       });
     });
   }
 };
 
-const {
-  isDeposit,
-  balances,
-  amount0,
-  amount1,
-  isLoading,
-  isError,
-  isToken0Approved,
-  isToken1Approved,
-  isToken0Approving,
-  isToken1Approving,
-  loadingMsg,
-  lpBalance,
-  lpAmount,
-  isPostTx,
-} = state;
-
-const detailLoading = Object.keys(balances).length < 2 || lpBalance === ""
 
 const handleCheckApproval = (symbol, amount, decimals) => {
   const wei = ethers.utils.parseUnits(
@@ -627,57 +625,64 @@ const handleWithdraw = () => {
     Ethers.provider().getSigner()
   );
   const contractMethod = [token0, token1].includes('AVAX') ? contract.withdrawAVAXPair : contract.withdraw
-  contractMethod(amount)
-    .then((tx) => {
-      return tx.wait();
+  const contractCallStaticMethod = [token0, token1].includes('AVAX') ? contract.callStatic.withdrawAVAXPair : contract.callStatic.withdraw
+  contractCallStaticMethod(amount)
+    .then(result => {
+      contractMethod(amount)
+        .then((tx) => tx.wait())
+        .then((receipt) => {
+          State.update({
+            isLoading: false,
+            isPostTx: true,
+          });
+
+          const { status, transactionHash } = receipt;
+
+          addAction?.({
+            type: "Liquidity",
+            action: "Withdraw",
+            token0,
+            token1,
+            amount: lpAmount,
+            template: defaultDex,
+            status: status,
+            add: 0,
+            transactionHash,
+            chain_id: state.chainId,
+            extra_data: JSON.stringify({
+              action: "Withdraw",
+              amount0: ethers.utils.formatUnits(result[0], decimals0),
+              amount1: ethers.utils.formatUnits(result[1], decimals1),
+            })
+          });
+
+          setTimeout(() => State.update({ isPostTx: false }), 10_000);
+          if (refetch) {
+            setTimeout(() => {
+              refetch();
+            }, 1500)
+          }
+
+          toast?.dismiss(toastId);
+          toast?.success({
+            title: "Withdraw Successfully!",
+          });
+        })
+        .catch((error) => {
+          State.update({
+            isError: true,
+            isLoading: false,
+            loadingMsg: error,
+          });
+          toast?.dismiss(toastId);
+          toast?.fail({
+            title: "Withdraw Failed!",
+            text: error?.message?.includes("user rejected transaction")
+              ? "User rejected transaction"
+              : "",
+          });
+        });
     })
-    .then((receipt) => {
-      State.update({
-        isLoading: false,
-        isPostTx: true,
-      });
-
-      const { status, transactionHash } = receipt;
-
-      addAction?.({
-        type: "Liquidity",
-        action: "Withdraw",
-        token0,
-        token1,
-        amount: lpAmount,
-        template: defaultDex,
-        status: status,
-        add: 0,
-        transactionHash,
-        chain_id: state.chainId,
-      });
-
-      setTimeout(() => State.update({ isPostTx: false }), 10_000);
-      if (refetch) {
-        setTimeout(() => {
-          refetch();
-        }, 1500)
-      }
-      
-      toast?.dismiss(toastId);
-      toast?.success({
-        title: "Withdraw Successfully!",
-      });
-    })
-    .catch((error) => {
-      State.update({
-        isError: true,
-        isLoading: false,
-        loadingMsg: error,
-      });
-      toast?.dismiss(toastId);
-      toast?.fail({
-        title: "Withdraw Failed!",
-        text: error?.message?.includes("user rejected transaction")
-          ? "User rejected transaction"
-          : "",
-      });
-    });
 };
 
 const tokensPrice = prices;

@@ -1,0 +1,1 @@
+const accountId = props.accountId ?? context.accountId; return <Widget src="hack.near/widget/city.ai" props={{ systemPrompt: "You are a New Yorker who loves the city and wants the best for everyone.", initialMessage: "How's it going?" }} />

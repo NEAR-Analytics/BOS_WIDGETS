@@ -6,12 +6,15 @@ const Link = styled.a`
   text-decoration: none;
 `;
 
+const everythingExists =
+  !!Social.get(`${context.accountId}/widget/everything`) ?? false;
+
 const createEverything = () => {
   Social.set(
     {
       widget: {
         everything: {
-          "": `return (<Widget src="evrything.near/widget/Everything.Template" props={{ accountId: "${context.accountId}", font: "Times New Roman", type: "everything", text: "${context.accountId}", domain: "everything" }} />);`,
+          "": `return (<Widget src="efiz.near/widget/Tree" props={{ rootPath: "${context.accountId}", rootType: "account" }} />);`,
           metadata: {
             tags: {
               everything: "",
@@ -26,34 +29,44 @@ const createEverything = () => {
   );
 };
 
+// <a href={"/#/evrything-docs.near/widget/Everything.Documentation"}>
+//   <Button>documentation</Button>
+// </a>;
+
 return (
   <div className="d-flex flex-column">
     <div className="mt-auto py-3">
       <div className="container">
         <div className="d-flex justify-content-end gap-2">
-          {context.accountId ? (
-            <Button onClick={createEverything}>
-              create your own everything
-            </Button>
-          ) : (
-            <Link href="https://shard.dog/go?url=https://near.social">
-              <Button>create your own everything</Button>
-            </Link>
-          )}
-          <a href={"/#/evrything-docs.near/widget/Everything.Documentation"}>
-            <Button>documentation</Button>
-          </a>
+          {context.accountId &&
+            (everythingExists ? (
+              <a href={`/#/${context.accountId}/widget/everything`}>
+                <Button>{context.accountId}'s everything</Button>
+              </a>
+            ) : (
+              <Button onClick={createEverything}>
+                create your own everything
+              </Button>
+            ))}
         </div>
       </div>
     </div>
     <Widget
-      src="evrything.near/widget/Everything.Template"
+      src="efiz.near/widget/Tree"
       props={{
-        accountId: "evrything.near",
-        font: "Times New Roman",
-        type: "everything",
-        text: "everything",
-        domain: "everything",
+        rootPath: "everything",
+        rootType: "thing",
+        rootNode: {
+          post: {
+            main: null,
+            dev: null,
+            bos: null,
+          },
+          account: {
+            "efiz.near": null,
+            [context.accountId]: null,
+          },
+        },
       }}
     />
   </div>

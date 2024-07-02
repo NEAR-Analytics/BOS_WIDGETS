@@ -1249,7 +1249,7 @@ return (
     <StyledContainerTop>
       <StyledBack onClick={onBack}>
         <svg xmlns="http://www.w3.org/2000/svg" width="9" height="13" viewBox="0 0 9 13" fill="none">
-          <path d="M7.5 1L2 6.49992L7.5 12" stroke="#979ABE" stroke-width="2" stroke-linecap="round" />
+          <path d="M7.5 1L2 6.49992L7.5 12" stroke="#979ABE" strokeWidth="2" stroke-linecap="round" />
         </svg>
         <StyledBackTxt>Back to vaults</StyledBackTxt>
       </StyledBack>

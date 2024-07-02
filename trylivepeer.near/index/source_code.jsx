@@ -1,3 +1,20 @@
+const TelegramButton = styled.a`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background-color: #ffffff;
+  color: white;
+  border-radius: 50%;
+  text-decoration: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+  &:hover {
+    background-color: #555555;
+    cursor: pointer;
+  }
+`;
 const config = {
   theme: {},
   layout: {
@@ -7,24 +24,46 @@ const config = {
     },
   },
   blocks: {
-    // customize the header
     Header: () => (
-      <div className="row">
-        <div className="col-12">
-          <div className="d-flex justify-content-between align-items-center border p-3">
-            <h1>trylivepeer</h1>
-            <button className="button">Connect</button>
+      <div className="header-container">
+        <div className="header-content">
+          <Link to={`/trylivepeer.near/widget/Index`}>
+            <h1 className="header-title">trylivepeer</h1>
+          </Link>
+          <div className="flex gap-4">
+            <Link to={`/trylivepeer.near/widget/Index?page=social`}>
+              <button className="header-button">Social</button>
+            </Link>
+            <Link to={`/trylivepeer.near/widget/Index?page=sandbox`}>
+              <button className="header-button">Sandbox</button>
+            </Link>
+            <Link to={`/trylivepeer.near/widget/Index?page=library`}>
+              <button className="header-button">Library</button>
+            </Link>
+            <TelegramButton>
+              <a href="https://t.me/+QgLwbmDEFgo5NTM1" target="_blank">
+                <img src="https://ipfs.near.social/ipfs/bafkreifg6zr4kse7ew7mv3l5wiw4bd7qbkpy6a4r6xndfq5lechsctronu" />
+              </a>
+            </TelegramButton>
           </div>
         </div>
       </div>
     ),
     // customize the footer
-    Footer: () => <>powered by livepeer, built on near, a part of everything</>,
+    Footer: () => (
+      <div className="footer-wrapper">
+        <div className="footer-container">
+          <div className="footer-content">
+            Powered by livepeer, built on NEAR, a part of everything
+          </div>
+        </div>
+      </div>
+    ),
   },
   router: {
     param: "page",
     routes: {
-      index: {
+      Index: {
         path: "trylivepeer.near/widget/page.home", // edit this locally
         blockHeight: "final",
         init: {
@@ -39,6 +78,21 @@ const config = {
           name: "Sandbox",
         },
       },
+      library: {
+        path: "trylivepeer.near/widget/Library.Index",
+        blockHeight: "final",
+        init: {
+          name: "Library",
+          ...props,
+        },
+      },
+      social: {
+        path: "trylivepeer.near/widget/page.social",
+        blockHeight: "final",
+        init: {
+          name: "Social",
+        },
+      },
       // or add more routes
     },
   },
@@ -46,11 +100,66 @@ const config = {
 const CSS = styled.div`
   .button {
   }
-  height: 100vh;
+  background-color: black;
+  .header-container {
+    top: 100px;
+    background-color: black;
+    margin-bottom: 20px;
+  }
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+  }
+  .header-title {
+    color: gray;
+    font-size: 50px;
+    font-weight: bold;
+    font-family: inherit;
+  }
+  .header-button {
+    background-color: #23242b;
+    color: #dde4e1;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: opacity 0.3s ease, background-color 0.3s ease;
+    &:hover {
+      opacity: 1;
+      background-color: #555555;
+    }
+  }
+  .footer-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+  .footer-container {
+    position: sticky;
+    width: 540px;
+    background-color: #2d2d2d;
+    color: #dde4e1;
+    padding: 20px;
+    text-align: center;
+    justify-content: center;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+  }
+  .footer-content {
+    font-size: 14px;
+    font-weight: 600;
+  }
+  @media (min-width: 768px) {
+    .footer-content {
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 0 20px;
+    }
+  }
 `;
 return (
   <CSS>
-    <h1>CIAO</h1>
     <Widget src="every.near/widget/app.view" props={{ config, ...props }} />
   </CSS>
 );

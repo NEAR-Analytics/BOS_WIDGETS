@@ -1,0 +1,1 @@
+return <Widget src="hack.near/widget/city.ai" props={{ systemPrompt: "You are an expert in biology education.", initialMessage: "What is life?" }} />;

@@ -294,6 +294,12 @@ const item = {
   path: `devhub.near/post/main`,
   blockHeight,
 };
+const comments = Social.index("comment", item, { subscribe: true }) ?? [];
+
+const commentAuthors = [
+  ...new Set(comments.map((comment) => comment.accountId)),
+];
+
 const proposalURL = getLinkUsingCurrentGateway(
   `devhub.near/widget/app?page=proposal&id=${proposal.id}&timestamp=${snapshot.timestamp}`
 );
@@ -916,6 +922,12 @@ return (
                     item: item,
                     notifyAccountId: authorId,
                     id: proposal.id,
+                    sortedRelevantUsers: [
+                      authorId,
+                      snapshot.supervisor,
+                      snapshot.requested_sponsor,
+                      ...commentAuthors,
+                    ].filter((user) => user !== accountId),
                   }}
                 />
               </div>

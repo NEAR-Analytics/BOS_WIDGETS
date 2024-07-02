@@ -95,6 +95,7 @@ function Button({
         className={linkClassName}
         style={{ textDecoration: "none" }}
         target={target}
+        onClick={(e) => e.stopPropagation()}
       >
         <StyledButton
           id={id}
@@ -119,6 +120,7 @@ function Button({
         className={linkClassName}
         style={{ textDecoration: "none" }}
         target={target}
+        onClick={(e) => e.stopPropagation()}
       >
         <StyledButton
           id={id}

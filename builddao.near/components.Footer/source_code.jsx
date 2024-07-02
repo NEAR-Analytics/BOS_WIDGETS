@@ -170,10 +170,12 @@ const Footer = () => {
           <p>Dive deeper BuildDAO</p>
           <SocialIcons>
             <Button
+              noLink={true}
               type="icon"
               style={{
                 borderRadius: "30%",
               }}
+              target="_blank"
               href="https://x.com/NearBuilders"
             >
               <svg
@@ -188,7 +190,9 @@ const Footer = () => {
               </svg>
             </Button>
             <Button
+              noLink={true}
               type="icon"
+              target="_blank"
               style={{
                 borderRadius: "30%",
               }}
@@ -211,6 +215,8 @@ const Footer = () => {
               </svg>
             </Button>
             <Button
+              noLink={true}
+              target="_blank"
               type="icon"
               style={{
                 borderRadius: "30%",

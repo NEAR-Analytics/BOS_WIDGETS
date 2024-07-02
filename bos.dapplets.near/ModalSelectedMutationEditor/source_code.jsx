@@ -373,9 +373,6 @@ if (!loggedInAccountId) {
   setSaveDisabled(false);
   setSaveTooltype(null);
 }
-console.log(selectedMutation, "selectedMutation");
-console.log(editingMutation, "editingMutation");
-console.log(loggedInAccountId, "loggedInAccountId");
 return (
   <SelectedMutationEditorWrapper>
     {isVisibleInput ? (

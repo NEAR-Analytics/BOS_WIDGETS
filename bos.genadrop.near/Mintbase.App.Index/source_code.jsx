@@ -3,17 +3,16 @@ const [mode, setMode] = useState(currentMode || "light");
 const isDarkModeOn = mode === "dark";
 const data = fetch(`https://httpbin.org/headers`);
 const gatewayURL = data?.body?.headers?.Origin ?? "";
-const Container =
-  gatewayURL.includes("near.org") || gatewayURL.includes("everything.dev")
-    ? styled.div`
-        width: 100%;
-      `
-    : styled.div`
-        position: fixed;
-        inset: var(--body-top-padding) 0px 0px;
-        width: 100%;
-        overflow-y: scroll;
-      `;
+const Container = gatewayURL.includes("near.social")
+  ? styled.div`
+      position: fixed;
+      inset: var(--body-top-padding) 0px 0px;
+      width: 100%;
+      overflow-y: scroll;
+    `
+  : styled.div`
+      width: 100%;
+    `;
 const App = styled.div``;
 const Root = styled.div`
   // you can override classnames here

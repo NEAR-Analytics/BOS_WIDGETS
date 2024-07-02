@@ -7,7 +7,7 @@ const { nearToUsd, ipfsUrlFromCid, yoctosToNear, yoctosToUsdWithFallback } =
     nearToUsd: 1,
   };
 const { _address } = VM.require(
-  `potlock.near/widget/Components.DonorsUtils`
+  "potlock.near/widget/Components.DonorsUtils"
 ) || {
   _address: (address) => address,
 };
@@ -317,7 +317,10 @@ const profileImageStyle = {
 };
 const tags = getTagsFromSocialProfileData(profile);
 return (
-  <div onClick={() => props.setShowCreateModalProjectId(projectId)}>
+  <div
+    data-testid="potlock-card"
+    onClick={() => props.setShowCreateModalProjectId(projectId)}
+  >
     <Card>
       <HeaderContainer className="pt-0 position-relative">
         <BackgroundImageContainer>

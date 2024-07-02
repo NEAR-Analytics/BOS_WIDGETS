@@ -131,7 +131,7 @@ return (
             toast?.fail({
               title: err?.message?.includes("user rejected transaction")
                 ? "User rejected transaction"
-                : `Claimed faily!`,
+                : ` Claim failed!`,
               chainId,
             });
           },

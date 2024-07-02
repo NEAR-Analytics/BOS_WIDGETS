@@ -6,7 +6,6 @@ const SwitchButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: Gantari;
   font-size: 18px;
   font-weight: 500;
   letter-spacing: 0em;
@@ -27,7 +26,6 @@ const Wrapper = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 36px 33px 20px;
-  font-family: Gantari;
   font-size: 18px;
   font-weight: 500;
   line-height: 22px;
@@ -40,10 +38,10 @@ const Wrapper = styled.div`
   flex-direction: column;
   width: 334px;
 
-  color: white;
+  color: var(--agg-text-color, white);
   border-radius: 16px;
-  border: 1px solid #373a53;
-  background: #262836;
+  border: 1px solid var(--agg-border-color, #373a53);
+  background: var(--agg-bg-color, #262836);
 `;
 
 const handleSwitchChain = () => {

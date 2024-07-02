@@ -361,7 +361,6 @@ const getUsdValue = (price) => {
     return value?.toFixed(4) !== "NaN" ? `$${value?.toFixed(2)}` : 0;
   }
 };
-console.log(data);
 const firstListing = data?.listings[0];
 const handleBuy = () => {
   if (!context.accountId) return;
@@ -690,8 +689,7 @@ return (
             <div className="right-footer">
               {firstListing?.price &&
                 context?.accountId !== data?.owner &&
-                context?.accountId &&
-                firstListing?.currency === "near" && (
+                context?.accountId && (
                   <button onClick={handleBuy} className="btn-cus">
                     Buy With Crypto
                   </button>

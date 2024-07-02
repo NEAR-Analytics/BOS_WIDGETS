@@ -226,7 +226,7 @@ function getLiquidity() {
 }
 function getTotalApr() {
   const chain_id = curChain.chain_id
-  if ([8453, 10, 5000].includes(chain_id)) {
+  if ([8453, 10, 5000, 81457].includes(chain_id)) {
     dataList = dataList.map(data => {
       data.totalApr = formatPercent(data.returns.weekly.feeApr)
       return data
@@ -275,7 +275,6 @@ function getTotalApr() {
       }
     )
   }
-  console.log('=chain_id', chain_id)
   if ([137, 1101, 3776].includes(chain_id)) {
     asyncFetch("https://api.angle.money/v2/merkl?chainIds[]=" + chain_id)
       .then(res => {

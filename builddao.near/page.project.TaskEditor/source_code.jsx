@@ -12,6 +12,7 @@ const task = props.task;
 const onEditTask = props.onEditTask;
 const onAddTask = props.onAddTask;
 const project = props.project;
+const isEditTask = props.isEditTask;
 const [taskDetail, setTaskDetail] = useState(task);
 const updateTaskDetail = (data) => {
   setTaskDetail((prevState) => ({
@@ -129,6 +130,7 @@ return (
               list: [...(taskDetail.list ?? []), { ...listItem }],
             })
           }
+          data-testid="add-task-item"
         >
           <i class="bi bi-plus-circle h5 pointer"></i>
         </div>

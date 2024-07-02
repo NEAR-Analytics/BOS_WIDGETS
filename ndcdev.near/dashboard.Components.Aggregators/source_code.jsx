@@ -1,92 +1,77 @@
 const Items = styled.div`
   display: flex;
   width: 100%;
-  height: 170px;
-  margin: 2rem 0 0 0;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   gap: 1rem;
-  overflow-x: scroll;
+
+  @media screen and (max-width: 1188px) {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
 
   .item {
+    color: #fcf8ff;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
     justify-content: center;
     align-items: center;
-    border-radius: 14px;
-    border: 1px solid #e3e3e0;
-    background: #fff;
-    padding: 16px 32px;
-    width: 240px;
-    box-shadow:
-      0px 97px 27px 0px rgba(0, 0, 0, 0),
-      0px 62px 25px 0px rgba(0, 0, 0, 0),
-      0px 35px 21px 0px rgba(0, 0, 0, 0.02),
-      0px 16px 16px 0px rgba(0, 0, 0, 0.03),
-      0px 4px 9px 0px rgba(0, 0, 0, 0.03);
-
-    .title {
-      color: #5c656a;
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 600;
-      line-height: 18px;
-      text-align: center;
-      width: 115px;
-    }
+    width: 100%;
+    height: 200px;
+    gap: 1rem;
+    border-radius: 30px;
+    background: #1e1d22;
+    box-shadow: 0px 30px 40px 0px rgba(0, 0, 0, 0.3);
+    font-size: 20px;
+    font-weight: 750;
+    text-align: center;
 
     @media screen and (max-width: 975px) {
       width: 100%;
     }
 
-    .value {
-      color: #1b1b18;
-      font-size: 32px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: normal;
-      text-align: center;
+    .inner {
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 10px 20px;
+      span {
+        font-size: 60px;
+      }
     }
   }
 `;
 
-const {
-  totalTx,
-  totalAccounts,
-  uniqueAccounts,
-  totalBalance,
-  totalDistributed,
-} = props;
+const { totalTx, totalAccounts, uniqueAccounts, loading } = props;
 
-const Item = ({ value, text }) => {
-  const formatValue = (value) => {
-    const val = parseFloat(value);
-
-    return val >= 1000000000
-      ? `${parseFloat(val / 1000000000).toFixed(2)}B`
-      : val >= 1000000
-      ? `${parseFloat(val / 1000000).toFixed(2)}M`
-      : val >= 1000
-      ? `${parseFloat(val / 1000).toFixed(2)}K`
-      : Number.isInteger(val)
-      ? val
-      : val.toFixed(2);
-  };
+const Item = ({ value, text, color }) => {
   return (
-    <div className="item">
-      <div className="value">{value ? formatValue(value) : "n/a"}</div>
-      <div className="title">{text}</div>
-    </div>
+    <Widget
+      src={`ndcdev.near/widget/Dashboard.Components.Aggregators.Item`}
+      props={{ value, text, color }}
+    />
   );
 };
 
 return (
   <Items>
-    <Item value={totalBalance} text="Total amount of NEAR" />
-    <Item value={totalDistributed} text="Total distributed amount of NEAR" />
-    <Item value={totalTx} text="Number of Transactions" />
-    <Item value={totalAccounts} text="Number of Accounts" />
-    <Item value={uniqueAccounts} text="Unique Active Users" />
+    <Item
+      value={totalTx}
+      loading={loading}
+      text="Total Number of Transactions"
+      color="#A39ACD"
+    />
+    <Item
+      value={totalAccounts}
+      loading={loading}
+      text="Total Number of Accounts"
+      color="#5398DD"
+    />
+    <Item
+      value={uniqueAccounts}
+      loading={loading}
+      text="Today Unique Active Users"
+      color="#E89DBB"
+    />
   </Items>
 );

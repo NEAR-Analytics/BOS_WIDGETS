@@ -53,7 +53,26 @@ State.init({
   isPostTx: false,
   showPairs: false,
 });
+const sourceBalances = {
+}
+const {
+  isDeposit,
+  balances,
+  amount0,
+  amount1,
+  isLoading,
+  isError,
+  isToken0Approved,
+  isToken1Approved,
+  isToken0Approving,
+  isToken1Approving,
+  loadingMsg,
+  lpBalance,
+  lpAmount,
+  isPostTx,
+} = state;
 
+const detailLoading = Object.keys(balances).length < 2 || lpBalance === ""
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 const { token0, token1, decimals0, decimals1, id, poolAddress, liquidity } = data || defaultPair;
 
@@ -80,11 +99,9 @@ const updateBalance = (token) => {
       .getBalance(sender)
       .then((balanceBig) => {
         const adjustedBalance = Big(ethers.utils.formatEther(balanceBig)).toFixed();
+        sourceBalances[symbol] = adjustedBalance
         State.update({
-          balances: {
-            ...state.balances,
-            [symbol]: adjustedBalance,
-          },
+          balances: sourceBalances,
         });
       });
   } else {
@@ -98,34 +115,15 @@ const updateBalance = (token) => {
       const adjustedBalance = Big(
         ethers.utils.formatUnits(balanceBig, decimals)
       ).toFixed();
+      sourceBalances[symbol] = adjustedBalance
       State.update({
-        balances: {
-          ...state.balances,
-          [symbol]: adjustedBalance,
-        },
+        balances: sourceBalances,
       });
     });
   }
 };
 
-const {
-  isDeposit,
-  balances,
-  amount0,
-  amount1,
-  isLoading,
-  isError,
-  isToken0Approved,
-  isToken1Approved,
-  isToken0Approving,
-  isToken1Approving,
-  loadingMsg,
-  lpBalance,
-  lpAmount,
-  isPostTx,
-} = state;
 
-const detailLoading = Object.keys(balances).length < 2 || lpBalance === ""
 
 const handleCheckApproval = (symbol, amount, decimals) => {
   const wei = ethers.utils.parseUnits(
@@ -168,7 +166,40 @@ const handleMax = (isToken0) => {
   else handleTokenChange(balances[token1], token1);
 };
 const handleGetMintAmount = (amount0Max, amount1Max, callback) => {
-  const abi = [{
+  const abi = props?.data?.chain_id === 169 ? [{
+    "inputs": [
+      {
+        "internalType": "uint128",
+        "name": "amountXMax",
+        "type": "uint128"
+      },
+      {
+        "internalType": "uint128",
+        "name": "amountYMax",
+        "type": "uint128"
+      }
+    ],
+    "name": "getMintAmounts",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "amountX",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amountY",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "mintAmount",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }] : [{
     "inputs": [
       {
         "internalType": "uint256",
@@ -202,6 +233,7 @@ const handleGetMintAmount = (amount0Max, amount1Max, callback) => {
     "stateMutability": "view",
     "type": "function"
   }];
+
   const contract = new ethers.Contract(
     ethers.utils.getAddress(vaultAddress),
     abi,
@@ -210,7 +242,7 @@ const handleGetMintAmount = (amount0Max, amount1Max, callback) => {
   contract
     .getMintAmounts(amount0Max, amount1Max)
     .then((response) => {
-      callback && callback(response[2])
+      callback && callback(response)
     })
 }
 const handleTokenChange = (amount, symbol) => {
@@ -311,13 +343,9 @@ const handleTokenChange = (amount, symbol) => {
     abi,
     Ethers.provider()
   );
-  console.log('=vaultAddress', vaultAddress)
-  console.log('=amount0Max', amount0Max)
-  console.log('=amount1Max', amount1Max)
   contract
     .getMintAmounts(amount0Max, amount1Max)
     .then((response) => {
-      console.log('=response', response)
       const amountX = ethers.utils.formatUnits(response[0], otherDecimals)
       const amountY = ethers.utils.formatUnits(response[1], otherDecimals)
       const otherAmount = symbol === token0 ? amountY : amountX
@@ -339,7 +367,6 @@ const handleTokenChange = (amount, symbol) => {
       })
     });
 };
-console.log('==props?.data?.chain_id', props)
 const handleLPChange = (amount) => {
   State.update({
     lpAmount: amount,
@@ -422,7 +449,35 @@ const handleDeposit = () => {
     isError: false,
     loadingMsg: "Depositing...",
   });
-  const abi = [
+  const abi = props?.data?.chain_id === 169 ? [{
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "mintAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256[2]",
+        "name": "maxAmounts",
+        "type": "uint256[2]"
+      }
+    ],
+    "name": "mint",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "amountX",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amountY",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }] : [
     {
       "inputs": [
         {
@@ -458,9 +513,11 @@ const handleDeposit = () => {
   handleGetMintAmount(
     Big(amount0).mul(Big(10).pow(decimals0)).toFixed(0),
     targetAmount,
-    mintAmount => {
+    response => {
+      const [_amount0, _amount1, mintAmount] = response
+      const params = props?.data?.chain_id === 169 ? [mintAmount, [ethers.BigNumber.from(Big(_amount0).times(1.002).toFixed(0)), ethers.BigNumber.from(Big(_amount1).times(1.002).toFixed(0))]] : [mintAmount]
       contract
-        .mint(mintAmount)
+        .mint(...params)
         .then((tx) => {
           return tx.wait();
         })
@@ -517,7 +574,40 @@ const handleDeposit = () => {
   )
 
 };
-
+const handleGetMinAmounts = (shares, callback) => {
+  const abi = [{
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "shares",
+        "type": "uint256"
+      }
+    ],
+    "name": "getUnderlyingBalancesByShare",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount0",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount1",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }]
+  const contract = new ethers.Contract(
+    vaultAddress,
+    abi,
+    Ethers.provider().getSigner()
+  )
+  contract
+    .getUnderlyingBalancesByShare(shares)
+    .then(result => callback && callback(result))
+}
 const handleWithdraw = () => {
   const toastId = toast?.loading({
     title: `Withdrawing...`,
@@ -529,7 +619,35 @@ const handleWithdraw = () => {
   });
 
   const amount = ethers.utils.parseUnits(Big(lpAmount).toFixed(18), 18);
-  const abi = [
+  const abi = props?.data?.chain_id === 169 ? [{
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "burnAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256[2]",
+        "name": "minAmounts",
+        "type": "uint256[2]"
+      }
+    ],
+    "name": "burn",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "amountX",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amountY",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }] : [
     {
       "inputs": [
         {
@@ -556,62 +674,75 @@ const handleWithdraw = () => {
     }
   ];
 
-  const contract = new ethers.Contract(
-    vaultAddress,
-    abi,
-    Ethers.provider().getSigner()
-  );
+  handleGetMinAmounts(amount, (response) => {
+    const [amount0, amount1] = response
+    const contract = new ethers.Contract(
+      vaultAddress,
+      abi,
+      Ethers.provider().getSigner()
+    );
+    const params = props?.data?.chain_id === 169 ? [amount, [ethers.BigNumber.from(Big(amount0).times(0.99).toFixed(0)), ethers.BigNumber.from(Big(amount1).times(0.99).toFixed(0))]] : [amount]
+    contract
+      .callStatic
+      .burn(...params)
+      .then(result => {
+        contract
+          .burn(...params)
+          .then((tx) => {
+            return tx.wait();
+          })
+          .then((receipt) => {
+            State.update({
+              isLoading: false,
+              isPostTx: true,
+            });
+            const { status, transactionHash } = receipt;
+            addAction?.({
+              type: "Liquidity",
+              action: "Withdraw",
+              token0,
+              token1,
+              amount: lpAmount,
+              template: defaultDex,
+              status: status,
+              add: 0,
+              transactionHash,
+              chain_id: state.chainId,
+              extra_data: JSON.stringify({
+                action: "Withdraw",
+                amount0: ethers.utils.formatUnits(result[0], decimals0),
+                amount1: ethers.utils.formatUnits(result[1], decimals1),
+              })
+            });
 
-  contract
-    .burn(amount)
-    .then((tx) => {
-      return tx.wait();
-    })
-    .then((receipt) => {
-      State.update({
-        isLoading: false,
-        isPostTx: true,
-      });
+            setTimeout(() => State.update({ isPostTx: false }), 10_000);
 
-      const { status, transactionHash } = receipt;
+            if (refetch) refetch();
 
-      addAction?.({
-        type: "Liquidity",
-        action: "Withdraw",
-        token0,
-        token1,
-        amount: lpAmount,
-        template: defaultDex,
-        status: status,
-        add: 0,
-        transactionHash,
-        chain_id: state.chainId,
-      });
+            toast?.dismiss(toastId);
+            toast?.success({
+              title: "Withdraw Successfully!",
+            });
+          })
+          .catch((error) => {
+            console.log('=error', error)
+            State.update({
+              isError: true,
+              isLoading: false,
+              loadingMsg: error,
+            });
+            toast?.dismiss(toastId);
+            toast?.fail({
+              title: "Withdraw Failed!",
+              text: error?.message?.includes("user rejected transaction")
+                ? "User rejected transaction"
+                : "",
+            });
+          });
+      })
+  })
 
-      setTimeout(() => State.update({ isPostTx: false }), 10_000);
 
-      // const { refetch } = props;
-      if (refetch) refetch();
-
-      toast?.dismiss(toastId);
-      toast?.success({
-        title: "Withdraw Successfully!",
-      });
-    })
-    .catch((error) => {
-      State.update({
-        isError: true,
-        isLoading: false,
-        loadingMsg: error,
-      });
-      toast?.dismiss(toastId);
-      toast?.fail({
-        title: "Withdraw Failed!",
-        text: error?.message?.includes("user rejected transaction")
-          ? "User rejected transaction"
-          : "",
-      });
-    });
 };
 
 const tokensPrice = prices;

@@ -26,7 +26,6 @@ return (
         showEditButton: !props.profile,
       }}
     />
-    <Widget src="ramgor.near/widget/NearStats" />
     <Widget src="mob.near/widget/ProfileTabs" props={{ accountId, profile }} />
   </Wrapper>
 );

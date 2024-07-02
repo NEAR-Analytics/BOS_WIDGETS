@@ -1,15 +1,21 @@
 const profile = {
-  avatar: "https://i.ibb.co/41QryyQ/Whats-App-Image-2024-02-26-at-00-46-59.jpg",
+  avatar: "https://i.ibb.co/xHqvHNR/Vale-Foto.png",
   title: "Valentín Martínez",
-  subtitle: "Creativo y Desarrollador",
+  subtitle: "Investigador y Creativo",
   links: [
+    { title: "GitHub", url: "https://github.com/ValenteCreativo" },
+
     {
-      title: "Textos y proyectos",
+      title: "Medium",
+      url: "https://medium.com/@geovalente",
+    },
+    {
+      title: "Textos / Proyectos",
       url: "https://valentinmartinezmx.wixsite.com/ideas",
     },
-    { title: "Github", url: "https://github.com/ValenteCreativo" },
+
     {
-      title: "ValenteCreativo IG",
+      title: "Arte / Experimentos",
       url: "https://www.instagram.com/valentecreativo/",
     },
     {

@@ -1,0 +1,1 @@
+return <><div class="row mb-3"><div class="col-md-6 p-2"><Widget src={"kurodenjiro.near/widget/MagicBuild-Check"}  /> </div><div class="col-md-6 p-2"><Widget src={"marketplacebos.near/widget/Radio.RadioP.Radio0002"}  /> </div></div> </>

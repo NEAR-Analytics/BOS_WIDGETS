@@ -177,13 +177,19 @@ function getFee() {
 }
 
 function getTvlUSD() {
+  console.log('=prices', prices)
   for (let i = 0; i < dataList.length; i++) {
     const data = dataList[i]
     const {
       token0Balance,
       token1Balance,
     } = data.initialData
-    dataList[i].tvlUSD = Big(ethers.utils.formatUnits(token0Balance ?? 0, data.decimals0)).times(prices[data.token0]).plus(Big(ethers.utils.formatUnits(token1Balance ?? 0, data.decimals1)).times(prices[data.token1])).toFixed(2)
+    console.log('=data', data)
+    if (data.poolAddress === "0x559e44572145aabf6fdbc7e49db92bb6e6079c66") {
+      dataList[i].tvlUSD = Big(ethers.utils.formatUnits(token1Balance ?? 0, data.decimals1)).times(prices[data.token1]).toFixed(2)
+    } else {
+      dataList[i].tvlUSD = Big(ethers.utils.formatUnits(token0Balance ?? 0, data.decimals0)).times(prices[data.token0]).plus(Big(ethers.utils.formatUnits(token1Balance ?? 0, data.decimals1)).times(prices[data.token1])).toFixed(2)
+    }
   }
   formatedData('getTvlUSD')
 }
@@ -237,10 +243,11 @@ function getLiquidity() {
       const total0 = ethers.utils.formatUnits(getTotalAmountsResult[i][0], data.decimals0)
       const total1 = ethers.utils.formatUnits(getTotalAmountsResult[i][1], data.decimals1)
       const totalSupply = ethers.utils.formatUnits(totalSupplyResult[i][0], 18)
-      const priceLp = Big(Big(total0)
+      // console.log('totalSupply', totalSupply)
+      const priceLp = Big(totalSupply).gt(0) ? Big(Big(total0)
         .times(prices[data.token0])
         .plus(Big(total1).times(prices[data.token1]))
-      ).div(totalSupply)
+      ).div(totalSupply) : 0
       const amountLp = data.balance
       dataList[i].liquidity = Big(priceLp).times(amountLp).toFixed()
     }

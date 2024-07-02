@@ -29,14 +29,16 @@ query MyQuery {
 `;
 
 function getNumKeypomKeys() {
-  return fetch(`${GRAPHQL_ENDPOINT}/v1/graphql`, {
+  let response = fetch(`${GRAPHQL_ENDPOINT}/v1/graphql`, {
     method: "POST",
     headers: { "x-hasura-role": "root_benjiman_near" },
     body: JSON.stringify({
       query: countQuery,
     }),
-  }).body.data.root_benjiman_near_all_keypom_key_additions_keys_aggregate
-    .aggregate.count;
+  });
+  console.log("RESPONSE: ", response);
+  return response.body.data
+    .root_benjiman_near_all_keypom_key_additions_keys_aggregate.aggregate.count;
 }
 
 function fetchKeypomKeyDataFromDb(offset, limit) {
@@ -65,6 +67,7 @@ const paginateKeys = (limit, keysPerQuery) => {
 
 const getKeyData = () => {
   let numKeys = getNumKeypomKeys();
+  console.log("Num Keys: ", numKeys);
   return paginateKeys(numKeys, 10000);
 };
 

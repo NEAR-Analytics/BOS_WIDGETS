@@ -152,16 +152,16 @@ function isValid(a) {
 
 function calcAmount1(_amount0Input) {
   if (!isValid(_amount0Input)) return 0;
-  const _amount1 = Big(totalAmount1)
-    .div(totalAmount0)
+  const _amount1 = Big(formatUnits(totalAmount1, decimals1))
+    .div(formatUnits(totalAmount0, decimals0))
     .times(_amount0Input)
     .toFixed(decimals1, 0);
   return _amount1;
 }
 function calcAmount0(_amount1Input) {
   if (!isValid(_amount1Input)) return 0;
-  const _amount0 = Big(totalAmount0)
-    .div(totalAmount1)
+  const _amount0 = Big(formatUnits(totalAmount0, decimals0))
+    .div(formatUnits(totalAmount1, decimals1))
     .times(_amount1Input)
     .toFixed(decimals0, 0);
   return _amount0;
@@ -279,7 +279,7 @@ const {
   isPostTx,
 } = state;
 
-const detailLoading = Object.keys(balances).length < 2 && lpBalance === "";
+const detailLoading = Object.keys(balances).length < 2 || lpBalance === "";
 
 const checkApproval = (token0Amount, token1Amount) => {
   const token0Wei = parseUnits(Big(token0Amount).toFixed(decimals0), decimals0);
@@ -481,15 +481,19 @@ const handleDeposit = () => {
 
       addAction?.({
         type: "Liquidity",
-        action: "Deposit",
+        action: "Add Liquidity",
         token0,
         token1,
-        amount: amount0,
+        extra_data: JSON.stringify({
+          amount0,
+          amount1,
+          action: "Add Liquidity",
+          type: "univ3",
+        }),
         template: defaultDex,
-        status: status,
+        status,
         add: false,
         transactionHash,
-        chain_id: props.chainId,
       });
 
       State.update({
@@ -572,7 +576,6 @@ const handleWithdraw = () => {
         status: status,
         add: false,
         transactionHash,
-        chain_id: state.chainId,
       });
 
       setTimeout(() => State.update({ isPostTx: false }), 10_000);

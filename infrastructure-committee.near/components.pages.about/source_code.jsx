@@ -95,7 +95,9 @@ function getLinkUsingCurrentGateway(url) {
 /* END_INCLUDE: "includes/common.jsx" */
 
 const profile = Social.getr(
-  `${REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT}/profile`
+  `${REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT}/profile`,
+  "final",
+  { subscribe: true }
 );
 
 if (!profile) {

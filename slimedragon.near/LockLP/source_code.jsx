@@ -228,7 +228,22 @@ if (!poolId) {
           <a href="?poolId=4769">TOUCH-wNEAR</a>
         </li>
         <li>
+          <a href="?poolId=4829"> PUSSY-wNEAR</a>
+        </li>
+        <li>
           <a href="?poolId=4875">wojak-wNEAR</a>
+        </li>
+        <li>
+          <a href="?poolId=4918">DRAMA-wNEAR</a>
+        </li>
+        <li>
+          <a href="?poolId=4918">MI-USDt</a>
+        </li>
+        <li>
+          <a href="?poolId=4994">HORNY-wNEAR</a>
+        </li>
+        <li>
+          <a href="?poolId=5005">sshilly-wNEAR</a>
         </li>
       </ul>
       <h2>

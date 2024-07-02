@@ -4,6 +4,9 @@ const { Button } = VM.require("buildhub.near/widget/components") || {
 const { href } = VM.require("buildhub.near/widget/lib.url") || {
   href: () => {},
 };
+const { isNearSocial } = VM.require("builddao.near/widget/lib.gateway") || {
+  isNearSocial: false,
+};
 const showCanvas = props.showCanvas;
 const onClose = props.onClose;
 const project = props.project;
@@ -71,6 +74,7 @@ return (
       tabIndex="-1"
       data-bs-scroll="false"
       data-bs-backdrop="true"
+      style={{ top: isNearSocial ? "73px" : "0px" }}
     >
       <div class="close cursor" onClick={onClose}>
         <div className="d-block d-md-none">

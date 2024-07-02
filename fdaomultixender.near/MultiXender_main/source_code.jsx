@@ -451,19 +451,7 @@ const Main = () => {
       setSimplePopupVisibility(true);
       return {};
     } else {
-      let platformAmount = 0;
-      if (newList.length >= 1 && newList.length <= 10) {
-        platformAmount = sumOfAmounts * 0.01;
-      } else if (newList.length >= 11 && newList.length <= 25) {
-        platformAmount = sumOfAmounts * 0.02;
-      } else if (newList.length >= 26 && newList.length <= 50) {
-        platformAmount = sumOfAmounts * 0.03;
-      } else if (newList.length >= 50 && newList.length <= 100) {
-        platformAmount = sumOfAmounts * 0.04;
-      } else {
-        platformAmount = sumOfAmounts * 0.06;
-      }
-
+      let platformAmount = sumOfAmounts * 0.005 + newList.length * 0.004;
       const calculatedTotalAmount = sumOfAmounts + platformAmount;
 
       setPopupContent(
@@ -477,7 +465,7 @@ const Main = () => {
             ? item.amount * 1e24
             : selectedToken === "USDT"
             ? item.amount * 1e6
-            : item.amount
+            : item.amount * 1e7
           ).toString()
         )
           .toLocaleString("fullwide", { useGrouping: false })
@@ -529,7 +517,7 @@ const Main = () => {
 
     setSimplePopupVisibility(false);
     let newsumOfAmounts =
-      selectedToken === "USDT" ? sumOfAmounts * 1e6 : sumOfAmounts;
+      selectedToken === "USDT" ? sumOfAmounts * 1e6 : sumOfAmounts * 1e7;
     try {
       Near.call([
         {
@@ -550,7 +538,9 @@ const Main = () => {
           methodName: "ft_transfer_call",
           args: {
             receiver_id: "usdt.fdaomultixender.near",
-            amount: `${newsumOfAmounts}`,
+            amount: `${
+              selectedToken === "OTTO" ? sumOfAmounts * 1e7 : sumOfAmounts * 1e6
+            }`,
             msg: "Sending Near to Recepients",
           },
           deposit: 1,

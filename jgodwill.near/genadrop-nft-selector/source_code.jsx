@@ -31,22 +31,18 @@ const data = fetch("https://graph.mintbase.xyz", {
 });
 
 const NFTImageButton = styled.button`
+  width: 25%;
   aspect-ratio: 1/1;
-  height: 100px;
+  height: 25%;
   transition: all 0.4s ease-in-out;
   border: 1.41429px solid rgba(28,27,28,.1);
   border-radius: 10px;
   outline:none;
   background:transparent;
   opacity:0.9;
-  flex: 1;
-  min-width: 100px;
-  max-width: 200px;
   object-fit: cover;
   padding:unset;
   overflow:hidden;
-  box-shadow: 4px 4px 20px 6px rgba(0,0,0,.2);
-  margin: 0 auto;
   &:hover{
     opacity:1;
   }
@@ -59,15 +55,14 @@ const NFTImageButton = styled.button`
 `;
 
 const NFTs = styled.div`
-  display: flex;
+  display: grid;
   gap: 2rem;
-  align-items:center;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  justify-content: center;
+  // background: linear-gradient(180deg,#e4f1fb,hsla(0,0%,85.1%,0));
   margin-top: 20px;
   width:100%;
   padding: 1rem;
-  overflow-y:scroll;
-  flex-wrap: wrap;
-  height:200px;
 `;
 
 const Heading = styled.p`
@@ -78,14 +73,6 @@ const Heading = styled.p`
   text-align: center;
   font-family: "SF Pro Display",sans-serif;
   line-height: 1.02;
-`;
-const Text = styled.p`
-  margin: 10px auto 10px auto;
-  font-size: 1em;
-  color:#0f1d40;
-  width:60%;
-  text-align: center;
-  font-family: "SF Pro Display", sans-serif;
 `;
 
 const finalData = data?.body?.data;
@@ -110,10 +97,10 @@ if (!finalData) {
 
 return (
   <>
-    <Text className="text-center">
-      {props.headingText || "Select the NFT you want to list"}
-    </Text>
-    <NFTs>
+    <Heading className="text-center fw-bold">
+      Select the NFT you want to list
+    </Heading>
+    <NFTs className="d-flex flex-wrap gap-2 justify-content-center align-items-center">
       {finalData.tokens.map((nft, index) => (
         <NFTImageButton
           key={`${nft.contractId}-${nft.tokenId}-${index}`}

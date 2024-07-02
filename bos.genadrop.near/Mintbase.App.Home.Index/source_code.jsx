@@ -49,7 +49,7 @@ const HomePage = ({ isDarkModeOn }) => {
       </TableContent>
       <Widget
         src={`bos.genadrop.near/widget/Mintbase.App.Home.HomeSmartContract`}
-        props={{ isDarkModeOn }}
+        props={{ isDarkModeOn, accountId: context.accountId }}
       />
       <Widget
         src={`bos.genadrop.near/widget/Mintbase.App.Home.HomeCreators`}

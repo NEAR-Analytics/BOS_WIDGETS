@@ -310,7 +310,7 @@ const trusted = [
   },
   {
     title: "Messari",
-    imgSrc: `${ipfsURL}bafkreicawfey4v6zo3isavaxiuth5xpk2lpv5ueckl7hq3znez4hvuf2oi`,
+    imgSrc: `${ipfsURL}bafkreigacp2jluhedmmcxjzhriwgnmtwax6soo7cuorxg4cnmkmtorbqpm`,
     url: "https://messari.io/",
   },
   {
@@ -375,7 +375,7 @@ const TrustedTitle = styled.h2`
 
 const TrustedList = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  #flex-wrap: wrap;
   @media screen and (min-width: ${breakpoints.xs}) {
     gap:5px;
     justify-content: space-between;
@@ -414,22 +414,9 @@ const TrustedLink = styled.a`
   align-items: center;
   & img {
     border-radius:50%;
-      @media screen and (min-width: ${breakpoints.xs}) {
-        width: 24px;
-        height: 24px;
-    }
-      @media screen and (min-width: ${breakpoints.sm}) {
-        width: 56px;
-        height: 56px;
-    }
-      @media screen and (min-width: ${breakpoints.md}) {
-        width: 96px;
-        height: 96px;
-    }
-      @media screen and (min-width: ${breakpoints.lg}) {
-        width: 106px;
-        height: 106px;
-    }
+    width: 100%;
+    max-width:106px;
+    height: auto;    
   }
   & span{
     font-size: 9px;
@@ -437,10 +424,18 @@ const TrustedLink = styled.a`
     @media screen and (min-width: ${breakpoints.xs}) {
         display: none;
     }
+    @media screen and (min-width: ${breakpoints.sm}) {
+        display: block;
+        font-size: .25vw;
+    }
     @media screen and (min-width: ${breakpoints.md}) {
         display: block;
+        font-size: .35vw;
     }
-
+    @media screen and (min-width: ${breakpoints.lg}) {
+        display: block;
+        font-size: .5vw;
+    }
   }
 `;
 
