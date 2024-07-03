@@ -738,11 +738,8 @@ return (
             />
             {!state.ifAddStudent && <h3>Some gone wrong. Not add</h3>}
             <CommitButton
-              data={{ project: state.project }}
-              onClick={() => {
-                TecherPossibilities.addStudent(state.addNewStudent);
-                State.update({ showAddStudentModal: false });
-              }}
+              data={{ TecherPossibilitiesAddStudent: state.addNewStudent }}
+              StateUpdate={{ showAddStudentModal: false }}
               style={{
                 width: "100px",
                 marginTop: "10px",
