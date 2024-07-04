@@ -1,6 +1,6 @@
 const StyledBox = styled.div`
-  background-color: #1b1e27;
-  border: 1px solid #33364b;
+  background-color: var(--agg-secondary-color, #1b1e27);
+  border: 1px solid var(--agg-border-color, #33364b);
   width: 500px;
   height: 68px;
   padding: 12px;
@@ -11,7 +11,7 @@ const StyledBox = styled.div`
 const StyledInput = styled.input`
   background-color: transparent;
   color: #fff;
-  font-family: Gantari;
+
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
@@ -22,7 +22,7 @@ const StyledInput = styled.input`
 `;
 const StyledValue = styled.div`
   color: rgba(151, 154, 190, 0.3);
-  font-family: Gantari;
+
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
@@ -37,7 +37,7 @@ const StyledRight = styled.div`
 const StyledBalance = styled.div`
   color: #979abe;
   text-align: right;
-  font-family: Gantari;
+
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
@@ -45,7 +45,7 @@ const StyledBalance = styled.div`
   margin-top: 8px;
 `;
 const StyledBalanceAmount = styled.span`
-  color: #fff;
+  color: var(--agg-fourth-color, #fff);
   text-decoration-line: underline;
   cursor: pointer;
 `;
