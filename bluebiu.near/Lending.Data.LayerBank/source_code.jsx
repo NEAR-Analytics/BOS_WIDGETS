@@ -698,15 +698,23 @@ useEffect(() => {
     });
   };
   const getRewards = () => {
+    console.log("getRewards--", oracleAddress, rewardToken);
     const PriceToken = new ethers.Contract(
       oracleAddress,
       ORACLE_ABI,
       Ethers.provider().getSigner()
     );
-    PriceToken.priceOf(rewardToken.address).then((priceRes) => {
-      const price = Big(ethers.utils.formatUnits(priceRes._hex, 18)).toString();
-      getUserRewards(price);
-    });
+    PriceToken.priceOf(rewardToken.address)
+      .then((priceRes) => {
+        const price = Big(
+          ethers.utils.formatUnits(priceRes._hex, 18)
+        ).toString();
+        getUserRewards(price);
+      })
+      .catch((error) => {
+        getUserRewards(0.1);
+        console.log("getRewards-error--", error);
+      });
   };
   const getUserRewards = (price) => {
     const cTokens = Object.keys(markets);
@@ -728,6 +736,7 @@ useEffect(() => {
       provider: Ethers.provider(),
     })
       .then((res) => {
+        console.log("getUserRewards--", res);
         _accountRewards.price = price;
         for (let i = 0; i < res.length; i++) {
           if (i === res.length - 1) {
