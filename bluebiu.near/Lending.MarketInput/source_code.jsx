@@ -10,7 +10,7 @@ const StyledBox = styled.div`
 `;
 const StyledInput = styled.input`
   background-color: transparent;
-  color: #fff;
+  color: var(--agg-primary-color, #fff);
 
   font-size: 18px;
   font-style: normal;
