@@ -738,7 +738,7 @@ return (
             />
             {!state.ifAddStudent && <h3>Some gone wrong. Not add</h3>}
             <CommitButton
-              data={{ TecherPossibilitiesAddStudent: state.addNewStudent }}
+              data={{ myStudentsForFind: { idaccound } }}
               StateUpdate={{ showAddStudentModal: false }}
               style={{
                 width: "100px",
