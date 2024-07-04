@@ -8,7 +8,7 @@ const ArrowDone = (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <path d="M1 1L5.5 5.5L10 1" stroke="white" stroke-width="2" />
+    <path d="M1 1L5.5 5.5L10 1" stroke="currentColor" stroke-width="2" />
   </svg>
 );
 
@@ -141,13 +141,14 @@ return (
   <Wrapper>
     <ArrowWrapper
       onClick={() => {
+        if (!CHAIN_LIST || CHAIN_LIST.length === 0) return;
         State.update({
           showList: !state.showList,
         });
       }}
     >
       <div className="chain-name">{curChain.name}</div>
-      {ArrowDone}
+      {CHAIN_LIST?.length > 0 && ArrowDone}
     </ArrowWrapper>
 
     {state.showList && (
