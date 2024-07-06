@@ -671,7 +671,7 @@ return (
                 >
                   {state.deletingStudent === student ? (
                     <div className="spinner-border text-light" role="status">
-                      <span className="sr-only">Loading...</span>
+                      <span className="sr-only"></span>
                     </div>
                   ) : (
                     "Delete"
