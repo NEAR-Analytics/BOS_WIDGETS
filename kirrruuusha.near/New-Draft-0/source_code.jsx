@@ -663,6 +663,7 @@ return (
                   onClick={() => {
                     TecherPossibilities.deleteStudent(student);
                   }}
+                  disabled={state.addingStudent}
                 >
                   {state.deletingStudent === student ? (
                     <div className="spinner-border text-light" role="status">
