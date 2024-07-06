@@ -113,35 +113,10 @@ const TecherPossibilities = {
       newStudent.length - 5,
       newStudent.length
     );
-    if (sliceForVerification == ".near" && ifAlreadyHaveStudent != `true`) {
+    if (sliceForVerification === ".near" && ifAlreadyHaveStudent !== `true`) {
       let indexForAddStudent = 0;
-      if (
-        state.studentArray.length > 0 &&
-        state.arreyWhitIndexForAddStudent.length > 0
-      ) {
-        indexForAddStudent = state.arreyWhitIndexForAddStudent[0];
-      } else if (
-        state.studentArray.length > 0 &&
-        state.arreyWhitIndexForAddStudent.length == 0
-      ) {
-        while (state.arreyWhitIndexForAddStudent.length == 0) {
-          const student = Social.get(
-            `${state.accountIdContext}/mystudents/${indexForAddStudent}`
-          );
-          if (!student) {
-            State.update({
-              arreyWhitIndexForAddStudent: student,
-            });
-            break;
-          }
-          indexForAddStudent++;
-        }
-      } else if (
-        state.studentArray.length == 0 &&
-        !state.arreyWhitIndexForAddStudent.length == 0
-      ) {
-        indexForAddStudent = 0;
-      }
+      // Set the loader state to true to display the loader
+      setAddingStudent(true);
       Social.set({
         mystudents: {
           [indexForAddStudent]: state.addNewStudent,
@@ -149,9 +124,12 @@ const TecherPossibilities = {
         myStudentsForFind: {
           [newStudent]: true,
         },
-      });
-      State.update({
-        ifAddStudent: true,
+      }).then(() => {
+        // After adding, reset the loader state to false
+        setAddingStudent(false);
+        State.update({
+          ifAddStudent: true,
+        });
       });
     } else {
       State.update({
@@ -642,6 +620,7 @@ return (
           >
             {state.showHiddenContent === student && (
               <div style={{ display: "grid" }}>
+                {/* Input for edit description */}
                 <input
                   type="text"
                   className="form-control"
@@ -651,6 +630,7 @@ return (
                     State.update({ editDescription: e.target.value });
                   }}
                 />
+                {/* Delete student button */}
                 <Button
                   style={{ width: "100px", marginLeft: "1rem" }}
                   onClick={() => {
@@ -665,6 +645,7 @@ return (
                     "Delete"
                   )}
                 </Button>
+                {/* Edit description button */}
                 <Button
                   style={{ width: "100px", marginLeft: "1rem" }}
                   onClick={() => {
@@ -694,7 +675,6 @@ return (
                 src="near/widget/AccountProfile"
                 props={{ accountId: student }}
               />
-
               <div>
                 <h4>{descriptionForStudent(student)}</h4>
               </div>
@@ -713,6 +693,14 @@ return (
             )}
           </div>
         ))}
+        {/* Loader to display while adding a student */}
+        {addingStudent && (
+          <div style={{ textAlign: "center", marginTop: "10px" }}>
+            <div className="spinner-border text-primary" role="status">
+              <span className="sr-only"></span>
+            </div>
+          </div>
+        )}
       </div>
       {/* Modal for adding a new student */}
       {state.showAddStudentModal && (
