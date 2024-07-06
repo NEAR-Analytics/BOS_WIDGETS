@@ -771,6 +771,7 @@ return (
               ) : (
                 "Add"
               )}
+              State.update={{ showAddStudentModal: false }}
             </Button>
             <Button
               onClick={() => State.update({ showAddStudentModal: false })}
