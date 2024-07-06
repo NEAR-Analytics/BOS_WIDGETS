@@ -683,12 +683,14 @@ return (
                   )}
                 </Button>
                 <Button
-                  style={{ width: "100px", marginLeft: "1rem" }}
                   onClick={() => {
-                    TecherPossibilities.updateDiscription(student);
+                    TecherPossibilities.updateDiscription(
+                      state.vrifyOurStudent
+                    );
                   }}
+                  style={{ width: "100px", marginLeft: "1rem" }}
                 >
-                  {state.updatingDescription === student ? (
+                  {state.editingStudent ? (
                     <div className="spinner-border text-light" role="status">
                       <span className="sr-only"></span>
                     </div>
@@ -696,7 +698,6 @@ return (
                     "Edit"
                   )}
                 </Button>
-
                 {/* Button to close hidden content for the student */}
                 <Button
                   style={{ width: "100px", marginLeft: "1rem" }}
