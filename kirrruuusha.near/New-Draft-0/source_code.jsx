@@ -285,14 +285,6 @@ const Body = styled.div`
   align-items: center; 
   `;
 
-const ProfileTab = styled.div`
-  display: flex;
-  flex-direction: column;
-  background-color: ${appTheme.colors().backgroundColor};
-  justify-content: center;
-  align-items: center; 
-`;
-
 const uiKitComponents = {
   button: Button,
   body: Body,
@@ -324,16 +316,9 @@ function getModuleDependencies(moduleRoute) {
 }
 const dependencies = getModuleDependencies(state.currentRoute);
 
-//Pages
 const pages = {
   studentsPage: <></>,
-  myTeachersPage: (
-    <>
-      <h1>My Teachers</h1>
-    </>
-  ),
 };
-//
 
 if (state.accountIdProps != state.accountIdContext) {
   return (
