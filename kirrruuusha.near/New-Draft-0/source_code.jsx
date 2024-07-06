@@ -38,7 +38,6 @@ const TecherPossibilities = {
     });
   },
   getStudent: (pageNumber, pageSize) => {
-    // Рассчитываем начальный и конечный индексы для пагинации
     const startIndex = (pageNumber - 1) * pageSize;
     const endIndex = startIndex + pageSize;
     let studentArray = [];
@@ -143,6 +142,9 @@ const TecherPossibilities = {
       ) {
         indexForAddStudent = 0;
       }
+      State.update({
+        addingStudent: true,
+      });
       Social.set({
         mystudents: {
           [indexForAddStudent]: state.addNewStudent,
@@ -150,9 +152,13 @@ const TecherPossibilities = {
         myStudentsForFind: {
           [newStudent]: true,
         },
-      });
-      State.update({
-        ifAddStudent: true,
+      }).then(() => {
+        State.update({
+          addingStudent: false,
+        });
+        State.update({
+          ifAddStudent: true,
+        });
       });
     } else {
       State.update({
@@ -195,7 +201,6 @@ function ourDescriptionForStudent(account_id) {
   return discriprionalIN;
 }
 
-//UI Kit Theme
 const appTheme = {
   colors: () => {
     const currentThemeMode = state.currentAppThemeMode;
