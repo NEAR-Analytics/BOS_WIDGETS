@@ -756,8 +756,11 @@ return (
             {!state.ifAddStudent && <h3>Some gone wrong. Not add</h3>}
             <Button
               onClick={() => {
-                TecherPossibilities.addStudent();
-                State.update({ showAddStudentModal: false });
+                TecherPossibilities.addStudent()
+                  .then(() => {
+                    State.update({ showAddStudentModal: false });
+                  })
+                  .catch(() => {});
               }}
               style={{
                 width: "100px",
@@ -766,7 +769,7 @@ return (
             >
               {state.addingStudent ? (
                 <div className="spinner-border text-light" role="status">
-                  <span className="sr-only"></span>
+                  <span className="sr-only">Loading...</span>
                 </div>
               ) : (
                 "Add"
