@@ -73,7 +73,7 @@ const TecherPossibilities = {
   },
   updateDiscription: (student) => {
     State.update({
-      updatingDescription: student,
+      editingStudent: true,
     });
     Social.set({
       profile: {
@@ -83,7 +83,7 @@ const TecherPossibilities = {
       },
     }).then(() => {
       State.update({
-        updatingDescription: null,
+        editingStudent: false,
       });
     });
   },
