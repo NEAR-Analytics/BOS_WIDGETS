@@ -113,10 +113,35 @@ const TecherPossibilities = {
       newStudent.length - 5,
       newStudent.length
     );
-    if (sliceForVerification === ".near" && ifAlreadyHaveStudent !== `true`) {
+    if (sliceForVerification == ".near" && ifAlreadyHaveStudent != `true`) {
       let indexForAddStudent = 0;
-      // Set the loader state to true to display the loader
-      setAddingStudent(true);
+      if (
+        state.studentArray.length > 0 &&
+        state.arreyWhitIndexForAddStudent.length > 0
+      ) {
+        indexForAddStudent = state.arreyWhitIndexForAddStudent[0];
+      } else if (
+        state.studentArray.length > 0 &&
+        state.arreyWhitIndexForAddStudent.length == 0
+      ) {
+        while (state.arreyWhitIndexForAddStudent.length == 0) {
+          const student = Social.get(
+            `${state.accountIdContext}/mystudents/${indexForAddStudent}`
+          );
+          if (!student) {
+            State.update({
+              arreyWhitIndexForAddStudent: student,
+            });
+            break;
+          }
+          indexForAddStudent++;
+        }
+      } else if (
+        state.studentArray.length == 0 &&
+        !state.arreyWhitIndexForAddStudent.length == 0
+      ) {
+        indexForAddStudent = 0;
+      }
       Social.set({
         mystudents: {
           [indexForAddStudent]: state.addNewStudent,
@@ -124,12 +149,9 @@ const TecherPossibilities = {
         myStudentsForFind: {
           [newStudent]: true,
         },
-      }).then(() => {
-        // After adding, reset the loader state to false
-        setAddingStudent(false);
-        State.update({
-          ifAddStudent: true,
-        });
+      });
+      State.update({
+        ifAddStudent: true,
       });
     } else {
       State.update({
