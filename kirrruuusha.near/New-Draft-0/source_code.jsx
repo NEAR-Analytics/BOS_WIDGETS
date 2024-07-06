@@ -82,6 +82,10 @@ const TecherPossibilities = {
   },
   deleteStudent: (student) => {
     const indexForDeleteNumb = state.heashForDeletnumb[student];
+    // Set loading state before deletion
+    State.update({
+      deletingStudent: student,
+    });
     Social.set({
       mystudents: {
         [indexForDeleteNumb]: null,
@@ -89,6 +93,11 @@ const TecherPossibilities = {
       myStudentsForFind: {
         [student]: false,
       },
+    }).then(() => {
+      // Clear loading state after deletion is complete
+      State.update({
+        deletingStudent: null,
+      });
     });
   },
   addStudent: () => {
@@ -655,12 +664,18 @@ return (
                   }}
                 />
                 <Button
+                  style={{ width: "100px" }}
                   onClick={() => {
                     TecherPossibilities.deleteStudent(student);
                   }}
-                  style={{ width: "100px", marginLeft: "1rem" }}
                 >
-                  Delete
+                  {state.deletingStudent === student ? (
+                    <div className="spinner-border text-light" role="status">
+                      <span className="sr-only">Loading...</span>
+                    </div>
+                  ) : (
+                    "Delete"
+                  )}
                 </Button>
                 <Button
                   style={{ width: "100px", marginLeft: "1rem" }}
