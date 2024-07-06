@@ -142,6 +142,9 @@ const TecherPossibilities = {
       ) {
         indexForAddStudent = 0;
       }
+      State.update({
+        addingStudent: true,
+      });
       Social.set({
         mystudents: {
           [indexForAddStudent]: state.addNewStudent,
@@ -149,23 +152,17 @@ const TecherPossibilities = {
         myStudentsForFind: {
           [newStudent]: true,
         },
-      })
-        .then(() => {
-          State.update({
-            ifAddStudent: true,
-            showAddStudentModal: false,
-          });
-        })
-        .catch(() => {
-          State.update({
-            ifAddStudent: false,
-            showAddStudentModal: true,
-          });
+      }).then(() => {
+        State.update({
+          addingStudent: false,
         });
+        State.update({
+          ifAddStudent: true,
+        });
+      });
     } else {
       State.update({
         ifAddStudent: false,
-        showAddStudentModal: true,
       });
     }
   },
