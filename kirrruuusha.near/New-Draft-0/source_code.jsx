@@ -664,7 +664,7 @@ return (
                   }}
                 />
                 <Button
-                  style={{ width: "100px" }}
+                  style={{ width: "100px", marginLeft: "1rem" }}
                   onClick={() => {
                     TecherPossibilities.deleteStudent(student);
                   }}
