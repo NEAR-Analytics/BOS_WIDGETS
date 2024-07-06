@@ -72,7 +72,7 @@ const TecherPossibilities = {
   },
   updateDiscription: (student) => {
     State.update({
-      editingStudent: true,
+      updatingDescription: student,
     });
     Social.set({
       profile: {
@@ -82,7 +82,7 @@ const TecherPossibilities = {
       },
     }).then(() => {
       State.update({
-        editingStudent: false,
+        updatingDescription: null,
       });
     });
   },
@@ -673,21 +673,20 @@ return (
                   )}
                 </Button>
                 <Button
-                  onClick={() => {
-                    TecherPossibilities.updateDiscription(
-                      state.vrifyOurStudent
-                    );
-                  }}
                   style={{ width: "100px", marginLeft: "1rem" }}
+                  onClick={() => {
+                    TecherPossibilities.updateDiscription(student);
+                  }}
                 >
-                  {state.editingStudent ? (
+                  {state.updatingDescription === student ? (
                     <div className="spinner-border text-light" role="status">
-                      <span className="sr-only"></span>
+                      <span className="sr-only">Loading...</span>
                     </div>
                   ) : (
                     "Edit"
                   )}
                 </Button>
+
                 {/* Button to close hidden content for the student */}
                 <Button
                   style={{ width: "100px", marginLeft: "1rem" }}
