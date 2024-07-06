@@ -642,7 +642,6 @@ return (
           >
             {state.showHiddenContent === student && (
               <div style={{ display: "grid" }}>
-                {/* Input for edit description */}
                 <input
                   type="text"
                   className="form-control"
@@ -652,7 +651,6 @@ return (
                     State.update({ editDescription: e.target.value });
                   }}
                 />
-                {/* Delete student button */}
                 <Button
                   style={{ width: "100px", marginLeft: "1rem" }}
                   onClick={() => {
@@ -667,7 +665,6 @@ return (
                     "Delete"
                   )}
                 </Button>
-                {/* Edit description button */}
                 <Button
                   style={{ width: "100px", marginLeft: "1rem" }}
                   onClick={() => {
@@ -697,6 +694,7 @@ return (
                 src="near/widget/AccountProfile"
                 props={{ accountId: student }}
               />
+
               <div>
                 <h4>{descriptionForStudent(student)}</h4>
               </div>
@@ -715,14 +713,6 @@ return (
             )}
           </div>
         ))}
-        {/* Loader to display while adding a student */}
-        {addingStudent && (
-          <div style={{ textAlign: "center", marginTop: "10px" }}>
-            <div className="spinner-border text-primary" role="status">
-              <span className="sr-only"></span>
-            </div>
-          </div>
-        )}
       </div>
       {/* Modal for adding a new student */}
       {state.showAddStudentModal && (
