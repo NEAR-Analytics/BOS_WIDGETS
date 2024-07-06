@@ -752,15 +752,20 @@ return (
             {!state.ifAddStudent && <h3>Some gone wrong. Not add</h3>}
             <Button
               onClick={() => {
-                TecherPossibilities.addStudent(state.addNewStudent);
-                State.update({ showAddStudentModal: false });
+                TecherPossibilities.addStudent();
               }}
               style={{
                 width: "100px",
                 marginTop: "10px",
               }}
             >
-              Add
+              {state.addingStudent ? (
+                <div className="spinner-border text-light" role="status">
+                  <span className="sr-only"></span>
+                </div>
+              ) : (
+                "Add"
+              )}
             </Button>
             <Button
               onClick={() => State.update({ showAddStudentModal: false })}
