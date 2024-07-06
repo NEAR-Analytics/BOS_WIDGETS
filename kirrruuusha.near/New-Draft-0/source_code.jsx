@@ -72,17 +72,23 @@ const TecherPossibilities = {
     });
   },
   updateDiscription: (student) => {
+    State.update({
+      updatingDescription: student,
+    });
     Social.set({
       profile: {
         discriptionsStudent: {
           [student]: state.editDescription,
         },
       },
+    }).then(() => {
+      State.update({
+        updatingDescription: null,
+      });
     });
   },
   deleteStudent: (student) => {
     const indexForDeleteNumb = state.heashForDeletnumb[student];
-    // Set loading state before deletion
     State.update({
       deletingStudent: student,
     });
@@ -94,7 +100,6 @@ const TecherPossibilities = {
         [student]: false,
       },
     }).then(() => {
-      // Clear loading state after deletion is complete
       State.update({
         deletingStudent: null,
       });
