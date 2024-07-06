@@ -142,9 +142,6 @@ const TecherPossibilities = {
       ) {
         indexForAddStudent = 0;
       }
-      State.update({
-        addingStudent: true,
-      });
       Social.set({
         mystudents: {
           [indexForAddStudent]: state.addNewStudent,
@@ -152,13 +149,9 @@ const TecherPossibilities = {
         myStudentsForFind: {
           [newStudent]: true,
         },
-      }).then(() => {
-        State.update({
-          addingStudent: false,
-        });
-        State.update({
-          ifAddStudent: true,
-        });
+      });
+      State.update({
+        ifAddStudent: true,
       });
     } else {
       State.update({
@@ -755,20 +748,15 @@ return (
             {!state.ifAddStudent && <h3>Some gone wrong. Not add</h3>}
             <Button
               onClick={() => {
-                TecherPossibilities.addStudent();
+                TecherPossibilities.addStudent(state.addNewStudent);
+                State.update({ showAddStudentModal: false });
               }}
               style={{
                 width: "100px",
                 marginTop: "10px",
               }}
             >
-              {state.addingStudent ? (
-                <div className="spinner-border text-light" role="status">
-                  <span className="sr-only"></span>
-                </div>
-              ) : (
-                "Add"
-              )}
+              Add
             </Button>
             <Button
               onClick={() => State.update({ showAddStudentModal: false })}
