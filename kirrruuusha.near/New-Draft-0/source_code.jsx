@@ -75,27 +75,19 @@ const TecherPossibilities = {
       updatingDescription: student,
     });
 
-    const previousState = state.editDescription;
-
     Social.set({
       profile: {
         discriptionsStudent: {
           [student]: state.editDescription,
         },
       },
-    })
-      .then(() => {
-        State.update({
-          updatingDescription: null,
-        });
-        State.update({
-          editDescription: previousState,
-        });
-      })
-      .catch((error) => {
-        console.error("Error updating data:", error);
+    }).then(() => {
+      State.update({
+        updatingDescription: null,
       });
+    });
   },
+
   deleteStudent: (student) => {
     const indexForDeleteNumb = state.heashForDeletnumb[student];
     State.update({
