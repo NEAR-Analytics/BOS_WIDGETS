@@ -735,18 +735,15 @@ return (
               onChange={(e) => State.update({ addNewStudent: e.target.value })}
             />
             {!state.ifAddStudent && <h3>Some gone wrong. Not add</h3>}
-            <Button
-              onClick={() => {
-                TecherPossibilities.addStudent(state.addNewStudent);
-                State.update({ showAddStudentModal: false });
-              }}
+            <CommitButton
+              data={{ addStudent: state.addNewStudent }}
               style={{
                 width: "100px",
                 marginTop: "10px",
               }}
             >
               Add
-            </Button>
+            </CommitButton>
             <Button
               onClick={() => State.update({ showAddStudentModal: false })}
               style={{
