@@ -74,17 +74,27 @@ const TecherPossibilities = {
     State.update({
       updatingDescription: student,
     });
+
+    const previousState = state.editDescription;
+
     Social.set({
       profile: {
         discriptionsStudent: {
           [student]: state.editDescription,
         },
       },
-    }).then(() => {
-      State.update({
-        updatingDescription: null,
+    })
+      .then(() => {
+        State.update({
+          updatingDescription: null,
+        });
+        State.update({
+          editDescription: previousState,
+        });
+      })
+      .catch((error) => {
+        console.error("Помилка при оновленні даних:", error);
       });
-    });
   },
   deleteStudent: (student) => {
     const indexForDeleteNumb = state.heashForDeletnumb[student];
