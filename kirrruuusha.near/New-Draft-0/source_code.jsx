@@ -93,7 +93,7 @@ const TecherPossibilities = {
         });
       })
       .catch((error) => {
-        console.error("Помилка при оновленні даних:", error);
+        console.error("Error updating data:", error);
       });
   },
   deleteStudent: (student) => {
