@@ -113,35 +113,22 @@ const TecherPossibilities = {
       newStudent.length - 5,
       newStudent.length
     );
-    if (sliceForVerification == ".near" && ifAlreadyHaveStudent != `true`) {
-      let indexForAddStudent = 0;
+    if (sliceForVerification == ".near" && ifAlreadyHaveStudent !== `true`) {
+      let indexForAddStudent = state.arreyWhitIndexForAddStudent[0] || 0;
       if (
         state.studentArray.length > 0 &&
-        state.arreyWhitIndexForAddStudent.length > 0
+        state.arreyWhitIndexForAddStudent.length === 0
       ) {
-        indexForAddStudent = state.arreyWhitIndexForAddStudent[0];
-      } else if (
-        state.studentArray.length > 0 &&
-        state.arreyWhitIndexForAddStudent.length == 0
-      ) {
-        while (state.arreyWhitIndexForAddStudent.length == 0) {
-          const student = Social.get(
-            `${state.accountIdContext}/mystudents/${indexForAddStudent}`
-          );
-          if (!student) {
-            State.update({
-              arreyWhitIndexForAddStudent: student,
-            });
-            break;
-          }
-          indexForAddStudent++;
+        indexForAddStudent = state.studentArray.length;
+      } else {
+        indexForAddStudent = state.studentArray.findIndex(
+          (student) => student === null
+        );
+        if (indexForAddStudent === -1) {
+          indexForAddStudent = state.studentArray.length;
         }
-      } else if (
-        state.studentArray.length == 0 &&
-        !state.arreyWhitIndexForAddStudent.length == 0
-      ) {
-        indexForAddStudent = 0;
       }
+
       Social.set({
         mystudents: {
           [indexForAddStudent]: state.addNewStudent,
