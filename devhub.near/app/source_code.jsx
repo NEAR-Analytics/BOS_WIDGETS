@@ -1,11 +1,14 @@
 /**
- * This is the main entry point for the RFP application.
+ * This is the main entry point for the DevHub application.
  * Page route gets passed in through params, along with all other page props.
  */
+const { onDraftStateChange } = VM.require(
+  "events-committee.near/widget/devhub.entity.post.draft"
+);
 const { page, ...passProps } = props;
 // Import our modules
 const { AppLayout } = VM.require(
-  `infrastructure-committee.near/widget/components.template.AppLayout`
+  "events-committee.near/widget/devhub.components.templates.AppLayout"
 );
 if (!AppLayout) {
   return <p>Loading modules...</p>;
@@ -26,48 +29,16 @@ const Theme = styled.div`
 `;
 if (!page) {
   // If no page is specified, we default to the feed page TEMP
-  page = "about";
+  page = "home";
 }
 // This is our navigation, rendering the page based on the page parameter
 function Page() {
   const routes = page.split(".");
   switch (routes[0]) {
-    case "about": {
-      return (
-        <Widget
-          src={`infrastructure-committee.near/widget/components.pages.about`}
-          props={passProps}
-        />
-      );
-    }
-    case "rfps": {
-      return (
-        <Widget
-          src={`infrastructure-committee.near/widget/components.rfps.Feed`}
-          props={passProps}
-        />
-      );
-    }
-    case "rfp": {
-      return (
-        <Widget
-          src={`infrastructure-committee.near/widget/components.rfps.Rfp`}
-          props={passProps}
-        />
-      );
-    }
-    case "create-rfp": {
-      return (
-        <Widget
-          src={`infrastructure-committee.near/widget/components.rfps.Editor`}
-          props={passProps}
-        />
-      );
-    }
     case "create-proposal": {
       return (
         <Widget
-          src={`infrastructure-committee.near/widget/components.proposals.Editor`}
+          src={"events-committee.near/widget/devhub.entity.proposal.Editor"}
           props={{ ...passProps }}
         />
       );
@@ -75,7 +46,7 @@ function Page() {
     case "proposals": {
       return (
         <Widget
-          src={`infrastructure-committee.near/widget/components.proposals.Feed`}
+          src={"events-committee.near/widget/devhub.page.proposals"}
           props={passProps}
         />
       );
@@ -83,15 +54,16 @@ function Page() {
     case "proposal": {
       return (
         <Widget
-          src={`infrastructure-committee.near/widget/components.proposals.Proposal`}
+          src={"events-committee.near/widget/devhub.entity.proposal.Proposal"}
           props={passProps}
         />
       );
     }
+    // ?page=about
     case "about": {
       return (
         <Widget
-          src={`infrastructure-committee.near/widget/components.pages.about`}
+          src={"events-committee.near/widget/devhub.page.about"}
           props={passProps}
         />
       );
@@ -99,14 +71,18 @@ function Page() {
     case "admin": {
       return (
         <Widget
-          src={`infrastructure-committee.near/widget/components.pages.admin`}
+          src={"events-committee.near/widget/devhub.page.admin.index"}
           props={passProps}
         />
       );
     }
     default: {
-      // TODO: 404 page
-      return <p>404</p>;
+      return (
+        <Widget
+          src={"events-committee.near/widget/devhub.page.proposals"}
+          props={passProps}
+        />
+      );
     }
   }
 }
