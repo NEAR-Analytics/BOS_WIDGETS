@@ -15,6 +15,7 @@ const {
   chainId,
   nativeCurrency,
   tab,
+  from,
 } = props;
 useEffect(() => {
   State.update({
@@ -60,6 +61,7 @@ return (
           dexConfig,
           account,
           prices,
+          from,
           onSuccess: () => {
             State.update({
               loading: true,
