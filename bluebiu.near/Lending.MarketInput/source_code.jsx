@@ -1,6 +1,6 @@
 const StyledBox = styled.div`
   background-color: var(--agg-secondary-color, #1b1e27);
-  border: 1px solid var(--agg-border-color, #33364b);
+  border: 1px solid var(--agg-primary-color, #33364b);
   width: 500px;
   height: 68px;
   padding: 12px;
@@ -90,7 +90,8 @@ return (
         Balance:
         <StyledBalanceAmount
           onClick={() => {
-            onChange(Big(balance).toFixed(decimals));
+            const _bal = parseFloat(Big(balance).toFixed(decimals)).toString();
+            onChange(_bal);
           }}
         >
           <Widget
