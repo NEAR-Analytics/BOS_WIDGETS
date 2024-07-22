@@ -126,6 +126,12 @@ const featured = [
     widgetName: "Ejemplo Contrato Non Fungible Token",
     alt: "Ejemplo Contrato Non Fungible Token",
   },
+  {
+    widgetSrc: "syi216.near/widget/EjemploContratoTMG",
+    accountId: "syi216.near",
+    widgetName: "Ejemplo Contrato Tamagotchi",
+    alt: "Ejemplo Contrato Tamagotchi",
+  },
 ];
 
 return (
