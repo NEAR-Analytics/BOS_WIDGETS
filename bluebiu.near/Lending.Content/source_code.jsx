@@ -132,6 +132,7 @@ return (
         toast,
         source: "dapp",
         account,
+        from,
         onClose: () => {
           State.update({
             showDialog: false,
