@@ -1,104 +1,13 @@
-/*
-License: MIT
-Author: devhub.near
-Homepage: https://github.com/NEAR-DevHub/near-prpsls-bos#readme
-*/
-/* INCLUDE: "includes/common.jsx" */
-const REPL_DEVHUB = "devhub.near";
-const REPL_INFRASTRUCTURE_COMMITTEE = "infrastructure-committee.near";
-const REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT =
-  "infrastructure-committee.near";
-const REPL_RPC_URL = "https://rpc.mainnet.near.org";
-const REPL_NEAR = "near";
-const RFP_IMAGE =
-  "https://ipfs.near.social/ipfs/bafkreicbygt4kajytlxij24jj6tkg2ppc2dw3dlqhkermkjjfgdfnlizzy";
-
-const RFP_FEED_INDEXER_QUERY_NAME =
-  "polyprogrammist_near_devhub_ic_v1_rfps_with_latest_snapshot";
-
-const RFP_INDEXER_QUERY_NAME =
-  "polyprogrammist_near_devhub_ic_v1_rfp_snapshots";
-
-const PROPOSAL_FEED_INDEXER_QUERY_NAME =
-  "polyprogrammist_near_devhub_ic_v1_proposals_with_latest_snapshot";
-
-const PROPOSAL_QUERY_NAME =
-  "polyprogrammist_near_devhub_ic_v1_proposal_snapshots";
-const RFP_TIMELINE_STATUS = {
-  ACCEPTING_SUBMISSIONS: "ACCEPTING_SUBMISSIONS",
-  EVALUATION: "EVALUATION",
-  PROPOSAL_SELECTED: "PROPOSAL_SELECTED",
-  CANCELLED: "CANCELLED",
-};
-
-const PROPOSAL_TIMELINE_STATUS = {
-  DRAFT: "DRAFT",
-  REVIEW: "REVIEW",
-  APPROVED: "APPROVED",
-  REJECTED: "REJECTED",
-  CANCELED: "CANCELLED",
-  APPROVED_CONDITIONALLY: "APPROVED_CONDITIONALLY",
-  PAYMENT_PROCESSING: "PAYMENT_PROCESSING",
-  FUNDED: "FUNDED",
-};
-
-const QUERYAPI_ENDPOINT = `https://near-queryapi.api.pagoda.co/v1/graphql`;
-
-async function fetchGraphQL(operationsDoc, operationName, variables) {
-  return asyncFetch(QUERYAPI_ENDPOINT, {
-    method: "POST",
-    headers: { "x-hasura-role": `polyprogrammist_near` },
-    body: JSON.stringify({
-      query: operationsDoc,
-      variables: variables,
-      operationName: operationName,
-    }),
-  });
-}
-
-const CANCEL_RFP_OPTIONS = {
-  CANCEL_PROPOSALS: "CANCEL_PROPOSALS",
-  UNLINK_PROPOSALS: "UNLINK_PROPOSALSS",
-  NONE: "NONE",
-};
-
-function parseJSON(json) {
-  if (typeof json === "string") {
-    try {
-      return JSON.parse(json);
-    } catch (error) {
-      return json;
-    }
-  } else {
-    return json;
-  }
-}
-
-function isNumber(value) {
-  return typeof value === "number";
-}
-
-const PROPOSALS_APPROVED_STATUS_ARRAY = [
-  PROPOSAL_TIMELINE_STATUS.APPROVED,
-  PROPOSAL_TIMELINE_STATUS.APPROVED_CONDITIONALLY,
-  PROPOSAL_TIMELINE_STATUS.PAYMENT_PROCESSING,
-  PROPOSAL_TIMELINE_STATUS.FUNDED,
-];
-
-function getLinkUsingCurrentGateway(url) {
-  const data = fetch(`https://httpbin.org/headers`);
-  const gatewayURL = data?.body?.headers?.Origin ?? "";
-  return `https://${
-    gatewayURL.includes("near.org") ? "dev.near.org" : "near.social"
-  }/${url}`;
-}
-/* END_INCLUDE: "includes/common.jsx" */
-const { href } = VM.require(`${REPL_DEVHUB}/widget/core.lib.url`);
+const { PROPOSAL_TIMELINE_STATUS, isNumber, getLinkUsingCurrentGateway } =
+  VM.require(`infrastructure-committee.near/widget/core.common`) || {
+    PROPOSAL_TIMELINE_STATUS: {},
+    isNumber: () => {},
+    getLinkUsingCurrentGateway: () => {},
+  };
+const { href } = VM.require(`devhub.near/widget/core.lib.url`);
 href || (href = () => {});
-
 const snapshotHistory = props.snapshotHistory;
 const latestSnapshot = props.latestSnapshot;
-
 const Wrapper = styled.div`
   position: relative;
   .log-line {
@@ -111,16 +20,13 @@ const Wrapper = styled.div`
     background-color: var(--bs-border-color);
     z-index: 1;
   }
-
   .text-wrap {
     overflow: hidden;
     white-space: normal;
   }
-
   .fw-bold {
     font-weight: 600 !important;
   }
-
   .inline-flex {
     display: -webkit-inline-box !important;
     align-items: center !important;
@@ -129,17 +35,14 @@ const Wrapper = styled.div`
     flex-wrap: wrap;
   }
 `;
-
 const CommentContainer = styled.div`
   border: 1px solid lightgrey;
   overflow: auto;
 `;
-
 const Header = styled.div`
   position: relative;
   background-color: #f4f4f4;
   height: 50px;
-
   .menu {
     position: absolute;
     right: 10px;
@@ -147,7 +50,6 @@ const Header = styled.div`
     font-size: 30px;
   }
 `;
-
 // check snapshot history all keys and values for differences
 function getDifferentKeysWithValues(obj1, obj2) {
   return Object.keys(obj1)
@@ -173,16 +75,13 @@ function getDifferentKeysWithValues(obj1, obj2) {
       modifiedValue: obj2[key],
     }));
 }
-
 State.init({
   data: null,
   socialComments: null,
   changedKeysListWithValues: null,
 });
-
 function sortTimelineAndComments() {
   const comments = Social.index("comment", props.item, { subscribe: true });
-
   if (state.changedKeysListWithValues === null) {
     const changedKeysListWithValues = snapshotHistory
       .slice(1)
@@ -195,14 +94,12 @@ function sortTimelineAndComments() {
       });
     State.update({ changedKeysListWithValues });
   }
-
   // sort comments and timeline logs by time
   const snapShotTimeStamp = Array.isArray(snapshotHistory)
     ? snapshotHistory.map((i) => {
         return { blockHeight: null, timestamp: parseFloat(i.timestamp / 1e6) };
       })
     : [];
-
   const commentsTimeStampPromise = Array.isArray(comments)
     ? Promise.all(
         comments.map((item) => {
@@ -218,18 +115,15 @@ function sortTimelineAndComments() {
         })
       ).then((res) => res)
     : Promise.resolve([]);
-
   commentsTimeStampPromise.then((commentsTimeStamp) => {
     const combinedArray = [...snapShotTimeStamp, ...commentsTimeStamp];
     combinedArray.sort((a, b) => a.timestamp - b.timestamp);
     State.update({ data: combinedArray, socialComments: comments });
   });
 }
-
 if ((snapshotHistory ?? []).length > 0) {
   sortTimelineAndComments();
 }
-
 const Comment = ({ commentItem }) => {
   const { accountId, blockHeight } = commentItem;
   const item = {
@@ -238,25 +132,23 @@ const Comment = ({ commentItem }) => {
     blockHeight,
   };
   const content = JSON.parse(Social.get(item.path, blockHeight) ?? "null");
-  const link = getLinkUsingCurrentGateway(
-    `${REPL_INFRASTRUCTURE_COMMITTEE}/widget/app?page=proposal&id=${props.id}&accountId=${accountId}&blockHeight=${blockHeight}`
-  );
+  const link = `https://devhub.near.page/proposal/${proposalId}?accountId=${accountId}&blockHeight=${blockHeight}`;
   const hightlightComment =
     parseInt(props.blockHeight ?? "") === blockHeight &&
     props.accountId === accountId;
-
   return (
     <div style={{ zIndex: 99, background: "white" }}>
       <div className="d-flex gap-2 flex-1">
         <div className="d-none d-sm-flex">
           <Widget
-            src={`${REPL_DEVHUB}/widget/devhub.entity.proposal.Profile`}
+            src={`devhub.near/widget/devhub.entity.proposal.Profile`}
             props={{
               accountId: accountId,
             }}
           />
         </div>
         <CommentContainer
+          id={`${accountId.replace(/[^a-z0-9]/g, "")}${blockHeight}`}
           style={{ border: hightlightComment ? "2px solid black" : "" }}
           className="rounded-2 flex-1"
         >
@@ -267,7 +159,7 @@ const Comment = ({ commentItem }) => {
               </Link>
               commented ･{" "}
               <Widget
-                src={`${REPL_NEAR}/widget/TimeAgo`}
+                src={`near/widget/TimeAgo`}
                 props={{
                   blockHeight: blockHeight,
                 }}
@@ -276,7 +168,7 @@ const Comment = ({ commentItem }) => {
             {context.accountId && (
               <div className="menu">
                 <Widget
-                  src={`${REPL_NEAR}/widget/Posts.Menu`}
+                  src={`near/widget/Posts.Menu`}
                   props={{
                     accountId: accountId,
                     blockHeight: blockHeight,
@@ -289,22 +181,21 @@ const Comment = ({ commentItem }) => {
           </Header>
           <div className="p-2 px-3">
             <Widget
-              src={`${REPL_DEVHUB}/widget/devhub.components.molecule.MarkdownViewer`}
+              src={`devhub.near/widget/devhub.components.molecule.MarkdownViewer`}
               props={{
                 text: content.text,
               }}
             />
-
             <div className="d-flex gap-2 align-items-center mt-4">
               <Widget
-                src={`${REPL_DEVHUB}/widget/devhub.entity.proposal.LikeButton`}
+                src={`devhub.near/widget/devhub.entity.proposal.LikeButton`}
                 props={{
                   item: item,
                   notifyAccountId: accountId,
                 }}
               />
               <Widget
-                src={`${REPL_NEAR}/widget/CopyUrlButton`}
+                src={`near/widget/CopyUrlButton`}
                 props={{
                   url: link,
                 }}
@@ -316,12 +207,10 @@ const Comment = ({ commentItem }) => {
     </div>
   );
 };
-
 function capitalizeFirstLetter(string) {
   const updated = string.replace("_", " ");
   return updated.charAt(0).toUpperCase() + updated.slice(1).toLowerCase();
 }
-
 function parseTimelineKeyAndValue(timeline, originalValue, modifiedValue) {
   const oldValue = originalValue[timeline];
   const newValue = modifiedValue[timeline];
@@ -336,7 +225,7 @@ function parseTimelineKeyAndValue(timeline, originalValue, modifiedValue) {
           <span className="inline-flex">
             moved proposal to{" "}
             <Widget
-              src={`${REPL_DEVHUB}/widget/devhub.entity.proposal.StatusTag`}
+              src={`devhub.near/widget/devhub.entity.proposal.StatusTag`}
               props={{
                 timelineStatus: newValue,
               }}
@@ -353,14 +242,14 @@ function parseTimelineKeyAndValue(timeline, originalValue, modifiedValue) {
             <span className="inline-flex">
               moved proposal from{" "}
               <Widget
-                src={`${REPL_DEVHUB}/widget/devhub.entity.proposal.StatusTag`}
+                src={`devhub.near/widget/devhub.entity.proposal.StatusTag`}
                 props={{
                   timelineStatus: oldValue,
                 }}
               />
               to{" "}
               <Widget
-                src={`${REPL_DEVHUB}/widget/devhub.entity.proposal.StatusTag`}
+                src={`devhub.near/widget/devhub.entity.proposal.StatusTag`}
                 props={{
                   timelineStatus: newValue,
                 }}
@@ -391,12 +280,11 @@ function parseTimelineKeyAndValue(timeline, originalValue, modifiedValue) {
       return null;
   }
 }
-
 const AccountProfile = ({ accountId }) => {
   return (
     <span className="inline-flex fw-bold text-black">
       <Widget
-        src={`${REPL_DEVHUB}/widget/devhub.entity.proposal.Profile`}
+        src={`devhub.near/widget/devhub.entity.proposal.Profile`}
         props={{
           accountId: accountId,
           size: "sm",
@@ -406,13 +294,12 @@ const AccountProfile = ({ accountId }) => {
     </span>
   );
 };
-
 const LinkToRfp = ({ id, children }) => {
   return (
     <a
       className="text-decoration-underline flex-1"
       href={href({
-        widgetSrc: `${REPL_INFRASTRUCTURE_COMMITTEE}/widget/app`,
+        widgetSrc: `infrastructure-committee.near/widget/app`,
         params: {
           page: "rfp",
           id: id,
@@ -425,7 +312,6 @@ const LinkToRfp = ({ id, children }) => {
     </a>
   );
 };
-
 const parseProposalKeyAndValue = (key, modifiedValue, originalValue) => {
   switch (key) {
     case "name":
@@ -506,16 +392,13 @@ const parseProposalKeyAndValue = (key, modifiedValue, originalValue) => {
       return null;
   }
 };
-
 const LogIconContainer = styled.div`
   margin-left: 50px;
   z-index: 99;
-
   @media screen and (max-width: 768px) {
     margin-left: 10px;
   }
 `;
-
 const Log = ({ timestamp }) => {
   const updatedData = useMemo(
     () =>
@@ -527,14 +410,12 @@ const Log = ({ timestamp }) => {
       ),
     [state.changedKeysListWithValues, timestamp]
   );
-
   const editorId = updatedData.editorId;
   const valuesArray = Object.values(updatedData ?? {});
   // if valuesArray length is 2 that means it only has timestamp and editorId
   if (!updatedData || valuesArray.length === 2) {
     return <></>;
   }
-
   return valuesArray.map((i, index) => {
     if (i.key && i.key !== "timestamp") {
       return (
@@ -561,7 +442,7 @@ const Log = ({ timestamp }) => {
             {parseProposalKeyAndValue(i.key, i.modifiedValue, i.originalValue)}
             {i.key !== "timeline" && "･"}
             <Widget
-              src={`${REPL_NEAR}/widget/TimeAgo`}
+              src={`near/widget/TimeAgo`}
               props={{
                 blockTimestamp: timestamp * 1000000,
               }}
@@ -572,7 +453,6 @@ const Log = ({ timestamp }) => {
     }
   });
 };
-
 if (Array.isArray(state.data)) {
   return (
     <Wrapper>
