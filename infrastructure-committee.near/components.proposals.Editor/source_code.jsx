@@ -1,108 +1,12 @@
-/*
-License: MIT
-Author: devhub.near
-Homepage: https://github.com/NEAR-DevHub/near-prpsls-bos#readme
-*/
-/* INCLUDE: "includes/common.jsx" */
-const REPL_DEVHUB = "devhub.near";
-const REPL_INFRASTRUCTURE_COMMITTEE = "infrastructure-committee.near";
-const REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT =
-  "infrastructure-committee.near";
-const REPL_RPC_URL = "https://rpc.mainnet.near.org";
-const REPL_NEAR = "near";
-const RFP_IMAGE =
-  "https://ipfs.near.social/ipfs/bafkreicbygt4kajytlxij24jj6tkg2ppc2dw3dlqhkermkjjfgdfnlizzy";
-
-const RFP_FEED_INDEXER_QUERY_NAME =
-  "polyprogrammist_near_devhub_ic_v1_rfps_with_latest_snapshot";
-
-const RFP_INDEXER_QUERY_NAME =
-  "polyprogrammist_near_devhub_ic_v1_rfp_snapshots";
-
-const PROPOSAL_FEED_INDEXER_QUERY_NAME =
-  "polyprogrammist_near_devhub_ic_v1_proposals_with_latest_snapshot";
-
-const PROPOSAL_QUERY_NAME =
-  "polyprogrammist_near_devhub_ic_v1_proposal_snapshots";
-const RFP_TIMELINE_STATUS = {
-  ACCEPTING_SUBMISSIONS: "ACCEPTING_SUBMISSIONS",
-  EVALUATION: "EVALUATION",
-  PROPOSAL_SELECTED: "PROPOSAL_SELECTED",
-  CANCELLED: "CANCELLED",
-};
-
-const PROPOSAL_TIMELINE_STATUS = {
-  DRAFT: "DRAFT",
-  REVIEW: "REVIEW",
-  APPROVED: "APPROVED",
-  REJECTED: "REJECTED",
-  CANCELED: "CANCELLED",
-  APPROVED_CONDITIONALLY: "APPROVED_CONDITIONALLY",
-  PAYMENT_PROCESSING: "PAYMENT_PROCESSING",
-  FUNDED: "FUNDED",
-};
-
-const QUERYAPI_ENDPOINT = `https://near-queryapi.api.pagoda.co/v1/graphql`;
-
-async function fetchGraphQL(operationsDoc, operationName, variables) {
-  return asyncFetch(QUERYAPI_ENDPOINT, {
-    method: "POST",
-    headers: { "x-hasura-role": `polyprogrammist_near` },
-    body: JSON.stringify({
-      query: operationsDoc,
-      variables: variables,
-      operationName: operationName,
-    }),
-  });
-}
-
-const CANCEL_RFP_OPTIONS = {
-  CANCEL_PROPOSALS: "CANCEL_PROPOSALS",
-  UNLINK_PROPOSALS: "UNLINK_PROPOSALSS",
-  NONE: "NONE",
-};
-
-function parseJSON(json) {
-  if (typeof json === "string") {
-    try {
-      return JSON.parse(json);
-    } catch (error) {
-      return json;
-    }
-  } else {
-    return json;
-  }
-}
-
-function isNumber(value) {
-  return typeof value === "number";
-}
-
-const PROPOSALS_APPROVED_STATUS_ARRAY = [
-  PROPOSAL_TIMELINE_STATUS.APPROVED,
-  PROPOSAL_TIMELINE_STATUS.APPROVED_CONDITIONALLY,
-  PROPOSAL_TIMELINE_STATUS.PAYMENT_PROCESSING,
-  PROPOSAL_TIMELINE_STATUS.FUNDED,
-];
-
-function getLinkUsingCurrentGateway(url) {
-  const data = fetch(`https://httpbin.org/headers`);
-  const gatewayURL = data?.body?.headers?.Origin ?? "";
-  return `https://${
-    gatewayURL.includes("near.org") ? "dev.near.org" : "near.social"
-  }/${url}`;
-}
-/* END_INCLUDE: "includes/common.jsx" */
-
-const { href } = VM.require(`${REPL_DEVHUB}/widget/core.lib.url`);
+const { RFP_TIMELINE_STATUS, parseJSON, isNumber } = VM.require(
+  `infrastructure-committee.near/widget/core.common`
+) || { RFP_TIMELINE_STATUS: {}, parseJSON: () => {}, isNumber: () => {} };
+const { href } = VM.require(`devhub.near/widget/core.lib.url`);
 href || (href = () => {});
-
 const { getGlobalLabels } = VM.require(
-  `${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.core.lib.contract`
+  `infrastructure-committee.near/widget/components.core.lib.contract`
 ) || { getGlobalLabels: () => {} };
-
 const { id, timestamp, rfp_id } = props;
-
 const isEditPage = typeof id === "string";
 const author = context.accountId;
 const FundingDocs =
@@ -111,40 +15,34 @@ const CoCDocs =
   "https://github.com/near/Infrastructure-Working-Group/wiki/Code-Of-Conduct";
 if (!author) {
   return (
-    <Widget src={`${REPL_DEVHUB}/widget/devhub.entity.proposal.LoginScreen`} />
+    <Widget src={`devhub.near/widget/devhub.entity.proposal.LoginScreen`} />
   );
 }
 let editProposalData = null;
 let draftProposalData = null;
 const draftKey = "INFRA_PROPOSAL_EDIT";
-
 const rfpLabelOptions = getGlobalLabels();
-
 if (isEditPage) {
   editProposalData = Near.view(
-    REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT,
+    "infrastructure-committee.near",
     "get_proposal",
     {
       proposal_id: parseInt(id),
     }
   );
 }
-
 const Container = styled.div`
   input {
     font-size: 14px !important;
   }
-
   .card.no-border {
     border-left: none !important;
     border-right: none !important;
     margin-bottom: -3.5rem;
   }
-
   textarea {
     font-size: 14px !important;
   }
-
   .full-width-div {
     width: 100vw;
     position: relative;
@@ -153,62 +51,49 @@ const Container = styled.div`
     margin-left: -50vw;
     margin-right: -50vw;
   }
-
   .text-sm {
     font-size: 13px;
   }
-
   @media screen and (max-width: 768px) {
     .h6 {
       font-size: 14px !important;
     }
-
     .h5 {
       font-size: 16px !important;
     }
-
     .text-sm {
       font-size: 11px;
     }
-
     .gap-6 {
       gap: 0.5rem !important;
     }
   }
-
   .border-bottom {
     border-bottom: var(--bs-card-border-width) solid var(--bs-card-border-color);
   }
-
   .text-xs {
     font-size: 10px;
   }
-
   .flex-2 {
     flex: 2;
   }
-
   .flex-1 {
     flex: 1;
   }
   .bg-grey {
     background-color: #f4f4f4;
   }
-
   .border-bottom {
     border-bottom: 1px solid grey;
   }
-
   .cursor-pointer {
     cursor: pointer;
   }
-
   .proposal-card {
     &:hover {
       background-color: #f4f4f4;
     }
   }
-
   .border-1 {
     border: 1px solid #e2e6ec;
   }
@@ -220,7 +105,6 @@ const Container = styled.div`
       color: white;
     }
   }
-
   .black-btn {
     background-color: #000 !important;
     border: none;
@@ -229,22 +113,18 @@ const Container = styled.div`
       color: white;
     }
   }
-
   .dropdown-toggle:after {
     position: absolute;
     top: 46%;
     right: 5%;
   }
-
   .drop-btn {
     max-width: none !important;
   }
-
   .dropdown-menu {
     width: 100%;
     border-radius: 0.375rem !important;
   }
-
   .input-icon {
     display: flex;
     height: 100%;
@@ -252,13 +132,11 @@ const Container = styled.div`
     border-right: 1px solid #dee2e6;
     padding-right: 10px;
   }
-
   /* Tooltip container */
   .custom-tooltip {
     position: relative;
     display: inline-block;
   }
-
   /* Tooltip text */
   .custom-tooltip .tooltiptext {
     visibility: hidden;
@@ -270,18 +148,15 @@ const Container = styled.div`
     border-radius: 6px;
     font-size: 12px;
     border: 0.2px solid #6c757d;
-
     /* Position the tooltip text */
     position: absolute;
     z-index: 1;
     bottom: 125%;
     left: -30px;
-
     /* Fade in tooltip */
     opacity: 0;
     transition: opacity 0.3s;
   }
-
   /* Tooltip arrow */
   .custom-tooltip .tooltiptext::after {
     content: "";
@@ -293,36 +168,29 @@ const Container = styled.div`
     border-style: solid;
     border-color: #555 transparent transparent transparent;
   }
-
   /* Show the tooltip text when you mouse over the tooltip container */
   .custom-tooltip:hover .tooltiptext {
     visibility: visible;
     opacity: 1;
   }
-
   .form-check-input:checked {
     background-color: #04a46e !important;
     border-color: #04a46e !important;
   }
-
   .gap-6 {
     gap: 2.5rem;
   }
-
   a.no-space {
     display: inline-block;
   }
 `;
-
 const Heading = styled.div`
   font-size: 24px;
   font-weight: 700;
-
   @media screen and (max-width: 768px) {
     font-size: 18px;
   }
 `;
-
 const tokensOptions = [
   { label: "NEAR", value: "NEAR" },
   { label: "USDT", value: "USDT" },
@@ -335,7 +203,6 @@ const tokensOptions = [
     value: "OTHER",
   },
 ];
-
 const [linkedRfp, setLinkedRfp] = useState(rfp_id ? parseInt(rfp_id) : null);
 const [labels, setLabels] = useState([]);
 const [title, setTitle] = useState(null);
@@ -350,33 +217,28 @@ const [requestedSponsorshipToken, setRequestedSponsorshipToken] = useState(
   tokensOptions[2]
 );
 const [allowDraft, setAllowDraft] = useState(true);
-
 const [loading, setLoading] = useState(true);
 const [disabledSubmitBtn, setDisabledSubmitBtn] = useState(false);
 const [isDraftBtnOpen, setDraftBtnOpen] = useState(false);
 const [selectedStatus, setSelectedStatus] = useState("draft");
 const [isReviewModalOpen, setReviewModal] = useState(false);
 const [isCancelModalOpen, setCancelModal] = useState(false);
-
 const [showProposalViewModal, setShowProposalViewModal] = useState(false); // when user creates/edit a proposal and confirm the txn, this is true
 const [proposalId, setProposalId] = useState(null);
 const [proposalIdsArray, setProposalIdsArray] = useState(null);
 const [isTxnCreated, setCreateTxn] = useState(false);
 const [oldProposalData, setOldProposalData] = useState(null);
 const [supervisor, setSupervisor] = useState(null);
-
 if (allowDraft) {
   draftProposalData = Storage.privateGet(draftKey);
 }
-
 const isModerator = Near.view(
-  REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT,
+  "infrastructure-committee.near",
   "is_allowed_to_write_rfps",
   {
     editor: context.accountId,
   }
 );
-
 const memoizedDraftData = useMemo(
   () => ({
     id: editProposalData.id ?? null,
@@ -402,7 +264,6 @@ const memoizedDraftData = useMemo(
     receiverAccount,
   ]
 );
-
 useEffect(() => {
   if (allowDraft) {
     let data = editProposalData || JSON.parse(draftProposalData);
@@ -433,7 +294,6 @@ useEffect(() => {
       setReceiverAccount(snapshot.receiver_account);
       setRequestedSponsorshipAmount(snapshot.requested_sponsorship_usd_amount);
       setSupervisor(snapshot.supervisor);
-
       const token = tokensOptions.find(
         (item) => item.value === snapshot.requested_sponsorship_paid_in_currency
       );
@@ -444,17 +304,14 @@ useEffect(() => {
     }
   }
 }, [editProposalData, draftProposalData, allowDraft]);
-
 // show loader until LS data is set in state
 useEffect(() => {
   const handler = setTimeout(() => {
     setAllowDraft(false);
     setLoading(false);
   }, 500);
-
   return () => clearTimeout(handler);
 }, []);
-
 useEffect(() => {
   if (showProposalViewModal) {
     return;
@@ -472,7 +329,6 @@ useEffect(() => {
   const handler = setTimeout(() => {
     Storage.privateSet(draftKey, JSON.stringify(memoizedDraftData));
   }, 10000);
-
   return () => clearTimeout(handler);
 }, [
   memoizedDraftData,
@@ -482,13 +338,11 @@ useEffect(() => {
   isTxnCreated,
   showProposalViewModal,
 ]);
-
 // set RFP labels, disable link rfp change when linked rfp is past accepting stage
 const [disabledLinkRFP, setDisableLinkRFP] = useState(false);
-
 useEffect(() => {
   if (linkedRfp) {
-    Near.asyncView(REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT, "get_rfp", {
+    Near.asyncView("infrastructure-committee.near", "get_rfp", {
       rfp_id: linkedRfp.value ?? linkedRfp,
     }).then((i) => {
       const timeline = parseJSON(i.snapshot.timeline);
@@ -500,7 +354,6 @@ useEffect(() => {
     });
   }
 }, [linkedRfp]);
-
 useEffect(() => {
   if (
     editProposalData &&
@@ -509,13 +362,9 @@ useEffect(() => {
     editProposalData.snapshot.linked_proposals.map((item) => {
       useCache(
         () =>
-          Near.asyncView(
-            REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT,
-            "get_proposal",
-            {
-              proposal_id: parseInt(item),
-            }
-          ).then((proposal) => {
+          Near.asyncView("infrastructure-committee.near", "get_proposal", {
+            proposal_id: parseInt(item),
+          }).then((proposal) => {
             setLinkedProposals([
               ...linkedProposals,
               {
@@ -530,7 +379,6 @@ useEffect(() => {
     });
   }
 }, [editProposalData]);
-
 const InputContainer = ({ heading, description, children }) => {
   return (
     <div className="d-flex flex-column gap-1 gap-sm-2 w-100">
@@ -542,7 +390,6 @@ const InputContainer = ({ heading, description, children }) => {
     </div>
   );
 };
-
 // show proposal created after txn approval for popup wallet
 useEffect(() => {
   if (isTxnCreated) {
@@ -561,7 +408,7 @@ useEffect(() => {
       }
     } else {
       const proposalIds = Near.view(
-        REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT,
+        "infrastructure-committee.near",
         "get_all_proposal_ids"
       );
       if (Array.isArray(proposalIds) && !proposalIdsArray) {
@@ -580,13 +427,12 @@ useEffect(() => {
   }
   setLoading(false);
 });
-
 useEffect(() => {
   if (props.transactionHashes) {
     setLoading(true);
     useCache(
       () =>
-        asyncFetch(REPL_RPC_URL, {
+        asyncFetch("https://rpc.mainnet.near.org", {
           method: "POST",
           headers: {
             "content-type": "application/json",
@@ -601,11 +447,9 @@ useEffect(() => {
           const transaction_method_name =
             transaction?.body?.result?.transaction?.actions[0].FunctionCall
               .method_name;
-
           const is_edit_or_add_post_transaction =
             transaction_method_name == "add_proposal" ||
             transaction_method_name == "edit_proposal";
-
           if (is_edit_or_add_post_transaction) {
             setShowProposalViewModal(true);
             Storage.privateSet(draftKey, null);
@@ -615,7 +459,7 @@ useEffect(() => {
             useCache(
               () =>
                 Near.asyncView(
-                  REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT,
+                  "infrastructure-committee.near",
                   "get_all_proposal_ids"
                 ).then((proposalIdsArray) => {
                   setProposalId(
@@ -639,15 +483,12 @@ useEffect(() => {
     }
   }
 }, [props.transactionHashes]);
-
 const DropdowntBtnContainer = styled.div`
   font-size: 13px;
   min-width: 150px;
-
   .custom-select {
     position: relative;
   }
-
   .select-header {
     display: flex;
     justify-content: space-between;
@@ -658,11 +499,9 @@ const DropdowntBtnContainer = styled.div`
     background-color: #fff;
     border-radius: 5px;
   }
-
   .no-border {
     border: none !important;
   }
-
   .options-card {
     position: absolute;
     top: 100%;
@@ -675,19 +514,16 @@ const DropdowntBtnContainer = styled.div`
     font-size: 13px;
     border-radius:0.375rem !important;
   }
-
   .left {
     right: 0 !important;
     left: auto !important;
   }
-
   @media screen and (max-width: 768px) {
     .options-card {
       right: 0 !important;
       left: auto !important;
     }
   }
-
   .option {
     margin-block: 5px;
     padding: 10px;
@@ -696,51 +532,40 @@ const DropdowntBtnContainer = styled.div`
     transition: background-color 0.3s ease;
     border-radius: 0.375rem !important;
   }
-
   .option:hover {
     background-color: #f0f0f0; /* Custom hover effect color */
   }
-
   .option:last-child {
     border-bottom: none;
   }
-
   .selected {
     background-color: #f0f0f0;
   }
-
   .disabled {
     background-color: #f4f4f4 !important;
     cursor: not-allowed !important;
     font-weight: 500;
     color: #b3b3b3;
   }
-
   .disabled .circle {
     opacity: 0.5;
   }
-
   .circle {
     width: 8px;
     height: 8px;
     border-radius: 50%;
   }
-
   .grey {
     background-color: #818181;
   }
-
   .green {
     background-color: #04a46e;
   }
-
   a:hover {
     text-decoration: none;
   }
-
 }
 `;
-
 const LoadingButtonSpinner = (
   <span
     class="submit-proposal-draft-loading-indicator spinner-border spinner-border-sm"
@@ -748,7 +573,6 @@ const LoadingButtonSpinner = (
     aria-hidden="true"
   ></span>
 );
-
 const SubmitBtn = () => {
   const btnOptions = [
     {
@@ -766,17 +590,14 @@ const SubmitBtn = () => {
       value: "review",
     },
   ];
-
   const handleOptionClick = (option) => {
     setDraftBtnOpen(false);
     setSelectedStatus(option.value);
     handleSubmit(option.value);
   };
-
   const toggleDropdown = () => {
     setDraftBtnOpen(!isDraftBtnOpen);
   };
-
   const handleSubmit = (status) => {
     const isDraft = status === "draft";
     if (isDraft) {
@@ -786,9 +607,7 @@ const SubmitBtn = () => {
       setReviewModal(true);
     }
   };
-
   const selectedOption = btnOptions.find((i) => i.value === selectedStatus);
-
   return (
     <DropdowntBtnContainer>
       <div
@@ -821,7 +640,6 @@ const SubmitBtn = () => {
             <i class={`bi bi-chevron-${isDraftBtnOpen ? "up" : "down"}`}></i>
           </div>
         </div>
-
         {isDraftBtnOpen && (
           <div className="options-card">
             {btnOptions.map((option) => (
@@ -845,7 +663,6 @@ const SubmitBtn = () => {
     </DropdowntBtnContainer>
   );
 };
-
 const onSubmit = ({ isDraft, isCancel }) => {
   setCreateTxn(true);
   console.log("submitting transaction");
@@ -887,36 +704,29 @@ const onSubmit = ({ isDraft, isCancel }) => {
   if (isEditPage) {
     args["id"] = editProposalData.id;
   }
-
   Near.call([
     {
-      contractName: REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT,
+      contractName: "infrastructure-committee.near",
       methodName: isEditPage ? "edit_proposal" : "add_proposal",
       args: args,
       gas: 270000000000000,
     },
   ]);
 };
-
 function cleanDraft() {
   Storage.privateSet(draftKey, null);
 }
-
 if (loading) {
   return (
     <div
       style={{ height: "50vh" }}
       className="d-flex justify-content-center align-items-center w-100"
     >
-      <Widget
-        src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Spinner`}
-      />
+      <Widget src={`devhub.near/widget/devhub.components.molecule.Spinner`} />
     </div>
   );
 }
-
 const [collapseState, setCollapseState] = useState({});
-
 const CollapsibleContainer = ({ title, children, noPaddingTop }) => {
   return (
     <div
@@ -948,27 +758,24 @@ const CollapsibleContainer = ({ title, children, noPaddingTop }) => {
     </div>
   );
 };
-
 const CategoryDropdown = useMemo(() => {
   return (
     <Widget
-      src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.molecule.MultiSelectCategoryDropdown`}
+      src={`infrastructure-committee.near/widget/components.molecule.MultiSelectCategoryDropdown`}
       props={{
         selected: labels,
         onChange: (v) => setLabels(v),
         disabled: linkedRfp, // when RFP is linked, labels are disabled
         linkedRfp: linkedRfp,
-
         availableOptions: rfpLabelOptions,
       }}
     />
   );
 }, [draftProposalData, linkedRfp, labels]);
-
 const TitleComponent = useMemo(() => {
   return (
     <Widget
-      src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Input`}
+      src={`devhub.near/widget/devhub.components.molecule.Input`}
       props={{
         className: "flex-grow-1",
         value: title,
@@ -983,11 +790,10 @@ const TitleComponent = useMemo(() => {
     />
   );
 }, [draftProposalData]);
-
 const SummaryComponent = useMemo(() => {
   return (
     <Widget
-      src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Input`}
+      src={`devhub.near/widget/devhub.components.molecule.Input`}
       props={{
         className: "flex-grow-1",
         value: summary,
@@ -1003,11 +809,10 @@ const SummaryComponent = useMemo(() => {
     />
   );
 }, [draftProposalData]);
-
 const DescriptionComponent = useMemo(() => {
   return (
     <Widget
-      src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.molecule.Compose`}
+      src={`infrastructure-committee.near/widget/components.molecule.Compose`}
       props={{
         data: description,
         onChange: setDescription,
@@ -1018,12 +823,11 @@ const DescriptionComponent = useMemo(() => {
     />
   );
 }, [draftProposalData]);
-
 const ConsentComponent = useMemo(() => {
   return (
     <div className="d-flex flex-column gap-2">
       <Widget
-        src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Checkbox`}
+        src={`devhub.near/widget/devhub.components.molecule.Checkbox`}
         props={{
           value: "coc",
           label: (
@@ -1051,7 +855,6 @@ const ConsentComponent = useMemo(() => {
     </div>
   );
 }, [draftProposalData]);
-
 const ProfileComponent = useMemo(() => {
   return (
     <Widget
@@ -1062,12 +865,11 @@ const ProfileComponent = useMemo(() => {
     />
   );
 }, []);
-
 const LinkRFPComponent = useMemo(() => {
   return (
     <div className="d-flex flex-column gap-1">
       <Widget
-        src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.molecule.LinkedRfpDropdown`}
+        src={`infrastructure-committee.near/widget/components.molecule.LinkedRfpDropdown`}
         props={{
           onChange: setLinkedRfp,
           linkedRfp: linkedRfp,
@@ -1078,7 +880,6 @@ const LinkRFPComponent = useMemo(() => {
     </div>
   );
 }, [draftProposalData, disabledLinkRFP]);
-
 const LinkedProposalsComponent = useMemo(() => {
   return (
     <div className="d-flex flex-column gap-1">
@@ -1086,7 +887,7 @@ const LinkedProposalsComponent = useMemo(() => {
         Link any relevant proposals (e.g. previous milestones).
       </div>
       <Widget
-        src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.molecule.LinkedProposalsDropdown`}
+        src={`infrastructure-committee.near/widget/components.molecule.LinkedProposalsDropdown`}
         props={{
           onChange: setLinkedProposals,
           linkedProposals: linkedProposals,
@@ -1095,11 +896,10 @@ const LinkedProposalsComponent = useMemo(() => {
     </div>
   );
 }, [draftProposalData]);
-
 const ReceiverAccountComponent = useMemo(() => {
   return (
     <Widget
-      src={`${REPL_DEVHUB}/widget/devhub.entity.proposal.AccountInput`}
+      src={`devhub.near/widget/devhub.entity.proposal.AccountInput`}
       props={{
         value: receiverAccount,
         placeholder: "Enter Address",
@@ -1108,11 +908,10 @@ const ReceiverAccountComponent = useMemo(() => {
     />
   );
 }, [draftProposalData]);
-
 const AmountComponent = useMemo(() => {
   return (
     <Widget
-      src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Input`}
+      src={`devhub.near/widget/devhub.components.molecule.Input`}
       props={{
         className: "flex-grow-1",
         value: requestedSponsorshipAmount,
@@ -1130,11 +929,10 @@ const AmountComponent = useMemo(() => {
     />
   );
 }, [draftProposalData]);
-
 const CurrencyComponent = useMemo(() => {
   return (
     <Widget
-      src={`${REPL_DEVHUB}/widget/devhub.components.molecule.DropDown`}
+      src={`devhub.near/widget/devhub.components.molecule.DropDown`}
       props={{
         options: tokensOptions,
         selectedValue: requestedSponsorshipToken,
@@ -1145,14 +943,13 @@ const CurrencyComponent = useMemo(() => {
     />
   );
 }, [draftProposalData]);
-
 return (
   <Container className="w-100 py-4 px-0 px-sm-2 d-flex flex-column gap-3">
     <Heading className="px-2 px-sm-0">
       {isEditPage ? "Edit" : "Create"} Proposal
     </Heading>
     <Widget
-      src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.proposals.ViewProposalModal`}
+      src={`infrastructure-committee.near/widget/components.proposals.ViewProposalModal`}
       props={{
         isOpen: showProposalViewModal,
         isEdit: isEditPage,
@@ -1160,7 +957,7 @@ return (
       }}
     />
     <Widget
-      src={`${REPL_DEVHUB}/widget/devhub.entity.proposal.ConfirmReviewModal`}
+      src={`devhub.near/widget/devhub.entity.proposal.ConfirmReviewModal`}
       props={{
         isOpen: isReviewModalOpen,
         onCancelClick: () => setReviewModal(false),
@@ -1172,7 +969,7 @@ return (
       }}
     />
     <Widget
-      src={`${REPL_DEVHUB}/widget/devhub.entity.proposal.ConfirmCancelModal`}
+      src={`devhub.near/widget/devhub.entity.proposal.ConfirmCancelModal`}
       props={{
         isOpen: isCancelModalOpen,
         onCancelClick: () => setCancelModal(false),
@@ -1191,7 +988,7 @@ return (
           <div className="d-flex gap-2 w-100">
             <div className="d-none d-sm-flex">
               <Widget
-                src={`${REPL_DEVHUB}/widget/devhub.entity.proposal.Profile`}
+                src={`devhub.near/widget/devhub.entity.proposal.Profile`}
                 props={{
                   accountId: author,
                 }}
@@ -1262,7 +1059,7 @@ return (
                 <div>
                   {isEditPage && (
                     <Widget
-                      src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Button`}
+                      src={`devhub.near/widget/devhub.components.molecule.Button`}
                       props={{
                         classNames: {
                           root: "btn-outline-danger shadow-none border-0 btn-sm",
@@ -1288,14 +1085,14 @@ return (
                     to={
                       isEditPage
                         ? href({
-                            widgetSrc: `${REPL_INFRASTRUCTURE_COMMITTEE}/widget/app`,
+                            widgetSrc: `infrastructure-committee.near/widget/app`,
                             params: {
                               page: "proposal",
                               id: parseInt(id),
                             },
                           })
                         : href({
-                            widgetSrc: `${REPL_INFRASTRUCTURE_COMMITTEE}/widget/app`,
+                            widgetSrc: `infrastructure-committee.near/widget/app`,
                             params: {
                               page: "proposals",
                             },
@@ -1303,7 +1100,7 @@ return (
                     }
                   >
                     <Widget
-                      src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Button`}
+                      src={`devhub.near/widget/devhub.components.molecule.Button`}
                       props={{
                         classNames: {
                           root: "d-flex h-100 text-muted fw-bold btn-outline shadow-none border-0 btn-sm",
@@ -1370,7 +1167,7 @@ return (
                 >
                   <div className="border border-1 p-3 rounded-2">
                     <Widget
-                      src={`${REPL_DEVHUB}/widget/devhub.entity.proposal.VerificationStatus`}
+                      src={`devhub.near/widget/devhub.entity.proposal.VerificationStatus`}
                       props={{
                         receiverAccount: receiverAccount,
                         showGetVerifiedBtn: true,
