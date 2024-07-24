@@ -1,159 +1,51 @@
-/*
-License: MIT
-Author: devhub.near
-Homepage: https://github.com/NEAR-DevHub/near-prpsls-bos#readme
-*/
-/* INCLUDE: "includes/common.jsx" */
-const REPL_DEVHUB = "devhub.near";
-const REPL_INFRASTRUCTURE_COMMITTEE = "infrastructure-committee.near";
-const REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT =
-  "infrastructure-committee.near";
-const REPL_RPC_URL = "https://rpc.mainnet.near.org";
-const REPL_NEAR = "near";
-const RFP_IMAGE =
-  "https://ipfs.near.social/ipfs/bafkreicbygt4kajytlxij24jj6tkg2ppc2dw3dlqhkermkjjfgdfnlizzy";
-
-const RFP_FEED_INDEXER_QUERY_NAME =
-  "polyprogrammist_near_devhub_ic_v1_rfps_with_latest_snapshot";
-
-const RFP_INDEXER_QUERY_NAME =
-  "polyprogrammist_near_devhub_ic_v1_rfp_snapshots";
-
-const PROPOSAL_FEED_INDEXER_QUERY_NAME =
-  "polyprogrammist_near_devhub_ic_v1_proposals_with_latest_snapshot";
-
-const PROPOSAL_QUERY_NAME =
-  "polyprogrammist_near_devhub_ic_v1_proposal_snapshots";
-const RFP_TIMELINE_STATUS = {
-  ACCEPTING_SUBMISSIONS: "ACCEPTING_SUBMISSIONS",
-  EVALUATION: "EVALUATION",
-  PROPOSAL_SELECTED: "PROPOSAL_SELECTED",
-  CANCELLED: "CANCELLED",
-};
-
-const PROPOSAL_TIMELINE_STATUS = {
-  DRAFT: "DRAFT",
-  REVIEW: "REVIEW",
-  APPROVED: "APPROVED",
-  REJECTED: "REJECTED",
-  CANCELED: "CANCELLED",
-  APPROVED_CONDITIONALLY: "APPROVED_CONDITIONALLY",
-  PAYMENT_PROCESSING: "PAYMENT_PROCESSING",
-  FUNDED: "FUNDED",
-};
-
-const QUERYAPI_ENDPOINT = `https://near-queryapi.api.pagoda.co/v1/graphql`;
-
-async function fetchGraphQL(operationsDoc, operationName, variables) {
-  return asyncFetch(QUERYAPI_ENDPOINT, {
-    method: "POST",
-    headers: { "x-hasura-role": `polyprogrammist_near` },
-    body: JSON.stringify({
-      query: operationsDoc,
-      variables: variables,
-      operationName: operationName,
-    }),
-  });
-}
-
-const CANCEL_RFP_OPTIONS = {
-  CANCEL_PROPOSALS: "CANCEL_PROPOSALS",
-  UNLINK_PROPOSALS: "UNLINK_PROPOSALSS",
-  NONE: "NONE",
-};
-
-function parseJSON(json) {
-  if (typeof json === "string") {
-    try {
-      return JSON.parse(json);
-    } catch (error) {
-      return json;
-    }
-  } else {
-    return json;
-  }
-}
-
-function isNumber(value) {
-  return typeof value === "number";
-}
-
-const PROPOSALS_APPROVED_STATUS_ARRAY = [
-  PROPOSAL_TIMELINE_STATUS.APPROVED,
-  PROPOSAL_TIMELINE_STATUS.APPROVED_CONDITIONALLY,
-  PROPOSAL_TIMELINE_STATUS.PAYMENT_PROCESSING,
-  PROPOSAL_TIMELINE_STATUS.FUNDED,
-];
-
-function getLinkUsingCurrentGateway(url) {
-  const data = fetch(`https://httpbin.org/headers`);
-  const gatewayURL = data?.body?.headers?.Origin ?? "";
-  return `https://${
-    gatewayURL.includes("near.org") ? "dev.near.org" : "near.social"
-  }/${url}`;
-}
-/* END_INCLUDE: "includes/common.jsx" */
-
-const { href } = VM.require(`${REPL_DEVHUB}/widget/core.lib.url`);
-
+const { RFP_TIMELINE_STATUS, parseJSON } = VM.require(
+  `infrastructure-committee.near/widget/core.common`
+) || { RFP_TIMELINE_STATUS: {}, parseJSON: () => {} };
+const { href } = VM.require(`devhub.near/widget/core.lib.url`);
 const draftKey = "INFRA_RFP_EDIT";
 href || (href = () => {});
-
 const { getGlobalLabels } = VM.require(
-  `${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.core.lib.contract`
+  `infrastructure-committee.near/widget/components.core.lib.contract`
 ) || { getGlobalLabels: () => {} };
 const { id, timestamp } = props;
-
 const isEditPage = typeof id === "string";
 const author = context.accountId;
 const FundingDocs =
   "https://github.com/near/Infrastructure-Working-Group/wiki/Funding-Process-%E2%80%90-Company";
 const CoCDocs =
   "https://github.com/near/Infrastructure-Working-Group/wiki/Code-Of-Conduct";
-
 const rfpLabelOptions = getGlobalLabels();
 const isAllowedToWriteRfp = Near.view(
-  REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT,
+  "infrastructure-committee.near",
   "is_allowed_to_write_rfps",
   {
     editor: context.accountId,
   }
 );
-
 if (!author || !isAllowedToWriteRfp) {
   return (
-    <Widget src={`${REPL_DEVHUB}/widget/devhub.entity.proposal.LoginScreen`} />
+    <Widget src={`devhub.near/widget/devhub.entity.proposal.LoginScreen`} />
   );
 }
-
 let editRfpData = null;
 let draftRfpData = null;
-
 if (isEditPage) {
-  editRfpData = Near.view(
-    `${REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT}`,
-    "get_rfp",
-    {
-      rfp_id: parseInt(id),
-    }
-  );
+  editRfpData = Near.view(`infrastructure-committee.near`, "get_rfp", {
+    rfp_id: parseInt(id),
+  });
 }
-
 const Container = styled.div`
   input {
     font-size: 14px !important;
   }
-
   .card.no-border {
     border-left: none !important;
     border-right: none !important;
     margin-bottom: -3.5rem;
   }
-
   textarea {
     font-size: 14px !important;
   }
-
   .full-width-div {
     width: 100vw;
     position: relative;
@@ -162,64 +54,50 @@ const Container = styled.div`
     margin-left: -50vw;
     margin-right: -50vw;
   }
-
   .text-sm {
     font-size: 13px;
   }
-
   .h5 {
     font-size: 18px !important;
   }
-
   @media screen and (max-width: 768px) {
     .h6 {
       font-size: 14px !important;
     }
-
     .h5 {
       font-size: 16px !important;
     }
-
     .text-sm {
       font-size: 11px;
     }
-
     .gap-6 {
       gap: 0.5rem !important;
     }
   }
-
   .border-bottom {
     border-bottom: var(--bs-card-border-width) solid var(--bs-card-border-color);
   }
-
   .text-xs {
     font-size: 10px;
   }
-
   .flex-2 {
     flex: 2;
   }
-
   .flex-1 {
     flex: 1;
   }
   .bg-grey {
     background-color: #f4f4f4;
   }
-
   .border-bottom {
     border-bottom: 1px solid grey;
   }
-
   .cursor-pointer {
     cursor: pointer;
   }
-
   .border-1 {
     border: 1px solid #e2e6ec;
   }
-
   .black-btn {
     background-color: #000 !important;
     border: none;
@@ -228,22 +106,18 @@ const Container = styled.div`
       color: white;
     }
   }
-
   .dropdown-toggle:after {
     position: absolute;
     top: 46%;
     right: 5%;
   }
-
   .drop-btn {
     max-width: none !important;
   }
-
   .dropdown-menu {
     width: 100%;
     border-radius: 0.375rem !important;
   }
-
   .input-icon {
     display: flex;
     height: 100%;
@@ -251,13 +125,11 @@ const Container = styled.div`
     border-right: 1px solid #dee2e6;
     padding-right: 10px;
   }
-
   /* Tooltip container */
   .custom-tooltip {
     position: relative;
     display: inline-block;
   }
-
   /* Tooltip text */
   .custom-tooltip .tooltiptext {
     visibility: hidden;
@@ -269,18 +141,15 @@ const Container = styled.div`
     border-radius: 6px;
     font-size: 12px;
     border: 0.2px solid #6c757d;
-
     /* Position the tooltip text */
     position: absolute;
     z-index: 1;
     bottom: 125%;
     left: -30px;
-
     /* Fade in tooltip */
     opacity: 0;
     transition: opacity 0.3s;
   }
-
   /* Tooltip arrow */
   .custom-tooltip .tooltiptext::after {
     content: "";
@@ -292,78 +161,63 @@ const Container = styled.div`
     border-style: solid;
     border-color: #555 transparent transparent transparent;
   }
-
   /* Show the tooltip text when you mouse over the tooltip container */
   .custom-tooltip:hover .tooltiptext {
     visibility: visible;
     opacity: 1;
   }
-
   .form-check-input:checked {
     background-color: #04a46e !important;
     border-color: #04a46e !important;
   }
-
   .gap-6 {
     gap: 2.5rem;
   }
-
   a.no-space {
     display: inline-block;
   }
-
   .fw-light-bold {
     font-weight: 600 !important;
   }
-
   .disabled .circle {
     opacity: 0.5;
   }
-
   .circle {
     width: 6px;
     height: 6px;
     border-radius: 50%;
   }
-
   .grey {
     background-color: #818181;
   }
-
   @media screen and (max-width: 970px) {
     .gap-6 {
       gap: 1.5rem !important;
     }
   }
-
   @media screen and (max-width: 570px) {
     .gap-6 {
       gap: 0.5rem !important;
     }
   }
 `;
-
 const Heading = styled.div`
   font-size: 24px;
   font-weight: 700;
-
   @media screen and (max-width: 768px) {
     font-size: 18px;
   }
 `;
-
 function getTimestamp(date) {
   // in nanoseconds
   const parsedDate = date ? new Date(date) : new Date();
   return Math.floor(parsedDate.getTime() * 1000000).toString();
 }
-
 function getDate(timestamp) {
   const stamp =
     !timestamp || timestamp === "0" || timestamp === "NaN" ? null : timestamp;
   return new Date(parseFloat(stamp / 1000000)).toISOString().split("T")[0];
 }
-
 const [labels, setLabels] = useState([]);
 const [title, setTitle] = useState(null);
 const [description, setDescription] = useState(null);
@@ -371,11 +225,9 @@ const [summary, setSummary] = useState(null);
 const [consent, setConsent] = useState({ coc: false });
 const [submissionDeadline, setSubmissionDeadline] = useState(null);
 const [allowDraft, setAllowDraft] = useState(true);
-
 const [loading, setLoading] = useState(true);
 const [disabledSubmitBtn, setDisabledSubmitBtn] = useState(false);
 const [isDraftBtnOpen, setDraftBtnOpen] = useState(false);
-
 const [showRfpViewModal, setShowRfpViewModal] = useState(false); // when user creates/edit a RFP and confirm the txn, this is true
 const [rfpId, setRfpId] = useState(null);
 const [rfpIdsArray, setRfpIdsArray] = useState(null);
@@ -384,11 +236,9 @@ const [oldRfpData, setOldRfpData] = useState(null);
 const [timeline, setTimeline] = useState({
   status: RFP_TIMELINE_STATUS.ACCEPTING_SUBMISSIONS,
 });
-
 if (allowDraft) {
   draftRfpData = Storage.privateGet(draftKey);
 }
-
 const memoizedDraftData = useMemo(
   () => ({
     id: editRfpData.id ?? null,
@@ -402,7 +252,6 @@ const memoizedDraftData = useMemo(
   }),
   [title, summary, description, submissionDeadline, labels]
 );
-
 useEffect(() => {
   if (allowDraft) {
     let data = editRfpData || JSON.parse(draftRfpData);
@@ -436,17 +285,14 @@ useEffect(() => {
     }
   }
 }, [editRfpData, draftRfpData, allowDraft]);
-
 // show loader until LS data is set in state
 useEffect(() => {
   const handler = setTimeout(() => {
     setAllowDraft(false);
     setLoading(false);
   }, 200);
-
   return () => clearTimeout(handler);
 }, []);
-
 useEffect(() => {
   if (showRfpViewModal) {
     return;
@@ -462,7 +308,6 @@ useEffect(() => {
   const handler = setTimeout(() => {
     Storage.privateSet(draftKey, JSON.stringify(memoizedDraftData));
   }, 10000);
-
   return () => clearTimeout(handler);
 }, [
   memoizedDraftData,
@@ -472,7 +317,6 @@ useEffect(() => {
   isTxnCreated,
   showRfpViewModal,
 ]);
-
 const InputContainer = ({ heading, description, children }) => {
   return (
     <div className="d-flex flex-column gap-1 gap-sm-2 w-100">
@@ -484,7 +328,6 @@ const InputContainer = ({ heading, description, children }) => {
     </div>
   );
 };
-
 // show RFP created after txn approval for popup wallet
 useEffect(() => {
   if (isTxnCreated) {
@@ -503,7 +346,7 @@ useEffect(() => {
       }
     } else {
       const rfpIds = Near.view(
-        REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT,
+        "infrastructure-committee.near",
         "get_all_rfp_ids"
       );
       if (Array.isArray(rfpIds) && !rfpIdsArray) {
@@ -521,13 +364,12 @@ useEffect(() => {
     }
   }
 });
-
 useEffect(() => {
   if (props.transactionHashes) {
     setLoading(true);
     useCache(
       () =>
-        asyncFetch(REPL_RPC_URL, {
+        asyncFetch("https://rpc.mainnet.near.org", {
           method: "POST",
           headers: {
             "content-type": "application/json",
@@ -542,11 +384,9 @@ useEffect(() => {
           const transaction_method_name =
             transaction?.body?.result?.transaction?.actions[0].FunctionCall
               .method_name;
-
           const is_edit_or_add_rfp_transaction =
             transaction_method_name == "add_rfp" ||
             transaction_method_name == "edit_rfp";
-
           if (is_edit_or_add_rfp_transaction) {
             setShowRfpViewModal(true);
             Storage.privateSet(draftKey, null);
@@ -556,7 +396,7 @@ useEffect(() => {
             useCache(
               () =>
                 Near.asyncView(
-                  REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT,
+                  "infrastructure-committee.near",
                   "get_all_rfp_ids"
                 ).then((rfpIdsArray) => {
                   setRfpId(rfpIdsArray?.[rfpIdsArray?.length - 1]);
@@ -578,7 +418,6 @@ useEffect(() => {
     }
   }
 }, [props.transactionHashes]);
-
 const LoadingButtonSpinner = (
   <span
     className="submit-rfp-loading-indicator spinner-border spinner-border-sm"
@@ -586,7 +425,6 @@ const LoadingButtonSpinner = (
     aria-hidden="true"
   ></span>
 );
-
 const onSubmit = () => {
   setCreateTxn(true);
   const body = {
@@ -601,36 +439,29 @@ const onSubmit = () => {
   if (isEditPage) {
     args["id"] = editRfpData.id;
   }
-
   Near.call([
     {
-      contractName: REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT,
+      contractName: "infrastructure-committee.near",
       methodName: isEditPage ? "edit_rfp" : "add_rfp",
       args: args,
       gas: 270000000000000,
     },
   ]);
 };
-
 function cleanDraft() {
   Storage.privateSet(draftKey, null);
 }
-
 if (loading) {
   return (
     <div
       style={{ height: "50vh" }}
       className="d-flex justify-content-center align-items-center w-100"
     >
-      <Widget
-        src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Spinner`}
-      />
+      <Widget src={`devhub.near/widget/devhub.components.molecule.Spinner`} />
     </div>
   );
 }
-
 const [collapseState, setCollapseState] = useState({});
-
 const CollapsibleContainer = ({ title, children, noPaddingTop }) => {
   return (
     <div
@@ -662,11 +493,10 @@ const CollapsibleContainer = ({ title, children, noPaddingTop }) => {
     </div>
   );
 };
-
 const CategoryDropdown = useMemo(() => {
   return (
     <Widget
-      src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.molecule.MultiSelectCategoryDropdown`}
+      src={`infrastructure-committee.near/widget/components.molecule.MultiSelectCategoryDropdown`}
       props={{
         selected: labels,
         onChange: (v) => setLabels(v),
@@ -676,11 +506,10 @@ const CategoryDropdown = useMemo(() => {
     />
   );
 }, [draftRfpData]);
-
 const TitleComponent = useMemo(() => {
   return (
     <Widget
-      src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Input`}
+      src={`devhub.near/widget/devhub.components.molecule.Input`}
       props={{
         className: "flex-grow-1",
         value: title,
@@ -695,11 +524,10 @@ const TitleComponent = useMemo(() => {
     />
   );
 }, [draftRfpData]);
-
 const SummaryComponent = useMemo(() => {
   return (
     <Widget
-      src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Input`}
+      src={`devhub.near/widget/devhub.components.molecule.Input`}
       props={{
         className: "flex-grow-1",
         value: summary,
@@ -715,11 +543,10 @@ const SummaryComponent = useMemo(() => {
     />
   );
 }, [draftRfpData]);
-
 const DescriptionComponent = useMemo(() => {
   return (
     <Widget
-      src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.molecule.Compose`}
+      src={`infrastructure-committee.near/widget/components.molecule.Compose`}
       props={{
         data: description,
         onChange: setDescription,
@@ -729,12 +556,11 @@ const DescriptionComponent = useMemo(() => {
     />
   );
 }, [draftRfpData]);
-
 const ConsentComponent = useMemo(() => {
   return (
     <div className="d-flex flex-column gap-2">
       <Widget
-        src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Checkbox`}
+        src={`devhub.near/widget/devhub.components.molecule.Checkbox`}
         props={{
           value: "coc",
           label: (
@@ -762,11 +588,10 @@ const ConsentComponent = useMemo(() => {
     </div>
   );
 }, [draftRfpData]);
-
 const SubmissionDeadline = useMemo(() => {
   return (
     <Widget
-      src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Input`}
+      src={`devhub.near/widget/devhub.components.molecule.Input`}
       props={{
         className: "flex-grow-1",
         value: submissionDeadline,
@@ -782,11 +607,10 @@ const SubmissionDeadline = useMemo(() => {
     />
   );
 }, [draftRfpData]);
-
 return (
   <Container className="w-100 py-2 px-0 px-sm-2 d-flex flex-column gap-3">
     <Widget
-      src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.rfps.ViewRfpModal`}
+      src={`infrastructure-committee.near/widget/components.rfps.ViewRfpModal`}
       props={{
         isOpen: showRfpViewModal,
         isEdit: isEditPage,
@@ -794,7 +618,7 @@ return (
       }}
     />
     <Widget
-      src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.rfps.ConfirmCancelModal`}
+      src={`infrastructure-committee.near/widget/components.rfps.ConfirmCancelModal`}
       props={{
         isOpen: isCancelModalOpen,
         onCancelClick: () => {
@@ -809,7 +633,7 @@ return (
       }}
     />
     <Widget
-      src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.rfps.WarningModal`}
+      src={`infrastructure-committee.near/widget/components.rfps.WarningModal`}
       props={{
         isOpen: isWarningModalOpen,
         onConfirmClick: () => {
@@ -829,7 +653,13 @@ return (
         >
           <div className="d-flex gap-3 w-100">
             <div className="d-none d-sm-flex">
-              <img src={RFP_IMAGE} height={35} width={35} />
+              <img
+                src={
+                  "https://ipfs.near.social/ipfs/bafkreicbygt4kajytlxij24jj6tkg2ppc2dw3dlqhkermkjjfgdfnlizzy"
+                }
+                height={35}
+                width={35}
+              />
             </div>
             <div className="d-flex flex-column gap-4 w-100">
               <InputContainer
@@ -880,14 +710,14 @@ return (
                   to={
                     isEditPage
                       ? href({
-                          widgetSrc: `${REPL_INFRASTRUCTURE_COMMITTEE}/widget/app`,
+                          widgetSrc: `infrastructure-committee.near/widget/app`,
                           params: {
                             page: "rfp",
                             id: parseInt(id),
                           },
                         })
                       : href({
-                          widgetSrc: `${REPL_INFRASTRUCTURE_COMMITTEE}/widget/app`,
+                          widgetSrc: `infrastructure-committee.near/widget/app`,
                           params: {
                             page: "rfps",
                           },
@@ -895,7 +725,7 @@ return (
                   }
                 >
                   <Widget
-                    src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Button`}
+                    src={`devhub.near/widget/devhub.components.molecule.Button`}
                     props={{
                       classNames: {
                         root: "d-flex h-100 text-muted fw-bold btn-outline shadow-none border-0 btn-sm",
@@ -906,7 +736,7 @@ return (
                   />
                 </Link>
                 <Widget
-                  src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Button`}
+                  src={`devhub.near/widget/devhub.components.molecule.Button`}
                   props={{
                     classNames: {
                       root: "d-flex h-100 fw-light-bold btn-outline shadow-none border-1",
@@ -941,7 +771,7 @@ return (
           <div className="my-2">
             <CollapsibleContainer title="Timeline">
               <Widget
-                src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.rfps.TimelineConfigurator`}
+                src={`infrastructure-committee.near/widget/components.rfps.TimelineConfigurator`}
                 props={{
                   timeline: timeline,
                   setTimeline: (v) => {
@@ -956,7 +786,6 @@ return (
                     ) {
                       setWarningModal(true);
                     }
-
                     if (v.status === RFP_TIMELINE_STATUS.CANCELLED) {
                       setCancelModal(true);
                     }
