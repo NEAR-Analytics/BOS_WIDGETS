@@ -1,110 +1,27 @@
-/*
-License: MIT
-Author: devhub.near
-Homepage: https://github.com/NEAR-DevHub/near-prpsls-bos#readme
-*/
-/* INCLUDE: "includes/common.jsx" */
-const REPL_DEVHUB = "devhub.near";
-const REPL_INFRASTRUCTURE_COMMITTEE = "infrastructure-committee.near";
-const REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT =
-  "infrastructure-committee.near";
-const REPL_RPC_URL = "https://rpc.mainnet.near.org";
-const REPL_NEAR = "near";
-const RFP_IMAGE =
-  "https://ipfs.near.social/ipfs/bafkreicbygt4kajytlxij24jj6tkg2ppc2dw3dlqhkermkjjfgdfnlizzy";
-
-const RFP_FEED_INDEXER_QUERY_NAME =
-  "polyprogrammist_near_devhub_ic_v1_rfps_with_latest_snapshot";
-
-const RFP_INDEXER_QUERY_NAME =
-  "polyprogrammist_near_devhub_ic_v1_rfp_snapshots";
-
-const PROPOSAL_FEED_INDEXER_QUERY_NAME =
-  "polyprogrammist_near_devhub_ic_v1_proposals_with_latest_snapshot";
-
-const PROPOSAL_QUERY_NAME =
-  "polyprogrammist_near_devhub_ic_v1_proposal_snapshots";
-const RFP_TIMELINE_STATUS = {
-  ACCEPTING_SUBMISSIONS: "ACCEPTING_SUBMISSIONS",
-  EVALUATION: "EVALUATION",
-  PROPOSAL_SELECTED: "PROPOSAL_SELECTED",
-  CANCELLED: "CANCELLED",
+const {
+  RFP_TIMELINE_STATUS,
+  fetchGraphQL,
+  CANCEL_RFP_OPTIONS,
+  parseJSON,
+  PROPOSALS_APPROVED_STATUS_ARRAY,
+  getLinkUsingCurrentGateway,
+} = VM.require(`infrastructure-committee.near/widget/core.common`) || {
+  RFP_TIMELINE_STATUS: {},
+  fetchGraphQL: () => {},
+  CANCEL_RFP_OPTIONS: {},
+  parseJSON: () => {},
+  PROPOSALS_APPROVED_STATUS_ARRAY: {},
+  getLinkUsingCurrentGateway: () => {},
 };
-
-const PROPOSAL_TIMELINE_STATUS = {
-  DRAFT: "DRAFT",
-  REVIEW: "REVIEW",
-  APPROVED: "APPROVED",
-  REJECTED: "REJECTED",
-  CANCELED: "CANCELLED",
-  APPROVED_CONDITIONALLY: "APPROVED_CONDITIONALLY",
-  PAYMENT_PROCESSING: "PAYMENT_PROCESSING",
-  FUNDED: "FUNDED",
-};
-
-const QUERYAPI_ENDPOINT = `https://near-queryapi.api.pagoda.co/v1/graphql`;
-
-async function fetchGraphQL(operationsDoc, operationName, variables) {
-  return asyncFetch(QUERYAPI_ENDPOINT, {
-    method: "POST",
-    headers: { "x-hasura-role": `polyprogrammist_near` },
-    body: JSON.stringify({
-      query: operationsDoc,
-      variables: variables,
-      operationName: operationName,
-    }),
-  });
-}
-
-const CANCEL_RFP_OPTIONS = {
-  CANCEL_PROPOSALS: "CANCEL_PROPOSALS",
-  UNLINK_PROPOSALS: "UNLINK_PROPOSALSS",
-  NONE: "NONE",
-};
-
-function parseJSON(json) {
-  if (typeof json === "string") {
-    try {
-      return JSON.parse(json);
-    } catch (error) {
-      return json;
-    }
-  } else {
-    return json;
-  }
-}
-
-function isNumber(value) {
-  return typeof value === "number";
-}
-
-const PROPOSALS_APPROVED_STATUS_ARRAY = [
-  PROPOSAL_TIMELINE_STATUS.APPROVED,
-  PROPOSAL_TIMELINE_STATUS.APPROVED_CONDITIONALLY,
-  PROPOSAL_TIMELINE_STATUS.PAYMENT_PROCESSING,
-  PROPOSAL_TIMELINE_STATUS.FUNDED,
-];
-
-function getLinkUsingCurrentGateway(url) {
-  const data = fetch(`https://httpbin.org/headers`);
-  const gatewayURL = data?.body?.headers?.Origin ?? "";
-  return `https://${
-    gatewayURL.includes("near.org") ? "dev.near.org" : "near.social"
-  }/${url}`;
-}
-/* END_INCLUDE: "includes/common.jsx" */
-
-const { href } = VM.require(`${REPL_DEVHUB}/widget/core.lib.url`) || {
+const { href } = VM.require(`devhub.near/widget/core.lib.url`) || {
   href: () => {},
 };
-const { readableDate } = VM.require(
-  `${REPL_DEVHUB}/widget/core.lib.common`
-) || { readableDate: () => {} };
-
+const { readableDate } = VM.require(`devhub.near/widget/core.lib.common`) || {
+  readableDate: () => {},
+};
 const { getGlobalLabels } = VM.require(
-  `${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.core.lib.contract`
+  `infrastructure-committee.near/widget/components.core.lib.contract`
 ) || { getGlobalLabels: () => {} };
-
 const accountId = context.accountId;
 /*
   ---props---
@@ -113,9 +30,7 @@ const accountId = context.accountId;
   accountId: string
   blockHeight:number
   */
-
 const { id, timestamp } = props;
-
 const Container = styled.div`
   .full-width-div {
     width: 100vw;
@@ -125,179 +40,143 @@ const Container = styled.div`
     margin-left: -50vw;
     margin-right: -50vw;
   }
-
   .fw-bold {
     font-weight: 600 !important;
   }
-
   .card.no-border {
     border-left: none !important;
     border-right: none !important;
     margin-bottom: -3.5rem;
   }
-
   .description-box {
     font-size: 14px;
   }
-
   .accept-submission-info-container {
     background-color: #ecf8fb;
   }
-
   .text-sm {
     font-size: 13px !important;
   }
-
   .flex-1 {
     flex: 1;
   }
-
   .flex-3 {
     flex: 3;
   }
-
   .circle {
     width: 20px;
     height: 20px;
     border-radius: 50%;
     border: 1px solid grey;
   }
-
   .green-fill {
     background-color: rgb(4, 164, 110) !important;
     border-color: rgb(4, 164, 110) !important;
     color: white !important;
   }
-
   .yellow-fill {
     border-color: #ff7a00 !important;
   }
-
   .vertical-line {
     width: 2px;
     height: 180px;
     background-color: lightgrey;
   }
-
   @media screen and (max-width: 970px) {
     .vertical-line {
       height: 135px !important;
     }
-
     .vertical-line-sm {
       height: 70px !important;
     }
-
     .gap-6 {
       gap: 0.5rem !important;
     }
   }
-
   @media screen and (max-width: 570px) {
     .vertical-line {
       height: 180px !important;
     }
-
     .vertical-line-sm {
       height: 75px !important;
     }
-
     .gap-6 {
       gap: 0.5rem !important;
     }
   }
-
   .vertical-line-sm {
     width: 2px;
     height: 70px;
     background-color: lightgrey;
   }
-
   .form-check-input:disabled ~ .form-check-label,
   .form-check-input[disabled] ~ .form-check-label {
     opacity: 1;
   }
-
   .form-check-input {
     border-color: black !important;
   }
-
   .grey-btn {
     background-color: #687076;
     border: none;
     color: white;
   }
-
   .blue-btn {
     background-color: #3c697d;
     border: none;
     color: white;
   }
-
   .form-check-input:checked {
     background-color: #3c697d !important;
     border-color: #3c697d !important;
   }
-
   .dropdown-toggle:after {
     position: absolute;
     top: 46%;
     right: 5%;
   }
-
   .drop-btn {
     max-width: none !important;
   }
-
   .dropdown-menu {
     width: 100%;
     border-radius: 0.375rem !important;
   }
-
   .green-btn {
     background-color: #04a46e !important;
     border: none;
     color: white;
-
     &:active {
       color: white;
     }
   }
-
   .gap-6 {
     gap: 2.5rem;
   }
-
   .border-vertical {
     border-top: var(--bs-border-width) var(--bs-border-style)
       var(--bs-border-color) !important;
     border-bottom: var(--bs-border-width) var(--bs-border-style)
       var(--bs-border-color) !important;
   }
-
   button.px-0 {
     padding-inline: 0px !important;
   }
-
   red-icon i {
     color: red;
   }
-
   input[type="radio"] {
     min-width: 13px;
   }
 `;
-
 const RfpContainer = styled.div`
   border: 1px solid lightgrey;
   overflow: auto;
 `;
-
 const Header = styled.div`
   position: relative;
   background-color: #f4f4f4;
   height: 50px;
-
   .menu {
     position: absolute;
     right: 10px;
@@ -305,7 +184,6 @@ const Header = styled.div`
     font-size: 30px;
   }
 `;
-
 const Text = styled.p`
   display: block;
   margin: 0;
@@ -315,19 +193,16 @@ const Text = styled.p`
   color: #687076;
   white-space: nowrap;
 `;
-
 const Actions = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
   margin: -6px -6px 6px;
 `;
-
 const Avatar = styled.div`
   width: 40px;
   height: 40px;
   pointer-events: none;
-
   img {
     object-fit: cover;
     border-radius: 40px;
@@ -335,9 +210,7 @@ const Avatar = styled.div`
     height: 100%;
   }
 `;
-
 const rfpLabelOptions = getGlobalLabels();
-
 const LinkProfile = ({ account, children }) => {
   return (
     <Link href={`/near/widget/ProfilePage?accountId=${account}`}>
@@ -345,14 +218,12 @@ const LinkProfile = ({ account, children }) => {
     </Link>
   );
 };
-
 const [snapshotHistory, setSnapshotHistory] = useState([]);
-
-const rfp = Near.view(REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT, "get_rfp", {
+const rfp = Near.view("infrastructure-committee.near", "get_rfp", {
   rfp_id: parseInt(id),
 });
-
-const queryName = RFP_INDEXER_QUERY_NAME;
+const queryName =
+  "polyprogrammist_near_devhub_ic_v1_proposals_with_latest_snapshot";
 const query = `query GetLatestSnapshot($offset: Int = 0, $limit: Int = 10, $where: ${queryName}_bool_exp = {}) {
   ${queryName}(
     offset: $offset
@@ -372,7 +243,6 @@ const query = `query GetLatestSnapshot($offset: Int = 0, $limit: Int = 10, $wher
     linked_proposals
   }
 }`;
-
 const fetchSnapshotHistory = () => {
   const variables = {
     where: { rfp_id: { _eq: id } },
@@ -395,20 +265,16 @@ const fetchSnapshotHistory = () => {
     }
   });
 };
-
 useEffect(() => {
   fetchSnapshotHistory();
 }, [id]);
-
 if (!rfp) {
   return (
     <div
       style={{ height: "50vh" }}
       className="d-flex justify-content-center align-items-center w-100"
     >
-      <Widget
-        src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Spinner`}
-      />
+      <Widget src={`devhub.near/widget/devhub.components.molecule.Spinner`} />
     </div>
   );
 }
@@ -417,21 +283,18 @@ if (timestamp && rfp) {
     snapshotHistory.find((item) => item.timestamp === timestamp) ??
     rfp.snapshot;
 }
-
 const { snapshot } = rfp;
 snapshot.timeline = parseJSON(snapshot.timeline);
-
 const authorId = rfp.author_id;
 const blockHeight = parseInt(rfp.social_db_post_block_height);
 const item = {
   type: "social",
-  path: `${REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT}/post/main`,
+  path: `infrastructure-committee.near/post/main`,
   blockHeight,
 };
 const rfpURL = getLinkUsingCurrentGateway(
-  `${REPL_INFRASTRUCTURE_COMMITTEE}/widget/app?page=rfp&id=${rfp.id}&timestamp=${snapshot.timestamp}`
+  `infrastructure-committee.near/widget/app?page=rfp&id=${rfp.id}&timestamp=${snapshot.timestamp}`
 );
-
 const SidePanelItem = ({ title, children, hideBorder, ishidden }) => {
   return (
     <div
@@ -447,40 +310,34 @@ const SidePanelItem = ({ title, children, hideBorder, ishidden }) => {
     </div>
   );
 };
-
 const isAllowedToWriteRfp = Near.view(
-  REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT,
+  "infrastructure-committee.near",
   "is_allowed_to_write_rfps",
   {
     editor: accountId,
   }
 );
-
 const link = href({
-  widgetSrc: `${REPL_INFRASTRUCTURE_COMMITTEE}/widget/app`,
+  widgetSrc: `infrastructure-committee.near/widget/app`,
   params: {
     page: "create-rfp",
     id: rfp.id,
     timestamp: timestamp,
   },
 });
-
 const createdDate = snapshotHistory[0].timestamp ?? snapshot.timestamp;
-
 const [approvedProposals, setApprovedProposals] = useState([]);
 const [isCancelModalOpen, setCancelModal] = useState(false);
 const [isWarningModalOpen, setWarningModal] = useState(false);
 const [timeline, setTimeline] = useState(null);
 const [showTimelineSetting, setShowTimelineSetting] = useState(false);
-
 useEffect(() => {
   if (!timeline) {
     setTimeline(snapshot.timeline);
   }
 }, [snapshot]);
-
 function fetchApprovedRfpProposals() {
-  const queryName = PROPOSAL_FEED_INDEXER_QUERY_NAME;
+  const queryName = "polyprogrammist_near_devhub_ic_v1_rfp_snapshots";
   const query = `query GetLatestSnapshot($offset: Int = 0, $limit: Int = 10, $where: ${queryName}_bool_exp = {}) {
     ${queryName}(
       offset: $offset
@@ -493,7 +350,6 @@ function fetchApprovedRfpProposals() {
       timeline
     }
   }`;
-
   const FETCH_LIMIT = 50;
   const variables = {
     limit: FETCH_LIMIT,
@@ -518,11 +374,10 @@ function fetchApprovedRfpProposals() {
     }
   });
 }
-
 const editRFPStatus = () => {
   Near.call([
     {
-      contractName: REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT,
+      contractName: "infrastructure-committee.near",
       methodName: "edit_rfp_timeline",
       args: {
         id: rfp.id,
@@ -532,11 +387,10 @@ const editRFPStatus = () => {
     },
   ]);
 };
-console.log({ rfp });
 const onCancelRFP = (value) => {
   Near.call([
     {
-      contractName: REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT,
+      contractName: "infrastructure-committee.near",
       methodName: "cancel_rfp",
       args: {
         id: rfp.id,
@@ -553,28 +407,22 @@ const onCancelRFP = (value) => {
     },
   ]);
 };
-
 const accessControlInfo =
-  Near.view(
-    REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT,
-    "get_access_control_info"
-  ) ?? null;
+  Near.view("infrastructure-committee.near", "get_access_control_info") ?? null;
 const moderatorList =
   accessControlInfo?.members_list?.["team:moderators"]?.children;
-
 fetchApprovedRfpProposals();
-
 const SubmitProposalBtn = () => {
   return (
     <div style={{ minWidth: "fit-content" }}>
       <Link
         to={href({
-          widgetSrc: `${REPL_INFRASTRUCTURE_COMMITTEE}/widget/app`,
+          widgetSrc: `infrastructure-committee.near/widget/app`,
           params: { page: "create-proposal", rfp_id: rfp.id },
         })}
       >
         <Widget
-          src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Button`}
+          src={`devhub.near/widget/devhub.components.molecule.Button`}
           props={{
             label: (
               <div className="d-flex align-items-center gap-2">
@@ -591,7 +439,7 @@ const SubmitProposalBtn = () => {
 return (
   <Container className="d-flex flex-column gap-2 w-100 mt-4">
     <Widget
-      src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.rfps.ConfirmCancelModal`}
+      src={`infrastructure-committee.near/widget/components.rfps.ConfirmCancelModal`}
       props={{
         isOpen: isCancelModalOpen,
         onCancelClick: () => {
@@ -606,7 +454,7 @@ return (
       }}
     />
     <Widget
-      src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.rfps.WarningModal`}
+      src={`infrastructure-committee.near/widget/components.rfps.WarningModal`}
       props={{
         isOpen: isWarningModalOpen,
         onConfirmClick: () => {
@@ -622,7 +470,7 @@ return (
       </div>
       <div className="d-flex gap-2 align-items-center">
         <Widget
-          src={`${REPL_NEAR}/widget/ShareButton`}
+          src={`near/widget/ShareButton`}
           props={{
             postType: "post",
             url: rfpURL,
@@ -631,7 +479,7 @@ return (
         {isAllowedToWriteRfp && (
           <Link to={link} style={{ textDecoration: "none" }}>
             <Widget
-              src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Button`}
+              src={`devhub.near/widget/devhub.components.molecule.Button`}
               props={{
                 label: "Edit",
                 classNames: { root: "grey-btn btn-sm" },
@@ -643,7 +491,7 @@ return (
     </div>
     <div className="d-flex flex-wrap flex-md-nowrap px-3 px-lg-0 gap-2 align-items-center text-sm pb-3 w-100">
       <Widget
-        src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.rfps.StatusTag`}
+        src={`infrastructure-committee.near/widget/components.rfps.StatusTag`}
         props={{
           timelineStatus: snapshot.timeline.status,
           size: "sm",
@@ -685,7 +533,13 @@ return (
                 }}
               >
                 <div className="d-none d-sm-flex">
-                  <img src={RFP_IMAGE} height={35} width={35} />
+                  <img
+                    src={
+                      "https://ipfs.near.social/ipfs/bafkreicbygt4kajytlxij24jj6tkg2ppc2dw3dlqhkermkjjfgdfnlizzy"
+                    }
+                    height={35}
+                    width={35}
+                  />
                 </div>
                 <RfpContainer className="rounded-2 flex-1">
                   <Header className="d-flex gap-1 align-items-center p-2 px-3 ">
@@ -701,7 +555,7 @@ return (
                     >
                       ･{" "}
                       <Widget
-                        src={`${REPL_NEAR}/widget/TimeAgo`}
+                        src={`near/widget/TimeAgo`}
                         props={{
                           blockHeight,
                           blockTimestamp: createdDate,
@@ -710,7 +564,7 @@ return (
                       {context.accountId && (
                         <div className="menu">
                           <Widget
-                            src={`${REPL_NEAR}/widget/Posts.Menu`}
+                            src={`near/widget/Posts.Menu`}
                             props={{
                               accountId: authorId,
                               blockHeight: blockHeight,
@@ -725,7 +579,7 @@ return (
                       RFP CATEGORY
                       <div className="my-2">
                         <Widget
-                          src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.molecule.MultiSelectCategoryDropdown`}
+                          src={`infrastructure-committee.near/widget/components.molecule.MultiSelectCategoryDropdown`}
                           props={{
                             selected: snapshot.labels,
                             disabled: true,
@@ -744,13 +598,12 @@ return (
                       DESCRIPTION
                     </div>
                     <Widget
-                      src={`${REPL_DEVHUB}/widget/devhub.components.molecule.MarkdownViewer`}
+                      src={`devhub.near/widget/devhub.components.molecule.MarkdownViewer`}
                       props={{ text: snapshot.description }}
                     />
-
                     <div className="d-flex gap-2 align-items-center mt-4">
                       <Widget
-                        src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.molecule.LikeButton`}
+                        src={`infrastructure-committee.near/widget/components.molecule.LikeButton`}
                         props={{
                           item,
                           rfpId: rfp.id,
@@ -758,7 +611,7 @@ return (
                         }}
                       />
                       <Widget
-                        src={`${REPL_DEVHUB}/widget/devhub.entity.proposal.CommentIcon`}
+                        src={`devhub.near/widget/devhub.entity.proposal.CommentIcon`}
                         props={{
                           item,
                           showOverlay: false,
@@ -766,7 +619,7 @@ return (
                         }}
                       />
                       <Widget
-                        src={`${REPL_NEAR}/widget/CopyUrlButton`}
+                        src={`near/widget/CopyUrlButton`}
                         props={{
                           url: rfpURL,
                         }}
@@ -777,7 +630,7 @@ return (
               </div>
               <div className="border-bottom pb-4 mt-4">
                 <Widget
-                  src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.rfps.CommentsAndLogs`}
+                  src={`infrastructure-committee.near/widget/components.rfps.CommentsAndLogs`}
                   props={{
                     ...props,
                     id: rfp.id,
@@ -796,7 +649,7 @@ return (
                 className="pt-4"
               >
                 <Widget
-                  src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.molecule.ComposeComment`}
+                  src={`infrastructure-committee.near/widget/components.molecule.ComposeComment`}
                   props={{
                     ...props,
                     item: item,
@@ -845,7 +698,7 @@ return (
                 }
               >
                 <Widget
-                  src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.rfps.TimelineConfigurator`}
+                  src={`infrastructure-committee.near/widget/components.rfps.TimelineConfigurator`}
                   props={{
                     timeline: timeline,
                     setTimeline: (v) => {
@@ -863,7 +716,6 @@ return (
                       ) {
                         setWarningModal(true);
                       }
-
                       if (v.status === RFP_TIMELINE_STATUS.CANCELLED) {
                         setCancelModal(true);
                       }
@@ -875,7 +727,7 @@ return (
                 {showTimelineSetting && (
                   <div className="d-flex gap-2 align-items-center justify-content-end text-sm mt-2">
                     <Widget
-                      src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Button`}
+                      src={`devhub.near/widget/devhub.components.molecule.Button`}
                       props={{
                         label: "Cancel",
                         classNames: {
@@ -888,7 +740,7 @@ return (
                       }}
                     />
                     <Widget
-                      src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Button`}
+                      src={`devhub.near/widget/devhub.components.molecule.Button`}
                       props={{
                         label: "Save",
                         classNames: { root: "blue-btn btn-sm" },
@@ -908,7 +760,7 @@ return (
                 ishidden={!approvedProposals.length}
               >
                 <Widget
-                  src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.molecule.LinkedProposals`}
+                  src={`infrastructure-committee.near/widget/components.molecule.LinkedProposals`}
                   props={{
                     linkedProposalIds: (approvedProposals ?? []).map(
                       (i) => i.proposal_id
@@ -927,7 +779,7 @@ return (
                 ishidden={!snapshot.linked_proposals.length}
               >
                 <Widget
-                  src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.molecule.LinkedProposals`}
+                  src={`infrastructure-committee.near/widget/components.molecule.LinkedProposals`}
                   props={{
                     linkedProposalIds: snapshot.linked_proposals,
                     showStatus:
