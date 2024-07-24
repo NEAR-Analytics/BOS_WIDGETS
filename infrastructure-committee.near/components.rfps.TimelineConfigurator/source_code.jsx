@@ -1,104 +1,10 @@
-/*
-License: MIT
-Author: devhub.near
-Homepage: https://github.com/NEAR-DevHub/near-prpsls-bos#readme
-*/
-/* INCLUDE: "includes/common.jsx" */
-const REPL_DEVHUB = "devhub.near";
-const REPL_INFRASTRUCTURE_COMMITTEE = "infrastructure-committee.near";
-const REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT =
-  "infrastructure-committee.near";
-const REPL_RPC_URL = "https://rpc.mainnet.near.org";
-const REPL_NEAR = "near";
-const RFP_IMAGE =
-  "https://ipfs.near.social/ipfs/bafkreicbygt4kajytlxij24jj6tkg2ppc2dw3dlqhkermkjjfgdfnlizzy";
-
-const RFP_FEED_INDEXER_QUERY_NAME =
-  "polyprogrammist_near_devhub_ic_v1_rfps_with_latest_snapshot";
-
-const RFP_INDEXER_QUERY_NAME =
-  "polyprogrammist_near_devhub_ic_v1_rfp_snapshots";
-
-const PROPOSAL_FEED_INDEXER_QUERY_NAME =
-  "polyprogrammist_near_devhub_ic_v1_proposals_with_latest_snapshot";
-
-const PROPOSAL_QUERY_NAME =
-  "polyprogrammist_near_devhub_ic_v1_proposal_snapshots";
-const RFP_TIMELINE_STATUS = {
-  ACCEPTING_SUBMISSIONS: "ACCEPTING_SUBMISSIONS",
-  EVALUATION: "EVALUATION",
-  PROPOSAL_SELECTED: "PROPOSAL_SELECTED",
-  CANCELLED: "CANCELLED",
-};
-
-const PROPOSAL_TIMELINE_STATUS = {
-  DRAFT: "DRAFT",
-  REVIEW: "REVIEW",
-  APPROVED: "APPROVED",
-  REJECTED: "REJECTED",
-  CANCELED: "CANCELLED",
-  APPROVED_CONDITIONALLY: "APPROVED_CONDITIONALLY",
-  PAYMENT_PROCESSING: "PAYMENT_PROCESSING",
-  FUNDED: "FUNDED",
-};
-
-const QUERYAPI_ENDPOINT = `https://near-queryapi.api.pagoda.co/v1/graphql`;
-
-async function fetchGraphQL(operationsDoc, operationName, variables) {
-  return asyncFetch(QUERYAPI_ENDPOINT, {
-    method: "POST",
-    headers: { "x-hasura-role": `polyprogrammist_near` },
-    body: JSON.stringify({
-      query: operationsDoc,
-      variables: variables,
-      operationName: operationName,
-    }),
-  });
-}
-
-const CANCEL_RFP_OPTIONS = {
-  CANCEL_PROPOSALS: "CANCEL_PROPOSALS",
-  UNLINK_PROPOSALS: "UNLINK_PROPOSALSS",
-  NONE: "NONE",
-};
-
-function parseJSON(json) {
-  if (typeof json === "string") {
-    try {
-      return JSON.parse(json);
-    } catch (error) {
-      return json;
-    }
-  } else {
-    return json;
-  }
-}
-
-function isNumber(value) {
-  return typeof value === "number";
-}
-
-const PROPOSALS_APPROVED_STATUS_ARRAY = [
-  PROPOSAL_TIMELINE_STATUS.APPROVED,
-  PROPOSAL_TIMELINE_STATUS.APPROVED_CONDITIONALLY,
-  PROPOSAL_TIMELINE_STATUS.PAYMENT_PROCESSING,
-  PROPOSAL_TIMELINE_STATUS.FUNDED,
-];
-
-function getLinkUsingCurrentGateway(url) {
-  const data = fetch(`https://httpbin.org/headers`);
-  const gatewayURL = data?.body?.headers?.Origin ?? "";
-  return `https://${
-    gatewayURL.includes("near.org") ? "dev.near.org" : "near.social"
-  }/${url}`;
-}
-/* END_INCLUDE: "includes/common.jsx" */
-
+const { RFP_TIMELINE_STATUS } = VM.require(
+  `infrastructure-committee.near/widget/core.common`
+) || { RFP_TIMELINE_STATUS: {} };
 const stepsArray = [1, 2, 3];
 const timeline = props.timeline;
 const disabled = props.disabled;
 const setTimeline = props.setTimeline ?? (() => {});
-
 const TimelineStatusOptions = [
   {
     label: "Accepting Submissions",
@@ -123,7 +29,6 @@ const TimelineStatusOptions = [
     },
   },
 ];
-
 const Container = styled.div`
   .circle-lg {
     width: 15px;
@@ -131,29 +36,24 @@ const Container = styled.div`
     border-radius: 50%;
     border: 1px solid grey;
   }
-
   .green-fill {
     background-color: rgb(4, 164, 110) !important;
     border-color: rgb(4, 164, 110) !important;
     color: white !important;
   }
-
   .yellow-fill {
     border-color: #ff7a00 !important;
   }
-
   .vertical-line {
     width: 2px;
     height: 85px;
     background-color: lightgrey;
   }
-
   @media screen and (max-width: 970px) {
     .vertical-line {
       height: 70px !important;
     }
   }
-
   @media screen and (max-width: 570px) {
     .vertical-line {
       height: 65px !important;
@@ -165,7 +65,6 @@ const selectedTimelineStatusIndex = useMemo(
     TimelineStatusOptions.findIndex((i) => i.value.status === timeline.status),
   [timeline]
 );
-
 const TimelineItems = ({ title, children, value, values }) => {
   const indexOfCurrentItem = TimelineStatusOptions.findIndex((i) =>
     Array.isArray(values)
@@ -192,7 +91,6 @@ const TimelineItems = ({ title, children, value, values }) => {
   ) {
     color = "#F4F4F4";
   }
-
   return (
     <div
       className="p-2 rounded-3"
@@ -205,14 +103,13 @@ const TimelineItems = ({ title, children, value, values }) => {
     </div>
   );
 };
-
 return (
   <Container className="d-flex flex-column gap-2">
     {!disabled && (
       <div className="d-flex flex-column gap-2">
         <h6 className="mb-0">Status</h6>
         <Widget
-          src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.molecule.DropDown`}
+          src={`infrastructure-committee.near/widget/components.molecule.DropDown`}
           props={{
             options: TimelineStatusOptions,
             selectedValue: TimelineStatusOptions.find(
@@ -297,7 +194,7 @@ return (
           <div className="d-flex flex-column gap-2">
             <div>Sponsor makes a final decision:</div>
             <Widget
-              src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.molecule.RadioButton`}
+              src={`infrastructure-committee.near/widget/components.molecule.RadioButton`}
               props={{
                 value: "",
                 label: <div className="fw-bold">Proposal Selected</div>,
@@ -314,7 +211,7 @@ return (
               }}
             />
             <Widget
-              src={`${REPL_INFRASTRUCTURE_COMMITTEE}/widget/components.molecule.RadioButton`}
+              src={`infrastructure-committee.near/widget/components.molecule.RadioButton`}
               props={{
                 value: "",
                 disabled: disabled,
