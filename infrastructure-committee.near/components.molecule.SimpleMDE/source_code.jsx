@@ -1,122 +1,26 @@
-/*
-License: MIT
-Author: devhub.near
-Homepage: https://github.com/NEAR-DevHub/near-prpsls-bos#readme
-*/
-/* INCLUDE: "includes/common.jsx" */
-const REPL_DEVHUB = "devhub.near";
-const REPL_INFRASTRUCTURE_COMMITTEE = "infrastructure-committee.near";
-const REPL_INFRASTRUCTURE_COMMITTEE_CONTRACT =
-  "infrastructure-committee.near";
-const REPL_RPC_URL = "https://rpc.mainnet.near.org";
-const REPL_NEAR = "near";
-const RFP_IMAGE =
-  "https://ipfs.near.social/ipfs/bafkreicbygt4kajytlxij24jj6tkg2ppc2dw3dlqhkermkjjfgdfnlizzy";
-
-const RFP_FEED_INDEXER_QUERY_NAME =
-  "polyprogrammist_near_devhub_ic_v1_rfps_with_latest_snapshot";
-
-const RFP_INDEXER_QUERY_NAME =
-  "polyprogrammist_near_devhub_ic_v1_rfp_snapshots";
-
-const PROPOSAL_FEED_INDEXER_QUERY_NAME =
-  "polyprogrammist_near_devhub_ic_v1_proposals_with_latest_snapshot";
-
-const PROPOSAL_QUERY_NAME =
-  "polyprogrammist_near_devhub_ic_v1_proposal_snapshots";
-const RFP_TIMELINE_STATUS = {
-  ACCEPTING_SUBMISSIONS: "ACCEPTING_SUBMISSIONS",
-  EVALUATION: "EVALUATION",
-  PROPOSAL_SELECTED: "PROPOSAL_SELECTED",
-  CANCELLED: "CANCELLED",
-};
-
-const PROPOSAL_TIMELINE_STATUS = {
-  DRAFT: "DRAFT",
-  REVIEW: "REVIEW",
-  APPROVED: "APPROVED",
-  REJECTED: "REJECTED",
-  CANCELED: "CANCELLED",
-  APPROVED_CONDITIONALLY: "APPROVED_CONDITIONALLY",
-  PAYMENT_PROCESSING: "PAYMENT_PROCESSING",
-  FUNDED: "FUNDED",
-};
-
-const QUERYAPI_ENDPOINT = `https://near-queryapi.api.pagoda.co/v1/graphql`;
-
-async function fetchGraphQL(operationsDoc, operationName, variables) {
-  return asyncFetch(QUERYAPI_ENDPOINT, {
-    method: "POST",
-    headers: { "x-hasura-role": `polyprogrammist_near` },
-    body: JSON.stringify({
-      query: operationsDoc,
-      variables: variables,
-      operationName: operationName,
-    }),
-  });
-}
-
-const CANCEL_RFP_OPTIONS = {
-  CANCEL_PROPOSALS: "CANCEL_PROPOSALS",
-  UNLINK_PROPOSALS: "UNLINK_PROPOSALSS",
-  NONE: "NONE",
-};
-
-function parseJSON(json) {
-  if (typeof json === "string") {
-    try {
-      return JSON.parse(json);
-    } catch (error) {
-      return json;
-    }
-  } else {
-    return json;
-  }
-}
-
-function isNumber(value) {
-  return typeof value === "number";
-}
-
-const PROPOSALS_APPROVED_STATUS_ARRAY = [
-  PROPOSAL_TIMELINE_STATUS.APPROVED,
-  PROPOSAL_TIMELINE_STATUS.APPROVED_CONDITIONALLY,
-  PROPOSAL_TIMELINE_STATUS.PAYMENT_PROCESSING,
-  PROPOSAL_TIMELINE_STATUS.FUNDED,
-];
-
-function getLinkUsingCurrentGateway(url) {
-  const data = fetch(`https://httpbin.org/headers`);
-  const gatewayURL = data?.body?.headers?.Origin ?? "";
-  return `https://${
-    gatewayURL.includes("near.org") ? "dev.near.org" : "near.social"
-  }/${url}`;
-}
-/* END_INCLUDE: "includes/common.jsx" */
-
 /**
  * iframe embedding a SimpleMDE component
  * https://github.com/sparksuite/simplemde-markdown-editor
  */
-
+const { getLinkUsingCurrentGateway } = VM.require(
+  `infrastructure-committee.near/widget/core.common`
+) || { getLinkUsingCurrentGateway: () => {} };
 const data = props.data;
 const onChange = props.onChange ?? (() => {});
 const onChangeKeyup = props.onChangeKeyup ?? (() => {}); // in case where we want immediate action
 const height = props.height ?? "390";
 const className = props.className ?? "w-100";
 const embeddCSS = props.embeddCSS;
-
+const sortedRelevantUsers = props.sortedRelevantUsers || [];
 State.init({
   iframeHeight: height,
   message: props.data,
 });
-
 const profilesData = Social.get("*/profile/name", "final");
 const followingData = Social.get(
   `${context.accountId}/graph/follow/**`,
   "final"
 );
-
 // SIMPLEMDE CONFIG //
 const fontFamily = props.fontFamily ?? "sans-serif";
 const alignToolItems = props.alignToolItems ?? "right";
@@ -125,10 +29,10 @@ const showAccountAutoComplete = props.showAutoComplete ?? false;
 const showProposalIdAutoComplete = props.showProposalIdAutoComplete ?? false;
 const showRfpIdAutoComplete = props.showRfpIdAutoComplete ?? false;
 const autoFocus = props.autoFocus ?? false;
-
-const proposalQueryName = PROPOSAL_FEED_INDEXER_QUERY_NAME;
+const proposalQueryName =
+  "polyprogrammist_near_devhub_ic_v1_proposals_with_latest_snapshot";
 const proposalLink = getLinkUsingCurrentGateway(
-  `${REPL_INFRASTRUCTURE_COMMITTEE}/widget/app?page=proposal&id=`
+  `infrastructure-committee.near/widget/app?page=proposal&id=`
 );
 const proposalQuery = `query GetLatestSnapshot($offset: Int = 0, $limit: Int = 10, $where: ${proposalQueryName}_bool_exp = {}) {
 ${proposalQueryName}(
@@ -141,10 +45,10 @@ ${proposalQueryName}(
   proposal_id
 }
 }`;
-
-const rfpQueryName = RFP_FEED_INDEXER_QUERY_NAME;
+const rfpQueryName =
+  "polyprogrammist_near_devhub_ic_v1_rfps_with_latest_snapshot";
 const rfpLink = getLinkUsingCurrentGateway(
-  `${REPL_INFRASTRUCTURE_COMMITTEE}/widget/app?page=rfp&id=`
+  `infrastructure-committee.near/widget/app?page=rfp&id=`
 );
 const rfpQuery = `query GetLatestSnapshot($offset: Int = 0, $limit: Int = 10, $where: ${rfpQueryName}_bool_exp = {}) {
 ${rfpQueryName}(
@@ -157,7 +61,6 @@ ${rfpQueryName}(
   name
 }
 }`;
-
 const code = `
 <!doctype html>
 <html>
@@ -171,7 +74,6 @@ const code = `
       overflow: visible;
       font-size:14px !important;
   }
-
   @media screen and (max-width: 768px) {
     body {
       font-size: 12px;
@@ -181,19 +83,16 @@ const code = `
   .cursor-pointer {
     cursor: pointer;
   }
-
   .text-wrap {
     overflow: hidden;
     white-space: normal;
   }
-
   .dropdown-item:hover,
   .dropdown-item:focus {
     background-color:rgb(0, 236, 151) !important;
     color:white !important;
     outline: none !important;
   }
-
   .editor-toolbar {
       text-align: ${alignToolItems};
   }
@@ -201,13 +100,10 @@ const code = `
   .CodeMirror {
     min-height:200px !important; // for autocomplete to be visble 
   }
-
   .CodeMirror-scroll {
     min-height:200px !important; // for autocomplete to be visble 
   }
-
   ${embeddCSS}
-
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/highlight.js/latest/styles/github.min.css">
@@ -218,7 +114,6 @@ const code = `
   <button style="display: none" type="button" data-bs-toggle="dropdown">
     Dropdown button
   </button>
-
   <ul class="dropdown-menu" id="mentiondropdown" style="position: absolute;">
 </div>
 <div class="dropdown">
@@ -228,9 +123,7 @@ const code = `
   <ul class="dropdown-menu" id="referencedropdown" style="position: absolute;">
 </div>
 </ul>
-
 <textarea></textarea>
-
 <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
@@ -248,15 +141,17 @@ let rfpQueryName = '';
 let showAccountAutoComplete = ${showAccountAutoComplete};
 let showProposalIdAutoComplete = ${showProposalIdAutoComplete};
 let showRfpIdAutoComplete = ${showRfpIdAutoComplete}
-
 function getSuggestedAccounts(term) {
   let results = [];
-
   term = (term || "").replace(/\W/g, "").toLowerCase();
-  const limit = 5;
-
+   let limit = 5;
+  if (term.length < 2) {
+   results = [${sortedRelevantUsers
+     .map((u) => "{accountId:'" + u + "', score: 60}")
+     .join(",")}];
+    limit = ${5 + sortedRelevantUsers.length};
+  }
   const profiles = Object.entries(profilesData);
-
   for (let i = 0; i < profiles.length; i++) {
     let score = 0;
     const accountId = profiles[i][0];
@@ -266,10 +161,8 @@ function getSuggestedAccounts(term) {
       .toLowerCase();
     const accountIdSearchIndex = accountIdSearch.indexOf(term);
     const nameSearchIndex = nameSearch.indexOf(term);
-
     if (accountIdSearchIndex > -1 || nameSearchIndex > -1) {
       score += 10;
-
       if (accountIdSearchIndex === 0) {
         score += 10;
       }
@@ -279,20 +172,16 @@ function getSuggestedAccounts(term) {
       if (followingData[accountId] === "") {
         score += 30;
       }
-
       results.push({
         accountId,
         score,
       });
     }
   }
-
   results.sort((a, b) => b.score - a.score);
   results = results.slice(0, limit);
-
   return results;
 }
-
 async function asyncFetch(endpoint, { method, headers, body }) {
   try {
     const response = await fetch(endpoint, {
@@ -300,18 +189,15 @@ async function asyncFetch(endpoint, { method, headers, body }) {
       headers: headers,
       body: body
     });
-
     if (!response.ok) {
       throw new Error("HTTP error!");
     }
-
     return await response.json();
   } catch (error) {
     console.error('Error fetching data:', error);
     throw error;
   }
 }
-
 function extractNumbers(str) {
   let numbers = "";
   for (let i = 0; i < str.length; i++) {
@@ -321,7 +207,6 @@ function extractNumbers(str) {
   }
   return numbers;
 };
-
 async function getSuggestedRfps(id) {
   let results = [];
   const variables = {
@@ -364,7 +249,6 @@ async function getSuggestedRfps(id) {
     });
   return results;
 };
-
 async function getSuggestedProposals(id) {
   let results = [];
   const variables = {
@@ -407,7 +291,6 @@ async function getSuggestedProposals(id) {
     });
   return results;
 };
-
 // Initializes SimpleMDE element and attaches to text-area
 const simplemde = new SimpleMDE({
   forceSync: true,
@@ -432,9 +315,7 @@ const simplemde = new SimpleMDE({
 	},
   autofocus:${autoFocus}
 });
-
 codeMirrorInstance = simplemde.codemirror;
-
 /**
  * Sends message to Widget to update content
  */
@@ -442,7 +323,6 @@ const updateContent = () => {
   const content = simplemde.value();
   window.parent.postMessage({ handler: "update", content }, "*");
 };
-
 /**
  * Sends message to Widget to update iframe height
  */
@@ -450,24 +330,19 @@ const updateIframeHeight = () => {
   const iframeHeight = document.body.scrollHeight;
   window.parent.postMessage({ handler: "resize", height: iframeHeight }, "*");
 };
-
 // On Change
 simplemde.codemirror.on('blur', () => {
   updateContent();
 });
-
 simplemde.codemirror.on('keyup', () => {
   updateIframeHeight();
   const content = simplemde.value();
   window.parent.postMessage({ handler: "updateOnKeyup", content }, "*");
 });
-
-
 if (showAccountAutoComplete) {
   let mentionToken;
   let mentionCursorStart;
   const dropdown = document.getElementById("mentiondropdown");
-
   simplemde.codemirror.on("keydown", () => {
     if (mentionToken && event.key === 'ArrowDown') {
       dropdown.querySelector('button').focus();
@@ -475,11 +350,9 @@ if (showAccountAutoComplete) {
       return false;
     }
   });
-
   simplemde.codemirror.on("keyup", (cm, event) => {
     const cursor = cm.getCursor();
     const token = cm.getTokenAt(cursor);
-
     const createMentionDropDownOptions = () => {
       const mentionInput = cm.getRange(mentionCursorStart, cursor);
       dropdown.innerHTML = getSuggestedAccounts(mentionInput)
@@ -488,7 +361,6 @@ if (showAccountAutoComplete) {
           '<li><button class="dropdown-item cursor-pointer w-100 text-wrap">' + item?.accountId + '</button></li>'
       )
       .join("");
-
       dropdown.querySelectorAll("li").forEach((li) => {
         li.addEventListener("click", () => {
           const selectedText = li.textContent.trim();
@@ -507,15 +379,11 @@ if (showAccountAutoComplete) {
         const rect = cm.charCoords(cursor);
         const x = rect.left;
         const y = rect.bottom;
-
         // Create dropdown with options
         dropdown.style.top = y + "px";
         dropdown.style.left = x + "px";
-
         createMentionDropDownOptions();
-
         dropdown.classList.add("show");
-
         // Close dropdown on outside click
         document.addEventListener("click", function(event) {
             if (!dropdown.contains(event.target)) {
@@ -531,7 +399,6 @@ if (showAccountAutoComplete) {
     }
 });
 }
-
 if (showProposalIdAutoComplete) {
   let proposalId;
   let referenceCursorStart;
@@ -539,7 +406,6 @@ if (showProposalIdAutoComplete) {
   const loader = document.createElement('div');
   loader.className = 'loader';
   loader.textContent = 'Loading...';
-
   simplemde.codemirror.on("keydown", () => {
     if (proposalId && event.key === 'ArrowDown') {
       dropdown.querySelector('button').focus();
@@ -547,27 +413,22 @@ if (showProposalIdAutoComplete) {
       return false;
     }
   });
-
   simplemde.codemirror.on("keyup", (cm, event) => {
     const cursor = cm.getCursor();
     const token = cm.getTokenAt(cursor);
-
     const createReferenceDropDownOptions = async () => {
       try {
         const input = cm.getRange(referenceCursorStart, cursor);
         dropdown.innerHTML = ''; // Clear previous content
         dropdown.appendChild(loader); // Show loader
-
         const suggestedProposals = await getSuggestedProposals(input);
         const suggestedRFPs = await getSuggestedRfps(input);
-
        const proposalItems = suggestedProposals
         .map(
           (item) =>
             '<li><button class="dropdown-item cursor-pointer w-100 text-wrap">' + "#" + item?.proposal_id + " Proposal: " + item.name + '</button></li>'
         )
         .join("");
-
         const rfpItems = suggestedRFPs
         .map(
           (item) =>
@@ -575,7 +436,6 @@ if (showProposalIdAutoComplete) {
         )
         .join("");
         dropdown.innerHTML = proposalItems + rfpItems;
-
         dropdown.querySelectorAll("li").forEach((li) => {
           li.addEventListener("click", () => {
             const selectedText = li.textContent.trim();
@@ -602,7 +462,6 @@ if (showProposalIdAutoComplete) {
         dropdown.removeChild(loader);
       }
     }
-
     // show dropwdown only when there is space before # or it's first char
       if (!proposalId && (token.string === "#" && cursor.ch === 1 || token.string === "#" && cm.getTokenAt({line:cursor.line, ch: cursor.ch - 1}).string == ' ')) {
         proposalId = token;
@@ -611,15 +470,11 @@ if (showProposalIdAutoComplete) {
         const rect = cm.charCoords(cursor);
         const x = rect.left;
         const y = rect.bottom;
-
         // Create dropdown with options
         dropdown.style.top = y + "px";
         dropdown.style.left = x + "px";
-
         createReferenceDropDownOptions();
-
         dropdown.classList.add("show");
-
         // Close dropdown on outside click
         document.addEventListener("click", function(event) {
             if (!dropdown.contains(event.target)) {
@@ -634,15 +489,13 @@ if (showProposalIdAutoComplete) {
       createReferenceDropDownOptions();
   }
 });
-
 }
-
 window.addEventListener("message", (event) => {
   if (!isEditorInitialized && event.data !== "") {
     simplemde.value(event.data.content);
     isEditorInitialized = true;
   } else {
-    if (event.data.handler === 'refreshEditor') {
+    if (event.data.handler === 'refreshEditor' || event.data.handler === 'committed') {
       codeMirrorInstance.getDoc().setValue(event.data.content);
     }
   }
@@ -661,7 +514,6 @@ window.addEventListener("message", (event) => {
   if (event.data.proposalLink) {
     proposalLink = event.data.proposalLink;
   }
-
   if (event.data.rfpQuery) {
     rfpQuery = event.data.rfpQuery;
   }
@@ -677,7 +529,6 @@ window.addEventListener("message", (event) => {
 </body>
 </html>
 `;
-
 return (
   <iframe
     className={className}
