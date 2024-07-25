@@ -76,6 +76,14 @@ function Page() {
         />
       );
     }
+    case "profile": {
+      return (
+        <Widget
+          src={"devhub.near/widget/devhub.page.profile"}
+          props={passProps}
+        />
+      );
+    }
     default: {
       return (
         <Widget
