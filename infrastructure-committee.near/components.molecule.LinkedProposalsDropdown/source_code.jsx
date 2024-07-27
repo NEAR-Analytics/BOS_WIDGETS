@@ -1,6 +1,6 @@
 const { fetchGraphQL } = VM.require(
   `infrastructure-committee.near/widget/core.common`
-) || { fetchGraphQL: () => {} };
+);
 const { href } = VM.require(`devhub.near/widget/core.lib.url`);
 href || (href = () => {});
 const linkedProposals = props.linkedProposals;
@@ -66,6 +66,9 @@ const fetchProposals = () => {
     offset: 0,
     where: buildWhereClause(),
   };
+  if (typeof fetchGraphQL !== "function") {
+    return;
+  }
   fetchGraphQL(query, "GetLatestSnapshot", variables).then(async (result) => {
     if (result.status === 200) {
       if (result.body.data) {
