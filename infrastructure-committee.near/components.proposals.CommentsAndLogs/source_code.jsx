@@ -6,7 +6,7 @@ const { PROPOSAL_TIMELINE_STATUS, isNumber, getLinkUsingCurrentGateway } =
   };
 const { href } = VM.require(`devhub.near/widget/core.lib.url`);
 href || (href = () => {});
-const snapshotHistory = props.snapshotHistory;
+const snapshotHistory = props.snapshotHistory ?? [];
 const latestSnapshot = props.latestSnapshot;
 const Wrapper = styled.div`
   position: relative;
@@ -121,7 +121,7 @@ function sortTimelineAndComments() {
     State.update({ data: combinedArray, socialComments: comments });
   });
 }
-if ((snapshotHistory ?? []).length > 0) {
+if (Array.isArray(snapshotHistory)) {
   sortTimelineAndComments();
 }
 const Comment = ({ commentItem }) => {
