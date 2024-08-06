@@ -14,7 +14,7 @@ const code = `
 <script>
 let archiveNodeUrl = 'https://1rpc.io/near';
 const totalTxnsPerPage = ${totalTxnsPerPage};
-const treasuryAccount = "treasury-devdao.near";
+const treasuryAccount = "testing.sputnik-dao.near";
  async function getAccountChanges(block_id, account_ids) {
   return (await fetch(archiveNodeUrl, {
       method: 'POST',
@@ -226,7 +226,7 @@ function getImage(actionKind) {
 const loader = (
   <div className="d-flex flex-column justify-content-center align-items-center w-100 h-100">
     {loading}
-    <div>This might take a while....</div>
+    <div>This may take a few minutes.</div>
   </div>
 );
 function getPrice(tokensNumber) {
