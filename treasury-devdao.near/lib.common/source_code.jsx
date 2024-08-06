@@ -1,4 +1,4 @@
-const treasuryDaoID = "testing.sputnik-dao.near";
+const treasuryDaoID = "testing-astradao.sputnik-dao.near";
 function getTransferApproversAndThreshold() {
   const daoPolicy = Near.view(treasuryDaoID, "get_policy", {});
   const groupWithTransferPermission = (daoPolicy.roles ?? []).filter((role) => {
@@ -110,7 +110,13 @@ function getFilteredProposalsByStatusAndkind({
     };
   });
 }
+const data = fetch(`https://httpbin.org/headers`);
+const gatewayOrigin = data?.body?.headers?.Origin ?? "";
+const isNearSocial =
+  gatewayOrigin.includes("near.social") ||
+  gatewayOrigin.includes("127.0.0.1:8080");
 return {
   getTransferApproversAndThreshold,
   getFilteredProposalsByStatusAndkind,
+  isNearSocial,
 };
