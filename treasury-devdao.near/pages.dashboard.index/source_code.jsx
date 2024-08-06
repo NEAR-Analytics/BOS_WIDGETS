@@ -1,4 +1,4 @@
-const treasuryAccount = "treasury-devdao.near";
+const treasuryAccount = "testing.sputnik-dao.near";
 const Wrapper = styled.div`
   min-height: 80vh;
   .flex-1 {
