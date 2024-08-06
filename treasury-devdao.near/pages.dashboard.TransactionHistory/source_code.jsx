@@ -14,7 +14,7 @@ const code = `
 <script>
 let archiveNodeUrl = 'https://1rpc.io/near';
 const totalTxnsPerPage = ${totalTxnsPerPage};
-const treasuryAccount = "testing.sputnik-dao.near";
+const treasuryAccount = "testing-astradao.sputnik-dao.near";
  async function getAccountChanges(block_id, account_ids) {
   return (await fetch(archiveNodeUrl, {
       method: 'POST',
