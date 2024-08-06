@@ -35,10 +35,26 @@ function Page() {
         />
       );
     }
-    case "operations": {
+    case "payments": {
       return (
         <Widget
-          src={"treasury-devdao.near/widget/pages.operations.index"}
+          src={"treasury-devdao.near/widget/pages.payments.index"}
+          props={passProps}
+        />
+      );
+    }
+    case "stake-delegation": {
+      return (
+        <Widget
+          src={"treasury-devdao.near/widget/pages.stake-delegation.index"}
+          props={passProps}
+        />
+      );
+    }
+    case "asset-exchange": {
+      return (
+        <Widget
+          src={"treasury-devdao.near/widget/pages.asset-exchange.index"}
           props={passProps}
         />
       );
