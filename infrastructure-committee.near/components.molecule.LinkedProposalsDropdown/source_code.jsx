@@ -122,7 +122,7 @@ return (
       );
     })}
     <Widget
-      src={`infrastructure-committee.near/widget/components.molecule.DropDownWithSearch`}
+      src="devhub.near/widget/devhub.components.molecule.DropDownWithSearch"
       props={{
         selectedValue: selectedProposals,
         onChange: (v) => {
