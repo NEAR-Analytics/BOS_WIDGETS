@@ -152,7 +152,7 @@ return (
       </div>
     )}
     <Widget
-      src={`infrastructure-committee.near/widget/components.molecule.DropDownWithSearch`}
+      src="devhub.near/widget/devhub.components.molecule.DropDownWithSearch"
       props={{
         disabled: disabled,
         selectedValue: selectedRFP.value,
