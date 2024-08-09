@@ -10,23 +10,11 @@ const { page, ...passProps } = props;
 const { AppLayout } = VM.require(
   "events-committee.near/widget/devhub.components.templates.AppLayout"
 );
-if (!AppLayout) {
+const { Theme } = VM.require("events-committee.near/widget/config.theme");
+const { CssContainer } = VM.require("events-committee.near/widget/config.css");
+if (!AppLayout || !Theme || !CssContainer) {
   return <p>Loading modules...</p>;
 }
-// CSS styles to be used across the app.
-// Define fonts here, as well as any other global styles.
-const Theme = styled.div`
-  a {
-    color: inherit;
-  }
-  .attractable {
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
-    transition: box-shadow 0.6s;
-    &:hover {
-      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
-    }
-  }
-`;
 if (!page) {
   // If no page is specified, we default to the feed page TEMP
   page = "home";
@@ -96,8 +84,10 @@ function Page() {
 }
 return (
   <Theme>
-    <AppLayout page={page}>
-      <Page />
-    </AppLayout>
+    <CssContainer>
+      <AppLayout page={page}>
+        <Page />
+      </AppLayout>
+    </CssContainer>
   </Theme>
 );
