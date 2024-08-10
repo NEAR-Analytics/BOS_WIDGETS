@@ -1,3 +1,8 @@
+const { isNearSocial } = VM.require(
+  "treasury-devdao.near/widget/lib.common"
+) || {
+  isNearSocial: false,
+};
 const votes = props.votes ?? {};
 const accounts = Object.keys(votes);
 const transferApproversGroup = props.transferApproversGroup ?? [];
@@ -8,8 +13,8 @@ const reject =
 const maxIndex = 100;
 const Container = styled.div`
   .grey-circle {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     background-color: #e2e6ec;
   }
   .reject {
@@ -18,13 +23,16 @@ const Container = styled.div`
   .approve {
     color: #089968;
   }
+  .custom-tooltip .tooltiptext {
+    right: 80%;
+  }
 `;
 const maxShow = 1;
 function getImage(acc) {
   return `https://i.near.social/magic/large/https://near.social/magic/img/account/${acc}`;
 }
 return (
-  <Container>
+  <Container className="d-flex justify-content-center">
     <div className="custom-tooltip">
       <div className="tooltiptext p-3">
         <div className="d-flex flex-column gap-3">
@@ -54,7 +62,11 @@ return (
                     <img
                       src={voteImg}
                       height={20}
-                      style={{ marginTop: 17, marginLeft: "-15px" }}
+                      style={
+                        isNearSocial
+                          ? { marginTop: 17, marginLeft: "-15px" }
+                          : { marginTop: "-19px", marginLeft: "21px" }
+                      }
                     />
                   )}
                 </div>
@@ -84,18 +96,23 @@ return (
               style={{
                 marginLeft: index > 0 ? "-10px" : 0,
                 zIndex: maxIndex - index,
+                position: "relative",
               }}
             >
               <img
                 src={imageSrc}
-                height={30}
-                width={30}
+                height={40}
+                width={40}
                 className="rounded-circle"
               />
               <img
                 src={voteImg}
-                height={15}
-                style={{ marginTop: 17, marginLeft: "-15px" }}
+                height={20}
+                style={
+                  isNearSocial
+                    ? { marginTop: 25, marginLeft: "-20px" }
+                    : { marginTop: "-17px", marginLeft: "23px" }
+                }
               />
             </div>
           );
