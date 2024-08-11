@@ -196,7 +196,7 @@ return (
                         contract,
                         contractData,
                         { mint: inputToken },
-                        899819245,
+                        31154461320,
                         0
                       );
                     }}
