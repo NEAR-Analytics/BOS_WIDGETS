@@ -68,11 +68,12 @@ useEffect(() => {
 }, [initialData]);
 function Preview() {
   return (
-    <Tile className="p-3" style={{ background: "white" }}>
+    <Tile className="p-3" style={{ background: "white", minHeight: "500px" }}>
       <Widget
-        src={`infrastructure-committee.near/widget/components.molecule.Markdown`}
+        src={`devhub.near/widget/devhub.components.molecule.SimpleMDEViewer`}
         props={{
           content: content,
+          height: "500px",
         }}
       />
     </Tile>
