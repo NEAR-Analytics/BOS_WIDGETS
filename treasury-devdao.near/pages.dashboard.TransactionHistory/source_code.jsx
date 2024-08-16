@@ -234,8 +234,19 @@ function getPrice(tokensNumber) {
     .mul(Big(nearPrice ?? "1"))
     .toFixed(4);
 }
+const Container = styled.div`
+  a {
+    color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1)) !important;
+    &:hover {
+      color: rgba(
+        var(--bs-link-color-rgb),
+        var(--bs-link-opacity, 1)
+      ) !important;
+    }
+  }
+`;
 return (
-  <div className="card card-body flex-1">
+  <Container className="card card-body flex-1">
     <div className="h5">Transaction History</div>
     {iframe}
     <div className="">
@@ -308,7 +319,13 @@ return (
                                 {readableDate(txn.block_timestamp / 1000000)}
                               </div>
                               <div className="text-light-grey">
-                                {(txn.block_hash ?? "").substring(0, 20)}
+                                <Link
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  to={`https://nearblocks.io/txns/${txn.hash}`}
+                                >
+                                  {(txn.hash ?? "").substring(0, 20)}
+                                </Link>
                               </div>
                             </div>
                           </div>
@@ -350,5 +367,5 @@ return (
         </div>
       )}
     </div>
-  </div>
+  </Container>
 );
