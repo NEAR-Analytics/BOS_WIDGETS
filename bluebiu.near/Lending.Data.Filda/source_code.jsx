@@ -161,16 +161,6 @@ useEffect(() => {
     const markets = {};
     Object.values(_cTokensData).forEach((market) => {
       const underlyingPrice = _underlyPrice[market.address] || 1;
-      const totalSupply = Big(_liquidity[market.address]).add(
-        market.totalBorrows
-      );
-      market.exchangeRateStored = totalSupply
-        .div(market.totalSupply)
-        .toString();
-      market.userSupply = Big(market.userSupply || 0)
-        .mul(market.exchangeRateStored)
-        .toString();
-      market.totalSupply = totalSupply.toString();
       const marketSupplyUsd = Big(market.totalSupply || 0).mul(underlyingPrice);
       const marketBorrowUsd = Big(market.totalBorrows || 0).mul(
         underlyingPrice
@@ -183,6 +173,28 @@ useEffect(() => {
       userTotalBorrowUsd = userTotalBorrowUsd.plus(
         Big(market.userBorrow).mul(underlyingPrice)
       );
+      // const totalSupply = Big(_liquidity[market.address]).add(
+      //   market.totalBorrows
+      // );
+      // market.exchangeRateStored = totalSupply
+      //   .div(market.totalSupply)
+      //   .toString();
+      // market.userSupply = Big(market.userSupply || 0)
+      //   .mul(market.exchangeRateStored)
+      //   .toString();
+      // market.totalSupply = totalSupply.toString();
+      // const marketSupplyUsd = Big(market.totalSupply || 0).mul(underlyingPrice);
+      // const marketBorrowUsd = Big(market.totalBorrows || 0).mul(
+      //   underlyingPrice
+      // );
+      // totalSupplyUsd = totalSupplyUsd.plus(marketSupplyUsd);
+      // totalBorrowUsd = totalBorrowUsd.plus(marketBorrowUsd);
+      // userTotalSupplyUsd = userTotalSupplyUsd.plus(
+      //   Big(market.userSupply).mul(underlyingPrice)
+      // );
+      // userTotalBorrowUsd = userTotalBorrowUsd.plus(
+      //   Big(market.userBorrow).mul(underlyingPrice)
+      // );
       if (_userMerberShip[market.address]) {
         totalCollateralUsd = totalCollateralUsd.plus(
           Big(market.userSupply)
@@ -191,6 +203,7 @@ useEffect(() => {
             .div(100)
         );
       }
+
       const supplyApy = Big(market.supplyRatePerBlock)
         .mul(4 * 60 * 24)
         .plus(1)
@@ -282,8 +295,8 @@ useEffect(() => {
     Object.values(markets).forEach((market) => {
       _underlyPrice[market.address] =
         prices[
-          market.underlyingToken.priceKey || market.underlyingToken.symbol
-        ];
+        market.underlyingToken.priceKey || market.underlyingToken.symbol
+          ];
     });
     count++;
     formatedData("getUnderlyPrice");
@@ -402,9 +415,9 @@ useEffect(() => {
         for (let i = 0, len = res.length; i < len; i++) {
           _underlyingBalance[underlyingTokens[i].oTokenAddress] = res[i][0]
             ? ethers.utils.formatUnits(
-                res[i][0]._hex,
-                underlyingTokens[i].decimals
-              )
+              res[i][0]._hex,
+              underlyingTokens[i].decimals
+            )
             : "0";
         }
         if (nativeOToken) {
@@ -472,7 +485,7 @@ useEffect(() => {
       .then((res) => {
         oTokensLength--;
         const exchangeRateStored = res[0][0]
-          ? ethers.utils.formatUnits(res[0][0]._hex, oToken.decimals)
+          ? ethers.utils.formatUnits(res[0][0]._hex, oToken.underlyingToken.decimals)
           : "0";
 
         const totalSupply = res[1][0]
@@ -483,12 +496,13 @@ useEffect(() => {
           : "0";
         _cTokensData[oToken.address] = {
           ...oToken,
-          totalSupply,
+          exchangeRateStored,
+          totalSupply: Big(totalSupply).mul(exchangeRateStored).toString(),
           totalBorrows: res[2][0]
             ? ethers.utils.formatUnits(
-                res[2][0]._hex,
-                oToken.underlyingToken.decimals
-              )
+              res[2][0]._hex,
+              oToken.underlyingToken.decimals
+            )
             : "0",
           supplyRatePerBlock: res[6][0]
             ? ethers.utils.formatUnits(res[6][0]._hex, 18)
@@ -496,12 +510,12 @@ useEffect(() => {
           borrowRatePerBlock: res[5][0]
             ? ethers.utils.formatUnits(res[5][0]._hex, 18)
             : "0",
-          userSupply,
+          userSupply: Big(userSupply).mul(exchangeRateStored).toString(),
           userBorrow: res[4][0]
             ? ethers.utils.formatUnits(
-                res[4][0]._hex,
-                oToken.underlyingToken.decimals
-              )
+              res[4][0]._hex,
+              oToken.underlyingToken.decimals
+            )
             : "0",
         };
         if (oTokensLength === 0) {
