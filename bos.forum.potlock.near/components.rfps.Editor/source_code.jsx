@@ -87,7 +87,7 @@ const Container = styled.div`
     flex: 1;
   }
   .bg-grey {
-    background-color: #f4f4f4;
+    background-color: #ffffff;
   }
   .border-bottom {
     border-bottom: 1px solid grey;
@@ -233,9 +233,14 @@ const [rfpId, setRfpId] = useState(null);
 const [rfpIdsArray, setRfpIdsArray] = useState(null);
 const [isTxnCreated, setCreateTxn] = useState(false);
 const [oldRfpData, setOldRfpData] = useState(null);
-const [timeline, setTimeline] = useState({
-  status: RFP_TIMELINE_STATUS.ACCEPTING_SUBMISSIONS,
-});
+const [timeline, setTimeline] = useState(null);
+useEffect(() => {
+  if (!timeline) {
+    setTimeline({
+      status: RFP_TIMELINE_STATUS.ACCEPTING_SUBMISSIONS,
+    });
+  }
+}, [RFP_TIMELINE_STATUS]);
 if (allowDraft) {
   draftRfpData = Storage.privateGet(draftKey);
 }
