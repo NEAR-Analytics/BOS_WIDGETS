@@ -7,7 +7,7 @@ function ensureOtherIsLast(arr) {
   return arr;
 }
 function getGlobalLabels() {
-  let labels = Near.view("forum.potlock.near", "get_global_labels");
+  let labels = Near.view(`forum.potlock.near`, "get_global_labels");
   if (labels !== null) {
     labels = ensureOtherIsLast(labels);
   }
