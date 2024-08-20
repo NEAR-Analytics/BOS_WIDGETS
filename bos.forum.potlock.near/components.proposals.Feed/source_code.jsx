@@ -27,7 +27,7 @@ const Container = styled.div`
     font-size: 13px;
   }
   .bg-grey {
-    background-color: #f4f4f4;
+    background-color: #ffffff;
   }
   .border-bottom {
     border-bottom: 1px solid grey;
@@ -40,7 +40,7 @@ const Container = styled.div`
     border-right: none !important;
     border-bottom: none !important;
     &:hover {
-      background-color: #f4f4f4;
+      background-color: #ffffff;
     }
   }
   .blue-btn {
@@ -469,29 +469,6 @@ const FeedPage = () => {
               }}
             />
           </div>
-        </div>
-        <div className="mt-2 mt-xs-0">
-          <Link
-            to={href({
-              widgetSrc: `bos.forum.potlock.near/widget/app`,
-              params: { page: "create-proposal" },
-            })}
-          >
-            <Widget
-              src={`devhub.near/widget/devhub.components.molecule.Button`}
-              props={{
-                label: (
-                  <div className="d-flex gap-2 align-items-center">
-                    <div>
-                      <i className="bi bi-plus-circle-fill"></i>
-                    </div>
-                    Submit Proposal
-                  </div>
-                ),
-                classNames: { root: "blue-btn" },
-              }}
-            />
-          </Link>
         </div>
       </div>
       <div style={{ minHeight: "50vh" }}>
