@@ -16,6 +16,7 @@ const Theme = styled.div`
   a {
     color: inherit;
   }
+  background-color: white;
   .attractable {
     box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
     transition: box-shadow 0.6s;
@@ -30,6 +31,10 @@ if (!page) {
 }
 // This is our navigation, rendering the page based on the page parameter
 function Page() {
+  let labels = Near.view(`lists.potlock.near`, "get_registrations_for_list", {
+    list_id: 1,
+  });
+  const allIds = labels.map((item) => item.registrant_id);
   const routes = page.split(".");
   switch (routes[0]) {
     case "rfps": {
@@ -58,10 +63,21 @@ function Page() {
     }
     case "create-proposal": {
       return (
-        <Widget
-          src={`bos.forum.potlock.near/widget/components.proposals.Editor`}
-          props={{ ...passProps }}
-        />
+        <>
+          {!allIds?.includes(context?.accountId) ? (
+            <>
+              <Widget
+                src={`potlock.near/widget/Index`}
+                props={{ ...passProps, tab: "createproject" }}
+              />
+            </>
+          ) : (
+            <Widget
+              src={`bos.forum.potlock.near/widget/components.proposals.Editor`}
+              props={{ ...passProps }}
+            />
+          )}
+        </>
       );
     }
     case "ideas": {
