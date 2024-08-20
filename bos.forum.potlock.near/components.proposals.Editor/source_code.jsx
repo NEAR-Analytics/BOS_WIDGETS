@@ -77,7 +77,7 @@ const Container = styled.div`
     flex: 1;
   }
   .bg-grey {
-    background-color: #f4f4f4;
+    background-color: #ffffff;
   }
   .border-bottom {
     border-bottom: 1px solid grey;
@@ -87,7 +87,7 @@ const Container = styled.div`
   }
   .proposal-card {
     &:hover {
-      background-color: #f4f4f4;
+      background-color: #ffffff;
     }
   }
   .border-1 {
