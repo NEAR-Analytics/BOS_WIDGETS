@@ -26,11 +26,11 @@ function Page() {
         />
       );
     }
-    // ?page=members
-    case "members": {
+    // ?page=settings
+    case "settings": {
       return (
         <Widget
-          src={"treasury-devdao.near/widget/pages.members.index"}
+          src={"treasury-devdao.near/widget/pages.settings.index"}
           props={passProps}
         />
       );
