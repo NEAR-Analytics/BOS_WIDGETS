@@ -509,7 +509,7 @@ const DropdowntBtnContainer = styled.div`
     padding: 0.5rem;
     z-index: 99;
     font-size: 13px;
-    border-radius:0.375rem !important;
+    border-radius: 0.375rem !important;
   }
   .left {
     right: 0 !important;
@@ -561,7 +561,6 @@ const DropdowntBtnContainer = styled.div`
   a:hover {
     text-decoration: none;
   }
-}
 `;
 const LoadingButtonSpinner = (
   <span
