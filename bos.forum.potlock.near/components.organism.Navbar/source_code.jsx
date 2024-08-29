@@ -1,9 +1,8 @@
 const page = props.page;
 const [showMenu, setShowMenu] = useState(false);
-const { href: linkHref } = VM.require(`devhub.near/widget/core.lib.url`);
 const { href } = VM.require(`devhub.near/widget/core.lib.url`);
 href || (href = () => {});
-linkHref || (linkHref = () => {});
+const { isPotlock } = VM.require(`bos.forum.potlock.near/widget/core.common`);
 const Logo = () => {
   const Wrapper = styled.div`
     .text-lg {
@@ -259,15 +258,24 @@ return (
         <ProfileIcon />
       ) : (
         <>
-          <div style={{ width: 100 }} class="login-container">
-            <button
-              id="open-walletselector-button"
-              type="button"
-              class="login-button"
-            >
-              Login
-            </button>
-          </div>
+          {isPotlock && (
+            <div style={{ width: 100 }} class="login-container">
+              <Wallet
+                provides={({ signIn, signOut }) => {
+                  return (
+                    <button
+                      onClick={signIn}
+                      id="open-walletselector-button"
+                      type="button"
+                      class="login-button"
+                    >
+                      Login
+                    </button>
+                  );
+                }}
+              />
+            </div>
+          )}
         </>
       )}
       <MobileMenu onClick={() => setShowMenu(!showMenu)}>
