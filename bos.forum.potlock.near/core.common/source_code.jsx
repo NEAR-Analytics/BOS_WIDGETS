@@ -58,7 +58,14 @@ function getLinkUsingCurrentGateway(url) {
     gatewayURL.includes("near.org") ? "dev.near.org" : "near.social"
   }/${url}`;
 }
+const data = fetch(`https://httpbin.org/headers`);
+const gatewayOrigin = data?.body?.headers?.Origin ?? "";
+const isPotlock =
+  gatewayOrigin.includes("localhost") ||
+  gatewayOrigin.includes("127.0.0.1") ||
+  gatewayOrigin.includes("forum.aipgf.com");
 return {
+  isPotlock,
   RFP_TIMELINE_STATUS,
   PROPOSAL_TIMELINE_STATUS,
   fetchGraphQL,
