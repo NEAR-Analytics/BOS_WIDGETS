@@ -4,6 +4,7 @@ const contracts = ["0", "b", "h", "m", "z"].map(
 );
 let yourContractId = contracts[0];
 const [currentTime, setCurrentTime] = useState(new Date().getTime());
+const [claimTimes, setClaimTimes] = useState(0);
 
 useEffect(() => {
   const interval = setInterval(() => {
@@ -35,12 +36,22 @@ const timeRemaining = startBlockTimeMs - currentTime;
 const canClaim = context.accountId
   ? Near.view(yourContractId, "can_claim", {
       account_id: context.accountId,
+      _nonce: claimTimes,
+    })
+  : false;
+
+const hasClaimed = context.accountId
+  ? Near.view(yourContractId, "has_claimed", {
+      account_id: context.accountId,
       _nonce: timeRemaining <= 0,
     })
   : false;
 
 const claim = () => {
   Near.call(yourContractId, "claim", {});
+  setTimeout(() => {
+    setClaimTimes((t) => t + 1);
+  }, 5000);
 };
 
 const remainingTimeToString = (timeRemaining) => {
@@ -78,7 +89,13 @@ return (
     </div>
     <hr />
     <div>
-      Can claim: {canClaim ? <b>YES</b> : <b className="text-danger">NO</b>}
+      {hasClaimed ? (
+        <b className="text-success">ALREADY CLAIMED</b>
+      ) : (
+        <span>
+          Can claim: {canClaim ? <b>YES</b> : <b className="text-danger">NO</b>}
+        </span>
+      )}
     </div>
     <div className="mt-2">
       {context.accountId ? (
