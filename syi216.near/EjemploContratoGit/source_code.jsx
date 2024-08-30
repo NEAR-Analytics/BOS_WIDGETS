@@ -553,3 +553,109 @@ const pushDataMenu = (
     <Btn onClick={() => setActiveAction("start")}>Cancel</Btn>
   </>
 );
+
+//Code section of the branches menu
+const branchesMenu = (
+  <>
+    <h4 className="text-light m-0 text-center fw-bold mb-2">
+      Available Branches
+    </h4>
+    <div
+      className="d-flex flex-column gap-2"
+      style={{ width: "384px", height: "321px", "overflow-y": "scroll" }}
+    >
+      {branches.map((data) => {
+        return (
+          <div>
+            <collapseHeader
+              className="d-flex flex-row text-light justify-content-between p-2"
+              onClick={() => toggleIsExpanded(data.id)}
+            >
+              <h4 className="m-0">{data.name}</h4>
+              <h4 className="m-0 fw-bold">↓</h4>
+            </collapseHeader>
+            <collapseContent
+              style={{ height: isExpanded == data.id ? "auto" : "0px" }}
+            >
+              <div className="p-2">
+                {data.commits.length == 0 ? (
+                  <h5 className="fw-bold text-center py-2">
+                    No commits have been made on this branch
+                  </h5>
+                ) : (
+                  data.commits.reverse().map((commit) => {
+                    const date = new Date(commit.createdAt);
+                    return (
+                      <>
+                        <div className="d-flex flex-row gap-2">
+                          <p className="fw-bold">Id:</p>
+                          <p className="">{commit.id}</p>
+                        </div>
+                        <div className="d-flex flex-row gap-2">
+                          <p className="fw-bold">Owner:</p>
+                          <p className="">
+                            {commit.owner.substr(0, 12) +
+                              "..." +
+                              commit.owner.substr(-12, 12)}
+                          </p>
+                        </div>
+                        <div className="d-flex flex-row gap-2">
+                          <p className="fw-bold">Date:</p>
+                          <p className="">{date.toDateString()}</p>
+                        </div>
+                        <div className="d-flex flex-column gap-1">
+                          <p className="fw-bold m-0">Content:</p>
+                          <p className="m-0">{commit.hash}</p>
+                        </div>
+                        <hr />
+                      </>
+                    );
+                  })
+                )}
+              </div>
+            </collapseContent>
+          </div>
+        );
+      })}
+    </div>
+    <Btn className="mt-2" onClick={() => setActiveAction("start")}>
+      Back
+    </Btn>
+  </>
+);
+
+//Menu code section processing transaction
+const transactionMenu = (
+  <>
+    <h4 className="text-light m-0 text-center fw-bold mb-2">
+      Processing transaction
+    </h4>
+    <p className="text-light m-0 text-center mb-2">
+      Your transaction is being processed, press the button below once the
+      transaction has been confirmed to reload the information
+    </p>
+    <VaraNetwork.Interaction
+      trigger={({ readState }) => (
+        <>
+          <Btn
+            onClick={() => {
+              const info = readState(gitContract, contractData, "");
+              //The information is reloaded after each transaction
+              info.then((res) => {
+                const collab = [res.owner];
+                const extraCollab = Object.values(res.collaborator);
+                ownerCheck(collab.concat(extraCollab), account.decodedAddress);
+                setGitData({ owner: res.owner, name: res.name });
+                setBranches(Object.values(res.branches));
+                setCollaborators(extraCollab);
+                setActiveAction("start");
+              });
+            }}
+          >
+            Go Back
+          </Btn>
+        </>
+      )}
+    />
+  </>
+);
