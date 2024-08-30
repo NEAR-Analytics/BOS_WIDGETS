@@ -13,19 +13,8 @@ const ArrowDone = (
 );
 
 const CheckIcon = (
-  <svg
-    width="16"
-    height="12"
-    viewBox="0 0 16 12"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M1 5L6 10L15 1"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-    />
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="10" viewBox="0 0 14 10" fill="none">
+    <path d="M1 4.11111L5.28571 8L13 1" stroke="#EBF479" strokeWidth="2" strokeLinecap="round" />
   </svg>
 );
 
@@ -76,7 +65,9 @@ const SelectChainWrapper = styled.div`
 
   top: 28px;
 
-  background: rgba(45, 50, 71, 1);
+  background: #1F2229;
+  border: 1px solid #333648;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.25);
 
   .active {
     background: rgba(31, 35, 53, 0.5);
@@ -156,7 +147,7 @@ return (
         {CHAIN_LIST.map((chain, index) => {
           const { name, chain_id } = chain;
 
-          const active = chainId === curChain.chain_id;
+          const active = chain_id === curChain.chain_id;
 
           return (
             <div
