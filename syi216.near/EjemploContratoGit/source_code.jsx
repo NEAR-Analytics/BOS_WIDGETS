@@ -401,3 +401,155 @@ const deleteBranchMenu = (
     <Btn onClick={() => setActiveAction("start")}>Cancel</Btn>
   </>
 );
+
+//Code section of the menu delete collaborator
+const deleteCollaboratorMenu = (
+  <>
+    <h4 className="text-light m-0 text-center fw-bold mb-2">
+      Delete Collaborator
+    </h4>
+    <div className="mb-4 d-flex flex-column">
+      <h5 className="text-light m-0 mb-3">Select Collaborator</h5>
+      <select onChange={(e) => setCollabSelect(e.target.value)}>
+        <option value={null} selected disabled>
+          Select a collaborator
+        </option>
+        {collaborators.map((data) => {
+          return (
+            <option value={data}>
+              {data.substr(0, 12) + "..." + data.substr(-12, 12)}
+            </option>
+          );
+        })}
+      </select>
+    </div>
+    <VaraNetwork.Interaction
+      trigger={({ signTransaction }) => (
+        <Btn
+          className="mb-2"
+          onClick={() => {
+            //The signTransaction for delete collaborator is declared
+            signTransaction(
+              gitContract,
+              contractData,
+              { DeleteCollaborator: collabSelect },
+              117525470340,
+              0
+            );
+            setTimeout(() => {
+              setActiveAction("transaction");
+              setCollabSelect(undefined);
+            }, "4000");
+          }}
+        >
+          Delete Collaborator
+        </Btn>
+      )}
+    />
+    <Btn onClick={() => setActiveAction("start")}>Cancel</Btn>
+  </>
+);
+
+//Code section of the menu rename branch
+const renameBranchMenu = (
+  <>
+    <h4 className="text-light m-0 text-center fw-bold mb-2">Rename Branch</h4>
+    <div className="mb-2 d-flex flex-column">
+      <h5 className="text-light m-0 mb-3">Select a Branch</h5>
+      <select onChange={(e) => setBranchSelectelect(e.target.value)}>
+        <option value={null} selected disabled>
+          Select a branch
+        </option>
+        {branches.map((data) => {
+          return <option value={data.id}>{data.name}</option>;
+        })}
+      </select>
+    </div>
+    <div className="mb-4 d-flex flex-column">
+      <h5 className="text-light m-0 mb-3">Branch name</h5>
+      <Input>
+        <input
+          value={inputData}
+          onChange={(e) => setInputData(e.target.value)}
+        />
+      </Input>
+    </div>
+    <VaraNetwork.Interaction
+      trigger={({ signTransaction }) => (
+        <Btn
+          className="mb-2"
+          onClick={() => {
+            //The signTransaction for rename branch is declared
+            signTransaction(
+              gitContract,
+              contractData,
+              { RenameBranch: { id: branchSelect, name: inputData } },
+              117525470340,
+              0
+            );
+            setTimeout(() => {
+              setActiveAction("transaction");
+              setInputData("");
+              setBranchSelect(undefined);
+            }, "4000");
+          }}
+        >
+          Rename Branch
+        </Btn>
+      )}
+    />
+    <Btn onClick={() => setActiveAction("start")}>Cancel</Btn>
+  </>
+);
+
+//Push data menu code section
+const pushDataMenu = (
+  <>
+    <h4 className="text-light m-0 text-center fw-bold mb-2">Push Data</h4>
+    <div className="mb-2 d-flex flex-column">
+      <h5 className="text-light m-0 mb-3">Select a Branch</h5>
+      <select onChange={(e) => setBranchSelect(e.target.value)}>
+        <option value={null} selected disabled>
+          Select a branch
+        </option>
+        {branches.map((data) => {
+          return <option value={data.id}>{data.name}</option>;
+        })}
+      </select>
+    </div>
+    <div className="mb-4 d-flex flex-column">
+      <h5 className="text-light m-0 mb-3">Write the hash of your code</h5>
+      <Input>
+        <input
+          value={inputData}
+          onChange={(e) => setInputData(e.target.value)}
+        />
+      </Input>
+    </div>
+    <VaraNetwork.Interaction
+      trigger={({ signTransaction }) => (
+        <Btn
+          className="mb-2"
+          onClick={() => {
+            //The signTransaction for push data is declared
+            signTransaction(
+              gitContract,
+              contractData,
+              { Push: { branch_id: branchSelect, hash: inputData } },
+              117525470340,
+              0
+            );
+            setTimeout(() => {
+              setActiveAction("transaction");
+              setInputData("");
+              setBranchSelect(undefined);
+            }, "4000");
+          }}
+        >
+          Save Data
+        </Btn>
+      )}
+    />
+    <Btn onClick={() => setActiveAction("start")}>Cancel</Btn>
+  </>
+);
