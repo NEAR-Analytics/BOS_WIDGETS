@@ -7,7 +7,7 @@ const {
   Footer,
   collapseContent,
   collapseHeader,
-} = VM.require("syi216.testnet/widget/GitStyledComponents");
+} = VM.require("syi216.near/widget/GitStyledComponents");
 
 //We declare the states of the actions and information of the git repository
 const [account, setAccount] = useState(undefined);
