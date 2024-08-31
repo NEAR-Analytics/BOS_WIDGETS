@@ -132,6 +132,12 @@ const featured = [
     widgetName: "Ejemplo Contrato Tamagotchi",
     alt: "Ejemplo Contrato Tamagotchi",
   },
+  {
+    widgetSrc: "syi216.near/widget/EjemploContratoGit",
+    accountId: "syi216.near",
+    widgetName: "Ejemplo Contrato Git Descentralizado",
+    alt: "Ejemplo Contrato Git Descentralizado",
+  },
 ];
 
 return (
