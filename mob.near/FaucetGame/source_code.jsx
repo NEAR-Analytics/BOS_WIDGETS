@@ -68,6 +68,8 @@ const remainingTimeToString = (timeRemaining) => {
   return `${x}d ${hours}h ${min}m ${sec}s`;
 };
 
+const numClaims = Near.view(yourContractId, "get_num_claims") || 0;
+
 return (
   <div>
     <div>Contract ID: {yourContractId}</div>
@@ -75,8 +77,9 @@ return (
     <div>Current time: {new Date(currentTime).toLocaleString()}</div>
     <div>Claim amount: {claimAmount}</div>
     <div>
-      Claims Progress: {Near.view(yourContractId, "get_num_claims")} /
-      {Near.view(yourContractId, "get_number_of_possible_claims")}
+      Claims Progress: {numClaims} /
+      {(Near.view(yourContractId, "get_number_of_possible_claims") || 0) +
+        numClaims}
     </div>
     <div>
       <b>
