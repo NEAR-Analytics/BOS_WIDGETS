@@ -1,12 +1,12 @@
+// Based on https://near.social/pichtran.near/widget/BOSwallet
+
 const contract = "transfer-near.near";
 const method = "transfer_near";
 const oneTeraGas = 1000000000000;
 const oneNEARInYoctoNEAR = 1000000000000000000000000;
 
-// TODO: what is this doing?
-State.init({ accountId: "pichtran.near", amount: 0.5 });
-
 const AccountId_profile = props.accountId ?? context.accountId;
+
 const onClick = () => {
   Near.call(
     contract,
@@ -18,7 +18,7 @@ const onClick = () => {
 };
 
 State.init({
-  selectedTab: props.tab || "coins",
+  selectedTab: props.tab || "coin",
 });
 
 const StyledButton = styled.button`
@@ -451,11 +451,9 @@ const CenteredContainer = styled.div`
 return (
   <>
     <StyledContainer>
-      <h5 >
-        {AccountId_profile}
-      </h5>
+      <h5>{AccountId_profile}</h5>
     </StyledContainer>
-    
+
     <div class="container">
       <></>
       <div class="row">
@@ -466,25 +464,25 @@ return (
                 onClick={() => handleTabClick("land")}
                 isActive={state.selectedTab === "land"}
               >
-                <Title>Land</Title>
+                <Title>Land 🏜️ </Title>
               </TabsButton>
               <TabsButton
-                onClick={() => handleTabClick("coins")}
-                isActive={state.selectedTab === "coins"}
+                onClick={() => handleTabClick("coin")}
+                isActive={state.selectedTab === "coin"}
               >
-                <Title>Coins</Title>
+                <Title>Coin 🪙 </Title>
               </TabsButton>
               <TabsButton
                 onClick={() => handleTabClick("card")}
                 isActive={state.selectedTab === "Card"}
               >
-                <Title>Card</Title>
+                <Title>Card 💳 </Title>
               </TabsButton>
               <TabsButton
                 onClick={() => handleTabClick("info")}
                 isActive={state.selectedTab === "info"}
               >
-                <Title>Info</Title>
+                <Title>Info ❓ </Title>
               </TabsButton>
             </Tabs>
           </Wrapper>
@@ -494,19 +492,23 @@ return (
             <>
               <input
                 type="text"
-                placeholder={"Price (in currency accepted by seller)"}
-                onChange={(e) => State.update({ price_in_local: e.target.value })}
+                placeholder={"Price in NEAR"}
+                onChange={(e) =>
+                  State.update({ price_in_near: e.target.value })
+                }
               />
               <br />
               <input
                 type="text"
-                placeholder={"Size (in square meters)"}
-                onChange={(e) => State.update({ square_meters: e.target.value })}
+                placeholder={"Size in SQUARE METERS"}
+                onChange={(e) =>
+                  State.update({ square_meters: e.target.value })
+                }
               />
               <br />
             </>
           )}
-          {state.selectedTab === "coins" && (
+          {state.selectedTab === "coin" && (
             <>
               <Widget src="marketplacebos.near/widget/ChartBalance" />
               <br />
@@ -566,14 +568,18 @@ return (
           )}
           {state.selectedTab === "work" && (
             <>
-              <a target="_blank" rel="noopener noreferer" href="">
-                
-              </a>
+              <a target="_blank" rel="noopener noreferer" href=""></a>
             </>
           )}
           {state.selectedTab === "info" && (
             <>
-              <a target="_blank" rel="noopener noreferer" href="https://linktr.ee/ECVM">LinkTr.ee/ECVM</a>
+              <a
+                target="_blank"
+                rel="noopener noreferer"
+                href="https://linktr.ee/ECVM"
+              >
+                LinkTr.ee/ECVM
+              </a>
             </>
           )}
         </CenteredContainer>
