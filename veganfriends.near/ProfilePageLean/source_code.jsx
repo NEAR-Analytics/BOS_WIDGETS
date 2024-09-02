@@ -18,6 +18,52 @@ if (props.tab && props.tab !== state.selectedTab) {
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 const accountUrl = `/near/widget/ProfilePage?accountId=${accountId}`;
 
+const starredComponentsData = Social.keys(
+  `${accountId}/graph/star/*/widget/*`,
+  "final",
+  {
+    return_type: "BlockHeight",
+  }
+);
+let starredComponents = null;
+if (starredComponentsData) {
+  starredComponents = [];
+  const starredData = starredComponentsData[accountId]?.graph?.star ?? {};
+  Object.keys(starredData).forEach((authorAccountId) => {
+    Object.keys(starredData[authorAccountId].widget).forEach(
+      (componentName) => {
+        starredComponents.push({
+          accountId: authorAccountId,
+          componentName,
+        });
+      }
+    );
+  });
+}
+const starredComponentsCount = (starredComponents ?? []).length;
+
+const pinnedComponentsData = Social.keys(
+  `${accountId}/graph/pin/*/widget/*`,
+  "final",
+  {
+    return_type: "BlockHeight",
+  }
+);
+let pinnedComponents = null;
+if (pinnedComponentsData) {
+  pinnedComponents = [];
+  const pinnedData = pinnedComponentsData[accountId]?.graph?.pin ?? {};
+  Object.keys(pinnedData).forEach((authorAccountId) => {
+    Object.keys(pinnedData[authorAccountId].widget).forEach((componentName) => {
+      pinnedComponents.push({
+        accountId: authorAccountId,
+        componentName,
+      });
+    });
+  });
+}
+const pinnedComponentsCount = (pinnedComponents ?? []).length;
+
 function pinnedAppsFeatureEnabled() {
   if (emitGatewayEvent) {
     return emitGatewayEvent({
@@ -159,6 +205,19 @@ const Bio = styled.div`
   }
 `;
 
+const ContributionGraphWrapper = styled.div`
+  margin: 0 0 48px;
+`;
+
+if (profile === null) {
+  return "Loading";
+}
+
+const feeds = ["all"];
+if (accountId !== context.accountId) {
+  feeds.push("mutual");
+}
+
 return (
   <Wrapper className="gateway-page-container">
     <BackgroundImage>
@@ -206,6 +265,13 @@ return (
               </>
             )}
 
+            <ContributionGraphWrapper>
+              <Widget
+                src="near/widget/DeveloperProfile.ContributionGraph"
+                props={{ accountId }}
+              />
+            </ContributionGraphWrapper>
+
             <Widget
               src="near/widget/ActivityFeeds.DetermineActivityFeed"
               props={{
@@ -215,6 +281,55 @@ return (
               }}
             />
           </>
+        )}
+
+        {state.selectedTab === "nfts" && (
+          <Widget src="near/widget/NFTCollection" props={{ accountId }} />
+        )}
+
+        {state.selectedTab === "apps" && (
+          <Widget src="near/widget/ComponentCollection" props={{ accountId }} />
+        )}
+
+        {state.selectedTab === "followers" && (
+          <Widget src="near/widget/FollowersList" props={{ accountId }} />
+        )}
+
+        {state.selectedTab === "following" && (
+          <Widget src="near/widget/FollowingList" props={{ accountId }} />
+        )}
+
+        {state.selectedTab === "stars" && (
+          <Widget
+            src="near/widget/ComponentCollection"
+            props={{
+              accountId,
+              components: starredComponents,
+              noDataText: "This account hasn't starred any components yet.",
+            }}
+          />
+        )}
+
+        {state.selectedTab === "pins" && (
+          <Widget
+            src="near/widget/ComponentCollection"
+            props={{
+              accountId,
+              components: pinnedComponents,
+              noDataText: "This account hasn't pinned any components yet.",
+            }}
+          />
+        )}
+
+        {state.selectedTab === "blog" && (
+          <Widget
+            src="near/widget/Blog.Feed"
+            props={{
+              contributors: [accountId],
+              returnLocation: "userprofile",
+              profileAccountId: accountId,
+            }}
+          />
         )}
       </Content>
     </Main>
