@@ -1,8 +1,3 @@
-/*
-License: MIT
-Author: devhub.near
-Homepage: https://github.com/NEAR-DevHub/near-prpsls-bos#readme
-*/
 const item = props.item;
 const proposalId = props.proposalId;
 const rfpId = props.rfpId;
@@ -10,13 +5,9 @@ const notifyAccountIds = props.notifyAccountIds ?? [];
 if (!item) {
   return "";
 }
-
 const likes = Social.index("like", item);
-
 const dataLoading = likes === null;
-
 const likesByUsers = {};
-
 (likes || []).forEach((like) => {
   if (like.value.type === "like") {
     likesByUsers[like.accountId] = like;
@@ -31,7 +22,6 @@ if (state.hasLike === true) {
 } else if (state.hasLike === false) {
   delete likesByUsers[context.accountId];
 }
-
 const accountsWithLikes = Object.keys(likesByUsers);
 const hasLike = context.accountId && !!likesByUsers[context.accountId];
 const hasLikeOptimistic =
@@ -40,7 +30,6 @@ const totalLikes =
   accountsWithLikes.length +
   (hasLike === false && state.hasLikeOptimistic === true ? 1 : 0) -
   (hasLike === true && state.hasLikeOptimistic === false ? 1 : 0);
-
 const LikeButton = styled.button`
   border: 0;
   display: inline-flex;
@@ -54,35 +43,29 @@ const LikeButton = styled.button`
   background: none;
   padding: 6px;
   transition: color 200ms;
-
   i {
     font-size: 16px;
     transition: color 200ms;
-
     &.bi-heart-fill {
       color: #e5484d !important;
     }
   }
-
   &:hover,
   &:focus {
     outline: none;
     color: #11181c;
   }
 `;
-
 const likeClick = (e) => {
   e.preventDefault();
   e.stopPropagation();
   if (state.loading) {
     return;
   }
-
   State.update({
     loading: true,
     hasLikeOptimistic: !hasLike,
   });
-
   const data = {
     index: {
       like: JSON.stringify({
@@ -93,7 +76,6 @@ const likeClick = (e) => {
       }),
     },
   };
-
   if (!hasLike && notifyAccountIds.length > 0) {
     const notifyData = notifyAccountIds.map((account) => {
       if (account !== context.accountId) {
@@ -101,13 +83,16 @@ const likeClick = (e) => {
           key: account,
           value: proposalId
             ? {
-                type: "devhub/like",
+                type: "proposal/like",
                 item,
                 proposal: proposalId,
+                widgetAccountId: "megha19.near",
               }
             : {
-                type: "like",
+                type: "rfp/like",
                 item,
+                rfp: rfpId,
+                widgetAccountId: "megha19.near",
               },
         };
       }
@@ -125,9 +110,7 @@ const likeClick = (e) => {
       }),
   });
 };
-
 const title = hasLike ? "Unlike" : "Like";
-
 return (
   <LikeButton
     disabled={state.loading || dataLoading || !context.accountId}
