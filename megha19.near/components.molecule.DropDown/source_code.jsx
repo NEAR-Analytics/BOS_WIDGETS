@@ -1,20 +1,13 @@
-/*
-License: MIT
-Author: devhub.near
-Homepage: https://github.com/NEAR-DevHub/near-prpsls-bos#readme
-*/
 const options = props.options; // [{label:"",value:""}]
 const label = props.label;
 const onUpdate = props.onUpdate ?? (() => {});
 const selectedValue = props.selectedValue;
 const [selected, setSelected] = useState(selectedValue);
-
 useEffect(() => {
   if (JSON.stringify(selectedValue) !== JSON.stringify(selected)) {
     setSelected(selectedValue);
   }
 }, [selectedValue]);
-
 const StyledDropdown = styled.div`
   .drop-btn {
     width: 100%;
@@ -22,22 +15,18 @@ const StyledDropdown = styled.div`
     text-align: left;
     padding-inline: 10px;
   }
-
   .dropdown-item.active,
   .dropdown-item:active {
     background-color: #f0f0f0 !important;
     color: black;
   }
-
   .cursor-pointer {
     cursor: pointer;
   }
 `;
-
 useEffect(() => {
   onUpdate(selected);
 }, [selected]);
-
 return (
   <div>
     <div className="dropdown w-100">
