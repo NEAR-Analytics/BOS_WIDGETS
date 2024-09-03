@@ -90,7 +90,7 @@ return (
         Balance:
         <StyledBalanceAmount
           onClick={() => {
-            const _bal = parseFloat(Big(balance).toFixed(decimals)).toString();
+            const _bal = Big(balance).toFixed(decimals).replace(/[.]?0*$/, '');
             onChange(_bal);
           }}
         >
