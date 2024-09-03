@@ -327,7 +327,7 @@ useEffect(() => {
         for (let i = 0, len = res.length; i < len; i++) {
           const oToken = markets[calls[i].params[0]];
           _liquidity[oToken.address] = ethers.utils.formatUnits(
-            res[i][0]._hex,
+            res[i][0]._hex || 0,
             oToken.underlyingToken.decimals
           );
         }
