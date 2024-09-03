@@ -1,21 +1,13 @@
-/*
-License: MIT
-Author: devhub.near
-Homepage: https://github.com/NEAR-DevHub/near-prpsls-bos#readme
-*/
 const RadioButton = ({ value, isChecked, label, onClick, disabled }) => {
   const [checked, setChecked] = useState(isChecked);
-
   useEffect(() => {
     if (isChecked !== checked) {
       setChecked(isChecked);
     }
   }, [isChecked]);
-
   useEffect(() => {
     onClick(checked);
   }, [checked]);
-
   return (
     <div className="d-flex gap-2 align-items-center">
       <input
@@ -30,5 +22,4 @@ const RadioButton = ({ value, isChecked, label, onClick, disabled }) => {
     </div>
   );
 };
-
 return RadioButton(props);
