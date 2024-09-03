@@ -1,17 +1,10 @@
-/*
-License: MIT
-Author: devhub.near
-Homepage: https://github.com/NEAR-DevHub/near-prpsls-bos#readme
-*/
 const Container = styled.div`
   p {
     white-space: pre-line; // This ensures text breaks to new line
-
     span {
       white-space: normal; // and this ensures profile links look normal
     }
   }
-
   blockquote {
     margin: 1em 0;
     padding-left: 1.5em;
@@ -20,7 +13,6 @@ const Container = styled.div`
     font-style: italic;
     font-size: inherit;
   }
-
   pre {
     background-color: #f4f4f4;
     border: 1px solid #ddd;
@@ -29,13 +21,11 @@ const Container = styled.div`
     overflow-x: auto;
     font-family: "Courier New", Courier, monospace;
   }
-
   a {
     color: #3c697d;
     font-weight: 500 !important;
   }
 `;
-
 return (
   <Container>
     <Markdown text={props.content} />
