@@ -23,7 +23,7 @@ const CLAIM_ABI = [
 const account = Ethers.send("eth_requestAccounts", [])[0];
 const { loading, market, dapp, record, onSuccess, onError } = props;
 
-if (!loading || !dapp.unitrollerAddress) return "";
+if (!loading || !dapp.unitrollerAddress || !account) return "";
 
 const CollateralContract = new ethers.Contract(
   dapp.unitrollerAddress,
