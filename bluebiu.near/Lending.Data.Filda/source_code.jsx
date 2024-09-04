@@ -134,6 +134,7 @@ const {
   multicall,
   markets,
   prices,
+  chainId,
 } = props;
 
 useEffect(() => {
@@ -204,15 +205,22 @@ useEffect(() => {
         );
       }
 
+      let secondsPerBlock = 15;
+      if (chainId === 137) {
+        secondsPerBlock = 2;
+      }
+      if (chainId === 56) {
+        secondsPerBlock = 3;
+      }
       const supplyApy = Big(market.supplyRatePerBlock)
-        .mul(4 * 60 * 24)
+        .mul((60 / secondsPerBlock) * 60 * 24)
         .plus(1)
         .pow(365)
         .minus(1)
         .mul(100);
 
       const borrowApy = Big(market.borrowRatePerBlock)
-        .mul(4 * 60 * 24)
+        .mul((60 / secondsPerBlock) * 60 * 24)
         .plus(1)
         .pow(365)
         .minus(1)
