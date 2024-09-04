@@ -133,7 +133,9 @@ const {
   onLoad,
   multicall,
   markets,
+  chainId,
 } = props;
+
 useEffect(() => {
   if (!multicallAddress || !unitrollerAddress || !update || !account) return "";
   console.log(`${name}-update`);
@@ -179,15 +181,22 @@ useEffect(() => {
             .div(100)
         );
       }
+      let secondsPerBlock = 15;
+      if (chainId === 56) {
+        secondsPerBlock = 3;
+      }
+      if (chainId === 137) {
+        secondsPerBlock = 2;
+      }
       const supplyApy = Big(market.supplyRatePerBlock)
-        .mul(4 * 60 * 24)
+        .mul((60 / secondsPerBlock) * 60 * 24)
         .plus(1)
         .pow(365)
         .minus(1)
         .mul(100);
 
       const borrowApy = Big(market.borrowRatePerBlock)
-        .mul(4 * 60 * 24)
+        .mul((60 / secondsPerBlock) * 60 * 24)
         .plus(1)
         .pow(365)
         .minus(1)
@@ -287,7 +296,7 @@ useEffect(() => {
         _underlyPrice = {};
         for (let i = 0, len = res.length; i < len; i++) {
           _underlyPrice[oTokens[i]] = ethers.utils.formatUnits(
-            res[i][0]._hex,
+            res[i][0]._hex || 0,
             36 - markets[oTokens[i]].underlyingToken.decimals
           );
         }
