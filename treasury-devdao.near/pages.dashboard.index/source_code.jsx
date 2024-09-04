@@ -176,6 +176,7 @@ return (
         src={"treasury-devdao.near/widget/pages.dashboard.TransactionHistory"}
         props={{
           nearPrice: nearPrice,
+          ...props,
         }}
       />
     </div>
