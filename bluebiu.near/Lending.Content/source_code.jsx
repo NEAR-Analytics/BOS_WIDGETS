@@ -111,6 +111,7 @@ return (
         multicallAddress,
         multicall,
         prices,
+        chainId,
         ...dexConfig,
         onLoad: (data) => {
           console.log("DATA_onLoad:", data);
