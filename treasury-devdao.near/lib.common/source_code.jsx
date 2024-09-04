@@ -221,6 +221,12 @@ function getPermissionsText(type) {
       return "";
   }
 }
+function isBosGateway() {
+  return (
+    gatewayOrigin.includes("near.social") ||
+    gatewayOrigin.includes("dev.near.org")
+  );
+}
 return {
   hasPermission,
   getTransferApproversAndThreshold,
@@ -230,4 +236,5 @@ return {
   getDaoRoles,
   getPolicyApproverGroup,
   getPermissionsText,
+  isBosGateway,
 };
