@@ -71,6 +71,19 @@ const OTOKEN_ABI = [
     stateMutability: "view",
     type: "function",
   },
+  {
+    "inputs": [],
+    "name": "getRateModel",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
 ];
 const UNITROLLER_ABI = [
   {
@@ -244,7 +257,6 @@ const DISTRIBUTION_ABI = [
 const {
   multicallAddress,
   unitrollerAddress,
-  rateModelSlopeAddress,
   distributionAddress,
   oracleAddress,
   account,
@@ -419,7 +431,7 @@ useEffect(() => {
           switch (mod) {
             case 0:
               _loanToValue[oTokens[index].address] = ethers.utils.formatUnits(
-                res[i][3]._hex,
+                res[i][3]._hex || 0,
                 16
               );
               break;
@@ -489,7 +501,7 @@ useEffect(() => {
         for (let i = 0, len = res.length; i < len; i++) {
           const oToken = markets[calls[i].params[0]];
           _liquidity[oToken.address] = ethers.utils.formatUnits(
-            res[i][0]._hex,
+            res[i][0]._hex || 0,
             oToken.underlyingToken.decimals
           );
         }
@@ -605,6 +617,10 @@ useEffect(() => {
         address: oToken.address,
         name: "reserveFactor",
       },
+      {
+        address: oToken.address,
+        name: "getRateModel",
+      },
     ];
     multicall({
       abi: OTOKEN_ABI,
@@ -649,14 +665,14 @@ useEffect(() => {
         };
         const rateCalls = [
           {
-            address: rateModelSlopeAddress,
+            address: res[7][0],
             name: "getBorrowRate",
-            params: [res[4][0], res[2][0], res[5][0] || "0"],
+            params: [res[4][0] || "0", res[2][0] || "0", res[5][0] || "0"],
           },
           {
-            address: rateModelSlopeAddress,
+            address: res[7][0],
             name: "getSupplyRate",
-            params: [res[4][0], res[2][0], res[5][0] || "0", res[6][0]],
+            params: [res[4][0] || "0", res[2][0] || "0", res[5][0] || "0", res[6][0] || "0"],
           },
         ];
         multicall({
