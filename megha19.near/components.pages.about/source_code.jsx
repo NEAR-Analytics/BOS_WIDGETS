@@ -15,7 +15,6 @@ return (
       src={`devhub.near/widget/devhub.components.molecule.SimpleMDEViewer`}
       props={{
         content: profile.description,
-        height: "70vh",
       }}
     />
   </div>
