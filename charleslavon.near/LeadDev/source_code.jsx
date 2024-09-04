@@ -24,6 +24,14 @@ const slide_links = {
       "https://docs.near.org/build/near-components/what-is",
     "Youtube Tutorial": "https://youtu.be/WIfBXoim3Ps?si=VQXUds0ZOgcAx_iE",
   },
+  "Public Goods on Near": {
+    Tools: "https://github.com/near",
+    Support: "https://dev.near.org/contact-us",
+    Education: "https://dev.near.org/documentation/",
+    "Contract Standards & Examples":
+      "https://github.com/search?q=org%3Anear+contract&type=repositories",
+    "AI + Near: User-Owned AI": "https://near.org/ai",
+  },
   "why choose web3?": {
     "1-click onboarding with Keypom":
       "https://docs.keypom.xyz/docs/next/TrialAccounts/introduction",
