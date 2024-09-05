@@ -181,78 +181,13 @@ function getTvlUSD() {
 
 
 }
-function handleGetFeeApr(id) {
-  return new Promise((resolve, reject) => {
-    const query = `
-    query {
-      vaults(where: {id: "${id.toLowerCase()}"}) {
-        id
-        blockCreated
-        manager
-        address
-        uniswapPool
-        token0 {
-          address
-          name
-          symbol
-        }
-        token1 {
-          address
-          name
-          symbol
-        }
-        feeTier
-        liquidity
-        lowerTick
-        upperTick
-        totalSupply
-        positionId
-        managerFee
-        name
-        reranges {
-          lowerTick
-          upperTick
-          timestamp
-        }
-        snapshots {
-          apr
-          startTimestamp
-          endTimestamp
-        }
-        numSnapshots
-        apr {
-          averageApr
-          timestamp
-        }
-      }
-    }
-  `
-    asyncFetch('https://api.thegraph.com/subgraphs/name/arrakisfinance/vault-v1-optimism', {
-      method: 'POST',
-      body: JSON.stringify({
-        query
-      })
-    }).then(result => {
-      if (result.ok) {
-        resolve(result?.body?.data?.vaults ?? [])
-      } else {
-        reject('')
-      }
-    }).catch(reject)
-  })
-}
+
 function getFeeApr() {
-  const promiseArray = []
-  dataList.forEach(data => {
-    promiseArray.push(handleGetFeeApr(addresses[data.id]))
-  })
-  Promise.all(promiseArray)
-    .then(result => {
-      for (let i = 0; i < result.length; i++) {
-        dataList[i].feeApr = result[i][0] ? (Big(result[i][0]?.apr?.averageApr ?? 0).toFixed(2) + '%') : '-'
-        formatedData('getFeeApr')
-      }
-    })
+  for (let i = 0; i < dataList.length; i++) {
+    dataList[i].feeApr = dataList[i]?.initialData ? (Big(dataList[i]?.initialData?.averageApr ?? 0).toFixed(2) + '%') : '-'
+  }
+  formatedData('getFeeApr')
+
 }
 function getLiquidity() {
   const firstCalls = []
